@@ -1,0 +1,49 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+	
+	</ui:style>
+	<g:HTMLPanel>
+	
+	<g:Label styleName="heading"> Risks </g:Label>
+	
+	<g:Button ui:field="addMore">Add More</g:Button>
+	
+	<g:HorizontalPanel styleName="risksRow" width="424px">
+	
+		<g:Label styleName="txtNormal">Description</g:Label>
+		<g:Label styleName="txtNormal">Existing Control</g:Label>
+	
+	</g:HorizontalPanel>
+	
+	<g:VerticalPanel ui:field="riskRows">
+	
+	<g:HorizontalPanel styleName="risksRow">
+	
+		<g:TextBox ui:field="desc1" styleName="txtNormal"></g:TextBox>
+		<g:TextBox ui:field="control1" styleName="txtNormal"></g:TextBox>
+	
+	</g:HorizontalPanel>
+	
+	<g:HorizontalPanel styleName="risksRow">
+	
+		<g:TextBox ui:field="desc2" styleName="txtNormal"></g:TextBox>
+		<g:TextBox ui:field="control2" styleName="txtNormal"></g:TextBox>
+	
+	</g:HorizontalPanel>
+	
+	<g:HorizontalPanel styleName="risksRow">
+	
+		<g:TextBox ui:field="desc3" styleName="txtNormal"></g:TextBox>
+		<g:TextBox ui:field="control3" styleName="txtNormal"></g:TextBox>
+	
+	</g:HorizontalPanel>
+	
+	</g:VerticalPanel>
+	
+	
+	<g:Button ui:field="saveRisks">Save</g:Button>
+	
+	</g:HTMLPanel>
+</ui:UiBinder> 

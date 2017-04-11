@@ -1,0 +1,59 @@
+<project name="InternalAuditBuilder" default="make_war" basedir=".">
+    <description>
+        Build the InternalAudit  War file
+    </description>
+
+
+    <property name="WAR.dir" location=".\war"/> 
+    <property name="WBC.JAR.dir" location="\DEV\Hg\wbc\dist"/> 
+    <property name="BUILD.dir" location="..\build"/> 
+    <property name="DIST.dir" location="..\dist"/> 
+    <property name="JAR.dir" location="D:\development\JARS"/> 
+    <property name="MASTER.DIST.dir" location="C:\work\projects\openShift\abilite\webapps"/> 
+
+    <!-- =============================================================================================================  -->
+    <target name="make_war" >
+	    <echo message="making WAR " />
+        <antcall target="clean" />
+        <antcall target="make_dirs" />
+        <antcall target="copy_files" />
+        <jar destfile="${DIST.dir}/InternalAudit.war" basedir="${BUILD.dir}"/>
+   	    <copy file="${DIST.dir}/InternalAudit.war" tofile="${MASTER.DIST.dir}/InternalAudit.war"/>
+    </target>
+
+    <!-- =============================================================================================================  -->
+    <target name="timestamp" >
+        <!-- Create the time stamp -->
+        <tstamp> 
+            <format property = "CreateDate" pattern="MMddyy" />
+            <format property = "CreateTime" pattern="HHmm" />
+        </tstamp> 
+    </target>
+
+
+    <!-- =============================================================================================================  -->
+    <target name="make_dirs" >
+	    <echo message="making DIST " />
+        <mkdir dir="${BUILD.dir}"/>
+        <mkdir dir="${DIST.dir}"/>
+    </target>
+
+    <!-- =============================================================================================================  -->
+    <target name="copy_files" >
+	    <echo message="copy war files " />
+	    <copy todir="${BUILD.dir}" >
+	        <fileset dir="${WAR.dir}"  casesensitive="false" />
+	    </copy>
+    	<!--
+   	    <copy file="${WBC.JAR.dir}/wbc.jar" tofile="${BUILD.dir}/WEB-INF/lib/wbc.jar"/>
+        <copy file="${JAR.dir}/log4j-1.2.16.jar" tofile="${BUILD.dir}/WEB-INF/lib/log4j-1.2.16.jar"/>
+        -->
+    </target>
+
+    <!-- =============================================================================================================  -->
+    <target name="clean" >
+        <delete dir="${BUILD.dir}" failonerror="true"  />                                                            
+        <delete dir="${DIST.dir}" failonerror="true"  />                                                            
+    </target>
+
+</project>

@@ -1,0 +1,189 @@
+package com.internalaudit.client.view.data;
+
+import java.util.ArrayList;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.internalaudit.client.InternalAuditService;
+import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.view.DisplayAlert;
+import com.internalaudit.client.view.AuditEngagement.AuditStepView;
+import com.internalaudit.client.widgets.ExceptionRow;
+import com.internalaudit.shared.AuditStep;
+import com.internalaudit.shared.AuditWork;
+import com.internalaudit.shared.Employee;
+import com.internalaudit.shared.Exceptions;
+import com.internalaudit.shared.InternalAuditConstants;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import com.internalaudit.shared.TimeOutException;
+import com.google.gwt.user.client.History;
+
+
+public class AuditStepData {
+
+	private InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
+	private Logger logger = Logger.getLogger("AuditStepData");
+
+	
+	public AuditStepData() {
+
+
+	}
+
+	public void saveAuditStepAndException(AuditStep step, ArrayList<Exceptions> exs, final int status)
+	{
+		rpcService.saveAuditStepAndExceptions( step, exs, new AsyncCallback<Void>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+
+				System.out.println("Fail RPC:saveAuditStepAndException  In Audit Step Data");
+				
+
+				logger.log(Level.INFO, "FAIL: saveAuditStepAndExceptions .Inside Audit AuditAreaspresenter");
+				if(caught instanceof TimeOutException){
+					History.newItem("login");
+				}else{
+					System.out.println("FAIL: saveAuditStepAndExceptions .Inside AuditAreaspresenter");
+					Window.alert("FAIL: saveAuditStepAndExceptions");// After FAIL ... write RPC Name  NOT Method Name..
+				}
+				
+
+			}
+
+			@Override
+			public void onSuccess(Void arg0) {
+				if(status == 0){
+					new DisplayAlert("Audit Step Saved");
+				}
+				else if(status == 1){
+					new DisplayAlert("Audit Step Approved");
+				}
+				else if(status == 2){
+					new DisplayAlert("Audit Step Rejected");
+				}
+			}
+
+		});
+
+	}
+
+	public void getSavedAuditStep(final AuditStepView auditStepView,
+			int selectedJobId, final AuditWork auditWork, final VerticalPanel exceptions, final Employee loggedInEmployee) {
+
+		rpcService.getSavedAuditStep( selectedJobId, auditWork.getAuditWorkId(), new AsyncCallback<AuditStep>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+
+				Window.alert("Fail getting saved audit step");
+				
+
+				logger.log(Level.INFO, "FAIL: getSavedAuditStep .Inside Audit AuditAreaspresenter");
+				if(caught instanceof TimeOutException){
+					History.newItem("login");
+				}else{
+					System.out.println("FAIL: getSavedAuditStep .Inside AuditAreaspresenter");
+					Window.alert("FAIL: getSavedAuditStep");// After FAIL ... write RPC Name  NOT Method Name..
+				}
+				
+
+			}
+
+			@Override
+			public void onSuccess(AuditStep auditStep) {
+				if(auditStep.getAuditStepId()!=0){
+					////CHECK WHO IS LOGGEDIN
+
+					if(auditWork.getJobCreationId().getAuditHead() == loggedInEmployee.getEmployeeId()){
+						auditStepView.supervisorView();
+						if(auditStep.getStatus() == InternalAuditConstants.APPROVED || auditStep.getStatus() == InternalAuditConstants.REJECTED){
+							auditStepView.getApprove().setEnabled(false);
+							auditStepView.getReject().setEnabled(false);
+						}
+
+					}else{
+						auditStepView.getApprovalButtonsPanel().setVisible(false);
+						auditStepView.getSave().setVisible(true);
+						if(auditStep.getStatus() == InternalAuditConstants.APPROVED || auditStep.getStatus() == InternalAuditConstants.INITIATED){
+							auditStepView.disableFields();
+							auditStepView.getSave().setEnabled(false);
+						}
+					}
+
+					///
+
+					auditStepView.getPerformance().setText( auditStep.getProceducePerformance() );
+					auditStepView.getPopulation().setText( auditStep.getPopulation() );
+					auditStepView.getSample().setText( auditStep.getSampleSelected() );
+					auditStepView.getSelection().setText( auditStep.getSelectionBasis() );
+					//this is how I set id, when needed for update
+					auditStepView.getAuditStepId().setText( String.valueOf( auditStep.getAuditStepId())) ;
+
+					if ( "Satisfactory".equals( auditStep.getConclusion() ) )
+						auditStepView.getConclusion().setSelectedIndex(0);
+					else{
+						auditStepView.getConclusion().setSelectedIndex(1);
+					}
+					displayExceptions(exceptions, auditStep.getExceptions());
+
+				}
+			}
+		});
+
+	}
+
+	public void getSavedExceptions(final VerticalPanel exceptions, int selectedJobId) {
+
+		rpcService.getSavedExceptions( selectedJobId, new AsyncCallback<ArrayList<Exceptions>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				//error with fail
+				Window.alert("Fail getting saved ex");
+				
+
+				logger.log(Level.INFO, "FAIL: getSavedExceptions .Inside Audit AuditAreaspresenter");
+				if(caught instanceof TimeOutException){
+					History.newItem("login");
+				}else{
+					System.out.println("FAIL: getSavedExceptions .Inside AuditAreaspresenter");
+					Window.alert("FAIL: getSavedExceptions");// After FAIL ... write RPC Name  NOT Method Name..
+				}
+				
+
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Exceptions> arg0) {
+
+				//				displayExceptions(exceptions, arg0);
+			}
+
+
+
+		});
+
+	}
+
+	private void displayExceptions(final VerticalPanel exceptions,	ArrayList<Exceptions> arg0) {
+		exceptions.clear();
+
+		for ( Exceptions e : arg0)
+		{
+
+			ExceptionRow row = new ExceptionRow();//employee
+			row.getExId().setText( String.valueOf(e.getExceptionId()));
+			row.getException().setText( String.valueOf(e.getDetail()));
+			exceptions.add(row);
+		}
+	}
+
+
+
+
+}

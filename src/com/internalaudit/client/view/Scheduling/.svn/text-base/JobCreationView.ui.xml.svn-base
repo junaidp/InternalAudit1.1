@@ -1,0 +1,176 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		/* Add CSS here. See the GWT docs on UI Binder for more details */
+	</ui:style>
+	<g:HTMLPanel>
+	
+		<div>
+			<g:Label ui:field="heading" text="Job Creation View" styleName="heading"></g:Label>
+		</div>
+		
+		<div>
+			<g:Label ui:field="objectiveName"></g:Label>
+		</div>
+		
+		<!--  start form layout  -->
+		<div class="estimationLayout">		
+			
+			<div class="form-row">
+			
+				<div class="label-div">
+					<g:Label text="Domain" wordWrap="false"></g:Label>
+				</div>
+				
+				<div class="field-div">
+					<g:TextBox ui:field="domainText" styleName="bigbox" enabled="false"></g:TextBox>
+				</div>
+			
+			</div>
+			
+			
+<!-- 			<div class="form-row"> -->
+			
+<!-- 				<div class="label-div"> -->
+					<g:Label text="Job Creation Id " wordWrap="false" visible="false"></g:Label>
+<!-- 				</div> -->
+				
+<!-- 				<div class="field-div"> -->
+					<g:TextBox ui:field="jobCreationId" styleName="hidden" enabled="false" visible="false">0</g:TextBox>
+<!-- 				</div> -->
+			
+<!-- 			</div> -->
+			
+			<div class="form-row">
+			
+				<div class="label-div">
+					<g:Label text="Relevant Department" wordWrap="false"></g:Label>
+				</div>
+				
+				<div class="field-div">
+					<g:ListBox ui:field="relevantDept" enabled="false"  styleName="invisibleListBox" visibleItemCount="5"></g:ListBox>
+				</div>
+			
+			</div>
+			
+			
+			<div class="form-row">
+			
+				<div class="label-div">
+					<g:Label text="Risk Rating" wordWrap="false"></g:Label>
+				</div>
+				
+				<div class="field-div">
+					<g:TextBox ui:field="riskRating"  enabled="false" styleName="bigbox"></g:TextBox>
+				</div>
+			
+			</div>
+			
+			<div class="form-row">
+			
+				<div class="label-div">
+					<g:Label wordWrap="false" text="Estimated Weeks"></g:Label>
+				</div>
+				
+				<div class="field-div">
+					<g:TextBox ui:field="estimatedWeeks" enabled="false" styleName="bigbox"></g:TextBox>
+				</div>
+			
+			</div>
+						
+			
+			<div class="form-row">	
+				<div class="label-div">
+					<g:Label text="No. of resources required" wordWrap="false"></g:Label>
+				</div>
+				
+				<div class="field-div">
+					<g:VerticalPanel ui:field="skillResourceContainer">
+			
+					</g:VerticalPanel>
+				</div>
+			</div>
+
+			<h2> Required Skills</h2>
+			
+			<div class="form-row">
+			
+				<div class="label-div">
+					<g:Label text="Technical" wordWrap="false"></g:Label>
+				</div>
+				
+				<div class="field-div">
+					<g:TextBox ui:field="techSkill" styleName="lstEstForm" />
+				</div>
+			
+			</div>	
+			
+			<div class="form-row">
+			
+				<div class="label-div">
+					<g:Label text="Soft Skills" wordWrap="false"></g:Label>
+				</div>
+				
+				<div class="field-div">
+					<g:ListBox ui:field="softSkill" styleName="lstEstForm"  multipleSelect="true">
+						<g:item value="1">Communication</g:item>
+						<g:item value="2">Analytical</g:item>
+						<g:item value="3">Attention to detail</g:item>
+					</g:ListBox>
+				</div>
+			
+			</div>
+			
+
+			<div class="form-row">
+			
+				<div class="label-div">
+					<g:Label text="Proposed Resources" wordWrap="false"></g:Label>
+				</div>
+				
+				<div class="field-div">
+					<g:ListBox ui:field="proposedResources" styleName="lstEstForm" multipleSelect="true">
+						<g:item value="0">&lt;&lt;Select Resource&gt;&gt;</g:item>
+					</g:ListBox>
+				</div>
+			
+			</div>
+			
+			
+			
+			
+			<div class="form-row">
+			
+				<div class="label-div">
+					<g:Label text="Internal Audit Head" wordWrap="false"></g:Label>
+				</div>
+				
+				<div class="field-div">
+					<g:ListBox ui:field="auditHead" styleName="lstEstForm" multipleSelect="false">
+						<g:item value="0">&lt;&lt;Select Resource&gt;&gt;</g:item>
+					</g:ListBox>
+				</div>
+			
+			</div>
+			
+			
+			
+			
+			<div class="form-row">
+			
+				<div class="label-div">
+					<g:Label text="" wordWrap="false"></g:Label>
+				</div>
+				
+				<div class="field-div">
+					<g:Button text="Save" ui:field="saveJobCreation"></g:Button>
+					<g:Button text="Back" ui:field="backButton"></g:Button>
+				</div>
+			
+			</div>						
+																	
+		</div>
+		<!-- end layout  -->
+	</g:HTMLPanel>
+</ui:UiBinder> 

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
+	default-lazy-init="true">
+
+	<!-- Datasource for LOCAL database connection -->
+      
+   	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost/internalaudit" />
+		<property name="username" value="root" />
+		<property name="password" value="0502" />
+
+	</bean>
+	 
+    <!-- 
+   
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://ec2-23-21-211-172.compute-1.amazonaws.com/internalaudit" />
+		<property name="username" value="internal"/>
+		<property name="password" value="0502" />
+	</bean>
+ -->
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="annotatedClasses">
+			<list>
+				<value>com.internalaudit.shared.User</value>
+				<value>com.internalaudit.shared.City</value>
+				<value>com.internalaudit.shared.Country</value>
+				<value>com.internalaudit.shared.Department</value>
+				<value>com.internalaudit.shared.Employee</value>
+				<value>com.internalaudit.shared.Strategic</value>
+				<value>com.internalaudit.shared.StrategicAudit</value>
+				<value>com.internalaudit.shared.RiskFactor</value>
+				<value>com.internalaudit.shared.StrategicRisk</value>
+				<value>com.internalaudit.shared.Skills</value>
+				<value>com.internalaudit.shared.JobTimeEstimation</value>
+				<value>com.internalaudit.shared.ResourceUse</value>
+				<value>com.internalaudit.shared.JobAndAreaOfExpertise</value>
+				<value>com.internalaudit.shared.JobCreation</value>
+				<value>com.internalaudit.shared.JobEmployeeRelation</value>
+				<value>com.internalaudit.shared.JobSkillRelation</value>
+				<value>com.internalaudit.shared.Softskills</value>
+				<value>com.internalaudit.shared.AuditEngagement</value>
+				<value>com.internalaudit.shared.Risk</value>
+				<value>com.internalaudit.shared.Exceptions</value>
+				<value>com.internalaudit.shared.AuditStep</value>
+				<value>com.internalaudit.shared.AuditWork</value>
+				<value>com.internalaudit.shared.StrategicDepartments</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ManagerExams" class="com.internalaudit.database.MySQLRdbHelper">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+</beans>
+

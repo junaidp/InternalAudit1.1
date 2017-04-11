@@ -1,0 +1,26 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		
+	</ui:style>
+	<g:HTMLPanel>
+		<div>
+			<g:Label text="Underlaying Process Identification"></g:Label>
+		</div>
+		
+		<div>
+			<g:TextArea ui:field="process" width="800px" height="130px"></g:TextArea>
+		</div>
+		<div>
+		
+		<g:HorizontalPanel>
+			
+			<g:Button ui:field="submit">Submit</g:Button>
+			<g:Button ui:field="attachment">Attachment</g:Button>
+		
+		</g:HorizontalPanel>
+
+		</div>
+	</g:HTMLPanel>
+</ui:UiBinder> 

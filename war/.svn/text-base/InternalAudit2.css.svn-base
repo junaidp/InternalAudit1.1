@@ -1,0 +1,29 @@
+/** Add css rules here for your application. */
+
+
+/** Example rules used by the template application (remove for your app) */
+
+* {
+	
+	font-family: Tahoma !important;
+	
+}
+
+.labelHeading {
+	background-color : #CAE1FF;
+	padding: 4px;
+	border-radius: 4px;
+}
+.labelRisk {
+	background-color : #CAE1FF;
+	padding: 4px 20px 5px 4px;
+	margin: 2px 0px 2px 2px;
+	border-radius: 4px;
+}
+.statusRowConsolidation{
+	background-color: #F0F8FF;
+	min-width: 1000px !important;
+	margin: 3px 10px 0px 10px;
+	
+}
+}

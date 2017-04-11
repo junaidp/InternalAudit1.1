@@ -1,0 +1,241 @@
+package com.internalaudit.client.view.Reporting;
+
+import java.util.ArrayList;
+
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.StackLayoutPanel;
+import com.google.gwt.user.client.ui.StackPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.internalaudit.client.presenter.ReportsPresenter.Display;
+import com.internalaudit.client.view.PopupsView;
+import com.internalaudit.shared.Strategic;
+
+public class ReportsListView extends Composite implements Display {
+	
+	
+	ListBox lstReports = new ListBox();
+	
+	VerticalPanel reportsContainer = new VerticalPanel();
+	
+	StackPanel stckReportsContainer = new StackPanel();
+	
+	VerticalPanel vpnlMain = new VerticalPanel();
+	
+	HorizontalPanel mainRowContainer = new HorizontalPanel();
+	
+	Report1 report1;
+	Report2 report2;
+	Report3 report3;
+	
+	//Button btnSearch = new Button("Preview");
+	//private Button btnExportToExcel = new Button("Export to Excel");
+	//Anchor ancDetailed = new Anchor("Show Detailed View");
+	
+	ListBox lstDomain;
+	ListBox lstDiv;
+	ListBox lstRisk;
+	
+	public ReportsListView(String arg)
+	{
+		initWidget(vpnlMain);
+	
+		stckReportsContainer.setSize("500px","200px");
+		
+		report1 = new Report1(null);
+		
+		report2 = new Report2(null);
+		report3 = new Report3(null);
+		
+		stckReportsContainer.add(report1 , "Reports 1");
+		stckReportsContainer.add(report2, "Reports 2");
+		stckReportsContainer.add(report3, "Reports 3");
+		
+//		ancDetailed.addClickHandler(new ClickHandler() {
+//					
+//					@Override
+//					public void onClick(ClickEvent arg0) {
+//						
+//						showDetailedCharts();
+//						
+//					}
+//				});
+
+		lstReports.addItem("Report 1","Report 1");
+		lstReports.addItem("Report 2","Report 2");
+		lstReports.addItem("Report 3","Report 3");
+		
+		/*mainRowContainer.setVisible(false);
+		
+		mainRowContainer.setWidth("700px");
+		
+		mainRowContainer.setHeight("120px");
+		
+		HorizontalPanel btnLine = new HorizontalPanel();
+		btnLine.setWidth("600px");
+		btnLine.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+
+//		btnLine.add(btnSearch);
+//		btnLine.add(ancDetailed);
+//		btnLine.add(btnExportToExcel);
+		
+		///
+		
+		VerticalPanel vpDomain = new VerticalPanel();
+		VerticalPanel vpDiv = new VerticalPanel();
+		VerticalPanel vpRisk = new VerticalPanel();
+	
+		Label lbl1 = new Label("Domain");
+		
+		lbl1.addStyleName("labelHeading");
+		
+		Label lbl2 = new Label("Division");
+		
+		lbl2.addStyleName("labelHeading");
+		
+		Label lbl3 = new Label("Risk Assessment");
+		
+		lbl3.addStyleName("labelHeading");
+		
+		vpDomain.add( lbl1 ); 
+		
+		vpDiv.add( lbl2 ); 
+		
+		vpRisk.add( lbl3 );
+				 
+		lstDomain = new ListBox(); lstDomain.setMultipleSelect(true); 	lstDomain.addStyleName("listboxStyle");
+		lstDiv = new ListBox();    lstDiv.setMultipleSelect(true);		lstDiv.addStyleName("listboxStyle");
+		lstRisk = new ListBox();   lstRisk.setMultipleSelect(true);		lstRisk.addStyleName("listboxStyle");
+		
+		lstRisk.addItem("All", "All"); lstRisk.setSelectedIndex(0);
+		lstRisk.addItem("High", "High");
+		lstRisk.addItem("Medium", "Medium");
+		lstRisk.addItem("Low", "Low");
+		
+		lstDomain.addItem("All","All"); lstDomain.setSelectedIndex(0);
+		lstDomain.addItem("Strategic","0");
+		lstDomain.addItem("Operations","1");
+		lstDomain.addItem("Reporting","2");
+		lstDomain.addItem("Compliance","3");
+		
+		
+		lstDiv.addItem("All","All"); lstDiv.setSelectedIndex(0);
+
+		vpDomain.add( lstDomain );
+		vpDiv.add( lstDiv );
+		vpRisk.add( lstRisk );
+
+		mainRowContainer.add( vpDomain ); mainRowContainer.add( vpDiv ); mainRowContainer.add( vpRisk );
+		
+		///
+		
+		
+		
+		
+		vpnlMain.add(mainRowContainer);
+		vpnlMain.add(btnLine);
+		*/
+		
+		vpnlMain.add(lstReports);
+		
+		reportsContainer.add(stckReportsContainer);
+		
+		
+		
+		vpnlMain.add(reportsContainer);
+		
+		
+		
+	}
+
+	@Override
+	public ListBox getSelectionBox() {
+		// TODO Auto-generated method stub
+		return lstReports;
+	}
+
+	@Override
+	public VerticalPanel getReportsContainer() {
+		// TODO Auto-generated method stub
+		return reportsContainer;
+	}
+	
+	public HorizontalPanel getListBoxesContainer() {
+		return mainRowContainer;
+	}
+
+	@Override
+	public ListBox getDivListbox() {
+		// TODO Auto-generated method stub
+		return lstDiv;
+	}
+
+	@Override
+	public ListBox getDomainListbox() {
+		// TODO Auto-generated method stub
+		return lstDomain;
+	}
+
+	@Override
+	public ListBox getRiskListbox() {
+		// TODO Auto-generated method stub
+		return lstRisk;
+	}
+
+	@Override
+	public Button getBtnSearch() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	protected void showDetailedCharts() {
+		
+		
+		Window.alert("un implemented");
+		
+	}
+	
+	@Override
+	public StackPanel getStackReports() {
+	
+		return stckReportsContainer;
+	}
+
+	public Report1 getReport1() {
+		return report1;
+	}
+
+	public void setReport1(Report1 report1) {
+		this.report1 = report1;
+	}
+
+	public Report2 getReport2() {
+		return report2;
+	}
+
+	public void setReport2(Report2 report2) {
+		this.report2 = report2;
+	}
+
+	public Report3 getReport3() {
+		return report3;
+	}
+
+	public void setReport3(Report3 report3) {
+		this.report3 = report3;
+	}
+	
+	
+}

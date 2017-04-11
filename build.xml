@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="audit" basedir="." default="build-war-deploy">
+	<import file="build-overrides.xml" />	
+
+	<description>Compile the tasks def for GWT</description>
+	<property name="app.name" value="audit-class-diagrams" />
+	<property name="src.dir" value="src" />
+	<property name="webinf.dir" value="war/WEB-INF" />
+	<property name="classes.dir" value="${webinf.dir}/classes" />
+	<property name="lib.dir" value="${webinf.dir}/lib" />
+	<property name="war.dir" value="war" />
+	<property name="deploy.dir" value="${tomcat.home}/webapps" />
+	<property name="work.dir" value="${tomcat.home}/work/Catalina" />
+	<property name="gwt.args" value="" />
+	<path id="classpath">
+		<fileset dir="${gwt.home}">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	<target name="clean-up">
+		<delete dir="${deploy.dir}/${app.name}" />
+		<delete file="${deploy.dir}/${app.name}.war" />
+		<delete dir="${work.dir}" />
+	</target>
+	<target name="build-war-deploy" depends="clean-up,gwtc" description="Package GWT app to web archive and deploy to web server">
+		<war basedir="${war.dir}" destfile="${deploy.dir}/${app.name}.war" webxml="${webinf.dir}/web.xml">
+			<webinf dir="${webinf.dir}/">
+				<include name="**/*.jar" />
+			</webinf>
+		</war>
+	</target>
+	<target name="javac" description="Compile java source to bytecode">
+		<delete dir="${classes.dir}" />
+		<mkdir dir="${classes.dir}" />
+		<javac srcdir="${src.dir}" includes="**" encoding="utf-8" destdir="${classes.dir}" source="1.6" target="1.6" nowarn="true" debug="true" debuglevel="lines,vars,source">
+			<classpath refid="classpath" />
+		</javac>
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.dir}" excludes="**/*.java" />
+		</copy>
+	</target>
+	<target name="gwtc" depends="javac" description="GWT compile to JavaScript (production mode)">
+		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
+			<classpath>
+				<pathelement location="${src.dir}" />
+				<path refid="classpath" />
+			</classpath>
+			<jvmarg value="-Xmx256M" />
+			<arg line="-war" />
+			<arg value="${war.dir}" />
+			<arg line="${gwt.args}" />
+			<arg value="com.internalaudit.InternalAudit" />
+		</java>
+	</target>
+	<target name="start-tomcat" depends="build-war-deploy">
+		<java jar="${tomcat.home}/bin/bootstrap.jar" fork="true">
+			<jvmarg value="-Dcatalina.home=${tomcat.home}" />
+		</java>
+	</target>
+	<target name="stop-tomcat">
+		<java jar="${tomcat.home}/bin/bootstrap.jar" fork="true">
+			<jvmarg value="-Dcatalina.home=${tomcat.home}"/>
+			<arg line="stop"/>
+		</java>
+	</target>
+</project>

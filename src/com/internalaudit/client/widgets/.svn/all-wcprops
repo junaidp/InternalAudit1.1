@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/internalaudit/!svn/ver/107/InternalAudit/src/com/internalaudit/client/widgets
+END
+AuditScheduling.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/internalaudit/!svn/ver/107/InternalAudit/src/com/internalaudit/client/widgets/AuditScheduling.java
+END
+AuditWorkRow.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/internalaudit/!svn/ver/87/InternalAudit/src/com/internalaudit/client/widgets/AuditWorkRow.java
+END
+CustomTextBox.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/internalaudit/!svn/ver/71/InternalAudit/src/com/internalaudit/client/widgets/CustomTextBox.java
+END
+RiskRow.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/internalaudit/!svn/ver/88/InternalAudit/src/com/internalaudit/client/widgets/RiskRow.java
+END
+ExceptionRow.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/internalaudit/!svn/ver/78/InternalAudit/src/com/internalaudit/client/widgets/ExceptionRow.java
+END
+AuditSchedulingBk.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/internalaudit/!svn/ver/89/InternalAudit/src/com/internalaudit/client/widgets/AuditSchedulingBk.java
+END
+JobAndArea.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/internalaudit/!svn/ver/107/InternalAudit/src/com/internalaudit/client/widgets/JobAndArea.java
+END
+SkillsResources.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/internalaudit/!svn/ver/28/InternalAudit/src/com/internalaudit/client/widgets/SkillsResources.java
+END
+HeadingPanel.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/internalaudit/!svn/ver/30/InternalAudit/src/com/internalaudit/client/widgets/HeadingPanel.java
+END
+ResourceScheduling.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/internalaudit/!svn/ver/38/InternalAudit/src/com/internalaudit/client/widgets/ResourceScheduling.java
+END

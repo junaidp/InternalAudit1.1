@@ -1,0 +1,73 @@
+package com.internalaudit.client.view.data;
+
+import com.google.gwt.core.shared.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.view.AuditEngagement.ActivityObjectiveView;
+import com.internalaudit.client.view.AuditEngagement.AssignmentObjectiveView;
+import com.internalaudit.client.view.AuditEngagement.EngagementPlanningView;
+import com.internalaudit.client.view.AuditEngagement.ProcessUnderstandingView;
+import com.internalaudit.shared.AuditEngagement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import com.internalaudit.shared.TimeOutException;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
+
+public class EngagementPlanningViewData {
+
+	private Logger logger = Logger.getLogger("EngagementPlanningViewData");
+
+	public EngagementPlanningViewData() {
+
+	}
+
+	InternalAuditServiceAsync rpcService;
+
+
+	public void setData(InternalAuditServiceAsync rpcService) {
+		this.rpcService = rpcService;
+	}
+
+	public void fetchCreatedJob(final EngagementPlanningView engagementPlanningView,	int selectedJobId) {
+
+
+		rpcService.fetchAuditEngagement( selectedJobId , new AsyncCallback<AuditEngagement>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				
+
+				logger.log(Level.INFO, "FAIL: fetchAuditEngagement .Inside Audit AuditAreaspresenter");
+				if(caught instanceof TimeOutException){
+					History.newItem("login");
+				}else{
+					System.out.println("FAIL: fetchAuditEngagement .Inside AuditAreaspresenter");
+					Window.alert("FAIL: fetchAuditEngagement");// After FAIL ... write RPC Name  NOT Method Name..
+				}
+				
+
+			}
+
+			@Override
+			public void onSuccess(AuditEngagement record) {
+				if(record!=null){
+					
+					
+					engagementPlanningView.getProcess().setText( record.getProcess()==null?"": record.getProcess() );
+					engagementPlanningView.getActivityObjective().setText(  record.getActivityObj()==null?"": record.getActivityObj() );
+					engagementPlanningView.getAssignmentObjective().setText( record.getAssignmentObj()==null?"": record.getAssignmentObj() );		
+					if(!record.getProcess().equals("") &&  !record.getActivityObj().equals("") && !record.getAssignmentObj().equals("")){
+						engagementPlanningView.disableFields();
+					}
+				}
+			}
+
+		});
+
+	}
+}
+

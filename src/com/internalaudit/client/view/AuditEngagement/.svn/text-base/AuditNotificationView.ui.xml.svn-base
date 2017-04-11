@@ -1,0 +1,30 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+	<g:VerticalPanel>
+	
+	<g:HorizontalPanel styleName="statusRow">
+				
+				<g:Label styleName="labelTitle">To </g:Label> <g:TextBox styleName="txtExtendedWidth" ui:field="to"></g:TextBox>
+				
+	</g:HorizontalPanel>
+	
+	<g:HorizontalPanel styleName="statusRow">
+				
+				<g:Label styleName="labelTitle">Cc </g:Label> <g:TextBox styleName="txtExtendedWidth" ui:field="cc"></g:TextBox>
+				
+	</g:HorizontalPanel>
+			
+			
+			<g:TextArea ui:field="message" styleName="messageTextarea">
+			
+			</g:TextArea>
+
+		<g:Button styleName="" ui:field="send" text="Send" />
+	</g:VerticalPanel>
+</ui:UiBinder> 

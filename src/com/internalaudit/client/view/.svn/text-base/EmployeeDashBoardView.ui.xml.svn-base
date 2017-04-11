@@ -1,0 +1,19 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:cellview="urn:import:com.google.gwt.user.cellview.client">
+	<ui:style>
+		.important {
+			font-weight: bold;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		<g:Image ui:field="refresh"></g:Image>
+			<div style="width:100%;float:left">
+				<cellview:CellTable width='100%' pageSize='10'
+					ui:field='table' styleName="cellTable" />
+				<cellview:SimplePager ui:field="pager"
+					location='CENTER' addStyleNames="pagerPanel">
+				</cellview:SimplePager>
+			</div>
+	</g:HTMLPanel>
+</ui:UiBinder> 

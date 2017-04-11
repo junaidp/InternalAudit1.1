@@ -1,0 +1,43 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+	
+	</ui:style>
+	<g:HTMLPanel>
+	
+		<g:Label ui:field="jobName" styleName="heading"> Loading.. </g:Label>
+		
+		<g:VerticalPanel>
+		
+			<g:HorizontalPanel styleName="statusRow">
+				
+				<g:Label styleName="labelTitle">Planned Start Date</g:Label> <g:Label styleName="labelValue" ui:field="startDate">Loading..</g:Label>
+				
+			</g:HorizontalPanel>
+			
+			<g:HorizontalPanel styleName="statusRow">
+				
+				<g:Label styleName="labelTitle">Planned End Date</g:Label> <g:Label  styleName="labelValue" ui:field="endDate"> Loading..</g:Label>
+				
+			</g:HorizontalPanel>
+				
+<!-- 			<g:HorizontalPanel styleName="statusRow"> -->
+				
+<!-- 				<g:Label styleName="labelTitle">Job Incharge</g:Label> <g:Label  styleName="labelValue" ui:field="incharge"> Incharge Name</g:Label> -->
+				
+<!-- 			</g:HorizontalPanel>		 -->
+		
+		</g:VerticalPanel>
+		
+		<g:VerticalPanel ui:field="statusPanel">
+			
+		</g:VerticalPanel>
+
+		
+		<g:VerticalPanel ui:field="exPanel">
+			
+		</g:VerticalPanel>
+		
+	</g:HTMLPanel>
+</ui:UiBinder> 

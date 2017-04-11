@@ -1,0 +1,239 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/internalaudit/!svn/ver/113/InternalAudit/src/com/internalaudit/shared
+END
+JobSkillRelation.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/internalaudit/!svn/ver/20/InternalAudit/src/com/internalaudit/shared/JobSkillRelation.java
+END
+FieldVerifier.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/internalaudit/!svn/ver/3/InternalAudit/src/com/internalaudit/shared/FieldVerifier.java
+END
+Risk.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/internalaudit/!svn/ver/94/InternalAudit/src/com/internalaudit/shared/Risk.java
+END
+StrategicRisk.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/internalaudit/!svn/ver/3/InternalAudit/src/com/internalaudit/shared/StrategicRisk.java
+END
+Employee.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/internalaudit/!svn/ver/65/InternalAudit/src/com/internalaudit/shared/Employee.java
+END
+Softskills.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/internalaudit/!svn/ver/20/InternalAudit/src/com/internalaudit/shared/Softskills.java
+END
+DashBoardDTO.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/internalaudit/!svn/ver/3/InternalAudit/src/com/internalaudit/shared/DashBoardDTO.java
+END
+User.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/internalaudit/!svn/ver/3/InternalAudit/src/com/internalaudit/shared/User.java
+END
+AuditStep.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/internalaudit/!svn/ver/94/InternalAudit/src/com/internalaudit/shared/AuditStep.java
+END
+DataCount.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/internalaudit/!svn/ver/112/InternalAudit/src/com/internalaudit/shared/DataCount.java
+END
+TimeLineDates.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/internalaudit/!svn/ver/90/InternalAudit/src/com/internalaudit/shared/TimeLineDates.java
+END
+JobCreationDTO.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/internalaudit/!svn/ver/107/InternalAudit/src/com/internalaudit/shared/JobCreationDTO.java
+END
+RiskAssesmentDTO.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/internalaudit/!svn/ver/3/InternalAudit/src/com/internalaudit/shared/RiskAssesmentDTO.java
+END
+ReportsDTO.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/internalaudit/!svn/ver/108/InternalAudit/src/com/internalaudit/shared/ReportsDTO.java
+END
+Strategic.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/internalaudit/!svn/ver/112/InternalAudit/src/com/internalaudit/shared/Strategic.java
+END
+ExcelDataDTO.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/internalaudit/!svn/ver/113/InternalAudit/src/com/internalaudit/shared/ExcelDataDTO.java
+END
+AuditStepDTO.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/internalaudit/!svn/ver/87/InternalAudit/src/com/internalaudit/shared/AuditStepDTO.java
+END
+Country.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/internalaudit/!svn/ver/3/InternalAudit/src/com/internalaudit/shared/Country.java
+END
+JobAndAreaOfExpertise.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/internalaudit/!svn/ver/16/InternalAudit/src/com/internalaudit/shared/JobAndAreaOfExpertise.java
+END
+Department.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/internalaudit/!svn/ver/28/InternalAudit/src/com/internalaudit/shared/Department.java
+END
+TimeOutException.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/internalaudit/!svn/ver/91/InternalAudit/src/com/internalaudit/shared/TimeOutException.java
+END
+AuditWork.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/internalaudit/!svn/ver/94/InternalAudit/src/com/internalaudit/shared/AuditWork.java
+END
+City.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/internalaudit/!svn/ver/38/InternalAudit/src/com/internalaudit/shared/City.java
+END
+JobTimeEstimationDTO.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/internalaudit/!svn/ver/20/InternalAudit/src/com/internalaudit/shared/JobTimeEstimationDTO.java
+END
+JobEmployeeRelation.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/internalaudit/!svn/ver/21/InternalAudit/src/com/internalaudit/shared/JobEmployeeRelation.java
+END
+HibernateDetachUtility.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/internalaudit/!svn/ver/20/InternalAudit/src/com/internalaudit/shared/HibernateDetachUtility.java
+END
+SkillUpdateData.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/internalaudit/!svn/ver/107/InternalAudit/src/com/internalaudit/shared/SkillUpdateData.java
+END
+Exceptions.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/internalaudit/!svn/ver/94/InternalAudit/src/com/internalaudit/shared/Exceptions.java
+END
+Skills.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/internalaudit/!svn/ver/34/InternalAudit/src/com/internalaudit/shared/Skills.java
+END
+StrategicDepartments.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/internalaudit/!svn/ver/112/InternalAudit/src/com/internalaudit/shared/StrategicDepartments.java
+END
+StrategicDTO.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/internalaudit/!svn/ver/107/InternalAudit/src/com/internalaudit/shared/StrategicDTO.java
+END
+RiskFactor.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/internalaudit/!svn/ver/3/InternalAudit/src/com/internalaudit/shared/RiskFactor.java
+END
+JobCreation.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/internalaudit/!svn/ver/100/InternalAudit/src/com/internalaudit/shared/JobCreation.java
+END
+StrategicAudit.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/internalaudit/!svn/ver/3/InternalAudit/src/com/internalaudit/shared/StrategicAudit.java
+END
+JobsOfEmployee.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/internalaudit/!svn/ver/21/InternalAudit/src/com/internalaudit/shared/JobsOfEmployee.java
+END
+AuditEngagement.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/internalaudit/!svn/ver/94/InternalAudit/src/com/internalaudit/shared/AuditEngagement.java
+END
+ResourceUse.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/internalaudit/!svn/ver/99/InternalAudit/src/com/internalaudit/shared/ResourceUse.java
+END
+JobTimeEstimation.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/internalaudit/!svn/ver/94/InternalAudit/src/com/internalaudit/shared/JobTimeEstimation.java
+END
+InternalAuditConstants.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/internalaudit/!svn/ver/92/InternalAudit/src/com/internalaudit/shared/InternalAuditConstants.java
+END

@@ -1,0 +1,94 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+	ol, ul {
+		padding: 0;
+		list-style: none;
+	}
+	
+	.pboxA {
+		background-color: #fff !important;
+	}
+	
+	.container {
+		overflow: hidden;
+		margin: 0em auto;
+		width: 1200px;
+		margin-bottom: 12px;
+	}
+	
+	.dashboardButton {
+		display: inline-block;
+		padding: 1em 2em 1em 2em;
+		background: #0173B2;
+		letter-spacing: 0.20em;
+		text-decoration: none;
+		text-transform: uppercase;
+		font-weight: 400;
+		font-size: 0.90em;
+		color: #FFF;
+		cursor: pointer;
+	}
+	
+	.header {
+		position: relative !important;
+		padding: 3em 0em !important;
+		background-color: #fff !important;
+	}
+	
+	.logo {
+		position: absolute;
+		left: 0;
+		float: left;
+		margin-top: -70px;
+	}
+	</ui:style>
+	<g:HTMLPanel>
+
+
+		<h1>
+		
+		<g:Image  url="images/trans.png" ui:field="imgLogo"/>
+		</h1>
+
+		<div style="padding-left:90%; backround-color:white">
+			<g:Button ui:field="btnContinue" styleName='{style.dashboardButton}'>Continue</g:Button>
+		</div>
+
+		<g:HorizontalPanel width="100%" height="300px">
+
+			<g:VerticalPanel width="420px" height="300px"  ui:field="vpnlLabels" spacing="5">
+			</g:VerticalPanel>
+			
+			<g:VerticalPanel width="300px" height="300px"  ui:field="vpnlBar" spacing="5">
+				
+			</g:VerticalPanel>
+
+			<g:VerticalPanel width="300px" height="300px"  ui:field="vpnlPie4" spacing="5">
+				
+			</g:VerticalPanel>
+			
+		</g:HorizontalPanel>
+
+
+		<g:HorizontalPanel width="100%" height="300px">
+		
+				<g:VerticalPanel width="300px" height="300px"  ui:field="vpnlPie1">
+				
+			</g:VerticalPanel>
+			
+			<g:VerticalPanel width="300px" height="300px"  ui:field="vpnlPie2">
+				
+			</g:VerticalPanel>
+			
+			<g:VerticalPanel width="300px" height="300px" ui:field="vpnlPie3">
+				
+			</g:VerticalPanel>
+
+
+		</g:HorizontalPanel>
+
+
+	</g:HTMLPanel>
+</ui:UiBinder> 

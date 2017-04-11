@@ -1,0 +1,21 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		
+	</ui:style>
+	<g:HTMLPanel>
+		<div class="linker">
+			<g:Anchor ui:field="areaOfExpertise" styleName="menuLink">Area of Expertise Identification</g:Anchor>
+		</div>
+		<div class="linker">
+			<g:Anchor ui:field="jobTimeEst" styleName="menuLink">Job Time Estimation</g:Anchor>
+		</div>
+		<div class="linker">
+			<g:Anchor ui:field="jobCreation" styleName="menuLink">Job Creation / Resource Assignment</g:Anchor>
+		</div>
+		<div class="linker">
+			<g:Anchor ui:field="scheduling" styleName="menuLink">Scheduling</g:Anchor>
+		</div>
+	</g:HTMLPanel>
+</ui:UiBinder> 

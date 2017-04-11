@@ -1,0 +1,128 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+	.loginbody{
+	background: url(images/bg.png) repeat !important;
+	font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif !important;
+	font-weight:300 !important;
+	text-align: left !important;
+	text-decoration: none !important;
+}
+	</ui:style>
+	<g:HTMLPanel styleName='{style.loginbody}'>
+		<html>
+			<head>
+
+
+				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+				<title>abilite - Login</title>
+
+				<link rel="icon" href="abilite.png" type="image/png" sizes="16x16" />
+				<link href="css/style.css" rel="stylesheet" type="text/css" />
+				<link rel="stylesheet"
+					href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" />
+				<script type="text/javascript"
+					src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+				<script type="text/javascript">
+					$(document).ready(function() {
+					$(".username").focus(function() {
+					$(".user-icon").css("left","-48px");
+					});
+					$(".username").blur(function() {
+					$(".user-icon").css("left","0px");
+					});
+
+					$(".password").focus(function() {
+					$(".pass-icon").css("left","-48px");
+					});
+					$(".password").blur(function() {
+					$(".pass-icon").css("left","0px");
+					});
+					});
+
+				</script>
+
+			</head>
+			<g:HTMLPanel styleName='{style.loginbody}'>
+			
+				<div id="text">
+					<b>abilite</b>
+					is Pakistan's first Internal Audit Management Solution. It aims to
+					help build forward looking and proactive Internal Audit functions.
+					It is a platform through which Internal Auditors can integrate well
+					with their organizations .Abilte promises to bring efficiency in
+					the work of Internal Auditors and help them focus on their key
+					areas.
+					<br></br>
+					<img src="trans.png" width="215" height="98" alt="abilite logo" />
+				</div>
+
+				<div id="wrapper">
+					<div class="user-icon"></div>
+					<div class="pass-icon"></div>
+
+					<form name="login-form" class="login-form" action="" method="post">
+						<img src="logo.png" width="300" height="97" alt="abilite logo" />
+
+						<div class="headerLogin">
+							<h1>Login</h1>
+							<span>Fill out the form below to login and gear internal audit.</span>
+						</div>
+						<div class="content">
+							<!-- <input name="username" type="text" class="input username" value="Username" 
+								onfocus="this.value=''" /> <input name="password" type="password" class="input 
+								password" value="Password" onfocus="this.value=''" /> -->
+								<g:Label styleName="error" visible="false" ui:field="lblError"></g:Label>
+								<g:TextBox ui:field="textUserName" styleName="input username"></g:TextBox>
+								<g:PasswordTextBox ui:field="textPassword" styleName="input password"></g:PasswordTextBox>
+
+						</div>
+
+						<div class="footer">
+							
+							<g:Button ui:field="btnSubmit" styleName="button">Submit</g:Button>
+							<g:Anchor ui:field="requestUserName" styleName="register">Request username</g:Anchor>
+						</div>
+
+					</form>
+
+				</div>
+				<footer class="footer-distributed">
+					<!-- 
+										<div class="footer-right">
+						 <a href="https://www.facebook.com/HyphenConsultancy"> <i class="fa 
+							fa-facebook"></i> </a> <a href="https://twitter.com/hyphen_cons"> <i class="fa 
+							fa-twitter"></i> </a> <a href="https://www.linkedin.com/company/hyphen-consultancy-pvt-ltd"> 
+							<i class="fa fa-linkedin"></i> </a> 
+					</div>
+					-->
+					<img src="hyphen.png" width="196" height="67" alt="Hyphen logo" />
+					<div class="footer-left">
+
+						<p class="footer-links">
+							Advisory
+							-
+							Assurance
+							-
+							Outsourcing
+							-
+							Technology
+
+						</p>
+
+						<p>
+							<a href="http://hyphenconsultancy.com/">Hyphen Consultancy Pvt Ltd</a>
+							&copy; 2015
+						</p>
+					</div>
+
+				</footer>
+
+				<div class="gradient"></div>
+
+			
+		</g:HTMLPanel>
+		</html>
+	</g:HTMLPanel>
+</ui:UiBinder> 

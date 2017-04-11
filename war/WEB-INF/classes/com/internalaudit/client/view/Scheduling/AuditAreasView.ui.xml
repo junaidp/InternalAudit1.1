@@ -1,0 +1,20 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		
+	</ui:style>
+	<g:HTMLPanel>
+	
+	<g:Label styleName="heading">Area Of Expertise Identification</g:Label>
+	
+		<g:HorizontalPanel styleName="statusRowConsolidation">
+			<g:Label styleName="labelTitle" width="450px"> Job </g:Label>
+			<g:Label styleName="labelTitle" width="500px"> Area Of Expertise</g:Label>
+		</g:HorizontalPanel>
+		
+		<g:VerticalPanel ui:field="mainPanel"></g:VerticalPanel>
+		
+		<g:Button ui:field="backButton">Back</g:Button>
+	</g:HTMLPanel>
+</ui:UiBinder> 

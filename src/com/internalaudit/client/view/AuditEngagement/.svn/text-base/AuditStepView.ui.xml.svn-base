@@ -1,0 +1,82 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+	
+	</ui:style>
+	
+	<g:HTMLPanel>
+	
+	<g:Label styleName="hidden" ui:field="auditStepId" visible="false">0</g:Label>
+	
+	<g:Label styleName="heading" visible="false">Audit Step</g:Label>
+	
+	<g:Label styleName="popupSmallHeading">Check Opening Balance</g:Label>
+	
+	
+	<g:HorizontalPanel>
+	
+		<g:Label styleName="labelTitle">Population</g:Label>
+	
+		<g:TextBox ui:field="population" styleName="txtNormal"></g:TextBox>
+	
+	</g:HorizontalPanel>
+	
+	<g:HorizontalPanel>
+	
+		<g:Label styleName="labelTitle">Sample Selected</g:Label>
+	
+		<g:TextBox ui:field="sample" styleName="txtNormal"></g:TextBox>
+	
+		
+	
+	</g:HorizontalPanel>
+	
+	<g:HorizontalPanel>
+	
+		<g:Label styleName="labelTitle">Basis of Selection</g:Label>
+		<g:TextBox ui:field="selection" styleName="txtNormal"></g:TextBox>
+	
+	</g:HorizontalPanel>
+	
+	<g:Label styleName="popupSmallHeading">Procedure Performance</g:Label>
+	
+	<g:TextArea ui:field="performance" styleName="textareaNormal"></g:TextArea>
+	
+	<g:Label styleName="popupSmallHeading">Exceptions</g:Label>
+		
+		
+		<g:Button ui:field="addException">Add Exception</g:Button>
+		
+		
+	<g:VerticalPanel ui:field="exceptions">
+	
+	</g:VerticalPanel>
+	
+	
+<!-- 	<g:TextBox styleName="txtExtendedWidth"></g:TextBox> -->
+	
+	<g:HorizontalPanel>
+		
+		<g:Label  styleName="labelTitle">Conclusion</g:Label>
+		
+		<g:ListBox ui:field="conclusion" >
+			<g:item>Satisfactory</g:item>
+			<g:item>Non-Satisfactory</g:item>
+		</g:ListBox>
+	
+	</g:HorizontalPanel>	
+
+	
+	
+	<g:Button ui:field="save">Save</g:Button>
+	<g:HorizontalPanel ui:field="approvalButtonsPanel" visible="false">
+	<g:Button ui:field="approve" >Approve</g:Button>
+	<g:Button ui:field="reject" >Reject</g:Button>
+	</g:HorizontalPanel>
+	
+<!-- 	<g:Button>Submit</g:Button> -->
+	
+	</g:HTMLPanel>
+							
+</ui:UiBinder> 

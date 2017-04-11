@@ -1,0 +1,67 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+
+	<g:HTMLPanel height="600px">
+			<g:Label styleName="heading"> Detailed scope and process understanding </g:Label>
+	
+	<div style = "padding-left:100px">
+	<g:Label ui:field="submittedBy" visible="false"> </g:Label>
+	</div>
+	<g:VerticalPanel ui:field="assignObjUI"> 
+	
+	
+		<g:HTMLPanel>
+		<div>
+			<g:Label text="Assignment Objective"></g:Label>
+		</div>
+		<div>
+			<g:TextArea ui:field="assignmentObjective" styleName="messageTextarea"></g:TextArea>
+		</div>
+		</g:HTMLPanel>
+	</g:VerticalPanel>
+		
+	<g:VerticalPanel ui:field="activeObjUI"> 
+		<g:HTMLPanel>
+		<div>
+			<g:Label text="Activity Objective"></g:Label>
+		</div>
+		<div>
+			<g:TextArea ui:field="activityObjective" styleName="messageTextarea"></g:TextArea>
+		</div>
+		</g:HTMLPanel>
+		
+	</g:VerticalPanel>
+		
+			
+	<g:VerticalPanel ui:field="processUnderstandingUI"> 
+		<g:HTMLPanel>
+		<div>
+			<g:Label text="Underlaying Process Identification"></g:Label>
+		</div>
+		
+		<div>
+			<g:TextArea ui:field="process" styleName="messageTextarea"></g:TextArea>
+		</div>
+		<div>
+		
+		<g:HorizontalPanel>
+			
+<!-- 			<g:Button ui:field="attachment">Attachment</g:Button> -->
+		
+		</g:HorizontalPanel>
+
+		</div>
+	</g:HTMLPanel>		
+			
+	</g:VerticalPanel>
+	<g:HorizontalPanel ui:field="initiationButtonsPanel" visible="false">
+	<g:Button ui:field="save">Save</g:Button>
+	<g:Button ui:field="submit">Submit</g:Button>
+	</g:HorizontalPanel>
+	<g:HorizontalPanel ui:field="approvalButtonsPanel" visible="false">
+	<g:Button ui:field="approve" >Approve</g:Button>
+	<g:Button ui:field="reject" >Feedback</g:Button>
+	</g:HorizontalPanel>
+
+</g:HTMLPanel>
+</ui:UiBinder>

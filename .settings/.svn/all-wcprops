@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/internalaudit/!svn/ver/111/InternalAudit/.settings
+END
+org.eclipse.wst.common.project.facet.core.xml
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/internalaudit/!svn/ver/3/InternalAudit/.settings/org.eclipse.wst.common.project.facet.core.xml
+END
+org.eclipse.jdt.core.prefs
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/internalaudit/!svn/ver/3/InternalAudit/.settings/org.eclipse.jdt.core.prefs
+END
+com.google.gdt.eclipse.core.prefs
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/internalaudit/!svn/ver/111/InternalAudit/.settings/com.google.gdt.eclipse.core.prefs
+END
+com.google.gwt.eclipse.core.prefs
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/internalaudit/!svn/ver/3/InternalAudit/.settings/com.google.gwt.eclipse.core.prefs
+END

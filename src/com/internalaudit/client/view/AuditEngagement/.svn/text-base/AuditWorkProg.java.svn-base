@@ -1,0 +1,313 @@
+package com.internalaudit.client.view.AuditEngagement;
+
+import java.util.ArrayList;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.rpc.client.RpcService;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.view.DisplayAlert;
+import com.internalaudit.client.widgets.AuditWorkRow;
+import com.internalaudit.shared.AuditWork;
+import com.internalaudit.shared.InternalAuditConstants;
+import com.internalaudit.shared.JobCreation;
+import com.internalaudit.shared.JobEmployeeRelation;
+import com.internalaudit.shared.User;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import com.internalaudit.shared.TimeOutException;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
+
+
+public class AuditWorkProg extends Composite {
+
+	private Logger logger = Logger.getLogger("AuditWorkProg");
+
+	private static AuditWorkProgUiBinder uiBinder = GWT
+			.create(AuditWorkProgUiBinder.class);
+
+	interface AuditWorkProgUiBinder extends UiBinder<Widget, AuditWorkProg> {
+	}
+
+	@UiField
+	Button addMore;
+
+	@UiField
+	VerticalPanel rows;
+
+	@UiField
+	Button save;
+	@UiField
+	Button reject;
+	@UiField
+	Button approve;
+	@UiField
+	HorizontalPanel approvalButtonsPanel;
+	private int loggedInEmployeeId;
+	ArrayList<JobEmployeeRelation> listData;
+
+	public AuditWorkProg(final InternalAuditServiceAsync rpcService, final int selectedJobId, int loggedInEmployeeId) {
+		initWidget(uiBinder.createAndBindUi(this));
+
+		//fill listbox with appropriate employees
+		getEmployeesForJob(rpcService, selectedJobId);
+		setHandlers(rpcService, selectedJobId);
+		this.loggedInEmployeeId = loggedInEmployeeId;
+
+	}
+
+	private void setHandlers(final InternalAuditServiceAsync rpcService,
+			final int selectedJobId) {
+		addMore.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				save.setEnabled(true);
+				AuditWorkRow r = new AuditWorkRow();
+				for (int i = 0; i< listData.size(); ++i)
+				{				
+					r.getEmployeeList().insertItem(listData.get(i).getEmployee().getEmployeeName(), String.valueOf(listData.get(i).getEmployee().getEmployeeId()), i);
+				}
+				rows.add(r);
+
+			}
+		});
+
+		save.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				save.setEnabled(false);
+				saveAuditWork(rpcService, selectedJobId,InternalAuditConstants.INITIATED);
+
+			}
+		});
+		
+		approve.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				approve.setEnabled(false);
+				reject.setEnabled(false);
+				saveAuditWork(rpcService, selectedJobId, InternalAuditConstants.APPROVED);
+
+			}
+		});
+		
+		reject.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				
+				reject.setEnabled(false);
+				approve.setEnabled(false);
+				saveAuditWork(rpcService, selectedJobId, InternalAuditConstants.REJECTED);
+
+			}
+		});
+	}
+
+	private void saveAuditWork(final InternalAuditServiceAsync rpcService,final int selectedJobId, int status) {
+		save.setEnabled(false);
+
+		ArrayList<AuditWork> auditWorks = new ArrayList<AuditWork>();
+
+		for ( int i = 0; i < rows.getWidgetCount(); ++i)
+		{
+			AuditWorkRow row = ((AuditWorkRow)rows.getWidget(i));
+			row.disableFields();
+			AuditWork auditWork = new AuditWork();
+
+			auditWork.setDescription( row.getDescription().getText() );
+			auditWork.setResponsibleControl( Integer.parseInt(row.getLstControls().getValue(row.getLstControls().getSelectedIndex() ) ) );
+			auditWork.setStepNo( row.getStep().getText());
+			JobCreation jobCreation = new JobCreation();
+			jobCreation.setJobCreationId(selectedJobId);
+			auditWork.setJobCreationId(jobCreation);
+			auditWork.setAuditWorkId( Integer.parseInt(  row.getAuditWorkId().getText() ) );
+			auditWork.setStatus(status);
+
+			auditWorks.add(auditWork);
+
+		}
+
+		saveAuditWorkTodb(rpcService, auditWorks, status);
+	}
+
+	private void saveAuditWorkTodb(
+			final InternalAuditServiceAsync rpcService,
+			ArrayList<AuditWork> records, final int status) {
+		rpcService.saveAuditWork( records, new AsyncCallback<Void>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				
+
+				logger.log(Level.INFO, "FAIL: saveAuditWorkTodb .Inside Audit AuditAreaspresenter");
+				if(caught instanceof TimeOutException){
+					History.newItem("login");
+				}else{
+					System.out.println("FAIL: saveAuditWorkTodb .Inside AuditAreaspresenter");
+					Window.alert("FAIL: saveAuditWorkTodb");// After FAIL ... write RPC Name  NOT Method Name..
+				}
+				
+
+			}
+
+			@Override
+			public void onSuccess(Void arg0) {
+				if(status == 0){
+					new DisplayAlert("Audit Work Saved");
+				}
+				else if(status == 1){
+					new DisplayAlert("Audit Work Approved");
+				}
+				else if(status == 2){
+					new DisplayAlert("Audit Work Rejected");
+				}
+				
+
+			}
+
+
+		});
+	}
+
+	private void fetchSavedAuditWork(
+			final InternalAuditServiceAsync rpcService, final int selectedJobId) {
+		rpcService.fetchAuditWorkRows( selectedJobId, new AsyncCallback<ArrayList<AuditWork>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// 
+				
+
+				logger.log(Level.INFO, "FAIL: fetchAuditWorkRows .Inside Audit AuditAreaspresenter");
+				if(caught instanceof TimeOutException){
+					History.newItem("login");
+				}else{
+					System.out.println("FAIL: fetchAuditWorkRows .Inside AuditAreaspresenter");
+					Window.alert("FAIL: fetchAuditWorkRows");// After FAIL ... write RPC Name  NOT Method Name..
+				}
+				
+
+			}
+
+			@Override
+			public void onSuccess(ArrayList<AuditWork> auditWorks) {
+
+				rows.clear();
+
+				for ( AuditWork auditWork : auditWorks)
+				{
+
+					AuditWorkRow row = new AuditWorkRow();
+					if(auditWork.getJobCreationId().getAuditHead() == loggedInEmployeeId ){
+						approvalButtonsPanel.setVisible(true);
+						save.setVisible(false);
+						if(auditWork.getStatus() == InternalAuditConstants.APPROVED || auditWork.getStatus() == InternalAuditConstants.REJECTED){
+							row.disableFields();
+							approve.setEnabled(false);
+							reject.setEnabled(false);
+						}
+
+					}else{
+						approvalButtonsPanel.setVisible(false);
+						save.setVisible(true);
+						if(auditWork.getStatus() == InternalAuditConstants.APPROVED || auditWork.getStatus() == InternalAuditConstants.INITIATED){
+							row.disableFields();
+							save.setEnabled(false);
+						}
+					}
+					//					
+					row.getStep().setText( auditWork.getStepNo() );
+					row.getDescription().setText( auditWork.getDescription() );
+					row.getAuditWorkId().setText( String.valueOf( auditWork.getAuditWorkId() ));
+					//set selected emp;
+					for (int i = 0; i< listData.size(); ++i)
+					{				
+						row.getEmployeeList().insertItem(listData.get(i).getEmployee().getEmployeeName(), String.valueOf(listData.get(i).getEmployee().getEmployeeId()),i);
+
+						if ( auditWork.getResponsibleControl() == listData.get(i).getEmployee().getEmployeeId())
+						{
+							row.getEmployeeList().setSelectedIndex(i);
+						}
+					}
+
+					rows.add(row);
+				}
+
+			}
+
+
+		});
+	}
+
+	private void getEmployeesForJob(final InternalAuditServiceAsync rpcService, final int selectedJobId)
+	{
+		rpcService.fetchEmployeeJobRelations( selectedJobId, new AsyncCallback<ArrayList<JobEmployeeRelation>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				
+
+				logger.log(Level.INFO, "FAIL: fetchEmployeeJobRelations .Inside Audit AuditAreaspresenter");
+				if(caught instanceof TimeOutException){
+					History.newItem("login");
+				}else{
+					System.out.println("FAIL: fetchEmployeeJobRelations .Inside AuditAreaspresenter");
+					Window.alert("FAIL: fetchEmployeeJobRelations");// After FAIL ... write RPC Name  NOT Method Name..
+				}
+				
+				
+			}
+
+			@Override
+			public void onSuccess(ArrayList<JobEmployeeRelation> arg0) {
+				/* 
+				 * 
+				 * Here I am getting correct emp for job
+				 * need to put this in list boxes
+				 */
+
+				if ( arg0.size() > 0 )
+				{
+
+					rows.clear();
+					listData = arg0;
+					//display 3 rows as default
+					for (int k = 0; k< 3; ++k)
+					{
+						AuditWorkRow r = new AuditWorkRow();
+						for (int i = 0; i< arg0.size(); ++i)
+						{
+							r.getEmployeeList().insertItem( 
+									arg0.get(i).getEmployee().getEmployeeName(),
+									String.valueOf(arg0.get(i).getEmployee().getEmployeeId()),
+									i
+									);
+						}
+
+						rows.add(r);
+					}
+
+				}
+
+				fetchSavedAuditWork(rpcService, selectedJobId);
+
+			}
+
+		});
+	}
+
+}

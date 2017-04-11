@@ -1,0 +1,810 @@
+/** Add css rules here for your application. */
+
+
+/** Example rules used by the template application (remove for your app) */
+
+* {
+	
+	font-family: Century Gothic, CenturyGothic, AppleGothic,sans-serif  !important;
+	
+}
+
+.invisibleListBox{
+	border-width: 0px;
+	
+}
+
+.blue{
+  color:blue;
+}
+
+.sendButton {
+  display: block;
+  font-size: 16pt;
+}
+
+/** Most GWT widgets already have a style name defined */
+.gwt-DialogBox {
+  width: 400px;
+}
+.gwt-TextBox {
+	background-color : #CAE1FF;
+	width: 130px;
+	padding: 4px;
+	border-radius: 4px;
+}
+
+.gwt-PasswordTextBox {
+	background-color : #CAE1FF;
+	width: 130px;
+	padding: 4px;
+	border-radius: 4px;
+}
+
+.dialogVPanel {
+  margin: 5px;
+}
+.fieldsStyle{
+   margin-left: 30px;
+   padding-left: 10px;
+}
+.btnStyle{
+    text-shadow: 0 1px 0 #eee;
+   cursor: pointer;
+    border-radius: 5px;
+   font:arial; 
+	color: white;
+	margin-left: 40px;
+	padding: 0px;
+	border-top: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #bbb;
+	border-left: 1px solid #ccc;
+	line-height: 1px;
+	text-align: center;
+	background-color: powderblue;
+	cursor: pointer;
+ 
+}
+.mainPanel{
+	padding-left:200px;
+	 width : 727px;
+}
+
+.btnStyle:hover{
+    text-shadow: 0 1px 0 #ddd;
+	border: 1px solid #999;
+	background-color: skyblue;
+	cursor: pointer;
+		
+}
+.btnStyle:active{
+   border: 1px solid #aaa;
+    border-bottom: 1px solid #888;
+    box-shadow: inset 0 0 5px 2px gray;
+
+}
+.header{
+ height: 20px;
+	color: white;
+	font-weight: bold;
+	background-color: lavender;
+}
+
+.border{
+	width: 400px;
+	height: 200px;
+	margin-left: 20px;
+	 border-radius: 5px;
+	background-color: whitesmoke;
+	 border-radius: 5px;
+ }
+.htmlStyle{
+  background-color: gray;
+  border-width: medium;
+  width: 300px;
+  
+}
+.loginArea{
+	 margin-left: 100px;
+	 margin-top:80px;
+	 padding-left:120px;
+	
+ width: 400px;
+ 
+}
+
+.heading_contain {
+	padding : 10px 0 10px 20px;
+}
+.heading{
+	font-size: 18px;
+	text-align: left;
+	padding : 3px;
+		background-color : #B0CFDF !important;
+	color : white !important;
+	
+}
+
+.heading_2 {
+	color: blue;
+	
+	font-size: 16px;
+	text-align: left;
+/* 	margin-right: 400px;
+text-decoration: underline; */
+/* 	maring-left: 25px; */
+}
+
+
+.subHeading{
+	color: gray;
+	font-size: 18px;
+}
+
+.center{
+	padding-left: 50%;
+	
+}
+.greenHeadingPadded{
+	color: mediumseagreen;
+	font-size: 36px;
+	margin-left:80px;
+	
+}
+.blueText{
+	color: skyblue;
+	font-size: 18px;
+}
+.error{
+	color:red;
+}
+/** Tab Panel Css*/
+
+.gwt-TabLayoutPanel {
+	min-height: 500px;
+}
+
+.gwt-TabLayoutPanelContentContainer {
+	border: none !important;
+	background-color: white !important;
+	height: 100% !important;
+}
+
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs { /* background: #ccc; */
+	padding-top: 6px;
+	padding-left: 5px;
+}
+
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelContentContainer {
+	background-color: white;
+	border-color: #ccc;
+	border-style: solid;
+	border-width: 0px 1px 1px;
+}
+
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent {
+	overflow: auto;
+	padding: 6px;
+}
+
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab {
+	margin-left: 4px;
+	padding: 4px 8px 4px 8px;
+	cursor: pointer;
+	cursor: hand;
+	color: white;
+	font-weight: normal;
+	text-align: center;
+	background: #8E8E8E;
+	-moz-border-radius: 3px 3px 0px 0px;
+	border-radius: 3px 3px 0px 0px;
+	background-color: powderblue !important;
+}
+
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected {
+	background: skyblue !important;
+	color: #003;
+	font-weight: bold;
+	background-color: olivedrab;
+	cursor: default;
+}
+
+.gwt-TabLayoutPanelTab {
+	padding: 8px 20px !important;
+	font-size: 17px !important;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.gwt-TabLayoutPanelTab:hover {
+	background: #B0CFDF !important;
+	color: #333;
+	font-weight: bold;
+}
+
+.tableHeaders {
+	background-color: powderblue;
+	width: 100%;
+	height: 25px;
+	margin-bottom: 5px;
+	border-radius: 5px 5px 0 0;
+	text-align: center;
+	font-size: 16px;
+}
+
+.btn{
+	width: 100px;
+	height: 30px;
+}
+.headerStyle{
+	background-color: white;
+}
+.haderLabel{
+	color: blue;
+	font-size: 22px;
+	
+}
+.boldText{
+	font-weight: bold;
+}
+.buttonSpace{
+	margin-left: 930px;
+	margin-top: 3px;
+	width: 180px;
+}
+
+.anchorStyle {
+	color: blue;
+	cursor: pointer;
+	text-decoration: underline;
+	font-size: 14px;
+	margin-left: 10px;
+}
+
+.anchorStyle:hover {
+	color: darkblue;
+	font-size: 15px;
+}
+
+.anchorStyle-selected {
+	color: darkblue;
+	font-size: 16px;
+	
+}
+
+.leftSPace{
+	margin-left: 200px;
+}
+.paddingleft{
+	padding-right: 800px;
+}
+.btnStyle{
+    text-shadow: 0 1px 0 #eee;
+   cursor: pointer;
+    border-radius: 5px;
+   font:arial; 
+	color: white;
+	margin-left: 40px;
+	padding: 0px;
+	border-top: 1px solid green;
+	border-right: 1px solid green;
+	border-bottom: 1px solid green;
+	border-left: 1px solid green;
+	line-height: 1px;
+	text-align: center;
+	background-color: green;
+	cursor: pointer;
+ 	height: 20px;
+}
+.mainPanel{
+	padding-left:200px;
+	 width : 727px;
+}
+
+.btnStyle:hover{
+    text-shadow: 0 1px 0 green;
+	border: 1px solid green;
+	background-color: darkgreen;
+	cursor: pointer;
+		
+}
+.btnStyle:active{
+   border: 1px solid #green;
+    border-bottom: 1px solid green;
+    box-shadow: inset 0 0 5px 2px green;
+
+}
+.point{
+	cursor: pointer;
+	color: blue;
+}
+.white{
+	color:white;
+}
+
+
+
+/* styles for job estimation view */
+
+.estimationLayout {
+	min-width: 900px;
+	min-height: 350px;
+/* 	border: 1px solid red; */
+	
+}
+
+.form-row {
+/* 	border: 1px solid green; */
+	min-height: 40px;
+	max-width: 900px;
+	margin: 6px 0 0 5px;
+	padding: 5px  0 3px 0;
+	border-bottom: 1px dotted #ddd !important;
+}
+
+.label-div {
+/* 	border: 1px solid blue; */
+	height: 30px;
+	float: left;
+	width: 200px;
+	max-width: 250px;
+	padding: 0 0 0 10px;
+}
+
+.field-div {
+/* 	border: 1px solid yellow; */
+	margin: 2px 0 0 220px;
+	width: 600px;
+	min-height: 30px;
+	padding: 0 0 0 10px;
+}
+
+.bigbox {
+	
+	height: 25px;
+	width: 550px;
+	
+	display: block;
+ 	padding: 0;
+ 	border: 1px solid #C0C0C0;
+}
+
+.txtDetail {
+	width: 550px;
+	height: 60px;
+	
+	display: block;
+ 	padding: 0;
+ 	border: 1px solid #C0C0C0;
+ 	font-family: Tahoma !important;
+}
+
+.lstEstForm {
+	display: block;
+ 	padding: 0;
+ 	border: 1px solid #C0C0C0;	
+}
+
+.lstSkillResources {
+	width: 70px !important; 
+	margin: 5px 20px 0 0;
+/* 	border: 1px solid green; */
+}
+
+.spacer {
+/* 	padding: 5px; */
+	margin: 5px 20px 0 0;
+}
+
+.spacer-pad { marign : 5px; padding:5px; }
+
+.menuLink {
+
+	background: none repeat scroll 0 0 #D9E7F8;
+    color: #000000;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 11px;
+    padding: 5px;
+    text-decoration: none;
+}
+
+.menuLinkInTab {
+	background: none repeat scroll 0 0 #D9E7F8;
+    color: #000000;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 12px;
+    padding: 5px;
+    margin : 3px 10px;
+    text-decoration: none;
+	
+}
+
+.linker
+{
+/* 	padding: 8px 5px; */
+/* 	font-size: 14px; */
+	background-color: #D9E7F8;
+    border-bottom: 1px double #B0C4DE;
+    font-size: 14px;
+    color: blue;
+}
+
+.linkerInTab
+{
+	margin : 5px 10px;
+	background-color: #D9E7F8;
+    border-bottom: 1px double #B0C4DE;
+    font-size: 14px;
+    display: none;
+}
+
+.schedulingLink {
+	display: inline-block;
+	width: 280px;
+	padding: 5px;
+/* 	border: 1px solid red; */
+}
+
+* {
+	
+	font-family: Tahoma !important;	
+}
+
+a {
+	
+	font-family: Tahoma !important;
+	
+}
+
+
+.jobAndCheckBoxSaveBtn {
+	
+	padding: 4px;
+	border-radius : 4px;	
+}
+
+.jobListingText {
+	
+	height: 30px;
+	float: left;
+	width: 500px;
+	max-width: 550px;
+	padding: 0 0 0 10px;
+	font-size : 17px;
+	cursor: pointer;
+}
+/* 
+button {
+	
+	background : none !important;
+	background-color : #66CD00 !important;
+	color : #FFF !important;
+	padding : 4px;
+	min-width : 100px;
+
+	display : inline-block;
+}
+*/
+.timeLineButton {
+	
+	background : none !important;
+	background-color : #66CD00 !important;
+	color : #FFF !important;
+	padding : 4px;
+	width : 30px;
+	cursor: pointer;
+/* 	border : 2px solid red !important; */
+	display : inline-block;
+}
+
+.auditScheduleRow {
+	width: 1000px;
+	padding: 8px;
+	height: 40px;
+	border-bottom : 1px solid #ccc;
+}
+
+.jobName, .startDate, .endDate, .resource {
+/* 	border : 1px solid red; */
+	width: 160px;	
+	display: inline-block;
+}
+
+ .timeLine {
+ 	width : 30px ;
+ 	/*border : 2px solid blue;
+	display: inline-block;*/
+	color: blue;
+	border-radius: 4px;
+ }
+ 
+ .hiddenLine {
+ 	visibility : hidden !important;  
+ }
+.jobName { text-decoration: underline; }
+.resource { width : 260px; }
+.headingsPanel {
+	padding: 8px;
+	border-bottom: 2px solid blue;
+}
+
+.list-heading {
+	padding: 10px 3px 2px 3px;
+	display: inline-block;
+	/*width : 182px;*/
+	height: 35px;
+/* 	border-bottom: 2px solid blue; */
+	font-weight: bold;
+	font-size : 15px;
+	float: left;
+	
+	background-color : #6495ED !important;
+	color : white !important;
+	text-align: left;
+}
+
+.list-resource-heading {
+	padding: 10px 3px 2px 3px;
+	display: inline-block;
+	width : 370px;
+	height: 35px;
+/* 	border-bottom: 2px solid blue; */
+	font-weight: bold;
+	font-size : 15px;
+	float: left;
+	
+	background-color : #6495ED !important;
+	color : white !important;
+	text-align: left;
+}
+
+.line {
+	width : 360px !important;
+	border: 1px solid green;
+	height : 25px;
+}
+
+.monthName {
+	width : 30px !important;
+	font-size: 10px;
+	text-align: center;
+	
+}
+
+.offset-for-heading {
+	margin-left: 30px;
+}
+.margin-for-1-month {
+	margin-left : 0px !important;
+}
+.margin-for-2-month {
+	margin-left : 30px !important;
+}
+.margin-for-3-month {
+	margin-left : 60px !important;
+}
+.margin-for-4-month {
+	margin-left : 90px !important;
+}
+.margin-for-5-month {
+	margin-left : 120px !important;
+}
+.margin-for-6-month {
+	margin-left : 150px !important;
+}
+.margin-for-7-month {
+	margin-left : 180px !important;
+}
+.margin-for-8-month {
+	margin-left : 210px !important;
+}
+.margin-for-9-month {
+	margin-left : 240px !important;
+}
+.margin-for-10-month {
+	margin-left : 270px !important;
+}
+.margin-for-11-month {
+	margin-left : 330px !important;
+}
+.margin-for-12-month {
+	margin-left : 360px !important;
+}
+
+.logout {
+	padding : 5px 80px;
+}
+
+.refreshBtn {
+	
+	background-color: #fff !important;
+	border:none !important;
+	backrground-image: url('images/Refresh.png') !important;
+	display: inline-block;
+	width : 50px;
+	height: 50px;
+		
+}
+.jobStatusHeading {
+	
+	font-size : 14px;
+	font-weight : bold;
+/* 	text-align: center; */
+	color : green;
+	width : 130px;
+	padding : 5px;
+	cursor: pointer;
+	/*background :  #F0F8FF;*/
+}
+.statusRow {
+	background-color: #F0F8FF;
+	padding: 6px 8px;
+	min-width : 1200px !important;
+	min-height : 45px;
+	margin: 4px 0 4px 0;
+}
+
+.statusRowStrategic {
+/**	background-color: #F0F8FF;*/
+	min-width: 1000px !important;
+	margin: 5px 3px;
+	
+}
+
+.labelspace{
+	margin-right: 120px;
+}
+
+.jobStatusRow {
+	
+	padding : 5px;
+	min-height : 40px;
+	border-bottom : 1px solid #ccc;
+	background-color: #f3f7fb;
+}
+
+.labelTitle {
+	background-color : #CAE1FF;
+	width: 130px;
+	width: 100%;
+	padding: 4px;
+	border-radius: 4px;
+}
+
+.labelValue {
+	padding-left: 50px;
+}
+
+.statusCell {
+	width : 300px;
+	padding: 5px;
+}
+
+.statusTable {
+	margin : 0 auto;
+}
+
+.jobStatusHeading {
+	
+}
+
+.messageTextarea {
+	width : 1170px;
+	height : 170px;
+	font-family: Tahoma !important;
+	resize:none;
+	font-size: 12px;
+}
+
+.textareaNormal {
+	
+	width: 500px;
+	height: 160px;
+}
+
+.popupHeading {
+	color: powderblue;
+	font-size: 16px;
+	text-align: center;
+	padding : 3px;
+	background-color : #6495ED !important;
+	color : white !important;
+	margin : 6px 20px;
+	border-radius: 4px;
+}
+
+.popupSmallHeading {
+/* 	text-align: center; */
+/* 	background-color : #6495ED !important; */
+	color: #6495ED;
+	font-weight: bold;
+	margin: 6px 10px;
+	padding: 3px;
+/* 	border: 1px solid red; */
+	font-size: 14px;
+}
+
+.engagePopupWidget {
+	padding : 10px;
+}
+
+.pointerStyle{
+	cursor: pointer;
+}
+.navybluebold{
+	color: navy;
+	font-weight: bold;
+}
+
+.txtNormal {
+	padding : 5px;
+	margin : 5px;
+	width : 220px;
+}
+
+.txtShort {
+	width : 40px;
+	padding: 5px;
+	margin: 5px;
+}
+
+.txtExtendedWidth {
+	width : 500px;
+	padding: 5px;
+	margin: 5px;
+}
+
+
+.risksRow {
+	padding : 5px;
+	margin : 5px;
+}
+
+.txtShrikedWidth {
+
+	padding : 5px;
+	margin : 5px;
+	width : 170px;
+}
+.linkStyle {
+	color : blue !important;
+	text-decoration: underline !important;
+	
+}
+.oddRow{
+	background-color: powderblue;
+	height: 20px;
+	width: 100%;
+}
+.evenRow{
+	background-color: white;
+	height: 20px;
+	width: 100%;
+}
+.redBackground{
+	background-color: red;
+}
+.grayBackground{
+	background-color: gray;
+}
+.blueBackground{
+	background-color: blue;
+}
+.silverBackground{
+	background-color: silver;
+}
+.greenBackground{
+	background-color: green;
+}
+.whiteBackground{
+	background-color: white;
+}
+
+.pointerStyle{
+	cursor: pointer;
+}
+
+

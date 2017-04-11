@@ -1,0 +1,833 @@
+package com.internalaudit.client.presenter;
+
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
+
+
+
+
+
+
+
+
+
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.junit.JUnitShell.Strategy;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DecoratedPopupPanel;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.StackLayoutPanel;
+import com.google.gwt.user.client.ui.StackPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.view.DisplayAlert;
+import com.internalaudit.client.view.JobData;
+import com.internalaudit.client.view.Reporting.AllJobsView;
+import com.internalaudit.client.view.Reporting.IStackWidget;
+import com.internalaudit.client.view.Reporting.JobExceptionsView;
+import com.internalaudit.client.view.Reporting.JobReportView;
+import com.internalaudit.client.view.Reporting.Report1;
+import com.internalaudit.client.view.Reporting.Report2;
+import com.internalaudit.client.view.Reporting.Report3;
+import com.internalaudit.client.view.Reporting.ResponsiblePersonRowView;
+import com.internalaudit.client.view.Reporting.ResponsiblePersonView;
+import com.internalaudit.client.view.Reporting.SelectedJobView;
+import com.internalaudit.shared.DataCount;
+import com.internalaudit.shared.Department;
+import com.internalaudit.shared.Employee;
+import com.internalaudit.shared.ExcelDataDTO;
+import com.internalaudit.shared.Exceptions;
+import com.internalaudit.shared.JobCreation;
+import com.internalaudit.shared.Strategic;
+import com.internalaudit.shared.StrategicDepartments;
+import com.internalaudit.shared.TimeOutException;
+
+import org.moxieapps.gwt.highcharts.client.*;
+import org.moxieapps.gwt.highcharts.client.labels.DataLabelsData;
+import org.moxieapps.gwt.highcharts.client.labels.DataLabelsFormatter;
+import org.moxieapps.gwt.highcharts.client.labels.PieDataLabels;
+import org.moxieapps.gwt.highcharts.client.plotOptions.PiePlotOptions;
+
+public class ReportsPresenter implements Presenter 
+
+{
+	private final InternalAuditServiceAsync rpcService;
+	private final HandlerManager eventBus;
+	private final Display display;
+	private ArrayList<Strategic> strategicReportData;
+
+	private Employee loggedInEmployee;
+	private Logger logger = Logger.getLogger("ReportsPresenter");
+	
+	HorizontalPanel chartHpnl = new HorizontalPanel();
+//	VerticalPanel chartHpnl = new VerticalPanel();
+	
+	public interface Display 
+	{
+		Widget asWidget();
+		ListBox getSelectionBox();
+		
+		VerticalPanel getReportsContainer();
+		
+		HorizontalPanel getListBoxesContainer();
+		
+		ListBox getDivListbox();
+
+		ListBox getDomainListbox();
+
+		ListBox getRiskListbox();
+		
+		Button getBtnSearch();
+		
+		StackPanel getStackReports();
+		
+		Report1 getReport1();
+		
+		Report2 getReport2();
+		
+		Report3 getReport3();
+		
+		
+	}  
+
+	public ReportsPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, Employee employee, Display view) 
+	{
+		this.rpcService = rpcService;
+		this.eventBus = eventBus;
+		this.display = view;
+		this.loggedInEmployee = employee;
+	}
+
+	public void go(HasWidgets container) 
+	{
+		container.clear();
+		container.add(display.asWidget());
+		
+		
+		rpcService.fetchDepartments(new AsyncCallback<ArrayList<Department>>() {
+
+			@Override
+			public void onSuccess(ArrayList<Department> arg0) {
+				for(Department d : arg0) {
+					display.getReport1().getDivListbox().addItem(d.getDepartmentName(),String.valueOf(d.getDepartmentId()));
+					display.getReport2().getDivListbox().addItem(d.getDepartmentName(),String.valueOf(d.getDepartmentId()));
+					display.getReport3().getDivListbox().addItem(d.getDepartmentName(),String.valueOf(d.getDepartmentId()));
+				}
+
+			}
+
+			@Override
+			public void onFailure(Throwable arg0) {
+					
+				Window.alert("Error fetching division list box");
+			}
+		});
+		
+		rpcService.fetchEmployees(new AsyncCallback<ArrayList<Employee>>() {
+			
+			@Override
+			public void onSuccess(ArrayList<Employee> arg0) {
+				
+				for ( Employee e : arg0)
+					display.getReport2().getEmpListbox().addItem( e.getEmployeeName(), String.valueOf(e.getEmployeeId()));
+				
+			}
+			
+			@Override
+			public void onFailure(Throwable arg0) {
+				Window.alert("Error fetching emp list box");
+				
+			}
+		});
+
+		bind();
+
+	}
+
+	private void bind() {
+		
+		initialize();
+		
+		setReport1Handlers();
+		
+		setReport2Handlers();
+		
+		setReport3Handlers();
+		
+		
+		/*display.getSelectionBox().addChangeHandler(new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent arg0) {
+				// init the reports view
+				
+				display.getListBoxesContainer().setVisible(true);
+				
+				//ReportsView view = new ReportsView(null);
+			
+				String selected = display.getSelectionBox().getItemText(display.getSelectionBox().getSelectedIndex());
+				
+				if ( selected.equals("Report 1")) {
+					
+					display.getStackReports().add(new Report1(null), "Report 1");//, 300);
+					
+				} 
+				else if ( selected.equals("Report 2")) {
+					
+					display.getStackReports().add(new Report2(null), "Report 2");//, 300);
+					
+				}
+				else if ( selected.equals("Report 3")) {
+					
+					display.getStackReports().add(new Report3(null), "Report 3");//, 300);
+					
+				}
+				
+				//display.getReportsContainer().add(display.getStackReports());
+				
+			}
+		});*/
+
+		/*display.getBtnExportToExcel().addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				ArrayList<ExcelDataDTO> excelDataList = new ArrayList<ExcelDataDTO>();
+				for(int i=0; i< strategicReportData.size(); i++){
+				ExcelDataDTO excelData = new ExcelDataDTO();
+				excelData.setAuditableUnit(strategicReportData.get(i).getAuditableUnit());
+				excelData.setDivision(strategicReportData.get(i).getDivisionName());
+				excelData.setDomain(strategicReportData.get(i).getDomain());
+				excelData.setObjective(strategicReportData.get(i).getStrategicObjective());
+				excelData.setRiskAssesment(strategicReportData.get(i).getRating());
+				excelDataList.add(excelData);
+				}
+				rpcService.exportToExcel(excelDataList, new AsyncCallback<String>(){
+
+					@Override
+					public void onFailure(Throwable arg0) {
+						Window.alert("excel export failed");
+					}
+
+					@Override
+					public void onSuccess(String arg0) {
+						Window.open("/InternalAudit/report.xls", "_blank", "");
+					}});
+				
+				
+			}});*/
+		
+		
+	}
+	
+	private void setReport3Handlers() {
+
+		//display.getReport3().get
+	}
+
+	private void setReport2Handlers() {
+		
+		display.getReport2().getBtnSearch().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent arg0) {
+				
+				Window.alert("r2");
+				
+				//setup search parameters
+
+				ArrayList<String> domain  = getSelectedItems(display.getReport2().getDomainListbox());
+				
+				ArrayList<String> div =  getSelectedItems( display.getReport2().getDivListbox()); 
+				
+				ArrayList<String> selectedEmp = getSelectedItems( display.getReport2().getEmpListbox() ); 
+				
+				ArrayList<String> risk =   getSelectedItems(display.getReport2().getRiskListbox()); 
+				
+				final Report2 view = new Report2(null);
+				
+				rpcService.fetchReportSearchResult(div, domain, risk, new AsyncCallback<ArrayList<Strategic>>() {
+					
+					@Override
+					public void onSuccess(ArrayList<Strategic> strategicList) {
+						strategicReportData =  strategicList;
+						if (strategicList.size() > 0) 
+						{
+							
+							//create a flextable based on results .
+							
+							FlexTable resultsTable = new FlexTable();
+							
+							resultsTable.setCellPadding(8);
+							resultsTable.setCellSpacing(5);
+							resultsTable.setWidth("800px");
+							
+							//set up table headings
+							
+							resultsTable.setWidget(0, 0, new Label("Job"));
+							resultsTable.setWidget(0, 1, new Label("Domain"));
+							resultsTable.setWidget(0, 2, new Label("Division"));
+							resultsTable.setWidget(0, 3, new Label("Risk Assessment"));
+							resultsTable.setWidget(0, 4, new Label("Resources"));
+							resultsTable.setWidget(0, 5, new Label("Time Allocated"));
+							
+							resultsTable.getCellFormatter().addStyleName(0, 0, "labelHeading");
+							resultsTable.getCellFormatter().addStyleName(0, 1, "labelHeading");
+							resultsTable.getCellFormatter().addStyleName(0, 2, "labelHeading");
+							resultsTable.getCellFormatter().addStyleName(0, 3, "labelHeading");
+							resultsTable.getCellFormatter().addStyleName(0, 4, "labelHeading");
+							resultsTable.getCellFormatter().addStyleName(0, 5, "labelHeading");
+							
+							resultsTable.addStyleName("alignCenter");
+							
+							//fill the rows with resulting data
+							
+							ArrayList<Integer> ids = new  ArrayList<Integer>();
+									
+							for ( int i = 0; i < strategicList.size(); i++ )
+							{
+								int j = 0;
+								
+								ids.add(strategicList.get(i).getId() );
+								
+								resultsTable.getRowFormatter().addStyleName(i+1, "line");
+								
+								resultsTable.setWidget(i+1, j++, new Label( "JOB" ));
+								resultsTable.setWidget(i+1, j++, new Label( strategicList.get(i).getDomain() ));
+								resultsTable.setWidget(i+1, j++, new Label( strategicList.get(i).getDivisionName()));
+								resultsTable.setWidget(i+1, j++, new Label( strategicList.get(i).getRating() ));
+								resultsTable.setWidget(i+1, j++, new Label( strategicList.get(i).getAssignedTo().getEmployeeName() ));
+								resultsTable.setWidget(i+1, j++, new Label( "TIME" ));
+							}
+							
+								
+						
+							display.getReport2().getTablePanel().clear();
+							
+							display.getReport2().getTablePanel().add(resultsTable);
+							
+							display.getReport2().showButtonBelow();
+							
+							
+							chartHpnl.clear();
+							
+							chartHpnl.addStyleName("chartpadding");
+							chartHpnl.setWidth("800px");
+							
+							
+							chartHpnl.add( createChart(strategicList, false));
+							
+							chartHpnl.add( createDomainChart(strategicList, false));
+							
+							//chartHpnl.add( createDivisionChart(ids));
+							
+							//---createDivisionChart(ids, false, view);
+							
+							display.getReport2().getTablePanel().add( chartHpnl);
+							
+							display.getReport2().getDetailedChartsView().add( createChart(strategicList, true));
+							
+							display.getReport2().getDetailedChartsView().add( createDomainChart(strategicList, true));
+							
+							//----createDivisionChart(ids, true, display.getReport2());
+							
+							//display.getReportsContainer().add(view);
+							
+							
+							
+							//display.getStackReports().add(view, selected);
+												
+						}
+						else Window.alert("no record matching");
+					}
+					
+					@Override
+					public void onFailure(Throwable arg0) {
+						Window.alert("failed getting search results");
+						
+					}
+				});
+				
+			}
+		});
+
+		
+	}
+
+	private void setReport1Handlers() {
+		
+		display.getReport1().getBtnSearch().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent arg0) {
+				
+				Window.alert("r1");
+				
+				//setup search parameters
+
+				ArrayList<String> domain  = getSelectedItems(display.getReport1().getDomainListbox());
+				
+				ArrayList<String> div =  getSelectedItems( display.getReport1().getDivListbox()); 
+				
+				//final ArrayList<String> selectedDivision = getSelectedItems( display.getDivListbox() ); 
+				
+				ArrayList<String> risk =   getSelectedItems(display.getReport1().getRiskListbox()); 
+				
+				final Report1 view = new Report1(null);
+				
+				rpcService.fetchReportSearchResult(div, domain, risk, new AsyncCallback<ArrayList<Strategic>>() {
+					
+					@Override
+					public void onSuccess(ArrayList<Strategic> strategicList) {
+						strategicReportData =  strategicList;
+						if (strategicList.size() > 0) 
+						{
+							
+							//create a flextable based on results .
+							
+							FlexTable resultsTable = new FlexTable();
+							
+							resultsTable.setCellPadding(8);
+							resultsTable.setCellSpacing(5);
+							resultsTable.setWidth("800px");
+							
+							//set up table headings
+							
+							resultsTable.setWidget(0, 0, new Label("Objective"));
+							resultsTable.setWidget(0, 1, new Label("Auditable Unit"));
+							resultsTable.setWidget(0, 2, new Label("Domain"));
+							resultsTable.setWidget(0, 3, new Label("Division"));
+							resultsTable.setWidget(0, 4, new Label("Risk Assessment"));
+							
+							resultsTable.getCellFormatter().addStyleName(0, 0, "labelHeading");
+							resultsTable.getCellFormatter().addStyleName(0, 1, "labelHeading");
+							resultsTable.getCellFormatter().addStyleName(0, 2, "labelHeading");
+							resultsTable.getCellFormatter().addStyleName(0, 3, "labelHeading");
+							resultsTable.getCellFormatter().addStyleName(0, 4, "labelHeading");
+							
+							resultsTable.addStyleName("alignCenter");
+							
+							//fill the rows with resulting data
+							ArrayList<Integer> ids = new  ArrayList<Integer>();
+									
+							for ( int i = 0; i < strategicList.size(); i++ )
+							{
+								int j = 0;
+								
+								ids.add(strategicList.get(i).getId() );
+								
+								resultsTable.getRowFormatter().addStyleName(i+1, "line");
+								
+								resultsTable.setWidget(i+1, j++, new Label( strategicList.get(i).getStrategicObjective() ));
+								resultsTable.setWidget(i+1, j++, new Label( strategicList.get(i).getAuditableUnit()));
+								resultsTable.setWidget(i+1, j++, new Label( strategicList.get(i).getDomain() ));
+								resultsTable.setWidget(i+1, j++, new Label( strategicList.get(i).getDivisionName()));
+								resultsTable.setWidget(i+1, j++, new Label( strategicList.get(i).getRating() ));
+							}
+							
+								
+						
+							display.getReport1().getTablePanel().clear();
+							
+							display.getReport1().getTablePanel().add(resultsTable);
+							
+							display.getReport1().showButtonBelow();
+							
+							
+							chartHpnl.clear();
+							
+							chartHpnl.addStyleName("chartpadding");
+							chartHpnl.setWidth("800px");
+							
+							
+							chartHpnl.add( createChart(strategicList, false));
+							
+							chartHpnl.add( createDomainChart(strategicList, false));
+							
+							//chartHpnl.add( createDivisionChart(ids));
+							
+							createDivisionChart(ids, false, view);
+							
+							display.getReport1().getTablePanel().add( chartHpnl);
+							
+							display.getReport1().getDetailedChartsView().add( createChart(strategicList, true));
+							
+							display.getReport1().getDetailedChartsView().add( createDomainChart(strategicList, true));
+							
+							createDivisionChart(ids, true, display.getReport1());
+							
+							//display.getReportsContainer().add(view);
+							
+							
+							
+							//display.getStackReports().add(view, selected);
+												
+						}
+						else Window.alert("no record matching");
+					}
+					
+					@Override
+					public void onFailure(Throwable arg0) {
+						Window.alert("failed getting search results");
+						
+					}
+				});
+				
+			}
+		});
+		
+	}
+
+	protected void initialize() {
+
+
+		
+		/*display.getBtnSearch().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				//setup search parameters
+
+				
+			ArrayList<String> domain  = getSelectedItems(display.getDomainListbox());
+			
+			ArrayList<String> div =  getSelectedItems( display.getDivListbox()); 
+			
+			//final ArrayList<String> selectedDivision = getSelectedItems( display.getDivListbox() ); 
+			
+			ArrayList<String> risk =   getSelectedItems(display.getRiskListbox()); 
+			
+			final Report1 view = new Report1(null);
+			
+			rpcService.fetchReportSearchResult(div, domain, risk, new AsyncCallback<ArrayList<Strategic>>() {
+				
+				@Override
+				public void onSuccess(ArrayList<Strategic> strategicList) {
+					strategicReportData =  strategicList;
+					if (strategicList.size() > 0) 
+					{
+						
+						//create a flextable based on results .
+						
+						FlexTable resultsTable = new FlexTable();
+						
+						resultsTable.setCellPadding(8);
+						resultsTable.setCellSpacing(5);
+						resultsTable.setWidth("800px");
+						
+						//set up table headings
+						
+						resultsTable.setWidget(0, 0, new Label("Objective"));
+						resultsTable.setWidget(0, 1, new Label("Auditable Unit"));
+						resultsTable.setWidget(0, 2, new Label("Domain"));
+						resultsTable.setWidget(0, 3, new Label("Division"));
+						resultsTable.setWidget(0, 4, new Label("Risk Assessment"));
+						
+						resultsTable.getCellFormatter().addStyleName(0, 0, "labelHeading");
+						resultsTable.getCellFormatter().addStyleName(0, 1, "labelHeading");
+						resultsTable.getCellFormatter().addStyleName(0, 2, "labelHeading");
+						resultsTable.getCellFormatter().addStyleName(0, 3, "labelHeading");
+						resultsTable.getCellFormatter().addStyleName(0, 4, "labelHeading");
+						
+						resultsTable.addStyleName("alignCenter");
+						
+						//fill the rows with resulting data
+						ArrayList<Integer> ids = new  ArrayList<Integer>();
+								
+						for ( int i = 0; i < strategicList.size(); i++ )
+						{
+							int j = 0;
+							
+							ids.add(strategicList.get(i).getId() );
+							
+							resultsTable.getRowFormatter().addStyleName(i+1, "line");
+							
+							resultsTable.setWidget(i+1, j++, new Label( strategicList.get(i).getStrategicObjective() ));
+							resultsTable.setWidget(i+1, j++, new Label( strategicList.get(i).getAuditableUnit()));
+							resultsTable.setWidget(i+1, j++, new Label( strategicList.get(i).getDomain() ));
+							resultsTable.setWidget(i+1, j++, new Label( strategicList.get(i).getDivisionName()));
+							resultsTable.setWidget(i+1, j++, new Label( strategicList.get(i).getRating() ));
+						}
+						
+						// and add to UI
+						String selected = display.getSelectionBox().getItemText(display.getSelectionBox().getSelectedIndex());
+						
+						//IStackWidget view;
+						
+						if ( selected.equals("Report 1")) {
+						
+							view = new Report1(null);
+						
+						} 
+						else if ( selected.equals("Report 2")) {
+							
+							view = new Report2(null);
+							
+						}
+						else if ( selected.equals("Report 3")) {
+							
+							view = new Report3(null);
+							
+						}
+						
+						view.getTablePanel().clear();
+						
+						view.getTablePanel().add(resultsTable);
+						
+						view.showButtonBelow();
+						
+						
+						chartHpnl.clear();
+						
+						chartHpnl.addStyleName("chartpadding");
+						chartHpnl.setWidth("800px");
+						
+						
+						chartHpnl.add( createChart(strategicList, false));
+						
+						chartHpnl.add( createDomainChart(strategicList, false));
+						
+						//chartHpnl.add( createDivisionChart(ids));
+						
+						createDivisionChart(ids, false, view);
+						
+						view.getTablePanel().add( chartHpnl);
+						
+						view.getDetailedChartsView().add( createChart(strategicList, true));
+						
+						view.getDetailedChartsView().add( createDomainChart(strategicList, true));
+						
+						createDivisionChart(ids, true, view);
+						
+						//display.getReportsContainer().add(view);
+						
+						
+						
+						display.getStackReports().add(view, selected);
+											
+					}
+					else Window.alert("no record matching");
+				}
+				
+				@Override
+				public void onFailure(Throwable arg0) {
+					Window.alert("failed getting search results");
+					
+				}
+			});
+			
+				
+
+			}
+		});*/
+		
+	}
+
+	public Chart createChart(ArrayList<Strategic> l, final boolean isDetailed) {  
+		  
+        DataCount cout = new DataCount();
+        cout.getDataCount(l);
+        
+		final Chart chart = new Chart().setWidth(350).setHeight(350)
+                .setType(Series.Type.PIE)  
+                
+                .setChartTitleText("Risk")  
+                .setPlotBackgroundColor((String) null)  
+                .setPlotBorderWidth(null)  
+                .setPlotShadow(false)  
+		                .setPiePlotOptions(new PiePlotOptions()  
+		                    .setAllowPointSelect(true)  
+		                   // .setCursor(PlotOptions.Cursor.POINTER)  
+		                    .setPieDataLabels(new PieDataLabels()  
+		                    .setEnabled(isDetailed)  
+		                   )
+                )  
+                .setLegend(new Legend()  
+                	.setEnabled(true)
+
+                )  
+                .setToolTip(new ToolTip()
+                    .setFormatter(new ToolTipFormatter() {  
+                        public String format(ToolTipData toolTipData) {  
+                            return "<b>" + toolTipData.getPointName() + "</b>: " + toolTipData.getYAsDouble() + " %";  
+                        }  
+                    })  
+                );  
+  
+
+        
+        int total =  cout.risk.hi + cout.risk.low + cout.risk.mid;
+        
+        
+        chart.addSeries(chart.createSeries()  
+            .setName("Risk Assessment")  
+            .setPoints(new Point[]{  
+                new Point("High", 100*cout.risk.hi / total),  
+                new Point("Low", 100*cout.risk.low / total ),  
+                new Point("Medium", 100*cout.risk.mid / total) 
+            })  
+        ); 
+        
+        if ( !isDetailed ) chart.setSize(300, 300); else chart.setSize(820, 500);
+  
+        return chart;  
+    }
+	
+	public Chart createDomainChart(ArrayList<Strategic> l, boolean isDetailed) {  
+		  
+		  
+        DataCount cout = new DataCount();
+        cout.getDataCount(l);
+        
+        final Chart chart = new Chart().setWidth(350).setHeight(350)
+                .setType(Series.Type.PIE)  
+                .setChartTitleText("Domain")  
+                .setPlotBackgroundColor((String) null)  
+                .setPlotBorderWidth(null)  
+                .setPlotShadow(false)  
+		                .setPiePlotOptions(new PiePlotOptions()  
+		                    .setAllowPointSelect(true)  
+		                   // .setCursor(PlotOptions.Cursor.POINTER)  
+		                    .setPieDataLabels(new PieDataLabels()  
+		                    .setEnabled(isDetailed)  
+  
+		                    ) 
+                )  
+                .setLegend(new Legend()  
+                .setEnabled(true)
+  
+                )  
+                .setToolTip(new ToolTip()
+                    .setFormatter(new ToolTipFormatter() {  
+                        public String format(ToolTipData toolTipData) {  
+                            return "<b>" + toolTipData.getPointName() + "</b>: " + toolTipData.getYAsDouble() + " %";  
+                        }  
+                    })  
+                );  
+      
+
+        
+        int total =  cout.domain.compliance + cout.domain.operations + cout.domain.reporting + cout.domain.strategic;
+        
+        
+        chart.addSeries(chart.createSeries()  
+            .setName("Risk Assessment")  
+            .setPoints(new Point[]{  
+                new Point("compliance", 100*cout.domain.compliance / total),  
+                new Point("operations", 100*cout.domain.operations  / total ),  
+                new Point("reporting", 100*cout.domain.reporting / total),
+                new Point("strategic", 100*cout.domain.strategic / total),
+            })  
+        );
+        
+        if ( !isDetailed ) chart.setSize(300, 300); else chart.setSize(820, 500);
+        
+        return chart;  
+    }
+	
+	public void createDivisionChart( ArrayList<Integer> ids, final boolean isDetailed, final Report1 view) {  
+        final DataCount cout = new DataCount();
+        
+        
+		rpcService.fetchStrategicDepartmentsMultiple(ids, new AsyncCallback<ArrayList<StrategicDepartments>>() {
+			
+			@Override
+			public void onSuccess(ArrayList<StrategicDepartments> r) {
+				cout.getDivisionCount(r);
+				
+		        final Chart chart = new Chart().setWidth(350).setHeight(350)
+		                .setType(Series.Type.PIE)  
+		                .setChartTitleText("Divisions")  
+		                .setPlotBackgroundColor((String) null)  
+		                .setPlotBorderWidth(null)  
+		                .setPlotShadow(false)  
+		                .setPiePlotOptions(new PiePlotOptions()  
+		                    .setAllowPointSelect(true)  
+		                   // .setCursor(PlotOptions.Cursor.POINTER)  
+		                    .setPieDataLabels(new PieDataLabels()  
+		                    .setEnabled(isDetailed)  
+ 
+		                    ) 
+		                )  
+		                .setLegend(new Legend()  
+		                .setEnabled(true)
+
+		                )  
+		                .setToolTip(new ToolTip()
+		                    .setFormatter(new ToolTipFormatter() {  
+		                        public String format(ToolTipData toolTipData) {  
+		                            return "<b>" + toolTipData.getPointName() + "</b>: " + toolTipData.getYAsDouble() + " %";  
+		                        }  
+		                    })  
+		                );  
+		      
+
+		            
+		            int total =  cout.div.it + cout.div.comm + cout.div.business + cout.div.finance + cout.div.hr + cout.div.reg + cout.div.strategy + cout.div.pl ;
+		            
+		            
+		            chart.addSeries(chart.createSeries()  
+		                .setName("Risk Assessment")  
+		                .setPoints(new Point[]{  
+		                    new Point("IT", 100*cout.div.it / total),  
+		                    new Point("Business", 100* cout.div.business / total ),  
+		                    new Point("Commercial", 100* cout.div.comm / total),
+		                    new Point("Finance", 100*cout.div.finance / total),
+		                    new Point("Human Resource", 100*cout.div.hr / total),
+		                    new Point("Regulatory", 100* cout.div.reg / total),
+		                    new Point("Strategy", 100* cout.div.strategy / total),
+		                    new Point("Logistics", 100* cout.div.pl / total),
+		                })  
+		                
+		            ); 
+		             
+		           if ( !isDetailed ) {    chart.setSize(300, 300); chartHpnl.add( chart ); }
+
+		           else { chart.setSize(820, 500); view.getDetailedChartsView().add( chart ); }	
+			}
+			
+			@Override
+			public void onFailure(Throwable arg0) {
+				
+				Window.alert(arg0.getMessage());
+				
+			}
+		});
+		
+   
+    }
+
+	private ArrayList<String> getSelectedItems(ListBox listbox)
+	{
+		ArrayList<String> selected = new ArrayList<String>();
+		
+		for (int i = 0; i < listbox.getItemCount(); i++)
+		{
+			if ( listbox.isItemSelected(i)) selected.add( listbox.getValue(i) ) ;
+			
+		}
+		
+		return selected;
+	}
+
+}
+
+

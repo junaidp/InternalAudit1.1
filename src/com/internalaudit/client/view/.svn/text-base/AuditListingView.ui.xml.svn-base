@@ -1,0 +1,26 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.important {
+			font-weight: bold;
+		}
+	</ui:style>
+		
+	<g:VerticalPanel ui:field="mainContainer" spacing="2">
+	
+		<g:Anchor ui:field="resourceButton" styleName="pointerStyle">
+			Show Resources
+		</g:Anchor>
+		<g:Anchor ui:field="jobsButton" styleName="pointerStyle">
+			Show Jobs
+		</g:Anchor>
+		
+	<g:Button ui:field="btnBack"> Back </g:Button>
+		
+		
+	
+	</g:VerticalPanel>
+
+
+</ui:UiBinder> 

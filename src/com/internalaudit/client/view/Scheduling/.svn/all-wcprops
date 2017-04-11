@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/internalaudit/!svn/ver/107/InternalAudit/src/com/internalaudit/client/view/Scheduling
+END
+AuditAreasView.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/internalaudit/!svn/ver/16/InternalAudit/src/com/internalaudit/client/view/Scheduling/AuditAreasView.java
+END
+JobTimeEstimationView.ui.xml
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/internalaudit/!svn/ver/107/InternalAudit/src/com/internalaudit/client/view/Scheduling/JobTimeEstimationView.ui.xml
+END
+JobsSchedulingView.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/internalaudit/!svn/ver/90/InternalAudit/src/com/internalaudit/client/view/Scheduling/JobsSchedulingView.java
+END
+ResourcesSchedulingView.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/internalaudit/!svn/ver/90/InternalAudit/src/com/internalaudit/client/view/Scheduling/ResourcesSchedulingView.java
+END
+TimeLineJobsView.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/internalaudit/!svn/ver/100/InternalAudit/src/com/internalaudit/client/view/Scheduling/TimeLineJobsView.java
+END
+ResourceSchedilingView.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/internalaudit/!svn/ver/90/InternalAudit/src/com/internalaudit/client/view/Scheduling/ResourceSchedilingView.java
+END
+JobTimeEstimationView.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/internalaudit/!svn/ver/81/InternalAudit/src/com/internalaudit/client/view/Scheduling/JobTimeEstimationView.java
+END
+AuditSchedulingView.ui.xml
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/internalaudit/!svn/ver/16/InternalAudit/src/com/internalaudit/client/view/Scheduling/AuditSchedulingView.ui.xml
+END
+JobCreationView.ui.xml
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/internalaudit/!svn/ver/107/InternalAudit/src/com/internalaudit/client/view/Scheduling/JobCreationView.ui.xml
+END
+AuditAreasView.ui.xml
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/internalaudit/!svn/ver/107/InternalAudit/src/com/internalaudit/client/view/Scheduling/AuditAreasView.ui.xml
+END
+AuditSchedulingView.java
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/internalaudit/!svn/ver/24/InternalAudit/src/com/internalaudit/client/view/Scheduling/AuditSchedulingView.java
+END
+TimeLineResourceView.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/internalaudit/!svn/ver/93/InternalAudit/src/com/internalaudit/client/view/Scheduling/TimeLineResourceView.java
+END
+JobCreationView.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/internalaudit/!svn/ver/107/InternalAudit/src/com/internalaudit/client/view/Scheduling/JobCreationView.java
+END
