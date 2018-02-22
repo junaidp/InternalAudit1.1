@@ -31,7 +31,7 @@ public class AuditJobsByFunction extends VerticalPanel{
 	public void setData(ArrayList<StrategicDepartments> arrayList){
 		add(createFunctionChart(arrayList));
 		setSpacing(5);
-//		setStyleName("grayBackground");
+//		addStyleName("grayBackground");
 	}
 
 

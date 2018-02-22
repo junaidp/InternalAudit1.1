@@ -32,7 +32,7 @@ public class ConsolidationView extends Composite{
 	
 	public ConsolidationView() {
 		
-		submitted.setStyleName("pointer");
+		submitted.addStyleName("pointer");
 		submitted.setTitle("submitted");
 	   
 		submitted.setVisible(false);
@@ -101,7 +101,7 @@ public class ConsolidationView extends Composite{
 		    hpnlComments.setWidth("150px");
 		    horizontalPanel.add(hpnlComments);
 		    
-		   verticalPanel.setStyleName("form-row");
+		   verticalPanel.addStyleName("form-row");
 		   
 	}
 	public Label getArea() {

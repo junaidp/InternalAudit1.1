@@ -55,7 +55,7 @@ public class MainView extends Composite implements Display {
 		vp.add(hpnlMain);
 		hpnlMain.add(imgHeader);
 		hpnlMain.add(hpnlHeader);
-//		hpnlHeader.setStyleName("blueBackground");
+//		hpnlHeader.addStyleName("blueBackground");
 		hpnlMain.setWidth(Window.getClientWidth()-10+"px");
 		hpnlHeader.setWidth(Window.getClientWidth()-imgHeader.getWidth()+"px");
 		hpnlHeader.setHeight("91px");
@@ -72,7 +72,7 @@ public class MainView extends Composite implements Display {
 		//	      }
 		//	    };
 
-//		logOut.setStyleName("logout");
+//		logOut.addStyleName("logout");
 
 //		panel.setWidth(Window.getClientWidth()-100+"px");
 		panel.setWidth("1200px");
@@ -102,13 +102,13 @@ public class MainView extends Composite implements Display {
 		
 //		panel.insert(reportingView, 3, config);
 		VerticalPanel vpnlTabPanel = new VerticalPanel();
-		vpnlTabPanel.setStyleName("centerPanel");
+		vpnlTabPanel.addStyleName("centerPanel");
 		vp.setWidth("100%");
 		vp.add(vpnlTabPanel);
 		vpnlTabPanel.add(panel);
 		hpnl.add(selectYear());
 		hpnl.add(welcome); // Welcome <name>
-		welcome.setStyleName("blue");
+		welcome.addStyleName("blue");
 		welcome.setWordWrap(false);
 		hpnlHeader.add(hpnlSpace);
 		hpnlSpace.setWidth("65%");
@@ -130,7 +130,7 @@ public class MainView extends Composite implements Display {
 		VerticalPanel vpnlYear = new VerticalPanel();
 		Label lblSelectYear = new Label("Year");
 //		vpnlYear.add(lblSelectYear);
-		listYears.setStyleName("yearList");
+		listYears.addStyleName("yearList");
 		vpnlYear.add(listYears);
 		hpnlYear.add(vpnlYear);
 		hpnlYear.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);

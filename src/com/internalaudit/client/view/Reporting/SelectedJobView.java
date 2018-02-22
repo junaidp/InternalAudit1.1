@@ -30,7 +30,7 @@ public class SelectedJobView extends Composite{
 		initWidget(selectedJobContainer);
 		selectedJobContainer.add(lblJob);
 		selectedJobContainer.add(hpnnlHeadings);
-		lblJob.setStyleName("heading");
+		lblJob.addStyleName("heading");
 	}
 	
 	public Label getLblJob() {

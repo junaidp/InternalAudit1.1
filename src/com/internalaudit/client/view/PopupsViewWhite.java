@@ -30,7 +30,7 @@ public class PopupsViewWhite {
 		hpnlSPace.setWidth("1310px");
 		hpnlClose.add(hpnlSPace);
 		hpnlClose.add(close);
-		close.setStyleName("pointerStyle");
+		close.addStyleName("pointerStyle");
 		popup = new DecoratedPopupPanel();
 		vpnlMain = new VerticalPanel();
 		vpnlMain.add(hpnlClose);
@@ -38,7 +38,7 @@ public class PopupsViewWhite {
 //		vpnlMain.setSize("800px","425px");
 		popup.setWidget(vpnlMain);
 		popup.setPopupPosition(10, 100);
-		popup.setStyleName("headerStyle");
+		popup.addStyleName("headerStyle");
 		popup.setGlassEnabled(true);
 		popup.show();
 		

@@ -455,7 +455,7 @@ public class ReportsPresenter implements Presenter
 								
 								ids.add(strategicList.get(i).getId() );
 								
-//								resultsTable.getRowFormatter().setStyleName(i+1, "form-row");
+//								resultsTable.getRowFormatter().addStyleName(i+1, "form-row");
 								resultsTable.getCellFormatter().addStyleName(i+1,j, "form-row");
 								resultsTable.getCellFormatter().addStyleName(i+1,j+1, "form-row");
 								resultsTable.getCellFormatter().addStyleName(i+1,j+2, "form-row");

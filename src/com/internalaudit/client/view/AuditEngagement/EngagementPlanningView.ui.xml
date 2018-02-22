@@ -1,7 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 
-	<g:HTMLPanel height="600px">
+	<g:HTMLPanel height="700px">
 			<g:Label styleName="heading"> Detailed scope and process understanding </g:Label>
 	
 	<div style = "padding-left:100px">

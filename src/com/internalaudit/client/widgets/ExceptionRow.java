@@ -23,11 +23,11 @@ public class ExceptionRow extends Composite {
 		initWidget(hpnl);
 				
 		exId = new Label("0");
-		exId.setStyleName("hidden");
+		exId.addStyleName("hidden");
 		
 		exception = new TextBox();
 		removeRow = new Image("images/deleteIcon.png");
-		exception.setStyleName("txtExtendedWidth");
+		exception.addStyleName("txtExtendedWidth");
 	
 		hpnl.add(exId);
 		hpnl.add(exception);

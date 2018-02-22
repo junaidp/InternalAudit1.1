@@ -38,7 +38,7 @@ public class ResourceScheduling extends Composite {
 		{
 			Label monthTimeLine = new Label( /*names[i]*/ );
 					
-			monthTimeLine.setStyleName("timeLine");
+			monthTimeLine.addStyleName("timeLine");
 			
 			monthTimeLine.addStyleName("hiddenLine");
 		
@@ -66,7 +66,7 @@ public class ResourceScheduling extends Composite {
 		timeLineContainer = new HorizontalPanel();
 		
 			
-		timeLineContainer.setStyleName("line");
+		timeLineContainer.addStyleName("line");
 		
 		//timeLineContainer.add(timeLine);
 		
@@ -75,7 +75,7 @@ public class ResourceScheduling extends Composite {
 		
 		initWidget(containerPanel);
 		
-		containerPanel.setStyleName("auditScheduleRow");
+		containerPanel.addStyleName("auditScheduleRow");
 		
 		
 		//containerPanel.add(jobName);
@@ -87,11 +87,11 @@ public class ResourceScheduling extends Composite {
 		containerPanel.add(timeLineContainer);
 		
 		
-		jobName.setStyleName("jobName");
-		//startDate.setStyleName("startDate");
-		//endDate.setStyleName("endDate");
+		jobName.addStyleName("jobName");
+		//startDate.addStyleName("startDate");
+		//endDate.addStyleName("endDate");
 		timeLine.addStyleName("timeLine");
-		resourceName.setStyleName("resource");
+		resourceName.addStyleName("resource");
 		
 		
 		

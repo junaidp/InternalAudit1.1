@@ -37,7 +37,7 @@ public class AuditEngagementView extends Composite implements Display {
 		
 		initWidget(uiBinder.createAndBindUi(this));
 		imagePanel.add(sync);
-		sync.setStyleName("pointerStyle");
+		sync.addStyleName("pointerStyle");
 	}
 
 	public VerticalPanel getPage() {

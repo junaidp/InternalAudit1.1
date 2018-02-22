@@ -13,7 +13,7 @@ public class DashBoardResourceManagement extends Composite {
 	VerticalPanel mainPanel = new VerticalPanel();
 	mainPanel.setSize("300px", "200px");
 	Label lblHeading = new Label("Overall Status");
-	lblHeading.setStyleName("popupHeading");
+	lblHeading.addStyleName("popupHeading");
 	initWidget(decoratorPanel);
 	decoratorPanel.setWidget(mainPanel);
 	mainPanel.add(lblHeading);
@@ -21,7 +21,7 @@ public class DashBoardResourceManagement extends Composite {
 	Label lblResources = new Label("Resource free for next 2 weeks");
 	lblResources.setWidth("260px");
 	mainPanel.add(lblResources);
-	lblResources.setStyleName("bold");
+	lblResources.addStyleName("bold");
 	mainPanel.add(vpnlResources);
 	
 	}

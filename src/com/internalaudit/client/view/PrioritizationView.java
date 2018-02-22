@@ -38,7 +38,7 @@ public class PrioritizationView extends Composite{
 	private String comment;
 	public PrioritizationView() {
 
-		submitted.setStyleName("pointer");
+		submitted.addStyleName("pointer");
 		submitted.setTitle("submitted");
 		submitted.setVisible(false);
 
@@ -112,7 +112,7 @@ public class PrioritizationView extends Composite{
 		hpnlComments.setWidth("0px");
 		horizontalPanel.add(hpnlComments);
 
-		verticalPanel.setStyleName("form-row");
+		verticalPanel.addStyleName("form-row");
 		
 		
 		////

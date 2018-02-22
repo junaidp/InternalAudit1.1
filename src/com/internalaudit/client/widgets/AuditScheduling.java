@@ -62,17 +62,17 @@ public class AuditScheduling extends Composite {
 		timeLineContainer = new VerticalPanel();
 		
 			
-//		timeLineContainer.setStyleName("line");
+//		timeLineContainer.addStyleName("line");
 		
 //		timeLineContainer.add(timeLine);
 		
 		
 		initWidget(containerPanel);
 		
-		containerPanel.setStyleName("auditScheduleRow");
+		containerPanel.addStyleName("auditScheduleRow");
 //		containerPanel.add(saveButton);
 //		Label lbl = new Label("-------------------");
-//		lbl.setStyleName("white");
+//		lbl.addStyleName("white");
 		HorizontalPanel hpnlSpace = new HorizontalPanel();
 		hpnlSpace.setWidth("95px");
 		containerPanel.add(hpnlSpace);
@@ -83,10 +83,10 @@ public class AuditScheduling extends Composite {
 		saveButton.setWidth("10px");
 		
 		containerPanel.setSpacing(1);
-		jobName.setStyleName("jobName");
-		startDate.setStyleName("startDate");
-		endDate.setStyleName("endDate");
-		timeLine.setStyleName("timeLine");
+		jobName.addStyleName("jobName");
+		startDate.addStyleName("startDate");
+		endDate.addStyleName("endDate");
+		timeLine.addStyleName("timeLine");
 		startDate.setWidth("80px");
 		endDate.setWidth("80px");
 		endDate.setAutoHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);

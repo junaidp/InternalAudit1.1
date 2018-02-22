@@ -73,10 +73,10 @@ public class FinalAuditablesViewData {
 				lblObjHeading.setWidth("250px");
 				hpnlHeading.add(lblUnitHeading);
 				
-//				hpnlHeading.setStyleName("statusRowConsolidation");
+//				hpnlHeading.addStyleName("statusRowConsolidation");
 
-				lblUnitHeading.setStyleName("labelHeading");
-				lblObjHeading.setStyleName("labelHeading");
+				lblUnitHeading.addStyleName("labelHeading");
+				lblObjHeading.addStyleName("labelHeading");
 				finalAuditablesView.getAreas().add(hpnlHeading);
 				//				for(int i=0; i< result.size(); i++){
 				//					Label lblObjective = new Label(result.get(i).getStrategicObjective());
@@ -88,7 +88,7 @@ public class FinalAuditablesViewData {
 				//					hpnlMain.add(lblUnit);
 				//					hpnlMain.add(lblObjective);
 				//					finalAuditablesView.getAreas().add(hpnlMain);
-				//					hpnlMain.setStyleName("form-row");
+				//					hpnlMain.addStyleName("form-row");
 				//				}
 				ArrayList<String> auditableUnits = new ArrayList<String>();
 				ArrayList<HorizontalPanel>hpnlContainer = new ArrayList<HorizontalPanel>();
@@ -115,7 +115,7 @@ public class FinalAuditablesViewData {
 
 						auditableUnits.add(strategic.get(i).getAuditableUnit());
 						Label lblCount = new Label("");
-						lblCount.setStyleName("blue");
+						lblCount.addStyleName("blue");
 						lblCount.setText(count + ")" );
 						hpnlMain.add(lblCount);
 						hpnlMain.add(lblUnit);
@@ -126,7 +126,7 @@ public class FinalAuditablesViewData {
 						if(loggedInUser.getEmployeeId().getRollId().getRollId() == 1) {
 							if( strategic.get(i).isApprovedByAuditHead()){
 								Label lblApproved = new Label("Approved");
-								lblApproved.setStyleName("blue");
+								lblApproved.addStyleName("blue");
 								hpnlMain.add(lblApproved);
 							}else{
 								VerticalPanel vpnlCommentsAndButton = new VerticalPanel();
@@ -137,7 +137,7 @@ public class FinalAuditablesViewData {
 						}
 						
 						finalAuditablesView.getAreas().add(hpnlMain);
-						hpnlMain.setStyleName("form-row");
+						hpnlMain.addStyleName("form-row");
 						hpnlContainer.add(hpnlMain);
 						
 						final DataSetter dataSetter = new DataSetter();

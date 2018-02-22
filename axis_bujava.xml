@@ -1,6 +1,6 @@
-<project name="InternalAuditBuilder" default="make_war" basedir=".">
+<project name="abiliteBuilder" default="make_war" basedir=".">
     <description>
-        Build the InternalAudit  War file
+        Build the abilite  War file
     </description>
 
 
@@ -9,7 +9,7 @@
     <property name="BUILD.dir" location="..\build"/> 
     <property name="DIST.dir" location="..\dist"/> 
     <property name="JAR.dir" location="D:\development\JARS"/> 
-    <property name="MASTER.DIST.dir" location="C:\work\projects\openShift\abilite\webapps"/> 
+    <property name="MASTER.DIST.dir" location="C:\work\softwares\Tomcat\apache-tomcat-7.0.56\webapps"/> 
 
     <!-- =============================================================================================================  -->
     <target name="make_war" >
@@ -17,8 +17,8 @@
         <antcall target="clean" />
         <antcall target="make_dirs" />
         <antcall target="copy_files" />
-        <jar destfile="${DIST.dir}/InternalAudit.war" basedir="${BUILD.dir}"/>
-   	    <copy file="${DIST.dir}/InternalAudit.war" tofile="${MASTER.DIST.dir}/InternalAudit.war"/>
+        <jar destfile="${DIST.dir}/abilite.war" basedir="${BUILD.dir}"/>
+   	    <copy file="${DIST.dir}/abilite.war" tofile="${MASTER.DIST.dir}/abilite.war"/>
     </target>
 
     <!-- =============================================================================================================  -->

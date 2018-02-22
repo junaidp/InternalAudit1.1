@@ -16,11 +16,11 @@ public class EngagementPopup extends Composite {
 	 public EngagementPopup() {
 		 
 		 popup.setWidget(container);
-		 container.setStyleName("engagePopupWidget");
+		 container.addStyleName("engagePopupWidget");
 		 container.setWidth("600px");
 		 container.setHeight("200px");
 		 
-		 heading.setStyleName("popupHeading");
+		 heading.addStyleName("popupHeading");
 		 
 		 container.add(heading);
 	 }

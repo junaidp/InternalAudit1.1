@@ -33,7 +33,7 @@ public class JobExceptionsView extends HorizontalPanel {
 	}
 
 	private void createLayout() {
-		status.setStyleName("blue");
+		status.addStyleName("blue");
 		status.setVisible(false);
 //		vpnlButtons.add(btnApprove);
 //		vpnlButtons.add(btnReject);

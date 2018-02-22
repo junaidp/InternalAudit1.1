@@ -18,7 +18,7 @@ public class HeadingPanel extends Composite implements Serializable {
 		
 		headingsContainer = new HorizontalPanel();
 		initWidget(headingsContainer);
-		//headingsContainer.setStyleName("headingsPanel");
+		//headingsContainer.addStyleName("headingsPanel");
 		
 	}
 

@@ -78,7 +78,7 @@ public class JobListingPresenter implements Presenter {
 					
 					jobLink = new Anchor();
 					jobLink.setHeight("25px");
-					jobLink.setStyleName("jobListingText");
+					jobLink.addStyleName("jobListingText");
 //					jobLink.setText(result.get(i).getStrategicObjective());
 					jobLink.setText(result.get(i).getAuditableUnit());
 					
@@ -102,10 +102,10 @@ public class JobListingPresenter implements Presenter {
 					});
 					HorizontalPanel jobsContainer = new HorizontalPanel();
 					jobsContainer.add(jobLink);
-//					jobsContainer.setStyleName("statusRowConsolidation");
+//					jobsContainer.addStyleName("statusRowConsolidation");
 //					jobLink.addStyleName("labelTitle"); 
 					jobLink.setWordWrap(false);
-					jobLink.setStyleName("smallBlack");
+					jobLink.addStyleName("smallBlack");
 					jobLink.addStyleName("pointerStyle");
 					jobsContainer.setWidth("100%");
 					display.getJobListContainer().setWidth("100%");

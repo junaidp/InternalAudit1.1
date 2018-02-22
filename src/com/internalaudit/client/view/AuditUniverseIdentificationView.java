@@ -71,7 +71,7 @@ public class AuditUniverseIdentificationView extends Composite {
 		final HorizontalPanel hpnlStrategic = new HorizontalPanel();
 		hpnlStrategic.setWidth("800px");
 		final Image btnAdd = new Image("images/add.png");
-		btnAdd.setStyleName("pointerStyle");
+		btnAdd.addStyleName("pointerStyle");
 		final HorizontalPanel hpnlButtonsInitiator = new HorizontalPanel();
 		final HorizontalPanel hpnlButtonsApprovar = new HorizontalPanel();
 		HorizontalPanel hpnlSpace = new HorizontalPanel();

@@ -186,10 +186,10 @@ public class PrioritizationViewData {
 					prioritizationView.setIndex(index);
 					
 					if(strategics.get(index).getStatus().equals("amend")){
-						prioritizationView.getComments().setStyleName("point");
+						prioritizationView.getComments().addStyleName("point");
 						prioritizationView.getComments().removeStyleName("white");
 						}else{
-							prioritizationView.getComments().setStyleName("white");
+							prioritizationView.getComments().addStyleName("white");
 						}
 					prioritizationView.getComments().setTitle(strategics.get(index).getComments());
 					

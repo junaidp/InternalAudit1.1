@@ -38,14 +38,14 @@ public class JobsExecutionPanel extends Composite  {
 		
 		for(int i=0; i< names.size(); i++){
 			Label lblName = new Label();
-			lblName.setStyleName("white");
+			lblName.addStyleName("white");
 			container.add(lblName);
 			lblName.setText(" . " + names.get(i));
 			
 		}
 		if(names.size()<1){
 			Label lblEmpty = new Label("No Jobs found under this criteria");
-			lblEmpty.setStyleName("white");
+			lblEmpty.addStyleName("white");
 			container.add(lblEmpty);
 		}
 	}

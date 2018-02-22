@@ -59,7 +59,7 @@ public class EmployeeDashBoardView extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		bind();
 		refresh.setUrl("refresh.png");
-		refresh.setStyleName("pointerStyle");
+		refresh.addStyleName("pointerStyle");
 	}
 	
 	public void bind(){

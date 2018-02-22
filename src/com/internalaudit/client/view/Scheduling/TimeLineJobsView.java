@@ -17,7 +17,7 @@ public class TimeLineJobsView extends FlexTable {
 				Image image =  new Image("whiteLine.jpg");
 				image.setHeight("10px");
 				image.setWidth("17px");
-				image.setStyleName("image");
+				image.addStyleName("image");
 				setWidget(1, i , image);
 
 				
@@ -37,7 +37,7 @@ public class TimeLineJobsView extends FlexTable {
 				image.setHeight("10px");
 				image.setWidth("17px");
 				setWidget(1, i ,image );
-				image.setStyleName("image");
+				image.addStyleName("image");
 				cellFormatter.setColSpan(1, 0, 2);
 		
 			}else{
@@ -46,7 +46,7 @@ public class TimeLineJobsView extends FlexTable {
 			Image image =  new Image("whiteLine.jpg");
 			image.setHeight("10px");
 			image.setWidth("17px");
-			image.setStyleName("image");
+			image.addStyleName("image");
 			setWidget(1, i , image);
 
 			}

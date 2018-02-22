@@ -169,7 +169,7 @@ public class ConsolidationViewData {
 					consolidationView.setIndex(index);
 					
 					if(strategics.get(index).getStatus().equals("amend")){
-						consolidationView.getComments().setStyleName("point");
+						consolidationView.getComments().addStyleName("point");
 						consolidationView.getComments().setVisible(true);
 						}else{
 							consolidationView.getComments().setVisible(false);

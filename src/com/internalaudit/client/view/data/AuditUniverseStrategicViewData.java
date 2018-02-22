@@ -453,7 +453,7 @@ public class AuditUniverseStrategicViewData {
 	private void updateFields(final ArrayList<Strategic> result, int i, AuditUniverseStrategicView auditUniverseStrategicView) {
 		auditUniverseStrategicView.setStrategicId(result.get(i).getId());
 		if(result.get(i).getStatus().equals("amend")){
-		auditUniverseStrategicView.getComments().setStyleName("point");
+		auditUniverseStrategicView.getComments().addStyleName("point");
 		auditUniverseStrategicView.getComments().setVisible(true);
 		}else{
 			auditUniverseStrategicView.getComments().setVisible(false);
@@ -465,7 +465,7 @@ public class AuditUniverseStrategicViewData {
 		auditUniverseStrategicView.getStrategicObjective().setTitle(result.get(i).getStrategicObjective());
 
 		if(result.get(i).getStatus().equals("submitted") || result.get(i).getPhase()>1){
-			auditUniverseStrategicView.getRelevantDepartment().setStyleName("invisibleListBox");
+			auditUniverseStrategicView.getRelevantDepartment().addStyleName("invisibleListBox");
 			for(int k=0; k< result.get(i).getStrategicDepartments().size(); k++){
 				auditUniverseStrategicView.getRelevantDepartment().addItem(result.get(i).getStrategicDepartments().get(k).getDepartment().getDepartmentName(), result.get(i).getStrategicDepartments().get(k).getDepartment().getDepartmentId()+"");
 					

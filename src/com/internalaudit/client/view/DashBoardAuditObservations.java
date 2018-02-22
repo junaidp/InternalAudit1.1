@@ -19,7 +19,7 @@ public class DashBoardAuditObservations extends Composite {
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.setSize("300px", "200px");
 		Label lblHeading = new Label("Overall Status");
-		lblHeading.setStyleName("popupHeading");
+		lblHeading.addStyleName("popupHeading");
 		Label lblNoOfAuditObservations = new Label("Total No of Audit Observations");
 		Label lblImplementationInProgress = new Label("Implementation In Progress");
 		Label lblImplemented = new Label("Implemented");
@@ -52,8 +52,8 @@ public class DashBoardAuditObservations extends Composite {
 		mainPanel.add(hpnlImplemented);
 		mainPanel.add(hpnlOverdue);
 	
-//		lblCompleted.setStyleName("boldText");
-//		lblPlanned.setStyleName("boldText");
+//		lblCompleted.addStyleName("boldText");
+//		lblPlanned.addStyleName("boldText");
 		mainPanel.setHeight("200px");
 	}
 

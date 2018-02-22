@@ -25,14 +25,14 @@ public class RiskRow extends Composite {
 		control = new  TextBox();
 		riskId = new Label("0");
 		removeRow = new Image("images/deleteIcon.png");
-		removeRow.setStyleName("pointerStyle");
+		removeRow.addStyleName("pointerStyle");
 		riskId.addStyleName("hidden");
 		
 		initWidget(rowContainer);
 		
 		rowContainer.addStyleName("risksRow");
-		description.setStyleName("txtNormal");
-		control.setStyleName("txtNormal");
+		description.addStyleName("txtNormal");
+		control.addStyleName("txtNormal");
 		
 		rowContainer.add(description);
 		rowContainer.add(control);

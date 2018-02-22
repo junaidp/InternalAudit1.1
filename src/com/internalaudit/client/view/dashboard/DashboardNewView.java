@@ -50,9 +50,9 @@ public class DashboardNewView extends VerticalPanel implements Display {
 		vpnl1.setSpacing(4);
 		vpnl2.setSpacing(4);
 		vpnl3.setSpacing(4);
-		vpnl1.setStyleName("dottedborder");
-		vpnl2.setStyleName("dottedborder");
-		vpnl3.setStyleName("dottedborder");
+		vpnl1.addStyleName("dottedborder");
+		vpnl2.addStyleName("dottedborder");
+		vpnl3.addStyleName("dottedborder");
 		vpnl1.setHeight(Window.getClientHeight()-10+"px");
 		vpnl2.setHeight(Window.getClientHeight()-10+"px");
 		vpnl3.setHeight(Window.getClientHeight()-10+"px");
@@ -66,8 +66,8 @@ public class DashboardNewView extends VerticalPanel implements Display {
 		HorizontalPanel hpnlMain = new HorizontalPanel();
 		hpnlMain.add(imgHeader);
 		hpnlMain.add(hpnlHeader);
-//		hpnlHeader.setStyleName("blueBackground");
-//		hpnlMain.setStyleName("blueBackground");
+//		hpnlHeader.addStyleName("blueBackground");
+//		hpnlMain.addStyleName("blueBackground");
 //		hpnlMain.setWidth(Window.getClientWidth()-10+"px");
 //		hpnlHeader.setWidth(Window.getClientWidth()-imgHeader.getWidth()+"px");
 		hpnlHeader.setHeight("91px");

@@ -72,10 +72,10 @@ public class FinalAuditablesViewDataWithObjectiveAndWithoutNumbering {
 				lblObjHeading.setWidth("250px");
 				hpnlHeading.add(lblUnitHeading);
 				hpnlHeading.add(lblObjHeading);
-				hpnlHeading.setStyleName("statusRowConsolidation");
+				hpnlHeading.addStyleName("statusRowConsolidation");
 
-				lblUnitHeading.setStyleName("labelHeading");
-				lblObjHeading.setStyleName("labelHeading");
+				lblUnitHeading.addStyleName("labelHeading");
+				lblObjHeading.addStyleName("labelHeading");
 				finalAuditablesView.getAreas().add(hpnlHeading);
 				//				for(int i=0; i< result.size(); i++){
 				//					Label lblObjective = new Label(result.get(i).getStrategicObjective());
@@ -87,7 +87,7 @@ public class FinalAuditablesViewDataWithObjectiveAndWithoutNumbering {
 				//					hpnlMain.add(lblUnit);
 				//					hpnlMain.add(lblObjective);
 				//					finalAuditablesView.getAreas().add(hpnlMain);
-				//					hpnlMain.setStyleName("form-row");
+				//					hpnlMain.addStyleName("form-row");
 				//				}
 				ArrayList<String> auditableUnits = new ArrayList<String>();
 				ArrayList<HorizontalPanel>hpnlContainer = new ArrayList<HorizontalPanel>();
@@ -117,7 +117,7 @@ public class FinalAuditablesViewDataWithObjectiveAndWithoutNumbering {
 						if(loggedInUser.getEmployeeId().getRollId().getRollId() == 1) {
 							if( strategic.get(i).isApprovedByAuditHead()){
 								Label lblApproved = new Label("Approved");
-								lblApproved.setStyleName("blue");
+								lblApproved.addStyleName("blue");
 								hpnlMain.add(lblApproved);
 							}else{
 								VerticalPanel vpnlCommentsAndButton = new VerticalPanel();
@@ -128,7 +128,7 @@ public class FinalAuditablesViewDataWithObjectiveAndWithoutNumbering {
 						}
 						
 						finalAuditablesView.getAreas().add(hpnlMain);
-						hpnlMain.setStyleName("form-row");
+						hpnlMain.addStyleName("form-row");
 						hpnlContainer.add(hpnlMain);
 						
 						final DataSetter dataSetter = new DataSetter();

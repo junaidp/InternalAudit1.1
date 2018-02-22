@@ -59,7 +59,7 @@ public class AuditnTrail extends Composite  {
 //		mainPanel.add(table);
 		setUserTable();
 		
-		refresh.setStyleName("refreshBtn");
+		refresh.addStyleName("refreshBtn");
 		
 		AuditTrailViewData auditTrailViewData = new AuditTrailViewData();
 		

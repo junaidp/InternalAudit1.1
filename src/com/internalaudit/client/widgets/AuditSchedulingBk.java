@@ -47,14 +47,14 @@ public class AuditSchedulingBk extends Composite {
 		timeLineContainer = new VerticalPanel();
 		
 			
-		timeLineContainer.setStyleName("line");
+		timeLineContainer.addStyleName("line");
 		
 		timeLineContainer.add(timeLine);
 		
 		
 		initWidget(containerPanel);
 		
-		containerPanel.setStyleName("auditScheduleRow");
+		containerPanel.addStyleName("auditScheduleRow");
 		
 		containerPanel.add(jobName);
 		containerPanel.add(startDate);
@@ -62,10 +62,10 @@ public class AuditSchedulingBk extends Composite {
 		containerPanel.add(timeLineContainer);
 		containerPanel.add(saveButton);
 		
-		jobName.setStyleName("jobName");
-		startDate.setStyleName("startDate");
-		endDate.setStyleName("endDate");
-		timeLine.setStyleName("timeLine");
+		jobName.addStyleName("jobName");
+		startDate.addStyleName("startDate");
+		endDate.addStyleName("endDate");
+		timeLine.addStyleName("timeLine");
 		
 		
 	}

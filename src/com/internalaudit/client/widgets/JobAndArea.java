@@ -22,9 +22,9 @@ public class JobAndArea extends Composite {
 		widgetContainer = new HorizontalPanel();
 		initWidget(widgetContainer);
 		jobLink = new Label();
-		jobLink.setStyleName("schedulingLink");
+		jobLink.addStyleName("schedulingLink");
 		widgetContainer.setWidth("950px");
-		widgetContainer.setStyleName("spacer-pad");
+		widgetContainer.addStyleName("spacer-pad");
 		widgetContainer.add(jobLink);
 		
 		saveButton = new Button();

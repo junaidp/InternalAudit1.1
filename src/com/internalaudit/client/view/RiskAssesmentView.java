@@ -122,9 +122,9 @@ public class RiskAssesmentView extends Composite {
 		Label lblStrategicObjective = new Label(InternalAuditConstants.STRATEGICOBJECTIVE);
 		Label lblRiskFactor = new Label(InternalAuditConstants.RISKFACTORS);
 		Label lblRating = new Label(InternalAuditConstants.RATING);
-		lblStrategicObjective.setStyleName("blue");
-		lblRiskFactor.setStyleName("blue");
-		lblRating.setStyleName("blue");
+		lblStrategicObjective.addStyleName("blue");
+		lblRiskFactor.addStyleName("blue");
+		lblRating.addStyleName("blue");
 		
 		hpnlStrategic.add(lblStrategicObjective);
 		hpnlStrategic.add(lblRiskFactor);

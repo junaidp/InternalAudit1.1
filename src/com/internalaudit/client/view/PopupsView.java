@@ -9,76 +9,70 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class PopupsView {
-	
-	DecoratedPopupPanel popup ;
-	VerticalPanel vpnlMain;
-	private HorizontalPanel hpnlSPace;
-	
-	public HorizontalPanel getHpnlSPace() {
-		return hpnlSPace;
-	}
 
-	public void setHpnlSPace(HorizontalPanel hpnlSPace) {
-		this.hpnlSPace = hpnlSPace;
-	}
+    DecoratedPopupPanel popup;
+    VerticalPanel vpnlMain;
+    private HorizontalPanel hpnlSPace;
 
-	Image close = new Image("close.jpg");
-	
-	public PopupsView(Widget widget) {
-		HorizontalPanel hpnlClose = new HorizontalPanel();
-		hpnlSPace = new HorizontalPanel();
-		hpnlSPace.setWidth("800px");
-		hpnlClose.add(hpnlSPace);
-		hpnlClose.add(close);
-		close.setStyleName("pointerStyle");
-		popup = new DecoratedPopupPanel();
-		vpnlMain = new VerticalPanel();
-		vpnlMain.add(hpnlClose);
-		vpnlMain.add(widget);
-		vpnlMain.setSize("800px","425px");
-		//vpnlMain.
-		popup.setWidget(vpnlMain);
-		
-		popup.setGlassEnabled(true);
-		popup.center();
-		
-		close.addClickHandler(new ClickHandler(){
+    public HorizontalPanel getHpnlSPace() {
+	return hpnlSPace;
+    }
 
-			@Override
-			public void onClick(ClickEvent arg0) {
-				popup.removeFromParent();
-			}});
-	}
+    public void setHpnlSPace(HorizontalPanel hpnlSPace) {
+	this.hpnlSPace = hpnlSPace;
+    }
 
-	public DecoratedPopupPanel getPopup() {
-		return popup;
-	}
+    Image close = new Image("close.jpg");
 
+    public PopupsView(Widget widget) {
+	HorizontalPanel hpnlClose = new HorizontalPanel();
+	hpnlSPace = new HorizontalPanel();
+	hpnlSPace.setWidth("800px");
+	hpnlClose.add(hpnlSPace);
+	hpnlClose.add(close);
+	close.addStyleName("pointerStyle");
+	popup = new DecoratedPopupPanel();
+	vpnlMain = new VerticalPanel();
+	vpnlMain.add(hpnlClose);
+	vpnlMain.add(widget);
+	vpnlMain.setSize("800px", "425px");
+	// vpnlMain.
+	popup.setWidget(vpnlMain);
 
-	public void setPopup(DecoratedPopupPanel popup) {
-		this.popup = popup;
-	}
+	popup.setGlassEnabled(true);
+	popup.center();
 
+	close.addClickHandler(new ClickHandler() {
 
-	public Image getClose() {
-		return close;
-	}
+	    @Override
+	    public void onClick(ClickEvent arg0) {
+		popup.removeFromParent();
+	    }
+	});
+    }
 
+    public DecoratedPopupPanel getPopup() {
+	return popup;
+    }
 
-	public void setClose(Image close) {
-		this.close = close;
-	}
+    public void setPopup(DecoratedPopupPanel popup) {
+	this.popup = popup;
+    }
 
-	public VerticalPanel getVpnlMain() {
-		return vpnlMain;
-	}
+    public Image getClose() {
+	return close;
+    }
 
-	public void setVpnlMain(VerticalPanel vpnlMain) {
-		this.vpnlMain = vpnlMain;
-	}
+    public void setClose(Image close) {
+	this.close = close;
+    }
 
-	
-	
+    public VerticalPanel getVpnlMain() {
+	return vpnlMain;
+    }
 
+    public void setVpnlMain(VerticalPanel vpnlMain) {
+	this.vpnlMain = vpnlMain;
+    }
 
 }

@@ -26,7 +26,7 @@ public class JobReportView extends HorizontalPanel {
 		jobAnchor.addStyleName("menuLink");
 		colorPanel.setWidth("400px");
 		colorPanel.setHeight("25px");
-		colorPanel.setStyleName("htmlStyle");
+		colorPanel.addStyleName("htmlStyle");
 		colorPanel.setSpacing(2);
 		setSpacing(2);
 		colorPanel.add(new Label(""));
@@ -36,23 +36,23 @@ public class JobReportView extends HorizontalPanel {
 		
 		if(status == 1){
 			colorPanel.setTitle(InternalAuditConstants.EXCEPTIONSTOSENT);
-			colorPanel.setStyleName("grayBackground");
+			colorPanel.addStyleName("grayBackground");
 		}
 		else if(status == 2){
 			colorPanel.setTitle(InternalAuditConstants.AWAITINGCOMMENTS);
-			colorPanel.setStyleName("redBackground");
+			colorPanel.addStyleName("redBackground");
 		}
 		else if(status == 3){
 			colorPanel.setTitle(InternalAuditConstants.COMMENTSRECEIVED);
-			colorPanel.setStyleName("blueBackground");
+			colorPanel.addStyleName("blueBackground");
 		}
 		else if(status == 4){
 			colorPanel.setTitle(InternalAuditConstants.REPORTISSUED);
-			colorPanel.setStyleName("silverBackground");
+			colorPanel.addStyleName("silverBackground");
 		}
 		else if(status == 5){
 			colorPanel.setTitle(InternalAuditConstants.FINALREPORTISSUED);
-			colorPanel.setStyleName("greenBackground");
+			colorPanel.addStyleName("greenBackground");
 		}
 		
 		

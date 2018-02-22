@@ -32,13 +32,13 @@ public class ResourceSchedilingView extends Composite {
 		
 		initWidget(containerPanel);
 		
-		containerPanel.setStyleName("auditScheduleRow");
+		containerPanel.addStyleName("auditScheduleRow");
 		containerPanel.add(resourceName);
 		containerPanel.add(timeLineContainer);
 		
 		containerPanel.setSpacing(1);
-		resourceName.setStyleName("jobName");
-		timeLine.setStyleName("timeLine");
+		resourceName.addStyleName("jobName");
+		timeLine.addStyleName("timeLine");
 		resourceName.setWidth("295px");
 	}
 

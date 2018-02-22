@@ -41,11 +41,11 @@ public class UserInductionFormView extends FlexTable implements Display {
 
 	private void layout() {
 		Label lblHeading = new Label("User Induction Form");
-		lblHeading.setStyleName("blue");
+		lblHeading.addStyleName("blue");
 		
-		lblUserNameError.setStyleName("error");
-		lblEmailError.setStyleName("error");
-		lblPasswordError.setStyleName("error");
+		lblUserNameError.addStyleName("error");
+		lblEmailError.addStyleName("error");
+		lblPasswordError.addStyleName("error");
 		
 		lblUserNameError.setVisible(false);
 		lblEmailError.setVisible(false);

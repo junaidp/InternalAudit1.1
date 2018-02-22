@@ -9,7 +9,7 @@
   <!-- Inherit the core Web Toolkit stuff.     -->
   <inherits name='com.sencha.gxt.ui.GXT'/>                   
   <inherits name='com.google.gwt.user.User'/>
-   <stylesheet src="reset.css" />
+  <!-- <stylesheet src="reset.css" /> -->
   
 
   <!-- Inherit the default GWT style sheet.  You can change       -->

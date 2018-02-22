@@ -19,7 +19,7 @@ public class DashBoardAuditJobs extends Composite {
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.setSize("300px", "200px");
 		Label lblHeading = new Label("Audit Jobs");
-		lblHeading.setStyleName("popupHeading");
+		lblHeading.addStyleName("popupHeading");
 		HorizontalPanel hpnlPlanned = new HorizontalPanel();
 		Label lblPlanned = new Label("Planned");
 		Label lblInProgress = new Label("InProgress");
@@ -50,9 +50,9 @@ public class DashBoardAuditJobs extends Composite {
 		mainPanel.add(lblDueKickOffNextWeek);
 		mainPanel.add(vpnlDueKickOffNextWeek);
 		
-		lblDueKickOffNextWeek.setStyleName("boldText");
-//		lblCompleted.setStyleName("boldText");
-//		lblPlanned.setStyleName("boldText");
+		lblDueKickOffNextWeek.addStyleName("boldText");
+//		lblCompleted.addStyleName("boldText");
+//		lblPlanned.addStyleName("boldText");
 		mainPanel.setHeight("200px");
 	}
 

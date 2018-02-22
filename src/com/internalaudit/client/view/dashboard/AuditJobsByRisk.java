@@ -30,7 +30,7 @@ public class AuditJobsByRisk extends VerticalPanel{
 	public void setData(ArrayList<Strategic> strategicList){
 		add(createChart(strategicList));
 		setSpacing(5);
-//		setStyleName("grayBackground");
+//		addStyleName("grayBackground");
 	}
 
 		

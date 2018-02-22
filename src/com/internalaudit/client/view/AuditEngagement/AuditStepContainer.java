@@ -35,7 +35,7 @@ public class AuditStepContainer extends Composite {
 		fetchAuditWorksForSelectedJob(rpcService, selectedJobId);
 		Label lblHeading = new Label("Audit Steps");
 		vpnlMain.add(lblHeading);
-		lblHeading.setStyleName("heading");
+		lblHeading.addStyleName("heading");
 		
 		
 	}

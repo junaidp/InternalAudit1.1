@@ -87,11 +87,11 @@ public class AuditUniverseStrategicView extends Composite {
 	    Label lblDate =new Label(AuditConstants.OBJECTIVEDATE);
 	    
 	    lblStrategicObjective.setWidth("600px");
-	    lblStrategicObjective.setStyleName("navybluebold");
-	    lblOwner.setStyleName("blue");
-	    lblDepartment.setStyleName("blue");
-	    lblDate.setStyleName("blue");
-	    submitted.setStyleName("pointer");
+	    lblStrategicObjective.addStyleName("navybluebold");
+	    lblOwner.addStyleName("blue");
+	    lblDepartment.addStyleName("blue");
+	    lblDate.addStyleName("blue");
+	    submitted.addStyleName("pointer");
 		submitted.setTitle("submitted");
 	    
 //	    vpnlStrategicObjective.add(lblStrategicObjective);
@@ -115,7 +115,7 @@ public class AuditUniverseStrategicView extends Composite {
 //	    hpnlStrategic.add(lstObjectiveOwner);
 //	    hpnlStrategic.add(relevantDepartment);
 //	    hpnlStrategic.add(objectiveAchievementDate);
-	    lblStrategicId.setStyleName("blue");
+	    lblStrategicId.addStyleName("blue");
 //	    lblStrategicId.setWidth("13px");
 	    hpnlStrategic.add(vpnlStrategicId);
 	    hpnlStrategic.add(vpnlStrategicObjective);
@@ -132,7 +132,7 @@ public class AuditUniverseStrategicView extends Composite {
 	    hpnlStrategic.add(hpnlComments);
 //	    hpnlStrategic.add(comments);
 //	    hpnlStrategic.add(submitted);
-//	    comments.setStyleName("white");
+//	    comments.addStyleName("white");
 	    mainPanel.add(hpnlStrategic);
 	    mainPanel.add(hpnlButtonInitiator);
 	    mainPanel.add(hpnlButtonsApprovar);
@@ -165,7 +165,7 @@ public class AuditUniverseStrategicView extends Composite {
 	    hpnlButtonInitiator.setSpacing(2);
 	    hpnlStrategic.setWidth("900px");
 	    
-	    mainPanel.setStyleName("form-row");
+	    mainPanel.addStyleName("form-row");
 	
 	   
 	}

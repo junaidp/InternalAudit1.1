@@ -55,7 +55,7 @@
 	
 	<g:Label styleName="popupSmallHeading" width="100px">Procedure Performance</g:Label>
 	
-	<g:TextArea ui:field="performance" styleName="messageTextarea"></g:TextArea>
+	<g:TextArea ui:field="performance"></g:TextArea>
 	
 	<g:Label styleName="popupSmallHeading" width="100px">Exceptions</g:Label>
 		

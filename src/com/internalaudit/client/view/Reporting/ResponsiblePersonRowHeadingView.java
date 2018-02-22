@@ -33,13 +33,13 @@ public class ResponsiblePersonRowHeadingView extends VerticalPanel {
 		isAgree.setWidth("100px");
 		implementaionDate.setWidth("120px");
 		managementComments.setWidth("260px");
-		auditJob.setStyleName("boldText");
-		exception.setStyleName("boldText");
-		managementComments.setStyleName("boldText");
-		implementaionDate.setStyleName("boldText");
-		isAgree.setStyleName("boldText");
-		recommendations.setStyleName("boldText");
-		heading.setStyleName("heading_2");
+		auditJob.addStyleName("boldText");
+		exception.addStyleName("boldText");
+		managementComments.addStyleName("boldText");
+		implementaionDate.addStyleName("boldText");
+		isAgree.addStyleName("boldText");
+		recommendations.addStyleName("boldText");
+		heading.addStyleName("heading_2");
 		auditJob.setVisible(false);
 	}
 

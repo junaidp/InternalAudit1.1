@@ -87,7 +87,7 @@ public class DashBoardPresenter implements Presenter
 	    popLoading.setWidget(hpn);
 	    popLoading.setGlassEnabled(true);
 	    popLoading.center();
-	    popLoading.setStyleName("whiteBackground");
+	    popLoading.addStyleName("whiteBackground");
 	    
 	    display.getBtnContinue().addClickHandler(new ClickHandler(){
 
@@ -187,7 +187,7 @@ public class DashBoardPresenter implements Presenter
 			public void onSuccess(ArrayList<String> kickOffNextWeek) {
 				for(int i=0; i< kickOffNextWeek.size(); i++){
 					Label job = new Label("("+kickOffNextWeek.get(i)+")");
-					job.setStyleName("navybluebold");
+					job.addStyleName("navybluebold");
 					display.getDashBoardAuditJobs().getVpnlDueKickOffNextWeek().add(job);
 					
 				}
@@ -308,7 +308,7 @@ public class DashBoardPresenter implements Presenter
 			public void onSuccess(ArrayList<String> employeesAvilbleForNext2Weeks) {
 				for(int i=0; i< employeesAvilbleForNext2Weeks.size(); i++){
 					Label employee = new Label("("+employeesAvilbleForNext2Weeks.get(i)+")");
-					employee.setStyleName("navybluebold");
+					employee.addStyleName("navybluebold");
 					display.getDashBoardResourceManagement().getVpnlResources().add(employee);
 					
 				}

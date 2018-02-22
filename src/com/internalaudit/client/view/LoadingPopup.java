@@ -17,7 +17,7 @@ public class LoadingPopup {
 		vpnlLoad.add(new Image("images/loading.gif"));
 //		popupLoading.setWidget(vpnlLoad);
 		popupLoading.setWidget(new Image("images/loading.gif"));
-		popupLoading.setStyleName("whiteBackground");
+		popupLoading.addStyleName("whiteBackground");
 //		popupLoading.setGlassEnabled(true);
 		popupLoading.center();
 	}

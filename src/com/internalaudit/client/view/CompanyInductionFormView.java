@@ -22,7 +22,7 @@ public class CompanyInductionFormView extends FlexTable implements Display {
 
 	private void layout() {
 		Label lblHeading = new Label("User Induction Form");
-		lblHeading.setStyleName("blue");
+		lblHeading.addStyleName("blue");
 		
 		
 		setWidget(0, 1, lblHeading);

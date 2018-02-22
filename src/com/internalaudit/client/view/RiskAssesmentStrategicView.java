@@ -63,7 +63,7 @@ public class RiskAssesmentStrategicView extends Composite {
 //		comments.setEmptyText("Enter Comments");
 //		amend.setHeight("25px");
 //		comments.setHeight("100px");
-		submitted.setStyleName("pointer");
+		submitted.addStyleName("pointer");
 		submitted.setTitle("submitted");
 	    submitted.setVisible(true);
 		hpnlButtons.add(hpnlButtonInitiator);

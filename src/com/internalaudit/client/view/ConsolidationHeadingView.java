@@ -49,25 +49,25 @@ public class ConsolidationHeadingView extends Composite{
 		
 		Label lblArea = new Label("Objective");
 //		lblArea.setWordWrap(false);
-		lblArea.setStyleName("labelHeading");
+		lblArea.addStyleName("labelHeading");
 		horizontalPanel.add(lblArea);
 		lblArea.setWidth("300px");
 		
 		Label lblRiskUnit = new Label("Risk Rating");
-		lblRiskUnit.setStyleName("labelHeading");
+		lblRiskUnit.addStyleName("labelHeading");
 		horizontalPanel.add(lblRiskUnit);
 		lblRiskUnit.setWidth("250px");
 		
 		Label lblAuditaleRating = new Label("Auditable Unit");
-		lblAuditaleRating.setStyleName("labelHeading");
+		lblAuditaleRating.addStyleName("labelHeading");
 		horizontalPanel.add(lblAuditaleRating);
 		lblAuditaleRating.setWidth("350px");
 		
 		Label lblTab = new Label("");
-		lblTab.setStyleName("blue");
+		lblTab.addStyleName("blue");
 		horizontalPanel.add(lblTab);
 		lblTab.setWidth("100px");
-//		horizontalPanel.setStyleName("statusRowConsolidation");
+//		horizontalPanel.addStyleName("statusRowConsolidation");
 		
 		 ScrollPanel scroll = new ScrollPanel();
 //		 scroll.setSize("98%", "375px");

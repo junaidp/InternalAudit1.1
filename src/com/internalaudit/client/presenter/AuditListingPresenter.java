@@ -237,7 +237,7 @@ public class AuditListingPresenter implements Presenter {
 			Label month = new Label(names[i]);
 			month.setWordWrap(false);
 			flexHeading.setWidget(0, i , month);
-			flexHeading.setStyleName("list-heading");
+			flexHeading.addStyleName("list-heading");
 
 			//Months with 5 weeks
 			if(month.getText().equals("Mar") || month.getText().equals("May")|| month.getText().equals("Jul") || month.getText().equals("Oct")){
@@ -247,7 +247,7 @@ public class AuditListingPresenter implements Presenter {
 				flexHeading.getCellFormatter().setWidth(0, i, "90px");
 			}
 		}
-		headingPanel.setStyleName("list-heading");
+		headingPanel.addStyleName("list-heading");
 		headingPanel.setWidth("428px");
 		jobSchedulingView.getHeadingsPanel().add(headingPanel);
 		jobSchedulingView.getHeadingsPanel().add(flexHeading); 
@@ -276,7 +276,7 @@ public class AuditListingPresenter implements Presenter {
 			Label month = new Label(names[i]);
 			month.setWordWrap(false);
 			flexHeading.setWidget(0, i , month);
-			flexHeading.setStyleName("list-heading");
+			flexHeading.addStyleName("list-heading");
 
 			//Months with 5 weeks
 			if(month.getText().equals("Mar") || month.getText().equals("May")|| month.getText().equals("Jul") || month.getText().equals("Oct")){
@@ -286,7 +286,7 @@ public class AuditListingPresenter implements Presenter {
 				flexHeading.getCellFormatter().setWidth(0, i, "110px");
 			}
 		}
-		headingPanel.setStyleName("list-heading");
+		headingPanel.addStyleName("list-heading");
 		headingPanel.setWidth("300px");
 		jobSchedulingView.getHeadingsPanel().add(headingPanel);
 		jobSchedulingView.getHeadingsPanel().add(flexHeading); 

@@ -10,70 +10,91 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-	@Entity
+@Entity
 
-	@Table(name="strategicRisk")
-	public class StrategicRisk   implements Serializable {
+@Table(name = "strategicRisk")
+public class StrategicRisk implements Serializable {
 
-		private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-		@Id 
-		@Column(name="id")
-		private int id;
-		
-		@Column(name="rating")
-		private String rating;
-		
-		@Column(name="comments")
-		private String comments;
-		
-		@JoinColumn(name = "strategicId", nullable = true)
-		@ManyToOne(fetch = FetchType.EAGER)
-		private Strategic strategicId;
-		
-		@JoinColumn(name = "riskFactorId", nullable = true)
-		@ManyToOne(fetch = FetchType.EAGER)
-		private RiskFactor riskFactorId;
+    @Id
+    @Column(name = "id")
+    private int id;
 
-		public int getId() {
-			return id;
-		}
+    @Column(name = "rating")
+    private String rating;
 
-		public void setId(int id) {
-			this.id = id;
-		}
+    @Column(name = "probabality")
+    private String probabality;
 
-		public Strategic getStrategicId() {
-			return strategicId;
-		}
+    @Column(name = "impact")
+    private String impact;
 
-		public void setStrategicId(Strategic strategicId) {
-			this.strategicId = strategicId;
-		}
+    @Column(name = "comments")
+    private String comments;
 
-		public RiskFactor getRiskFactorId() {
-			return riskFactorId;
-		}
+    @JoinColumn(name = "strategicId", nullable = true)
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Strategic strategicId;
 
-		public void setRiskFactorId(RiskFactor riskFactorId) {
-			this.riskFactorId = riskFactorId;
-		}
+    @JoinColumn(name = "riskFactorId", nullable = true)
+    @ManyToOne(fetch = FetchType.EAGER)
+    private RiskFactor riskFactorId;
 
-		public String getRating() {
-			return rating;
-		}
+    public int getId() {
+	return id;
+    }
 
-		public void setRating(String rating) {
-			this.rating = rating;
-		}
+    public void setId(int id) {
+	this.id = id;
+    }
 
-		public String getComments() {
-			return comments;
-		}
+    public Strategic getStrategicId() {
+	return strategicId;
+    }
 
-		public void setComments(String comments) {
-			this.comments = comments;
-		}
-		
-		
+    public void setStrategicId(Strategic strategicId) {
+	this.strategicId = strategicId;
+    }
+
+    public RiskFactor getRiskFactorId() {
+	return riskFactorId;
+    }
+
+    public void setRiskFactorId(RiskFactor riskFactorId) {
+	this.riskFactorId = riskFactorId;
+    }
+
+    public String getRating() {
+	return rating;
+    }
+
+    public void setRating(String rating) {
+	this.rating = rating;
+    }
+
+    public String getComments() {
+	return comments;
+    }
+
+    public void setComments(String comments) {
+	this.comments = comments;
+    }
+
+    public String getProbabality() {
+	return probabality;
+    }
+
+    public void setProbabality(String probabality) {
+	this.probabality = probabality;
+    }
+
+    public String getImpact() {
+	return impact;
+    }
+
+    public void setImpact(String impact) {
+	this.impact = impact;
+    }
+
 }

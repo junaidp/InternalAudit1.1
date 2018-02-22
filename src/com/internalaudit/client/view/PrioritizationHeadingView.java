@@ -47,30 +47,30 @@ public class PrioritizationHeadingView extends Composite{
 		horizontalPanel.setSize("750px", "100%");
 		
 		Label lblArea = new Label("Auditable Unit");
-		lblArea.setStyleName("labelHeading");
+		lblArea.addStyleName("labelHeading");
 		horizontalPanel.add(lblArea);
 		lblArea.setWidth("260px");
 		
 		Label lblObjective = new Label("Objective");
-		lblObjective.setStyleName("labelHeading");
+		lblObjective.addStyleName("labelHeading");
 		horizontalPanel.add(lblObjective);
 		lblObjective.setWidth("180px");
 		
 		Label lblRiskUnit = new Label("Risk Rating");
-		lblRiskUnit.setStyleName("labelHeading");
+		lblRiskUnit.addStyleName("labelHeading");
 		horizontalPanel.add(lblRiskUnit);
 		lblRiskUnit.setWidth("150px");
 		
 		Label lblAuditaleRating = new Label("Selected for Audit");
-		lblAuditaleRating.setStyleName("labelHeading");
+		lblAuditaleRating.addStyleName("labelHeading");
 		horizontalPanel.add(lblAuditaleRating);
 		lblAuditaleRating.setWidth("190px");
 		
 		Label lblTab = new Label("");
-		lblTab.setStyleName("blue");
+		lblTab.addStyleName("blue");
 		horizontalPanel.add(lblTab);
 		lblTab.setWidth("100px");
-//		horizontalPanel.setStyleName("statusRowConsolidation");
+//		horizontalPanel.addStyleName("statusRowConsolidation");
 		horizontalPanel.setSpacing(5);
 	
 		 ScrollPanel scroll = new ScrollPanel();

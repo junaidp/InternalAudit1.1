@@ -30,7 +30,7 @@ public class AuditJobsByObjective extends VerticalPanel{
 	public void setData(ArrayList<Strategic> strategicList){
 		add(createDomainChart(strategicList));
 		setSpacing(5);
-		//		setStyleName("grayBackground");
+		//		addStyleName("grayBackground");
 	}
 
 

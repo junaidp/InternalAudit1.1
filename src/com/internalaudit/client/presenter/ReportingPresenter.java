@@ -102,7 +102,7 @@ public class ReportingPresenter implements Presenter
 				if(result.size()>0){
 					display.getVpnlSelectedJob().clear();/// hERE
 					Label lblHeading = new Label(result.get(0).getJobName());
-					lblHeading.setStyleName("heading");
+					lblHeading.addStyleName("heading");
 					display.getVpnlSelectedJob().add(lblHeading);
 //										display.getVpnlReporting().clear();
 					ResponsiblePersonRowHeadingView responsiblePersonView = new ResponsiblePersonRowHeadingView();
@@ -121,7 +121,7 @@ public class ReportingPresenter implements Presenter
 						showManagementPanel(result, i, responsiblePersonRowView);
 						if(result.get(i).getFinalStatus()!=null && result.get(i).getFinalStatus().equalsIgnoreCase("Approved")){
 							responsiblePersonRowView.getStatus().setText("Closed");
-							responsiblePersonRowView.getStatus().setStyleName("blue");
+							responsiblePersonRowView.getStatus().addStyleName("blue");
 //							showManagementPanel(result, i, responsiblePersonRowView);
 							responsiblePersonRowView.getVpnlApprovalButton().setVisible(true);
 							showImplementationPanel(result, i,
@@ -131,7 +131,7 @@ public class ReportingPresenter implements Presenter
 						if(result.get(i).getFinalStatus()!=null && result.get(i).getFinalStatus().equalsIgnoreCase("Rejected") ||
 								result.get(i).getStatus()!=null && result.get(i).getStatus().equalsIgnoreCase("Rejected")){
 							responsiblePersonRowView.getStatus().setText("feedback given");
-							responsiblePersonRowView.getStatus().setStyleName("blue");
+							responsiblePersonRowView.getStatus().addStyleName("blue");
 							responsiblePersonRowView.getVpnlApprovalButton().setVisible(false);
 							showManagementPanel(result, i, responsiblePersonRowView);
 							showImplementationPanel(result, i,
@@ -245,7 +245,7 @@ public class ReportingPresenter implements Presenter
 	private void exceptionApproved(
 			final ResponsiblePersonRowView responsiblePersonRowView, String status) {
 		responsiblePersonRowView.getStatus().setText(status);
-		responsiblePersonRowView.getStatus().setStyleName("blue");
+		responsiblePersonRowView.getStatus().addStyleName("blue");
 		responsiblePersonRowView.getBtnApprove().setVisible(false);
 		responsiblePersonRowView.getBtnReject().setVisible(false);
 		responsiblePersonRowView.getTxtComments().setVisible(false);
@@ -274,7 +274,7 @@ public class ReportingPresenter implements Presenter
 
 				if(result.size()>0){
 					Label lblHeading = new Label(result.get(0).getJobName());
-					lblHeading.setStyleName("heading");
+					lblHeading.addStyleName("heading");
 					display.getVpnlSelectedJob().add(lblHeading);
 					ResponsiblePersonRowHeadingView responsiblePersonView = new ResponsiblePersonRowHeadingView();
 					
@@ -288,7 +288,7 @@ public class ReportingPresenter implements Presenter
 						responsiblePersonRowView.getAuditJob().setText(result.get(i).getJobName());
 						if(result.get(i).getFinalStatus()!=null && result.get(i).getFinalStatus().equalsIgnoreCase("Approved")){
 							responsiblePersonRowView.getStatus().setText("Closed");
-							responsiblePersonRowView.getStatus().setStyleName("blue");
+							responsiblePersonRowView.getStatus().addStyleName("blue");
 						}
 						responsiblePersonView.add(responsiblePersonRowView);
 						final JobData jobData = new JobData();
@@ -489,7 +489,7 @@ public class ReportingPresenter implements Presenter
 		responsiblePersonRowView.getBtnSend().setVisible(false);
 		responsiblePersonRowView.getStatus().setText(status);
 		responsiblePersonRowView.getStatus().setVisible(true);
-		responsiblePersonRowView.getStatus().setStyleName("blue");
+		responsiblePersonRowView.getStatus().addStyleName("blue");
 	}
 
 	private void fetchEmployees() {
