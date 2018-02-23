@@ -14,7 +14,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost/internalaudit1" />
 		<property name="username" value="root" />
-		<property name="password" value="" />
+		<property name="password" value="0502" />
 
 
 	</bean>
