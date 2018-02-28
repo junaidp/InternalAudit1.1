@@ -10,7 +10,7 @@
   <inherits name='com.sencha.gxt.ui.GXT'/>                   
   <inherits name='com.google.gwt.user.User'/>
   <!-- <stylesheet src="reset.css" /> -->
-  
+  <inherits name="org.apache.log4j.Log4j" />
 
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->

@@ -125,6 +125,8 @@ public class MySQLRdbHelper {
 	    for (Iterator it = rsList.iterator(); it.hasNext();) {
 		users = (User) it.next();
 		System.out.println(users.getPassword());
+		logger.info(String.format("signed In"));
+		 logger.warn(String.format("Exception occured in getAuthentication"));
 	    }
 	    HibernateDetachUtility.nullOutUninitializedFields(users,
 		    HibernateDetachUtility.SerializationType.SERIALIZATION);
