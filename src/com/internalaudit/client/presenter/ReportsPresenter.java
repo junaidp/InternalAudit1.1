@@ -77,7 +77,7 @@ public class ReportsPresenter implements Presenter
 
 	private Employee loggedInEmployee;
 	private Logger logger = Logger.getLogger("ReportsPresenter");
-	private int report1RiskChartWidth = 350;
+	private int report1RiskChartWidth = 365;
 	private int report1RiskChartHeight = 300;
 	private int report1DomainChartWidth = 380;
 	private int report1DomainChartHeight = 300;
@@ -269,7 +269,7 @@ public class ReportsPresenter implements Presenter
 
 					@Override
 					public void onSuccess(String arg0) {
-						Window.open("/InternalAudit/report.xls", "_blank", "");
+						Window.open("InternalAuditReport/report.xls", "_blank", "");
 //						Window.open("/report.xls", "_blank", "");
 					}});
 				
@@ -308,7 +308,7 @@ public class ReportsPresenter implements Presenter
 
 					@Override
 					public void onSuccess(String arg0) {
-						Window.open("/InternalAudit/report.xls", "_blank", "");
+						Window.open("InternalAuditReport/report.xls", "_blank", "");
 //						Window.open("/report.xls", "_blank", "");
 					}});
 				
@@ -337,7 +337,7 @@ public class ReportsPresenter implements Presenter
 
 					@Override
 					public void onSuccess(String arg0) {
-						Window.open("/InternalAudit/report.xls", "_blank", "");
+						Window.open("InternalAuditReport/report.xls", "_blank", "");
 //						Window.open("/report.xls", "_blank", "");
 					}});
 				
@@ -369,7 +369,7 @@ public class ReportsPresenter implements Presenter
 
 					@Override
 					public void onSuccess(String arg0) {
-						Window.open("/InternalAudit/report.xls", "_blank", "");
+						Window.open("InternalAuditReport/report.xls", "_blank", "");
 //						Window.open("/report.xls", "_blank", "");
 					}});
 				

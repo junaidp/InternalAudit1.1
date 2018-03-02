@@ -229,7 +229,7 @@ public class ReportsPresenter implements Presenter
 
 					@Override
 					public void onSuccess(String arg0) {
-						Window.open("/InternalAudit/report.xls", "_blank", "");
+						Window.open("/InternalAuditReportReport/report.xls", "_blank", "");
 					}});
 				
 				

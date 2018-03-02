@@ -107,7 +107,7 @@ new Credits()
   
      
      
-    chart.setSize(410, 250);
+    chart.setSize(440, 250);
     chart.setChartTitle(
     	     new ChartTitle()
     	       .setText("Exceptions Implementation")

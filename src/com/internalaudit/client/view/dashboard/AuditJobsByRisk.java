@@ -97,7 +97,7 @@ public class AuditJobsByRisk extends VerticalPanel{
 		            })  
 		        ); 
 		        
-		        chart.setSize(410, 250);
+		        chart.setSize(420, 250);
 		        chart.setBackgroundColor(new Color()
 		        		);
 		        return chart;  

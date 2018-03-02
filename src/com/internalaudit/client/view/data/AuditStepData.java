@@ -245,7 +245,8 @@ public class AuditStepData {
 					@Override
 					public void onClick(ClickEvent arg0) {
 //						Window.open("/InternalAudit/"+auditStep.getAuditStepId()+"/"+auditStep.getUploadedFile(), "_blank", "");
-						Window.open(GWT.getHostPageBaseURL() + "/AuditSteps//"+auditStep.getAuditStepId()+"//"+auditStep.getUploadedFile(), "name", "enabled");
+						//Window.open(GWT.getHostPageBaseURL() + "/AuditSteps//"+auditStep.getAuditStepId()+"//"+auditStep.getUploadedFile(), "name", "enabled");
+						Window.open("AuditSteps/"+auditStep.getAuditStepId()+"/"+auditStep.getUploadedFile(), "_blank", "");
 						
 					}});
 			}

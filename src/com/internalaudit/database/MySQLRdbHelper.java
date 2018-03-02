@@ -4827,7 +4827,7 @@ public class MySQLRdbHelper {
     public String exportToExcel(ArrayList<ExcelDataDTO> excelDataList, String rootDir) {
 	try {
 
-	    FileOutputStream fileOut = new FileOutputStream(rootDir + "/report.xls");// "D:\\POI111.xls"
+	    FileOutputStream fileOut = new FileOutputStream(rootDir + "/InternalAuditReport/report.xls");// "D:\\POI111.xls"
 	    HSSFWorkbook workbook = new HSSFWorkbook();
 	    HSSFSheet worksheet = workbook.createSheet("Orders Worksheet");
 	    HSSFRow row = worksheet.createRow((short) 0);
@@ -5799,7 +5799,7 @@ public class MySQLRdbHelper {
 	    String rootDir) {
 	try {
 
-	    FileOutputStream fileOut = new FileOutputStream(rootDir + "/report.xls");// "D:\\POI111.xls"
+	    FileOutputStream fileOut = new FileOutputStream(rootDir + "/InternalAuditReport/report.xls");// "D:\\POI111.xls"
 	    HSSFWorkbook workbook = new HSSFWorkbook();
 	    HSSFSheet worksheet = workbook.createSheet("JobTime Allocation Worksheet");
 	    HSSFRow row = worksheet.createRow((short) 0);
@@ -5828,7 +5828,7 @@ public class MySQLRdbHelper {
     public String exportExceptionsReportToExcel(ArrayList<ExceptionsReportDTO> excelDataList, String rootDir) {
 	try {
 
-	    FileOutputStream fileOut = new FileOutputStream(rootDir + "/report.xls");// "D:\\POI111.xls"
+	    FileOutputStream fileOut = new FileOutputStream(rootDir + "/InternalAuditReport/report.xls");// "D:\\POI111.xls"
 	    HSSFWorkbook workbook = new HSSFWorkbook();
 	    HSSFSheet worksheet = workbook.createSheet("Exceptions Worksheet");
 	    HSSFRow row = worksheet.createRow((short) 0);
@@ -5862,7 +5862,7 @@ public class MySQLRdbHelper {
 	    String rootDir) {
 	try {
 
-	    FileOutputStream fileOut = new FileOutputStream(rootDir + "/report.xls");// "D:\\POI111.xls"
+	    FileOutputStream fileOut = new FileOutputStream(rootDir + "/InternalAuditReport/report.xls");// "D:\\POI111.xls"
 	    HSSFWorkbook workbook = new HSSFWorkbook();
 	    HSSFSheet worksheet = workbook.createSheet("Audit Scheduling Worksheet");
 	    HSSFRow row = worksheet.createRow((short) 0);

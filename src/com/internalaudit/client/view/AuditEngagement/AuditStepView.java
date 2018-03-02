@@ -195,7 +195,6 @@ public class AuditStepView extends Composite {
 	ArrayList<Exceptions> exs = new ArrayList<Exceptions>();
 
 	step.setFeedback(feedback);
-
 	step.setPopulation(population.getText());
 	step.setProceducePerformance(performance.getText());
 	step.setSampleSelected(sample.getText());

@@ -58,7 +58,7 @@
 
 		<g:HorizontalPanel width="100%" height="300px">
 
-			<g:VerticalPanel width="420px" height="300px"  ui:field="vpnlLabels" spacing="5">
+			<g:VerticalPanel width="290px" height="300px"  ui:field="vpnlLabels" spacing="5">
 			</g:VerticalPanel>
 			
 			<g:VerticalPanel width="300px" height="300px"  ui:field="vpnlBar" spacing="5">

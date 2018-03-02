@@ -28,28 +28,28 @@
 	<g:Label ui:field="feedback" styleName="blue"></g:Label>
 	</g:HorizontalPanel>
 	
-	<g:HorizontalPanel>
+	<g:HorizontalPanel verticalAlignment="middle">
 	
 		<g:Label styleName="labelTitle" width="100px">Population</g:Label>
 	
-		<g:TextBox ui:field="population" styleName="txtNormal"></g:TextBox>
+		<g:TextBox ui:field="population" addStyleNames="txtNormal"></g:TextBox>
 	
 	</g:HorizontalPanel>
 	
-	<g:HorizontalPanel>
+	<g:HorizontalPanel verticalAlignment="middle">
 	
 		<g:Label styleName="labelTitle" width="100px">Sample Selected</g:Label>
 	
-		<g:TextBox ui:field="sample" styleName="txtNormal"></g:TextBox>
+		<g:TextBox ui:field="sample" addStyleNames="txtNormal"></g:TextBox>
 	
 		
 	
-	</g:HorizontalPanel>
+	</g:HorizontalPanel >
 	
-	<g:HorizontalPanel>
+	<g:HorizontalPanel verticalAlignment="middle">
 	
 		<g:Label styleName="labelTitle" width="100px">Basis of Selection</g:Label>
-		<g:TextBox ui:field="selection" styleName="txtNormal"></g:TextBox>
+		<g:TextBox ui:field="selection" addStyleNames="txtNormal"></g:TextBox>
 	
 	</g:HorizontalPanel>
 	
