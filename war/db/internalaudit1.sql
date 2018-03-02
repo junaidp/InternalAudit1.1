@@ -169,7 +169,7 @@ CREATE TABLE `company` (
 LOCK TABLES `company` WRITE;
 /*!40000 ALTER TABLE `company` DISABLE KEYS */;
 INSERT INTO `company` VALUES (0,'none','none','none@none.com'),(1,'hyphen','faheem','faheem@hyphenconsult.com'),(2,'test','test','test'),(3,'jons','junaid','junaidp@gmail.com'),(4,'test','test','test'),(5,'Telenor','Ahsan','faheempiracha@gmail.com'),(6,'pol','poladmin','poladmin@gmail.com'),(7,'pol','poladmin','poladmin@gmail.com'),(8,'arl','arladmin','arladmin@gmail.com'),(9,'demotest','demotestadmin','demotestadmin@gmail.com'),(10,'demo','demoadmin','demoadmin@gmail.com'),(11,'korgent','korgentadmin','korgentadmin@gmail.com'),(12,'Zong','zongadmin','zongadmin@email.com'),(13,'jubileelife','Adeel','Adeel.Khan@jubileelife.com'),(14,'bestway','amjad','amjad@bestway.com.pk'),(15,'Bug','bugger','bug@d.com'),(16,'Zohaib (Private) Limited','Zohaib Abbasi','zohaib1112@hotmail.com'),(17,'Black Panther','Zohaib Abbasi','zohaib1112@hotmail.com'),(18,'Honda ','Zack','honda@email.com');
-/*!40000 ALTER TABLE `company` ENABLE KEYS */;
+/*!40000 ALTER TABLE `company` ENABLE KEYS*/;
 UNLOCK TABLES;
 
 --
