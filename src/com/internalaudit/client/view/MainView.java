@@ -27,6 +27,7 @@ public class MainView extends Composite implements Display {
 	private AuditPlanningView auditPlanningView ;
 	private User loggedInUser;
 	private Anchor logOut = new Anchor("Logout");
+	private Anchor feedBack = new Anchor("Help/Feedback");
 	private Anchor createCompany = new Anchor("Add Company");
 	private Anchor createUser = new Anchor("Add User");
 	private ListBox listYears = new ListBox();
@@ -117,6 +118,7 @@ public class MainView extends Composite implements Display {
 		hpnl.add(createCompany); 
 		hpnl.add(createUser); 
 		}
+		hpnl.add(feedBack);
 		hpnl.add(logOut); // logout link
 		hpnl.setSpacing(2);
 		hpnl.setWidth("100%");
@@ -250,6 +252,10 @@ public class MainView extends Composite implements Display {
 
 	public void setCreateUser(Anchor createUser) {
 		this.createUser = createUser;
+	}
+
+	public Anchor getFeedBack() {
+		return feedBack;
 	}
 
 

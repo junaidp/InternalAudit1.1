@@ -3,6 +3,7 @@ package com.internalaudit.client.presenter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.internalaudit.shared.Feedback;
 import com.internalaudit.shared.TimeOutException;
 import com.google.gwt.user.client.History;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -28,8 +29,12 @@ import com.internalaudit.client.event.DashBoardEvent;
 import com.internalaudit.client.event.MainEvent;
 import com.internalaudit.client.event.ReportingEvent;
 import com.internalaudit.client.event.ReportsEvent;
+import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.LoadingPopup;
+import com.internalaudit.client.view.PopupsView;
+import com.internalaudit.client.view.PopupsViewWhite;
 import com.internalaudit.client.view.Scheduling.AuditSchedulingView;
+import com.internalaudit.client.widgets.FeedbackWidget;
 import com.internalaudit.shared.User;
 import com.sencha.gxt.widget.core.client.PlainTabPanel;
 import com.sencha.gxt.widget.core.client.TabItemConfig;
@@ -45,6 +50,7 @@ public class MainPresenter implements Presenter
 	private final Display display;
 	private Logger logger = Logger.getLogger("DashBoardPresenter");
 	private int selectedYear=0;
+	private User loggedInUser;
 
 
 	public interface Display 
@@ -62,15 +68,17 @@ public class MainPresenter implements Presenter
 		VerticalPanel getVpnlDashBoard();
 		Anchor getCreateCompany();
 		Anchor getCreateUser();
+		Anchor getFeedBack();
 		
 	}  
 
-	public MainPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, int selectedYear, Display view) 
+	public MainPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, int selectedYear, User loggedInUser, Display view) 
 	{
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.display = view;
 		this.selectedYear = selectedYear;
+		this.loggedInUser = loggedInUser;
 	}
 
 	public void go(HasWidgets container) 
@@ -158,8 +166,50 @@ public class MainPresenter implements Presenter
 				
 			}});
 		
+		display.getFeedBack().addClickHandler(new ClickHandler(	) {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				final FeedbackWidget feedBackWidget = new FeedbackWidget();
+				final PopupsView popup = new PopupsView(feedBackWidget);
+				feedBackWidget.getBtnSubmit().addClickHandler(new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						submitFeedback(feedBackWidget, popup);
+					}
+				});
+				
+			}
+
+			
+		});
+		
 		display.getWelcome().setText(display.getLoggedInUser().getEmployeeId().getEmployeeName() + " " );
 		
+	}
+	
+	private void submitFeedback(FeedbackWidget feedBackWidget, final PopupsView popup) {
+		Feedback feedBack = new Feedback();
+		
+		feedBack.setEmployee(loggedInUser.getEmployeeId());
+		feedBack.setHeading(feedBackWidget.getTxtHeading().getText());
+		feedBack.setDescription(feedBackWidget.getTxtDescription().getText());
+		
+		rpcService.submitFeedBack(feedBack, new AsyncCallback<String>() {
+			
+			@Override
+			public void onSuccess(String result) {
+				new DisplayAlert(result);
+				popup.getPopup().removeFromParent();
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				popup.getPopup().removeFromParent();
+				Window.alert("Failed submit feedback: "+ caught.getLocalizedMessage());
+			}
+		});
 	}
 	
 	private void fetchCurrentYear() {

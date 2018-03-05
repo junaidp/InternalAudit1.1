@@ -30,6 +30,7 @@ import com.internalaudit.shared.Department;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.ExcelDataDTO;
 import com.internalaudit.shared.ExceptionsReportDTO;
+import com.internalaudit.shared.Feedback;
 import com.internalaudit.shared.JobAndAreaOfExpertise;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.JobCreationDTO;
@@ -1389,6 +1390,10 @@ InternalAuditService {
 		session=getThreadLocalRequest().getSession(true);
 		session.setAttribute("auditStep", auditStepId);
 		return "saved";
+	}
+	@Override
+	public String submitFeedBack(Feedback feedBack) throws Exception {
+		return rdbHelper.submitFeedBack(feedBack);
 	}
 	
 	

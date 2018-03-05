@@ -54,6 +54,7 @@ import com.internalaudit.shared.EmployeeJobDTO;
 import com.internalaudit.shared.ExcelDataDTO;
 import com.internalaudit.shared.Exceptions;
 import com.internalaudit.shared.ExceptionsReportDTO;
+import com.internalaudit.shared.Feedback;
 import com.internalaudit.shared.HibernateDetachUtility;
 import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.JobAndAreaOfExpertise;
@@ -6237,11 +6238,26 @@ public class MySQLRdbHelper {
 	    return "file uploaded";
 	} catch (Exception e) {
 	    e.printStackTrace();
-	    logger.info("eeror in : updateUploadedAuditStepFile");
+	    logger.info("error in : updateUploadedAuditStepFile");
 
 	    throw e;
 	}
 
     }
+
+	public String submitFeedBack(Feedback feedBack) throws Exception{
+		Session session = null;
+		try{
+			session = sessionFactory.openSession();
+			session.save(feedBack);
+			session.flush();
+			return "Feedback Submitted";
+		}catch (Exception e) {
+		    e.printStackTrace();
+		    logger.info("error in : submit feedback");
+
+		    throw e;
+		}
+	}
 
 }

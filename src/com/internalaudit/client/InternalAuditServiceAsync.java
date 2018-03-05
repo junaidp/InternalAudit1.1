@@ -17,6 +17,7 @@ import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.ExcelDataDTO;
 import com.internalaudit.shared.Exceptions;
 import com.internalaudit.shared.ExceptionsReportDTO;
+import com.internalaudit.shared.Feedback;
 import com.internalaudit.shared.JobAndAreaOfExpertise;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.JobCreationDTO;
@@ -241,4 +242,7 @@ public interface InternalAuditServiceAsync {
 	void fetchDashboard(AsyncCallback<DashBoardNewDTO> asyncCallback);
 	void updateUploadedAuditStepFile(int auditStepId, AsyncCallback<String> asyncCallback);
 	void saveSelectedAuditStepIdInSession(int auditStepId, AsyncCallback<String> asyncCallback);
+	void submitFeedBack(Feedback feedBack, AsyncCallback<String> asyncCallback);
+	
+	
 }

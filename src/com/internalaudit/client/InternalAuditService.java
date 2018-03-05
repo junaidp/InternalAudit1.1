@@ -18,6 +18,7 @@ import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.ExcelDataDTO;
 import com.internalaudit.shared.Exceptions;
 import com.internalaudit.shared.ExceptionsReportDTO;
+import com.internalaudit.shared.Feedback;
 import com.internalaudit.shared.JobAndAreaOfExpertise;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.JobCreationDTO;
@@ -241,5 +242,6 @@ public interface InternalAuditService extends RemoteService {
 	DashBoardNewDTO fetchDashboard()throws Exception;
 	String updateUploadedAuditStepFile(int auditStepId)throws Exception;
 	String saveSelectedAuditStepIdInSession(int auditStepId)throws Exception;
+	String submitFeedBack(Feedback feedBack)throws Exception;
 	
 }
