@@ -103,7 +103,7 @@ public class ResponsiblePersonRowView extends VerticalPanel{
 		exception.setEnabled(false);
 		auditJob.setVisible(false);
 		recommendations.setEnabled(false);
-		managementComments.setEnabled(false);
+		managementComments.setEnabled(false); 
 		
 		exception.setHeight("300px");
 		recommendations.setHeight("300px");

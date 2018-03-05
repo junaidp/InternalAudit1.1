@@ -371,7 +371,7 @@ public class ReportingPresenter implements Presenter
 						if(result.get(i).getFinalStatus()!=null && result.get(i).getFinalStatus().equalsIgnoreCase("Approved")){
 							responsiblePersonRowView.getImplementaionDate().setEnabled(false);
 							responsiblePersonRowView.getIsAgreed().setEnabled(false);
-							responsiblePersonRowView.getManagementComments().setEnabled(false);
+							responsiblePersonRowView.getManagementComments().setEnabled(true);//change 2018
 						}
 						
 
