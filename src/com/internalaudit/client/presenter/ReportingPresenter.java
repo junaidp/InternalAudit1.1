@@ -281,6 +281,9 @@ public class ReportingPresenter implements Presenter
 					for(int i=0; i< result.size(); i++){
 						final ResponsiblePersonRowView responsiblePersonRowView = new ResponsiblePersonRowView();
 //						responsiblePersonRowView.getBtnSend().setVisible(true);
+						if(loggedInEmployee.getRollId().getRollId() == 5){
+							responsiblePersonRowView.getManagementComments().setEnabled(true);
+						}
 						responsiblePersonRowView.getException().setText(result.get(i).getDetail());
 						responsiblePersonRowView.getRecommendations().setText(result.get(i).getRecommendations());
 						responsiblePersonRowView.getRecommendations().setTitle(result.get(i).getRecommendations());
@@ -371,7 +374,7 @@ public class ReportingPresenter implements Presenter
 						if(result.get(i).getFinalStatus()!=null && result.get(i).getFinalStatus().equalsIgnoreCase("Approved")){
 							responsiblePersonRowView.getImplementaionDate().setEnabled(false);
 							responsiblePersonRowView.getIsAgreed().setEnabled(false);
-							responsiblePersonRowView.getManagementComments().setEnabled(true);//change 2018
+							responsiblePersonRowView.getManagementComments().setEnabled(false);
 						}
 						
 
