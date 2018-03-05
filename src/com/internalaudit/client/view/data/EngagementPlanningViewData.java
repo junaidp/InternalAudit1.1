@@ -78,9 +78,15 @@ public class EngagementPlanningViewData {
 						engagementPlanningView.enableInitiationpanel();
 						engagementPlanningView.enableFields();
 					}
-					else if(record.getStatus() == InternalAuditConstants.SUBMIT && record.getInitiatedBy().getReportingTo() !=null && record.getInitiatedBy().getReportingTo().getEmployeeId() == loggedInUser.getEmployeeId().getEmployeeId()
-							|| loggedInUser.getEmployeeId().getRollId().getRollId() == 1 ){
-						engagementPlanningView.enableApprovalnpanel();
+//					else if(record.getStatus() == InternalAuditConstants.SUBMIT && record.getInitiatedBy().getReportingTo() !=null && record.getInitiatedBy().getReportingTo().getEmployeeId() == loggedInUser.getEmployeeId().getEmployeeId()
+//							|| loggedInUser.getEmployeeId().getRollId().getRollId() == 1 ){
+					else if(record.getStatus() == InternalAuditConstants.SUBMIT 
+							&& (record.getInitiatedBy().getReportingTo() !=null && record.getInitiatedBy().getReportingTo().getEmployeeId() == loggedInUser.getEmployeeId().getEmployeeId()
+							|| 
+							loggedInUser.getEmployeeId().getRollId().getRollId() == 1)
+							 ){
+					
+					engagementPlanningView.enableApprovalnpanel();
 						engagementPlanningView.enableFields();
 						
 						engagementPlanningView.getSubmittedBy().setVisible(true);
