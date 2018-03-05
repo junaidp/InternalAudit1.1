@@ -79,7 +79,7 @@ public class EngagementPlanningViewData {
 						engagementPlanningView.enableFields();
 					}
 //					else if(record.getStatus() == InternalAuditConstants.SUBMIT && record.getInitiatedBy().getReportingTo() !=null && record.getInitiatedBy().getReportingTo().getEmployeeId() == loggedInUser.getEmployeeId().getEmployeeId()
-//							|| loggedInUser.getEmployeeId().getRollId().getRollId() == 1 ){
+//							|| loggedInUser.getEmployeeId().getRollId().getRollId() == 1 ){ //2018: with this auditorhead always see approve buttons
 					else if(record.getStatus() == InternalAuditConstants.SUBMIT 
 							&& (record.getInitiatedBy().getReportingTo() !=null && record.getInitiatedBy().getReportingTo().getEmployeeId() == loggedInUser.getEmployeeId().getEmployeeId()
 							|| 
