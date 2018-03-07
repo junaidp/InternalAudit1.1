@@ -4388,8 +4388,11 @@ public class MySQLRdbHelper {
 	    List rsList = crit.list();
 	    for (Iterator it = rsList.iterator(); it.hasNext();) {
 		JobCreation job = (JobCreation) it.next();
-		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yy");
-		Date date = df.parse(job.getStartDate());
+//		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yy"); //2018 was unparsable date
+		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy");
+		String startDate = job.getStartDate().replaceAll("-", "/");
+//		Date date = df.parse(job.getStartDate());
+		Date date = df.parse(startDate);
 		DateTime enteredDate = new DateTime(date);
 		DateTime currentDate = new DateTime(); // current date
 		int week = enteredDate.getWeekOfWeekyear();
@@ -4400,7 +4403,7 @@ public class MySQLRdbHelper {
 	    }
 
 	} catch (Exception ex) {
-	    logger.warn(String.format("Exception occured in fetchNumberofComletedJobs", ex.getMessage()), ex);
+	    logger.warn(String.format("Exception occured in fetchJobsKickOffWithInaWeek", ex.getMessage()), ex);
 
 	} finally {
 	    session.close();
@@ -4420,8 +4423,11 @@ public class MySQLRdbHelper {
 	    List rsList = crit.list();
 	    for (Iterator it = rsList.iterator(); it.hasNext();) {
 		JobCreation job = (JobCreation) it.next();
-		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yy");
-		Date date = df.parse(job.getEndDate());
+//		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yy");
+		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy");
+		String endDate = job.getEndDate().replaceAll("-", "/");
+		Date date = df.parse(endDate);
+//		Date date = df.parse(job.getEndDate());
 		DateTime enteredDate = new DateTime(date);
 		DateTime currentDate = new DateTime(); // current date
 		int week = enteredDate.getWeekOfWeekyear();
@@ -4432,7 +4438,7 @@ public class MySQLRdbHelper {
 	    }
 
 	} catch (Exception ex) {
-	    logger.warn(String.format("Exception occured in fetchNumberofComletedJobs", ex.getMessage()), ex);
+	    logger.warn(String.format("Exception occured in fetchJobsDurForCompletionWithInaWeek", ex.getMessage()), ex);
 
 	} finally {
 	    session.close();
