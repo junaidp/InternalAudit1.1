@@ -1,7 +1,9 @@
+@FinalFields, false
+com.google.gwt.core.client.impl.JavaScriptExceptionBase, true, true, false, false, com.google.gwt.core.client.impl.JavaScriptExceptionBase/1290640551, 1290640551
 com.google.gwt.core.shared.SerializableThrowable, true, true, false, false, com.google.gwt.core.shared.SerializableThrowable/2791287161, 2791287161
 com.google.gwt.event.shared.UmbrellaException, true, true, false, false, com.google.gwt.event.shared.UmbrellaException/3104463596, 3104463596
 com.google.gwt.http.client.RequestException, true, true, false, false, com.google.gwt.http.client.RequestException/190587325, 190587325
-com.google.gwt.i18n.shared.impl.DateRecord, true, true, true, true, com.google.gwt.i18n.shared.impl.DateRecord/3375188634, 3375188634
+com.google.gwt.i18n.shared.impl.DateRecord, true, true, true, true, com.google.gwt.i18n.shared.impl.DateRecord/3173882066, 3173882066
 com.google.gwt.json.client.JSONException, true, true, false, false, com.google.gwt.json.client.JSONException/2941795468, 2941795468
 com.google.gwt.jsonp.client.TimeoutException, true, true, false, false, com.google.gwt.jsonp.client.TimeoutException/1112787596, 1112787596
 com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException, true, true, true, true, com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException/3936916533, 3936916533
@@ -12,6 +14,7 @@ com.google.gwt.user.client.rpc.SerializationException, true, true, false, false,
 com.google.gwt.user.client.rpc.SerializedTypeViolationException, true, true, false, false, com.google.gwt.user.client.rpc.SerializedTypeViolationException/914601580, 914601580
 com.google.gwt.user.client.rpc.ServiceDefTarget$NoServiceEntryPointSpecifiedException, true, true, false, false, com.google.gwt.user.client.rpc.ServiceDefTarget$NoServiceEntryPointSpecifiedException/3408313447, 3408313447
 com.google.gwt.user.client.rpc.XsrfToken, false, false, true, true, com.google.gwt.user.client.rpc.XsrfToken/4254043109, 4254043109
+com.google.gwt.useragent.client.UserAgentAsserter$UserAgentAssertionError, true, true, false, false, com.google.gwt.useragent.client.UserAgentAsserter$UserAgentAssertionError/1267019011, 1267019011
 com.google.gwt.xml.client.DOMException, true, false, false, false, com.google.gwt.xml.client.DOMException/4182906963, 4182906963
 com.google.gwt.xml.client.impl.DOMParseException, true, true, false, false, com.google.gwt.xml.client.impl.DOMParseException/3799120635, 3799120635
 com.google.web.bindery.event.shared.UmbrellaException, true, true, false, false, com.google.web.bindery.event.shared.UmbrellaException/1025846929, 1025846929
@@ -42,6 +45,8 @@ com.internalaudit.shared.ExcelDataDTO, false, false, true, true, com.internalaud
 com.internalaudit.shared.Exceptions, true, true, true, true, com.internalaudit.shared.Exceptions/1626082180, 1626082180
 @ClientFields,com.internalaudit.shared.Exceptions,exceptionId,detail,jobCreationId,responsiblePerson,divisionHead,auditStep,dueDate,jobName,implementaionDate,managementComments,auditHead,status,finalStatus,initialStatus,implementaionComments,isImplemented,isAgreed,emailSent,year,companyId,comments,recommendations,displayStatus
 com.internalaudit.shared.ExceptionsReportDTO, false, false, true, true, com.internalaudit.shared.ExceptionsReportDTO/327412047, 327412047
+com.internalaudit.shared.Feedback, false, false, true, true, com.internalaudit.shared.Feedback/270254487, 270254487
+@ClientFields,com.internalaudit.shared.Feedback,id,heading,description,employee
 com.internalaudit.shared.JobAndAreaOfExpertise, true, true, true, true, com.internalaudit.shared.JobAndAreaOfExpertise/221386432, 221386432
 @ClientFields,com.internalaudit.shared.JobAndAreaOfExpertise,jobAndAreaId,isChecked,jobId,areaOfExpertiseId
 com.internalaudit.shared.JobCreation, true, true, true, true, com.internalaudit.shared.JobCreation/2658274520, 2658274520
@@ -77,8 +82,8 @@ com.internalaudit.shared.StrategicAudit, true, true, false, false, com.internala
 com.internalaudit.shared.StrategicDTO, true, true, false, false, com.internalaudit.shared.StrategicDTO/3653082263, 3653082263
 com.internalaudit.shared.StrategicDepartments, true, true, true, true, com.internalaudit.shared.StrategicDepartments/3526832168, 3526832168
 @ClientFields,com.internalaudit.shared.StrategicDepartments,strategicDepartmentId,strategic,department,resourcesIds
-com.internalaudit.shared.StrategicRisk, true, true, true, true, com.internalaudit.shared.StrategicRisk/1142069606, 1142069606
-@ClientFields,com.internalaudit.shared.StrategicRisk,id,rating,comments,strategicId,riskFactorId
+com.internalaudit.shared.StrategicRisk, true, true, true, true, com.internalaudit.shared.StrategicRisk/3557686415, 3557686415
+@ClientFields,com.internalaudit.shared.StrategicRisk,id,rating,probabality,impact,comments,strategicId,riskFactorId
 com.internalaudit.shared.TimeLineDates, true, true, true, true, com.internalaudit.shared.TimeLineDates/2848901379, 2848901379
 com.internalaudit.shared.TimeOutException, true, true, false, false, com.internalaudit.shared.TimeOutException/2257903408, 2257903408
 com.internalaudit.shared.User, true, true, true, true, com.internalaudit.shared.User/1913996629, 1913996629
@@ -126,7 +131,7 @@ java.util.EmptyStackException, true, true, false, false, java.util.EmptyStackExc
 java.util.HashMap, false, false, true, true, java.util.HashMap/1797211028, 1797211028
 java.util.HashSet, true, true, false, false, java.util.HashSet/3273092938, 3273092938
 java.util.LinkedHashMap, false, false, true, true, java.util.LinkedHashMap/3008245022, 3008245022
-java.util.LinkedHashSet, true, true, false, false, java.util.LinkedHashSet/1826081506, 1826081506
+java.util.LinkedHashSet, true, true, false, false, java.util.LinkedHashSet/95640124, 95640124
 java.util.NoSuchElementException, true, true, false, false, java.util.NoSuchElementException/1559248883, 1559248883
 java.util.TooManyListenersException, true, true, false, false, java.util.TooManyListenersException/2023078032, 2023078032
 java.util.TreeMap, true, true, false, false, java.util.TreeMap/1493889780, 1493889780

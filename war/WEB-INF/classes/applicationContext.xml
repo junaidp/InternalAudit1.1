@@ -61,6 +61,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 				<value>com.internalaudit.shared.Company</value>
 				<value>com.internalaudit.shared.Rolls</value>
 				<value>com.internalaudit.shared.CompanySkillRelation</value>
+				<value>com.internalaudit.shared.Feedback</value>
+				
 				
 			</list>
 		</property>

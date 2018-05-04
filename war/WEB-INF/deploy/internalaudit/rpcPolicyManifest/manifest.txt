@@ -1,2 +1,3 @@
 # Module internalaudit
 # RPC service class, partial path of RPC policy file
+com.internalaudit.client.InternalAuditService, 84B9E6C6F200547555B50DBCF7829D8C.gwt.rpc

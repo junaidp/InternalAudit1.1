@@ -9,7 +9,7 @@
     <property name="BUILD.dir" location="..\build"/> 
     <property name="DIST.dir" location="..\dist"/> 
     <property name="JAR.dir" location="D:\development\JARS"/> 
-    <property name="MASTER.DIST.dir" location="C:\work\softwares\Tomcat\apache-tomcat-7.0.56\webapps"/> 
+    <property name="MASTER.DIST.dir" location="D:\downloads\apache-tomcat-7.0.67\webapps"/> 
 
     <!-- =============================================================================================================  -->
     <target name="make_war" >
