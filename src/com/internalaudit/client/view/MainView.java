@@ -1,5 +1,7 @@
 package com.internalaudit.client.view;
 
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
@@ -7,20 +9,17 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TabBar;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.presenter.MainPresenter.Display;
-import com.internalaudit.client.view.Reporting.ReportingView;
-import com.internalaudit.client.view.Scheduling.AuditSchedulingView;
+import com.internalaudit.client.widgets.TableauAbilite;
+import com.internalaudit.client.widgets.TableauExcel;
+import com.internalaudit.client.widgets.TableauReports;
 import com.internalaudit.shared.User;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.PlainTabPanel;
 import com.sencha.gxt.widget.core.client.TabItemConfig;
-import com.sencha.gxt.widget.core.client.TabPanel;
-import com.sencha.gxt.widget.core.client.info.Info;
 
 public class MainView extends Composite implements Display {
 
@@ -37,7 +36,7 @@ public class MainView extends Composite implements Display {
 	private VerticalPanel vpnlDashBoard = new VerticalPanel();
 	private VerticalPanel reportingView = new VerticalPanel();
 	private VerticalPanel reportsView = new VerticalPanel();
-	
+
 	PlainTabPanel panel = new PlainTabPanel();
 
 	public MainView(User loggedInUser){
@@ -47,16 +46,16 @@ public class MainView extends Composite implements Display {
 
 		HorizontalPanel hpnlMain = new HorizontalPanel();
 		Image imgHeader = new Image("images/trans.png");
-		
+
 		VerticalPanel vp = new VerticalPanel();
 		VerticalPanel hpnl = new VerticalPanel();
 		HorizontalPanel hpnlSpace = new HorizontalPanel();
 		VerticalPanel hpnlHeader = new VerticalPanel();
-		
+
 		vp.add(hpnlMain);
 		hpnlMain.add(imgHeader);
 		hpnlMain.add(hpnlHeader);
-//		hpnlHeader.addStyleName("blueBackground");
+		//		hpnlHeader.addStyleName("blueBackground");
 		hpnlMain.setWidth(Window.getClientWidth()-10+"px");
 		hpnlHeader.setWidth(Window.getClientWidth()-imgHeader.getWidth()+"px");
 		hpnlHeader.setHeight("91px");
@@ -73,9 +72,9 @@ public class MainView extends Composite implements Display {
 		//	      }
 		//	    };
 
-//		logOut.addStyleName("logout");
+		//		logOut.addStyleName("logout");
 
-//		panel.setWidth(Window.getClientWidth()-100+"px");
+		//		panel.setWidth(Window.getClientWidth()-100+"px");
 		panel.setWidth("1200px");
 		panel.setResizeTabs(true);
 		if(loggedInUser.getEmployeeId().getFromInternalAuditDept().equalsIgnoreCase("yes")){
@@ -83,30 +82,31 @@ public class MainView extends Composite implements Display {
 			panel.add(vpnlAuditScheduing, "Audit Scheduling");
 			panel.add(vpnlAuditEngagement, "Audit Engagement");
 			panel.add(reportingView, "Reporting");
-			
+
 			TabItemConfig config = new TabItemConfig("");
 			config.setEnabled(false); 
-			
-//			panel.add(new Label(""), config);
-//			panel.add(new Label(""), config);
+
 			panel.add(vpnlDashBoard, "DashBoard");
 			panel.add(new EmployeeDashBoardView(), "WorkItems");
 			panel.add(reportsView, "Reports");
-			
-			
+
 		}else{
 			panel.add(reportingView, "Reporting");
 			panel.setActiveWidget(reportingView);
 		}
+		if(loggedInUser.getEmployeeId().getUserId().getUserId() == 1){
+			addTableauTabs();
+		}
 
 		TabItemConfig config = new TabItemConfig("Reporting");
-		
-//		panel.insert(reportingView, 3, config);
+
+		//		panel.insert(reportingView, 3, config);
 		VerticalPanel vpnlTabPanel = new VerticalPanel();
 		vpnlTabPanel.addStyleName("centerPanel");
 		vp.setWidth("100%");
 		vp.add(vpnlTabPanel);
 		vpnlTabPanel.add(panel);
+
 		hpnl.add(selectYear());
 		hpnl.add(welcome); // Welcome <name>
 		welcome.addStyleName("blue");
@@ -115,47 +115,77 @@ public class MainView extends Composite implements Display {
 		hpnlSpace.setWidth("65%");
 		hpnlHeader.add(hpnl);
 		if(loggedInUser.getEmployeeId().getEmployeeName().equalsIgnoreCase("Muhammad Faheem Piracha") && loggedInUser.getEmployeeId().getEmployeeId() ==1){
-		hpnl.add(createCompany); 
-		hpnl.add(createUser); 
+			hpnl.add(createCompany); 
+			hpnl.add(createUser); 
 		}
 		hpnl.add(feedBack);
 		hpnl.add(logOut); // logout link
 		hpnl.setSpacing(2);
 		hpnl.setWidth("100%");
 		hpnl.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		
+
 		initWidget(vp);
 	}
-	
+
+	private void addTableauTabs() {
+		final VerticalPanel vpTab = new VerticalPanel();
+		final VerticalPanel vpTabAb = new VerticalPanel();
+		final VerticalPanel vpTabEx = new VerticalPanel();
+
+		vpTabAb.setWidth("100%");
+		vpTab.setWidth("100%");
+		vpTabEx.setWidth("100%");
+
+		panel.add(vpTab, "Tableau");
+		panel.add(vpTabAb, "Tableau Abilite");
+		panel.add(vpTabEx, "Tableau Excel");
+
+		panel.addSelectionHandler(new SelectionHandler<Widget>() {
+
+			@Override
+			public void onSelection(SelectionEvent<Widget> event) {
+				if(event.getSelectedItem().equals(vpTab)){
+					vpTab.add(new TableauReports());
+				}
+				else if(event.getSelectedItem().equals(vpTabAb)){
+					vpTabAb.add(new TableauAbilite());
+				}
+				else if(event.getSelectedItem().equals(vpTabEx)){
+					vpTabEx.add(new TableauExcel());
+				}
+			}
+		});
+	}
+
 	public Widget selectYear(){
 		HorizontalPanel hpnlYear = new HorizontalPanel();
 		VerticalPanel vpnlYear = new VerticalPanel();
 		Label lblSelectYear = new Label("Year");
-//		vpnlYear.add(lblSelectYear);
+		//		vpnlYear.add(lblSelectYear);
 		listYears.addStyleName("yearList");
 		vpnlYear.add(listYears);
 		hpnlYear.add(vpnlYear);
 		hpnlYear.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		vpnlYear.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		
-//		listYears.addItem("2014");
-		
-//		listYears.addItem("2015");
-//		listYears.addItem("2016");
-//		listYears.addItem("2017");
-//		listYears.addItem("2018");
-//		listYears.addItem("2019");
-//		listYears.addItem("2020");
-//		if(selectedYear!=0){
-//			for(int i=0; i< listYears.getItemCount(); i++){
-//				if(Integer.parseInt(listYears.getValue(i)) == selectedYear){
-//					listYears.setSelectedIndex(i);
-//				}
-//			}
-//		}
+
+		//		listYears.addItem("2014");
+
+		//		listYears.addItem("2015");
+		//		listYears.addItem("2016");
+		//		listYears.addItem("2017");
+		//		listYears.addItem("2018");
+		//		listYears.addItem("2019");
+		//		listYears.addItem("2020");
+		//		if(selectedYear!=0){
+		//			for(int i=0; i< listYears.getItemCount(); i++){
+		//				if(Integer.parseInt(listYears.getValue(i)) == selectedYear){
+		//					listYears.setSelectedIndex(i);
+		//				}
+		//			}
+		//		}
 		return hpnlYear;
-		
-		
+
+
 	}
 
 	public User getLoggedInUser() {

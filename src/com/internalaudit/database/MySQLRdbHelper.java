@@ -127,9 +127,9 @@ public class MySQLRdbHelper {
 	    List rsList = crit.list();
 	    for (Iterator it = rsList.iterator(); it.hasNext();) {
 		users = (User) it.next();
-		System.out.println(users.getPassword());
+		
 		System.out.println(users.getName()+"Signed In on" + new Date());
-		logger.info(String.format("signed In from logger"));
+		logger.info(String.format(users.getName()+"Signed In on" + new Date()));
 	    }
 	    HibernateDetachUtility.nullOutUninitializedFields(users,
 		    HibernateDetachUtility.SerializationType.SERIALIZATION);
@@ -4822,7 +4822,7 @@ public class MySQLRdbHelper {
 	    }
 
 	} catch (Exception ex) {
-	    logger.warn(String.format("Exception occured in fetchStrategicdepartments", ex.getMessage()), ex);
+	    logger.warn(String.format("Exception occured in fetchStrategicdepartments", ex.getLocalizedMessage()), ex);
 
 	} finally {
 
