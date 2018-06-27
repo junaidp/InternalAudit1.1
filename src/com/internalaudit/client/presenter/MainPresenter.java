@@ -228,6 +228,9 @@ public class MainPresenter implements Presenter
 			display.getListYears().addItem(currentYear+3+"");
 			display.getListYears().addItem(currentYear+4+"");
 			display.getListYears().addItem(currentYear-1+"");
+			display.getListYears().addItem(currentYear-2+"");
+			display.getListYears().addItem(currentYear-3+"");
+			display.getListYears().addItem(currentYear-4+"");
 			
 			if(selectedYear!=0){
 				for(int i=0; i< display.getListYears().getItemCount(); i++){
