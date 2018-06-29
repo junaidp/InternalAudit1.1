@@ -365,7 +365,7 @@ public class JobTimeEstimationPresenter implements Presenter
 
 				String place = display.getPlaceofWorkListBox().getItemText(index);
 
-				if ( place.equals("Outstation")) {
+				if ( place.equals("Outstation")||place.equals("Inhouse and Outstation")) {
 					display.getTravelingDaysListBox().setEnabled(true);
 					display.getTravelingDaysListBox().setSelectedIndex(0);
 				}

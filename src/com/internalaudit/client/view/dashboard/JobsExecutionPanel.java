@@ -10,6 +10,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -29,15 +30,16 @@ public class JobsExecutionPanel extends Composite  {
 		
 	}
 	@UiField
+	HTMLPanel background;
+	@UiField
 	VerticalPanel container;
 	@UiField 
 	Label heading;
 	
 	public void setData(ArrayList<String> names){
 		container.setSpacing(4);
-		
 		for(int i=0; i< names.size(); i++){
-			Label lblName = new Label();
+            Label lblName = new Label();
 			lblName.addStyleName("white");
 			container.add(lblName);
 			lblName.setText(" . " + names.get(i));
@@ -49,6 +51,8 @@ public class JobsExecutionPanel extends Composite  {
 			container.add(lblEmpty);
 		}
 	}
+
+
 
 
 }

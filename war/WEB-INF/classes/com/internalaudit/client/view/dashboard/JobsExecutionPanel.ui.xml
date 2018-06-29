@@ -6,7 +6,7 @@
 		font-weight: bold;
 	}
 	</ui:style>
-	<g:HTMLPanel styleName="blueBackground" >
+	<g:HTMLPanel styleName="blueBackground" ui:field="background">
 		<div styleName="withPadding">
 		<g:Label styleName="whiteBoldLeftPadded" ui:field="heading">Jobs In Execution</g:Label>
 		</div>

@@ -125,6 +125,7 @@
 						
 						<g:item>Outstation</g:item>
 						<g:item>Inhouse</g:item>
+						<g:item>Inhouse and Outstation</g:item>
 						
 					</g:ListBox>
 				</div>

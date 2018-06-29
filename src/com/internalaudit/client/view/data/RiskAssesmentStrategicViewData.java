@@ -256,6 +256,11 @@ public class RiskAssesmentStrategicViewData {
 				if (riskAssesmentDTOs.get(index).getStrategicRisks().get(j).getProbabality()
 					.equals(riskFactorsView.getProbabality().getValue(k))) {
 				    riskFactorsView.getProbabality().setSelectedIndex(k);
+				    
+				    //for circle
+				    if (riskAssesmentDTOs.get(index).getStrategicRisks().get(j).getProbabality().equals("3")){
+				    	riskFactorsView.getRiskRating().setVisible(true);
+				    }
 				}
 			    }
 			    // END

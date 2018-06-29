@@ -66,7 +66,7 @@ public class RiskAssesmentView extends Composite {
 		};
 
 		final PlainTabPanel panel = new PlainTabPanel();
-		panel.setWidth(Window.getClientWidth()-100);
+		panel.setWidth(Window.getClientWidth());
 		final VerticalPanel vpnlStrategic = new VerticalPanel();
 		final VerticalPanel vpnlOperation = new VerticalPanel();
 		final VerticalPanel vpnlReporting = new VerticalPanel();
@@ -130,7 +130,7 @@ public class RiskAssesmentView extends Composite {
 		hpnlStrategic.add(lblRiskFactor);
 		hpnlStrategic.add(lblRating);
 		
-		hpnlStrategic.setWidth("800px");
+		hpnlStrategic.setWidth("1000px");
 		lblStrategicObjective.setWidth("110px");
 //		lblStrategicObjective.setWordWrap(false);
 		lblRiskFactor.setWidth("142px");

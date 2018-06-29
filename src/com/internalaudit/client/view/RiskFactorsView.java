@@ -4,6 +4,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -15,6 +16,10 @@ public class RiskFactorsView extends Composite{
 	private ListBox probabality;
 	private int riskFactorId;
 	private TextBox comments;
+	private Label lbl; 
+	private Image riskRating;
+		
+	
 	
 	public RiskFactorsView() {
 		
@@ -38,6 +43,9 @@ public class RiskFactorsView extends Composite{
 		probabality = new ListBox();
 		
 		probabality.setVisibleItemCount(1);
+		lbl = new Label("hello");
+
+		
 		
 		
 		rating.addItem("N/A");
@@ -58,12 +66,19 @@ public class RiskFactorsView extends Composite{
 		comments = new TextBox();
 		
 		comments.setWidth("350px");
+		riskRating = new Image("redcircle.png");
+		riskRating.setVisible(false);
+	
+		HorizontalPanel hpnlSpaceRating = new HorizontalPanel();
 		
+		hpnlSpaceRating.setWidth("200px");
 		hpnlMain.add(riskFactor);
 		hpnlMain.add(comments);
 		hpnlMain.add(impact);
 		hpnlMain.add(probabality);
 		hpnlMain.add(rating);
+		hpnlMain.add(riskRating);
+		hpnlMain.add(hpnlSpaceRating);
 		hpnlMain.setSpacing(2);
 		
 		setHandlers();
@@ -176,6 +191,11 @@ public class RiskFactorsView extends Composite{
 		this.probabality = probabality;
 	}
 
-	
+	public Image getRiskRating() {
+		return riskRating;
+	}
+	public void setRiskRating(Image riskRating) {
+		this.riskRating = riskRating;
+	}
 
 }
