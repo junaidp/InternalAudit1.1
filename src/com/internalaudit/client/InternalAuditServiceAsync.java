@@ -24,7 +24,10 @@ import com.internalaudit.shared.JobCreationDTO;
 import com.internalaudit.shared.JobEmployeeRelation;
 import com.internalaudit.shared.JobTimeAllocationReportDTO;
 import com.internalaudit.shared.JobTimeEstimationDTO;
+import com.internalaudit.shared.JobType;
 import com.internalaudit.shared.JobsOfEmployee;
+import com.internalaudit.shared.Process;
+import com.internalaudit.shared.ProcessDTO;
 import com.internalaudit.shared.ResourceUse;
 import com.internalaudit.shared.Risk;
 import com.internalaudit.shared.RiskAssesmentDTO;
@@ -37,6 +40,7 @@ import com.internalaudit.shared.StrategicAudit;
 import com.internalaudit.shared.StrategicDTO;
 import com.internalaudit.shared.StrategicDepartments;
 import com.internalaudit.shared.StrategicRisk;
+import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.User;
 
 /**
@@ -243,6 +247,10 @@ public interface InternalAuditServiceAsync {
 	void updateUploadedAuditStepFile(int auditStepId, AsyncCallback<String> asyncCallback);
 	void saveSelectedAuditStepIdInSession(int auditStepId, AsyncCallback<String> asyncCallback);
 	void submitFeedBack(Feedback feedBack, AsyncCallback<String> asyncCallback);
+
+	void fetchProcessDTOs(AsyncCallback<ArrayList<ProcessDTO>> callback);
+
+	void fetchSubProcess(int processId, AsyncCallback<ArrayList<SubProcess>> callback);
 	
 	
 }

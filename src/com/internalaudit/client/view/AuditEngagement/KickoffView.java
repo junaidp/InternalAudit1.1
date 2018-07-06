@@ -223,7 +223,7 @@ public class KickoffView extends Composite {
 		cp.setHeadingText("Audit Work Programme");
 		VerticalPanel vpnl = new VerticalPanel();
 		vpnl.setHeight("400px");
-		vpnl.add(new AuditWorkProg(rpcService, selectedJobId, loggedInUser.getEmployeeId()));
+		vpnl.add(new AuditWorkProg(rpcService, selectedJobId, loggedInUser.getEmployeeId(), auditEngId));
 		cp.add(vpnl);
 		con.add(cp);
 

@@ -26,7 +26,11 @@ import com.internalaudit.shared.JobEmployeeRelation;
 import com.internalaudit.shared.JobTimeAllocationReportDTO;
 import com.internalaudit.shared.JobTimeEstimation;
 import com.internalaudit.shared.JobTimeEstimationDTO;
+import com.internalaudit.shared.JobType;
 import com.internalaudit.shared.JobsOfEmployee;
+import com.internalaudit.shared.Process;
+import com.internalaudit.shared.ReportsDTO;
+import com.internalaudit.shared.ProcessDTO;
 import com.internalaudit.shared.ResourceUse;
 import com.internalaudit.shared.Risk;
 import com.internalaudit.shared.RiskAssesmentDTO;
@@ -39,6 +43,7 @@ import com.internalaudit.shared.StrategicAudit;
 import com.internalaudit.shared.StrategicDTO;
 import com.internalaudit.shared.StrategicDepartments;
 import com.internalaudit.shared.StrategicRisk;
+import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.User;
 
 /**
@@ -243,5 +248,7 @@ public interface InternalAuditService extends RemoteService {
 	String updateUploadedAuditStepFile(int auditStepId)throws Exception;
 	String saveSelectedAuditStepIdInSession(int auditStepId)throws Exception;
 	String submitFeedBack(Feedback feedBack)throws Exception;
-	
+	//ArrayList<Process p,> fetchConsolidation(ArrayList<String> process,ArrayList<String> subProcess,ArrayList<String> jobType);
+	ArrayList<ProcessDTO> fetchProcessDTOs();
+	ArrayList<SubProcess> fetchSubProcess(int processId);
 }

@@ -17,7 +17,11 @@ public class ConsolidationView extends Composite{
 	private Label tab;
 	private Label comments = new Label(" Feedback ");
 	private Image submitted = new Image(" images/tick.png ");
-	
+	// new listbox for process
+	private ListBox listBoxProcess;
+	//new listbox for subprocess
+	private ListBox listBoxSubProcess;
+	private ListBox listBoxJobType;
 	private Button btnSave = new Button("Save");
 	private Button btnSubmit = new Button("Submit");
 	private Button btnApprove = new Button("Approve");
@@ -48,22 +52,39 @@ public class ConsolidationView extends Composite{
 		
 		area = new Label("");
 		horizontalPanel.add(area);
-		area.setWidth("400px");
+		area.setWidth("240px");
 //		area.setWordWrap(false);
 		
 		riskRating = new Image();
 		horizontalPanel.add(riskRating);
 		HorizontalPanel hpnlSpaceRating = new HorizontalPanel();
 		horizontalPanel.add(hpnlSpaceRating);
-		hpnlSpaceRating.setWidth("200px");
+		hpnlSpaceRating.setWidth("70px");
 		
 		auditableUnit = new TextField();
 		horizontalPanel.add(auditableUnit);
-		auditableUnit.setWidth("250px");
+		auditableUnit.setWidth("190px");
 		
-		tab = new Label();
-		horizontalPanel.add(tab);
-		tab.setWidth("100px");
+	
+		
+		//listboox  process added in view panel
+		listBoxProcess = new ListBox();
+		horizontalPanel.add(listBoxProcess);
+		listBoxProcess.setWidth("170px");
+		
+		//listbox subricess added in panel
+		listBoxSubProcess = new ListBox();
+		horizontalPanel.add(listBoxSubProcess);
+		listBoxSubProcess.setWidth("180px");
+		
+		//listbox jobtype added in panel
+				listBoxJobType = new ListBox();
+				horizontalPanel.add(listBoxJobType);
+				listBoxJobType.setWidth("160px");
+				
+				tab = new Label();
+				horizontalPanel.add(tab);
+				tab.setWidth("50px");
 		
 		verticalPanel.add(hpnlButtonInitiator);
 		verticalPanel.add(hpnlButtonsApprovar);
@@ -207,6 +228,24 @@ public class ConsolidationView extends Composite{
 	}
 	public void setSubmitted(Image submitted) {
 		this.submitted = submitted;
+	}
+	public ListBox getListBoxProcess() {
+		return listBoxProcess;
+	}
+	public void setListBoxProcess(ListBox listBoxProcess) {
+		this.listBoxProcess = listBoxProcess;
+	}
+	public ListBox getListBoxSubProcess() {
+		return listBoxSubProcess;
+	}
+	public void setListBoxSubProcess(ListBox listBoxSubProcess) {
+		this.listBoxSubProcess = listBoxSubProcess;
+	}
+	public ListBox getListBoxJobType() {
+		return listBoxJobType;
+	}
+	public void setListBoxJobType(ListBox listBoxJobType) {
+		this.listBoxJobType = listBoxJobType;
 	}
 	
 

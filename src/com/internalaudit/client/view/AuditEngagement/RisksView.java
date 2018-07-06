@@ -25,6 +25,7 @@ import com.internalaudit.client.view.AmendmentPopup;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.data.DataSetter;
 import com.internalaudit.client.widgets.RiskRow;
+import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.Risk;
@@ -235,7 +236,12 @@ public class RisksView extends Composite {
 	    RiskRow current = ((RiskRow) (riskRows.getWidget(i)));
 
 	    Risk risk = new Risk();
-	    risk.setAuditEngageId(auditEngId);
+	   // risk.setAuditEngageId(auditEngId);
+	    AuditEngagement auditEng = new AuditEngagement();
+		auditEng.setAuditEngId(auditEngId);
+		risk.setAuditEngageId(auditEng);
+	    
+	    
 	    risk.setRiskId(Integer.parseInt(current.getRiskId().getText()));
 
 	    risk.setDescription(current.getDescription().getText());
@@ -268,7 +274,12 @@ public class RisksView extends Composite {
 	    if (Integer.parseInt(current.getRiskId().getText()) == 0) {
 
 		Risk risk = new Risk();
-		risk.setAuditEngageId(auditEngId);
+		
+		AuditEngagement auditEng = new AuditEngagement();
+		auditEng.setAuditEngId(auditEngId);
+		risk.setAuditEngageId(auditEng);
+		//risk.setAuditEngageId(auditEngId);
+		
 		risk.setDescription(current.getDescription().getText());
 		risk.setExistingControl(current.getControl().getText());
 		Employee initiatedBy = new Employee();

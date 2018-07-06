@@ -27,8 +27,11 @@ public class Risk implements Serializable {
 	@Column(name="existing_control")
 	private String existingControl;
 	
-	@Column(name="audit_engage_id")
-	private int auditEngageId; // this represents id of AuditEngagement table .
+//	@Column(name="audit_engage_id")
+//	private int auditEngageId; // this represents id of AuditEngagement table .
+	@JoinColumn(name = "audit_engage_id")
+	@ManyToOne(fetch = FetchType.EAGER)
+	private AuditEngagement auditEngageId;
 	
 	@Column(name = "year")
 	private int year;
@@ -72,14 +75,6 @@ public class Risk implements Serializable {
 
 	public void setExistingControl(String existingControl) {
 		this.existingControl = existingControl;
-	}
-
-	public int getAuditEngageId() {
-		return auditEngageId;
-	}
-
-	public void setAuditEngageId(int auditEngageId) {
-		this.auditEngageId = auditEngageId;
 	}
 
 	public int getYear() {
@@ -128,6 +123,14 @@ public class Risk implements Serializable {
 
 	public void setFeedback(String feedback) {
 		this.feedback = feedback;
+	}
+
+	public AuditEngagement getAuditEngageId() {
+		return auditEngageId;
+	}
+
+	public void setAuditEngageId(AuditEngagement auditEngageId) {
+		this.auditEngageId = auditEngageId;
 	}
 
 }

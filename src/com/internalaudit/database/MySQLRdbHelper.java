@@ -65,7 +65,10 @@ import com.internalaudit.shared.JobSkillRelation;
 import com.internalaudit.shared.JobTimeAllocationReportDTO;
 import com.internalaudit.shared.JobTimeEstimation;
 import com.internalaudit.shared.JobTimeEstimationDTO;
+import com.internalaudit.shared.JobType;
 import com.internalaudit.shared.JobsOfEmployee;
+import com.internalaudit.shared.Process;
+import com.internalaudit.shared.ProcessDTO;
 import com.internalaudit.shared.ReportsDTO;
 import com.internalaudit.shared.ResourceUse;
 import com.internalaudit.shared.Risk;
@@ -79,8 +82,10 @@ import com.internalaudit.shared.StrategicAudit;
 import com.internalaudit.shared.StrategicDTO;
 import com.internalaudit.shared.StrategicDepartments;
 import com.internalaudit.shared.StrategicRisk;
+import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.TimeLineDates;
 import com.internalaudit.shared.User;
+import com.sun.org.apache.xml.internal.serialize.OutputFormat.DTD;
 
 public class MySQLRdbHelper {
 
@@ -492,14 +497,21 @@ public class MySQLRdbHelper {
 
 					} else {
 						strategic.setAuditableUnit(clientSideStrategic.getAuditableUnit());
+						strategic.setProcess(clientSideStrategic.getProcess());
+						strategic.setSubProcess(clientSideStrategic.getSubProcess());
+						strategic.setJobType(clientSideStrategic.getJobType());
 						submitStrategic(strategic, loggedInUser, clientSideStrategic, session);
 					}
 				}
 			}
 
 			strategic.setRating(clientSideStrategic.getRating());
+			strategic.setUserDefinedRating(clientSideStrategic.getUserDefinedRating());
 			strategic.setComments(clientSideStrategic.getComments());
 			strategic.setAuditableUnit(clientSideStrategic.getAuditableUnit());
+			strategic.setProcess(clientSideStrategic.getProcess());
+			strategic.setSubProcess(clientSideStrategic.getSubProcess());
+			strategic.setJobType(clientSideStrategic.getJobType());
 			strategic.setStrategicDepartments(clientSideStrategic.getStrategicDepartments());
 			strategic.setDate(new Date());
 			strategic.setTab(selectedTab);
@@ -628,6 +640,9 @@ public class MySQLRdbHelper {
 		// fetchEmployeeById(loggedInUser.getEmployeeId().getEmployeeId());
 		// strategic.setApprovedBy(approvedBy);
 		strategic.setAuditableUnit(clientSideStrategic.getAuditableUnit());
+//		strategic.setProcess(clientSideStrategic.getProcess());
+//		strategic.setSubProcess(clientSideStrategic.getSubProcess());
+//		strategic.setJobType(clientSideStrategic.getJobType());
 		// strategic.setObjectiveOwner(clientSideStrategic.getObjectiveOwner());//
 		// HERE Objective owner
 		strategic.setStrategicObjective(clientSideStrategic.getStrategicObjective());
@@ -731,6 +746,11 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiatedBy", "initiated");
 			crit.createAlias("assignedTo", "assigned");
 			crit.createAlias("assigned.userId", "assignedUser");
+			
+			crit.createAlias("process", "processId");
+			crit.createAlias("subProcess", "subProcessId");
+			crit.createAlias("jobType", "jobTypeId");
+			
 			// crit.createAlias("assigned.reportingTo", "assignedReporting");
 			crit.createAlias("initiated.userId", "initiatedUser");
 			// crit.createAlias("initiated.reportingTo", "initiatedReporting");
@@ -794,6 +814,12 @@ public class MySQLRdbHelper {
 				HibernateDetachUtility.nullOutUninitializedFields(strategic.getAssignedTo().getReportingTo(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(strategic.getAssignedTo().getCityId(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(strategic.getProcess(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(strategic.getJobType(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(strategic.getSubProcess(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
 				// HibernateDetachUtility.nullOutUninitializedFields(strategic.getObjectiveOwner().getCityId(),
@@ -1103,7 +1129,8 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(StrategicRisk.class);
 			crit.createAlias("strategicId", "strategic");
-
+			
+			
 			// crit.createAlias("strategic.objectiveOwner", "owner");
 			// crit.createAlias("owner.cityId", "city");
 			// crit.createAlias("owner.countryId", "country");
@@ -1462,7 +1489,7 @@ public class MySQLRdbHelper {
 			logger.info(String.format("(Inside fetchDashBoard) Fetching dashboard for user :" +loggedInUser.getName()+" for year : " + year
 					+ " of Company ID " + companyId + " " + new Date()));
 		}
-		
+
 		catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchDashBoard", ex.getMessage()), ex);
 			System.out.println("Exception occured in fetchDashBoard " + ex.getMessage());
@@ -1575,11 +1602,11 @@ public class MySQLRdbHelper {
 				entity.getResourceUse().get(i).setJobId(entity.getJobTimeEstimation().getJobId());
 				saveResourceNum(entity.getResourceUse().get(i), year);
 			}
-			
+
 			logger.info(
 					String.format("(Inside saveJobTimeEstimation) saving job time estimation for year : "
 							+ year + " for company: " + companyId + new Date()));
-		
+
 
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in save job estimation", ex.getMessage()), ex);
@@ -1608,14 +1635,14 @@ public class MySQLRdbHelper {
 			crit.add(Restrictions.eq("skill.skillId", resourceUse.getSkill().getSkillId()));
 
 			int resources = crit.list().size();
-			
+
 			logger.info(
 					String.format("(Inside saveJobTimeEstimation) checking enough resources for resourceUse : "
-							  +resourceUse.getSkill().getSkillName() +" "  + new Date()));
-		
+							+resourceUse.getSkill().getSkillName() +" "  + new Date()));
+
 			return resources >= resourceUse.getNoOfResources();
-			
-			
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchEmployees", ex.getMessage()), ex);
 
@@ -1783,7 +1810,7 @@ public class MySQLRdbHelper {
 			}
 			session.save(entity);
 			tr.commit();
-			
+
 			logger.info(
 					String.format("(Inside saveResourceNum) saving Respurses for year : "
 							+ year +"skill"+ entity.getSkill().getSkillName()+ " " + new Date()));
@@ -1819,11 +1846,11 @@ public class MySQLRdbHelper {
 
 				records.add((ResourceUse) it.next());
 			}
-			
+
 			logger.info(
 					String.format("(Inside fetchResourceUseFor) fetching ResourceUseFor for year : "
 							+ year +"vfor job"+ jobId+"for company"+companyId+ " " + new Date()));
-			
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchResourceUseFor ", ex.getMessage()), ex);
 		} finally {
@@ -1870,12 +1897,12 @@ public class MySQLRdbHelper {
 
 				employees.add(employee);
 			}
-			
+
 			logger.info(
 					String.format("(Inside fetchEmployeesByDeptId)  fetching employs for depid : "
 							+ depIds +"for company"+companyId+ " " + new Date()));
-			
-			
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchEmployeesByDeptId", ex.getMessage()), ex);
 
@@ -1905,8 +1932,8 @@ public class MySQLRdbHelper {
 			logger.info(
 					String.format("(Inside fetchJobSkills)fetching job skills for job : "
 							+ jobId +"for company"+companyId+ " " + new Date()));
-			
-			
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchJobSkills", ex.getMessage()), ex);
 
@@ -1956,11 +1983,11 @@ public class MySQLRdbHelper {
 
 				employees.add(employee);
 			}
-			
+
 			logger.info(
 					String.format("(Inside fetchEmployeesBySkillId)fetching employs by skills for job : "
 							+ jobId +"for company"+companyId+ " " + new Date()));
-			
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchEmployeesBySkillId", ex.getMessage()), ex);
 
@@ -2000,11 +2027,11 @@ public class MySQLRdbHelper {
 				}
 				tr.commit();
 			}
-			
+
 			logger.info(
 					String.format("(Inside saveJobAndAreaOfExpertiseState)saving job and area of expertise state for state : "
 							+ state+" " + new Date()));
-			
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in saveJobAndAreaOfExpertiseState", ex.getMessage()), ex);
 
@@ -2033,11 +2060,11 @@ public class MySQLRdbHelper {
 				JobAndAreaOfExpertise j = (JobAndAreaOfExpertise) it.next();
 				checkBoxStates.add(j);
 			}
-			
+
 			logger.info(
 					String.format("(Inside fetchCheckBoxStateForcheckingbox) fetching Boxstate for job : "
 							+ jobId+" " + new Date()));
-			
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchCheckBoxStateFor", ex.getMessage()), ex);
 
@@ -2082,11 +2109,11 @@ public class MySQLRdbHelper {
 			for (int i = 0; i < job.getJobSkillRelation().size(); ++i)
 				saveJobSkillRelation(job.getJobSkillRelation().get(i));
 			tr1.commit();
-			
+
 			logger.info(
 					String.format("(Inside saveCreatedJob) saving created job for year : "
 							+ year+"for company"+companyId+"for jobName"+job.getJob().getJobName()+" " + new Date()));
-			
+
 
 		} catch (Exception ex) {
 
@@ -2114,12 +2141,12 @@ public class MySQLRdbHelper {
 				session.delete(jobEmployeeRelation);
 				session.flush();
 			}
-			
+
 			logger.info(
 					String.format("(Inside deletePreviousResourcesOnThisJob) deleting resource for job : "
 							+ jobId+" " + new Date()));
-			
-			
+
+
 		} catch (Exception ex) {
 
 			logger.warn(String.format("Exception occured in deletePreviousResourcesOnThisJob", ex.getMessage()), ex);
@@ -2142,11 +2169,11 @@ public class MySQLRdbHelper {
 				JobCreation job = (JobCreation) crit.list().get(0);
 				return job.getJobCreationId();
 			}
-			
+
 			logger.info(
 					String.format("(Inside fetchJobCreationId) fetching jobcreationId for job : "
 							+ jobId+" " + new Date()));
-			
+
 		} catch (Exception ex) {
 
 			logger.warn(String.format("Exception occured in fetchJobCreationId", ex.getMessage()), ex);
@@ -2194,11 +2221,11 @@ public class MySQLRdbHelper {
 			Transaction tr = session.beginTransaction();
 			session.saveOrUpdate(rel);
 			tr.commit();
-			
+
 			logger.info(
 					String.format("(Inside saveJobSkillRelation) saving JobSkillRelation for skill name : "
 							+ rel.getSoftskills().getSoftSkillName()+" " + new Date()));
-			
+
 
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in saving skill relation job", ex.getMessage()), ex);
@@ -2245,8 +2272,8 @@ public class MySQLRdbHelper {
 			logger.info(
 					String.format("(Inside fetchCreatedJobs) fetching employrelation/skillrelation jobs  for year : "
 							+year +"for company"+ companyId+" " + new Date()));
-			
-			
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in  fetchCreatedJobs", ex.getMessage()), ex);
 
@@ -2358,11 +2385,11 @@ public class MySQLRdbHelper {
 
 				relations.add(job);
 			}
-			
+
 			logger.info(
 					String.format("(Inside fetchEmployeeJobRelations) fetching EmployeeJobRelations  for jobcreationid : "
 							+jobCreationId +" " + new Date()));
-			
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in  fetchCreatedJobs", ex.getMessage()), ex);
 
@@ -2422,8 +2449,8 @@ public class MySQLRdbHelper {
 			logger.info(
 					String.format("(Inside fetchEmployeesWithJobs) fetching  EmployeesWithJobs  for company : "
 							+companyId +" " + new Date()));
-			
-			
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchEmployees", ex.getMessage()), ex);
 
@@ -2462,12 +2489,12 @@ public class MySQLRdbHelper {
 				relations.add(job.getJobCreationId());
 
 			}
-			
+
 			logger.info(
 					String.format("(Inside getAllJobsForEmployee) getting   AllJobsForEmployee  for employe : "
 							+employeeId +" " + new Date()));
-			
-			
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in  fetchCreatedJobs", ex.getMessage()), ex);
 
@@ -2488,8 +2515,8 @@ public class MySQLRdbHelper {
 			logger.info(
 					String.format("(Inside fetchSelectedJob) fetching   slelctedJob  for job : "
 							+jobId +" " + new Date()));
-			
-			
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in  fetchSelectedJob", ex.getMessage()), ex);
 
@@ -2527,8 +2554,8 @@ public class MySQLRdbHelper {
 			logger.info(
 					String.format("(Inside updateEndDateForJob) updating    EndDateForJob  for job : "
 							+jobId +"startdate"+startDate+"endDate"+endDate+" " + new Date()));
-			
-			
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in  updating date", ex.getMessage()), ex);
 
@@ -2638,8 +2665,8 @@ public class MySQLRdbHelper {
 			logger.info(
 					String.format("(Inside fetchAllAuditEngagement) fetching AllAuditEngagement  for loggedinemploye : "
 							+loggedInEmployee +"for company"+companyId+"for job"+jobIds+" " + new Date()));
-			
-			
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in  fetchAllAuditEngagement", ex.getMessage()), ex);
 
@@ -2698,16 +2725,16 @@ public class MySQLRdbHelper {
 				HibernateDetachUtility.nullOutUninitializedFields(auditEngagement.getApprovedBy(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 			}
-			
+
 
 			logger.info(
 					String.format("(Inside fetchAuditEngagement) fetching AuditEngagement  for jobcreationId : "
 							+jobCreationId +"for company"+companyId+"for year"+year+" " + new Date()));
-			
+
 			return auditEngagement;
 
-			
-			
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in  fetchAuditEngagement", ex.getMessage()), ex);
 
@@ -2762,10 +2789,10 @@ public class MySQLRdbHelper {
 			logger.info(
 					String.format("(Inside updateAuditEngagement) updating AuditEngagement  for employe name : "
 							+e.getInitiatedBy().getEmployeeName() +"for company"+companyId+"for year"+year+" " + new Date()));
-			
+
 			return true;
-			
-		
+
+
 
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in  updating date", ex.getMessage()), ex);
@@ -2796,11 +2823,11 @@ public class MySQLRdbHelper {
 			///
 			session.save(record);
 			tr.commit();
-			
+
 			logger.info(
 					String.format("(Inside saveAuditEngagement) saving AuditEngagement  for process : "
-						+record.getProcess()+" " + new Date()));
-			
+							+record.getProcess()+" " + new Date()));
+
 
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in saving skill relation job", ex.getMessage()), ex);
@@ -2896,9 +2923,9 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside syncAuditEngagementWithCreatedJobs) syncing AuditEngagementWithCreatedJobs  for logggedinemploye : "
-						+loggedInEmployee+"for year"+year+"for company"+companyId+" " + new Date()));
-			
-			
+							+loggedInEmployee+"for year"+year+"for company"+companyId+" " + new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in  updating date", ex.getMessage()), ex);
 
@@ -2923,10 +2950,10 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside auditEngagemtAlreadysaved) checking auditEngagemtAlreadysaved  for jobcreationid : "
-						+jobCreationId+" " + new Date()));
-			
-			
-			
+							+jobCreationId+" " + new Date()));
+
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in auditEngagemtAlreadysaved", ex.getMessage()), ex);
 
@@ -2957,9 +2984,9 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside saveRisk)  savingRisk  for employenames : "
-						+risk.getApprovedBy().getEmployeeName()+" " + new Date()));
-			
-			
+							+risk.getApprovedBy().getEmployeeName()+" " + new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in saving skill relation job", ex.getMessage()), ex);
 
@@ -3026,8 +3053,8 @@ public class MySQLRdbHelper {
 
 			System.out.println("email sent");
 
-			
-			
+
+
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}
@@ -3043,7 +3070,7 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Risk.class);
 
-			crit.add(Restrictions.eq("auditEngageId", auditEngId));
+		//	crit.add(Restrictions.eq("auditEngageId", auditEngId));
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.add(Restrictions.ne("status", InternalAuditConstants.DELETED));
@@ -3069,6 +3096,33 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiated.skillId", "initiatedSkill");
 			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
+			
+			crit.createAlias("auditEngageId", "audEng");
+			crit.add(Restrictions.eq("audEng.auditEngId", auditEngId));
+			///
+			crit.createAlias("audEng.jobCreation", "audJobCreation");
+			
+			crit.createAlias("audEng.approvedBy", "approvedEng");
+			crit.createAlias("approvedEng.countryId", "employeeCounteng");
+			crit.createAlias("approvedEng.cityId", "employeeCityyeng");
+			crit.createAlias("approvedEng.reportingTo", "employeeRepeng");
+			crit.createAlias("employeeRepeng.countryId", "employeeRCounteng");
+			crit.createAlias("approvedEng.userId", "employeeUsereng");
+			crit.createAlias("approvedEng.rollId", "employeeRolleng");
+			crit.createAlias("approvedEng.skillId", "employeeSkilleng");
+			crit.createAlias("employeeRepeng.rollId", "employeeRepRolleng");
+			crit.createAlias("employeeRepeng.skillId", "employeeRepSkilleng");
+
+			crit.createAlias("audEng.initiatedBy", "initiatedeng");
+			crit.createAlias("initiatedeng.countryId", "initiatedCounteng");
+			crit.createAlias("initiatedeng.cityId", "initiatedCityyeng");
+			crit.createAlias("initiatedeng.reportingTo", "initiatedRepeng");
+			crit.createAlias("initiatedRepeng.countryId", "initiatedRCounteng");
+			crit.createAlias("initiatedeng.userId", "initiatedUsereng");
+			crit.createAlias("initiatedeng.rollId", "initiatedRolleng");
+			crit.createAlias("initiatedeng.skillId", "initiatedSkilleng");
+			crit.createAlias("initiatedRepeng.rollId", "initiatedRepRolleng");
+			crit.createAlias("initiatedRepeng.skillId", "initiatedRepSkilleng");
 
 			List rsList = crit.list();
 
@@ -3083,14 +3137,16 @@ public class MySQLRdbHelper {
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(risk.getApprovedBy(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(risk.getAuditEngageId(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
 				record.add(risk);
 			}
-			
+
 			logger.info(
 					String.format("(Inside fetchRisks)  fetching Risks  for auditengid : "
-						+auditEngId+"for year"+year+"for company"+companyId+" " + new Date()));
-			
+							+auditEngId+"for year"+year+"for company"+companyId+" " + new Date()));
+
 
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in  fetchRisks", ex.getMessage()), ex);
@@ -3135,6 +3191,32 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiated.skillId", "initiatedSkill");
 			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
+			
+			crit.createAlias("auditEngageId", "audEng");
+			///
+			crit.createAlias("audEng.jobCreation", "audJobCreation");
+			
+			crit.createAlias("audEng.approvedBy", "approvedEng");
+			crit.createAlias("approvedEng.countryId", "employeeCounteng");
+			crit.createAlias("approvedEng.cityId", "employeeCityyeng");
+			crit.createAlias("approvedEng.reportingTo", "employeeRepeng");
+			crit.createAlias("employeeRepeng.countryId", "employeeRCounteng");
+			crit.createAlias("approvedEng.userId", "employeeUsereng");
+			crit.createAlias("approvedEng.rollId", "employeeRolleng");
+			crit.createAlias("approvedEng.skillId", "employeeSkilleng");
+			crit.createAlias("employeeRepeng.rollId", "employeeRepRolleng");
+			crit.createAlias("employeeRepeng.skillId", "employeeRepSkilleng");
+
+			crit.createAlias("audEng.initiatedBy", "initiatedeng");
+			crit.createAlias("initiatedeng.countryId", "initiatedCounteng");
+			crit.createAlias("initiatedeng.cityId", "initiatedCityyeng");
+			crit.createAlias("initiatedeng.reportingTo", "initiatedRepeng");
+			crit.createAlias("initiatedRepeng.countryId", "initiatedRCounteng");
+			crit.createAlias("initiatedeng.userId", "initiatedUsereng");
+			crit.createAlias("initiatedeng.rollId", "initiatedRolleng");
+			crit.createAlias("initiatedeng.skillId", "initiatedSkilleng");
+			crit.createAlias("initiatedRepeng.rollId", "initiatedRepRolleng");
+			crit.createAlias("initiatedRepeng.skillId", "initiatedRepSkilleng");
 
 			crit.add(Restrictions.eq("initiatedRep.employeeId", employeeId));
 
@@ -3151,15 +3233,16 @@ public class MySQLRdbHelper {
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(risk.getApprovedBy(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
-
+				HibernateDetachUtility.nullOutUninitializedFields(risk.getAuditEngageId(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				record.add(risk);
 			}
 
 			logger.info(
 					String.format("(Inside fetchEmployeeRisksForApproval) fetchEmployeeRisksForApproval for employ : "
-						+employeeId+"for year"+year+"for company"+companyId+" " + new Date()));
-			
-			
+							+employeeId+"for year"+year+"for company"+companyId+" " + new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in  fetchEmployeeRisksForApproval", ex.getMessage()), ex);
 
@@ -3187,13 +3270,13 @@ public class MySQLRdbHelper {
 				Employee employee = (Employee) it.next();
 				employees.add(employee);
 			}
-			
+
 
 			logger.info(
 					String.format("(Inside fetchEmpForThisJob) fetching EmpForThisJob for selectedjob : "
-						+selectedJobId+" " + new Date()));
-			
-			
+							+selectedJobId+" " + new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchEmpForThisJob", ex.getMessage()), ex);
 
@@ -3229,9 +3312,9 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside fetchEmpForSelectedJob) fetching EmpForSelectedJob for selectedjob : "
-						+selectedJobId+" " + new Date()));
-			
-			
+							+selectedJobId+" " + new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchEmpForSelectedJob", ex.getMessage()), ex);
 
@@ -3262,12 +3345,12 @@ public class MySQLRdbHelper {
 
 				jobsList.add(jobCreation);
 			}
-			
+
 			logger.info(
 					String.format("(Inside fetchJobs) fetching jobs for year : "
-						+year+"for company"+companyId+" " + new Date()));
-			
-			
+							+year+"for company"+companyId+" " + new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchJobs", ex.getMessage()), ex);
 
@@ -3296,14 +3379,14 @@ public class MySQLRdbHelper {
 		try {
 			end = fmt.parse(endDate);
 			start = fmt.parse(startDate);
-			
+
 			logger.info(
 					String.format("(Inside getMonthsInvolved) getting MonthsInvolved for startdate : "
-						+startDate+"for end date"+endDate+" " + new Date()));
-			
-	
+							+startDate+"for end date"+endDate+" " + new Date()));
+
+
 		} catch (ParseException e) {
-		//	logger.warn(String.format("Exception occured in getMonthsInvolved", ex.getMessage()), ex);
+			//	logger.warn(String.format("Exception occured in getMonthsInvolved", ex.getMessage()), ex);
 
 			e.printStackTrace();
 		}
@@ -3367,12 +3450,12 @@ public class MySQLRdbHelper {
 				}
 			}
 
-			
+
 			logger.info(
 					String.format("(Inside fetchJobStatus)  fetching JobStatus for job : "
-						+jobId+" " + new Date()));
-			
-			
+							+jobId+" " + new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchJobStatus", ex.getMessage()), ex);
 
@@ -3433,12 +3516,12 @@ public class MySQLRdbHelper {
 			if (jobId == 0) {
 				sendEmailNotifications(exceptions);
 			}
-			
+
 			logger.info(
 					String.format("(Inside fetchJobExceptions)  fetching JobExceptions for job : "
-						+jobId+"for year"+year+"for company"+companyId+" " + new Date()));
-			
-			
+							+jobId+"for year"+year+"for company"+companyId+" " + new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchEceptions", ex.getMessage()), ex);
 
@@ -3481,11 +3564,11 @@ public class MySQLRdbHelper {
 			exception.setEmailSent(1);
 			session.update(exception);
 			tr.commit();
-			
+
 			logger.info(
 					String.format("(Inside updateException)  updating Exception for implementationComments: "
-						+exception.getImplementaionComments()+" " + new Date()));
-			
+							+exception.getImplementaionComments()+" " + new Date()));
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in updating exception", ex.getMessage()), ex);
 
@@ -3521,9 +3604,9 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside sendException)  sending Exception for year: "
-						+year+"for company"+companyId+" " + new Date()));
-			
-			
+							+year+"for company"+companyId+" " + new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in send exceptoin", ex.getMessage()), ex);
 
@@ -3588,9 +3671,9 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside fetchEmployeeExceptions)  fetching EmployeeExceptions for year: "
-						+year+"for company"+companyId+"employe id"+employeeId+"job id"+jobId+" " + new Date()));
-			
-			
+							+year+"for company"+companyId+"employe id"+employeeId+"job id"+jobId+" " + new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchEmployeeExceptions", ex.getMessage()), ex);
 
@@ -3654,8 +3737,8 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside saveException)   saving Exception for year: "
-						+year+"for company"+companyId+"for Exception"+exception.getDetail()+""+ new Date()));
-			
+							+year+"for company"+companyId+"for Exception"+exception.getDetail()+""+ new Date()));
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in saving exceptiom", ex.getMessage()), ex);
 
@@ -3699,9 +3782,9 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside saveAuditStep)   saving AuditStep for year: "
-						+year+"for audit step"+auditstep.getApprovedBy()+"for company"+companyId+""+ new Date()));
-			
-			
+							+year+"for audit step"+auditstep.getApprovedBy()+"for company"+companyId+""+ new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in saveAuditStep", ex.getMessage()), ex);
 			tr.rollback();
@@ -3734,8 +3817,8 @@ public class MySQLRdbHelper {
 			initiatedBy = auditStep.getInitiatedBy();
 			logger.info(
 					String.format("(Inside fetchInitiatedBy)    fetching InitiatedBy for audit step: "
-						+auditStepId+""+ new Date()));
-			
+							+auditStepId+""+ new Date()));
+
 		} catch (Exception ex) {
 			System.out.println("error in fetchInitiatedBy from auditStep");
 		}
@@ -3781,6 +3864,34 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiated.skillId", "initiatedSkill");
 			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
+			
+
+			///
+			crit.createAlias("audWork.riskId", "risk");
+			crit.createAlias("risk.auditEngageId", "audEng");
+			crit.createAlias("audEng.jobCreation", "audJobCreation");
+			
+			crit.createAlias("audEng.approvedBy", "approvedEng");
+			crit.createAlias("approvedEng.countryId", "employeeCounteng");
+			crit.createAlias("approvedEng.cityId", "employeeCityyeng");
+			crit.createAlias("approvedEng.reportingTo", "employeeRepeng");
+			crit.createAlias("employeeRepeng.countryId", "employeeRCounteng");
+			crit.createAlias("approvedEng.userId", "employeeUsereng");
+			crit.createAlias("approvedEng.rollId", "employeeRolleng");
+			crit.createAlias("approvedEng.skillId", "employeeSkilleng");
+			crit.createAlias("employeeRepeng.rollId", "employeeRepRolleng");
+			crit.createAlias("employeeRepeng.skillId", "employeeRepSkilleng");
+
+			crit.createAlias("audEng.initiatedBy", "initiatedeng");
+			crit.createAlias("initiatedeng.countryId", "initiatedCounteng");
+			crit.createAlias("initiatedeng.cityId", "initiatedCityyeng");
+			crit.createAlias("initiatedeng.reportingTo", "initiatedRepeng");
+			crit.createAlias("initiatedRepeng.countryId", "initiatedRCounteng");
+			crit.createAlias("initiatedeng.userId", "initiatedUsereng");
+			crit.createAlias("initiatedeng.rollId", "initiatedRolleng");
+			crit.createAlias("initiatedeng.skillId", "initiatedSkilleng");
+			crit.createAlias("initiatedRepeng.rollId", "initiatedRepRolleng");
+			crit.createAlias("initiatedRepeng.skillId", "initiatedRepSkilleng");
 
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -3810,9 +3921,9 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside getSavedAuditStep)    getting SavedAuditStep for job: "
-						+jobid+"for audit work"+auditWorkId+"for year"+year+""+ new Date()));
-			
-			
+							+jobid+"for audit work"+auditWorkId+"for year"+year+""+ new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in getSavedAuditStep", ex.getMessage()), ex);
 
@@ -3888,12 +3999,12 @@ public class MySQLRdbHelper {
 
 				records.add(auditStep);
 			}
-			
+
 			logger.info(
 					String.format("(Inside fetchEmployeeAuditStepsForApproval)   fetching EmployeeAuditStepsForApproval for company: "
-						+companyId+"for employee id"+employeeId+"for year"+year+""+ new Date()));
-			
-			
+							+companyId+"for employee id"+employeeId+"for year"+year+""+ new Date()));
+
+
 			// return records;
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchEmployeeAuditStepsForApproval", ex.getMessage()), ex);
@@ -3943,12 +4054,12 @@ public class MySQLRdbHelper {
 				records.add(exception);
 
 			}
-			
+
 			logger.info(
 					String.format("(Inside getSavedExceptions)   getting SavedExceptions for company: "
-						+companyId+"for auditstep"+auditStepId+"for year"+year+""+ new Date()));
-			
-			
+							+companyId+"for auditstep"+auditStepId+"for year"+year+""+ new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in getSavedExceptions", ex.getMessage()), ex);
 
@@ -3999,12 +4110,12 @@ public class MySQLRdbHelper {
 				records.add(exception);
 
 			}
-		
+
 			logger.info(
 					String.format("(Inside fetchEmployeeExceptionsForApproval)   fetching EmployeeExceptionsForApproval for company: "
-						+companyId+"for employe"+employeeId+"for year"+year+""+ new Date()));
-			
-			
+							+companyId+"for employe"+employeeId+"for year"+year+""+ new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchEmployeeExceptionsForApproval", ex.getMessage()), ex);
 
@@ -4045,9 +4156,9 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside saveAuditWork)   saving AuditWork for auditWork: "
-						+auditWork.getDescription()+""+ new Date()));
-			
-			
+							+auditWork.getDescription()+""+ new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in saving audit work", ex.getMessage()), ex);
 
@@ -4080,8 +4191,8 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside updateKickoffStatus)   updating KickoffStatus for audit eng: "
-						+auditEngId+"for company"+companyId+"for logged in user"+loggedInUser.getName()+""+ new Date()));
-			
+							+auditEngId+"for company"+companyId+"for logged in user"+loggedInUser.getName()+""+ new Date()));
+
 
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in  updating kickoff status", ex.getMessage()), ex);
@@ -4130,12 +4241,12 @@ public class MySQLRdbHelper {
 
 				exceptions.add(exception);
 			}
-			
+
 			logger.info(
 					String.format("(Inside fetchAuditHeadExceptions)   fetching AuditHeadExceptions for audit head: "
-						+auditHeadId+"for company"+companyId+"for selected job"+selectedJob+""+ new Date()));
-		
-			
+							+auditHeadId+"for company"+companyId+"for selected job"+selectedJob+""+ new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchAuditHeadExceptions", ex.getMessage()), ex);
 
@@ -4180,6 +4291,33 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiated.skillId", "initiatedSkill");
 			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
+			///
+			crit.createAlias("riskId", "risk");
+			crit.createAlias("risk.auditEngageId", "audEng");
+			crit.createAlias("audEng.jobCreation", "audJobCreation");
+			
+			crit.createAlias("audEng.approvedBy", "approvedEng");
+			crit.createAlias("approvedEng.countryId", "employeeCounteng");
+			crit.createAlias("approvedEng.cityId", "employeeCityyeng");
+			crit.createAlias("approvedEng.reportingTo", "employeeRepeng");
+			crit.createAlias("employeeRepeng.countryId", "employeeRCounteng");
+			crit.createAlias("approvedEng.userId", "employeeUsereng");
+			crit.createAlias("approvedEng.rollId", "employeeRolleng");
+			crit.createAlias("approvedEng.skillId", "employeeSkilleng");
+			crit.createAlias("employeeRepeng.rollId", "employeeRepRolleng");
+			crit.createAlias("employeeRepeng.skillId", "employeeRepSkilleng");
+
+			crit.createAlias("audEng.initiatedBy", "initiatedeng");
+			crit.createAlias("initiatedeng.countryId", "initiatedCounteng");
+			crit.createAlias("initiatedeng.cityId", "initiatedCityyeng");
+			crit.createAlias("initiatedeng.reportingTo", "initiatedRepeng");
+			crit.createAlias("initiatedRepeng.countryId", "initiatedRCounteng");
+			crit.createAlias("initiatedeng.userId", "initiatedUsereng");
+			crit.createAlias("initiatedeng.rollId", "initiatedRolleng");
+			crit.createAlias("initiatedeng.skillId", "initiatedSkilleng");
+			crit.createAlias("initiatedRepeng.rollId", "initiatedRepRolleng");
+			crit.createAlias("initiatedRepeng.skillId", "initiatedRepSkilleng");
+			
 
 			List rsList = crit.list();
 
@@ -4194,15 +4332,17 @@ public class MySQLRdbHelper {
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(row.getApprovedBy(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(row.getRiskId(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
 				rows.add(row);
 			}
 
 			logger.info(
 					String.format("(Inside fetchAuditWorkRows)   fetching AuditWorkRows for job creationID: "
-						+jocreationid+"for company"+companyId+"for year"+year+""+ new Date()));
-		
-			
+							+jocreationid+"for company"+companyId+"for year"+year+""+ new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchAuditWorkRows", ex.getMessage()), ex);
 
@@ -4249,6 +4389,33 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
 
 			crit.add(Restrictions.eq("initiatedRep.employeeId", employeeId));
+			
+			///
+			crit.createAlias("riskId", "risk");
+			crit.createAlias("risk.auditEngageId", "audEng");
+			crit.createAlias("audEng.jobCreation", "audJobCreation");
+			
+			crit.createAlias("audEng.approvedBy", "approvedEng");
+			crit.createAlias("approvedEng.countryId", "employeeCounteng");
+			crit.createAlias("approvedEng.cityId", "employeeCityyeng");
+			crit.createAlias("approvedEng.reportingTo", "employeeRepeng");
+			crit.createAlias("employeeRepeng.countryId", "employeeRCounteng");
+			crit.createAlias("approvedEng.userId", "employeeUsereng");
+			crit.createAlias("approvedEng.rollId", "employeeRolleng");
+			crit.createAlias("approvedEng.skillId", "employeeSkilleng");
+			crit.createAlias("employeeRepeng.rollId", "employeeRepRolleng");
+			crit.createAlias("employeeRepeng.skillId", "employeeRepSkilleng");
+
+			crit.createAlias("audEng.initiatedBy", "initiatedeng");
+			crit.createAlias("initiatedeng.countryId", "initiatedCounteng");
+			crit.createAlias("initiatedeng.cityId", "initiatedCityyeng");
+			crit.createAlias("initiatedeng.reportingTo", "initiatedRepeng");
+			crit.createAlias("initiatedRepeng.countryId", "initiatedRCounteng");
+			crit.createAlias("initiatedeng.userId", "initiatedUsereng");
+			crit.createAlias("initiatedeng.rollId", "initiatedRolleng");
+			crit.createAlias("initiatedeng.skillId", "initiatedSkilleng");
+			crit.createAlias("initiatedRepeng.rollId", "initiatedRepRolleng");
+			crit.createAlias("initiatedRepeng.skillId", "initiatedRepSkilleng");
 
 			List rsList = crit.list();
 
@@ -4268,9 +4435,9 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside fetchEmployeeAuditWorksForapproval)   fetching EmployeeAuditWorksForapproval for employeId: "
-						+employeeId+"for company"+companyId+"for year"+year+""+ new Date()));
-		
-			
+							+employeeId+"for company"+companyId+"for year"+year+""+ new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchEmployeeAuditWorksForapproval", ex.getMessage()), ex);
 
@@ -4314,6 +4481,33 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiated.skillId", "initiatedSkill");
 			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
+			
+			///
+			crit.createAlias("riskId", "risk");
+			crit.createAlias("risk.auditEngageId", "audEng");
+			crit.createAlias("audEng.jobCreation", "audJobCreation");
+			
+			crit.createAlias("audEng.approvedBy", "approvedEng");
+			crit.createAlias("approvedEng.countryId", "employeeCounteng");
+			crit.createAlias("approvedEng.cityId", "employeeCityyeng");
+			crit.createAlias("approvedEng.reportingTo", "employeeRepeng");
+			crit.createAlias("employeeRepeng.countryId", "employeeRCounteng");
+			crit.createAlias("approvedEng.userId", "employeeUsereng");
+			crit.createAlias("approvedEng.rollId", "employeeRolleng");
+			crit.createAlias("approvedEng.skillId", "employeeSkilleng");
+			crit.createAlias("employeeRepeng.rollId", "employeeRepRolleng");
+			crit.createAlias("employeeRepeng.skillId", "employeeRepSkilleng");
+
+			crit.createAlias("audEng.initiatedBy", "initiatedeng");
+			crit.createAlias("initiatedeng.countryId", "initiatedCounteng");
+			crit.createAlias("initiatedeng.cityId", "initiatedCityyeng");
+			crit.createAlias("initiatedeng.reportingTo", "initiatedRepeng");
+			crit.createAlias("initiatedRepeng.countryId", "initiatedRCounteng");
+			crit.createAlias("initiatedeng.userId", "initiatedUsereng");
+			crit.createAlias("initiatedeng.rollId", "initiatedRolleng");
+			crit.createAlias("initiatedeng.skillId", "initiatedSkilleng");
+			crit.createAlias("initiatedRepeng.rollId", "initiatedRepRolleng");
+			crit.createAlias("initiatedRepeng.skillId", "initiatedRepSkilleng");
 
 			List rsList = crit.list();
 
@@ -4331,12 +4525,12 @@ public class MySQLRdbHelper {
 
 				rows.add(row);
 			}
-			
+
 			logger.info(
 					String.format("(Inside fetchApprovedAuditWorkRows)   fetching ApprovedAuditWorkRows for selected job: "
-						+selectedJobId+""+ new Date()));
-		
-			
+							+selectedJobId+""+ new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchApprovedAuditWorkRows", ex.getMessage()), ex);
 
@@ -4369,12 +4563,12 @@ public class MySQLRdbHelper {
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
 			}
-			
+
 			logger.info(
 					String.format("(Inside fetchjobEmployeeWithApprovedAuditStep)   fetching jobEmployeeWithApprovedAuditStep for employe: "
-						+employeeId+""+ new Date()));
-		
-			
+							+employeeId+""+ new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchjobEmployeeWithApprovedAuditStep", ex.getMessage()), ex);
 
@@ -4407,12 +4601,12 @@ public class MySQLRdbHelper {
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
 			}
-			
+
 			logger.info(
 					String.format("(Inside fetchjobEmployee)   fetching jobEmployee for employe: "
-						+employeeId+""+ new Date()));
-		
-			
+							+employeeId+""+ new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchjobEmployee", ex.getMessage()), ex);
 
@@ -4446,11 +4640,11 @@ public class MySQLRdbHelper {
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
 			}
-			
+
 			logger.info(
 					String.format("(Inside fetchjobEmployeeOtherThanGiveOne)   fetching jobEmployeeOtherThanGiveOne for employe: "
-						+employeeId+"for job"+jobId+""+ new Date()));
-		
+							+employeeId+"for job"+jobId+""+ new Date()));
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchjobEmployeeOtherThanGiveOne", ex.getMessage()), ex);
 
@@ -4480,12 +4674,12 @@ public class MySQLRdbHelper {
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
 			}
-			
+
 			logger.info(
 					String.format("(Inside fetchjobEmployeeEntity)   fetching obEmployeeEntity for employe: "
-						+employeeId+""+ new Date()));
-		
-			
+							+employeeId+""+ new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchjobEmployeeEntity", ex.getMessage()), ex);
 
@@ -4518,12 +4712,12 @@ public class MySQLRdbHelper {
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
 			}
-			
+
 			logger.info(
 					String.format("(Inside isJobAuditStepApproved)   checking isJobAuditStepApproved for job: "
-						+jobId+""+ new Date()));
-		
-			
+							+jobId+""+ new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in isJobAuditStepApproved", ex.getMessage()), ex);
 
@@ -4565,12 +4759,12 @@ public class MySQLRdbHelper {
 
 				jobsList.add(jobCreation);
 			}
-			
+
 			logger.info(
 					String.format("(Inside fetchjobEmployeeWithApprovedAuditStep)   fetching jobEmployeeWithApprovedAuditStep for loggedIn Employ: "
-						+loggedInEmployee.getEmployeeName()+"for year"+year+"for company"+companyId+""+ new Date()));
-		
-			
+							+loggedInEmployee.getEmployeeName()+"for year"+year+"for company"+companyId+""+ new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchjobEmployeeWithApprovedAuditStep", ex.getMessage()), ex);
 
@@ -4592,12 +4786,12 @@ public class MySQLRdbHelper {
 			auditEngagement.setYear(year);
 			auditEngagement.setCompanyId(companyId);
 			session.flush();
-			
+
 			logger.info(
 					String.format("(Inside saveAuditNotification)    saving AuditNotification for message to: "
-						+to+"for message"+message+"for year"+year+"for company"+companyId+""+ new Date()));
-		
-			
+							+to+"for message"+message+"for year"+year+"for company"+companyId+""+ new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in saveAuditNotification", ex.getMessage()), ex);
 
@@ -4622,11 +4816,11 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside fetchNumberofPlannedJobs)   fetching NumberofPlannedJobs:for year"
-			        +year+"for company"+companyId+""+ new Date()));
-		
+							+year+"for company"+companyId+""+ new Date()));
+
 		} catch (Exception ex) {
-			
-			
+
+
 			logger.warn(String.format("Exception occured in fetchNumberofPlannedJobs", ex.getMessage()), ex);
 
 		} finally {
@@ -4649,10 +4843,10 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside fetchNumberofInProgressJobs)   fetching NumberofInProgressJobs year"
-			        +year+"for company"+companyId+""+ new Date()));
-		
-			
-			
+							+year+"for company"+companyId+""+ new Date()));
+
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchNumberofInProgressJobs", ex.getMessage()), ex);
 
@@ -4678,9 +4872,9 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside isJobInprogress) checking isJobInprogress for job"
-			        +jobId+""+ new Date()));
-		
-			
+							+jobId+""+ new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in isJobInprogress", ex.getMessage()), ex);
 
@@ -4703,8 +4897,8 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside isJobCompleted) checking isJobCompleted for job"
-			        +jobId+""+ new Date()));
-		
+							+jobId+""+ new Date()));
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in isJobCompleted", ex.getMessage()), ex);
 
@@ -4746,11 +4940,11 @@ public class MySQLRdbHelper {
 				}
 
 			}
-			
+
 			logger.info(
 					String.format("(Inside getjobstatus) getting job status for job"
-			        +jobId+""+ new Date()));
-		
+							+jobId+""+ new Date()));
+
 
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in getjobstatus", ex.getMessage()), ex);
@@ -4775,9 +4969,9 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside fetchNumberofCompletedJobs)fetching NumberofCompletedJobs for year"
-			        +year+"for company"+companyId+""+ new Date()));
-		
-			
+							+year+"for company"+companyId+""+ new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchNumberofComletedJobs", ex.getMessage()), ex);
 
@@ -4815,8 +5009,8 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside fetchJobsKickOffWithInaWeek)fetching fetchJobsKickOffWithInaWeek for year"
-			        +year+"for company"+companyId+""+ new Date()));
-		
+							+year+"for company"+companyId+""+ new Date()));
+
 
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchJobsKickOffWithInaWeek", ex.getMessage()), ex);
@@ -4854,8 +5048,8 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside fetchJobsDurForCompletionWithInaWeek)fetching JobsDurForCompletionWithInaWeek for year"
-			        +year+"for company"+companyId+""+ new Date()));
-		
+							+year+"for company"+companyId+""+ new Date()));
+
 
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchJobsDurForCompletionWithInaWeek", ex.getMessage()),
@@ -4880,8 +5074,8 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside fetchNumberOfAufitObservations)fetching hNumberOfAufitObservations for year"
-			        +year+"for company"+companyId+""+ new Date()));
-		
+							+year+"for company"+companyId+""+ new Date()));
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchNumberOfAufitObservations", ex.getMessage()), ex);
 
@@ -4907,8 +5101,8 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside fetchNumberOfExceptionsInProgress)fetching NumberOfExceptionsInProgress for year"
-			        +year+"for company"+companyId+""+ new Date()));
-		
+							+year+"for company"+companyId+""+ new Date()));
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchNumberOfExceptionsInProgress", ex.getMessage()), ex);
 
@@ -4932,8 +5126,8 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside fetchNumberOfExceptionsImplemented)fetching NumberOfExceptionsImplemented for year"
-			        +year+"for company"+companyId+""+ new Date()));
-		
+							+year+"for company"+companyId+""+ new Date()));
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchNumberOfExceptionsImplemented", ex.getMessage()), ex);
 
@@ -4958,9 +5152,9 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside fetchNumberOfExceptionsOverdue)fetching NumberOfExceptionsOverdue for year"
-			        +year+"for company"+companyId+""+ new Date()));
-		
-			
+							+year+"for company"+companyId+""+ new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchNumberOfExceptionsOverdue", ex.getMessage()), ex);
 
@@ -5017,12 +5211,12 @@ public class MySQLRdbHelper {
 					}
 				}
 			}
-			
+
 
 			logger.info(
 					String.format("(Inside fetchEmployeesAvilbleForNext2Weeks)fetching EmployeesAvilbleForNext2Weeks for year"
-			        +year+"for company"+companyId+""+ new Date()));
-		
+							+year+"for company"+companyId+""+ new Date()));
+
 
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchEmployeesAvilbleForNext2Weeks", ex.getMessage()), ex);
@@ -5050,7 +5244,7 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside fetchjobsoftskills)fetching job soft skills  for job"
-			        +jobId+""+ new Date()));
+							+jobId+""+ new Date()));
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchEmploySoftSkill", ex.getMessage()), ex);
 
@@ -5142,9 +5336,9 @@ public class MySQLRdbHelper {
 				}
 
 				// dto.setStrategic(strategic);
-			
+
 			}
-			
+
 			// u there?
 			// for now forget about sending back the Departments list ..??vthis
 
@@ -5152,8 +5346,8 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside fetchReportSearchResult)fetching ReportSearchResult for year"
-			        +year+"for company"+companyId+""+ new Date()));
-		
+							+year+"for company"+companyId+""+ new Date()));
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchReportSearchResult", ex.getMessage()), ex);
 			return null;
@@ -5249,9 +5443,9 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside jobHavetheResources)checking jobHavetheResources for job"
-			        +job.getJobName()+""+ new Date()));
-		
-			
+							+job.getJobName()+""+ new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in jobHavetheResources", ex.getMessage()), ex);
 
@@ -5279,7 +5473,7 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside fetchStrategicDepartmentsMutiple)fetching StrategicDepartmentsMutiple for id"
-			         +ids+""+ new Date()));
+							+ids+""+ new Date()));
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchStrategicDepartmentsMutiple", ex.getLocalizedMessage()), ex);
 
@@ -5318,9 +5512,9 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside exportToExcel)exporting ToExcel for rootDir"
-			         +rootDir+"for excel data"+excelDataList+""+ new Date()));
-		
-			
+							+rootDir+"for excel data"+excelDataList+""+ new Date()));
+
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -5420,10 +5614,10 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside fetchReportAuditScheduling)fetching ReportAuditScheduling ToExcel for responsibleperson"
-			         +responsiblePerson+"for year"+year+"for company"+companyId+""+ new Date()));
-		
-			
-			
+							+responsiblePerson+"for year"+year+"for company"+companyId+""+ new Date()));
+
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchReportAuditScheduling", ex.getMessage()), ex);
 			return null;
@@ -5447,11 +5641,11 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside JobCreation) getting JobCreation dtrategic"
-			         +strategicId+""+ new Date()));
-		
-			
-			
-			
+							+strategicId+""+ new Date()));
+
+
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in getJobName", ex.getMessage()), ex);
 			return null;
@@ -5524,9 +5718,9 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside approveFinalAuditable)approving FinalAuditable for strategic approved b"
-			         +strategic.getApprovedBy()+""+ new Date()));
+							+strategic.getApprovedBy()+""+ new Date()));
 			return "finalAuditableApproved";
-			
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in approveFinalAuditable", ex.getMessage()), ex);
 			return null;
@@ -5549,8 +5743,8 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside declineFinalAuditable)declining FinalAuditable for strategic approved b"
-			         +strategic.getApprovedBy()+""+ new Date()));
-			
+							+strategic.getApprovedBy()+""+ new Date()));
+
 			return "finalAuditableDeclined";
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in declineFinalAuditable", ex.getMessage()), ex);
@@ -5571,9 +5765,9 @@ public class MySQLRdbHelper {
 			session.flush();
 			logger.info(
 					String.format("(Inside declineFinalAudit)declining FinalAudit for id"
-			         +id+""+ new Date()));
-			
-			
+							+id+""+ new Date()));
+
+
 			return "finalAuditableDeclined";
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in declineFinalAuditable", ex.getMessage()), ex);
@@ -5611,7 +5805,7 @@ public class MySQLRdbHelper {
 				}
 				logger.info(
 						String.format("(Inside saveEmployee)saving Employee for year:"
-				         +year+"for company"+companyId+"for employ"+employee.getEmployeeName()+""+ new Date()));
+								+year+"for company"+companyId+"for employ"+employee.getEmployeeName()+""+ new Date()));
 				return "user saved";
 			} catch (Exception ex) {
 				logger.warn(String.format("Exception occured in saveEmploy", ex.getMessage()), ex);
@@ -5662,10 +5856,10 @@ public class MySQLRdbHelper {
 			} else {
 				logger.info(
 						String.format("(Inside userAvailable)CHECKING userAvailable for EMAIL:"
-				         +email+""+ new Date()));
+								+email+""+ new Date()));
 				return true;
 			}
-			
+
 		} catch (Exception ex) {
 			System.out.println("fail in userAvailable");
 		}
@@ -5705,7 +5899,7 @@ public class MySQLRdbHelper {
 			session.flush();
 			logger.info(
 					String.format("(Inside addAvailableHoursInSkills)adding AvailableHoursInSkills for skill:"
-			         +skillId+"for hours"+hours+"for year"+year+"for company"+companyId+""+ new Date()));
+							+skillId+"for hours"+hours+"for year"+year+"for company"+companyId+""+ new Date()));
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in addAvailableHoursInSkills", ex.getMessage()), ex);
 
@@ -5723,7 +5917,7 @@ public class MySQLRdbHelper {
 			session.flush();
 			logger.info(
 					String.format("(Inside saveCompany)saving Company for Company name:"
-			         +company.getName()+""+ new Date()));
+							+company.getName()+""+ new Date()));
 			return "company added";
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in saveCompany", ex.getMessage()), ex);
@@ -5748,7 +5942,7 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside fetchCompanies)fetching  Company for companies:"
-			         +companies+""+ new Date()));
+							+companies+""+ new Date()));
 			return companies;// Return BEFORE catch Statement..
 
 		} catch (Exception ex) {
@@ -5773,7 +5967,7 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside fetchRolls)fetching  Rolls for rolls:"
-			         +rolls+""+ new Date()));
+							+rolls+""+ new Date()));
 			return rolls;// Return BEFORE catch Statement..
 
 		} catch (Exception ex) {
@@ -5790,10 +5984,10 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			session.update(strategic);
 			session.flush();
-			
+
 			logger.info(
 					String.format("(Inside updateStrategic)updating  Strategic for strategic initiated by:"
-			         +strategic.getInitiatedBy()+""+ new Date()));
+							+strategic.getInitiatedBy()+""+ new Date()));
 			return "strategic updated";
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in updateStrategic", ex.getMessage()), ex);
@@ -5814,7 +6008,7 @@ public class MySQLRdbHelper {
 			session.flush();
 			logger.info(
 					String.format("(Inside deleteRisk)deleting  risk for risk description:"
-			         +risk.getDescription()+""+ new Date()));
+							+risk.getDescription()+""+ new Date()));
 			return "risk deleted";
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in deleteRisk", ex.getMessage()), ex);
@@ -5834,7 +6028,7 @@ public class MySQLRdbHelper {
 			session.flush();
 			logger.info(
 					String.format("(Inside deleteAuditWork)deleting  auditwork for audit"
-			         +auditWorkId+ ""+new Date()));
+							+auditWorkId+ ""+new Date()));
 			return "auditWork deleted";
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in deleteauditWork", ex.getMessage()), ex);
@@ -5860,8 +6054,8 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside checkNoOfResourcesForSelectedSkill)checking NoOfResourcesForSelectedSkill for skill:"
-			         +skillId+"for resources"+noOfResources+"for company"+companyId+ ""+ new Date()));
-			
+							+skillId+"for resources"+noOfResources+"for company"+companyId+ ""+ new Date()));
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in checkNoOfResourcesForSelectedSkill", ex.getMessage()), ex);
 			System.out.println("Exception occured in checkNoOfResourcesForSelectedSkill");
@@ -5882,10 +6076,10 @@ public class MySQLRdbHelper {
 			session.flush();
 			logger.info(
 					String.format("(Inside deleteException)deleting Exception for exception:"
-			         +exceptionId+ ""+ new Date()));
-			
+							+exceptionId+ ""+ new Date()));
+
 			return "exception deleted";
-		
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in deleteException", ex.getMessage()), ex);
 			return null;
@@ -5914,8 +6108,8 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside approveScheduling)approving Schedulingexception for year:"
-			         +year+"for company"+companyId+ ""+ new Date()));
-			
+							+year+"for company"+companyId+ ""+ new Date()));
+
 			return approveSchedulingInJobTimeEstimation(companyId);
 
 		} catch (Exception ex) {
@@ -5943,7 +6137,7 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside isScheduleApproved)checking isScheduleApproved for year:"
-			         +year+"for company"+companyId+ ""+ new Date()));
+							+year+"for company"+companyId+ ""+ new Date()));
 			return true;
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in isScheduleApproved", ex.getMessage()), ex);
@@ -5971,8 +6165,8 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside approveSchedulingInJobTimeEstimation)approving SchedulingInJobTimeEstimation for Company:"
-			         +companyId+ ""+ new Date()));
-		
+							+companyId+ ""+ new Date()));
+
 			return "Scedule Approved";
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in approveSchedulingInJobTimeEstimation", ex.getMessage()),
@@ -5994,9 +6188,9 @@ public class MySQLRdbHelper {
 			// crit.add(Restrictions.eq(employeeId, value))
 			logger.info(
 					String.format("(Inside fetchSelectedEmployee)fetching SelectedEmployee for employe:"
-			         +employeeId+ ""+ new Date()));
-		
-			
+							+employeeId+ ""+ new Date()));
+
+
 			return employee;
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchSelectedEmployee", ex.getMessage()), ex);
@@ -6023,7 +6217,7 @@ public class MySQLRdbHelper {
 				// employee.getTotalNumberOfHoursAvailable(), year, companyId);
 				logger.info(
 						String.format("(Inside updateUser)updating Userfor employe:"
-				         +employee.getEmployeeName()+"for previous hours"+previousHours+ ""+ new Date()));
+								+employee.getEmployeeName()+"for previous hours"+previousHours+ ""+ new Date()));
 			}
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in updateUSer", ex.getMessage()), ex);
@@ -6103,8 +6297,8 @@ public class MySQLRdbHelper {
 			}	
 			logger.info(
 					String.format("(Inside fetchReportWithResourcesSearchResult)fetchReportWithResourcesSearchResult for year"
-					         +year+"for company"+companyId+ ""+ new Date()));
-				
+							+year+"for company"+companyId+ ""+ new Date()));
+
 			// u there?
 			// for now forget about sending back the Departments list ..??vthis
 
@@ -6185,9 +6379,9 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside fetchJobsInExceptionReport)fetching JobsInExceptionReport for year"
-					         +year+"for company"+companyId+"for job"+jobs+ ""+ new Date()));
-				
-			
+							+year+"for company"+companyId+"for job"+jobs+ ""+ new Date()));
+
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchJobsInExceptionReport", ex.getMessage()), ex);
 			return null;
@@ -6328,8 +6522,8 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside fetchExceptionReports)fetching ExceptionReports for year"
-					         +year+"for company"+companyId+"for job"+jobs+"for exceptionstatus"+exceptionStatus+ ""+ new Date()));
-				
+							+year+"for company"+companyId+"for job"+jobs+"for exceptionstatus"+exceptionStatus+ ""+ new Date()));
+
 
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchExceptionReports", ex.getMessage()), ex);
@@ -6382,10 +6576,10 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside exportJobTimeAllocationReportToExcel)exporting JobTimeAllocationReportToExcelyear for data list"
-					         +excelDataList+"for dir"+rootDir+ ""+ new Date()));
-				
+							+excelDataList+"for dir"+rootDir+ ""+ new Date()));
+
 		} catch (FileNotFoundException e) {
-			
+
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -6420,8 +6614,8 @@ public class MySQLRdbHelper {
 
 			logger.info(
 					String.format("(Inside exportExceptionsReportToExcel)exporting ExceptionsReportToExcel for data list"
-					         +excelDataList+"for dir"+rootDir+ ""+ new Date()));
-				
+							+excelDataList+"for dir"+rootDir+ ""+ new Date()));
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -6461,8 +6655,8 @@ public class MySQLRdbHelper {
 			fileOut.close();
 			logger.info(
 					String.format("(Inside exportAuditSchedulingReportToExcel)exporting AuditSchedulingReportToExcel for data list"
-					         +excelDataList+"for dir"+rootDir+ ""+ new Date()));
-				
+							+excelDataList+"for dir"+rootDir+ ""+ new Date()));
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -6496,11 +6690,11 @@ public class MySQLRdbHelper {
 					jobsInExecution.add(job.getJobName());
 				}
 			}
-			
+
 			logger.info(
 					String.format("(Inside fetchjobsInExecution)fetching fetchjobsInExecution for year"
-					         +year+"for company"+companyId+ ""+ new Date()));
-				
+							+year+"for company"+companyId+ ""+ new Date()));
+
 			return jobsInExecution;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -6536,8 +6730,8 @@ public class MySQLRdbHelper {
 				}
 				logger.info(
 						String.format("(Inside fetchjobsInPlanning)fetching jobsInPlanning for year"
-						         +year+"for company"+companyId+ ""+ new Date()));
-					
+								+year+"for company"+companyId+ ""+ new Date()));
+
 			}
 			return jobsInExecution;
 		} catch (Exception e) {
@@ -6575,8 +6769,8 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside fetchjobsInReporting)fetching jobsInReporting for year"
-					         +year+"for company"+companyId+ ""+ new Date()));
-				
+							+year+"for company"+companyId+ ""+ new Date()));
+
 			return jobsInExecution;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -6607,8 +6801,8 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside fetchExceptionImplementationOverdue)fetching ExceptionImplementationOverdue for year"
-					         +year+"for company"+companyId+ ""+ new Date()));
-				
+							+year+"for company"+companyId+ ""+ new Date()));
+
 			return exceptionImplementationsOverdueJobs;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -6638,8 +6832,8 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside fetchExceptionImplementedAfterDueDate)fetching ExceptionImplementedAfterDueDate for year"
-					         +year+"for company"+companyId+ ""+ new Date()));
-				
+							+year+"for company"+companyId+ ""+ new Date()));
+
 			return exceptionImplementationsOverdueJobs;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -6667,8 +6861,8 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside fetchExceptionImplemented)fetching ExceptionImplemented for year"
-					         +year+"for company"+companyId+ ""+ new Date()));
-				
+							+year+"for company"+companyId+ ""+ new Date()));
+
 			return exceptionImplementationsOverdueJobs;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -6697,7 +6891,7 @@ public class MySQLRdbHelper {
 			}
 			logger.info(
 					String.format("(Inside fetchExceptioNotImplemented)fetching ExceptioNotImplemented for year"
-					         +year+"for company"+companyId+ ""+ new Date()));
+							+year+"for company"+companyId+ ""+ new Date()));
 			return exceptionImplementationsOverdueJobs;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -6840,9 +7034,9 @@ public class MySQLRdbHelper {
 			session.flush();
 			logger.info(
 					String.format("(Inside updateUploadedAuditStepFile)updateUploadedAuditStepFile for audit step"
-					         +auditStepId+"for files"+auditStepFiles+ ""+ new Date()));
+							+auditStepId+"for files"+auditStepFiles+ ""+ new Date()));
 			return "file uploaded";
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.info("error in : updateUploadedAuditStepFile");
@@ -6856,14 +7050,14 @@ public class MySQLRdbHelper {
 		Session session = null; try { session = sessionFactory.openSession();
 		logger.info(
 				String.format("(Inside submitFeedBack)submitFeedBack for desc"
-				         +feedBack+""+ new Date()));
+						+feedBack+""+ new Date()));
 		session.save(feedBack); session.flush();
 		return "Feedback Submitted"; 
-		
+
 		}
-		
-		
-	catch (Exception e) {
+
+
+		catch (Exception e) {
 			e.printStackTrace();
 			logger.info("error in : submit feedback");
 
@@ -6871,4 +7065,111 @@ public class MySQLRdbHelper {
 		} 
 	}
 
+	public ArrayList<ProcessDTO> fetchProcessDtOs() {
+		Session session = null;
+		ArrayList<ProcessDTO> processDtos = new ArrayList<ProcessDTO>();
+		
+		try {
+			session = sessionFactory.openSession();
+			ProcessDTO processDTO = new ProcessDTO();
+			
+			processDTO.setJobTypeList(fetchJobTypes(session));
+		processDTO.setProcessList(fetchProcesses(session));
+	
+					processDtos.add(processDTO);
+			
+			logger.info(String.format("(Inside fetchProcessDtOs) " + new Date()));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchProcessDTo", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+
+		return processDtos;
+	}
+	
+	private ArrayList<Process> fetchProcesses(Session session){
+		ArrayList<Process> processList = new ArrayList<Process>();
+		try{
+		
+		Criteria crit = session.createCriteria(Process.class);
+		crit.add(Restrictions.ne("processId", 0));
+		List rsList = crit.list();
+		for (Iterator it = rsList.iterator();it.hasNext();)
+		{
+				Process process = (Process) it.next();
+				processList.add(process);
+		//same line 2 timed
+			
+		}
+		}catch(Exception ex){
+			System.out.println(ex);
+		}
+		return processList;
+	}
+
+
+
+private ArrayList<JobType> fetchJobTypes(Session session){
+	ArrayList<JobType> jobTypeList = new ArrayList<JobType>();
+	try{
+	
+	Criteria crit = session.createCriteria(JobType.class);
+	List rsList = crit.list();
+	for (Iterator it = rsList.iterator(); it.hasNext();) {
+			JobType jobtype = (JobType) it.next();
+			jobTypeList.add(jobtype);
+		
+	}
+	}catch(Exception ex){
+		System.out.println(ex);
+	
+	}
+	return jobTypeList;
+}
+
+private ArrayList<SubProcess> fetchSubProcesses(){
+	ArrayList<SubProcess> subprocessList = new ArrayList<SubProcess>();
+	try{
+	
+	Criteria crit = session.createCriteria(SubProcess.class);
+	crit.add(Restrictions.ne("subprocessId", 0));
+	List rsList = crit.list();
+	for (Iterator it = rsList.iterator(); it.hasNext();) {
+		SubProcess sp = (SubProcess) it.next();
+		if (rsList.size() > 0) { 
+			SubProcess subprocess = (SubProcess) it.next();
+			subprocessList.add(subprocess);
+		}
+		
+	}
+	}catch(Exception ex){
+		
+	}
+	return subprocessList ;
+}
+
+public ArrayList<SubProcess> fetchSubProcess(int processId) {
+	Session session = null;
+	ArrayList<SubProcess> subProcess = new ArrayList<SubProcess>();
+	try {
+		session = sessionFactory.openSession();
+		Criteria crit = session.createCriteria(SubProcess.class);
+		crit.createAlias("processId", "process");
+		crit.add(Restrictions.eq("process.processId", processId));
+		List rsList = crit.list();
+		for (Iterator it = rsList.iterator(); it.hasNext();) {
+			SubProcess subprocess = (SubProcess) it.next();
+			subProcess.add(subprocess);
+		}
+		logger.info(String.format("Inside fetchSubProcess() " + new Date()));
+	} catch (Exception ex) {
+		logger.warn(String.format("Exception occured in FettchSubProcess", ex.getMessage()), ex);
+
+	} finally {
+		session.close();
+	}
+	return subProcess;
+}
 }

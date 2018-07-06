@@ -1,11 +1,20 @@
 package com.internalaudit.client.widgets;
 
+import java.util.ArrayList;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
+import com.internalaudit.client.InternalAuditService;
+import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.shared.Risk;
 
 public class AuditWorkRow extends Composite {
 
@@ -15,38 +24,58 @@ public class AuditWorkRow extends Composite {
 
     private TextBox description;
 
-    private ListBox lstControls;
+    private ListBox lstReviewer;
+   
+    private ListBox listBoxRisk;
+    private ListBox listBoxExistingCtrl;
+    
     private Image removeRow;
 
     private HorizontalPanel rowContainer;
+    
+    private int auditEngId = 0;
+    private InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
 
-    public AuditWorkRow() {
-
+    public AuditWorkRow(ArrayList<Risk> risks) {
 	rowContainer = new HorizontalPanel();
 	description = new TextBox();
 	step = new TextBox();
-	lstControls = new ListBox();
+	lstReviewer = new ListBox();
+	listBoxRisk = new ListBox();
+	listBoxExistingCtrl = new ListBox();
+	
 	removeRow = new Image("images/deleteIcon.png");
 	auditWorkId = new Label("0");
 	auditWorkId.addStyleName("hidden");
 	auditWorkId.setVisible(false);
 	initWidget(rowContainer);
-	lstControls.setWidth("250px");
+	lstReviewer.setWidth("200px");
 
 	rowContainer.addStyleName("risksRow");
 	description.addStyleName("txtExtendedWidth");
 	step.addStyleName("txtShort");
-	lstControls.addStyleName("txtShrikedWidth");
-
+	lstReviewer.addStyleName("txtShrikedWidth");
+	listBoxRisk.addStyleName("txtShrikedWidth");
+	listBoxExistingCtrl.addStyleName("txtShrikedWidth");
+	
 	rowContainer.add(step);
 	rowContainer.add(description);
-	rowContainer.add(lstControls);
-	rowContainer.add(removeRow);
-	lstControls.setEnabled(false);
-    }
+	rowContainer.add(lstReviewer);
+	rowContainer.add(listBoxRisk);
+	rowContainer.add(listBoxExistingCtrl);
 
+	rowContainer.add(removeRow);
+	lstReviewer.setEnabled(false);
+	
+	for(int i=0; i< risks.size(); i++){
+		listBoxRisk.addItem(risks.get(i).getDescription(), risks.get(i).getRiskId()+"");
+		listBoxExistingCtrl.addItem(risks.get(i).getExistingControl(), risks.get(i).getRiskId()+"");
+	}
+
+    }
+    
     public ListBox getEmployeeList() {
-	return this.lstControls;
+	return this.lstReviewer;
     }
 
     public TextBox getStep() {
@@ -66,11 +95,11 @@ public class AuditWorkRow extends Composite {
     }
 
     public ListBox getLstControls() {
-	return lstControls;
+	return lstReviewer;
     }
 
     public void setLstControls(ListBox lstControls) {
-	this.lstControls = lstControls;
+	this.lstReviewer = lstControls;
     }
 
     public HorizontalPanel getRowContainer() {
@@ -92,15 +121,19 @@ public class AuditWorkRow extends Composite {
     public void disableFields() {
 	step.setEnabled(false);
 	description.setEnabled(false);
-	lstControls.setEnabled(false);
+	lstReviewer.setEnabled(false);
+	listBoxRisk.setEnabled(false);
+	listBoxExistingCtrl.setEnabled(false);
 	removeRow.setVisible(false);
     }
 
     public void enableFields() {
 	step.setEnabled(true);
 	description.setEnabled(true);
-	lstControls.setEnabled(true);
+	lstReviewer.setEnabled(true);
 	removeRow.setVisible(true);
+	listBoxRisk.setEnabled(true);
+	listBoxExistingCtrl.setEnabled(true);
     }
 
     public void showAuditHeadView() {
@@ -117,9 +150,35 @@ public class AuditWorkRow extends Composite {
 
     public void removeRow() {
 	description.removeFromParent();
-	lstControls.removeFromParent();
+	lstReviewer.removeFromParent();
 	removeRow.removeFromParent();
+	listBoxRisk.removeFromParent();
+	listBoxExistingCtrl.removeFromParent();
 	step.removeFromParent();
     }
+
+	public ListBox getLstReviewer() {
+		return lstReviewer;
+	}
+
+	public void setLstReviewer(ListBox lstReviewer) {
+		this.lstReviewer = lstReviewer;
+	}
+
+	public ListBox getListBoxRisk() {
+		return listBoxRisk;
+	}
+
+	public void setListBoxRisk(ListBox listBoxRisk) {
+		this.listBoxRisk = listBoxRisk;
+	}
+
+	public ListBox getListBoxExistingCtrl() {
+		return listBoxExistingCtrl;
+	}
+
+	public void setListBoxExistingCtrl(ListBox listBoxExistingCtrl) {
+		this.listBoxExistingCtrl = listBoxExistingCtrl;
+	}
 
 }

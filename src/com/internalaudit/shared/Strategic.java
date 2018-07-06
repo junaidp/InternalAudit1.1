@@ -46,6 +46,21 @@ import javax.persistence.Transient;
 		@Column(name="rating")
 		private String rating;
 		
+		@Column(name="userDefinedRating")
+		private String userDefinedRating;
+		
+		@JoinColumn(name = "process")
+		@ManyToOne(fetch = FetchType.LAZY)
+		private Process process;
+		
+		@JoinColumn(name = "subProcess")
+		@ManyToOne(fetch = FetchType.LAZY)
+		private SubProcess subProcess;
+		
+		@JoinColumn(name = "jobType")
+		@ManyToOne(fetch = FetchType.LAZY)
+		private JobType jobType;
+		
 		@Column(name="audit")
 		private boolean audit;
 		
@@ -360,6 +375,38 @@ import javax.persistence.Transient;
 
 		public void setEmployees(ArrayList<String> employees) {
 			this.employees = employees;
+		}
+
+		public String getUserDefinedRating() {
+			return userDefinedRating;
+		}
+
+		public void setUserDefinedRating(String userDefinedRating) {
+			this.userDefinedRating = userDefinedRating;
+		}
+
+		public void setProcess(Process process) {
+			this.process = process;
+		}
+
+		public void setSubProcess(SubProcess subProcess) {
+			this.subProcess = subProcess;
+		}
+
+		public void setJobType(JobType jobType) {
+			this.jobType = jobType;
+		}
+
+		public Process getProcess() {
+			return process;
+		}
+
+		public SubProcess getSubProcess() {
+			return subProcess;
+		}
+
+		public JobType getJobType() {
+			return jobType;
 		}
 	
 	

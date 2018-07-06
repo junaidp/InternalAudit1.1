@@ -1,6 +1,7 @@
 package com.internalaudit.client.view;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
@@ -23,10 +24,13 @@ public class RiskAssesmentStrategicView extends Composite {
 
 	interface RiskAssesmentStrategicViewUiBinder extends
 			UiBinder<Widget, RiskAssesmentStrategicView> {
+	
 	}
 	
 	private String strategicObjective;
 	@UiField ListBox rating;
+	@UiField HorizontalPanel userOption;
+	@UiField ListBox listBoxUserOption;
 	@UiField VerticalPanel riskFactors;
 	@UiField VerticalPanel vpnlComments;
 //	@UiField Button save;
@@ -46,7 +50,7 @@ public class RiskAssesmentStrategicView extends Composite {
 	private int index;
 	private int strategicId;
 	private String comment;
-	
+
 	
 	public ListBox getRating() {
 		return rating;
@@ -243,6 +247,14 @@ public class RiskAssesmentStrategicView extends Composite {
 
 	public void setSubmitted(Image submitted) {
 		this.submitted = submitted;
+	}
+
+	public ListBox getListBoxUserOption() {
+		return listBoxUserOption;
+	}
+
+	public void setListBoxUserOption(ListBox listBoxUserOption) {
+		this.listBoxUserOption = listBoxUserOption;
 	}
 
 	

@@ -41,7 +41,10 @@ import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.JobEmployeeRelation;
 import com.internalaudit.shared.JobTimeAllocationReportDTO;
 import com.internalaudit.shared.JobTimeEstimationDTO;
+import com.internalaudit.shared.JobType;
 import com.internalaudit.shared.JobsOfEmployee;
+import com.internalaudit.shared.Process;
+import com.internalaudit.shared.ProcessDTO;
 import com.internalaudit.shared.ResourceUse;
 import com.internalaudit.shared.Risk;
 import com.internalaudit.shared.RiskAssesmentDTO;
@@ -54,6 +57,7 @@ import com.internalaudit.shared.StrategicAudit;
 import com.internalaudit.shared.StrategicDTO;
 import com.internalaudit.shared.StrategicDepartments;
 import com.internalaudit.shared.StrategicRisk;
+import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.TimeOutException;
 import com.internalaudit.shared.User;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -1394,6 +1398,14 @@ InternalAuditService {
 	@Override
 	public String submitFeedBack(Feedback feedBack) throws Exception {
 		return rdbHelper.submitFeedBack(feedBack);
+	}
+	@Override
+	public ArrayList<ProcessDTO> fetchProcessDTOs() {
+		return rdbHelper.fetchProcessDtOs();
+	}
+	@Override
+	public ArrayList<SubProcess> fetchSubProcess(int processId) {
+		return rdbHelper.fetchSubProcess(processId);
 	}
 	
 	

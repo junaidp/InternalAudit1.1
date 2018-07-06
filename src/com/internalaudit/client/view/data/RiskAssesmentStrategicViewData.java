@@ -72,6 +72,10 @@ public class RiskAssesmentStrategicViewData {
 			    .getValue(updatedStrategics.get(i).getRating().getSelectedIndex()));
 		    // previousStrategicsEntity.get(i).setStrategicObjective(updatedStrategics.get(i).getStrategicObjective().getText());
 
+		    //new work
+		    previousStrategicsEntity.get(i).getStrategic().setUserDefinedRating(updatedStrategics.get(i).getListBoxUserOption()
+				    .getValue(updatedStrategics.get(i).getListBoxUserOption().getSelectedIndex()));
+		    
 		}
 		saveStrategics();
 
@@ -197,6 +201,15 @@ public class RiskAssesmentStrategicViewData {
 				.equals(riskAssesmentStrategicView.getRating().getValue(k))) {
 			    riskAssesmentStrategicView.getRating().setSelectedIndex(k);
 			}
+			
+			// new work
+
+		    for (int l = 0; l < riskAssesmentStrategicView.getListBoxUserOption().getItemCount(); l++) {
+			if (riskAssesmentDTOs.get(index).getStrategic().getUserDefinedRating()
+				.equals(riskAssesmentStrategicView.getListBoxUserOption().getValue(l))) {
+			    riskAssesmentStrategicView.getListBoxUserOption().setSelectedIndex(l);
+			}
+		    }
 		    }
 
 		    TreeItem tree = new TreeItem();
@@ -421,6 +434,12 @@ public class RiskAssesmentStrategicViewData {
 	// riskAssesmentDTOs.get(riskAssesmentStrategicView.getIndex()).getStrategic().setNextPhase("Consolidation");
 	riskAssesmentDTOs.get(riskAssesmentStrategicView.getIndex()).getStrategic().setRating(riskAssesmentStrategicView
 		.getRating().getValue(riskAssesmentStrategicView.getRating().getSelectedIndex()));
+	
+	// new work
+	
+	riskAssesmentDTOs.get(riskAssesmentStrategicView.getIndex()).getStrategic().setUserDefinedRating(riskAssesmentStrategicView
+			.getListBoxUserOption().getValue(riskAssesmentStrategicView.getListBoxUserOption().getSelectedIndex()));
+	
 	riskAssesmentDTOs.get(riskAssesmentStrategicView.getIndex()).getStrategic()
 		.setComments(riskAssesmentStrategicView.getComment());
 
@@ -451,6 +470,9 @@ public class RiskAssesmentStrategicViewData {
 	riskAssesmentStrategicView.getHpnlButtonsApprovar().setVisible(false);
 	riskAssesmentStrategicView.getHpnlButtonInitiator().setVisible(false);
 	riskAssesmentStrategicView.getRating().setEnabled(false);
+	//new work
+	riskAssesmentStrategicView.getListBoxUserOption().setEnabled(false);
+	
 	riskFactorsView.getImpact().setEnabled(false);
 	riskFactorsView.getProbabality().setEnabled(false);
 	riskFactorsView.getComments().setEnabled(false);
@@ -465,6 +487,10 @@ public class RiskAssesmentStrategicViewData {
 	riskFactorsView.getProbabality().setEnabled(true);
 	riskFactorsView.getComments().setEnabled(true);
 	riskAssesmentStrategicView.getRating().setEnabled(true);
+	//new work
+	riskAssesmentStrategicView.getListBoxUserOption().setEnabled(true);
+	
+	
 	riskAssesmentStrategicView.getSubmitted().setVisible(false);
 
     }

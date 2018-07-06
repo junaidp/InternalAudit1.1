@@ -30,6 +30,7 @@ import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.JobEmployeeRelation;
+import com.internalaudit.shared.Risk;
 import com.internalaudit.shared.TimeOutException;
 
 public class AuditWorkProg extends Composite {
@@ -72,29 +73,58 @@ public class AuditWorkProg extends Composite {
     HorizontalPanel feedbackPanel;
     @UiField
     Label feedback;
+    private ArrayList<Risk> risks;
 
     private Employee loggedInEmployee;
     ArrayList<JobEmployeeRelation> listData;
     private ArrayList<AuditWork> savedAuditWorks;
     private int selectedJobId;
+    private int auditEngId;
 
-    public AuditWorkProg(final InternalAuditServiceAsync rpcService, final int selectedJobId, Employee employee) {
+    public AuditWorkProg(final InternalAuditServiceAsync rpcService, final int selectedJobId, Employee employee, int auditEngId) {
 	initWidget(uiBinder.createAndBindUi(this));
+	
+	fetchRisks(rpcService, selectedJobId, employee, auditEngId);
 
-	// fill listbox with appropriate employees
-	this.selectedJobId = selectedJobId;
-	getEmployeesForJob(rpcService, selectedJobId);
-	setHandlers(rpcService, selectedJobId);
-	this.loggedInEmployee = employee;
-	addMore.setVisible(false);
-	if (rows.getWidgetCount() < 2) {
-	    heading.setVisible(false);
-	    rows.setSpacing(5);
-	}
-
+	
+	
     }
 
-    private void setHandlers(final InternalAuditServiceAsync rpcService, final int selectedJobId) {
+	private void init(final InternalAuditServiceAsync rpcService, final int selectedJobId, Employee employee,
+			int auditEngId) {
+		// fill listbox with appropriate employees
+		this.selectedJobId = selectedJobId;
+		getEmployeesForJob(rpcService, selectedJobId);
+		setHandlers(rpcService, selectedJobId);
+		this.loggedInEmployee = employee;
+		this.auditEngId = auditEngId;
+		addMore.setVisible(false);
+		if (rows.getWidgetCount() < 2) {
+		    heading.setVisible(false);
+		    rows.setSpacing(5);
+		}
+	}
+    
+    private void fetchRisks(final InternalAuditServiceAsync rpcService, final int selectedJobId, final Employee employee, final int auditEngId) {
+		rpcService.fetchRisks(auditEngId, new AsyncCallback<ArrayList<Risk>>() {
+			
+			@Override
+			public void onSuccess(ArrayList<Risk> result) {
+				risks = result;
+				
+				init(rpcService, selectedJobId, employee, auditEngId);
+				
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Fil fetch Risks"+ caught.getLocalizedMessage());
+			}
+		});
+    }
+
+ 
+	private void setHandlers(final InternalAuditServiceAsync rpcService, final int selectedJobId) {
 	addMore.addClickHandler(new ClickHandler() {
 
 	    @Override
@@ -104,7 +134,8 @@ public class AuditWorkProg extends Composite {
 		    heading.setVisible(true);
 		}
 		save.setVisible(true);
-		final AuditWorkRow r = new AuditWorkRow();
+		final AuditWorkRow r = new AuditWorkRow(risks);
+		
 		for (int i = 0; i < listData.size(); ++i) {
 		    if (listData.get(i).getEmployee().getRollId().getRollId() == 1) {
 			r.getEmployeeList().insertItem(listData.get(i).getEmployee().getEmployeeName(),
@@ -282,6 +313,13 @@ public class AuditWorkProg extends Composite {
 	    auditWork.setResponsibleControl(
 		    Integer.parseInt(row.getLstControls().getValue(row.getLstControls().getSelectedIndex())));
 	    auditWork.setStepNo(row.getStep().getText());
+	   
+	    //Saving risk and existing controls
+	    Risk risk = new Risk();
+	    risk.setRiskId(Integer.parseInt(row.getListBoxRisk().getSelectedValue()));
+	    auditWork.setRiskId(risk);
+	    //end saving risk and existing controls
+	    
 	    JobCreation jobCreation = new JobCreation();
 	    jobCreation.setJobCreationId(selectedJobId);
 	    auditWork.setJobCreationId(jobCreation);
@@ -397,7 +435,8 @@ public class AuditWorkProg extends Composite {
 			approvalButtonsPanel.setVisible(false);
 			addMore.setVisible(false);
 
-			final AuditWorkRow row = new AuditWorkRow();
+			final AuditWorkRow row = new AuditWorkRow(risks);
+			
 			row.disableFields();
 
 			if ((auditWork.getInitiatedBy() != null && auditWork.getInitiatedBy().getReportingTo()
@@ -424,7 +463,24 @@ public class AuditWorkProg extends Composite {
 			    feedbackPanel.setVisible(true);
 			    feedback.setText(auditWork.getFeedback());
 			}
-			//// end feedbacl
+			//// end feedback
+			
+			//to select risk and existing controls
+			for(int i=0; i< row.getListBoxRisk().getItemCount(); i++){
+				if(Integer.parseInt(row.getListBoxRisk().getValue(i)) == auditWork.getRiskId().getRiskId()){
+					row.getListBoxRisk().setSelectedIndex(i);
+					break;
+				}
+			}
+			
+			for(int i=0; i< row.getListBoxExistingCtrl().getItemCount(); i++){
+				if(Integer.parseInt(row.getListBoxExistingCtrl().getValue(i)) == auditWork.getRiskId().getRiskId()){
+					row.getListBoxExistingCtrl().setSelectedIndex(i);
+					break;
+				}
+			}
+			//End selecting risk and existing controls
+			
 			row.getStep().setText(auditWork.getStepNo());
 			row.getDescription().setText(auditWork.getDescription());
 			row.getAuditWorkId().setText(String.valueOf(auditWork.getAuditWorkId()));
@@ -539,7 +595,8 @@ public class AuditWorkProg extends Composite {
 		    listData = arg0;
 		    // display 3 rows as default
 		    for (int k = 0; k < 3; ++k) {
-			AuditWorkRow r = new AuditWorkRow();
+			AuditWorkRow r = new AuditWorkRow(risks);
+			
 			for (int i = 0; i < arg0.size(); ++i) {
 			    r.getEmployeeList().insertItem(arg0.get(i).getEmployee().getEmployeeName(),
 				    String.valueOf(arg0.get(i).getEmployee().getEmployeeId()), i);

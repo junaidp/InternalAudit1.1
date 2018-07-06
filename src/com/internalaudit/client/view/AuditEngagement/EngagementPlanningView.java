@@ -1,14 +1,8 @@
 package com.internalaudit.client.view.AuditEngagement;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -17,20 +11,10 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
-import com.internalaudit.client.view.DisplayAlert;
-import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.client.view.data.EngagementPlanningViewData;
-import com.internalaudit.shared.AuditEngagement;
-import com.internalaudit.shared.Employee;
-import com.internalaudit.shared.InternalAuditConstants;
-import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.User;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import com.internalaudit.shared.TimeOutException;
-import com.google.gwt.user.client.History;
 
 
 public class EngagementPlanningView extends Composite {

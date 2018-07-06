@@ -1,8 +1,10 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:s="urn:import:com.sencha.gxt.data.shared" xmlns:f="urn:import:com.sencha.gxt.widget.core.client.form">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:s="urn:import:com.sencha.gxt.data.shared" xmlns:f="urn:import:com.sencha.gxt.widget.core.client.form" xmlns:a="urn:import:com.google.gwt.thirdparty.javascript.rhino.head.ast">
 	<ui:style>
-		
+		.lbluser{
+	padding-top: 10px;
+}
 	</ui:style>
 	<g:HTMLPanel>
 	
@@ -11,7 +13,7 @@
 	<g:VerticalPanel ui:field="vpnlComments"></g:VerticalPanel>
 	</g:HorizontalPanel>
 	<g:HorizontalPanel>
-	<g:Label width="840px" styleName="boldText">Overall Rating</g:Label>
+	<g:Label width="826px" styleName="boldText">Overall Rating</g:Label>
 	<g:ListBox ui:field="rating">
 	<g:item>N/A</g:item>
 	<g:item>High</g:item>
@@ -19,6 +21,16 @@
 	<g:item>Low</g:item>
 	</g:ListBox>
 	</g:HorizontalPanel>
+	<g:HorizontalPanel ui:field="userOption">
+	<g:Label width="826px" addStyleNames="{style.lbluser}" styleName="boldText">UserDefined Rating</g:Label>
+	<g:ListBox ui:field="listBoxUserOption" addStyleNames="{style.lbluser}">
+	<g:item>N/A</g:item>
+	<g:item>High</g:item>
+	<g:item>Medium</g:item>
+	<g:item>Low</g:item>
+	</g:ListBox>
+	</g:HorizontalPanel>
+
 	<g:HorizontalPanel ui:field="hpnlButtons">
 	<!-- <g:Button ui:field="save" width="100px"> Submit </g:Button>
 	<g:HorizontalPanel width="500px"></g:HorizontalPanel>

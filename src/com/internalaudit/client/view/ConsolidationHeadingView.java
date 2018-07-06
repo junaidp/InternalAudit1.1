@@ -51,25 +51,46 @@ public class ConsolidationHeadingView extends Composite{
 //		lblArea.setWordWrap(false);
 		lblArea.addStyleName("labelHeading");
 		horizontalPanel.add(lblArea);
-		lblArea.setWidth("300px");
+		lblArea.setWidth("200px");
 		
 		Label lblRiskUnit = new Label("Risk Rating");
 		lblRiskUnit.addStyleName("labelHeading");
 		horizontalPanel.add(lblRiskUnit);
-		lblRiskUnit.setWidth("250px");
+		lblRiskUnit.setWidth("100px");
 		
 		Label lblAuditaleRating = new Label("Auditable Unit");
 		lblAuditaleRating.addStyleName("labelHeading");
 		horizontalPanel.add(lblAuditaleRating);
-		lblAuditaleRating.setWidth("350px");
+		lblAuditaleRating.setWidth("180px");
 		
-		Label lblTab = new Label("");
-		lblTab.addStyleName("blue");
-		horizontalPanel.add(lblTab);
-		lblTab.setWidth("100px");
+		
 //		horizontalPanel.addStyleName("statusRowConsolidation");
 		
-		 ScrollPanel scroll = new ScrollPanel();
+		// heading label of procees
+		Label lblAuditaleProcess = new Label("Process");
+		lblAuditaleProcess.addStyleName("labelHeading");
+		horizontalPanel.add(lblAuditaleProcess);
+		lblAuditaleProcess.setWidth("160px");
+		
+		//heading labelof sub process
+		Label lblAuditaleSubProcess = new Label("SubProcess");
+		lblAuditaleSubProcess.addStyleName("labelHeading");
+		horizontalPanel.add(lblAuditaleSubProcess);
+		lblAuditaleSubProcess.setWidth("160px");
+		
+		//heading labelof  jobtype
+				Label lblAuditaleJobType = new Label("JobType");
+				lblAuditaleJobType.addStyleName("labelHeading");
+				horizontalPanel.add(lblAuditaleJobType);
+				lblAuditaleJobType.setWidth("160px");
+		
+				Label lblTab = new Label("");
+				lblTab.addStyleName("blue");
+				horizontalPanel.add(lblTab);
+				lblTab.setWidth("50px");
+				
+		ScrollPanel scroll = new ScrollPanel();
+		 
 //		 scroll.setSize("98%", "375px");
 		 scroll.setHeight("375px");
 		 scroll.setWidget(vpnlData);

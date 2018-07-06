@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:A="urn:import:com.internalaudit.client.view.AuditEngagement">
 	<ui:style>
 	
 	</ui:style>
@@ -32,7 +32,9 @@
 		<g:Label wordWrap="false" styleName="risksRow">Step No.</g:Label>
 		<g:Label styleName="txtExtendedWidth">Description</g:Label>
 		<g:Label styleName="txtShrikedWidth">Reviewer</g:Label>
- 		<!--  <g:Label styleName="txtShrikedWidth">Planned Status</g:Label> -->
+		<g:Label styleName="txtShrikedWidth">Risk</g:Label>
+		<g:Label styleName="txtShrikedWidth">Existing Controls</g:Label>
+		<!--  <g:Label styleName="txtShrikedWidth">Planned Status</g:Label> -->
 	
 	</g:HorizontalPanel>
 	

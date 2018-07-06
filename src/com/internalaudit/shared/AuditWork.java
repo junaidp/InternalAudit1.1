@@ -57,6 +57,10 @@ public class AuditWork implements Serializable {
 	
 	@Column(name = "feedback")
 	private String feedback;
+	
+	@JoinColumn(name = "riskId")
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Risk riskId;
 
 	public int getAuditWorkId() {
 		return auditWorkId;
@@ -144,6 +148,14 @@ public class AuditWork implements Serializable {
 
 	public void setFeedback(String feedback) {
 		this.feedback = feedback;
+	}
+
+	public Risk getRiskId() {
+		return riskId;
+	}
+
+	public void setRiskId(Risk riskId) {
+		this.riskId = riskId;
 	}
 
 	
