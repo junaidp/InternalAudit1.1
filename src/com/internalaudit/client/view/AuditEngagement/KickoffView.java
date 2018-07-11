@@ -189,10 +189,11 @@ public class KickoffView extends Composite {
 		cp.setHeadingText("Audit Notification");
 		VerticalPanel vpnlIdentification = new VerticalPanel();
 		vpnlIdentification.setHeight("400px");
-		AuditNotificationView auditNotificationView = new AuditNotificationView();
-		vpnlIdentification.add(auditNotificationView);  
-		auditNotificationView.getAuditNotificationViewData().setData(auditNotificationView, rpcService, selectedAuditEngagement);
-		
+		AuditNotificationViewNew auditNotificationViewNew = new AuditNotificationViewNew();
+//		AuditNotificationView auditNotificationView = new AuditNotificationView();
+//		vpnlIdentification.add(auditNotificationView);  
+//		auditNotificationView.getAuditNotificationViewData().setData(auditNotificationView, rpcService, selectedAuditEngagement);
+		vpnlIdentification.add(auditNotificationViewNew);
 		cp.add(vpnlIdentification);
 		con.add(cp);
 
@@ -210,11 +211,23 @@ public class KickoffView extends Composite {
 		cp = new ContentPanel(appearance);
 		cp.setAnimCollapse(false);
 		cp.setBodyStyleName("pad-text");
-		cp.setHeadingText("Key Risks And Existing Controls");
+		cp.setHeadingText("Key Risks");
 		ScrollPanel v = new ScrollPanel();
 		v.setHeight("400px");
-		v.add(new RisksView(auditEngId, rpcService, loggedInUser.getEmployeeId()));
+	//	v.add(new RisksView(auditEngId, rpcService, loggedInUser.getEmployeeId()));
+		v.add( new KeyRiskViewNew());
 		cp.add(v);
+		con.add(cp);
+		
+		cp = new ContentPanel(appearance);
+		cp.setAnimCollapse(false);
+		cp.setBodyStyleName("pad-text");
+		cp.setHeadingText("Existing Controls");
+		ScrollPanel vps = new ScrollPanel();
+		vps.setHeight("400px");
+	//	v.add(new RisksView(auditEngId, rpcService, loggedInUser.getEmployeeId()));
+		vps.add( new ExistingControlViewNew());
+		cp.add(vps);
 		con.add(cp);
 
 		cp = new ContentPanel(appearance);
@@ -223,7 +236,8 @@ public class KickoffView extends Composite {
 		cp.setHeadingText("Audit Work Programme");
 		VerticalPanel vpnl = new VerticalPanel();
 		vpnl.setHeight("400px");
-		vpnl.add(new AuditWorkProg(rpcService, selectedJobId, loggedInUser.getEmployeeId(), auditEngId));
+		//vpnl.add(new AuditWorkProg(rpcService, selectedJobId, loggedInUser.getEmployeeId(), auditEngId));
+		vpnl.add(new AuditWorkProgramNew());
 		cp.add(vpnl);
 		con.add(cp);
 

@@ -61,6 +61,11 @@ import com.internalaudit.client.view.dashboard.DashBoardDesignerView;
 import com.internalaudit.client.view.dashboard.DashboardNewView;
 import com.internalaudit.shared.StrategicDTO;
 import com.internalaudit.shared.User;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -267,18 +272,31 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 	public void onValueChange(ValueChangeEvent<String> event) {
 		String token = event.getValue();
-
+		String eventToken = "";
+		ArrayList<String> tokenParams = new ArrayList<String>();
 		if (token != null) {
 			presenter = null;
+			
+			//////Because of email token 
+			if(token.indexOf('/') != -1){
+				eventToken = token.substring(0, token.indexOf('/'));
+			
+				List<String> listofParams = Arrays.asList(token.substring(token.indexOf('/')+1).split("/"));
+				tokenParams.addAll(listofParams);
+			}else{
+				eventToken = token;
+			}
+			
+			////End
 
-			if (token.equals("login")) {
+			if (eventToken.equals("login")) {
 				presenter = new LoginPresenter(rpcService, eventBus, new LoginUi());
 				if (presenter != null) {
 					this.container = mainContainer;
 					presenter.go(container);
 				}
 			}
-			if (token.equals("main")) {
+			if (eventToken.equals("main")) {
 				presenter = new MainPresenter(rpcService, eventBus, selectedYear, loggedInUser, new MainView(loggedInUser));
 				if (presenter != null) {
 					this.container = mainContainer;
@@ -286,7 +304,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				}
 			}
 			
-			if (token.equals("auditAreas")) {
+			if (eventToken.equals("auditAreas")) {
 				AuditAreasView auditAreasView = new AuditAreasView();
 				presenter = new AuditAreasPresenter(rpcService, eventBus, auditAreasView);
 				setContainer(centerPanel);
@@ -295,7 +313,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				}
 			}
 			
-			if (token.equals("auditScheduling")) {
+			if (eventToken.equals("auditScheduling")) {
 				AuditSchedulingView auditSchedulingView = new AuditSchedulingView();
 				presenter = new AuditSchedulingPresenter(rpcService, eventBus, auditSchedulingView, loggedInUser);
 				
@@ -307,7 +325,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				}
 			}
 			
-			if (token.equals("jobCreation")) {
+			if (eventToken.equals("jobCreation")) {
 				presenter = new JobCreationPresenter(rpcService, eventBus, new JobCreationView(strategicDTO), strategicDTO);
 //				this.container = mainContainer;
 				setContainer(centerPanel);
@@ -316,7 +334,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				}
 			}
 			
-			if (token.equals("auditListing")) {
+			if (eventToken.equals("auditListing")) {
 				AuditListingView auditSchedulingView = new AuditListingView();
 				presenter = new AuditListingPresenter(rpcService, eventBus, auditSchedulingView);
 				setContainer(centerPanel);
@@ -325,7 +343,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				}
 			}
 			
-			if (token.equals("jobTimeEstimation")) {
+			if (eventToken.equals("jobTimeEstimation")) {
 				presenter = new JobTimeEstimationPresenter(rpcService, eventBus, new JobTimeEstimationView(strategicDTO));
 //				this.container = mainContainer;
 				setContainer(centerPanel);
@@ -334,7 +352,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				}
 			}
 			
-			if (token.equals("jobListing")) {
+			if (eventToken.equals("jobListing")) {
 				presenter = new JobListingPresenter(rpcService, eventBus, new JobListingView(callingFrom));
 				if (presenter != null) {
 					setContainer(centerPanel);
@@ -343,7 +361,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				}
 			}
 
-			if (token.equals("auditEngagement")) {
+			if (eventToken.equals("auditEngagement")) {
 				presenter = new AuditEngagementPresenter(rpcService, eventBus, new AuditEngagementView(), loggedInUser);
 				setContainer(centerPanel);
 				if (presenter != null) {
@@ -351,15 +369,15 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				}
 			}	
 			
-			else if (token.equals("Reporting")) {
-				presenter = new ReportingPresenter(rpcService, eventBus, loggedInUser.getEmployeeId(), new ReportingView(loggedInUser.getEmployeeId().getFromInternalAuditDept()));
+			else if (eventToken.equals("Reporting")) {
+				presenter = new ReportingPresenter(rpcService, eventBus, loggedInUser.getEmployeeId(), tokenParams, new ReportingView(loggedInUser.getEmployeeId().getFromInternalAuditDept()));
 				setContainer(centerPanel);
 				if (presenter != null) {
 					presenter.go(container);
 				}
 			}
 			
-			else if (token.equals("Reports")) {
+			else if (eventToken.equals("Reports")) {
 				presenter = new ReportsPresenter(rpcService, eventBus, loggedInUser.getEmployeeId(), new ReportsView(loggedInUser.getEmployeeId().getFromInternalAuditDept()));
 				setContainer(centerPanel);
 				if (presenter != null) {
@@ -374,7 +392,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 //				}
 //			}	
 			
-			else if (token.equals("Dashboard")) {
+			else if (eventToken.equals("Dashboard")) {
 				presenter = new DashBoardNewPresenter(rpcService, eventBus, loggedInUser, new DashBoardDesignerView(false));
 				setContainer(centerPanel);
 				if (presenter != null) {
@@ -382,7 +400,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				}
 			}	
 			
-			else if (token.equals("createUser")) {
+			else if (eventToken.equals("createUser")) {
 				presenter = new UserInductionFormPresenter(rpcService, eventBus, loggedInUser, new UserInductionFormView(loggedInUser));
 				if (presenter != null) {
 					this.container = mainContainer;
@@ -390,7 +408,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				}
 			}	
 			
-			else if (token.equals("requestUserName")) {
+			else if (eventToken.equals("requestUserName")) {
 				presenter = new RequestUserNameFormPresenter(rpcService, eventBus, new RequestUserNameFormView());
 				if (presenter != null) {
 					this.container = mainContainer;
@@ -398,7 +416,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				}
 			}	
 			
-			else if (token.equals("createCompany")) {
+			else if (eventToken.equals("createCompany")) {
 				presenter = new CompanyInductionFormPresenter(rpcService, eventBus, new CompanyInductionFormView());
 				if (presenter != null) {
 					this.container = mainContainer;
@@ -406,7 +424,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				}
 			}	
 			
-			if (token.equals("DashboardStartup")) {
+			if (eventToken.equals("DashboardStartup")) {
 				presenter = new DashBoardNewPresenter(rpcService, eventBus, loggedInUser, new DashBoardDesignerView(true));
 				if (presenter != null) {
 					this.container = mainContainer;

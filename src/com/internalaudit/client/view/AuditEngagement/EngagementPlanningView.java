@@ -18,7 +18,9 @@ import java.util.logging.Logger;
 
 
 public class EngagementPlanningView extends Composite {
-		
+	@UiField
+	Button add;
+	
 	@UiField
 	TextArea assignmentObjective;
 
@@ -270,6 +272,11 @@ public class EngagementPlanningView extends Composite {
 
 	public void setSubmittedBy(Label submittedBy) {
 		this.submittedBy = submittedBy;
+	}
+
+
+	public Button getAdd() {
+		return add;
 	}
 	
 

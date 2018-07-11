@@ -61,12 +61,34 @@ public class ReportingPresenter implements Presenter
 
 	}  
 
-	public ReportingPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, Employee employee, Display view) 
+	public ReportingPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, Employee employee, ArrayList<String> tokenParams, Display view) 
 	{
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.display = view;
 		this.loggedInEmployee = employee;
+		setInputParams(tokenParams);
+	}
+
+	private void setInputParams(ArrayList<String> input_Params) {
+		for(int i=0; i< input_Params.size(); i++){
+			String param = (String) input_Params.get(i);
+			String paramKey = "";
+			String paramValue = "";
+			if(param.indexOf("=") != -1){
+				paramKey = param.substring(0, param.indexOf("="));
+				paramValue = param.substring(param.indexOf("=")+1);
+			}
+			if(paramKey.equalsIgnoreCase("companyId")){
+				try{
+					int companyId = Integer.parseInt(paramValue);
+				}catch(Exception ex){
+					Window.alert("Sorry , above page not found");
+					History.newItem("login");
+				}
+			}
+		}
+		
 	}
 
 	public void go(HasWidgets container) 

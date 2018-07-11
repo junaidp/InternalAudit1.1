@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.AuditEngagement.ActivityObjectiveView;
+import com.internalaudit.client.view.AuditEngagement.ActivityObjectiveViewNew;
 import com.internalaudit.client.view.AuditEngagement.AssignmentObjectiveView;
 import com.internalaudit.client.view.AuditEngagement.EngagementPlanningView;
 import com.internalaudit.client.view.AuditEngagement.ProcessUnderstandingView;
@@ -102,6 +103,16 @@ public class EngagementPlanningViewData {
 	public void save(final InternalAuditServiceAsync rpcService, final int selectedJobId,
 			final User loggedInUser, final EngagementPlanningView engagementPlanningView) {
 		
+		//adding addclickhandler to btn add
+//		engagementPlanningView.getAdd().addClickHandler(new ClickHandler() {
+//			
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				ActivityObjectiveViewNew act = new ActivityObjectiveViewNew();
+//				
+//			}
+//		});
+//		
 		
 		engagementPlanningView.getSubmit().addClickHandler(new ClickHandler() {
 				

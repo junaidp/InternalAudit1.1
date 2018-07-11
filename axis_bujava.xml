@@ -1,6 +1,6 @@
-<project name="abiliteBuilder" default="make_war" basedir=".">
+<project name="abilite1.1Builder" default="make_war" basedir=".">
     <description>
-        Build the abilite  War file
+        Build the abilite1.1  War file
     </description>
 
 
@@ -17,8 +17,8 @@
         <antcall target="clean" />
         <antcall target="make_dirs" />
         <antcall target="copy_files" />
-        <jar destfile="${DIST.dir}/abilite.war" basedir="${BUILD.dir}"/>
-   	    <copy file="${DIST.dir}/abilite.war" tofile="${MASTER.DIST.dir}/abilite.war"/>
+        <jar destfile="${DIST.dir}/abilite1.1.war" basedir="${BUILD.dir}"/>
+   	    <copy file="${DIST.dir}/abilite1.1.war" tofile="${MASTER.DIST.dir}/abilite1.1.war"/>
     </target>
 
     <!-- =============================================================================================================  -->

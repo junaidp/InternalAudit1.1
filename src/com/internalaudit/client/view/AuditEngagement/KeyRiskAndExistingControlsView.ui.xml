@@ -13,6 +13,7 @@
 		<g:ListBox ui:field="listBoxRisk">  </g:ListBox>
 		<g:ListBox ui:field="listBoxExistingCtrl"></g:ListBox>
 		</g:HorizontalPanel>
+		
 	</g:HTMLPanel>
 	
 </ui:UiBinder> 

@@ -1,5 +1,5 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
-<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:u="urn:import:com.internalaudit.client.upload" xmlns:A="urn:import:com.internalaudit.client.view.AuditEngagement" xmlns:s="urn:import:javax.swing">
 
 	<g:HTMLPanel height="700px">
 			<g:Label styleName="heading"> Detailed scope and process understanding </g:Label>
@@ -23,10 +23,12 @@
 	<g:VerticalPanel ui:field="activeObjUI"> 
 		<g:HTMLPanel>
 		<div>
-			<g:Label text="Activity Objective"></g:Label>
+			<g:Label text="Activity Objective" ></g:Label>
 		</div>
 		<div>
-			<g:TextArea ui:field="activityObjective" styleName="messageTextarea"></g:TextArea>
+		<A:ActivityObjectiveViewNew></A:ActivityObjectiveViewNew>
+			  <g:TextArea ui:field="activityObjective" styleName="messageTextarea" visible="false"></g:TextArea>
+		<g:Button text="add" ui:field="add"></g:Button>
 		</div>
 		</g:HTMLPanel>
 		
@@ -62,6 +64,6 @@
 	<g:Button ui:field="approve" >Approve</g:Button>
 	<g:Button ui:field="reject" >Feedback</g:Button>
 	</g:HorizontalPanel>
-
+<u:EngagementPlanningUpload></u:EngagementPlanningUpload>
 </g:HTMLPanel>
 </ui:UiBinder>

@@ -1,0 +1,19 @@
+with layouts, u define a template and the site layout will honor the template and display the components in their allotted 
+slot. For example, the menu will go in menu slot, side menu in sidebar etc.
+
+the concept is borrowed from php cms like joomla, drupal. do you know them or php
+
+see if you can browse the code and come up with a similar design. layouts is a related term that really means 
+framework for php like gantry, t3, helix etc. each has their own way of doing layout
+
+ I am sending a joomla template. unzip it and see the site/templates folder to see what it does. then let me know 
+if we can do something similar
+
+
+--------------------------------------------------------------------------------------
+
+Create Website in Joomla :
+
+Step 1 : Enter Subdomain  name for your website.
+Link : 
+

@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.upload.AuditWorkProgramUpload;
 import com.internalaudit.shared.Risk;
 
 public class AuditWorkRow extends Composite {
@@ -63,7 +64,10 @@ public class AuditWorkRow extends Composite {
 	rowContainer.add(lstReviewer);
 	rowContainer.add(listBoxRisk);
 	rowContainer.add(listBoxExistingCtrl);
-
+AuditWorkProgramUpload pu = new AuditWorkProgramUpload();
+HorizontalPanel upload = new HorizontalPanel();
+upload.add(pu);
+rowContainer.add(upload);
 	rowContainer.add(removeRow);
 	lstReviewer.setEnabled(false);
 	

@@ -16,12 +16,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -152,7 +159,7 @@ public class MySQLRdbHelper {
 		} finally {
 			session.close();
 		}
-
+		//sendEmailWithAttachment("", "hamzariaz1994@gmail.com", "", "Testing");
 		return users;
 	}
 
@@ -3061,6 +3068,89 @@ public class MySQLRdbHelper {
 
 		return false;
 	}
+	
+	public boolean sendEmailWithAttachment(String body, String sendTo, String cc, String subject, String filePath) {
+
+		final String username = "hyphenconsult@gmail.com";
+		final String password = "ilzhkshpmtqduzuc";
+
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+
+		javax.mail.Session sessionMail = javax.mail.Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
+
+		try {
+
+			Message message = new MimeMessage(sessionMail);
+			message.setFrom(new InternetAddress("hyphenconsult@gmail.com"));
+			if (cc.equals("")) {
+				message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(sendTo));
+			} else {
+				//////
+				String addresses[] = { sendTo, cc };
+
+				InternetAddress[] addressTo = new InternetAddress[addresses.length];
+				for (int i = 0; i < addresses.length; i++) {
+					addressTo[i] = new InternetAddress(addresses[i]);
+				}
+
+				message.setRecipients(Message.RecipientType.TO, addressTo);
+				/////
+			}
+
+			message.setSubject(subject);
+			message.setContent(body, "text/html");
+
+
+			// i wrote this one
+			
+	         // Create the message part
+	         BodyPart messageBodyPart = new MimeBodyPart();
+
+	         // Now set the actual message
+	        
+
+	         // Create a multipar message
+	         Multipart multipart = new MimeMultipart();
+
+	         // Set text message part
+	         multipart.addBodyPart(messageBodyPart);
+
+	         // Part two is attachment
+	         messageBodyPart = new MimeBodyPart();
+	        // String filename = "D:\workspace-neon\InternalAudit1.1.0\war\TestUploads\logo.png" ;
+	        
+	         DataSource source = new FileDataSource(filePath);
+	         messageBodyPart.setDataHandler(new DataHandler(source));
+	         messageBodyPart.setFileName(filePath);
+	         multipart.addBodyPart(messageBodyPart);
+
+	         // Send the complete message parts
+	         message.setContent(multipart);
+
+	         
+	         // ends her4e my written
+	      
+			
+			Transport.send(message);
+
+			System.out.println("email sent");
+
+
+
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
+
+		return false;
+	}
 
 	public ArrayList<Risk> fetchRisks(int auditEngId, int year, int companyId) {
 		Session session = null;
@@ -3734,9 +3824,16 @@ public class MySQLRdbHelper {
 			exception.setCompanyId(companyId);
 			session.saveOrUpdate(exception);
 			session.flush();
+			
+			String message = "Dear " + responsiblePerson.getEmployeeName() +
+					" <br></br> <br></br>"	+ " Your have received an Exception update from Abilite: <br></br> <br></br>"
+					+"  please click on the link below.<br></br> <br></br>"		
+					+" <a href= http://127.0.0.1:8888/InternalAudit.html#Reporting/employeeId="+ exception.getJobCreationId()+"/year="+year+"/companyId="+companyId+"/employeeId="+responsiblePerson.getEmployeeId()+"View Exception</a>";
+			
+			sendEmail(message, responsiblePerson.getEmail(), "", "Abilite: Exception Received" );
 
 			logger.info(
-					String.format("(Inside saveException)   saving Exception for year: "
+					String.format("(Inside saveException) Email for exception to management,  saving Exception for year: "
 							+year+"for company"+companyId+"for Exception"+exception.getDetail()+""+ new Date()));
 
 		} catch (Exception ex) {
@@ -4798,7 +4895,7 @@ public class MySQLRdbHelper {
 		} finally {
 			session.close();
 		}
-		sendEmail(message, to, cc, "Audit Notification");
+		sendEmailWithAttachment(message, to, cc, "Audit Notification", "TestUploads/logo.png");
 		return "Audit Notification saved";
 	}
 

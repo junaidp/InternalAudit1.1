@@ -1,13 +1,13 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:t="urn:import:com.internalaudit.client.upload">
 	<ui:style>
 	.important {
 		font-weight: bold;
 	}
 	</ui:style>
 	<g:VerticalPanel>
-	<g:Label styleName="heading"> Audit Notification </g:Label>
+	<g:Label styleName="w3-red"> Audit Notification </g:Label>
 	
 	<g:HorizontalPanel styleName="statusRow">
 				
@@ -25,7 +25,7 @@
 			<g:TextArea ui:field="message" styleName="messageTextarea">
 			
 			</g:TextArea>
-
-		<g:Button styleName="" ui:field="send" text="Send" />
+			<t:AuditNotificationUpload></t:AuditNotificationUpload>
+		<g:Button styleName="" ui:field="send" text="Send"  />
 	</g:VerticalPanel>
 </ui:UiBinder> 

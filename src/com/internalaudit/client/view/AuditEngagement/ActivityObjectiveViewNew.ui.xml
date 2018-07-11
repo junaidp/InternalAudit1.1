@@ -1,0 +1,64 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+	.lblHeading{
+	margin-top: 10px;
+	
+	margin-bottom: 10px;
+	margin-left:100px;
+	font-weight: bold;
+	
+}
+	.lbl{
+	font-weight: bold;
+	
+	margin-left: 100px;
+	size: 1.5em;
+	
+}
+.lblName{
+	margin-top: 8px;
+	padding-top:10px;
+	font-size: large;
+	font-weight: bold;
+}
+ .textArea{
+	margin-left: 100px;
+	margin-right: 70px;
+}
+
+	</ui:style>
+	<g:HTMLPanel>
+	<g:VerticalPanel ui:field="panelActivityObjective"></g:VerticalPanel>
+	
+	<!-- 
+	<g:VerticalPanel>
+	 
+		<g:Label text="Detailed Scope and Process Understanding"  ui:field="lblHeading"  addStyleNames="{style.lblHeading}"></g:Label>
+	<g:HorizontalPanel>
+		<g:VerticalPanel>
+		 
+		<g:Label text="P2p-1" -></g:Label>
+		</g:VerticalPanel>
+		<g:VerticalPanel>
+		<g:Label text="Activity Objective" addStyleNames="{style.lbl}"></g:Label>
+		</g:VerticalPanel>
+		<g:VerticalPanel>
+		<g:Label text="Applicability" addStyleNames="{style.lbl}"></g:Label>
+		</g:VerticalPanel>
+	</g:HorizontalPanel>
+	
+	<g:HorizontalPanel>
+		<g:VerticalPanel>
+		<g:TextArea text="Al controets, memoronduma  understonding ond lett8 of intent lhot finonciolly obhgote the compony ore opprowd and outherized os per the Authority Motrix" height="100px" width="200px" addStyleNames="{style.textArea}"></g:TextArea>
+		</g:VerticalPanel>
+		<g:VerticalPanel>
+		<g:CheckBox text="checkbox"></g:CheckBox>
+		</g:VerticalPanel>
+	</g:HorizontalPanel>
+	
+	</g:VerticalPanel>
+	-->
+	</g:HTMLPanel>
+</ui:UiBinder> 

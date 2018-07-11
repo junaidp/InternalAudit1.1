@@ -50,6 +50,7 @@ public class AuditNotificationView extends Composite  {
 			public void onClick(ClickEvent event) {
 				send.setEnabled(false);
 				auditNotificationViewData.sendMessage(send);
+				
 			}});
 
 	}
