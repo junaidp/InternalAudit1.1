@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.internalaudit.shared.ActivityObjective;
 import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.AuditSchedulingReportDTO;
 import com.internalaudit.shared.AuditStep;
@@ -35,6 +36,7 @@ import com.internalaudit.shared.ResourceUse;
 import com.internalaudit.shared.Risk;
 import com.internalaudit.shared.RiskAssesmentDTO;
 import com.internalaudit.shared.RiskFactor;
+import com.internalaudit.shared.RiskObjective;
 import com.internalaudit.shared.Rolls;
 import com.internalaudit.shared.SkillUpdateData;
 import com.internalaudit.shared.Skills;
@@ -182,7 +184,7 @@ public interface InternalAuditService extends RemoteService {
 			throws Exception;
 
 	String saveAuditNotification(int auditEngagementId, String message,
-			String to, String cc) throws Exception;
+			String to, String cc, String refNo , String from , String subject ) throws Exception;
 
 	String logOut() throws Exception;
 
@@ -251,4 +253,8 @@ public interface InternalAuditService extends RemoteService {
 	//ArrayList<Process p,> fetchConsolidation(ArrayList<String> process,ArrayList<String> subProcess,ArrayList<String> jobType);
 	ArrayList<ProcessDTO> fetchProcessDTOs();
 	ArrayList<SubProcess> fetchSubProcess(int processId);
+
+
+	String saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives ) throws Exception;
+	String saveRiskObjectives(ArrayList<RiskObjective> riskObjectives ) throws Exception;
 }

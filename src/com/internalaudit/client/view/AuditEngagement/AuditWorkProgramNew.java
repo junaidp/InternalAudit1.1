@@ -10,31 +10,41 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.internalaudit.shared.AuditProgramme;
 
 public class AuditWorkProgramNew implements IsWidget {
-
+	Label lblSerialNo = new Label("Serial No.");
+	Label lblReference = new Label("Reference");
+	Label lblAuditProg = new Label("Audit Program");
+	Label lblReviewer = new Label("Reviewer");
+	TextArea txtAreaAuditProg = new TextArea();
+	 Label lblReviewerData = new Label("");
+	 Label lblSerialNoData = new Label("");
+		
+		Label lblReferenceData = new Label("");
+	
 	@Override
 	public Widget asWidget() {
 		// TODO Auto-generated method stub
 		VerticalPanel vpn = new VerticalPanel();
 		// TODO Auto-generated method stub
-		Label lblSerialNo = new Label("Serial No.");
-		Label lblReference = new Label("Reference");
-		Label lblAuditProg = new Label("Audit Program");
 		
-		Label lblReviewer = new Label("Reviewer");
+		lblSerialNo.addStyleName("w3-panel w3-light-blue");
+		
+		lblReference.addStyleName("w3-panel w3-light-blue");
+		
+		lblAuditProg.addStyleName("w3-panel w3-light-blue");
+		
+		lblReviewer.addStyleName("w3-panel w3-light-blue");
 		
 		
-		Label lblSerialNoData = new Label("01");
-		
-		Label lblReferenceData = new Label("p2p-c1");
 	
-		TextArea txtAreaAuditProg = new TextArea();
+		
 	    txtAreaAuditProg.setWidth("300px");
 		txtAreaAuditProg.setHeight("90px");
-	    txtAreaAuditProg.setText("hello h listen hey hello hi");
+	    txtAreaAuditProg.setText("");
 	    
-	    Label lblReviewerData = new Label("ABCD");
+	   
 	    
         
       
@@ -46,11 +56,15 @@ public class AuditWorkProgramNew implements IsWidget {
         lblReviewer.getElement().getStyle().setFontWeight(FontWeight.BOLD);
         lblReference.getElement().getStyle().setFontWeight(FontWeight.BOLD);
      
-        lblAuditProg.getElement().getStyle().setMarginLeft(20, Unit.PX);
-        lblReference.getElement().getStyle().setMarginLeft(20, Unit.PX);
-       lblReviewer.getElement().getStyle().setMarginLeft(20, Unit.PX);
+        lblAuditProg.getElement().getStyle().setMarginLeft(1, Unit.PX);
+        lblReference.getElement().getStyle().setMarginLeft(10, Unit.PX);
+       lblReviewer.getElement().getStyle().setMarginLeft(10, Unit.PX);
+       lblSerialNoData.setWidth("135px");
+       lblSerialNoData.addStyleName("w3-panel");
+       lblReferenceData.addStyleName("w3-panel");
+       txtAreaAuditProg.addStyleName("w3-panel");
+       lblReviewerData.addStyleName("w3-panel");
        
-  
         lblReferenceData.getElement().getStyle().setMarginLeft(20, Unit.PX);
         txtAreaAuditProg.getElement().getStyle().setMarginLeft(20, Unit.PX);
         lblReviewerData.getElement().getStyle().setMarginLeft(20, Unit.PX);
@@ -75,4 +89,20 @@ public class AuditWorkProgramNew implements IsWidget {
 		return flex;
 	}
 
+	public void hideElemetns(){
+		lblSerialNo.setVisible(false);
+		lblReviewer.setVisible(false);
+		lblAuditProg.setVisible(false);
+		lblReference.setVisible(false);
+		
+	}
+
+	public void setData(AuditProgramme auditProgramme) {
+		txtAreaAuditProg.setText(auditProgramme.getAuditProgrammeName());
+		lblReviewerData.setText(auditProgramme.getReviewer().getEmployeeName());
+		lblSerialNoData.setText(auditProgramme.getAuditProgrammeId()+"");
+		//TODO populate other , refDate = auditProgramme.getSuggestedControlsId().getRefNo(); (Add refNo colun in suggestcontrols Table , data is in auditeng PDF)
+		//
+		
+	}
 }

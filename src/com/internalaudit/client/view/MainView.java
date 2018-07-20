@@ -1,14 +1,23 @@
 package com.internalaudit.client.view;
 
+import com.google.gwt.dom.client.Style.BorderStyle;
+import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.uibinder.elementparsers.DialogBoxParser;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.presenter.MainPresenter.Display;
 import com.internalaudit.client.widgets.TableauAbilite;
@@ -20,6 +29,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.PlainTabPanel;
 import com.sencha.gxt.widget.core.client.TabItemConfig;
+
+import javafx.stage.PopupWindow;
 
 public class MainView extends Composite implements Display {
 
@@ -38,9 +49,92 @@ public class MainView extends Composite implements Display {
 	private VerticalPanel reportsView = new VerticalPanel();
 
 	PlainTabPanel panel = new PlainTabPanel();
+	HorizontalPanel checkpanel = new HorizontalPanel();
+	VerticalPanel panelImages = new VerticalPanel();
+	
 
 	public MainView(User loggedInUser){
-
+	// new code	
+		panelImages.setWidth("110px");
+		panelImages.setHeight("200px");
+//		 panelImages.getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
+//		panelImages.getElement().getStyle().setBorderWidth(2, Unit.PX);	
+//		 Button btn = new Button("Hello its visible");
+//		//	panelImages.add(btn);
+//		Label dash = new Label("DASHBOARD");
+//		panelImages.add(dash);
+//		 Image dashboard = new Image("dashboard.png");
+//		 dashboard.setWidth("80px");
+//		 dashboard.setHeight("40px");
+//		 panelImages.add(dashboard);
+//		 Label rep = new Label("REPORTS");
+//		 panelImages.add(rep);
+//		 Image reports = new Image("Reports.png");
+//		 reports.setHeight("40px");
+//		 reports.setWidth("80px");
+//		 panelImages.add(reports);
+//		 Label lblwrk = new Label("WORK ITEM");
+//		 panelImages.add(lblwrk);
+//		 Image workItem = new Image("work items.jpg");
+//		 workItem.setHeight("40px");
+//		 workItem.setWidth("80px");
+//		 panelImages.add(workItem);
+		//VerticalPanel panelTeam = new VerticalPanel();
+		//panelTeam.addStyleName("w3-margin");
+		//VerticalPanel panelClient = new VerticalPanel();
+		//panelClient.addStyleName("w3-margin");
+		 Label lblteam = new Label("TEAM MANAGEMENT");
+		// panelTeam.add(lblteam);
+		 Image teamManagement = new Image("team management.jpg");
+		 teamManagement.setHeight("40px");
+		 teamManagement.setWidth("80px");
+		// panelTeam.add(teamManagement);
+		 Label lblClient = new Label("CLIENT MANAGEMENT");
+		// panelClient.add(lblClient);
+		 Image clientManagement = new Image("client mang.png");
+		 clientManagement.addStyleName("point");
+		 clientManagement.setHeight("40px");
+		 clientManagement.setWidth("80px");
+		// panelClient.add(clientManagement);
+		 teamManagement.addStyleName("point");
+		 panelImages.add(lblteam);
+		 panelImages.add(teamManagement);
+		 panelImages.add(lblClient);
+		 panelImages.add(clientManagement);
+		 final ToDoView todoview = new ToDoView();
+		 final MainViewNew mv = new MainViewNew();
+		 final InformationRequestView informationreq = new InformationRequestView();
+		 teamManagement.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				
+				
+				PopupsView pp = new PopupsView(todoview);
+				pp.getLabelheading().setText("To Do");
+				pp.getVpnlMain().setWidth("320px");
+				pp.getHpnlSPace().setWidth("320px");
+				pp.getVpnlMain().setHeight("320px");
+				}
+		});
+		 
+		 clientManagement.addClickHandler(new ClickHandler() {
+				
+				@Override
+				public void onClick(ClickEvent event) {
+					
+					PopupsView pp = new PopupsView(informationreq);
+					pp.getLabelheading().setText("Information Request");
+					pp.getVpnlMain().setTitle("Information Request");
+					pp.getVpnlMain().setWidth("400px");
+					pp.getHpnlSPace().setWidth("400px");
+					pp.getVpnlMain().setHeight("530px");
+	
+				}
+			});
+			 
+		 
+		//endshere 
 		this.loggedInUser = loggedInUser;
 		auditPlanningView = new AuditPlanningView(loggedInUser);
 
@@ -75,6 +169,7 @@ public class MainView extends Composite implements Display {
 		//		logOut.addStyleName("logout");
 
 		//		panel.setWidth(Window.getClientWidth()-100+"px");
+		//panel.setWidth("880px");
 		panel.setWidth("1200px");
 		panel.setResizeTabs(true);
 		if(loggedInUser.getEmployeeId().getFromInternalAuditDept().equalsIgnoreCase("yes")){
@@ -105,7 +200,14 @@ public class MainView extends Composite implements Display {
 		vpnlTabPanel.addStyleName("centerPanel");
 		vp.setWidth("100%");
 		vp.add(vpnlTabPanel);
-		vpnlTabPanel.add(panel);
+		//checkpanel.add(panel);
+		//checkpanel.add(panelImages);
+		//vpnlTabPanel.add(panel);
+		
+		checkpanel.add(panelImages);
+		checkpanel.add(panel);
+		vpnlTabPanel.add(checkpanel);
+		//vpnlTabPanel.add(panelImages);
 
 		hpnl.add(selectYear());
 		hpnl.add(welcome); // Welcome <name>

@@ -1,0 +1,24 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:a="urn:import:java.awt">
+	<ui:style>
+
+	</ui:style>
+	
+	<g:HTMLPanel>
+	<g:Button>hello hi listen</g:Button>
+	<!-- 
+	<a:Container class="w3-container">
+	<a:CardLayout  class="w3-card-4" style="width:20%">
+	<g:Button>hello</g:Button>
+	</a:CardLayout>
+	</a:Container> 
+	 -->
+
+
+
+  
+  
+
+	</g:HTMLPanel>
+</ui:UiBinder> 

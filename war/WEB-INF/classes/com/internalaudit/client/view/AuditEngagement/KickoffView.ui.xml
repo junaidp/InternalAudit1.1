@@ -3,7 +3,7 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:B="urn:import:com.google.gwt.dev.shell.BrowserChannel">
 	<ui:style>
 	.lbl{
-	margin-left: 50px;
+	margin-left: 30px;
 }
 .panel{
 	
@@ -17,15 +17,15 @@
 	<g:VerticalPanel addStyleNames="{style.panel}">
 		<g:HorizontalPanel>
 		 	<g:VerticalPanel>
-		    <g:Label styleName="labelTitle" width="200px">Planned Start Date</g:Label> 
+		    <g:Label styleName="labelTitle" width="200px" addStyleNames=" w3-light-blue" >Planned Start Date</g:Label> 
 			</g:VerticalPanel>
 		 	<g:VerticalPanel>
-		 	<g:Label  styleName="labelValue" ui:field="startDate" > Loading..</g:Label>
+		 	<g:Label  styleName="labelValue" ui:field="startDate"  > Loading..</g:Label>
 		 	</g:VerticalPanel>
 		</g:HorizontalPanel>	
 		<g:HorizontalPanel addStyleNames="{style.panel}">
 			<g:VerticalPanel>
-			<g:Label styleName="labelTitle" width="200px">Planned End Date</g:Label>
+			<g:Label styleName="labelTitle" width="200px"  addStyleNames=" w3-light-blue">Planned End Date</g:Label>
 			</g:VerticalPanel>
 			<g:VerticalPanel>
 			 <g:Label  styleName="labelValue" ui:field="endDate"> Loading..</g:Label>
@@ -34,34 +34,34 @@
 		
 		<g:HorizontalPanel addStyleNames="{style.panel}">
 			<g:VerticalPanel>
-				<g:Label styleName="labelTitle" width="200px">Auditable Unit</g:Label> 
+				<g:Label styleName="labelTitle" width="200px"  addStyleNames=" w3-light-blue" >Auditable Unit</g:Label> 
 		    </g:VerticalPanel>
 			<g:VerticalPanel>
-			    <g:Label text="procurement" ui:field="lblAuditableUnit" addStyleNames="{style.lbl}" ></g:Label>
+			    <g:Label text="Loading.." ui:field="lblAuditableUnit" addStyleNames="{style.lbl}" ></g:Label>
 			</g:VerticalPanel>
 		</g:HorizontalPanel>
 			
 		<g:HorizontalPanel addStyleNames="{style.panel}"  >
 			<g:VerticalPanel>
-				 <g:Label styleName="labelTitle" width="200px">Process</g:Label> 
+				 <g:Label styleName="labelTitle" width="200px"  addStyleNames=" w3-light-blue">Process</g:Label> 
 			</g:VerticalPanel>
 			<g:VerticalPanel>
- 				 <g:Label text="Procure to Pay" ui:field="lblProcess" addStyleNames="{style.lbl}"></g:Label>
-			</g:VerticalPanel>
-		</g:HorizontalPanel>
-			
-		<g:HorizontalPanel addStyleNames="{style.panel}" >
-			<g:VerticalPanel>
-				<g:Label styleName="labelTitle" width="200px">SubProcess</g:Label>
-			</g:VerticalPanel>
-			<g:VerticalPanel>
-			    <g:Label text="Contracting" ui:field="lblSubProcess" addStyleNames="{style.lbl}"></g:Label>
+ 				 <g:Label text="Loading.." ui:field="lblProcess" addStyleNames="{style.lbl}"></g:Label>
 			</g:VerticalPanel>
 		</g:HorizontalPanel>
 			
 		<g:HorizontalPanel addStyleNames="{style.panel}" >
 			<g:VerticalPanel>
-				<g:Label styleName="labelTitle" width="200px">Job Type</g:Label> 
+				<g:Label styleName="labelTitle" width="200px"  addStyleNames=" w3-light-blue">SubProcess</g:Label>
+			</g:VerticalPanel>
+			<g:VerticalPanel>
+			    <g:Label text="Loading.." ui:field="lblSubProcess" addStyleNames="{style.lbl}"></g:Label>
+			</g:VerticalPanel>
+		</g:HorizontalPanel>
+			
+		<g:HorizontalPanel addStyleNames="{style.panel}" >
+			<g:VerticalPanel>
+				<g:Label styleName="labelTitle" width="200px"  addStyleNames=" w3-light-blue" >Job Type</g:Label> 
 			</g:VerticalPanel>
 			<g:VerticalPanel>
 			     <g:Label ui:field="lblJobType" text="Assurance" addStyleNames="{style.lbl}"></g:Label> 

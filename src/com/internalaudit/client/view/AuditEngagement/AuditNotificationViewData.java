@@ -51,7 +51,7 @@ public class AuditNotificationViewData {
 		final LoadingPopup loadingPopup = new LoadingPopup();
 		loadingPopup.display();
 		
-		rpcService.saveAuditNotification(selectedAuditEngagement.getAuditEngId(), auditNotificationView.getMessage().getText(), auditNotificationView.getTo().getText(), auditNotificationView.getCc().getText(), new AsyncCallback<String>() {
+		rpcService.saveAuditNotification(selectedAuditEngagement.getAuditEngId(), auditNotificationView.getMessage().getText(), auditNotificationView.getTo().getText(), auditNotificationView.getCc().getText(), null, null, null, new AsyncCallback<String>() {
 
 			@Override
 			public void onFailure(Throwable caught) {

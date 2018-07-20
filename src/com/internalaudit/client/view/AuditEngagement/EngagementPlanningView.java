@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.data.EngagementPlanningViewData;
+import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.User;
 
 import java.util.logging.Logger;
@@ -20,6 +21,12 @@ import java.util.logging.Logger;
 public class EngagementPlanningView extends Composite {
 	@UiField
 	Button add;
+	
+	//@UiField
+//	ActivityObjectiveViewNew activityObjectiveViewNew;
+	
+	@UiField
+	VerticalPanel addActivityPanel;
 	
 	@UiField
 	TextArea assignmentObjective;
@@ -76,10 +83,12 @@ public class EngagementPlanningView extends Composite {
 
 	interface EngagementPlanningViewUiBinder extends
 	UiBinder<Widget, EngagementPlanningView> {
+		
 	}
 	
 	
-	public EngagementPlanningView(final InternalAuditServiceAsync rpcService, final int selectedJobId, final int auditEngId, User loggedInUser) {
+	
+	public EngagementPlanningView(final InternalAuditServiceAsync rpcService, final int selectedJobId, final int auditEngId, User loggedInUser, AuditEngagement record) {
 		
 		this.rpcService =  rpcService;
 		
@@ -90,12 +99,16 @@ public class EngagementPlanningView extends Composite {
 		this.auditEngId = auditEngId;
 
 		engagementPlanningViewData.setData(rpcService);//, assignObjUI, selectedJobId);
-				
-		engagementPlanningViewData.fetchCreatedJob( this, selectedJobId , loggedInUser);
+		
+		//2018
+		//engagementPlanningViewData.fetchCreatedJob( this, selectedJobId , loggedInUser, record);
+		engagementPlanningViewData.displayData( this, selectedJobId , loggedInUser, record);
 		
 		engagementPlanningViewData.save(rpcService, selectedJobId, loggedInUser, this);
-
+        
+	
 	}
+	
 
 
 //	private void save(final InternalAuditServiceAsync rpcService,
@@ -278,6 +291,18 @@ public class EngagementPlanningView extends Composite {
 	public Button getAdd() {
 		return add;
 	}
+
+
+	public VerticalPanel getAddActivityPanel() {
+		return addActivityPanel;
+	}
+
+
+	public void setAddActivityPanel(VerticalPanel addActivityPanel) {
+		this.addActivityPanel = addActivityPanel;
+	}
+
+
 	
 
 }

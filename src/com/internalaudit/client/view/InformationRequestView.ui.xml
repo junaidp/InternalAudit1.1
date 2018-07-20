@@ -1,0 +1,44 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:d="urn:import:com.google.gwt.user.datepicker.client" xmlns:m="urn:import:com.sencha.gxt.widget.core.client.menu">
+	<ui:style>
+	.padding{
+	padding-top: 15px;
+	
+}
+.button{
+	margin-left: 120px;
+}
+	</ui:style>
+	<g:HTMLPanel>
+	<g:VerticalPanel addStyleNames="w3-panel w3-pale-green">
+	<g:Label>Request Item</g:Label>
+	<g:TextBox width="300px" height="100px">Request item</g:TextBox>
+	<g:Label addStyleNames="{style.padding}">Contact Responsible</g:Label>
+	<g:TextBox width="250px"></g:TextBox>
+	<g:Label addStyleNames="{style.padding}">Contact Email (optional)</g:Label>
+	<g:TextBox width="250px"></g:TextBox>
+<g:CheckBox addStyleNames="{style.padding}" text="send notification now"></g:CheckBox>
+<g:CheckBox addStyleNames="{style.padding}" text="send recurring reminders[currently considered to once a week]"></g:CheckBox>
+	<g:Label addStyleNames="{style.padding}">Due Date</g:Label>
+	<d:DateBox ></d:DateBox>
+	<g:Label addStyleNames="{style.padding}">Status</g:Label>
+	<g:ListBox>
+	 <g:item>
+    complete
+  </g:item>
+  <g:item value='2'>
+    incomplete
+  </g:item>
+	</g:ListBox>
+	<g:HorizontalPanel addStyleNames="{style.button}">
+	<g:VerticalPanel>
+	<g:Button addStyleNames="w3-button w3-round-large w3-margin">Save</g:Button>
+	</g:VerticalPanel>
+	<g:VerticalPanel>
+	<g:Button  addStyleNames="w3-button w3-round-large w3-margin">Cancel</g:Button>
+	</g:VerticalPanel>
+	</g:HorizontalPanel>
+	</g:VerticalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder> 

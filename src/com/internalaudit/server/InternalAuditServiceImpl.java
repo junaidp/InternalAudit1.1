@@ -1,4 +1,4 @@
-package com.internalaudit.server;
+	package com.internalaudit.server;
 
 
 import java.text.ParseException;
@@ -21,6 +21,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.database.MySQLRdbHelper;
+import com.internalaudit.shared.ActivityObjective;
 import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.AuditSchedulingReportDTO;
 import com.internalaudit.shared.Company;
@@ -49,6 +50,7 @@ import com.internalaudit.shared.ResourceUse;
 import com.internalaudit.shared.Risk;
 import com.internalaudit.shared.RiskAssesmentDTO;
 import com.internalaudit.shared.RiskFactor;
+import com.internalaudit.shared.RiskObjective;
 import com.internalaudit.shared.Rolls;
 import com.internalaudit.shared.SkillUpdateData;
 import com.internalaudit.shared.Skills;
@@ -853,12 +855,12 @@ InternalAuditService {
 		}
 	}
 	@Override
-	public String saveAuditNotification(int auditEngagementId,String message, String to, String cc) throws Exception{
+	public String saveAuditNotification(int auditEngagementId,String message, String to, String cc, String refNo , String from , String subject) throws Exception{
 		if(isLoggedIn()){
 			session=getThreadLocalRequest().getSession(true);
 			int year = (Integer) session.getAttribute("year");
 			int companyId = (Integer) session.getAttribute("companyId");
-			return rdbHelper.saveAuditNotification( auditEngagementId, message, to, cc , year, companyId);
+			return rdbHelper.saveAuditNotification( auditEngagementId, message, to, cc , year, companyId, refNo, from, subject);
 		}else{
 
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);
@@ -1406,6 +1408,14 @@ InternalAuditService {
 	@Override
 	public ArrayList<SubProcess> fetchSubProcess(int processId) {
 		return rdbHelper.fetchSubProcess(processId);
+	}
+	@Override
+	public String saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives) throws Exception {
+		return rdbHelper.saveActivityObjectives(activityObjectives);
+	}
+	@Override
+	public String saveRiskObjectives(ArrayList<RiskObjective> riskObjectives) throws Exception {
+		return rdbHelper.saveRiskObjectives(riskObjectives);
 	}
 	
 	

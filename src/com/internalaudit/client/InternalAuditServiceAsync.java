@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.internalaudit.shared.ActivityObjective;
 import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.AuditSchedulingReportDTO;
 import com.internalaudit.shared.AuditStep;
@@ -32,6 +33,7 @@ import com.internalaudit.shared.ResourceUse;
 import com.internalaudit.shared.Risk;
 import com.internalaudit.shared.RiskAssesmentDTO;
 import com.internalaudit.shared.RiskFactor;
+import com.internalaudit.shared.RiskObjective;
 import com.internalaudit.shared.Rolls;
 import com.internalaudit.shared.SkillUpdateData;
 import com.internalaudit.shared.Skills;
@@ -177,7 +179,8 @@ public interface InternalAuditServiceAsync {
 			AsyncCallback<ArrayList<AuditWork>> asyncCallback);
 	void fetchApprovedAuditWorkRows(int selectedJobId,AsyncCallback<ArrayList<AuditWork>> asyncCallback);
 
-	void saveAuditNotification(int auditEngId, String message, String to, String cc, AsyncCallback<String> asyncCallback);
+	void saveAuditNotification(int auditEngagementId, String message, String to, String cc, String refNo, String from,
+			String subject, AsyncCallback<String> asyncCallback);
 
 	void logOut(AsyncCallback<String> asyncCallback);
 	void selectYear(int year, AsyncCallback<Void> asyncCallback);
@@ -251,6 +254,10 @@ public interface InternalAuditServiceAsync {
 	void fetchProcessDTOs(AsyncCallback<ArrayList<ProcessDTO>> callback);
 
 	void fetchSubProcess(int processId, AsyncCallback<ArrayList<SubProcess>> callback);
+
+	void saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives, AsyncCallback<String> callback);
+	void saveRiskObjectives(ArrayList<RiskObjective> riskObjectives, AsyncCallback<String> callback);
+	
 	
 	
 }

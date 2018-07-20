@@ -65,6 +65,11 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 				<value>com.internalaudit.shared.Process</value>
 				<value>com.internalaudit.shared.JobType</value>
 				<value>com.internalaudit.shared.SubProcess</value>
+				<value>com.internalaudit.shared.ActivityObjective</value>
+				<value>com.internalaudit.shared.RiskObjective</value>
+				<value>com.internalaudit.shared.SuggestedControls</value>
+				<value>com.internalaudit.shared.AuditProgramme</value>
+				
 				
 				
 			</list>

@@ -39,7 +39,7 @@ public class EngagementPlanningViewData {
 	public void setData(InternalAuditServiceAsync rpcService) {
 		this.rpcService = rpcService;
 	}
-
+/*
 	public void fetchCreatedJob(final EngagementPlanningView engagementPlanningView,	int selectedJobId, final User loggedInUser) {
 
 
@@ -63,6 +63,9 @@ public class EngagementPlanningViewData {
 			@Override
 			public void onSuccess(AuditEngagement record) {
 				if(record!=null ){
+					//19-7-2018
+					addActivityObjective(record, engagementPlanningView);
+					//end
 					if(record.getInitiatedBy()!=null && record.getInitiatedBy().getEmployeeId()!=0){
 					engagementPlanningView.disableFields();
 					}else{
@@ -96,8 +99,67 @@ public class EngagementPlanningViewData {
 				}
 			}
 
+			
+
 		});
 
+	}
+	*/
+	
+	public void displayData(final EngagementPlanningView engagementPlanningView,	int selectedJobId, final User loggedInUser, AuditEngagement record){
+		if(record!=null ){
+			//19-7-2018
+			addActivityObjective(record, engagementPlanningView);
+			//end
+			if(record.getInitiatedBy()!=null && record.getInitiatedBy().getEmployeeId()!=0){
+			engagementPlanningView.disableFields();
+			}else{
+				engagementPlanningView.enableInitiationpanel();
+			}
+			engagementPlanningView.getProcess().setText( record.getProcess()==null?"": record.getProcess() );
+			engagementPlanningView.getActivityObjective().setText(  record.getActivityObj()==null?"": record.getActivityObj() );
+			engagementPlanningView.getAssignmentObjective().setText( record.getAssignmentObj()==null?"": record.getAssignmentObj() );		
+//			if(!record.getProcess().equals("") &&  !record.getActivityObj().equals("") && !record.getAssignmentObj().equals("")){
+//				engagementPlanningView.disableFields();
+//			}
+			if(record.getInitiatedBy() !=null && record.getInitiatedBy().getEmployeeId() == loggedInUser.getEmployeeId().getEmployeeId()
+					&& (record.getStatus() == InternalAuditConstants.SAVED || record.getStatus() == InternalAuditConstants.INITIATED || record.getStatus() == InternalAuditConstants.REJECTED)){
+				engagementPlanningView.enableInitiationpanel();
+				engagementPlanningView.enableFields();
+			}
+//			else if(record.getStatus() == InternalAuditConstants.SUBMIT && record.getInitiatedBy().getReportingTo() !=null && record.getInitiatedBy().getReportingTo().getEmployeeId() == loggedInUser.getEmployeeId().getEmployeeId()
+//					|| loggedInUser.getEmployeeId().getRollId().getRollId() == 1 ){ //2018: with this auditorhead always see approve buttons
+			else if(record.getStatus() == InternalAuditConstants.SUBMIT 
+					&& (record.getInitiatedBy().getReportingTo() !=null && record.getInitiatedBy().getReportingTo().getEmployeeId() == loggedInUser.getEmployeeId().getEmployeeId()
+					|| 
+					loggedInUser.getEmployeeId().getRollId().getRollId() == 1)
+					 ){
+			
+			engagementPlanningView.enableApprovalnpanel();
+				engagementPlanningView.enableFields();
+				
+				engagementPlanningView.getSubmittedBy().setVisible(true);
+				engagementPlanningView.getSubmittedBy().setText("Submitted by:" + record.getInitiatedBy().getEmployeeName());
+			} 
+		}
+		
+		engagementPlanningView.getAdd().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				ActivityObjectiveViewNew act = new ActivityObjectiveViewNew();
+				engagementPlanningView.getAddActivityPanel().add(act);
+			}
+		});
+	}
+	
+	private void addActivityObjective(AuditEngagement record, EngagementPlanningView engagementPlanningView) {
+		for(int i =0 ;i< record.getEngagementDTO().getActivityObjectiveList().size(); i++){
+			ActivityObjectiveViewNew activityObjectiveView = new ActivityObjectiveViewNew();
+			activityObjectiveView.getTxtAreaActivityObj().setText(record.getEngagementDTO().getActivityObjectiveList().get(i).getObjectiveName());
+			engagementPlanningView.getAddActivityPanel().add(activityObjectiveView);
+		}
+		
 	}
 
 	public void save(final InternalAuditServiceAsync rpcService, final int selectedJobId,

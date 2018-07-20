@@ -26,9 +26,13 @@
 			<g:Label text="Activity Objective" ></g:Label>
 		</div>
 		<div>
-		<A:ActivityObjectiveViewNew></A:ActivityObjectiveViewNew>
+		<!--<A:ActivityObjectiveViewNew ui:field="activityObjectiveViewNew"></A:ActivityObjectiveViewNew>-->
 			  <g:TextArea ui:field="activityObjective" styleName="messageTextarea" visible="false"></g:TextArea>
-		<g:Button text="add" ui:field="add"></g:Button>
+		<div>
+		<g:VerticalPanel ui:field="addActivityPanel"> </g:VerticalPanel>
+		</div> 
+		<g:Button text="+" ui:field="add" addStyleNames="w3-button w3-small w3-circle w3-green"></g:Button>
+	
 		</div>
 		</g:HTMLPanel>
 		

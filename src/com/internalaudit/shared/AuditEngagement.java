@@ -1,5 +1,6 @@
 package com.internalaudit.shared;
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
 
 import com.internalaudit.shared.JobCreation;
 
@@ -53,6 +55,20 @@ public class AuditEngagement implements Serializable {
 	@Column(name = "cc")
 	private String cc;
 	
+	@Column(name="referenceNo")
+	private String referenceNo;
+	
+	//auditEngId, jobcreationid, jobstatus, assignmentObj, activityObj, processName, auditNotification, sendto, cc, year, companyId, status, initiatedBy, approvedBy, referenceNo, from, subject
+	
+	@Column(name="from")
+	private String from;
+	
+	@Column(name="subject")
+	private String subject;
+	
+//	@Column(name="date")
+//	private Date dateTime;
+	
 	@Column(name = "year")
 	private int year;
 	
@@ -72,6 +88,12 @@ public class AuditEngagement implements Serializable {
 	
 	@Transient
 	private int selectedId;
+	
+	@Transient 
+	private Strategic strategic;
+	
+	@Transient 
+	private EngagementDTO engagementDTO;
 
 	public int getAuditEngId() {
 		return auditEngId;
@@ -192,6 +214,54 @@ public class AuditEngagement implements Serializable {
 	public void setApprovedBy(Employee approvedBy) {
 		this.approvedBy = approvedBy;
 	}
+
+	public Strategic getStrategic() {
+		return strategic;
+	}
+
+	public void setStrategic(Strategic strategic) {
+		this.strategic = strategic;
+	}
+
+	public String getReferenceNo() {
+		return referenceNo;
+	}
+
+	public void setReferenceNo(String referenceNo) {
+		this.referenceNo = referenceNo;
+	}
+
+	public String getFrom() {
+		return from;
+	}
+
+	public void setFrom(String from) {
+		this.from = from;
+	}
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+	public EngagementDTO getEngagementDTO() {
+		return engagementDTO;
+	}
+
+	public void setEngagementDTO(EngagementDTO engagementDTO) {
+		this.engagementDTO = engagementDTO;
+	}
+
+//	public DateTime getDateTime() {
+//		return dateTime;
+//	}
+//
+//	public void setDateTime(DateTime dateTime) {
+//		this.dateTime = dateTime;
+//	}
 
 
 }

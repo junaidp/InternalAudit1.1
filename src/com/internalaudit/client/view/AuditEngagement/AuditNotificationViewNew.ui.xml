@@ -18,32 +18,32 @@
 	</ui:style>
 	<g:HTMLPanel>
 	<g:Label styleName="heading" > Audit Notification </g:Label>
-	<g:VerticalPanel width="700px" height="300px">
+	<g:VerticalPanel width="800px" height="300px">
 		<g:HorizontalPanel>
-		<g:Label text="Memo no"></g:Label>
+		<g:Label text="Memo No:"  addStyleNames=" w3-light-blue"></g:Label>
 		</g:HorizontalPanel>
 		<g:HorizontalPanel>
 			<g:VerticalPanel>
-			<g:Label text="Our Reference Number"></g:Label>
-			<g:TextBox text="Company name Internal Audit" width="200px"></g:TextBox>
+			<g:Label text="Our Reference Number"  addStyleNames=" w3-light-blue"></g:Label>
+			<g:TextBox text="Company name Internal Audit"  ui:field="txtBoxReference" width="200px"></g:TextBox>
 			</g:VerticalPanel>
 			<g:VerticalPanel addStyleNames="{style.date}">
-			<g:Label text="Date" ></g:Label>
+			<g:Label text="Date"  addStyleNames=" w3-light-blue" ></g:Label>
 			<d:DateBox></d:DateBox>
 			</g:VerticalPanel>
 		</g:HorizontalPanel>
 			<g:HorizontalPanel>
 			<g:VerticalPanel>
-			<g:Label text="From"></g:Label>
+			<g:Label text="From"  addStyleNames=" w3-light-blue" ></g:Label>
 			
-			<g:TextBox text="MR XYZ,Head of internal Audit" width="200px"></g:TextBox>
+			<g:TextBox text="MR XYZ,Head of internal Audit" ui:field="txtBoxFrom" width="200px"></g:TextBox>
 		</g:VerticalPanel>
 		</g:HorizontalPanel>
 			
 			<g:HorizontalPanel>
 			<g:VerticalPanel>
-			<g:Label text="For Action"></g:Label>
-			<g:TextBox text="MR XYZ,Director XXX" width="200px"></g:TextBox>
+			<g:Label text="For Action"  addStyleNames=" w3-light-blue"></g:Label>
+			<g:TextBox text="MR XYZ,Director XXX" ui:field="txtBoxForAction" width="200px"></g:TextBox>
 			</g:VerticalPanel>
 			</g:HorizontalPanel>
 		
@@ -51,25 +51,26 @@
 			
 			<g:HorizontalPanel>
 			<g:VerticalPanel>
-			<g:Label text="For Information"></g:Label>
+			<g:Label text="For Information"  addStyleNames=" w3-light-blue" ></g:Label>
 		    
-			<g:TextBox text="CXO Detail" width="200px"></g:TextBox>
+			<g:TextBox text="CXO Detail" width="200px" ui:field="txtBoxForInfo"></g:TextBox>
 			</g:VerticalPanel>
 			</g:HorizontalPanel>
 	</g:VerticalPanel>
-	<g:VerticalPanel width="913px" height="500px">
+	<g:VerticalPanel width="813px" height="400px">
 	
 			<g:HorizontalPanel>
 			<g:VerticalPanel>
-			<g:Label text="Subject" addStyleNames="w3-panel w3-pink"></g:Label>
-			<g:TextBox width="200px" text="Engegement Name"></g:TextBox>
+			<g:Label text="Subject"  addStyleNames=" w3-light-blue"></g:Label>
+			<g:TextBox width="200px" text="Engegement Name" ui:field="txtBoxSubject"></g:TextBox>
 			
 			</g:VerticalPanel>
 			</g:HorizontalPanel>
 			<g:HorizontalPanel>
-			<g:TextArea width="850px"  height="480px" ui:field="txtAreaBody" text="bla bla blab blablaba"> </g:TextArea>
+			<g:TextArea width="850px"  height="350px"  ui:field="txtAreaBody" text="bla bla blab blablaba"> </g:TextArea>
 			</g:HorizontalPanel>
 	</g:VerticalPanel>
+	<g:Button text="Send" ui:field="btnSend"></g:Button>
 	
 	</g:HTMLPanel>
 </ui:UiBinder> 

@@ -78,6 +78,9 @@ public class JobCreation implements Serializable {
 	
 	@Transient
 	private ArrayList<EmployeeJobDTO> employeeJobDTO;
+	
+	@Transient 
+	private Strategic strategic;
 
 	
 	public String getStartDate() {
@@ -232,6 +235,14 @@ public class JobCreation implements Serializable {
 
 	public void setEmployees(ArrayList<String> employees) {
 		this.employees = employees;
+	}
+
+	public Strategic getStrategic() {
+		return strategic;
+	}
+
+	public void setStrategic(Strategic strategic) {
+		this.strategic = strategic;
 	}
 
 
