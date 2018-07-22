@@ -30,6 +30,17 @@ public class SuggestedControls   implements Serializable {
 	@JoinColumn(name = "riskId", nullable = true)
 	@ManyToOne(fetch = FetchType.LAZY)
 	private RiskObjective riskId;
+	
+	@Column(name ="checked")
+	private boolean checked;
+	
+	@Column(name ="suggestedReferenceNo")
+	private String suggestedReferenceNo;
+
+	@Column(name ="controlRisk")
+	private String controlRisk;
+
+	
 
 	public int getSuggestedControlsId() {
 		return suggestedControlsId;
@@ -53,6 +64,30 @@ public class SuggestedControls   implements Serializable {
 
 	public void setRiskId(RiskObjective riskId) {
 		this.riskId = riskId;
+	}
+
+	public boolean getChecked() {
+		return checked;
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+	}
+
+	public String getSuggestedReferenceNo() {
+		return suggestedReferenceNo;
+	}
+
+	public void setSuggestedReferenceNo(String suggestedReferenceNo) {
+		this.suggestedReferenceNo = suggestedReferenceNo;
+	}
+
+	public String getControlRisk() {
+		return controlRisk;
+	}
+
+	public void setControlRisk(String controlRisk) {
+		this.controlRisk = controlRisk;
 	}
 
 }

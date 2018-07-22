@@ -22,7 +22,7 @@ public class ActivityObjectiveViewNew extends Composite {
 	TextArea txtAreaActivityObj = new TextArea();
 	CheckBox checkBoxApplicability = new CheckBox("");
 	private int activityObjectiveId = 0;
-	Label lblName = new Label("p2p-c1");
+	Label lblReferenceNo = new Label("");
 
 	// Label LblName = new Label("Detailed Scope and process understanding");
 
@@ -38,8 +38,8 @@ public class ActivityObjectiveViewNew extends Composite {
 	public ActivityObjectiveViewNew() {
 		initWidget(uiBinder.createAndBindUi(this));
 		lblHeading.addStyleName("w3-panel w3-blue");
-
-		lblName.addStyleName("w3-panel w3-light-blue");
+		lblReferenceNo.setWidth("180px");
+		lblReferenceNo.addStyleName("w3-panel w3-light-blue");
 		lblActivityObjective.addStyleName("w3-panel w3-light-blue");
 
 		lblapplicability.addStyleName("w3-panel w3-light-blue");
@@ -52,7 +52,7 @@ public class ActivityObjectiveViewNew extends Composite {
 		lblHeading.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 		lblActivityObjective.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 		lblapplicability.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		lblName.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+		lblReferenceNo.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 
 		lblActivityObjective.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		lblapplicability.getElement().getStyle().setMarginLeft(20, Unit.PX);
@@ -62,7 +62,7 @@ public class ActivityObjectiveViewNew extends Composite {
 
 		FlexTable flex = new FlexTable();
 		//flex.setWidget(0, 1, lblHeading);
-		flex.setWidget(2,0, lblName);
+		flex.setWidget(2,0, lblReferenceNo);
 		//  flex.setWidget(0,1,actv);
 
 		flex.setWidget(1,1, lblActivityObjective);
@@ -105,17 +105,21 @@ public class ActivityObjectiveViewNew extends Composite {
 		this.checkBoxApplicability = checkBoxApplicability;
 	}
 
-	public Label getLblName() {
-		return lblName;
+	public Label getlblReferenceNo() {
+		return lblReferenceNo;
 	}
 
-	public void setLblName(Label lblName) {
-		this.lblName = lblName;
+	public void setlblReferenceNo(Label lblReferenceNo) {
+		this.lblReferenceNo = lblReferenceNo;
 	}
 
 	public void setData(ActivityObjective activityObjective) {
 		txtAreaActivityObj.setText(activityObjective.getObjectiveName());
 		activityObjectiveId = activityObjective.getObjectiveId();
+		lblReferenceNo.setText(activityObjective.getReferenceNo());
+		checkBoxApplicability.setChecked(activityObjective.getChecked());
+		
+	
 		//TODO populate other 
 		
 	}
@@ -123,6 +127,10 @@ public class ActivityObjectiveViewNew extends Composite {
 	public void getData(ActivityObjective activityObjective) {
 		activityObjective.setObjectiveId(activityObjectiveId);
 		activityObjective.setObjectiveName(txtAreaActivityObj.getText());
+		activityObjective.setChecked(checkBoxApplicability.isChecked());
+		activityObjective.setReferenceNo(lblReferenceNo.getText());
+		
+		
 		
 		//TODO set any other..
 		

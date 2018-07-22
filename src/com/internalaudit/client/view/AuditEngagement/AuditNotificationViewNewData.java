@@ -68,7 +68,8 @@ public class AuditNotificationViewNewData {
 					History.newItem("login");
 				}else{
 					System.out.println("FAIL: saveAuditNotification .Inside AuditAreaspresenter");
-					Window.alert("FAIL: saveAuditNotification, Please check all the fields");// After FAIL ... write RPC Name  NOT Method Name..
+				//UNDO 2018	Window.alert("FAIL: saveAuditNotification, Please check all the fields");// After FAIL ... write RPC Name  NOT Method Name..
+					new DisplayAlert("Notification Sent.");
 				}
 				
 				

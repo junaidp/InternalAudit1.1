@@ -273,6 +273,15 @@ public class RiskAssesmentStrategicViewData {
 				    //for circle
 				    if (riskAssesmentDTOs.get(index).getStrategicRisks().get(j).getProbabality().equals("3")){
 				    	riskFactorsView.getRiskRating().setVisible(true);
+				    	riskFactorsView.getRiskRating().setUrl("redcircle.png");
+				    }
+				    else  if (riskAssesmentDTOs.get(index).getStrategicRisks().get(j).getProbabality().equals("2")){
+				    	riskFactorsView.getRiskRating().setVisible(true);
+				    	riskFactorsView.getRiskRating().setUrl("yellowcircle.png");
+				    }
+				    else if (riskAssesmentDTOs.get(index).getStrategicRisks().get(j).getProbabality().equals("1")){
+				    	riskFactorsView.getRiskRating().setVisible(true);
+				    	riskFactorsView.getRiskRating().setUrl("greencircle.png");
 				    }
 				}
 			    }

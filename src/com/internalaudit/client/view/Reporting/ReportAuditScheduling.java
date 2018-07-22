@@ -189,7 +189,7 @@ public ListBox getLstJobStatus() {
 		
 		//show.
 		chartContainer.setWidget(chartPanel);
-		PopupsView chartPopup = new PopupsView(chartContainer);
+		PopupsView chartPopup = new PopupsView(chartContainer, "");
 		
 	}
 

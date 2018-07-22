@@ -11,8 +11,10 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.shared.AuditProgramme;
+import com.internalaudit.shared.Employee;
+import com.internalaudit.shared.SuggestedControls;
 
-public class AuditWorkProgramNew implements IsWidget {
+public class AuditWorkProgramNew extends VerticalPanel {
 	Label lblSerialNo = new Label("Serial No.");
 	Label lblReference = new Label("Reference");
 	Label lblAuditProg = new Label("Audit Program");
@@ -22,9 +24,11 @@ public class AuditWorkProgramNew implements IsWidget {
 	 Label lblSerialNoData = new Label("");
 		
 		Label lblReferenceData = new Label("");
+		private int auditWorkProgrammeId = 0;
+		private SuggestedControls control = new SuggestedControls();
 	
-	@Override
-	public Widget asWidget() {
+	
+	public AuditWorkProgramNew() {
 		// TODO Auto-generated method stub
 		VerticalPanel vpn = new VerticalPanel();
 		// TODO Auto-generated method stub
@@ -86,7 +90,7 @@ public class AuditWorkProgramNew implements IsWidget {
         flex.setWidget(0,4, lblReviewer);
       flex.setWidget(1,4,lblReviewerData);
       
-		return flex;
+		add(flex);
 	}
 
 	public void hideElemetns(){
@@ -101,8 +105,21 @@ public class AuditWorkProgramNew implements IsWidget {
 		txtAreaAuditProg.setText(auditProgramme.getAuditProgrammeName());
 		lblReviewerData.setText(auditProgramme.getReviewer().getEmployeeName());
 		lblSerialNoData.setText(auditProgramme.getAuditProgrammeId()+"");
+		lblReferenceData.setText(auditProgramme.getSuggestedControlsId().getSuggestedReferenceNo());
+		auditWorkProgrammeId = auditProgramme.getAuditProgrammeId();
+		control = auditProgramme.getSuggestedControlsId();
 		//TODO populate other , refDate = auditProgramme.getSuggestedControlsId().getRefNo(); (Add refNo colun in suggestcontrols Table , data is in auditeng PDF)
 		//
+		
+	}
+
+	public void getData(AuditProgramme auditProgramme) {
+		auditProgramme.setAuditProgrammeId(auditWorkProgrammeId);
+		auditProgramme.setAuditProgrammeName(txtAreaAuditProg.getText());
+		Employee employee = new Employee();
+		employee.setEmployeeId(58);
+		auditProgramme.setReviewer(employee);
+		auditProgramme.setSuggestedControlsId(control);
 		
 	}
 }

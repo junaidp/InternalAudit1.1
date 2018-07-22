@@ -749,10 +749,28 @@ public class ReportingPresenter implements Presenter
 
 
 					});
-					if(loggedInEmployee.getRollId().getRollId() ==1){
+					////// ADDED 2018
+					String status;
+					if(exceptions.get(i).getFinalStatus()==null||exceptions.get(i).getFinalStatus().equals("") ){
+						status = exceptions.get(i).getStatus();
+					}else if(exceptions.get(i).getStatus()== null ||exceptions.get(i).getStatus().equals("") ){
+						status = exceptions.get(i).getInitialStatus();
+					}else{
+						status = exceptions.get(i).getFinalStatus();
+					}
+					if(status!=null && status.equals("Sent")){
+						status = "Received";
+					}
+					
+					if(loggedInEmployee.getRollId().getRollId() ==1 && status!=null &&  status.equalsIgnoreCase("Approved")){
 						jobExceptionsView.getBtnSave().setVisible(false);
 						jobExceptionsView.disableFields();
 					}
+					//////END
+					//if(loggedInEmployee.getRollId().getRollId() ==1 ){
+						//jobExceptionsView.getBtnSave().setVisible(false);
+						//jobExceptionsView.disableFields();
+					//}
 				}
 			}
 

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.internalaudit.shared.ActivityObjective;
 import com.internalaudit.shared.AuditEngagement;
+import com.internalaudit.shared.AuditProgramme;
 import com.internalaudit.shared.AuditSchedulingReportDTO;
 import com.internalaudit.shared.AuditStep;
 import com.internalaudit.shared.AuditWork;
@@ -43,6 +44,7 @@ import com.internalaudit.shared.StrategicDTO;
 import com.internalaudit.shared.StrategicDepartments;
 import com.internalaudit.shared.StrategicRisk;
 import com.internalaudit.shared.SubProcess;
+import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.User;
 
 /**
@@ -257,7 +259,12 @@ public interface InternalAuditServiceAsync {
 
 	void saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives, AsyncCallback<String> callback);
 	void saveRiskObjectives(ArrayList<RiskObjective> riskObjectives, AsyncCallback<String> callback);
+
+	void saveExistingControls(ArrayList<SuggestedControls> suggestedControls, AsyncCallback<String> callback);
+
+	void saveAuditWorkProgram(ArrayList<AuditProgramme> auditWorkProgramme, int selectedJobId, AsyncCallback<String> callback);
 	
-	
+	void fetchApprovedAuditProgrammeRows(int selectedJobId,AsyncCallback<ArrayList<AuditProgramme>> asyncCallback);
+
 	
 }

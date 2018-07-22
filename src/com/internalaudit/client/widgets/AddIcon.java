@@ -12,5 +12,7 @@ public class AddIcon extends FocusPanel {
 		add(l);
 		setStyleName("w3-button w3-small w3-circle w3-green w3-margin");
 		getElement().getStyle().setMarginLeft(300, Unit.PX);
+		//setVisible(false);
 	}
+	
 }

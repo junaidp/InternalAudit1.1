@@ -31,7 +31,7 @@ public class PopupsView {
     Label labelheading = new Label();
     
 
-    public PopupsView(Widget widget) {
+    public PopupsView(Widget widget, String heading) {
     	
     	//labelheading.getElement().getStyle().setBackgroundColor("BLUE");
     	labelheading.getElement().getStyle().setFontSize(18, Unit.PX);

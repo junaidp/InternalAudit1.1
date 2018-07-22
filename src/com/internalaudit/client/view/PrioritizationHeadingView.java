@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.internalaudit.client.view.data.ConsolidationViewData;
 import com.internalaudit.client.view.data.PrioritizationViewData;
 import com.sencha.gxt.widget.core.client.ContentPanel;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Button;
 
 public class PrioritizationHeadingView extends Composite{
@@ -72,6 +73,13 @@ public class PrioritizationHeadingView extends Composite{
 		lblTab.setWidth("100px");
 //		horizontalPanel.addStyleName("statusRowConsolidation");
 		horizontalPanel.setSpacing(5);
+		// new label adding year
+		Label lblAuditablYear = new Label("Year");
+		lblAuditablYear.getElement().getStyle().setMarginLeft(65, Unit.PX);
+		lblAuditablYear.addStyleName("labelHeading");
+		horizontalPanel.add(lblAuditablYear);
+		lblAuditaleRating.setWidth("150px");
+		
 	
 		 ScrollPanel scroll = new ScrollPanel();
 		 scroll.setSize("1100px", "375px");

@@ -12,6 +12,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -83,34 +84,29 @@ public class MainView extends Composite implements Display {
 		//panelTeam.addStyleName("w3-margin");
 		//VerticalPanel panelClient = new VerticalPanel();
 		//panelClient.addStyleName("w3-margin");
-		 Label lblteam = new Label("TEAM MANAGEMENT");
-		// panelTeam.add(lblteam);
-		 Image teamManagement = new Image("team management.jpg");
-		 teamManagement.setHeight("40px");
-		 teamManagement.setWidth("80px");
-		// panelTeam.add(teamManagement);
-		 Label lblClient = new Label("CLIENT MANAGEMENT");
-		// panelClient.add(lblClient);
-		 Image clientManagement = new Image("client mang.png");
-		 clientManagement.addStyleName("point");
-		 clientManagement.setHeight("40px");
-		 clientManagement.setWidth("80px");
-		// panelClient.add(clientManagement);
-		 teamManagement.addStyleName("point");
-		 panelImages.add(lblteam);
-		 panelImages.add(teamManagement);
-		 panelImages.add(lblClient);
-		 panelImages.add(clientManagement);
+		
+		 
+	
+		
+		 
+		
 		 final ToDoView todoview = new ToDoView();
 		 final MainViewNew mv = new MainViewNew();
 		 final InformationRequestView informationreq = new InformationRequestView();
-		 teamManagement.addClickHandler(new ClickHandler() {
+		 
+		 FocusPanel vpTeamMgm = putImageInCard("TEAM MANAGEMENT", "team management.jpg");
+		 FocusPanel vpClientMgm = putImageInCard("CLIENT MANAGEMENT", "client mang.png");
+		 
+		 panelImages.add(vpTeamMgm);
+		 panelImages.add(vpClientMgm);
+		 
+		 vpTeamMgm.addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
 				
 				
-				PopupsView pp = new PopupsView(todoview);
+				PopupsView pp = new PopupsView(todoview, "");
 				pp.getLabelheading().setText("To Do");
 				pp.getVpnlMain().setWidth("320px");
 				pp.getHpnlSPace().setWidth("320px");
@@ -118,12 +114,12 @@ public class MainView extends Composite implements Display {
 				}
 		});
 		 
-		 clientManagement.addClickHandler(new ClickHandler() {
+		 vpClientMgm.addClickHandler(new ClickHandler() {
 				
 				@Override
 				public void onClick(ClickEvent event) {
 					
-					PopupsView pp = new PopupsView(informationreq);
+					PopupsView pp = new PopupsView(informationreq, "");
 					pp.getLabelheading().setText("Information Request");
 					pp.getVpnlMain().setTitle("Information Request");
 					pp.getVpnlMain().setWidth("400px");
@@ -227,6 +223,30 @@ public class MainView extends Composite implements Display {
 		hpnl.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 
 		initWidget(vp);
+	}
+
+	private FocusPanel putImageInCard(String lblName, String imgSource) {
+		 Label lbl = new Label(lblName);
+		 lbl.setWidth("125px");
+		 lbl.getElement().getStyle().setColor("White");
+		 Image img = new Image(imgSource);
+		 lbl.setWordWrap(false);
+		 //lbl.getElement().getStyle().setPaddingLeft(5, Unit.PX);
+		 img.getElement().getStyle().setMarginLeft(30,Unit.PX);
+		 img.addStyleName("point");
+		 lbl.addStyleName("point");
+		 img.setHeight("60px");
+		 img.setWidth("80px");
+		VerticalPanel vpTeamMgm = new VerticalPanel();
+		 vpTeamMgm.addStyleName("w3-card-4");
+		 vpTeamMgm.add(img);
+		 VerticalPanel vpTeamMgmLbl = new VerticalPanel();
+		 vpTeamMgmLbl.add(lbl);
+		 vpTeamMgmLbl.addStyleName("w3-container w3-center w3-blue");
+		 vpTeamMgm.add(vpTeamMgmLbl);
+		 FocusPanel focusPanel = new FocusPanel();
+		 focusPanel.add(vpTeamMgm);
+		 return focusPanel;
 	}
 
 	private void addTableauTabs() {

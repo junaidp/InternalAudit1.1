@@ -60,7 +60,7 @@ public class AuditEngagement implements Serializable {
 	
 	//auditEngId, jobcreationid, jobstatus, assignmentObj, activityObj, processName, auditNotification, sendto, cc, year, companyId, status, initiatedBy, approvedBy, referenceNo, from, subject
 	
-	@Column(name="from")
+	@Column(name="fromPerson")
 	private String from;
 	
 	@Column(name="subject")

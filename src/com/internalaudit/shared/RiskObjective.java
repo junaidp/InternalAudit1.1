@@ -30,6 +30,16 @@ public class RiskObjective   implements Serializable {
 	@JoinColumn(name = "objectiveId", nullable = true)
 	@ManyToOne(fetch = FetchType.LAZY)
 	private ActivityObjective objectiveId;
+	
+	@Column(name ="checked")
+	private boolean checked;
+	
+	@Column(name ="riskReferenceNo")
+	private String riskReferenceNo;
+
+	@Column(name ="riskRating")
+	private String riskRating;
+
 
 	public int getRiskId() {
 		return riskId;
@@ -53,6 +63,30 @@ public class RiskObjective   implements Serializable {
 
 	public void setObjectiveId(ActivityObjective objectiveId) {
 		this.objectiveId = objectiveId;
+	}
+
+	public boolean getChecked() {
+		return checked;
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+	}
+
+	public String getRiskReferenceNo() {
+		return riskReferenceNo;
+	}
+
+	public void setRiskReferenceNo(String riskReferenceNo) {
+		this.riskReferenceNo = riskReferenceNo;
+	}
+
+	public String getRiskRating() {
+		return riskRating;
+	}
+
+	public void setRiskRating(String riskRating) {
+		this.riskRating = riskRating;
 	}
 
 }

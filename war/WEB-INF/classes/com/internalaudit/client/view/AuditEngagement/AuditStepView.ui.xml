@@ -28,7 +28,12 @@
 	<g:Label ui:field="feedback" styleName="blue"></g:Label>
 	</g:HorizontalPanel>
 	
-	<g:HorizontalPanel verticalAlignment="middle">
+	<g:VerticalPanel>
+	<!-- 	Container for HAMZA's new page (sampling page) -->
+	<g:Label  styleName="labelTitle">place for hamza's new panel</g:Label>
+	</g:VerticalPanel>
+	
+	<g:HorizontalPanel verticalAlignment="middle" visible="false">
 	
 		<g:Label styleName="labelTitle" width="100px">Population</g:Label>
 	
@@ -36,7 +41,7 @@
 	
 	</g:HorizontalPanel>
 	
-	<g:HorizontalPanel verticalAlignment="middle">
+	<g:HorizontalPanel verticalAlignment="middle" visible="false">
 	
 		<g:Label styleName="labelTitle" width="100px">Sample Selected</g:Label>
 	
@@ -46,16 +51,16 @@
 	
 	</g:HorizontalPanel >
 	
-	<g:HorizontalPanel verticalAlignment="middle">
+	<g:HorizontalPanel verticalAlignment="middle" visible="false">
 	
 		<g:Label styleName="labelTitle" width="100px">Basis of Selection</g:Label>
 		<g:TextBox ui:field="selection" addStyleNames="txtNormal"></g:TextBox>
 	
 	</g:HorizontalPanel>
 	
-	<g:Label styleName="popupSmallHeading" width="100px">Procedure Performance</g:Label>
+	<g:Label styleName="popupSmallHeading" width="100px" visible="false">Procedure Performance</g:Label>
 	
-	<g:TextArea ui:field="performance"></g:TextArea>
+	<g:TextArea ui:field="performance" visible="false"></g:TextArea>
 	
 	<g:Label styleName="popupSmallHeading" width="100px">Exceptions</g:Label>
 		

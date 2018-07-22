@@ -177,7 +177,7 @@ public class ReportJobTimeAllocation extends Composite implements IStackWidget{
 		
 		//show.
 		chartContainer.setWidget(chartPanel);
-		PopupsView chartPopup = new PopupsView(chartContainer);
+		PopupsView chartPopup = new PopupsView(chartContainer, "");
 		
 	}
 

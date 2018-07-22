@@ -8,6 +8,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.internalaudit.shared.ActivityObjective;
 import com.internalaudit.shared.AuditEngagement;
+import com.internalaudit.shared.AuditProgramme;
 import com.internalaudit.shared.AuditSchedulingReportDTO;
 import com.internalaudit.shared.AuditStep;
 import com.internalaudit.shared.AuditWork;
@@ -46,6 +47,7 @@ import com.internalaudit.shared.StrategicDTO;
 import com.internalaudit.shared.StrategicDepartments;
 import com.internalaudit.shared.StrategicRisk;
 import com.internalaudit.shared.SubProcess;
+import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.User;
 
 /**
@@ -257,4 +259,8 @@ public interface InternalAuditService extends RemoteService {
 
 	String saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives ) throws Exception;
 	String saveRiskObjectives(ArrayList<RiskObjective> riskObjectives ) throws Exception;
+	String saveExistingControls(ArrayList<SuggestedControls> suggestedControls ) throws Exception;
+	String saveAuditWorkProgram(ArrayList<AuditProgramme> auditWorkProgramme , int selectedJobId) throws Exception;
+	ArrayList<AuditProgramme> fetchApprovedAuditProgrammeRows(int selectedJobId)
+			throws Exception;
 }

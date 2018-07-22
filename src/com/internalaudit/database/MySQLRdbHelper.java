@@ -3314,7 +3314,7 @@ public class MySQLRdbHelper {
 			// Send the complete message parts
 			message.setContent(multipart);
 
-
+			
 			// ends her4e my written
 
 
@@ -3958,6 +3958,8 @@ public class MySQLRdbHelper {
 		// save audit step
 
 		saveAuditStep(auditstep, exceptions, year, companyId);
+		
+		
 
 		// for ( Exceptions exception : exceptions)
 		// saveException(exception);
@@ -4114,7 +4116,7 @@ public class MySQLRdbHelper {
 			crit.add(Restrictions.eq("jobId", jobid));
 			crit.createAlias("auditWork", "audWork");
 			crit.createAlias("audWork.jobCreationId", "jobCreationId");
-			crit.add(Restrictions.eq("audWork.auditWorkId", auditWorkId));
+			crit.add(Restrictions.eq("audWork.auditWorkId", auditWorkId));//UNDO 2018, done
 			crit.add(Restrictions.ne("status", InternalAuditConstants.DELETED));
 
 			crit.createAlias("approvedBy", "approved");
@@ -5060,7 +5062,7 @@ public class MySQLRdbHelper {
 			auditEngagement.setTo(to);
 			auditEngagement.setCc(cc);
 			auditEngagement.setReferenceNo(refNo);
-			//			auditEngagement.setDateTime(dateTime);
+			//auditEngagement.setDateTime(new Date());
 			auditEngagement.setSubject(subject);
 			auditEngagement.setFrom(from);
 
@@ -7497,7 +7499,7 @@ public class MySQLRdbHelper {
 
 
 		} catch (Exception ex) {
-			logger.warn(String.format("Exception occured in saveAuditNotification", ex.getMessage()), ex);
+			logger.warn(String.format("Exception occured in saveExistingControls", ex.getMessage()), ex);
 
 		} finally {
 			session.close();
@@ -7506,5 +7508,110 @@ public class MySQLRdbHelper {
 		return "Risk Objectives Saved";
 	}
 
+	public String saveExistingControls(ArrayList<SuggestedControls> suggestedControls) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			for(int i=0; i< suggestedControls.size(); i++){
+				session.saveOrUpdate(suggestedControls.get(i));
+				session.flush();
+			}
+
+			logger.info(
+							String.format("(Inside saveExistingControls)    saving riskObjectives : "+
+									suggestedControls.get(0).getSuggestedControlsName()+", and more "+ new Date()));
+
+
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in SaveExistingControls", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+
+		return "Existing Controls  Saved";
+	}
+
+	public String saveAuditWorkProgram(ArrayList<AuditProgramme> auditWorkProgramme, int selectedJobId, int year, int companyId) {
+		Session session = null;
+		ArrayList<AuditWork> auditWorks = new ArrayList<AuditWork>();
+		try {
+			session = sessionFactory.openSession();
+			for(int i=0; i< auditWorkProgramme.size(); i++){
+				session.saveOrUpdate(auditWorkProgramme.get(i));
+				session.flush();
+				
+				/////////
+				AuditWork auditWork = new AuditWork();
+				Employee employee = new Employee();
+				employee.setEmployeeId(58);
+				auditWork.setApprovedBy(employee);
+				auditWork.setDescription(auditWorkProgramme.get(i).getAuditProgrammeName());
+				auditWork.setFeedback("");
+				auditWork.setInitiatedBy(employee);
+				JobCreation job = new JobCreation();
+				job.setJobCreationId(selectedJobId);
+				auditWork.setJobCreationId(job);
+				Risk risk = new Risk ();
+				risk.setRiskId(63);
+				auditWork.setRiskId(risk);
+				auditWork.setStatus(1);
+				auditWork.setStepNo(i+1+"");
+				auditWorks.add(auditWork);
+				////////
+			}
+			saveAuditWork(auditWorks, year, companyId);
+
+			logger.info(
+							String.format("(Inside saveExistingControls)    saving auditWorkProgram : "+
+									auditWorkProgramme.get(0).getAuditProgrammeName()+", and more "+ new Date()));
+
+
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in SaveAuditWorkProgram", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+
+		return "AuditWorkPrograms  Saved";
+	}
+
+	public ArrayList<AuditProgramme> fetchApprovedAuditProgrammeRows(int selectedJobId) {
+		Session session = null;
+		ArrayList<AuditProgramme> auditProgrammes = new ArrayList<AuditProgramme>();
+				try{
+					session = sessionFactory.openSession();
+					Criteria crit = session.createCriteria(AuditProgramme.class);
+					crit.createAlias("suggestedControlsId", "suggestedControls");
+					crit.createAlias("suggestedControls.riskId", "risk");
+					
+					crit.createAlias("reviewer", "review");
+					crit.createAlias("review.cityId", "city");
+					crit.createAlias("review.countryId", "countryId");
+					crit.createAlias("review.rollId", "roll");
+					crit.createAlias("review.userId", "user");
+					crit.createAlias("review.skillId", "skill");
+					List rsList = crit.list();
+					for (Iterator it = rsList.iterator(); it.hasNext();) {
+						AuditProgramme auditProgramme = (AuditProgramme) it.next();
+						HibernateDetachUtility.nullOutUninitializedFields(auditProgramme.getSuggestedControlsId().getRiskId(),
+								HibernateDetachUtility.SerializationType.SERIALIZATION);
+						HibernateDetachUtility.nullOutUninitializedFields(auditProgramme,
+								HibernateDetachUtility.SerializationType.SERIALIZATION);
+						auditProgrammes.add(auditProgramme);
+					}
+					logger.info(String.format("Inside fetchApprovedAuditProgrammeRows() " + new Date()));
+				} catch (Exception ex) {
+					logger.warn(String.format("Exception occured in fetchApprovedAuditProgrammeRows", ex.getMessage()), ex);
+
+				} finally {
+					session.close();
+
+				}
+				return auditProgrammes;
+	}
+
+	
 }
 

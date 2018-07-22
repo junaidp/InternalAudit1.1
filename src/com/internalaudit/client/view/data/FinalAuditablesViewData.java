@@ -116,7 +116,8 @@ public class FinalAuditablesViewData {
 						auditableUnits.add(strategic.get(i).getAuditableUnit());
 						Label lblCount = new Label("");
 						lblCount.addStyleName("blue");
-						lblCount.setText(count + ")" );
+						//lblCount.setText(count + ")" );
+						lblCount.setText(strategic.get(i).getId() + ")" );
 						hpnlMain.add(lblCount);
 						hpnlMain.add(lblUnit);
 						hpnlMain.setSpacing(5);

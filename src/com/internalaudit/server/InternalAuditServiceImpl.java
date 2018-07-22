@@ -23,6 +23,7 @@ import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.database.MySQLRdbHelper;
 import com.internalaudit.shared.ActivityObjective;
 import com.internalaudit.shared.AuditEngagement;
+import com.internalaudit.shared.AuditProgramme;
 import com.internalaudit.shared.AuditSchedulingReportDTO;
 import com.internalaudit.shared.Company;
 import com.internalaudit.shared.DashBoardDTO;
@@ -60,6 +61,7 @@ import com.internalaudit.shared.StrategicDTO;
 import com.internalaudit.shared.StrategicDepartments;
 import com.internalaudit.shared.StrategicRisk;
 import com.internalaudit.shared.SubProcess;
+import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.TimeOutException;
 import com.internalaudit.shared.User;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -1417,7 +1419,20 @@ InternalAuditService {
 	public String saveRiskObjectives(ArrayList<RiskObjective> riskObjectives) throws Exception {
 		return rdbHelper.saveRiskObjectives(riskObjectives);
 	}
+	@Override
+	public String saveExistingControls(ArrayList<SuggestedControls> suggestedControls) throws Exception {
+		return rdbHelper.saveExistingControls(suggestedControls);
+	}
+	@Override
+	public String saveAuditWorkProgram(ArrayList<AuditProgramme> auditWorkProgramme, int selectedJobId) throws Exception {
+		session=getThreadLocalRequest().getSession(true);
+		int year = (Integer) session.getAttribute("year");
+		int companyId = (Integer) session.getAttribute("companyId");
+		return rdbHelper.saveAuditWorkProgram(auditWorkProgramme, selectedJobId, year , companyId);
 	
-	
-
+	}
+	@Override
+	public ArrayList<AuditProgramme> fetchApprovedAuditProgrammeRows(int selectedJobId) throws Exception {
+		return rdbHelper.fetchApprovedAuditProgrammeRows(selectedJobId);
+	}
 }

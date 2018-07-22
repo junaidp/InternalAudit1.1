@@ -19,8 +19,12 @@ com.google.gwt.xml.client.DOMException, true, false, false, false, com.google.gw
 com.google.gwt.xml.client.impl.DOMParseException, true, true, false, false, com.google.gwt.xml.client.impl.DOMParseException/3799120635, 3799120635
 com.google.web.bindery.event.shared.UmbrellaException, true, true, false, false, com.google.web.bindery.event.shared.UmbrellaException/1025846929, 1025846929
 com.internalaudit.client.InternalAuditService, false, false, false, false, _, 3832876740
-com.internalaudit.shared.AuditEngagement, true, true, true, true, com.internalaudit.shared.AuditEngagement/858454534, 858454534
-@ClientFields,com.internalaudit.shared.AuditEngagement,auditEngId,jobStatus,jobCreation,assignmentObj,activityObj,process,auditNotification,to,cc,referenceNo,from,subject,year,companyId,status,initiatedBy,approvedBy,selectedId,strategic
+com.internalaudit.shared.ActivityObjective, true, true, true, true, com.internalaudit.shared.ActivityObjective/2424035332, 2424035332
+@ClientFields,com.internalaudit.shared.ActivityObjective,objectiveId,objectiveName,subProcessId,checked,referenceNo
+com.internalaudit.shared.AuditEngagement, true, true, true, true, com.internalaudit.shared.AuditEngagement/4053925200, 4053925200
+@ClientFields,com.internalaudit.shared.AuditEngagement,auditEngId,jobStatus,jobCreation,assignmentObj,activityObj,process,auditNotification,to,cc,referenceNo,from,subject,year,companyId,status,initiatedBy,approvedBy,selectedId,strategic,engagementDTO
+com.internalaudit.shared.AuditProgramme, true, true, true, true, com.internalaudit.shared.AuditProgramme/3762189489, 3762189489
+@ClientFields,com.internalaudit.shared.AuditProgramme,auditProgrammeId,auditProgrammeName,suggestedControlsId,reviewer
 com.internalaudit.shared.AuditSchedulingReportDTO, false, false, true, true, com.internalaudit.shared.AuditSchedulingReportDTO/3923024917, 3923024917
 com.internalaudit.shared.AuditStep, true, true, true, true, com.internalaudit.shared.AuditStep/3309111756, 3309111756
 @ClientFields,com.internalaudit.shared.AuditStep,auditStepId,population,sampleSelected,selectionBasis,proceducePerformance,conclusion,jobId,auditWork,exceptions,year,companyId,status,initiatedBy,approvedBy,feedback,uploadedFile
@@ -41,6 +45,7 @@ com.internalaudit.shared.Department, true, true, true, true, com.internalaudit.s
 com.internalaudit.shared.Employee, true, true, true, true, com.internalaudit.shared.Employee/361250980, 361250980
 @ClientFields,com.internalaudit.shared.Employee,employeeId,employeeName,reportingTo,email,countryId,cityId,skillId,userId,companyId,rollId,fromInternalAuditDept,auditHead,dateOfJoining,designation,TotalNumberOfHoursAvailable
 com.internalaudit.shared.EmployeeJobDTO, true, true, true, true, com.internalaudit.shared.EmployeeJobDTO/3289066234, 3289066234
+com.internalaudit.shared.EngagementDTO, true, true, true, true, com.internalaudit.shared.EngagementDTO/555279183, 555279183
 com.internalaudit.shared.ExcelDataDTO, false, false, true, true, com.internalaudit.shared.ExcelDataDTO/2721481785, 2721481785
 com.internalaudit.shared.Exceptions, true, true, true, true, com.internalaudit.shared.Exceptions/1626082180, 1626082180
 @ClientFields,com.internalaudit.shared.Exceptions,exceptionId,detail,jobCreationId,responsiblePerson,divisionHead,auditStep,dueDate,jobName,implementaionDate,managementComments,auditHead,status,finalStatus,initialStatus,implementaionComments,isImplemented,isAgreed,emailSent,year,companyId,comments,recommendations,displayStatus
@@ -73,6 +78,8 @@ com.internalaudit.shared.Risk, true, true, true, true, com.internalaudit.shared.
 com.internalaudit.shared.RiskAssesmentDTO, true, true, false, false, com.internalaudit.shared.RiskAssesmentDTO/496284681, 496284681
 com.internalaudit.shared.RiskFactor, true, true, true, true, com.internalaudit.shared.RiskFactor/2165950936, 2165950936
 @ClientFields,com.internalaudit.shared.RiskFactor,riskId,riskName
+com.internalaudit.shared.RiskObjective, true, true, true, true, com.internalaudit.shared.RiskObjective/2358493732, 2358493732
+@ClientFields,com.internalaudit.shared.RiskObjective,riskId,riskname,objectiveId,checked,riskReferenceNo,riskRating
 com.internalaudit.shared.Rolls, true, true, true, true, com.internalaudit.shared.Rolls/1511685948, 1511685948
 @ClientFields,com.internalaudit.shared.Rolls,rollId,rollName
 com.internalaudit.shared.SkillUpdateData, false, false, true, true, com.internalaudit.shared.SkillUpdateData/2451992836, 2451992836
@@ -91,6 +98,8 @@ com.internalaudit.shared.StrategicRisk, true, true, true, true, com.internalaudi
 @ClientFields,com.internalaudit.shared.StrategicRisk,id,rating,probabality,impact,comments,strategicId,riskFactorId
 com.internalaudit.shared.SubProcess, true, true, true, true, com.internalaudit.shared.SubProcess/699972, 699972
 @ClientFields,com.internalaudit.shared.SubProcess,subProcessId,subProcessName,processId
+com.internalaudit.shared.SuggestedControls, true, true, true, true, com.internalaudit.shared.SuggestedControls/3337471846, 3337471846
+@ClientFields,com.internalaudit.shared.SuggestedControls,suggestedControlsId,suggestedControlsName,riskId,checked,suggestedReferenceNo,controlRisk
 com.internalaudit.shared.TimeLineDates, true, true, true, true, com.internalaudit.shared.TimeLineDates/2848901379, 2848901379
 com.internalaudit.shared.TimeOutException, true, true, false, false, com.internalaudit.shared.TimeOutException/2257903408, 2257903408
 com.internalaudit.shared.User, true, true, true, true, com.internalaudit.shared.User/1913996629, 1913996629

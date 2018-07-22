@@ -30,6 +30,12 @@ public class ActivityObjective   implements Serializable {
 	@JoinColumn(name = "subProcessId", nullable = true)
 	@ManyToOne(fetch = FetchType.LAZY)
 	private SubProcess subProcessId;
+	
+	@Column(name ="checked")
+	private boolean checked;
+	
+	@Column(name ="referenceNo")
+	private String referenceNo;
 
 	public int getObjectiveId() {
 		return objectiveId;
@@ -53,5 +59,21 @@ public class ActivityObjective   implements Serializable {
 
 	public void setSubProcessId(SubProcess subProcessId) {
 		this.subProcessId = subProcessId;
+	}
+
+	public boolean getChecked() {
+		return checked;
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+	}
+
+	public String getReferenceNo() {
+		return referenceNo;
+	}
+
+	public void setReferenceNo(String referenceNo) {
+		this.referenceNo = referenceNo;
 	}
 }

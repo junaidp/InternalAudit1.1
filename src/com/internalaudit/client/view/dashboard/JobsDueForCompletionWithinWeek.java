@@ -4,7 +4,8 @@ public class JobsDueForCompletionWithinWeek extends JobsExecutionPanel {
 	
 	public JobsDueForCompletionWithinWeek(){
 		super.heading.setText("Jobs Due For Completion Within a week ");
-		super.background.getElement().getStyle().setBackgroundColor("orange");
+		super.heading.addStyleName("w3-red");
+		super.background.addStyleName("w3-red");
 
 	}
 

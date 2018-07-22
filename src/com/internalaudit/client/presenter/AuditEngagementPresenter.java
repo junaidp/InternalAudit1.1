@@ -20,10 +20,13 @@ import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.JobData;
+import com.internalaudit.client.view.PopupsView;
+import com.internalaudit.client.view.PopupsViewWhite;
 import com.internalaudit.client.view.AuditEngagement.KickoffView;
 import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.TimeOutException;
 import com.internalaudit.shared.User;
+import com.sencha.gxt.widget.core.client.ProgressBar;
 
 public class AuditEngagementPresenter implements Presenter {
 
@@ -169,7 +172,7 @@ public class AuditEngagementPresenter implements Presenter {
 
 	    // set headings
 
-	    String headings[] = { "Job Name", "Planned Start Date", "Planned End Date", "" };
+	    String headings[] = { "Job Name", "Planned Start Date", "Planned End Date"," ", "Planning ", "Field Work", "Reporting" };
 
 	    for (int i = 0; i < headings.length; i++) {
 		Label heading = new Label(headings[i]);
@@ -227,6 +230,8 @@ public class AuditEngagementPresenter implements Presenter {
 
 		records.setWidget(i + 1, 2, endDate);// Added
 		records.setWidget(i + 1, 3, status);
+		
+		displayingProgress(records, i);
 
 		// only 'not started' jobs can be kicked off
 
@@ -281,5 +286,48 @@ public class AuditEngagementPresenter implements Presenter {
 	    display.getPage().add(records);
 	}
     }
+
+	private void displayingProgress(FlexTable records, int i) {
+		ProgressBar progressPlanning = new ProgressBar();
+		progressPlanning.setValue((double) 5);
+		ProgressBar progressFieldWork = new ProgressBar();
+		progressFieldWork.setValue((double) 25);
+		ProgressBar progressReporting = new ProgressBar();
+		progressReporting.setValue((double) 75);
+		Anchor AnchorJobStatus = new Anchor("Job Stauts");
+		
+		
+		AnchorJobStatus.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				
+				Image imgPlanning = new Image();
+				imgPlanning.setUrl("repImageFieldWork.PNG");
+				Image imgFieldWork = new Image();
+				imgFieldWork.setUrl("repImagePlanning.PNG");
+				Image imgReporting = new Image();
+				imgReporting.setUrl("repImageReporting.PNG");
+						
+				
+				VerticalPanel vpImage = new VerticalPanel();
+				vpImage.add(imgPlanning);
+				vpImage.add(imgFieldWork);
+				vpImage.add(imgReporting);
+				PopupsViewWhite popup = new PopupsViewWhite(vpImage);
+				
+			}
+		});
+		
+		progressPlanning.setWidth(75);
+		progressFieldWork.setWidth(75);
+		progressReporting.setWidth(75);
+		
+		records.setWidget(i+1, 4, progressPlanning);
+		records.setWidget(i+1, 5, progressFieldWork);
+		records.setWidget(i+1, 6, progressReporting);
+		records.setWidget(i+1,7, AnchorJobStatus);
+	}
+
 
 }

@@ -25,12 +25,15 @@ import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.util.DataStorage;
 import com.internalaudit.client.view.DisplayAlert;
+import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.client.widgets.AddIcon;
 import com.internalaudit.shared.ActivityObjective;
 import com.internalaudit.shared.AuditEngagement;
+import com.internalaudit.shared.AuditProgramme;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.RiskObjective;
 import com.internalaudit.shared.SubProcess;
+import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.User;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer;
@@ -48,7 +51,8 @@ public class KickoffView extends Composite {
 
 	@UiField 
 	VerticalPanel statusPanel;
-
+	
+	
 	@UiField 
 	VerticalPanel exPanel;
 
@@ -98,6 +102,8 @@ public class KickoffView extends Composite {
 		getJobRelatedInfo(selectedjobId);
 
 		getExceptions();
+		// added button click just to check test the view
+		
 	}
 
 	private void updateKickoffStatus(int auditEngId) {
@@ -221,7 +227,7 @@ public class KickoffView extends Composite {
 		});
 	}
 
-	private void showOptionsAccordian(AuditEngagement record)
+	private void showOptionsAccordian(final AuditEngagement record)
 	{
 		ContentPanel panel = new ContentPanel();
 
@@ -259,7 +265,7 @@ public class KickoffView extends Composite {
 		cp = new ContentPanel(appearance);
 		cp.setAnimCollapse(false);
 		cp.setBodyStyleName("pad-text");
-		cp.setHeadingText("Client Kickoff Meeting Objectives");
+		cp.setHeadingText("Objectives");
 
 		final VerticalPanel vpnlActicityObjective = new VerticalPanel();
 		final VerticalPanel vpnlActicityObjectiveContainer = new VerticalPanel();
@@ -288,7 +294,10 @@ public class KickoffView extends Composite {
 		vpnlActicityObjective.add(vpnlActicityObjectiveContainer);
 		vpnlActicityObjective.add(btnAddAcitivityObjective);
 		vpnlActicityObjective.add(btnSaveActicityObjective);
-		cp.add(vpnlActicityObjective);
+		ScrollPanel v = new ScrollPanel();
+		v.setHeight("400px");
+		v.add(vpnlActicityObjective);
+		cp.add(v);
 		con.add(cp);
 
 		btnSaveActicityObjective.addClickHandler(new ClickHandler(){
@@ -315,8 +324,8 @@ public class KickoffView extends Composite {
 		cp.setAnimCollapse(false);
 		cp.setBodyStyleName("pad-text");
 		cp.setHeadingText("Key Risks");
-		ScrollPanel v = new ScrollPanel();
-		v.setHeight("400px");
+		ScrollPanel v1 = new ScrollPanel();
+		v1.setHeight("400px");
 		//v.setWidth("600px");
 		 VerticalPanel verticalPanelKeyRisks = new VerticalPanel();
 		final VerticalPanel verticalPanelKeyRisksContainer = new VerticalPanel();
@@ -331,10 +340,11 @@ public class KickoffView extends Composite {
 		for(int i=0; i< record.getEngagementDTO().getRiskObjectiveList().size(); i++){
 			KeyRiskViewNew keyRiskView = new KeyRiskViewNew();
 			verticalPanelKeyRisksContainer.add(keyRiskView);
-			final ActivityObjective activityObjective = record.getEngagementDTO().getRiskObjectiveList().get(i).getObjectiveId();
+			final RiskObjective riskObjective = record.getEngagementDTO().getRiskObjectiveList().get(i);
+			final ActivityObjective activityObjective = riskObjective.getObjectiveId();
 			boolean objectiveAdded = objectiveIds.contains(activityObjective.getObjectiveId());
 			objectiveIds.add(activityObjective.getObjectiveId());
-			keyRiskView.setData(record.getEngagementDTO().getRiskObjectiveList().get(i), objectiveAdded);
+			keyRiskView.setData(riskObjective, objectiveAdded);
 			keyRiskView.setActivityObjective(activityObjective);
 
 			final DataStorage dataStorage = new DataStorage(); // We will use the same datastoage class and set the same count and value field for every other tabs too.
@@ -350,10 +360,29 @@ public class KickoffView extends Composite {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					KeyRiskViewNew keyRiskViewNew = new KeyRiskViewNew();
+					final KeyRiskViewNew keyRiskViewNew = new KeyRiskViewNew();
+					keyRiskViewNew.setData(riskObjective, false);
+					keyRiskViewNew.getBtnSave().setVisible(true);
+					keyRiskViewNew.getBtnAddKeyRisk().setVisible(false);
 					keyRiskViewNew.setActivityObjective(activityObjective);
-					keyRiskViewNew.hideElemetns();
-					verticalPanelKeyRisksContainer.insert(keyRiskViewNew, dataStorage.getCount()+2);
+					//keyRiskViewNew.hideElemetns();
+					//verticalPanelKeyRisksContainer.insert(keyRiskViewNew, dataStorage.getCount()+2);
+					final PopupsView pop = new PopupsView(keyRiskViewNew, "Add Key Risk");
+					pop.getHpnlSPace().setWidth("1100px");
+					
+					keyRiskViewNew.getBtnSave().addClickHandler(new ClickHandler(){
+
+						@Override
+						public void onClick(ClickEvent event) {
+							ArrayList<RiskObjective> riskObjectives = new ArrayList<RiskObjective>();
+								RiskObjective riskObjective = new RiskObjective();
+								keyRiskViewNew.getData(riskObjective);
+								riskObjectives.add(riskObjective);
+							
+							saveRiskObjectives(riskObjectives);
+							pop.getPopup().removeFromParent();
+						}
+					});
 
 				}
 			});
@@ -366,8 +395,8 @@ public class KickoffView extends Composite {
 		verticalPanelKeyRisks.add(verticalPanelKeyRisksContainer);
 		verticalPanelKeyRisks.add(btnSaveKeyRisk);
 
-		v.add(verticalPanelKeyRisks);
-		cp.add(v);
+		v1.add(verticalPanelKeyRisks);
+		cp.add(v1);
 		con.add(cp);
 
 		btnSaveKeyRisk.addClickHandler(new ClickHandler(){
@@ -396,31 +425,77 @@ public class KickoffView extends Composite {
 
 		ScrollPanel vps = new ScrollPanel();
 		vps.setHeight("400px");
-		final VerticalPanel vpExistingControl = new VerticalPanel();
+		 VerticalPanel vpExistingControl = new VerticalPanel();
+		 final VerticalPanel vpExistingControlContainer = new VerticalPanel();
+		Button btnSaveControl = new Button("Save");
 
-		FocusPanel btnAddExistingControl = new FocusPanel();
-		Label l1 = new Label("+");
-		btnAddExistingControl.getElement().getStyle().setMarginLeft(300, Unit.PX);
-
-		btnAddExistingControl.add(l1);
-		btnAddExistingControl.setStyleName("w3-button w3-small w3-circle w3-green w3-margin");
+		
 		//	v.add(new RisksView(auditEngId, rpcService, loggedInUser.getEmployeeId()));
 
 
 		//vpExistingControl.add( new ExistingControlViewNew());
 		//2018
-		ArrayList<Integer> riskIds = new ArrayList<Integer>();
+		/*ArrayList<Integer> riskIds = new ArrayList<Integer>();
 		for(int i=0; i< record.getEngagementDTO().getSuggestedControlsList().size(); i++){
 			ExistingControlViewNew existingControlViewNew = new ExistingControlViewNew();
 			vpExistingControl.add(existingControlViewNew);
 			boolean riskAdded = riskIds.contains(record.getEngagementDTO().getSuggestedControlsList().get(i).getRiskId().getRiskId());
 			riskIds.add(record.getEngagementDTO().getSuggestedControlsList().get(i).getRiskId().getRiskId());
 			existingControlViewNew.setData(record.getEngagementDTO().getSuggestedControlsList().get(i), riskAdded);
+		}*/
+		ArrayList<Integer> riskIds = new ArrayList<Integer>();
+		for(int i=0; i< record.getEngagementDTO().getSuggestedControlsList().size(); i++){
+			ExistingControlViewNew existingControlViewNew = new ExistingControlViewNew();
+			vpExistingControlContainer.add(existingControlViewNew);
+			final RiskObjective riskObjective = record.getEngagementDTO().getSuggestedControlsList().get(i).getRiskId();
+			boolean riskAdded = riskIds.contains(riskObjective.getRiskId());
+			riskIds.add(riskObjective.getRiskId());
+			existingControlViewNew.setData(record.getEngagementDTO().getSuggestedControlsList().get(i), riskAdded);
+			existingControlViewNew.setRiskObjective(riskObjective);
+
+			final DataStorage dataStorage = new DataStorage(); // We will use the same datastoage class and set the same count and value field for every other tabs too.
+			dataStorage.setCount(i);
+
+
+			if(riskAdded){ // removing the add icon if more risks are here, so add icon will only display below the last item
+				ExistingControlViewNew existingControlPrevious = (ExistingControlViewNew)vpExistingControlContainer.getWidget(i-1);
+				existingControlPrevious.getBtnAdd().setVisible(false);
+			}
+			//add handler
+			existingControlViewNew.getBtnAdd().addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					ExistingControlViewNew existingControlViewNew = new ExistingControlViewNew();
+					existingControlViewNew.setRiskObjective(riskObjective);
+					existingControlViewNew.hideElemetns();
+					//vpExistingControlContainer.insert(existingControlViewNew, dataStorage.getCount()+2);
+					/*
+					final PopupsView pop = new PopupsView(existingControlViewNew, "Add Existing Control");
+					
+					existingControlViewNew.getBtnSave().addClickHandler(new ClickHandler(){
+
+						@Override
+						public void onClick(ClickEvent event) {
+							ArrayList<RiskObjective> riskObjectives = new ArrayList<RiskObjective>();
+								RiskObjective riskObjective = new RiskObjective();
+								keyRiskViewNew.getData(riskObjective);
+								riskObjectives.add(riskObjective);
+							
+							saveRiskObjectives(riskObjectives);
+							pop.getPopup().removeFromParent();
+						}
+					});
+	*/
+				}
+			});
 		}
+
 
 		//final VerticalPanel addPanelExistingControl = new VerticalPanel();
 		//vpExistingControl.add(addPanelExistingControl);
-		vpExistingControl.add(btnAddExistingControl);
+		vpExistingControl.add(vpExistingControlContainer);
+		vpExistingControl.add(btnSaveControl);
 		vps.add(vpExistingControl);
 
 		//cp.add(panelAdd);
@@ -428,17 +503,22 @@ public class KickoffView extends Composite {
 
 		con.add(cp);
 
-		//adddhandler btnadd1 existingcontrol
-		btnAddExistingControl.addClickHandler(new ClickHandler() {
+		btnSaveControl.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				ExistingControlViewNew existingControl= new ExistingControlViewNew();
-				existingControl.hideElemetns();
-				vpExistingControl.add(existingControl);
+				ArrayList<SuggestedControls> suggestedControls = new ArrayList<SuggestedControls>();
+				for(int i=0; i< vpExistingControlContainer.getWidgetCount() ; i++){
+					ExistingControlViewNew existingControlView =  (ExistingControlViewNew)vpExistingControlContainer.getWidget(i);
+					SuggestedControls suggestedControl = new SuggestedControls();
+					existingControlView.getData(suggestedControl);
+					suggestedControls.add(suggestedControl);
+				}
+				saveExistingControls(suggestedControls);
 
 			}
+
+			
 		});
 
 		////////////////////////////////////////Audit Work Programme//////////////////////////////
@@ -451,10 +531,12 @@ public class KickoffView extends Composite {
 		VerticalPanel vpnl = new VerticalPanel();
 		vpnl.setHeight("400px");
 		//vpnl.add(new AuditWorkProg(rpcService, selectedJobId, loggedInUser.getEmployeeId(), auditEngId));
-		final VerticalPanel verticalPanelAuditWorkProg = new VerticalPanel();
+		VerticalPanel verticalPanelAuditWorkProg = new VerticalPanel();
+		final VerticalPanel verticalPanelAuditWorkProgContainer = new VerticalPanel();
 		//final VerticalPanel addpanelAuditworkprog = new VerticalPanel();
 
 		AddIcon btnAddAuditWork = new AddIcon();
+		Button btnSaveAuditWork = new Button("Save");
 
 		//verticalPanelAuditWorkProg.add(new AuditWorkProgramNew());
 		//verticalPanelAuditWorkProg.add(addpanelAuditworkprog);
@@ -462,10 +544,10 @@ public class KickoffView extends Composite {
 
 		for(int i=0; i< record.getEngagementDTO().getAuditProgrammeList().size(); i++){
 			AuditWorkProgramNew auditWorkProgramNew = new AuditWorkProgramNew();
-			verticalPanelAuditWorkProg.add(auditWorkProgramNew);
+			verticalPanelAuditWorkProgContainer.add(auditWorkProgramNew);
 			auditWorkProgramNew.setData(record.getEngagementDTO().getAuditProgrammeList().get(i));
 		}
-		verticalPanelAuditWorkProg.add(btnAddAuditWork);
+	
 
 
 		//addclickhandler of button risk
@@ -475,14 +557,41 @@ public class KickoffView extends Composite {
 			public void onClick(ClickEvent event) {
 				AuditWorkProgramNew auditWork = new AuditWorkProgramNew();
 				auditWork.hideElemetns();
-				verticalPanelAuditWorkProg.add(auditWork);
+				verticalPanelAuditWorkProgContainer.add(auditWork);
 
 			}
 		});
+		
+		btnSaveAuditWork.addClickHandler(new ClickHandler(){
 
+			@Override
+			public void onClick(ClickEvent event) {
+				ArrayList<AuditProgramme> auditWorkProgrammes = new ArrayList<AuditProgramme>();
+				for(int i=0; i< verticalPanelAuditWorkProgContainer.getWidgetCount() ; i++){
+					AuditWorkProgramNew auditWorkProgramView =  (AuditWorkProgramNew)verticalPanelAuditWorkProgContainer.getWidget(i);
+					AuditProgramme auditProgramme = new AuditProgramme();
+					auditWorkProgramView.getData(auditProgramme);
+					
+					auditWorkProgrammes.add(auditProgramme);
+				}
+				saveAuditWorkProgramme(auditWorkProgrammes);
+
+			}
+
+			
+
+		});
+
+		verticalPanelAuditWorkProg.add(btnAddAuditWork);
+		verticalPanelAuditWorkProg.add(btnSaveAuditWork);
+		
+		vpnl.add(verticalPanelAuditWorkProgContainer);
 		vpnl.add(verticalPanelAuditWorkProg);
+		ScrollPanel scroll = new ScrollPanel();
+		scroll.setWidget(vpnl);
+		scroll.setHeight("400px");
 		//vpnl.add(new AuditWorkProgramNew());
-		cp.add(vpnl);
+		cp.add(scroll);
 		con.add(cp);
 
 		/*
@@ -558,4 +667,38 @@ public class KickoffView extends Composite {
 		
 	}
 
+	private void saveExistingControls(ArrayList<SuggestedControls> suggestedControls) {
+		 rpcService.saveExistingControls(suggestedControls, new AsyncCallback<String>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(String result) {
+			new DisplayAlert(result);
+			}
+		});
+		
+	}
+	
+	private void saveAuditWorkProgramme(ArrayList<AuditProgramme> auditWorkProgrammes) {
+		rpcService.saveAuditWorkProgram(auditWorkProgrammes, selectedJobId,  new AsyncCallback<String>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("fail saving audit work");
+				
+			}
+
+			@Override
+			public void onSuccess(String result) {
+				new DisplayAlert(result);
+				
+			}
+		});
+		
+	}
 }
