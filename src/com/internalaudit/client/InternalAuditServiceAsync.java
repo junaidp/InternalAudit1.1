@@ -257,7 +257,7 @@ public interface InternalAuditServiceAsync {
 
 	void fetchSubProcess(int processId, AsyncCallback<ArrayList<SubProcess>> callback);
 
-	void saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives, AsyncCallback<String> callback);
+	void saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives, int jobid, AsyncCallback<String> callback);
 	void saveRiskObjectives(ArrayList<RiskObjective> riskObjectives, AsyncCallback<String> callback);
 
 	void saveExistingControls(ArrayList<SuggestedControls> suggestedControls, AsyncCallback<String> callback);

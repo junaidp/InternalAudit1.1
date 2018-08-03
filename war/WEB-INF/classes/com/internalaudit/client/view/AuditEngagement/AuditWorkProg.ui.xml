@@ -29,11 +29,10 @@
 	
 	<g:HorizontalPanel ui:field="heading" styleName="risksRow" width="611px" verticalAlignment="middle">
 	
-		<g:Label wordWrap="false" styleName="risksRow">Step No.</g:Label>
-		<g:Label styleName="txtExtendedWidth">Description</g:Label>
+		<g:Label wordWrap="false" styleName="risksRow">Serial No.</g:Label>
+		<g:Label styleName="txtExtendedWidth">Audit Program</g:Label>
 		<g:Label styleName="txtShrikedWidth">Reviewer</g:Label>
-		<g:Label styleName="txtShrikedWidth">Risk</g:Label>
-		<g:Label styleName="txtShrikedWidth">Existing Controls</g:Label>
+		<g:Label styleName="txtShrikedWidth">Reference(Existing Controls)</g:Label>
 		<!--  <g:Label styleName="txtShrikedWidth">Planned Status</g:Label> -->
 	
 	</g:HorizontalPanel>

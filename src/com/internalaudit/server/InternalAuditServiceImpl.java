@@ -1412,8 +1412,8 @@ InternalAuditService {
 		return rdbHelper.fetchSubProcess(processId);
 	}
 	@Override
-	public String saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives) throws Exception {
-		return rdbHelper.saveActivityObjectives(activityObjectives);
+	public String saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives,int jobid) {
+		return rdbHelper.saveActivityObjectives(activityObjectives, jobid);
 	}
 	@Override
 	public String saveRiskObjectives(ArrayList<RiskObjective> riskObjectives) throws Exception {

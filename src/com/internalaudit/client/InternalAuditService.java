@@ -257,7 +257,7 @@ public interface InternalAuditService extends RemoteService {
 	ArrayList<SubProcess> fetchSubProcess(int processId);
 
 
-	String saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives ) throws Exception;
+	String saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives, int jobid);
 	String saveRiskObjectives(ArrayList<RiskObjective> riskObjectives ) throws Exception;
 	String saveExistingControls(ArrayList<SuggestedControls> suggestedControls ) throws Exception;
 	String saveAuditWorkProgram(ArrayList<AuditProgramme> auditWorkProgramme , int selectedJobId) throws Exception;

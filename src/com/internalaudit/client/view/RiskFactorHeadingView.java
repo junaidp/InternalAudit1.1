@@ -19,7 +19,7 @@ public class RiskFactorHeadingView extends Composite {
 		hpnlSpacing.setWidth("0px");
 		Label riskFactor = new Label("Risk factors");
 		Label impact = new Label("Impact");
-		Label probabality = new Label("Probabality");
+		Label probabality = new Label("Probability");
 		Label risk = new Label("Rating");
 		Label riskComments = new Label("Comment");
 		

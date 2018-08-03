@@ -5,6 +5,8 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
@@ -18,7 +20,7 @@ public class KeyRiskViewNew extends VerticalPanel {
 	private Label lblActivityObjectiveData = new Label("");
 	Label lblactivityObjective = new Label("Activity Objective");
 	Label lblrisks = new Label("Risk");
-	Label lblriskRatings = new Label("Risk Ratings");
+	Label lblriskRatings = new Label("Inherent Risks");
 	Label lblapplicability = new Label("Applicability");
 	private TextArea txtRisk = new TextArea();
 	private Label lblName = new Label("");
@@ -28,11 +30,16 @@ public class KeyRiskViewNew extends VerticalPanel {
 	private int riskId = 0;
 	CheckBox checkBoxApplicability = new CheckBox("");
 	private Button btnSave = new Button("Save");
+	  Image delete = new Image("images/deleteIcon.png");
+		Label lblReferenceNo = new Label("Reference Number");
+		
+		Image imgRating = new Image();
+	
 	
 	public  KeyRiskViewNew() {
 
 		btnSave.setVisible(false);
-		lblName.addStyleName("w3-panel w3-light-blue");
+		//lblName.addStyleName("w3-panel w3-light-blue");
 		lblactivityObjective.addStyleName("w3-panel w3-light-blue");
 
 		lblrisks.addStyleName("w3-panel w3-light-blue");
@@ -49,14 +56,14 @@ public class KeyRiskViewNew extends VerticalPanel {
 		txtRisk.setHeight("90px");
 		txtRisk.setText("");
 
-	
+	    imgRating.addStyleName("w3-panel");
 		listBoxRating.addStyleName("w3-panel");
 		listBoxRating.addItem("Low", "0");
 		listBoxRating.addItem("Medium", "1");
 		listBoxRating.addItem("High", "2");
 
 		
-		checkBoxApplicability.addStyleName("w3-panel");
+		//checkBoxApplicability.addStyleName("w3-panel");
 		lblactivityObjective.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 		lblrisks.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 		lblriskRatings.getElement().getStyle().setFontWeight(FontWeight.BOLD);
@@ -73,13 +80,18 @@ public class KeyRiskViewNew extends VerticalPanel {
 		lblActivityObjectiveData.getElement().getStyle().setMarginLeft(10, Unit.PX);
 		txtRisk.getElement().getStyle().setMarginLeft(10, Unit.PX);
 		listBoxRating.getElement().getStyle().setMarginLeft(30, Unit.PX);
-		checkBoxApplicability.getElement().getStyle().setMarginLeft(80, Unit.PX);
+		checkBoxApplicability.getElement().getStyle().setMarginLeft(50, Unit.PX);
+		
+		lblReferenceNo.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+		lblReferenceNo.addStyleName("w3-panel w3-light-blue");
+		
 
 
 		FlexTable flex = new FlexTable();
 		VerticalPanel vpLblblRef = new VerticalPanel();
 		vpLblblRef.add(lblName);
 		vpLblblRef.setWidth("240px");
+		flex.setWidget(0,1, lblReferenceNo);
 		flex.setWidget(1,1, vpLblblRef);
 		//  flex.setWidget(0,1,actv);
 
@@ -99,13 +111,21 @@ public class KeyRiskViewNew extends VerticalPanel {
 		flex.setWidget(2,2,btnAddKeyRisk);
 
 		flex.setWidget(0,3, lblriskRatings);
-		VerticalPanel vpLblriskRating = new VerticalPanel();
+		HorizontalPanel vpLblriskRating = new HorizontalPanel();
+		
+		vpLblriskRating.setWidth("180px");
 		vpLblriskRating.add(listBoxRating);
-		vpLblriskRating.setWidth("240px");
+		vpLblriskRating.add(imgRating);
+	
 		flex.setWidget(1,3,vpLblriskRating);
 
 		flex.setWidget(0,4, lblapplicability);
-		flex.setWidget(1,4,checkBoxApplicability);
+		VerticalPanel panelchckboox = new VerticalPanel();
+		panelchckboox.setWidth("150px");
+		panelchckboox.add(checkBoxApplicability);
+		flex.setWidget(1,4,panelchckboox);
+		
+		flex.setWidget(1,5, delete);
 		add(flex);
 		add(btnSave); // move at right corner
 		
@@ -118,6 +138,7 @@ public class KeyRiskViewNew extends VerticalPanel {
 		lblriskRatings.setVisible(false);
 		lblapplicability.setVisible(false);
 		btnAddKeyRisk.setVisible(false);
+		lblReferenceNo.setVisible(false);
 	}
 
 	public void setData(RiskObjective riskObjective, boolean objectiveNameAdded){
@@ -131,7 +152,24 @@ public class KeyRiskViewNew extends VerticalPanel {
 		for(int i=0; i< listBoxRating.getItemCount(); i++){
 			if(listBoxRating.getValue(i).equals(riskObjective.getRiskRating())){
 				listBoxRating.setSelectedIndex(i);
+				  //for circle
+			    if (listBoxRating.getValue(i).equals("2")){
+			    	
+			    	imgRating.setUrl("redcircle.png");
+			    }
+			    else    if (listBoxRating.getValue(i).equals("1")){
+			    	
+			    	imgRating.setUrl("yellowcircle.png");
+			    }
+			    	
+			    
+			    else if (listBoxRating.getValue(i).equals("0")){
+			    	
+			    	imgRating.setUrl("greencircle.png");
+			    	
+			    }
 				break;
+				
 			}
 		}
 		checkBoxApplicability.setChecked(riskObjective.getChecked());
@@ -142,6 +180,7 @@ public class KeyRiskViewNew extends VerticalPanel {
 			lblActivityObjectiveData.setVisible(false);
 			lblactivityObjective.setVisible(false);
 			lblName.setVisible(false);
+			lblReferenceNo.setVisible(false);
 		
 			lblrisks.setVisible(false);
 			lblriskRatings.setVisible(false);

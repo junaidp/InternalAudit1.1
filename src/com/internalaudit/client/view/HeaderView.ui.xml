@@ -3,7 +3,7 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<g:HTMLPanel>
 		<div>
-		<g:HorizontalPanel width="100%" styleName="headerStyle" horizontalAlignment="center">
+		<g:HorizontalPanel width="80%" styleName="headerStyle" horizontalAlignment="center">
 			<!--  <g:Image url="images/magnif.jpg" height="64px" width="90px"/> -->
 		<g:Label styleName="haderLabel">Internal Audit Application</g:Label>
 		</g:HorizontalPanel>

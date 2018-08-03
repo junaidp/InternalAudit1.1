@@ -445,3 +445,7 @@ DASHBOARD UIII    -->ol, ul {
 	
 }
 
+.boxshadow{
+	box-shadow: 5px 5px;
+}
+

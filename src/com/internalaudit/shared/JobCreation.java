@@ -28,7 +28,7 @@ public class JobCreation implements Serializable {
 	private int jobCreationId;
 	
 	@Column(name="jobid")
-	private int jobId;
+	private int jobId; // strategicid
 	
 	@Column(name="jobName")
 	private String jobName;

@@ -19,6 +19,7 @@ import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.FinalAuditablesView;
+import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.Strategic;
 import com.internalaudit.shared.TimeOutException;
 import com.internalaudit.shared.User;
@@ -114,10 +115,15 @@ public class FinalAuditablesViewData {
 						HorizontalPanel hpnlMain = new HorizontalPanel();
 
 						auditableUnits.add(strategic.get(i).getAuditableUnit());
+						JobCreation jb = new JobCreation();
+						
 						Label lblCount = new Label("");
 						lblCount.addStyleName("blue");
 						//lblCount.setText(count + ")" );
-						lblCount.setText(strategic.get(i).getId() + ")" );
+					
+						
+						//lblCount.setText(jb.getJobCreationId() + ")" );
+						lblCount.setText(strategic.get(i).getJobCreationId() + ")" );
 						hpnlMain.add(lblCount);
 						hpnlMain.add(lblUnit);
 						hpnlMain.setSpacing(5);

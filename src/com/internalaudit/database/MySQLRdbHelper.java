@@ -77,6 +77,7 @@ import com.internalaudit.shared.JobTimeEstimation;
 import com.internalaudit.shared.JobTimeEstimationDTO;
 import com.internalaudit.shared.JobType;
 import com.internalaudit.shared.JobsOfEmployee;
+import com.internalaudit.shared.ObjectiveJobRelation;
 import com.internalaudit.shared.Process;
 import com.internalaudit.shared.ProcessDTO;
 import com.internalaudit.shared.ReportsDTO;
@@ -1580,7 +1581,12 @@ public class MySQLRdbHelper {
 				HibernateDetachUtility.nullOutUninitializedFields(strategic,
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
+				//Added 2018
+				strategic.setJobCreationId(fetchJobCreationIdAgainstStrategin(strategic.getId()));
+				//end
 				strategics.add(strategic);
+				
+				
 			}
 			logger.info(
 					String.format("(Inside fetchFinalAuditables) fetching final auditabled for year : "
@@ -1592,6 +1598,27 @@ public class MySQLRdbHelper {
 			session.close();
 		}
 		return strategics;
+	}
+	
+
+	private int fetchJobCreationIdAgainstStrategin(int strategicId) {
+		JobCreation jobCreation = null;
+		try{
+		
+		session = sessionFactory.openSession();
+		Criteria crit = session.createCriteria(JobCreation.class);
+		crit.add(Restrictions.eq("jobId", strategicId));
+		jobCreation = (JobCreation) crit.list().get(0);
+		
+	} catch (Exception ex) {
+		logger.warn(String.format("Exception occured in fetchJobCreationIdAgainstStrategin", ex.getMessage()), ex);
+
+	} finally {
+		session.close();
+	}
+		return jobCreation.getJobCreationId();
+	
+		
 	}
 
 	public boolean saveJobTimeEstimation(JobTimeEstimationDTO entity, ArrayList<SkillUpdateData> updateForSkills,
@@ -2895,8 +2922,13 @@ public class MySQLRdbHelper {
 				Strategic strategic =  fetchStrategicAgainstStrategicId(auditEngagement.getJobCreation().getJobId(), session);
 				auditEngagement.setStrategic(strategic);
 				EngagementDTO engagementDTO = fetchActivityObjective(strategic.getSubProcess().getSubProcessId(), session);
-				auditEngagement.setEngagementDTO(engagementDTO);
+				//FETCH AcitivityObjectives of the selected job 
+				engagementDTO.setSelectedActivityObjectives(fetchActivityObjectivesForSelectedJob(jobCreationId, session));
 				//END
+				
+				auditEngagement.setEngagementDTO(engagementDTO);
+				
+				
 
 				HibernateDetachUtility.nullOutUninitializedFields(auditEngagement,
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
@@ -2925,6 +2957,33 @@ public class MySQLRdbHelper {
 			session.close();
 		}
 		return record;
+	}
+
+	private ArrayList<ActivityObjective> fetchActivityObjectivesForSelectedJob(int jobCreationId, Session session) {
+		ArrayList<ActivityObjective> objectivesList = new ArrayList<ActivityObjective>();
+		try{
+			Criteria crit = session.createCriteria(ObjectiveJobRelation.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			crit.createAlias("objectiveId", "objective");
+			
+			crit.add(Restrictions.eq("jobCreation.jobCreationId", jobCreationId));
+			
+			List rsList = crit.list();
+
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				ObjectiveJobRelation objectiveJobRelation = (ObjectiveJobRelation) it.next();
+				ActivityObjective activityObjective = objectiveJobRelation.getObjectiveId();
+				objectivesList.add(activityObjective);
+			}
+				
+			} catch (Exception ex) {
+				logger.warn(String.format("Exception occured in  fetchActivityObjectivesForSelectedJob", ex.getMessage()), ex);
+
+			} finally {
+				
+			}
+		return objectivesList;
+		
 	}
 
 	public boolean updateAuditEngagement(AuditEngagement e, String fieldToUpdate, int year, int companyId) {
@@ -4569,12 +4628,16 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiated.skillId", "initiatedSkill");
 			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
-			///
-			crit.createAlias("riskId", "risk");
+			
+			crit.createAlias("suggestedControlsId", "controls");
+			
+			/*crit.createAlias("riskId", "risk");
 			crit.createAlias("risk.auditEngageId", "audEng");
 			crit.createAlias("audEng.jobCreation", "audJobCreation");
+			
+			
 
-			crit.createAlias("audEng.approvedBy", "approvedEng");
+			//crit.createAlias("audEng.approvedBy", "approvedEng");
 			crit.createAlias("approvedEng.countryId", "employeeCounteng");
 			crit.createAlias("approvedEng.cityId", "employeeCityyeng");
 			crit.createAlias("approvedEng.reportingTo", "employeeRepeng");
@@ -4595,7 +4658,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiatedeng.skillId", "initiatedSkilleng");
 			crit.createAlias("initiatedRepeng.rollId", "initiatedRepRolleng");
 			crit.createAlias("initiatedRepeng.skillId", "initiatedRepSkilleng");
-
+			 */
 
 			List rsList = crit.list();
 
@@ -4610,9 +4673,11 @@ public class MySQLRdbHelper {
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(row.getApprovedBy(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
-				HibernateDetachUtility.nullOutUninitializedFields(row.getRiskId(),
+				HibernateDetachUtility.nullOutUninitializedFields(row.getSuggestedControlsId().getRiskId(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
-
+				HibernateDetachUtility.nullOutUninitializedFields(row.getSuggestedControlsId(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				
 				rows.add(row);
 			}
 
@@ -4761,6 +4826,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
 
 			///
+			/*
 			crit.createAlias("riskId", "risk");
 			crit.createAlias("risk.auditEngageId", "audEng");
 			crit.createAlias("audEng.jobCreation", "audJobCreation");
@@ -4786,6 +4852,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiatedeng.skillId", "initiatedSkilleng");
 			crit.createAlias("initiatedRepeng.rollId", "initiatedRepRolleng");
 			crit.createAlias("initiatedRepeng.skillId", "initiatedRepSkilleng");
+			*/
 
 			List rsList = crit.list();
 
@@ -7460,12 +7527,16 @@ public class MySQLRdbHelper {
 
 
 
-	public String saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives) {
+	public String saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives, int jobId) {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
 			for(int i=0; i< activityObjectives.size(); i++){
-				session.saveOrUpdate(activityObjectives.get(i));
+				ObjectiveJobRelation objectiveJobRelation = new ObjectiveJobRelation();
+				objectiveJobRelation.setObjectiveId(activityObjectives.get(i));
+				JobCreation jobCreation = (JobCreation) session.get(JobCreation.class, jobId);
+				objectiveJobRelation.setJobCreationId(jobCreation);
+				session.saveOrUpdate(objectiveJobRelation);
 				session.flush();
 			}
 
@@ -7541,7 +7612,7 @@ public class MySQLRdbHelper {
 				session.saveOrUpdate(auditWorkProgramme.get(i));
 				session.flush();
 				
-				/////////
+				///////// HERE
 				AuditWork auditWork = new AuditWork();
 				Employee employee = new Employee();
 				employee.setEmployeeId(58);
@@ -7554,7 +7625,7 @@ public class MySQLRdbHelper {
 				auditWork.setJobCreationId(job);
 				Risk risk = new Risk ();
 				risk.setRiskId(63);
-				auditWork.setRiskId(risk);
+				//auditWork.setRiskId(risk);
 				auditWork.setStatus(1);
 				auditWork.setStepNo(i+1+"");
 				auditWorks.add(auditWork);

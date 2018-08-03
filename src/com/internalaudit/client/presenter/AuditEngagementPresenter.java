@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JProgressBar;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -13,6 +15,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -27,6 +30,7 @@ import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.TimeOutException;
 import com.internalaudit.shared.User;
 import com.sencha.gxt.widget.core.client.ProgressBar;
+import com.sun.corba.se.spi.legacy.connection.GetEndPointInfoAgainException;
 
 public class AuditEngagementPresenter implements Presenter {
 
@@ -172,7 +176,7 @@ public class AuditEngagementPresenter implements Presenter {
 
 	    // set headings
 
-	    String headings[] = { "Job Name", "Planned Start Date", "Planned End Date"," ", "Planning ", "Field Work", "Reporting" };
+	    String headings[] = {"Job Name", "Planned Start Date", "Planned End Date"," ", "Planning ", "Field Work", "Reporting" };
 
 	    for (int i = 0; i < headings.length; i++) {
 		Label heading = new Label(headings[i]);
@@ -187,13 +191,19 @@ public class AuditEngagementPresenter implements Presenter {
 		if (i % 2 != 0) {
 		    records.getRowFormatter().addStyleName(i, "jobStatusRow");
 		}
-
+		final Label lblJobNo = new Label((allJobsAndStatus.get(i).getJobCreation().getJobCreationId() + ")" ));
+		
+		
 		final Label jobName = new Label(allJobsAndStatus.get(i).getJobCreation().getJobName());
+		
 		// jobName.addStyleName("statusJobName");
 		// jobName.addStyleName("statusCell");
 		// jobName.addStyleName("linkStyle");
-
-		records.setWidget(i + 1, 0, jobName);
+		HorizontalPanel  p= new HorizontalPanel();
+		p.add(lblJobNo);
+		p.add(jobName);
+		
+		records.setWidget(i + 1, 0, p);
 		jobName.setWidth("300px");
 		jobId = allJobsAndStatus.get(i).getJobCreation().getJobCreationId(); // this
 										     // is
@@ -289,11 +299,24 @@ public class AuditEngagementPresenter implements Presenter {
 
 	private void displayingProgress(FlexTable records, int i) {
 		ProgressBar progressPlanning = new ProgressBar();
-		progressPlanning.setValue((double) 5);
+		//progressPlanning.setValue((double) 5);
+		progressPlanning.updateProgress(.20, "20%");
 		ProgressBar progressFieldWork = new ProgressBar();
-		progressFieldWork.setValue((double) 25);
+		progressFieldWork.updateProgress(.4, "40%");
+		//progressFieldWork.setValue((double) 25);
 		ProgressBar progressReporting = new ProgressBar();
-		progressReporting.setValue((double) 75);
+		//progressFieldWork.addStyleName("w3-border w3-red");
+		progressReporting.updateProgress(.7, "70%");
+		
+		
+	
+		
+//		progressFieldWork.getElement().getStyle().setBackgroundColor("yellow");
+//		progressReporting.getElement().getStyle().setText("green");
+//		progressReporting.getElement().getStyle().setBackgroundColor("green");
+//		progressReporting.getElement().getStyle().setColor("green");
+//		progressPlanning.getElement().getStyle().setBackgroundColor("red");
+//		//progressReporting.setValue((double) 75);
 		Anchor AnchorJobStatus = new Anchor("Job Stauts");
 		
 		
@@ -315,7 +338,8 @@ public class AuditEngagementPresenter implements Presenter {
 				vpImage.add(imgFieldWork);
 				vpImage.add(imgReporting);
 				PopupsViewWhite popup = new PopupsViewWhite(vpImage);
-				
+				popup.getPopup().getElement().getStyle().setBackgroundColor("White");
+				popup.getHpnlSPace().setWidth("800px");
 			}
 		});
 		

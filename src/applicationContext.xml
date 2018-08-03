@@ -69,6 +69,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 				<value>com.internalaudit.shared.RiskObjective</value>
 				<value>com.internalaudit.shared.SuggestedControls</value>
 				<value>com.internalaudit.shared.AuditProgramme</value>
+				<value>com.internalaudit.shared.ObjectiveJobRelation</value>
 				
 				
 				

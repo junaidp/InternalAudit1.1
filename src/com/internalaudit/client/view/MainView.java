@@ -48,6 +48,7 @@ public class MainView extends Composite implements Display {
 	private VerticalPanel vpnlDashBoard = new VerticalPanel();
 	private VerticalPanel reportingView = new VerticalPanel();
 	private VerticalPanel reportsView = new VerticalPanel();
+	private HorizontalPanel footer = new HorizontalPanel();
 
 	PlainTabPanel panel = new PlainTabPanel();
 	HorizontalPanel checkpanel = new HorizontalPanel();
@@ -141,13 +142,12 @@ public class MainView extends Composite implements Display {
 		VerticalPanel hpnl = new VerticalPanel();
 		HorizontalPanel hpnlSpace = new HorizontalPanel();
 		VerticalPanel hpnlHeader = new VerticalPanel();
-
 		vp.add(hpnlMain);
+		
 		hpnlMain.add(imgHeader);
 		hpnlMain.add(hpnlHeader);
 		//		hpnlHeader.addStyleName("blueBackground");
-		hpnlMain.setWidth(Window.getClientWidth()-10+"px");
-		hpnlHeader.setWidth(Window.getClientWidth()-imgHeader.getWidth()+"px");
+		hpnlHeader.setWidth(Window.getClientWidth()-imgHeader.getWidth()-70+"px");
 		hpnlHeader.setHeight("91px");
 		hpnlHeader.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		hpnl.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);

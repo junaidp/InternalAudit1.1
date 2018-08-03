@@ -18,6 +18,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -31,6 +32,7 @@ import com.internalaudit.shared.ActivityObjective;
 import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.AuditProgramme;
 import com.internalaudit.shared.JobCreation;
+import com.internalaudit.shared.ObjectiveJobRelation;
 import com.internalaudit.shared.RiskObjective;
 import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.SuggestedControls;
@@ -132,7 +134,7 @@ public class KickoffView extends Composite {
 		});
 
 	}
-
+int jobid ;
 	private void getJobRelatedInfo(int selectedjobId) {
 
 		rpcService.fetchCreatedJob(selectedjobId, new AsyncCallback<JobCreation>() {
@@ -141,6 +143,8 @@ public class KickoffView extends Composite {
 			public void onSuccess(JobCreation result) {
 
 				if(result!=null){
+				
+					jobid =result.getJobCreationId();
 					startDate.setText(result.getStartDate()==null? "": result.getStartDate());
 					endDate.setText( result.getEndDate()==null? "": result.getEndDate() );	
 					jobName.setText( result.getJobName()==null? "": result.getJobName() );
@@ -269,18 +273,55 @@ public class KickoffView extends Composite {
 
 		final VerticalPanel vpnlActicityObjective = new VerticalPanel();
 		final VerticalPanel vpnlActicityObjectiveContainer = new VerticalPanel();
-		Button btnSaveActicityObjective = new Button("Save");
+		final VerticalPanel usersActivityContainer = new VerticalPanel();
+		Button btnSaveActicityObjective = new Button("Submit");
+		btnSaveActicityObjective.addStyleName("w3-display-bottomright w3-margin");
+		btnSaveActicityObjective.getElement().getStyle().setMarginLeft(600, Unit.PX);
 		vpnlActicityObjective.setHeight("370px");
 		//vpnlRiskAssesment.add(new EngagementPlanningView(rpcService, selectedJobId, auditEngId, loggedInUser, record));
 		//ActivityObjectiveViewNew activityObjectiveView = new ActivityObjectiveViewNew();
 
 		AddIcon btnAddAcitivityObjective = new AddIcon();
 
+		/////
+		Label lblUserHeading = new Label("User Library");
+		//Heading ... /// User's
+		
+//		for(int j =0 ;j< record.getEngagementDTO().getSelectedActivityObjectives().size(); j++){
+//			ActivityObjectiveViewNew activityObjectiveView = new ActivityObjectiveViewNew();
+//			activityObjectiveView.setData(record.getEngagementDTO().getSelectedActivityObjectives().get(j));
+			usersActivityContainer.add(lblUserHeading);
+//			usersActivityContainer.add(activityObjectiveView);
+			
+			
+		//}
+		//usersActivityContainer.add(//////put record.getEngademtnDTO.activityobjecti.list.
+		///
+		Label lblLibHeading = new Label("Developer Library");
+		//Heading ... Our's
+		vpnlActicityObjectiveContainer.add(lblLibHeading);
 		for(int i =0 ;i< record.getEngagementDTO().getActivityObjectiveList().size(); i++){
-			ActivityObjectiveViewNew activityObjectiveView = new ActivityObjectiveViewNew();
+			final ActivityObjectiveViewNew activityObjectiveView = new ActivityObjectiveViewNew();
 			activityObjectiveView.setData(record.getEngagementDTO().getActivityObjectiveList().get(i));
+			
 			vpnlActicityObjectiveContainer.add(activityObjectiveView);
+			
+			//new select btton handler
+			activityObjectiveView.getBtnSelectActivity().addClickHandler(new ClickHandler() {
+				
+				@Override
+				public void onClick(ClickEvent event) {
+					ActivityObjectiveViewNew activityObjectiveSelected = new ActivityObjectiveViewNew();
+					activityObjectiveSelected.getBtnSelectActivity().setVisible(false);
+					activityObjectiveSelected.getTxtAreaActivityObj().setText(activityObjectiveView.getTxtAreaActivityObj().getText());
+					activityObjectiveSelected.getlblReferenceNoData().setText(activityObjectiveView.getlblReferenceNoData().getText());
+					usersActivityContainer.add(activityObjectiveSelected);
+					
+				}
+			});
 		}
+		
+
 
 		btnAddAcitivityObjective.addClickHandler(new ClickHandler() {
 
@@ -290,7 +331,7 @@ public class KickoffView extends Composite {
 				vpnlActicityObjectiveContainer.add(act);
 			}
 		});
-
+		vpnlActicityObjective.add(usersActivityContainer);
 		vpnlActicityObjective.add(vpnlActicityObjectiveContainer);
 		vpnlActicityObjective.add(btnAddAcitivityObjective);
 		vpnlActicityObjective.add(btnSaveActicityObjective);
@@ -305,12 +346,20 @@ public class KickoffView extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				ArrayList<ActivityObjective> activityObjectives = new ArrayList<ActivityObjective>();
-				for(int i=0; i< vpnlActicityObjectiveContainer.getWidgetCount() ; i++){
-					ActivityObjectiveViewNew activityObjectiveView =  (ActivityObjectiveViewNew)vpnlActicityObjectiveContainer.getWidget(i);
+				for(int i=0; i< usersActivityContainer.getWidgetCount() ; i++){
+					ActivityObjectiveViewNew activityObjectiveView =  (ActivityObjectiveViewNew)usersActivityContainer.getWidget(i);
 					ActivityObjective activityObjective = new ActivityObjective();
 					activityObjectiveView.getData(activityObjective);
 					activityObjective.setSubProcessId(subProcess);
 					activityObjectives.add(activityObjective);
+					//2018  doing new work
+//					ObjectiveJobRelation objectiveJobRelation = new ObjectiveJobRelation();
+//					objectiveJobRelation.setObjectiveId(activityObjective);
+//					objectiveJobRelation.setJobCreationId(jobid);
+					
+					//ends here
+					
+					
 				}
 				saveActivityObjectives(activityObjectives);
 
@@ -330,6 +379,7 @@ public class KickoffView extends Composite {
 		 VerticalPanel verticalPanelKeyRisks = new VerticalPanel();
 		final VerticalPanel verticalPanelKeyRisksContainer = new VerticalPanel();
 		Button btnSaveKeyRisk = new Button("Save");
+		btnSaveKeyRisk.addStyleName("w3-display-bottomright w3-margin");
 
 
 
@@ -428,6 +478,9 @@ public class KickoffView extends Composite {
 		 VerticalPanel vpExistingControl = new VerticalPanel();
 		 final VerticalPanel vpExistingControlContainer = new VerticalPanel();
 		Button btnSaveControl = new Button("Save");
+		btnSaveControl.addStyleName(" w3-margin");
+		Button btnApproveControl = new Button("Approce");
+		btnApproveControl.addStyleName("w3-margin");
 
 		
 		//	v.add(new RisksView(auditEngId, rpcService, loggedInUser.getEmployeeId()));
@@ -491,11 +544,15 @@ public class KickoffView extends Composite {
 			});
 		}
 
-
+		HorizontalPanel panelButtons = new HorizontalPanel();
+		panelButtons.getElement().getStyle().setMarginTop(10, Unit.PX);
+		panelButtons.getElement().getStyle().setMarginLeft(1100, Unit.PX);
 		//final VerticalPanel addPanelExistingControl = new VerticalPanel();
 		//vpExistingControl.add(addPanelExistingControl);
+		panelButtons.add(btnSaveControl);
+		panelButtons.add(btnApproveControl);
 		vpExistingControl.add(vpExistingControlContainer);
-		vpExistingControl.add(btnSaveControl);
+		vpExistingControl.add(panelButtons);
 		vps.add(vpExistingControl);
 
 		//cp.add(panelAdd);
@@ -529,25 +586,40 @@ public class KickoffView extends Composite {
 		cp.setBodyStyleName("pad-text");
 		cp.setHeadingText("Audit Work Programme");
 		VerticalPanel vpnl = new VerticalPanel();
-		vpnl.setHeight("400px");
-		//vpnl.add(new AuditWorkProg(rpcService, selectedJobId, loggedInUser.getEmployeeId(), auditEngId));
-		VerticalPanel verticalPanelAuditWorkProg = new VerticalPanel();
-		final VerticalPanel verticalPanelAuditWorkProgContainer = new VerticalPanel();
+		vpnl.setHeight("600px");
+		
+		final AuditWorkProg auditWorkProg = new AuditWorkProg(rpcService, selectedJobId, loggedInUser.getEmployeeId(), record.getEngagementDTO().getSuggestedControlsList());
+		vpnl.add(auditWorkProg);
+		
+		final VerticalPanel auditWorkNewContainer = new VerticalPanel();
 		//final VerticalPanel addpanelAuditworkprog = new VerticalPanel();
 
 		AddIcon btnAddAuditWork = new AddIcon();
 		Button btnSaveAuditWork = new Button("Save");
+		Button btnApproveAuditWork  = new Button("Approve");
+		btnSaveAuditWork.addStyleName("w3-margin");
+		btnApproveAuditWork.addStyleName("w3-margin");
 
 		//verticalPanelAuditWorkProg.add(new AuditWorkProgramNew());
 		//verticalPanelAuditWorkProg.add(addpanelAuditworkprog);
 		//2018
 
+		
 		for(int i=0; i< record.getEngagementDTO().getAuditProgrammeList().size(); i++){
-			AuditWorkProgramNew auditWorkProgramNew = new AuditWorkProgramNew();
-			verticalPanelAuditWorkProgContainer.add(auditWorkProgramNew);
+			final AuditWorkProgramNew auditWorkProgramNew = new AuditWorkProgramNew();
+			auditWorkNewContainer.add(auditWorkProgramNew);
+			vpnl.add(auditWorkNewContainer);
 			auditWorkProgramNew.setData(record.getEngagementDTO().getAuditProgrammeList().get(i));
+			
+			auditWorkProgramNew.getBtnSelect().addClickHandler(new ClickHandler(){
+
+				@Override
+				public void onClick(ClickEvent event) {
+					auditWorkProg.addRow(auditWorkProgramNew);
+					
+				}});
 		}
-	
+
 
 
 		//addclickhandler of button risk
@@ -557,7 +629,7 @@ public class KickoffView extends Composite {
 			public void onClick(ClickEvent event) {
 				AuditWorkProgramNew auditWork = new AuditWorkProgramNew();
 				auditWork.hideElemetns();
-				verticalPanelAuditWorkProgContainer.add(auditWork);
+				auditWorkNewContainer.add(auditWork);
 
 			}
 		});
@@ -567,8 +639,8 @@ public class KickoffView extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				ArrayList<AuditProgramme> auditWorkProgrammes = new ArrayList<AuditProgramme>();
-				for(int i=0; i< verticalPanelAuditWorkProgContainer.getWidgetCount() ; i++){
-					AuditWorkProgramNew auditWorkProgramView =  (AuditWorkProgramNew)verticalPanelAuditWorkProgContainer.getWidget(i);
+				for(int i=0; i< auditWorkNewContainer.getWidgetCount() ; i++){
+					AuditWorkProgramNew auditWorkProgramView =  (AuditWorkProgramNew)auditWorkNewContainer.getWidget(i);
 					AuditProgramme auditProgramme = new AuditProgramme();
 					auditWorkProgramView.getData(auditProgramme);
 					
@@ -581,15 +653,19 @@ public class KickoffView extends Composite {
 			
 
 		});
-
-		verticalPanelAuditWorkProg.add(btnAddAuditWork);
-		verticalPanelAuditWorkProg.add(btnSaveAuditWork);
-		
-		vpnl.add(verticalPanelAuditWorkProgContainer);
-		vpnl.add(verticalPanelAuditWorkProg);
+		HorizontalPanel panelAuditWorkBtn = new HorizontalPanel();
+		panelAuditWorkBtn.addStyleName("w3-display-bottomright");
+		panelAuditWorkBtn.add(btnSaveAuditWork);
+		panelAuditWorkBtn.add(btnApproveAuditWork);
+	//	verticalPanelAuditWorkProg.add(btnAddAuditWork);
+	//	verticalPanelAuditWorkProg.add(panelAuditWorkBtn);
+//		
+//		vpnl.add(verticalPanelAuditWorkProgContainer);
+//		vpnl.add(verticalPanelAuditWorkProg);
 		ScrollPanel scroll = new ScrollPanel();
 		scroll.setWidget(vpnl);
 		scroll.setHeight("400px");
+	
 		//vpnl.add(new AuditWorkProgramNew());
 		cp.add(scroll);
 		con.add(cp);
@@ -623,16 +699,17 @@ public class KickoffView extends Composite {
 		cp.setHeadingText("Audit Step");
 		ScrollPanel sp = new ScrollPanel();
 		sp.add(new AuditStepContainer(selectedJobId, rpcService, loggedInUser.getEmployeeId()));
-		sp.setHeight("360px");
+		sp.setHeight("450px");
 		cp.add(sp);
 		con.add(cp);
 		statusPanel.add(panel);
+		}
 
-
-	}
+	
 
 	private void saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives) {
-		rpcService.saveActivityObjectives(activityObjectives, new AsyncCallback<String>() {
+	
+		rpcService.saveActivityObjectives(activityObjectives, jobid , new AsyncCallback<String>() {
 
 			@Override
 			public void onFailure(Throwable caught) {

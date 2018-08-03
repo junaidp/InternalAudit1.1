@@ -85,11 +85,11 @@ public class AuditStepContainer extends Composite {
 		cp.setAnimCollapse(false);
 		cp.setHeadingText(auditWork.getStepNo()+"."+auditWork.getDescription());
 		VerticalPanel vpnlIdentification = new VerticalPanel();
-		vpnlIdentification.setHeight("150px");
+		vpnlIdentification.setHeight("350px");
 		ScrollPanel sp = new ScrollPanel();
 		vpnlIdentification.add(new AuditStepView(auditWork, selectedJobId, loggedInEmployee));
 		sp.add(vpnlIdentification);
-		sp.setHeight("150px");
+		sp.setHeight("350px");
 		sp.setWidth("1197px");
 		cp.add(sp);
 		con.add(cp);

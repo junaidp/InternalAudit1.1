@@ -35,9 +35,10 @@ public class PopupsViewWhite {
 		vpnlMain = new VerticalPanel();
 		vpnlMain.add(hpnlClose);
 		vpnlMain.add(widget);
+		vpnlMain.getElement().getStyle().setBackgroundColor("white");
 //		vpnlMain.setSize("800px","425px");
 		popup.setWidget(vpnlMain);
-		popup.setPopupPosition(10, 100);
+		popup.setPopupPosition(60, 100);
 		popup.addStyleName("headerStyle");
 		popup.setGlassEnabled(true);
 		popup.show();

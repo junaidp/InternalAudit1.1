@@ -58,9 +58,19 @@ public class AuditWork implements Serializable {
 	@Column(name = "feedback")
 	private String feedback;
 	
+	/*
 	@JoinColumn(name = "riskId")
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Risk riskId;
+	*/
+	//2018 adding new fields
+
+	@JoinColumn(name = "suggestedControlsId", nullable = true)
+	@ManyToOne(fetch = FetchType.LAZY)
+	private SuggestedControls suggestedControlsId;
+	
+	//end
+	
 
 	public int getAuditWorkId() {
 		return auditWorkId;
@@ -86,13 +96,7 @@ public class AuditWork implements Serializable {
 		this.description = description;
 	}
 
-	public int getResponsibleControl() {
-		return responsibleControl;
-	}
-
-	public void setResponsibleControl(int responsibleControl) {
-		this.responsibleControl = responsibleControl;
-	}
+	
 
 	public int getStatus() {
 		return status;
@@ -150,16 +154,23 @@ public class AuditWork implements Serializable {
 		this.feedback = feedback;
 	}
 
-	public Risk getRiskId() {
-		return riskId;
+	public int getResponsibleControl() {
+		return responsibleControl;
 	}
 
-	public void setRiskId(Risk riskId) {
-		this.riskId = riskId;
+	public void setResponsibleControl(int responsibleControl) {
+		this.responsibleControl = responsibleControl;
+	}
+
+	public SuggestedControls getSuggestedControlsId() {
+		return suggestedControlsId;
+	}
+
+	public void setSuggestedControlsId(SuggestedControls suggestedControlsId) {
+		this.suggestedControlsId = suggestedControlsId;
 	}
 
 	
 
-	
 	
 }

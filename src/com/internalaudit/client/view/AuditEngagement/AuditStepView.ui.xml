@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:A="urn:import:com.internalaudit.client.view.AuditEngagement">
 	<ui:style>
 	
 	</ui:style>
@@ -29,8 +29,9 @@
 	</g:HorizontalPanel>
 	
 	<g:VerticalPanel>
-	<!-- 	Container for HAMZA's new page (sampling page) -->
-	<g:Label  styleName="labelTitle">place for hamza's new panel</g:Label>
+	<!-- 	Container for HAMZA's new page (sampling page) 
+	<g:Label  styleName="labelTitle">place for hamza's new panel</g:Label> -->
+	<A:SamplingAuditStep></A:SamplingAuditStep>
 	</g:VerticalPanel>
 	
 	<g:HorizontalPanel verticalAlignment="middle" visible="false">

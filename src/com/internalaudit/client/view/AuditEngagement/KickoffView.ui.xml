@@ -3,7 +3,7 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:B="urn:import:com.google.gwt.dev.shell.BrowserChannel">
 	<ui:style>
 	.lbl{
-	margin-left: 30px;
+	margin-left: 50px;
 }
 .panel{
 	

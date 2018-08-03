@@ -1,11 +1,6 @@
 package com.internalaudit.client.widgets;
 
-import java.util.ArrayList;
-
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -14,8 +9,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
-import com.internalaudit.client.upload.AuditWorkProgramUpload;
-import com.internalaudit.shared.Risk;
 
 public class AuditWorkRow extends Composite {
 
@@ -37,7 +30,7 @@ public class AuditWorkRow extends Composite {
     private int auditEngId = 0;
     private InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
 
-    public AuditWorkRow(ArrayList<Risk> risks) {
+    public AuditWorkRow() {
 	rowContainer = new HorizontalPanel();
 	description = new TextBox();
 	step = new TextBox();
@@ -62,20 +55,13 @@ public class AuditWorkRow extends Composite {
 	rowContainer.add(step);
 	rowContainer.add(description);
 	rowContainer.add(lstReviewer);
-	rowContainer.add(listBoxRisk);
+//	rowContainer.add(listBoxRisk);
 	rowContainer.add(listBoxExistingCtrl);
-AuditWorkProgramUpload pu = new AuditWorkProgramUpload();
-HorizontalPanel upload = new HorizontalPanel();
-upload.add(pu);
-rowContainer.add(upload);
+
 	rowContainer.add(removeRow);
 	lstReviewer.setEnabled(false);
 	
-	for(int i=0; i< risks.size(); i++){
-		listBoxRisk.addItem(risks.get(i).getDescription(), risks.get(i).getRiskId()+"");
-		listBoxExistingCtrl.addItem(risks.get(i).getExistingControl(), risks.get(i).getRiskId()+"");
-	}
-
+	
     }
     
     public ListBox getEmployeeList() {

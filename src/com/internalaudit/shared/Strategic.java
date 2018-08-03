@@ -101,6 +101,10 @@ import javax.persistence.Transient;
 		@Column(name="approvedByAuditHead")
 		private boolean approvedByAuditHead;
 		
+		//2018 new entity added
+		@Transient
+		private int jobCreationId;
+		
 		public boolean isApprovedByAuditHead() {
 			return approvedByAuditHead;
 		}
@@ -407,6 +411,14 @@ import javax.persistence.Transient;
 
 		public JobType getJobType() {
 			return jobType;
+		}
+
+		public int getJobCreationId() {
+			return jobCreationId;
+		}
+
+		public void setJobCreationId(int jobCreationId) {
+			this.jobCreationId = jobCreationId;
 		}
 	
 	
