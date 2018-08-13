@@ -10,6 +10,8 @@ public class EngagementDTO implements Serializable{
 	private ArrayList<SuggestedControls> suggestedControlsList = new ArrayList<SuggestedControls>();
 	private ArrayList<AuditProgramme> auditProgrammeList = new ArrayList<AuditProgramme>();
 	private ArrayList<ActivityObjective> selectedActivityObjectives = new  ArrayList<ActivityObjective>();
+	private ArrayList<RiskObjective> selectedObjectiveRisks = new ArrayList<RiskObjective>();
+	private ArrayList<SuggestedControls> selectedControls = new ArrayList<SuggestedControls>();
 	
 	
 	
@@ -43,5 +45,18 @@ public class EngagementDTO implements Serializable{
 	public void setSelectedActivityObjectives(ArrayList<ActivityObjective> selectedActivityObjectives) {
 		this.selectedActivityObjectives = selectedActivityObjectives;
 	}
+	public ArrayList<RiskObjective> getSelectedObjectiveRisks() {
+		return selectedObjectiveRisks;
+	}
+	public void setSelectedObjectiveRisks(ArrayList<RiskObjective> selectedObjectiveRisks) {
+		this.selectedObjectiveRisks = selectedObjectiveRisks;
+	}
+	public ArrayList<SuggestedControls> getSelectedControls() {
+		return selectedControls;
+	}
+	public void setSelectedControls(ArrayList<SuggestedControls> selectedControls) {
+		this.selectedControls = selectedControls;
+	}
+	
 	
 }

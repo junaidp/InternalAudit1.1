@@ -12,8 +12,8 @@ import javax.persistence.Table;
 
 @Entity
 
-@Table(name="risk")
-public class Risk implements Serializable {
+@Table(name="riskcontrolmatrix")
+public class RiskControlMatrixEntity implements Serializable {
 
 	private static final long serialVersionUID = 8886793627137760454L;
 	
@@ -21,11 +21,15 @@ public class Risk implements Serializable {
 	@Column(name="risk_id")
 	private int riskId;
 	
-	@Column(name="description")
-	private String description;
+//	@Column(name="description")
+//	private String description;
+//	
+//	@Column(name="existing_control")
+//	private String existingControl;
 	
-	@Column(name="existing_control")
-	private String existingControl;
+	@JoinColumn(name = "suggestedControlsId")
+	@ManyToOne(fetch = FetchType.EAGER)
+	private SuggestedControls suggestedControlsId;
 	
 //	@Column(name="audit_engage_id")
 //	private int auditEngageId; // this represents id of AuditEngagement table .
@@ -59,22 +63,6 @@ public class Risk implements Serializable {
 
 	public void setRiskId(int riskId) {
 		this.riskId = riskId;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getExistingControl() {
-		return existingControl;
-	}
-
-	public void setExistingControl(String existingControl) {
-		this.existingControl = existingControl;
 	}
 
 	public int getYear() {
@@ -131,6 +119,14 @@ public class Risk implements Serializable {
 
 	public void setAuditEngageId(AuditEngagement auditEngageId) {
 		this.auditEngageId = auditEngageId;
+	}
+
+	public SuggestedControls getSuggestedControlsId() {
+		return suggestedControlsId;
+	}
+
+	public void setSuggestedControlsId(SuggestedControls suggestedControlsId) {
+		this.suggestedControlsId = suggestedControlsId;
 	}
 
 }

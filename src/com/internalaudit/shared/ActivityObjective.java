@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 @Entity
@@ -36,6 +37,12 @@ public class ActivityObjective   implements Serializable {
 	
 	@Column(name ="referenceNo")
 	private String referenceNo;
+	
+	@Transient
+	private int activityJobRelation;
+	
+	@Transient
+	private int status;
 
 	public int getObjectiveId() {
 		return objectiveId;
@@ -75,5 +82,21 @@ public class ActivityObjective   implements Serializable {
 
 	public void setReferenceNo(String referenceNo) {
 		this.referenceNo = referenceNo;
+	}
+
+	public int getActivityJobRelation() {
+		return activityJobRelation;
+	}
+
+	public void setActivityJobRelation(int activityJobRelation) {
+		this.activityJobRelation = activityJobRelation;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 }

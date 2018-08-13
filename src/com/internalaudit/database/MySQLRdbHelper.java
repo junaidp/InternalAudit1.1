@@ -82,9 +82,10 @@ import com.internalaudit.shared.Process;
 import com.internalaudit.shared.ProcessDTO;
 import com.internalaudit.shared.ReportsDTO;
 import com.internalaudit.shared.ResourceUse;
-import com.internalaudit.shared.Risk;
+import com.internalaudit.shared.RiskControlMatrixEntity;
 import com.internalaudit.shared.RiskAssesmentDTO;
 import com.internalaudit.shared.RiskFactor;
+import com.internalaudit.shared.RiskJobRelation;
 import com.internalaudit.shared.RiskObjective;
 import com.internalaudit.shared.Rolls;
 import com.internalaudit.shared.SkillUpdateData;
@@ -1475,13 +1476,14 @@ public class MySQLRdbHelper {
 				dashBoardDTOs.add(dashboardDTO);
 			}
 
-			ArrayList<Risk> risks = fetchEmployeeRisksForApproval(year, companyId,
+			ArrayList<RiskControlMatrixEntity> risks = fetchEmployeeRisksForApproval(year, companyId,
 					loggedInUser.getEmployeeId().getEmployeeId());
 			;
 			for (int i = 0; i < risks.size(); i++) {
 				DashBoardDTO dashboardDTO = new DashBoardDTO();
 				dashboardDTO.setInitiatedBy(risks.get(i).getInitiatedBy().getEmployeeName());
-				dashboardDTO.setObjectiveName(risks.get(i).getDescription());
+				//dashboardDTO.setObjectiveName(risks.get(i).getDescription());
+				dashboardDTO.setObjectiveName(risks.get(i).getSuggestedControlsId().getRiskId().getRiskname());
 				dashboardDTO.setPhase("Risks(Audit Engagement)");
 				dashboardDTO.setStatus("submitted");
 				dashBoardDTOs.add(dashboardDTO);
@@ -1608,7 +1610,10 @@ public class MySQLRdbHelper {
 		session = sessionFactory.openSession();
 		Criteria crit = session.createCriteria(JobCreation.class);
 		crit.add(Restrictions.eq("jobId", strategicId));
+		if(crit.list().size() > 0)
 		jobCreation = (JobCreation) crit.list().get(0);
+		else
+			return strategicId;
 		
 	} catch (Exception ex) {
 		logger.warn(String.format("Exception occured in fetchJobCreationIdAgainstStrategin", ex.getMessage()), ex);
@@ -2813,8 +2818,9 @@ public class MySQLRdbHelper {
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				ActivityObjective activityObjective = (ActivityObjective) it.next();
-
-				fetchActivityRiskAgainstActivityObjective(activityObjective.getObjectiveId(), session, engagementDTO);
+				
+				//move this to be fetch from Selected activityObjectives
+				//fetchActivityRiskAgainstActivityObjective(activityObjective.getObjectiveId(), session, engagementDTO);
 
 				engagementDTO.getActivityObjectiveList().add(activityObjective);
 			}
@@ -2824,6 +2830,7 @@ public class MySQLRdbHelper {
 		return engagementDTO;
 	}
 
+	// This will fetch All Risks for all SELECTED objectives
 	private void fetchActivityRiskAgainstActivityObjective(int objectiveId, Session session, EngagementDTO engagementDTO) {
 
 		try{
@@ -2833,7 +2840,8 @@ public class MySQLRdbHelper {
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				RiskObjective riskObjective = (RiskObjective) it.next();
-				fetchSuggestedControlsAgainstRiskObjective(riskObjective.getRiskId(), session, engagementDTO);
+				// move to call from saved risks
+//				fetchSuggestedControlsAgainstRiskObjective(riskObjective.getRiskId(), session, engagementDTO);
 				engagementDTO.getRiskObjectiveList().add(riskObjective);
 			}
 		}catch(Exception ex){
@@ -2841,7 +2849,7 @@ public class MySQLRdbHelper {
 		}
 
 	}
-
+// fetch all Controls in a library against saved Risks
 	private void fetchSuggestedControlsAgainstRiskObjective(int riskId, Session session, EngagementDTO engagementDTO) {
 
 		try{
@@ -2851,8 +2859,7 @@ public class MySQLRdbHelper {
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				SuggestedControls suggestedControls = (SuggestedControls) it.next();
-				fetchAuditProgramsAgainstConstrol(suggestedControls.getSuggestedControlsId(), session, engagementDTO);
-
+				
 				engagementDTO.getSuggestedControlsList().add(suggestedControls);
 			}
 		}catch(Exception ex){
@@ -2919,11 +2926,16 @@ public class MySQLRdbHelper {
 				auditEngagement = (AuditEngagement) it.next();
 
 				//ADDED 19072018
+				//Library's
 				Strategic strategic =  fetchStrategicAgainstStrategicId(auditEngagement.getJobCreation().getJobId(), session);
 				auditEngagement.setStrategic(strategic);
 				EngagementDTO engagementDTO = fetchActivityObjective(strategic.getSubProcess().getSubProcessId(), session);
 				//FETCH AcitivityObjectives of the selected job 
-				engagementDTO.setSelectedActivityObjectives(fetchActivityObjectivesForSelectedJob(jobCreationId, session));
+				//User's
+				engagementDTO.setSelectedActivityObjectives(fetchActivityObjectivesForSelectedJob(jobCreationId, session, engagementDTO));
+				engagementDTO.setSelectedObjectiveRisks(fetchObjectiveRisksForSelectedJob(jobCreationId, session, engagementDTO));
+				engagementDTO.setSelectedControls(fetchControlsAgainstEngagementId(auditEngagement.getAuditEngId(), engagementDTO));
+				
 				//END
 				
 				auditEngagement.setEngagementDTO(engagementDTO);
@@ -2959,7 +2971,8 @@ public class MySQLRdbHelper {
 		return record;
 	}
 
-	private ArrayList<ActivityObjective> fetchActivityObjectivesForSelectedJob(int jobCreationId, Session session) {
+	// This will fetch All Objectives for a selected job
+	private ArrayList<ActivityObjective> fetchActivityObjectivesForSelectedJob(int jobCreationId, Session session, EngagementDTO engagementDTO) {
 		ArrayList<ActivityObjective> objectivesList = new ArrayList<ActivityObjective>();
 		try{
 			Criteria crit = session.createCriteria(ObjectiveJobRelation.class);
@@ -2973,6 +2986,10 @@ public class MySQLRdbHelper {
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				ObjectiveJobRelation objectiveJobRelation = (ObjectiveJobRelation) it.next();
 				ActivityObjective activityObjective = objectiveJobRelation.getObjectiveId();
+				activityObjective.setActivityJobRelation(objectiveJobRelation.getActivityJobId());
+				activityObjective.setStatus(objectiveJobRelation.getStatus());
+				
+				fetchActivityRiskAgainstActivityObjective(activityObjective.getObjectiveId(), session, engagementDTO);
 				objectivesList.add(activityObjective);
 			}
 				
@@ -2985,7 +3002,40 @@ public class MySQLRdbHelper {
 		return objectivesList;
 		
 	}
+	
+	//This will fetch All Selected/Saved Risks for a selected job (users library)
+	private ArrayList<RiskObjective> fetchObjectiveRisksForSelectedJob(int jobCreationId, Session session, EngagementDTO engagementDTO) {
+		ArrayList<RiskObjective> risksList = new ArrayList<RiskObjective>();
+		try{
+			Criteria crit = session.createCriteria(RiskJobRelation.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			crit.createAlias("riskObjective", "risk");
+			
+			crit.add(Restrictions.eq("jobCreation.jobCreationId", jobCreationId));
+			
+			List rsList = crit.list();
 
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				RiskJobRelation riskJobRelation = (RiskJobRelation) it.next();
+				RiskObjective riskObjective = riskJobRelation.getRiskObjective();
+				fetchSuggestedControlsAgainstRiskObjective(riskObjective.getRiskId(), session, engagementDTO);
+				riskObjective.setRiskJobRelation(riskJobRelation.getRiskjobrelationId());
+				riskObjective.setStatus(riskJobRelation.getStatus());
+				risksList.add(riskObjective);
+			}
+				
+			} catch (Exception ex) {
+				logger.warn(String.format("Exception occured in  fetchObjectiveRisksForSelectedJob", ex.getMessage()), ex);
+
+			} finally {
+				
+			}
+		return risksList;
+		
+	}
+	
+	
+	
 	public boolean updateAuditEngagement(AuditEngagement e, String fieldToUpdate, int year, int companyId) {
 
 		Session session = null;
@@ -3209,7 +3259,7 @@ public class MySQLRdbHelper {
 
 	}
 
-	private void saveRisk(Risk risk) {
+	private void saveRisk(RiskControlMatrixEntity risk) {
 
 		Session session = null;
 		try {
@@ -3224,6 +3274,7 @@ public class MySQLRdbHelper {
 				risk.setApprovedBy((Employee) session.get(Employee.class, risk.getApprovedBy().getEmployeeId()));
 			}
 
+			session.saveOrUpdate(risk.getSuggestedControlsId());
 			session.saveOrUpdate(risk);
 			tr.commit();
 
@@ -3241,9 +3292,9 @@ public class MySQLRdbHelper {
 		}
 	}
 
-	public boolean saveRisks(ArrayList<Risk> records, int year, int companyId) {
+	public boolean saveRisks(ArrayList<RiskControlMatrixEntity> records, int year, int companyId) {
 
-		for (Risk r : records) {
+		for (RiskControlMatrixEntity r : records) {
 			r.setYear(year);
 			r.setCompanyId(companyId);
 
@@ -3390,13 +3441,13 @@ public class MySQLRdbHelper {
 		return false;
 	}
 
-	public ArrayList<Risk> fetchRisks(int auditEngId, int year, int companyId) {
+	public ArrayList<RiskControlMatrixEntity> fetchRisks(int auditEngId, int year, int companyId) {
 		Session session = null;
-		ArrayList<Risk> record = new ArrayList<Risk>();
+		ArrayList<RiskControlMatrixEntity> record = new ArrayList<RiskControlMatrixEntity>();
 
 		try {
 			session = sessionFactory.openSession();
-			Criteria crit = session.createCriteria(Risk.class);
+			Criteria crit = session.createCriteria(RiskControlMatrixEntity.class);
 
 			//	crit.add(Restrictions.eq("auditEngageId", auditEngId));
 			crit.add(Restrictions.eq("year", year));
@@ -3451,11 +3502,15 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiatedeng.skillId", "initiatedSkilleng");
 			crit.createAlias("initiatedRepeng.rollId", "initiatedRepRolleng");
 			crit.createAlias("initiatedRepeng.skillId", "initiatedRepSkilleng");
+			
+			crit.createAlias("suggestedControlsId", "suggestedControls");
+			crit.createAlias("suggestedControls.riskId", "risk");
+			
 
 			List rsList = crit.list();
 
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
-				Risk risk = (Risk) it.next();
+				RiskControlMatrixEntity risk = (RiskControlMatrixEntity) it.next();
 				HibernateDetachUtility.nullOutUninitializedFields(risk,
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(risk.getInitiatedBy().getReportingTo(),
@@ -3466,6 +3521,8 @@ public class MySQLRdbHelper {
 				HibernateDetachUtility.nullOutUninitializedFields(risk.getApprovedBy(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(risk.getAuditEngageId(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(risk.getSuggestedControlsId().getRiskId(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
 				record.add(risk);
@@ -3484,14 +3541,121 @@ public class MySQLRdbHelper {
 		}
 		return record;
 	}
-
-	public ArrayList<Risk> fetchEmployeeRisksForApproval(int year, int companyId, int employeeId) {
+	
+	
+	
+	////
+	public ArrayList<SuggestedControls> fetchControlsAgainstEngagementId(int auditEngId, EngagementDTO engagementDTO) {
 		Session session = null;
-		ArrayList<Risk> record = new ArrayList<Risk>();
+		ArrayList<SuggestedControls> record = new ArrayList<SuggestedControls>();
 
 		try {
 			session = sessionFactory.openSession();
-			Criteria crit = session.createCriteria(Risk.class);
+			Criteria crit = session.createCriteria(RiskControlMatrixEntity.class);
+
+			//	crit.add(Restrictions.eq("auditEngageId", auditEngId));
+			crit.add(Restrictions.ne("status", InternalAuditConstants.DELETED));
+
+			crit.createAlias("approvedBy", "approved");
+			crit.createAlias("approved.countryId", "employeeCount");
+			crit.createAlias("approved.reportingTo", "employeeRep");
+			crit.createAlias("employeeRep.countryId", "employeeRCount");
+			crit.createAlias("employeeRep.cityId", "employeeRCity");
+			crit.createAlias("approved.userId", "employeeUser");
+			crit.createAlias("approved.rollId", "employeeRoll");
+			crit.createAlias("approved.skillId", "employeeSkill");
+			crit.createAlias("employeeRep.rollId", "employeeRepRoll");
+			crit.createAlias("employeeRep.skillId", "employeeRepSkill");
+
+			crit.createAlias("initiatedBy", "initiated");
+			crit.createAlias("initiated.countryId", "initiatedCount");
+			crit.createAlias("initiated.cityId", "initiatedCity");
+			crit.createAlias("initiated.reportingTo", "initiatedRep");
+			crit.createAlias("initiatedRep.countryId", "initiatedRCount");
+			crit.createAlias("initiated.userId", "initiatedUser");
+			crit.createAlias("initiated.rollId", "initiatedRoll");
+			crit.createAlias("initiated.skillId", "initiatedSkill");
+			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
+			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
+
+			crit.createAlias("auditEngageId", "audEng");
+			crit.add(Restrictions.eq("audEng.auditEngId", auditEngId));
+			///
+			crit.createAlias("audEng.jobCreation", "audJobCreation");
+
+			crit.createAlias("audEng.approvedBy", "approvedEng");
+			crit.createAlias("approvedEng.countryId", "employeeCounteng");
+			crit.createAlias("approvedEng.cityId", "employeeCityyeng");
+			crit.createAlias("approvedEng.reportingTo", "employeeRepeng");
+			crit.createAlias("employeeRepeng.countryId", "employeeRCounteng");
+			crit.createAlias("approvedEng.userId", "employeeUsereng");
+			crit.createAlias("approvedEng.rollId", "employeeRolleng");
+			crit.createAlias("approvedEng.skillId", "employeeSkilleng");
+			crit.createAlias("employeeRepeng.rollId", "employeeRepRolleng");
+			crit.createAlias("employeeRepeng.skillId", "employeeRepSkilleng");
+
+			crit.createAlias("audEng.initiatedBy", "initiatedeng");
+			crit.createAlias("initiatedeng.countryId", "initiatedCounteng");
+			crit.createAlias("initiatedeng.cityId", "initiatedCityyeng");
+			crit.createAlias("initiatedeng.reportingTo", "initiatedRepeng");
+			crit.createAlias("initiatedRepeng.countryId", "initiatedRCounteng");
+			crit.createAlias("initiatedeng.userId", "initiatedUsereng");
+			crit.createAlias("initiatedeng.rollId", "initiatedRolleng");
+			crit.createAlias("initiatedeng.skillId", "initiatedSkilleng");
+			crit.createAlias("initiatedRepeng.rollId", "initiatedRepRolleng");
+			crit.createAlias("initiatedRepeng.skillId", "initiatedRepSkilleng");
+			
+			crit.createAlias("suggestedControlsId", "suggestedControls");
+			crit.createAlias("suggestedControls.riskId", "risk");
+			
+
+			List rsList = crit.list();
+
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				RiskControlMatrixEntity risk = (RiskControlMatrixEntity) it.next();
+				HibernateDetachUtility.nullOutUninitializedFields(risk,
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(risk.getInitiatedBy().getReportingTo(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(
+						risk.getInitiatedBy().getReportingTo().getReportingTo(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(risk.getApprovedBy(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(risk.getAuditEngageId(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(risk.getSuggestedControlsId().getRiskId(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+
+				
+				fetchAuditProgramsAgainstConstrol(risk.getSuggestedControlsId().getSuggestedControlsId(), session, engagementDTO);
+
+				
+				record.add(risk.getSuggestedControlsId());
+			}
+
+			logger.info(
+					String.format("(Inside fetchRisks)  fetching Risks  for auditengid : "
+							+auditEngId + new Date()));
+
+
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in  fetchRisks", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+		return record;
+	}
+	
+
+	public ArrayList<RiskControlMatrixEntity> fetchEmployeeRisksForApproval(int year, int companyId, int employeeId) {
+		Session session = null;
+		ArrayList<RiskControlMatrixEntity> record = new ArrayList<RiskControlMatrixEntity>();
+
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(RiskControlMatrixEntity.class);
 
 			// crit.add(Restrictions.eq("auditEngageId" , auditEngId));
 			crit.add(Restrictions.eq("year", year));
@@ -3551,7 +3715,7 @@ public class MySQLRdbHelper {
 			List rsList = crit.list();
 
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
-				Risk risk = (Risk) it.next();
+				RiskControlMatrixEntity risk = (RiskControlMatrixEntity) it.next();
 				HibernateDetachUtility.nullOutUninitializedFields(risk,
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(risk.getInitiatedBy().getReportingTo(),
@@ -6348,7 +6512,7 @@ public class MySQLRdbHelper {
 		}
 	}
 
-	public String deleteRisk(Risk risk) {
+	public String deleteRisk(RiskControlMatrixEntity risk) {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
@@ -6359,7 +6523,7 @@ public class MySQLRdbHelper {
 			session.flush();
 			logger.info(
 					String.format("(Inside deleteRisk)deleting  risk for risk description:"
-							+risk.getDescription()+""+ new Date()));
+							+""+ new Date()));
 			return "risk deleted";
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in deleteRisk", ex.getMessage()), ex);
@@ -7526,8 +7690,7 @@ public class MySQLRdbHelper {
 	}
 
 
-
-	public String saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives, int jobId) {
+	public String saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives, int jobId, int status) {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
@@ -7536,6 +7699,11 @@ public class MySQLRdbHelper {
 				objectiveJobRelation.setObjectiveId(activityObjectives.get(i));
 				JobCreation jobCreation = (JobCreation) session.get(JobCreation.class, jobId);
 				objectiveJobRelation.setJobCreationId(jobCreation);
+				objectiveJobRelation.setActivityJobId(activityObjectives.get(i).getActivityJobRelation());
+				session.saveOrUpdate(activityObjectives.get(i));
+				int objectiveJobRelationId =  fetchExistingActivityJobRelation(jobId, activityObjectives.get(i).getObjectiveId());
+				objectiveJobRelation.setActivityJobId(objectiveJobRelationId);
+				objectiveJobRelation.setStatus(status);
 				session.saveOrUpdate(objectiveJobRelation);
 				session.flush();
 			}
@@ -7546,7 +7714,7 @@ public class MySQLRdbHelper {
 
 
 		} catch (Exception ex) {
-			logger.warn(String.format("Exception occured in saveAuditNotification", ex.getMessage()), ex);
+			logger.warn(String.format("Exception occured in saveActivityObjectives", ex.getMessage()), ex);
 
 		} finally {
 			session.close();
@@ -7554,12 +7722,74 @@ public class MySQLRdbHelper {
 
 		return "Activity Objectives Saved";
 	}
+	
+	private int fetchExistingActivityJobRelation(int jobId, int acitivtyObjectiveId){
+		Session session = null;
+		int objectiveJobRelationId = 0;
+		try{
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(ObjectiveJobRelation.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			crit.createAlias("objectiveId", "objective");
+			crit.add(Restrictions.eq("jobCreation.jobCreationId", jobId));
+			crit.add(Restrictions.eq("objective.objectiveId", acitivtyObjectiveId));
+			if(crit.list().size() > 0){
+				ObjectiveJobRelation objectiveJobRelation = (com.internalaudit.shared.ObjectiveJobRelation) crit.list().get(0);
+				objectiveJobRelationId = objectiveJobRelation.getActivityJobId();
+			}
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchExistingActivityJobRelation", ex.getMessage()), ex);
 
-	public String saveRiskObjectives(ArrayList<RiskObjective> riskObjectives) {
+		} finally {
+			session.close();
+		}  
+		return objectiveJobRelationId;
+	}
+	
+	private int fetchExistingRiskJobRelation(int jobId, int riskId){
+		Session session = null;
+		int riskJobRelationId = 0;
+		try{
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(RiskJobRelation.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			crit.createAlias("riskObjective", "risk");
+			crit.add(Restrictions.eq("jobCreation.jobCreationId", jobId));
+			crit.add(Restrictions.eq("risk.riskId", riskId));
+			if(crit.list().size() > 0){
+				RiskJobRelation riskJobRelation = (RiskJobRelation) crit.list().get(0);
+				riskJobRelationId = riskJobRelation.getRiskjobrelationId();
+			}
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchExistingActivityJobRelation", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}  
+		return riskJobRelationId;
+	}
+
+	public String saveRiskObjectives(ArrayList<RiskObjective> riskObjectives, int jobId, int status) {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
 			for(int i=0; i< riskObjectives.size(); i++){
+				
+				
+				RiskJobRelation riskJobRelation = new RiskJobRelation();
+				riskJobRelation.setRiskObjective(riskObjectives.get(i));
+				JobCreation jobCreation = (JobCreation) session.get(JobCreation.class, jobId);
+				riskJobRelation.setJobCreationId(jobCreation);
+				riskJobRelation.setRiskjobrelationId(riskObjectives.get(i).getRiskJobRelation());
+				session.saveOrUpdate(riskObjectives.get(i).getObjectiveId());
+				session.saveOrUpdate(riskObjectives.get(i));
+				int riskJobRelationId =  fetchExistingRiskJobRelation(jobId, riskObjectives.get(i).getRiskId());
+				riskJobRelation.setRiskjobrelationId(riskJobRelationId);
+				riskJobRelation.setInherintRisk(riskObjectives.get(i).getRiskRating());
+				riskJobRelation.setStatus(status);
+				session.saveOrUpdate(riskJobRelation);
+				session.flush();
+				
 				session.saveOrUpdate(riskObjectives.get(i));
 				session.flush();
 			}
@@ -7623,7 +7853,7 @@ public class MySQLRdbHelper {
 				JobCreation job = new JobCreation();
 				job.setJobCreationId(selectedJobId);
 				auditWork.setJobCreationId(job);
-				Risk risk = new Risk ();
+				RiskControlMatrixEntity risk = new RiskControlMatrixEntity ();
 				risk.setRiskId(63);
 				//auditWork.setRiskId(risk);
 				auditWork.setStatus(1);
@@ -7681,6 +7911,31 @@ public class MySQLRdbHelper {
 
 				}
 				return auditProgrammes;
+	}
+
+	public String deleteRiskObjective(int riskId, int jobId) {
+		Session session = null;
+		try{
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(RiskJobRelation.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			crit.createAlias("riskObjective", "riskObject");
+			
+			crit.add(Restrictions.eq("jobCreation.jobCreationId", jobId));
+			crit.add(Restrictions.eq("riskObject.riskId", riskId));
+			
+			if(crit.list().size()>0)
+				session.delete(crit.list().get(0));
+			session.flush();
+			
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in deleteRiskObjective", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+
+		}
+		return "risk deleted";
 	}
 
 	

@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.util.MyUtil;
 import com.internalaudit.client.view.AmendmentPopup;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.data.DataSetter;
@@ -80,13 +81,13 @@ public class AuditWorkProg extends Composite {
 	private ArrayList<AuditWork> savedAuditWorks;
 	private int selectedJobId;
 
-	public AuditWorkProg(final InternalAuditServiceAsync rpcService, final int selectedJobId, Employee employee,  ArrayList<SuggestedControls> controls) {
+	public AuditWorkProg(final InternalAuditServiceAsync rpcService, final int selectedJobId, Employee employee,  ArrayList<SuggestedControls> controls, VerticalPanel auditWorkNewContainer) {
 		initWidget(uiBinder.createAndBindUi(this));
 
 		this.controls = controls;
 		// fill listbox with appropriate employees
 		this.selectedJobId = selectedJobId;
-		getEmployeesForJob(rpcService, selectedJobId);
+		getEmployeesForJob(rpcService, selectedJobId, auditWorkNewContainer);
 		setHandlers(rpcService, selectedJobId);
 		this.loggedInEmployee = employee;
 		addMore.setVisible(false);
@@ -192,6 +193,7 @@ public class AuditWorkProg extends Composite {
 				break;
 			}
 		}
+		r.getListBoxExistingCtrl().clear();
 		for(int j =0; j< controls.size(); j++){
 		r.getListBoxExistingCtrl().addItem(controls.get(j).getSuggestedReferenceNo(), controls.get(j).getSuggestedControlsId()+"");
 		}
@@ -217,7 +219,7 @@ public class AuditWorkProg extends Composite {
 		//POPULTE DATA IF COMING FROM LIBRARY WHEN USER SELECT SOME WORK PROG FROM LIBRARY
 		if(auditWorkProgramNew != null){
 			r.getDescription().setText(auditWorkProgramNew.getTxtAreaAuditProg().getText());
-			r.getStep().setText(auditWorkProgramNew.getLblSerialNoData().getText());
+			r.getStep().setText(auditWorkProgramNew.getLblReferenceData().getText());
 			
 			for(int i=0; i< r.getListBoxExistingCtrl().getItemCount(); i++){
 				if(r.getListBoxExistingCtrl().getItemText(i).equals(auditWorkProgramNew.getLblReferenceData().getText())){
@@ -225,6 +227,8 @@ public class AuditWorkProg extends Composite {
 					break;
 				}
 			}
+		}else{
+			r.getStep().setText(MyUtil.getRandom());
 		}
 	}
 
@@ -376,7 +380,7 @@ public class AuditWorkProg extends Composite {
 			public void onSuccess(Void arg0) {
 				if (status == 3) {
 					new DisplayAlert("Audit Work Saved");
-					fetchSavedAuditWork(rpcService, selectedJobId);
+					fetchSavedAuditWork(rpcService, selectedJobId, null);
 				} else if (status == 1) {
 					new DisplayAlert("Audit Work Approved");
 				} else if (status == 2) {
@@ -390,7 +394,7 @@ public class AuditWorkProg extends Composite {
 		});
 	}
 
-	private void fetchSavedAuditWork(final InternalAuditServiceAsync rpcService, final int selectedJobId) {
+	private void fetchSavedAuditWork(final InternalAuditServiceAsync rpcService, final int selectedJobId, final VerticalPanel auditWorkNewContainer) {
 		rpcService.fetchAuditWorkRows(selectedJobId, new AsyncCallback<ArrayList<AuditWork>>() {
 
 			@Override
@@ -432,6 +436,8 @@ public class AuditWorkProg extends Composite {
 						submittedBy.setVisible(true);
 						submittedBy
 						.setText("Initiated by:" + auditWorks.get(0).getInitiatedBy().getEmployeeName() + "::");
+						
+						auditWorkNewContainer.clear();
 
 					}
 					// Displayig rows..
@@ -473,6 +479,7 @@ public class AuditWorkProg extends Composite {
 						row.getDescription().setText(auditWork.getDescription());
 						row.getAuditWorkId().setText(String.valueOf(auditWork.getAuditWorkId()));
 						//Setting suggested control
+						row.getListBoxExistingCtrl().clear();
 						for(int j =0; j< controls.size(); j++){
 							row.getListBoxExistingCtrl().addItem(controls.get(j).getSuggestedReferenceNo(), controls.get(j).getSuggestedControlsId()+"");
 							}
@@ -558,7 +565,7 @@ public class AuditWorkProg extends Composite {
 		});
 	}
 
-	private void getEmployeesForJob(final InternalAuditServiceAsync rpcService, final int selectedJobId) {
+	private void getEmployeesForJob(final InternalAuditServiceAsync rpcService, final int selectedJobId, final VerticalPanel auditWorkNewContainer) {
 		rpcService.fetchEmployeeJobRelations(selectedJobId, new AsyncCallback<ArrayList<JobEmployeeRelation>>() {
 
 			@Override
@@ -604,7 +611,7 @@ public class AuditWorkProg extends Composite {
 
 				}
 
-				fetchSavedAuditWork(rpcService, selectedJobId);
+				fetchSavedAuditWork(rpcService, selectedJobId, auditWorkNewContainer);
 
 			}
 

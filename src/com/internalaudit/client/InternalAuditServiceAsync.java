@@ -31,7 +31,7 @@ import com.internalaudit.shared.JobsOfEmployee;
 import com.internalaudit.shared.Process;
 import com.internalaudit.shared.ProcessDTO;
 import com.internalaudit.shared.ResourceUse;
-import com.internalaudit.shared.Risk;
+import com.internalaudit.shared.RiskControlMatrixEntity;
 import com.internalaudit.shared.RiskAssesmentDTO;
 import com.internalaudit.shared.RiskFactor;
 import com.internalaudit.shared.RiskObjective;
@@ -51,6 +51,7 @@ import com.internalaudit.shared.User;
  * The async counterpart of <code>GreetingService</code>.
  */
 public interface InternalAuditServiceAsync {
+	
 	void signIn(String userid, String password, AsyncCallback<User> callback);
 
 	void fetchObjectiveOwners(AsyncCallback<ArrayList<Employee>> callback);
@@ -133,7 +134,7 @@ public interface InternalAuditServiceAsync {
 
 	void syncAuditEngagementWithCreatedJobs(int loggedInEmployee, AsyncCallback<Void> asyncCallback);
 
-	void saveRisks(ArrayList<Risk> records, AsyncCallback<Boolean> asyncCallback);
+	void saveRisks(ArrayList<RiskControlMatrixEntity> records, AsyncCallback<Boolean> asyncCallback);
 
 	void sendEmail(String body, String sendTo,
 			AsyncCallback<Boolean> asyncCallback);
@@ -141,7 +142,7 @@ public interface InternalAuditServiceAsync {
 	void fetchAuditEngagement(int selectedJobId,
 			AsyncCallback<AuditEngagement> asyncCallback);
 
-	void fetchRisks(int auditEngId, AsyncCallback<ArrayList<Risk>> asyncCallback);
+	void fetchRisks(int auditEngId, AsyncCallback<ArrayList<RiskControlMatrixEntity>> asyncCallback);
 
 //	void fetchEmpForThisJob(
 //			int selectedJobId,
@@ -219,7 +220,7 @@ public interface InternalAuditServiceAsync {
 
 	void updateStrategic(Strategic strategic, AsyncCallback<String> asyncCallback);
 
-	void deleteRisk(Risk risk, AsyncCallback<String> asyncCallback);
+	void deleteRisk(RiskControlMatrixEntity risk, AsyncCallback<String> asyncCallback);
 
 	void deleteAuditWork(int auditWorkId, AsyncCallback<String> asyncCallback);
 	void fetchCurrentYear(AsyncCallback<Integer> asyncCallback);
@@ -257,14 +258,15 @@ public interface InternalAuditServiceAsync {
 
 	void fetchSubProcess(int processId, AsyncCallback<ArrayList<SubProcess>> callback);
 
-	void saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives, int jobid, AsyncCallback<String> callback);
-	void saveRiskObjectives(ArrayList<RiskObjective> riskObjectives, AsyncCallback<String> callback);
+	void saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives, int jobid, int status, AsyncCallback<String> callback);
+	void saveRiskObjectives(ArrayList<RiskObjective> riskObjectives, int jobid,int status, AsyncCallback<String> callback);
 
 	void saveExistingControls(ArrayList<SuggestedControls> suggestedControls, AsyncCallback<String> callback);
 
 	void saveAuditWorkProgram(ArrayList<AuditProgramme> auditWorkProgramme, int selectedJobId, AsyncCallback<String> callback);
 	
 	void fetchApprovedAuditProgrammeRows(int selectedJobId,AsyncCallback<ArrayList<AuditProgramme>> asyncCallback);
+	void deleteRiskObjective(int riskId, int jobId,  AsyncCallback<String> asyncCallback);
 
 	
 }

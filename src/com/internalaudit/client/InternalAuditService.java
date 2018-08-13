@@ -34,7 +34,7 @@ import com.internalaudit.shared.Process;
 import com.internalaudit.shared.ReportsDTO;
 import com.internalaudit.shared.ProcessDTO;
 import com.internalaudit.shared.ResourceUse;
-import com.internalaudit.shared.Risk;
+import com.internalaudit.shared.RiskControlMatrixEntity;
 import com.internalaudit.shared.RiskAssesmentDTO;
 import com.internalaudit.shared.RiskFactor;
 import com.internalaudit.shared.RiskObjective;
@@ -136,13 +136,13 @@ public interface InternalAuditService extends RemoteService {
 	void syncAuditEngagementWithCreatedJobs(int loggedInEmployee)
 			throws Exception;
 
-	boolean saveRisks(ArrayList<Risk> record) throws Exception;
+	boolean saveRisks(ArrayList<RiskControlMatrixEntity> record) throws Exception;
 
 	boolean sendEmail(String body, String sendTo) throws Exception;
 
 	AuditEngagement fetchAuditEngagement(int selectedJobId) throws Exception;
 
-	ArrayList<Risk> fetchRisks(int auditEngId) throws Exception;
+	ArrayList<RiskControlMatrixEntity> fetchRisks(int auditEngId) throws Exception;
 
 	// ArrayList<Object> fetchEmpForThisJob(int selectedJobId);
 
@@ -232,7 +232,7 @@ public interface InternalAuditService extends RemoteService {
 	ArrayList<Company> fetchCompanies() throws Exception;
 	ArrayList<Rolls> fetchRolls() throws Exception;
 	String updateStrategic(Strategic strategic)throws Exception;
-	String deleteRisk(Risk risk)throws Exception;
+	String deleteRisk(RiskControlMatrixEntity risk)throws Exception;
 	String deleteAuditWork(int auditWorkId) throws Exception;
 	Integer fetchCurrentYear()throws Exception;
 	ArrayList<Employee> fetchEmployeesBySkillId(int jobId)throws Exception;
@@ -257,10 +257,13 @@ public interface InternalAuditService extends RemoteService {
 	ArrayList<SubProcess> fetchSubProcess(int processId);
 
 
-	String saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives, int jobid);
-	String saveRiskObjectives(ArrayList<RiskObjective> riskObjectives ) throws Exception;
+	String saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives, int jobid, int status);
+	String saveRiskObjectives(ArrayList<RiskObjective> riskObjectives, int jobid, int saved) throws Exception;
 	String saveExistingControls(ArrayList<SuggestedControls> suggestedControls ) throws Exception;
 	String saveAuditWorkProgram(ArrayList<AuditProgramme> auditWorkProgramme , int selectedJobId) throws Exception;
 	ArrayList<AuditProgramme> fetchApprovedAuditProgrammeRows(int selectedJobId)
 			throws Exception;
+	String deleteRiskObjective(int riskId, int jobId) throws Exception;
+
+	
 }

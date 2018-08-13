@@ -48,7 +48,7 @@ import com.internalaudit.shared.JobsOfEmployee;
 import com.internalaudit.shared.Process;
 import com.internalaudit.shared.ProcessDTO;
 import com.internalaudit.shared.ResourceUse;
-import com.internalaudit.shared.Risk;
+import com.internalaudit.shared.RiskControlMatrixEntity;
 import com.internalaudit.shared.RiskAssesmentDTO;
 import com.internalaudit.shared.RiskFactor;
 import com.internalaudit.shared.RiskObjective;
@@ -596,7 +596,7 @@ InternalAuditService {
 
 	}
 	@Override
-	public boolean saveRisks(ArrayList<Risk> records)  throws Exception{
+	public boolean saveRisks(ArrayList<RiskControlMatrixEntity> records)  throws Exception{
 		if(isLoggedIn()){
 			session=getThreadLocalRequest().getSession(true);
 			int year = (Integer) session.getAttribute("year");
@@ -632,7 +632,7 @@ InternalAuditService {
 		}
 	}
 	@Override
-	public ArrayList<Risk> fetchRisks(int auditEngId) throws Exception{
+	public ArrayList<RiskControlMatrixEntity> fetchRisks(int auditEngId) throws Exception{
 		if(isLoggedIn()){
 			session=getThreadLocalRequest().getSession(true);
 			int year = (Integer) session.getAttribute("year");
@@ -1222,7 +1222,7 @@ InternalAuditService {
 		return rdbHelper.updateStrategic(strategic);
 	}
 	@Override
-	public String deleteRisk(Risk risk) throws Exception {
+	public String deleteRisk(RiskControlMatrixEntity risk) throws Exception {
 		return rdbHelper.deleteRisk(risk);
 	}
 	@Override
@@ -1412,12 +1412,12 @@ InternalAuditService {
 		return rdbHelper.fetchSubProcess(processId);
 	}
 	@Override
-	public String saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives,int jobid) {
-		return rdbHelper.saveActivityObjectives(activityObjectives, jobid);
+	public String saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives,int jobid, int status) {
+		return rdbHelper.saveActivityObjectives(activityObjectives, jobid, status);
 	}
 	@Override
-	public String saveRiskObjectives(ArrayList<RiskObjective> riskObjectives) throws Exception {
-		return rdbHelper.saveRiskObjectives(riskObjectives);
+	public String saveRiskObjectives(ArrayList<RiskObjective> riskObjectives, int jobId, int saved) throws Exception {
+		return rdbHelper.saveRiskObjectives(riskObjectives, jobId, saved);
 	}
 	@Override
 	public String saveExistingControls(ArrayList<SuggestedControls> suggestedControls) throws Exception {
@@ -1434,5 +1434,9 @@ InternalAuditService {
 	@Override
 	public ArrayList<AuditProgramme> fetchApprovedAuditProgrammeRows(int selectedJobId) throws Exception {
 		return rdbHelper.fetchApprovedAuditProgrammeRows(selectedJobId);
+	}
+	@Override
+	public String deleteRiskObjective(int riskId, int jobId) throws Exception {
+		return rdbHelper.deleteRiskObjective(riskId, jobId );
 	}
 }

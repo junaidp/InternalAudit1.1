@@ -28,9 +28,9 @@
 	
 	<g:HorizontalPanel styleName="risksRow" width="424px">
 	
-		<g:Label styleName="txtNormal">Description</g:Label>
+	<!-- 	<g:Label styleName="txtNormal">Description</g:Label>
 		<g:Label styleName="txtNormal">Existing Control</g:Label>
-	
+	 -->
 	</g:HorizontalPanel>
 	
 	<g:VerticalPanel ui:field="riskRows">
@@ -59,7 +59,7 @@
 	</g:VerticalPanel>
 	
 	
-	<g:HorizontalPanel ui:field="initiationButtonsPanel" visible="false">
+	<g:HorizontalPanel ui:field="initiationButtonsPanel" visible="false" >
 	<g:Button ui:field="saveRisks">Save</g:Button>
 	<g:Button ui:field="submit">Submit</g:Button>
 	</g:HorizontalPanel>

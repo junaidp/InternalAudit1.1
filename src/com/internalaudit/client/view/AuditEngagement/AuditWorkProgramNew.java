@@ -130,7 +130,7 @@ public class AuditWorkProgramNew extends VerticalPanel {
 		employee.setEmployeeId(58);
 		auditProgramme.setReviewer(employee);
 		auditProgramme.setSuggestedControlsId(control);
-
+		
 	}
 
 	public TextArea getTxtAreaAuditProg() {

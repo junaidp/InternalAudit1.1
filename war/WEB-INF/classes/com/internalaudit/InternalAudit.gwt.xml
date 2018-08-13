@@ -16,16 +16,22 @@
   <!-- the theme of your GWT application by uncommenting          -->
   <!-- any one of the following lines.                            -->
    <!-- <inherits name='com.google.gwt.user.theme.clean.Clean'/>-->
-  <inherits name='com.google.gwt.user.theme.clean.Clean'/>
-<!--  <inherits name='com.google.gwt.user.theme.standard.Standard'/> --> 
+  <!-- <inherits name='com.google.gwt.user.theme.clean.Clean'/>-->
+<!--   <inherits name='com.google.gwt.user.theme.standard.Standard'/>-->
  
  <inherits name="org.moxieapps.gwt.highcharts.Highcharts"/>
- 
+ <inherits name='com.sencha.gxt.theme.neptune.Theme' />
   <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
 
-  <!-- Other module inherits                                      -->
+<!-- <set-configuration-property name="CssResource.style" value="pretty" />
 
+ 
+ <set-configuration-property name="CssResource.legacy" value="true" /> -->
+  <!-- Other module inherits                                      -->
+<replace-with class="com.sencha.gxt.theme.neptune.client.base.menu.Css3MenuItemAppearance">
+    <when-type-is class="com.sencha.gxt.widget.core.client.menu.Item.ItemAppearance"/>
+</replace-with>
   <!-- Specify the app entry point class.                         -->
   <entry-point class='com.internalaudit.client.InternalAudit'/>
 

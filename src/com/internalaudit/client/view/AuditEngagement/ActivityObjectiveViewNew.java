@@ -1,8 +1,5 @@
 package com.internalaudit.client.view.AuditEngagement;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.dom.client.Style.Unit;
@@ -28,12 +25,9 @@ public class ActivityObjectiveViewNew extends Composite {
 	CheckBox checkBoxApplicability = new CheckBox("");
 	private int activityObjectiveId = 0;
 	Label lblReferenceNoData = new Label("");
-	
     Image delete = new Image("images/deleteIcon.png");
     private Button btnSelectActivity = new Button("Select");
   
-    
-	// Label LblName = new Label("Detailed Scope and process understanding");
 
 	@UiField
 	VerticalPanel panelActivityObjective;
@@ -49,10 +43,11 @@ public class ActivityObjectiveViewNew extends Composite {
 		
 		initWidget(uiBinder.createAndBindUi(this));
 		lblHeading.addStyleName("w3-panel w3-blue");
+		lblHeading.addStyleName("w3-white");
 		lblReferenceNoData.setWidth("180px");
 		//lblReferenceNoData.addStyleName("w3-panel w3-light-blue");
 
-		lblReferenceNo.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+	//	lblReferenceNo.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 		lblReferenceNo.addStyleName("w3-panel w3-light-blue");
 
 		lblActivityObjective.addStyleName("w3-panel w3-light-blue");
@@ -60,13 +55,13 @@ public class ActivityObjectiveViewNew extends Composite {
 		Button buttonAdd = new Button();
 		buttonAdd.addStyleName("w3-button w3-circle w3-teal");
 
-		txtAreaActivityObj.setWidth("580px");
+		txtAreaActivityObj.setWidth("650px");
 		txtAreaActivityObj.setHeight("80px");
 
-		lblHeading.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		lblActivityObjective.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		lblapplicability.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		lblReferenceNoData.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+		//lblHeading.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+		//lblActivityObjective.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+		//lblapplicability.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+		//lblReferenceNoData.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 
 		lblActivityObjective.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		lblapplicability.getElement().getStyle().setMarginLeft(20, Unit.PX);
@@ -81,13 +76,10 @@ public class ActivityObjectiveViewNew extends Composite {
 
 		flex.setWidget(1,1, lblActivityObjective);
 		flex.setWidget(2,1,txtAreaActivityObj);
-		flex.setWidget(1,2, lblapplicability);
-		flex.setWidget(2,2,checkBoxApplicability);
+		//flex.setWidget(1,2, lblapplicability);
+		//flex.setWidget(2,2,checkBoxApplicability);
 		
-		
-	
-		
-		flex.setWidget(2,3,btnSelectActivity);
+		flex.setWidget(2,2, btnSelectActivity);
 		
 
 		panelActivityObjective.add(flex);
@@ -138,9 +130,7 @@ public class ActivityObjectiveViewNew extends Composite {
 		activityObjectiveId = activityObjective.getObjectiveId();
 		lblReferenceNoData.setText(activityObjective.getReferenceNo());
 		checkBoxApplicability.setChecked(activityObjective.getChecked());
-		
 	
-		//TODO populate other 
 		
 	}
 
@@ -149,10 +139,7 @@ public class ActivityObjectiveViewNew extends Composite {
 		activityObjective.setObjectiveName(txtAreaActivityObj.getText());
 		activityObjective.setChecked(checkBoxApplicability.isChecked());
 		activityObjective.setReferenceNo(lblReferenceNoData.getText());
-		
-		
-		
-		//TODO set any other..
+	
 		
 	}
 
@@ -162,5 +149,17 @@ public class ActivityObjectiveViewNew extends Composite {
 
 	public void setBtnSelectActivity(Button btnSelectActivity) {
 		this.btnSelectActivity = btnSelectActivity;
+	}
+
+	public void getData(ActivityObjectiveViewNew activityObjectiveSelected) {
+		activityObjectiveSelected.getTxtAreaActivityObj().setText(txtAreaActivityObj.getText());
+		activityObjectiveSelected.getlblReferenceNoData().setText(lblReferenceNoData.getText());
+		activityObjectiveSelected.activityObjectiveId = activityObjectiveId;
+		activityObjectiveSelected.btnSelectActivity.setVisible(false);
+	}
+
+	public void disable() {
+		txtAreaActivityObj.setEnabled(false);
+		
 	}
 }

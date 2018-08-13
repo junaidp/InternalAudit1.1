@@ -35,7 +35,9 @@ public class ObjectiveJobRelation   implements Serializable {
 	@JoinColumn(name = "objectiveId", nullable = true)
 	@ManyToOne(fetch = FetchType.LAZY)
 	private ActivityObjective objectiveId;
-
+	
+	@Column(name="status")
+	private int status;
 
 	public int getActivityJobId() {
 		return activityJobId;
@@ -64,6 +66,16 @@ public class ObjectiveJobRelation   implements Serializable {
 
 	public void setObjectiveId(ActivityObjective objectiveId) {
 		this.objectiveId = objectiveId;
+	}
+
+
+	public int getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 

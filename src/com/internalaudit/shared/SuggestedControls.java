@@ -38,10 +38,8 @@ public class SuggestedControls   implements Serializable {
 	private String suggestedReferenceNo;
 
 	@Column(name ="controlRisk")
-	private String controlRisk;
-
+	private int controlRisk;
 	
-
 	public int getSuggestedControlsId() {
 		return suggestedControlsId;
 	}
@@ -82,12 +80,13 @@ public class SuggestedControls   implements Serializable {
 		this.suggestedReferenceNo = suggestedReferenceNo;
 	}
 
-	public String getControlRisk() {
+	public int getControlRisk() {
 		return controlRisk;
 	}
 
-	public void setControlRisk(String controlRisk) {
+	public void setControlRisk(int controlRisk) {
 		this.controlRisk = controlRisk;
 	}
 
+	
 }

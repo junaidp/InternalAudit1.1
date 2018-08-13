@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 @Entity
@@ -38,7 +39,13 @@ public class RiskObjective   implements Serializable {
 	private String riskReferenceNo;
 
 	@Column(name ="riskRating")
-	private String riskRating;
+	private int riskRating;
+	
+	@Transient
+	private int status;
+	
+	@Transient
+	private int riskJobRelation;
 
 
 	public int getRiskId() {
@@ -81,11 +88,28 @@ public class RiskObjective   implements Serializable {
 		this.riskReferenceNo = riskReferenceNo;
 	}
 
-	public String getRiskRating() {
+	
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public int getRiskJobRelation() {
+		return riskJobRelation;
+	}
+
+	public void setRiskJobRelation(int riskJobRelation) {
+		this.riskJobRelation = riskJobRelation;
+	}
+
+	public int getRiskRating() {
 		return riskRating;
 	}
 
-	public void setRiskRating(String riskRating) {
+	public void setRiskRating(int riskRating) {
 		this.riskRating = riskRating;
 	}
 
