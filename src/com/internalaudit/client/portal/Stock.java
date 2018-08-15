@@ -4,9 +4,22 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Stock implements Serializable {
-
+	//field work data 
+	private String fieldWorkNames;
+	 private String fieldWorkStep;
+	 private Date fieldWorkDate = new Date();
+	 //planning Data
+		private String planningName;
+		 private String planningWorkStep;
+		 private Date planningWorkDate = new Date();
+	 //Reporting Data
+			private String reportingName;
+			 private String reportingWorkStep;
+			 private Date reportingWorkDate = new Date();
+	 
   private Integer id;
   private Double change;
+
   private Date date = new Date();
   private String industry = getType();
   private Double last;
@@ -182,5 +195,77 @@ public String getWorkStepsCompleted() {
 
 public void setWorkStepsCompleted(String workStepsCompleted) {
 	WorkStepsCompleted = workStepsCompleted;
+}
+
+public String getFieldWorkNames() {
+	return fieldWorkNames;
+}
+
+public void setFieldWorkNames(String fieldWorkName) {
+	this.fieldWorkNames = fieldWorkName;
+}
+
+public String getFieldWorkStep() {
+	return fieldWorkStep;
+}
+
+public void setFieldWorkStep(String fieldWorkStep) {
+	this.fieldWorkStep = fieldWorkStep;
+}
+
+public Date getFieldWorkDate() {
+	return fieldWorkDate;
+}
+
+public void setFieldWorkDate(Date fieldWorkDate) {
+	this.fieldWorkDate = fieldWorkDate;
+}
+
+public String getPlanningName() {
+	return planningName;
+}
+
+public void setPlanningName(String planningName) {
+	this.planningName = planningName;
+}
+
+public String getPlanningWorkStep() {
+	return planningWorkStep;
+}
+
+public void setPlanningWorkStep(String planningWorkStep) {
+	this.planningWorkStep = planningWorkStep;
+}
+
+public Date getPlanningWorkDate() {
+	return planningWorkDate;
+}
+
+public void setPlanningWorkDate(Date planningWorkDate) {
+	this.planningWorkDate = planningWorkDate;
+}
+
+public String getReportingName() {
+	return reportingName;
+}
+
+public void setReportingName(String reportingName) {
+	this.reportingName = reportingName;
+}
+
+public String getReportingWorkStep() {
+	return reportingWorkStep;
+}
+
+public void setReportingWorkStep(String reportingWorkStep) {
+	this.reportingWorkStep = reportingWorkStep;
+}
+
+public Date getReportingWorkDate() {
+	return reportingWorkDate;
+}
+
+public void setReportingWorkDate(Date reportingWorkDate) {
+	this.reportingWorkDate = reportingWorkDate;
 }
 }

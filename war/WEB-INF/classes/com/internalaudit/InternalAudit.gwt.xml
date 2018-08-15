@@ -20,7 +20,7 @@
 <!--   <inherits name='com.google.gwt.user.theme.standard.Standard'/>-->
  
  <inherits name="org.moxieapps.gwt.highcharts.Highcharts"/>
- <inherits name='com.sencha.gxt.theme.neptune.Theme' />
+<!--  --> <inherits name='com.sencha.gxt.theme.neptune.Theme' />
   <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
 

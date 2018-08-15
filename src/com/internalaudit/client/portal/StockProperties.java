@@ -14,14 +14,24 @@ public interface StockProperties extends PropertyAccess<Stock> {
   @Path("name")
   
   //new
-  ValueProvider<Stock, String> fieldWorkLabel();
-  ValueProvider<Stock, String> exceptionsLabel();
-  ValueProvider<Stock, String> workStepCompletedLabel();
+  //fieldwork
+  ValueProvider<Stock, String> name();
+  ValueProvider<Stock, String> fieldWorkNames();
+  ValueProvider<Stock, String> fieldWorkStep();
+  ValueProvider<Stock, Date> fieldWorkDate();
+  //planning
+  ValueProvider<Stock, String> planningName();
+  ValueProvider<Stock, String> planningWorkStep();
+  ValueProvider<Stock, Date> planningWorkDate();
+  //reporting
+  ValueProvider<Stock, String> reportingName();
+  ValueProvider<Stock, String> reportingWorkStep();
+  ValueProvider<Stock, Date> reportingDate();
   
   //end
   LabelProvider<Stock> nameLabel();
 
-  ValueProvider<Stock, String> name();
+
   
   ValueProvider<Stock, String> symbol();
   

@@ -1,18 +1,15 @@
-package com.internalaudit.client.view.AuditEngagement;
+ package com.internalaudit.client.view.AuditEngagement;
 
 import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
-import com.internalaudit.shared.AuditProgramme;
-import com.internalaudit.shared.Employee;
-import com.internalaudit.shared.SuggestedControls;
 
 public class SamplingAuditStep extends VerticalPanel {
 	Label lblControl = new Label("Control");
@@ -25,9 +22,9 @@ public class SamplingAuditStep extends VerticalPanel {
 	TextArea txtAreaControl = new TextArea();
 	ListBox listBoxControlList = new ListBox();
 	ListBox listBoxFrequency = new ListBox();
-	Label lblSampleSizeData = new Label("2");
+	TextBox lblSampleSizeData = new TextBox();
 	ListBox listBoxSamplingMethod = new ListBox();
-	Label lblPopulationData  = new Label("600"); 
+	TextBox lblPopulationData  = new TextBox(); 
 	 
 		
 		
@@ -63,6 +60,13 @@ public class SamplingAuditStep extends VerticalPanel {
 		listBoxSamplingMethod.getElement().getStyle().setMarginLeft(50, Unit.PX);
 		lblPopulationData.getElement().getStyle().setMarginLeft(50, Unit.PX);
 		
+//		lblSampleSizeData.setText("3");
+		lblSampleSizeData.setEnabled(false);
+		
+		
+		lblPopulationData.setText("u00");
+		lblPopulationData.setEnabled(false);
+		
 	
 	    txtAreaControl.setWidth("300px");
 		txtAreaControl.setHeight("90px");
@@ -81,10 +85,21 @@ public class SamplingAuditStep extends VerticalPanel {
 		
 		listBoxSamplingMethod.addItem("Random Selection", "0");
 		listBoxSamplingMethod.addItem("Systematic Selection", "1");
-		listBoxSamplingMethod.addItem("Block Selection", "2");
-	   
-	    
-
+		
+		listBoxSamplingMethod.addItem("Block Selection", "2");	 
+		listBoxControlList.addChangeHandler(new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent event) {
+				// TODO Auto-generated method stub
+				getSampleSize(listBoxControlList, listBoxFrequency);
+				
+			}
+		});
+		
+			
+			
+	
         
         
         FlexTable flex = new FlexTable();
@@ -108,5 +123,18 @@ public class SamplingAuditStep extends VerticalPanel {
         flex.setWidget(5,1,lblPopulationData);
       
 		add(flex);
+	}
+
+
+
+
+
+
+	private void getSampleSize(ListBox listBoxControlList, ListBox listBoxFrequency) {
+		// TODO Auto-generated method stub=	
+		if (listBoxControlList.getSelectedIndex()==1){
+		
+			lblSampleSizeData.setText("7");
+		}
 	}
 }
