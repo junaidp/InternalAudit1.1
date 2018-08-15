@@ -200,7 +200,7 @@ public class MainView extends Composite implements Display {
 		//checkpanel.add(panelImages);
 		//vpnlTabPanel.add(panel);
 		
-		checkpanel.add(panelImages);
+	//	checkpanel.add(panelImages);
 		checkpanel.add(panel);
 		vpnlTabPanel.add(checkpanel);
 		//vpnlTabPanel.add(panelImages);
