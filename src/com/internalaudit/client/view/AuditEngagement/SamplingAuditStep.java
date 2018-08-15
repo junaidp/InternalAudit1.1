@@ -64,7 +64,7 @@ public class SamplingAuditStep extends VerticalPanel {
 		lblSampleSizeData.setEnabled(false);
 		
 		
-		lblPopulationData.setText("u00");
+		//lblPopulationData.setText("u00");
 		lblPopulationData.setEnabled(false);
 		
 	
@@ -87,12 +87,20 @@ public class SamplingAuditStep extends VerticalPanel {
 		listBoxSamplingMethod.addItem("Systematic Selection", "1");
 		
 		listBoxSamplingMethod.addItem("Block Selection", "2");	 
+		listBoxFrequency.addChangeHandler(new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent event) {
+				getSampleSize(listBoxControlList.getSelectedValue(), listBoxFrequency.getSelectedValue());
+				
+			}
+		});
+		
 		listBoxControlList.addChangeHandler(new ChangeHandler() {
 			
 			@Override
 			public void onChange(ChangeEvent event) {
-				// TODO Auto-generated method stub
-				getSampleSize(listBoxControlList, listBoxFrequency);
+				getSampleSize(listBoxControlList.getSelectedValue(), listBoxFrequency.getSelectedValue());
 				
 			}
 		});
@@ -130,11 +138,117 @@ public class SamplingAuditStep extends VerticalPanel {
 
 
 
-	private void getSampleSize(ListBox listBoxControlList, ListBox listBoxFrequency) {
-		// TODO Auto-generated method stub=	
-		if (listBoxControlList.getSelectedIndex()==1){
+	private void getSampleSize(String control, String frequency) {
 		
-			lblSampleSizeData.setText("7");
+		if (control.equals("0") && frequency.equals("0")){
+		
+			lblSampleSizeData.setText("1");
 		}
+		if (control.equals("1") && frequency.equals("0")){
+			
+			lblSampleSizeData.setText("1");
+		}
+		if (control.equals("2") && frequency.equals("0")){
+			
+			lblSampleSizeData.setText("1");
+		}
+		
+		
+		if (control.equals("0") && frequency.equals("1")){
+			
+			lblSampleSizeData.setText("2");
+		}
+	if (control.equals("1") && frequency.equals("1")){
+			
+			lblSampleSizeData.setText("2");
+		}
+	if (control.equals("2") && frequency.equals("1")){
+		
+		lblSampleSizeData.setText("2");
+	}
+	
+	if (control.equals("0") && frequency.equals("2")){
+		
+		lblSampleSizeData.setText("2");
+	}
+	if (control.equals("1") && frequency.equals("2")){
+		
+		lblSampleSizeData.setText("3");
+	}
+	if (control.equals("2") && frequency.equals("2")){
+		
+		lblSampleSizeData.setText("3");
+	}
+	
+	
+	if (control.equals("0") && frequency.equals("3")){
+		
+		lblSampleSizeData.setText("5");
+	}
+	
+	if (control.equals("1") && frequency.equals("3")){
+		
+		lblSampleSizeData.setText("6");
+	}
+	
+	if (control.equals("2") && frequency.equals("3")){
+		
+		lblSampleSizeData.setText("8");
+	}
+	
+	
+
+	if (control.equals("0") && frequency.equals("4")){
+		
+		lblSampleSizeData.setText("15");
+	}
+
+	if (control.equals("1") && frequency.equals("4")){
+		
+		lblSampleSizeData.setText("20");
+	}
+
+	if (control.equals("2") && frequency.equals("4")){
+		
+		lblSampleSizeData.setText("25");
+	}
+	
+	
+
+	if (control.equals("0") && frequency.equals("5")){
+		
+		lblSampleSizeData.setText("25");
+	}
+
+	if (control.equals("1") && frequency.equals("5")){
+		
+		lblSampleSizeData.setText("30");
+	}
+
+	if (control.equals("2") && frequency.equals("5")){
+		
+		lblSampleSizeData.setText("40");
+	}
+	
+	//for populated
+	if ( frequency.equals("0")){
+		
+		lblPopulationData.setText("1");
+	}
+	if ( frequency.equals("1")){
+		
+		lblPopulationData.setText("4");
+	}
+	if ( frequency.equals("2")){
+		
+		lblPopulationData.setText("12");
+	}
+	if ( frequency.equals("3")){
+		
+		lblPopulationData.setText("52");
+	}
+	
+
+	
 	}
 }
