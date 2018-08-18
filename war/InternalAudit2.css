@@ -448,4 +448,21 @@ DASHBOARD UIII    -->ol, ul {
 .boxshadow{
 	box-shadow: 5px 5px;
 }
+/* GXT NEPTUNE THEME EDITS */
+
+.com-sencha-gxt-theme-neptune-client-base-tabs-Css3PlainTabPanelAppearance-Css3PlainTabPanelStyle-tabStripText{
+	font: normal 12px helvetica, arial, verdana, sans-serif !important;
+	
+}
+.com-sencha-gxt-theme-neptune-client-base-panel-Css3HeaderAppearance-Css3HeaderStyle-headerText{
+	font-weight:normal !important;
+	
+}
+
+.com-sencha-gxt-theme-neptune-client-base-container-Css3AccordionLayoutAppearance-Css3AccordionHeaderStyle-headerText {
+	font-weight:normal !important;
+}
+.com-sencha-gxt-theme-neptune-client-base-grid-Css3ColumnHeaderAppearance-Styles-headInner{
+	height:  24px !important;
+}
 

@@ -27,6 +27,7 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/log4j-gwt.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gxt-theme-neptune-3.1.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gxt-3.1.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gxt-chart-3.0.1.jar"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/GWT"/>
 	<classpathentry kind="con" path="com.gwtplugins.gwt.eclipse.core.GWT_CONTAINER/GWT 2.7.0"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>

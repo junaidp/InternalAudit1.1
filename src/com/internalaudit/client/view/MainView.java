@@ -1,25 +1,21 @@
 package com.internalaudit.client.view;
 
-import com.google.gwt.dom.client.Style.BorderStyle;
-import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.uibinder.elementparsers.DialogBoxParser;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.internalaudit.client.DashboardNew.AuditWorkChart;
+import com.internalaudit.client.DashboardNew.DashboardNew;
 import com.internalaudit.client.presenter.MainPresenter.Display;
 import com.internalaudit.client.widgets.TableauAbilite;
 import com.internalaudit.client.widgets.TableauExcel;
@@ -27,11 +23,9 @@ import com.internalaudit.client.widgets.TableauReports;
 import com.internalaudit.shared.User;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.PlainTabPanel;
 import com.sencha.gxt.widget.core.client.TabItemConfig;
-
-import javafx.stage.PopupWindow;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
 public class MainView extends Composite implements Display {
 
@@ -49,6 +43,8 @@ public class MainView extends Composite implements Display {
 	private VerticalPanel reportingView = new VerticalPanel();
 	private VerticalPanel reportsView = new VerticalPanel();
 	private HorizontalPanel footer = new HorizontalPanel();
+	private VerticalLayoutContainer vpnlDashBoardNew = new VerticalLayoutContainer();
+	
 
 	PlainTabPanel panel = new PlainTabPanel();
 	HorizontalPanel checkpanel = new HorizontalPanel();
@@ -70,7 +66,7 @@ public class MainView extends Composite implements Display {
 //		 dashboard.setHeight("40px");
 //		 panelImages.add(dashboard);
 //		 Label rep = new Label("REPORTS");
-//		 panelImages.add(rep);
+//		 panelImages.add(rep);?
 //		 Image reports = new Image("Reports.png");
 //		 reports.setHeight("40px");
 //		 reports.setWidth("80px");
@@ -180,6 +176,11 @@ public class MainView extends Composite implements Display {
 			panel.add(vpnlDashBoard, "DashBoard");
 			panel.add(new EmployeeDashBoardView(), "WorkItems");
 			panel.add(reportsView, "Reports");
+			
+			//2018 new
+			vpnlDashBoardNew.add( new DashboardNew());
+			panel.add(vpnlDashBoardNew, "DashBoardNew");
+			// panel.add((IsWidget) new Dashboard(),"NewDashboard");
 
 		}else{
 			panel.add(reportingView, "Reporting");
@@ -200,7 +201,7 @@ public class MainView extends Composite implements Display {
 		//checkpanel.add(panelImages);
 		//vpnlTabPanel.add(panel);
 		
-		checkpanel.add(panelImages);
+	//	checkpanel.add(panelImages);
 		checkpanel.add(panel);
 		vpnlTabPanel.add(checkpanel);
 		//vpnlTabPanel.add(panelImages);
