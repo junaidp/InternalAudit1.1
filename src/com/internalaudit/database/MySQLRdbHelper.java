@@ -72,6 +72,7 @@ import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.JobCreationDTO;
 import com.internalaudit.shared.JobEmployeeRelation;
 import com.internalaudit.shared.JobSkillRelation;
+import com.internalaudit.shared.JobStatusDTO;
 import com.internalaudit.shared.JobTimeAllocationReportDTO;
 import com.internalaudit.shared.JobTimeEstimation;
 import com.internalaudit.shared.JobTimeEstimationDTO;
@@ -3431,7 +3432,7 @@ public class MySQLRdbHelper {
 			Transport.send(message);
 
 			System.out.println("email sent");
-
+			
 
 
 		} catch (MessagingException e) {
@@ -3831,7 +3832,7 @@ public class MySQLRdbHelper {
 					TimeLineDates dates = getMonthsInvolved(jobCreation.getStartDate(), jobCreation.getEndDate());
 					jobCreation.setTimeLineDates(dates);
 				}
-				jobCreation.setReportStatus(fetchJobStatus(jobCreation.getJobCreationId()));
+				jobCreation.setReportStatus(fetchJobExceptionStatus(jobCreation.getJobCreationId()));
 				HibernateDetachUtility.nullOutUninitializedFields(jobCreation,
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
@@ -3900,7 +3901,7 @@ public class MySQLRdbHelper {
 
 	}
 
-	private int fetchJobStatus(int jobId) {
+	private int fetchJobExceptionStatus(int jobId) {
 		Session session = null;
 		ArrayList<Exceptions> exceptions = new ArrayList<Exceptions>();
 		int status = 0;
@@ -5258,7 +5259,7 @@ public class MySQLRdbHelper {
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				JobCreation jobCreation = (JobCreation) it.next();
-				jobCreation.setReportStatus(fetchJobStatus(jobCreation.getJobCreationId()));
+				jobCreation.setReportStatus(fetchJobExceptionStatus(jobCreation.getJobCreationId()));
 				// ADDED these 2 lines
 				session.update(jobCreation);
 				session.flush();
@@ -7936,6 +7937,27 @@ public class MySQLRdbHelper {
 
 		}
 		return "risk deleted";
+	}
+
+	public JobStatusDTO fetchJobStatus(int jobId) {
+		Session session = null;
+		JobStatusDTO jobStatusDTO = new JobStatusDTO();
+		try{
+			Criteria crit = session.createCriteria(AuditEngagement.class);
+			crit.add(Restrictions.eq("jobCreation", jobId));
+			crit.add(Restrictions.isNotEmpty("notificationSentDate"));
+			crit.add(Restrictions.isNotNull("notificationSentDate"));
+			List rsList = crit.list();
+			
+			
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in deleteRiskObjective", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+
+		}
+		return null;
 	}
 
 	

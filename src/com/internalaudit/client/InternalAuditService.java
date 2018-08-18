@@ -25,6 +25,7 @@ import com.internalaudit.shared.JobAndAreaOfExpertise;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.JobCreationDTO;
 import com.internalaudit.shared.JobEmployeeRelation;
+import com.internalaudit.shared.JobStatusDTO;
 import com.internalaudit.shared.JobTimeAllocationReportDTO;
 import com.internalaudit.shared.JobTimeEstimation;
 import com.internalaudit.shared.JobTimeEstimationDTO;
@@ -264,6 +265,7 @@ public interface InternalAuditService extends RemoteService {
 	ArrayList<AuditProgramme> fetchApprovedAuditProgrammeRows(int selectedJobId)
 			throws Exception;
 	String deleteRiskObjective(int riskId, int jobId) throws Exception;
+	JobStatusDTO fetchJobStatus(int jobId) throws Exception;
 
 	
 }

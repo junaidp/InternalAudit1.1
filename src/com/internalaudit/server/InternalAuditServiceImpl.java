@@ -41,6 +41,7 @@ import com.internalaudit.shared.AuditWork;
 import com.internalaudit.shared.Exceptions;
 import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.JobEmployeeRelation;
+import com.internalaudit.shared.JobStatusDTO;
 import com.internalaudit.shared.JobTimeAllocationReportDTO;
 import com.internalaudit.shared.JobTimeEstimationDTO;
 import com.internalaudit.shared.JobType;
@@ -1438,5 +1439,9 @@ InternalAuditService {
 	@Override
 	public String deleteRiskObjective(int riskId, int jobId) throws Exception {
 		return rdbHelper.deleteRiskObjective(riskId, jobId );
+	}
+	@Override
+	public JobStatusDTO fetchJobStatus(int jobId) throws Exception {
+		return rdbHelper.fetchJobStatus(jobId );
 	}
 }

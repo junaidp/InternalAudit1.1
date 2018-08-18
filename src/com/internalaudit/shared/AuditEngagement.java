@@ -78,6 +78,9 @@ public class AuditEngagement implements Serializable {
 	@Column(name = "status")
 	private int status;
 	
+	@Column(name = "notificationSentDate")
+	private Date notificationSentDate;
+	
 	@JoinColumn(name = "initiatedBy")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employee initiatedBy;
@@ -253,6 +256,14 @@ public class AuditEngagement implements Serializable {
 
 	public void setEngagementDTO(EngagementDTO engagementDTO) {
 		this.engagementDTO = engagementDTO;
+	}
+
+	public Date getNotificationSentDate() {
+		return notificationSentDate;
+	}
+
+	public void setNotificationSentDate(Date notificationSentDate) {
+		this.notificationSentDate = notificationSentDate;
 	}
 
 //	public DateTime getDateTime() {

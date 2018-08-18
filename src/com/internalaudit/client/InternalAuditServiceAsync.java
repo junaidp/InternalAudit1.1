@@ -24,6 +24,7 @@ import com.internalaudit.shared.JobAndAreaOfExpertise;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.JobCreationDTO;
 import com.internalaudit.shared.JobEmployeeRelation;
+import com.internalaudit.shared.JobStatusDTO;
 import com.internalaudit.shared.JobTimeAllocationReportDTO;
 import com.internalaudit.shared.JobTimeEstimationDTO;
 import com.internalaudit.shared.JobType;
@@ -267,6 +268,9 @@ public interface InternalAuditServiceAsync {
 	
 	void fetchApprovedAuditProgrammeRows(int selectedJobId,AsyncCallback<ArrayList<AuditProgramme>> asyncCallback);
 	void deleteRiskObjective(int riskId, int jobId,  AsyncCallback<String> asyncCallback);
+	void fetchJobStatus(int jobId,  AsyncCallback<JobStatusDTO> asyncCallback);
+	
+	
 
 	
 }

@@ -154,14 +154,7 @@ public class AuditEngagementPresenter implements Presenter {
 				} else {
 					System.out.println("FAIL: fetchAllAuditEngagement .Inside AuditAreaspresenter");
 					Window.alert("FAIL: fetchAllAuditEngagement");// After
-					// FAIL
-					// ...
-					// write
-					// RPC
-					// Name
-					// NOT
-					// Method
-					// Name..
+					
 				}
 
 				System.out.println("fail fetchAllAuditEngagement");
@@ -209,16 +202,7 @@ public class AuditEngagementPresenter implements Presenter {
 				records.setWidget(i + 1, 0, p);
 				jobName.setWidth("300px");
 				jobId = allJobsAndStatus.get(i).getJobCreation().getJobCreationId(); // this
-				// is
-				// the
-				// id,
-				// which
-				// needs
-				// to
-				// assinged
-				// to
-				// evry
-				// job
+				
 				auditEngId = allJobsAndStatus.get(i).getAuditEngId();
 				final JobData jobData = new JobData();
 				jobData.setJobId(jobId);
@@ -329,8 +313,6 @@ public class AuditEngagementPresenter implements Presenter {
 			public void onClick(ClickEvent event) {
 
 				PortableLayoutContainerUi  p = new  PortableLayoutContainerUi();
-			//	VerticalPanel vp= new VerticalPanel();
-				//vp.add(p);
 				final Dialog complex = new Dialog();
 				ScrollPanel sp = new ScrollPanel();
 				sp.setHeight("500px");
