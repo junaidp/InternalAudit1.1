@@ -4256,7 +4256,7 @@ public class MySQLRdbHelper {
 		Session session = null;
 		Transaction tr = null;
 		try {
-			System.out.println("d");
+			
 			session = sessionFactory.openSession();
 			tr = session.beginTransaction();
 			if (auditstep.getAuditStepId() != 0) {
@@ -4267,7 +4267,7 @@ public class MySQLRdbHelper {
 			auditstep.setYear(year);
 			auditstep.setCompanyId(companyId);
 
-			if (auditstep.getInitiatedBy() == null) {
+			if (auditstep.getInitiatedBy() != null) {
 				auditstep.setInitiatedBy(
 						(Employee) session.get(Employee.class, auditstep.getInitiatedBy().getEmployeeId()));
 			}
@@ -4344,8 +4344,15 @@ public class MySQLRdbHelper {
 			crit.add(Restrictions.ne("status", InternalAuditConstants.DELETED));
 
 			crit.createAlias("approvedBy", "approved");
-			crit.createAlias("auditWork.initiatedBy", "initiatedAuditWork");
-			crit.createAlias("auditWork.approvedBy", "approvedAuditWork");
+			crit.createAlias("audWork.initiatedBy", "initiatedAuditWork");
+			crit.createAlias("audWork.approvedBy", "approvedAuditWork");
+			crit.createAlias("audWork.suggestedControlsId", "audSugges");
+			crit.createAlias("audSugges.riskId", "controlrisk");
+			crit.createAlias("controlrisk.objectiveId", "activityobj");
+			crit.createAlias("activityobj.subProcessId", "subpro");
+			crit.createAlias("subpro.processId", "process");
+			
+			
 			crit.createAlias("approved.countryId", "employeeCount");
 			crit.createAlias("approved.cityId", "employeeCity");
 			crit.createAlias("approved.reportingTo", "employeeRep");
@@ -4366,10 +4373,9 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiated.skillId", "initiatedSkill");
 			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
-
-
+			
 			///
-			crit.createAlias("audWork.riskId", "risk");
+			/*crit.createAlias("audWork.riskId", "risk");
 			crit.createAlias("risk.auditEngageId", "audEng");
 			crit.createAlias("audEng.jobCreation", "audJobCreation");
 
@@ -4394,6 +4400,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiatedeng.skillId", "initiatedSkilleng");
 			crit.createAlias("initiatedRepeng.rollId", "initiatedRepRolleng");
 			crit.createAlias("initiatedRepeng.skillId", "initiatedRepSkilleng");
+			*/
 
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -4418,9 +4425,12 @@ public class MySQLRdbHelper {
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(auditStep.getAuditWork().getInitiatedBy(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(auditStep.getAuditWork().getSuggestedControlsId().getRiskId(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
 				return auditStep;
 			}
+			
 			logger.info(
 					String.format("(Inside getSavedAuditStep)    getting SavedAuditStep for job: "
 							+jobid+"for audit work"+auditWorkId+"for year"+year+""+ new Date()));
