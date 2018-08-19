@@ -7,6 +7,7 @@ import java.util.List;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.shared.InternalAuditConstants;
@@ -93,7 +94,8 @@ public class PortableLayoutContainerUi extends VerticalPanel {
 		}
 
 		listReporting.clear();
-
+//REPORTING
+		
 
 		Reporting reporting0 = new Reporting();
 		reporting0.setName(InternalAuditConstants.EXCEPTIONSTOSENT);
@@ -114,23 +116,63 @@ public class PortableLayoutContainerUi extends VerticalPanel {
 		Reporting reporting4 = new Reporting();
 		reporting4.setName(InternalAuditConstants.FINALREPORTISSUED);
 		reporting4.setId(4);
-
-
-		if(jobStatus.getReportingStatus().equals(InternalAuditConstants.EXCEPTIONSTOSENT)){
-			//Show green circle before EXCEPTIONSTOSENT, and other as white
-			reporting0.setStatus(InternalAuditConstants.COMPLETED);
-		}else if(jobStatus.getReportingStatus().equals(InternalAuditConstants.AWAITINGCOMMENTS)){
-			//Show green circle before AWAITINGCOMMENTS
-		}// oher if else so on
-
-
+		
 		listReporting.add(reporting0);
 		listReporting.add(reporting1);
 		listReporting.add(reporting2);
 		listReporting.add(reporting3);
 		listReporting.add(reporting4);
 
+		updateReportingStatusForOthers(jobStatus.getReportingStatus());
+	/*	if(jobStatus.getReportingStatus().equals(InternalAuditConstants.EXCEPTIONSTOSENT)){
+			//Show green circle before EXCEPTIONSTOSENT, and other as white
+			reporting0.setStatus(InternalAuditConstants.COMPLETED);
+		
+		}else if(jobStatus.getReportingStatus().equals(InternalAuditConstants.AWAITINGCOMMENTS)){
+			reporting1.setStatus(InternalAuditConstants.COMPLETED);
+		}else if(jobStatus.getReportingStatus().equals(InternalAuditConstants.COMMENTSRECEIVED)){
+			reporting2.setStatus(InternalAuditConstants.COMPLETED);
+		}else if(jobStatus.getReportingStatus().equals(InternalAuditConstants.REPORTISSUED)){
+			reporting3.setStatus(InternalAuditConstants.COMPLETED);
+		}else if(jobStatus.getReportingStatus().equals(InternalAuditConstants.FINALREPORTISSUED)){
+			reporting4.setStatus(InternalAuditConstants.COMPLETED);
+		}
+		*/
+		
+		
+	
+
 	}
+	
+	private void updateReportingStatusForOthers( String status){
+		int index = 0;
+		if(status.equals(InternalAuditConstants.EXCEPTIONSTOSENT)){
+			index = 1;
+		}else if(status.equals(InternalAuditConstants.AWAITINGCOMMENTS)){
+			index = 2;
+		}else if(status.equals(InternalAuditConstants.COMMENTSRECEIVED)){
+			index = 3;
+		}else if(status.equals(InternalAuditConstants.REPORTISSUED)){
+			index = 4;
+		}else if(status.equals(InternalAuditConstants.FINALREPORTISSUED)){
+			index = 5;
+		}
+		
+		
+		listReporting.get(index).setStatus(status);
+		if(status.isEmpty()){
+			listReporting.get(index).setStatus(InternalAuditConstants.NOT_STARTED);
+		}
+		
+		for(int i=0; i< listReporting.size(); i++){
+			if(! status.equals(InternalAuditConstants.COMPLETED) && i> index){
+				listReporting.get(i).setStatus(InternalAuditConstants.NOT_STARTED);
+			}else if(status.equals(InternalAuditConstants.COMPLETED) && i< index){
+				listReporting.get(i).setStatus(InternalAuditConstants.COMPLETED);
+			}
+		}
+	}
+
 
 	public Widget createGridFieldWork() {
 		
