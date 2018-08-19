@@ -1,8 +1,5 @@
 package com.internalaudit.client.DashboardNew;
 
-import com.google.gwt.i18n.client.*;  
-import com.google.gwt.core.client.EntryPoint;  
-import com.google.gwt.user.client.ui.RootPanel;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
 import org.moxieapps.gwt.highcharts.client.*;  

@@ -1,33 +1,42 @@
 package com.internalaudit.client.DashboardNew;
-
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
 public class DashboardAuditWorkStatus extends VerticalLayoutContainer {
-	
+
 	public DashboardAuditWorkStatus(){
-		HorizontalLayoutContainer hl = new HorizontalLayoutContainer();
-		VerticalLayoutContainer v = new VerticalLayoutContainer();
-		VerticalLayoutContainer v2 = new VerticalLayoutContainer();
+	
 	
 		PortalIssue portalIssues = new PortalIssue();
 		AuditWorkChart auditWorkChart = new  AuditWorkChart();
 		AuditImplementationStatusChart auditImplementation = new AuditImplementationStatusChart();
 		ExceptionReportingStatusChart exceptionReporting = new ExceptionReportingStatusChart();
 		AuditPieChart auditPie = new AuditPieChart();
-		//IssueGrid g = new IssueGrid();
-		//v.add(auditWorkChart);
-		//v2.add(auditImplementation);
-	//	add(g);
-		add(portalIssues);
-		add(auditWorkChart);
-		add(auditPie);;
-		add(auditImplementation);
-		add(exceptionReporting);
 		
-		// Add Other charts and Grid here ...
+		//add(portalIssues);
+//		add(auditWorkChart);
+//		add(auditPie);;
+//		add(auditImplementation);
+//		add(exceptionReporting);
+		HorizontalPanel mainPanel=  new HorizontalPanel();
+		VerticalPanel panelLeft = new VerticalPanel();
+		panelLeft.setWidth("750px");
+		VerticalPanel panelRight = new VerticalPanel();
 		
 		
+		panelLeft.add(auditWorkChart);
+		panelLeft.add(portalIssues);
+		
+		panelRight.add(auditPie);
+		panelRight.add(auditImplementation);
+		panelRight.add(exceptionReporting);
+		
+		mainPanel.add(panelLeft);
+		mainPanel.add(panelRight);
+		add(mainPanel);
 	}
 	
 
