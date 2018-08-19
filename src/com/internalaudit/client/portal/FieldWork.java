@@ -1,0 +1,43 @@
+package com.internalaudit.client.portal;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class FieldWork implements Serializable {
+	
+	private int id;
+	private String name;
+	private String status;
+	private boolean haveExceptions;
+	private Date date = new Date();
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public boolean isHaveExceptions() {
+		return haveExceptions;
+	}
+	public void setHaveExceptions(boolean haveExceptions) {
+		this.haveExceptions = haveExceptions;
+	}
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+}

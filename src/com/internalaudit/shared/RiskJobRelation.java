@@ -1,6 +1,7 @@
 package com.internalaudit.shared;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,6 +37,9 @@ public class RiskJobRelation   implements Serializable {
 	
 	@Column(name="inherintRisk")
 	private int inherintRisk;
+	
+	@Column(name="date")
+	private Date date;
 
 	public int getRiskjobrelationId() {
 		return riskjobrelationId;
@@ -75,6 +79,14 @@ public class RiskJobRelation   implements Serializable {
 
 	public void setInherintRisk(int inherintRisk) {
 		this.inherintRisk = inherintRisk;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	

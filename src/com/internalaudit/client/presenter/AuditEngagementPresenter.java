@@ -29,6 +29,7 @@ import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.client.view.PopupsViewWhite;
 import com.internalaudit.client.view.AuditEngagement.KickoffView;
 import com.internalaudit.shared.AuditEngagement;
+import com.internalaudit.shared.JobStatusDTO;
 import com.internalaudit.shared.TimeOutException;
 import com.internalaudit.shared.User;
 import com.sencha.gxt.widget.core.client.Dialog;
@@ -311,18 +312,12 @@ public class AuditEngagementPresenter implements Presenter {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				
+				fetchJobStatus();
 
-				PortableLayoutContainerUi  p = new  PortableLayoutContainerUi();
-				final Dialog complex = new Dialog();
-				ScrollPanel sp = new ScrollPanel();
-				sp.setHeight("500px");
-				complex.add(sp);
-				complex.setHeadingText("Job Status");
-				complex.setPixelSize(920, 740);
-				complex.setResizable(false);
-				complex.setBodyBorder(false);
-				complex.add(p);
-				complex.show();
+			
+			
+
 			}
 		});
 
@@ -334,6 +329,34 @@ public class AuditEngagementPresenter implements Presenter {
 		records.setWidget(i+1, 5, progressFieldWork);
 		records.setWidget(i+1, 6, progressReporting);
 		records.setWidget(i+1,7, AnchorJobStatus);
+	}
+	
+	private void fetchJobStatus() {
+		rpcService.fetchJobStatus(jobId, new AsyncCallback<JobStatusDTO>() {
+			
+			@Override
+			public void onSuccess(JobStatusDTO jobStatus) {
+				
+				PortableLayoutContainerUi  p = new  PortableLayoutContainerUi(jobStatus);
+				final Dialog complex = new Dialog();
+				ScrollPanel sp = new ScrollPanel();
+				sp.setHeight("500px");
+				complex.add(sp);
+				complex.setHeadingText("Job Status");
+				complex.setPixelSize(920, 740);
+				complex.setResizable(false);
+				complex.setBodyBorder(false);
+				complex.add(p);
+				complex.show();
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("fetchJobStatus failed :"+caught.getLocalizedMessage());
+				
+			}
+		});
+		
 	}
 
 

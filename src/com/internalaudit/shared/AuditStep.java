@@ -2,6 +2,7 @@ package com.internalaudit.shared;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -76,6 +77,11 @@ public class AuditStep implements Serializable {
 	
 	@Column(name = "uploadedFile")
 	private String uploadedFile;
+	
+	
+	@Column(name = "date")
+	private Date date;// If Approved this is approval date , if only initiated this is initiation date
+	
 	
 	public int getAuditStepId() {
 		return auditStepId;
@@ -204,7 +210,13 @@ public class AuditStep implements Serializable {
 	public void setUploadedFile(String uploadedFile) {
 		this.uploadedFile = uploadedFile;
 	}
-	
 
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
 
 }

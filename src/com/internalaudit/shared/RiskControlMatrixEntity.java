@@ -1,6 +1,7 @@
 package com.internalaudit.shared;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -56,6 +57,9 @@ public class RiskControlMatrixEntity implements Serializable {
 	
 	@Column(name = "feedback")
 	private String feedback;
+	
+	@Column(name="date")
+	private Date date;
 	
 	public int getRiskId() {
 		return riskId;
@@ -127,6 +131,14 @@ public class RiskControlMatrixEntity implements Serializable {
 
 	public void setSuggestedControlsId(SuggestedControls suggestedControlsId) {
 		this.suggestedControlsId = suggestedControlsId;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 }

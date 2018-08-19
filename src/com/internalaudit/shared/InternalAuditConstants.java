@@ -35,4 +35,15 @@ public class InternalAuditConstants {
 	public static final String IMPLEMENTATIONDELAYED = "Implementation delayed";
 	public static final String IMPLEMENTATIONCOMPLETED = "Implementation completed";
 	
+	public static final String AUDIT_NOTIFICATION = "Audit Notification";
+	public static final String CLIEN_KICK_OFF_MEETING = "Client kick off Meeting";
+	public static final String OBJECTIVES = "Objectives";
+	public static final String KEY_RISKS = "Key Risks";
+	public static final String OBJ_RISK_CONTROL_MATRIX = "Objective Risk Control Matrix";
+	public static final String AUDIT_WORK_PROGRAM = "Audit Work programme";
+	public static final String COMPLETED = "Completed";
+	public static final String INPROGRESS = "In progress";
+	public static final String NOT_STARTED = "Not Started";
+	
+	
 }

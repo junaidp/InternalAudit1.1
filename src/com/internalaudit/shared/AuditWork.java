@@ -1,6 +1,7 @@
 package com.internalaudit.shared;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -57,6 +58,9 @@ public class AuditWork implements Serializable {
 	
 	@Column(name = "feedback")
 	private String feedback;
+	
+	@Column(name = "date")
+	private Date date;
 	
 	/*
 	@JoinColumn(name = "riskId")
@@ -170,7 +174,13 @@ public class AuditWork implements Serializable {
 		this.suggestedControlsId = suggestedControlsId;
 	}
 
-	
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
 
 	
 }

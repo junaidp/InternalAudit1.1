@@ -1,6 +1,7 @@
 package com.internalaudit.shared;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,6 +39,10 @@ public class ObjectiveJobRelation   implements Serializable {
 	
 	@Column(name="status")
 	private int status;
+	
+	@Column(name="date")
+	private Date date;
+	
 
 	public int getActivityJobId() {
 		return activityJobId;
@@ -76,6 +81,16 @@ public class ObjectiveJobRelation   implements Serializable {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+
+	public Date getDate() {
+		return date;
+	}
+
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 

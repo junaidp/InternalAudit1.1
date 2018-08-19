@@ -1442,6 +1442,9 @@ InternalAuditService {
 	}
 	@Override
 	public JobStatusDTO fetchJobStatus(int jobId) throws Exception {
-		return rdbHelper.fetchJobStatus(jobId );
+		session=getThreadLocalRequest().getSession(true);
+		int year = (Integer) session.getAttribute("year");
+		int companyId = (Integer) session.getAttribute("companyId");
+		return rdbHelper.fetchJobStatus(jobId, year, companyId );
 	}
 }
