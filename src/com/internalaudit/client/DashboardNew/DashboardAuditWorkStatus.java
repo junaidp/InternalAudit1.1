@@ -32,6 +32,4 @@ public class DashboardAuditWorkStatus extends VerticalLayoutContainer {
 		mainPanel.add(panelRight);
 		add(mainPanel);
 	}
-	
-
 }
