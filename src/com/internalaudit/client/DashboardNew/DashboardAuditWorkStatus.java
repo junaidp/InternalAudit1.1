@@ -16,11 +16,7 @@ public class DashboardAuditWorkStatus extends VerticalLayoutContainer {
 		ExceptionReportingStatusChart exceptionReporting = new ExceptionReportingStatusChart();
 		AuditPieChart auditPie = new AuditPieChart();
 		
-		//add(portalIssues);
-//		add(auditWorkChart);
-//		add(auditPie);;
-//		add(auditImplementation);
-//		add(exceptionReporting);
+
 		HorizontalPanel mainPanel=  new HorizontalPanel();
 		VerticalPanel panelLeft = new VerticalPanel();
 		panelLeft.setWidth("750px");
