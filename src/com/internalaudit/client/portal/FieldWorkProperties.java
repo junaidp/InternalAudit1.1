@@ -15,6 +15,7 @@ public interface FieldWorkProperties extends PropertyAccess<FieldWork> {
   ValueProvider<FieldWork, String> name();
   ValueProvider<FieldWork, String> status();
   ValueProvider<FieldWork, Date> date();
+  ValueProvider<FieldWork, String> url();
  
 
 }

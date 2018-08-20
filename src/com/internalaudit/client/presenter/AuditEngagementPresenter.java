@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
-import com.internalaudit.client.portal.PortableLayoutContainerUi;
+import com.internalaudit.client.portal.JobStatusPortaLayout;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.JobData;
 import com.internalaudit.client.view.PopupsView;
@@ -337,7 +337,7 @@ public class AuditEngagementPresenter implements Presenter {
 			@Override
 			public void onSuccess(JobStatusDTO jobStatus) {
 				
-				PortableLayoutContainerUi  p = new  PortableLayoutContainerUi(jobStatus);
+				JobStatusPortaLayout  p = new  JobStatusPortaLayout(jobStatus);
 				final Dialog complex = new Dialog();
 				ScrollPanel sp = new ScrollPanel();
 				sp.setHeight("500px");

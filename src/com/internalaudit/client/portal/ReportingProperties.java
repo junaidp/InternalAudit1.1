@@ -15,6 +15,7 @@ public interface ReportingProperties extends PropertyAccess<Reporting> {
   ValueProvider<Reporting, String> name();
   ValueProvider<Reporting, String> status();
   ValueProvider<Reporting, Date> date();
- 
+  ValueProvider<Reporting, String> url();
+
 
 }

@@ -9,7 +9,7 @@ public class Planning implements Serializable {
 	private String name;
 	private String status;
 	private Date date = new Date();
-	
+	private String url;
 	
 	public String getName() {
 		return name;
@@ -34,5 +34,11 @@ public class Planning implements Serializable {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
 	}
 }
