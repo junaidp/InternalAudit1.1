@@ -126,7 +126,7 @@ public class AuditSchedulingTabView extends Composite implements Display {
 		  
 		    cp.add(vpnlRScheduling);
 		    con.add(cp);
-		    mainPanel.add(con);
+		    mainPanel.add(panel);
 		    
 	}
 
