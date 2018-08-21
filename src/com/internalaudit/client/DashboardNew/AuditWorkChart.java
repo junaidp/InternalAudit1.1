@@ -17,6 +17,8 @@ public class AuditWorkChart extends VerticalLayoutContainer {
     public Chart createChart() {  
   
         final Chart chart = new Chart()  
+        		.setWidth(700)
+            	//.setHeight(700)
             .setType(Series.Type.BAR)  
             .setChartTitleText("Audit Work Statuss")  
             .setSeriesPlotOptions(new SeriesPlotOptions()  

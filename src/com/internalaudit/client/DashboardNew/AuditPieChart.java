@@ -1,11 +1,5 @@
 package com.internalaudit.client.DashboardNew;
-
-
-import com.google.gwt.i18n.client.*;  
-import com.google.gwt.core.client.EntryPoint;  
-import com.google.gwt.user.client.ui.RootPanel;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
-
 import org.moxieapps.gwt.highcharts.client.*;  
 import org.moxieapps.gwt.highcharts.client.labels.*;  
 import org.moxieapps.gwt.highcharts.client.plotOptions.*;  
@@ -19,9 +13,12 @@ public class AuditPieChart extends VerticalLayoutContainer {
 
     public Chart createChart() {  
   
-        final Chart chart = new Chart()  
+        final Chart chart = new Chart() 
+        	.setWidth(320)
+        	.setHeight(200)
             .setType(Series.Type.PIE)  
-            .setChartTitleText("Browser market shares at a specific website, 2010")  
+            .setChartTitleText("")
+  
             .setPlotBackgroundColor((String) null)  
             .setPlotBorderWidth(null)  
             .setPlotShadow(true)  
@@ -44,14 +41,9 @@ public class AuditPieChart extends VerticalLayoutContainer {
         chart.addSeries(chart.createSeries()  
             .setName("Browser share")  
             .setPoints(new Point[]{  
-                new Point("Firefox", 45.0),  
-                new Point("IE", 26.8),  
-                new Point("Chrome", 12.8)  
-                    .setSliced(true)  
-                    .setSelected(true),  
-                new Point("Safari", 8.5),  
-                new Point("Opera", 6.2),  
-                new Point("Others", 0.7)  
+                new Point("Completed", 45.0),  
+                new Point("In Progress", 26.8),  
+                 
             })  
         );  
   

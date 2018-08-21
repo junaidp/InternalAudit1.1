@@ -1,5 +1,6 @@
 package com.internalaudit.client.DashboardNew;
 
+
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
 import org.moxieapps.gwt.highcharts.client.*;  
@@ -12,12 +13,16 @@ public class ExceptionReportingStatusChart extends VerticalLayoutContainer {
 	   
 	   add(createChart());
    }
-  
+
     public Chart createChart() {  
-  
-        final Chart chart = new Chart()  
+    	
+        final Chart chart = new Chart() 
+        		
+        		.setWidth(320)
+            	.setHeight(250)
             .setType(Series.Type.BAR)  
-            .setChartTitleText("Exception Reporting Status")  
+            .setChartTitleText("Exception Reporting Status") 
+            
            // .setChartSubtitleText("Source: Wikipedia.org")  
             .setBarPlotOptions(new BarPlotOptions()  
                 .setDataLabels(new DataLabels()  

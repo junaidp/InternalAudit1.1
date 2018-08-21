@@ -49,10 +49,12 @@ public class MainView extends Composite implements Display {
 	PlainTabPanel panel = new PlainTabPanel();
 	HorizontalPanel checkpanel = new HorizontalPanel();
 	VerticalPanel panelImages = new VerticalPanel();
+	VerticalPanel panelSideBar = new VerticalPanel();
 	
 
 	public MainView(User loggedInUser){
 	// new code	
+		panel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 		panelImages.setWidth("110px");
 		panelImages.setHeight("200px");
 //		 panelImages.getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
@@ -81,8 +83,9 @@ public class MainView extends Composite implements Display {
 		//panelTeam.addStyleName("w3-margin");
 		//VerticalPanel panelClient = new VerticalPanel();
 		//panelClient.addStyleName("w3-margin");
-		
-		 
+		//2018 
+		SideBarView sideBarView = new SideBarView();
+		panelSideBar.add(sideBarView);
 	
 		
 		 
@@ -164,6 +167,7 @@ public class MainView extends Composite implements Display {
 		//panel.setWidth("880px");
 		panel.setWidth("1200px");
 		panel.setResizeTabs(true);
+	
 		if(loggedInUser.getEmployeeId().getFromInternalAuditDept().equalsIgnoreCase("yes")){
 			panel.add(auditPlanningView, "Audit Planning");
 			panel.add(vpnlAuditScheduing, "Audit Scheduling");
@@ -200,9 +204,10 @@ public class MainView extends Composite implements Display {
 		//checkpanel.add(panel);
 		//checkpanel.add(panelImages);
 		//vpnlTabPanel.add(panel);
-		
+		checkpanel.add(panelSideBar);
 	//	checkpanel.add(panelImages);
 		checkpanel.add(panel);
+		
 		vpnlTabPanel.add(checkpanel);
 		//vpnlTabPanel.add(panelImages);
 

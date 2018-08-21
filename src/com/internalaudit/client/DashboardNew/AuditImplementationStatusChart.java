@@ -15,7 +15,9 @@ public AuditImplementationStatusChart(){
   
     public Chart createChart() {  
   
-        final Chart chart = new Chart()  
+        final Chart chart = new Chart() 
+        		.setWidth(320)
+            	.setHeight(200)
             .setType(Series.Type.COLUMN)  
             .setChartTitleText("Audit Issues Implementation Status")  
             .setColumnPlotOptions(new ColumnPlotOptions()  

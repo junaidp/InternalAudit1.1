@@ -1,26 +1,25 @@
 package com.internalaudit.client.DashboardNew;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.sencha.gxt.widget.core.client.ContentPanel;
-import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+
 
 public class DashboardAuditWorkStatus extends VerticalLayoutContainer {
 
 	public DashboardAuditWorkStatus(){
 	
-	
+		DashboardListBoxes dashboardlistBox = new DashboardListBoxes();
 		PortalIssue portalIssues = new PortalIssue();
 		AuditWorkChart auditWorkChart = new  AuditWorkChart();
 		AuditImplementationStatusChart auditImplementation = new AuditImplementationStatusChart();
 		ExceptionReportingStatusChart exceptionReporting = new ExceptionReportingStatusChart();
 		AuditPieChart auditPie = new AuditPieChart();
-		
 		HorizontalPanel mainPanel=  new HorizontalPanel();
 		VerticalPanel panelLeft = new VerticalPanel();
 		panelLeft.setWidth("750px");
 		VerticalPanel panelRight = new VerticalPanel();
-		
+		panelRight.setWidth("30%");
+		panelLeft.add(dashboardlistBox);
 		panelLeft.add(auditWorkChart);
 		panelLeft.add(portalIssues);
 		
@@ -31,5 +30,9 @@ public class DashboardAuditWorkStatus extends VerticalLayoutContainer {
 		mainPanel.add(panelLeft);
 		mainPanel.add(panelRight);
 		add(mainPanel);
+
+		
+	
 	}
 }
+
