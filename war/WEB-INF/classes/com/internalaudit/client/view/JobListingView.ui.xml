@@ -13,6 +13,6 @@
 						
 		</g:VerticalPanel>
 		
-		<g:Button ui:field="backButton">Back</g:Button>
+		<g:Button ui:field="backButton" visible="false">Back</g:Button>
 	</g:HTMLPanel>
 </ui:UiBinder> 

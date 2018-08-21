@@ -13,6 +13,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -37,7 +38,7 @@ public class JobListingPresenter implements Presenter {
 		Object getHtmlErrorMessage = null;
 		VerticalPanel getJobListContainer();
 		String getCallingFrom();
-		Button getBackButton();
+		
 	}
 	
 	public JobListingPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, Display view) 
@@ -49,12 +50,13 @@ public class JobListingPresenter implements Presenter {
 		fetchTextForJobLinks();
 		
 		
-		display.getBackButton().addClickHandler(new ClickHandler(){
+		/*display.getBackButton().addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
 				History.newItem("auditScheduling");
 			}});
+			*/
 	}
 
 
@@ -72,16 +74,24 @@ public class JobListingPresenter implements Presenter {
 				
 				//now we have links. gotta add to view
 				Anchor jobLink;
+				FlexTable records = new FlexTable();
+				records.setWidth("100%");
 				for( int i = 0; i < result.size(); ++i )
 				{
 					final StrategicDTO dto = result.get(i);
 					
 					jobLink = new Anchor();
+					jobLink.addStyleName("pointerStyle");
 					jobLink.setHeight("25px");
-					jobLink.addStyleName("jobListingText");
+					//jobLink.addStyleName("jobListingText");
 //					jobLink.setText(result.get(i).getStrategicObjective());
 					jobLink.setText(result.get(i).getAuditableUnit());
 					
+					records.setWidget(i, 0, jobLink);
+					
+					if (i % 2 != 0) {
+						records.getRowFormatter().addStyleName(i, "jobStatusRow");
+					}
 										
 					jobLink.addClickHandler(new ClickHandler() {
 						
@@ -100,24 +110,26 @@ public class JobListingPresenter implements Presenter {
 							}
 						}
 					});
-					HorizontalPanel jobsContainer = new HorizontalPanel();
-					jobsContainer.add(jobLink);
+					//HorizontalPanel jobsContainer = new HorizontalPanel();
+					//jobsContainer.add(jobLink);
 //					jobsContainer.addStyleName("statusRowConsolidation");
 //					jobLink.addStyleName("labelTitle"); 
 					jobLink.setWordWrap(false);
-					jobLink.addStyleName("smallBlack");
-					jobLink.addStyleName("pointerStyle");
-					jobsContainer.setWidth("100%");
+					//jobLink.addStyleName("smallBlack");
+					//jobLink.addStyleName("pointerStyle");
+					//jobsContainer.setWidth("100%");
+					
 					display.getJobListContainer().setWidth("100%");
-					display.getJobListContainer().add(jobsContainer);
+				//	display.getJobListContainer().add(records);
 //					String upperCasedJobLink = jobLink.getText().toUpperCase();
 					String upperCasedJobLink = jobLink.getText();
 					jobLink.setText(upperCasedJobLink);
 					
 					
 					display.getJobListContainer().setSpacing(5);
-					jobsContainer.setSpacing(5);
+					//jobsContainer.setSpacing(5);
 				}
+				display.getJobListContainer().add(records);
 			}
 			
 			@Override
