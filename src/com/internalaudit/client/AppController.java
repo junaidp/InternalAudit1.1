@@ -28,8 +28,6 @@ import com.internalaudit.client.presenter.AuditListingPresenter;
 import com.internalaudit.client.presenter.AuditSchedulingPresenter;
 import com.internalaudit.client.presenter.CompanyInductionFormPresenter;
 import com.internalaudit.client.presenter.DashBoardNewPresenter;
-import com.internalaudit.client.presenter.DashBoardPresenter;
-import com.internalaudit.client.presenter.HeaderPresenter;
 import com.internalaudit.client.presenter.JobCreationPresenter;
 import com.internalaudit.client.presenter.JobListingPresenter;
 import com.internalaudit.client.presenter.JobTimeEstimationPresenter;
@@ -42,7 +40,6 @@ import com.internalaudit.client.presenter.RequestUserNameFormPresenter;
 import com.internalaudit.client.presenter.UserInductionFormPresenter;
 import com.internalaudit.client.view.AuditListingView;
 import com.internalaudit.client.view.CompanyInductionFormView;
-import com.internalaudit.client.view.DashBoardView;
 import com.internalaudit.client.view.HeaderView;
 import com.internalaudit.client.view.JobListingView;
 import com.internalaudit.client.view.LoginUi;
@@ -52,13 +49,11 @@ import com.internalaudit.client.view.UserInductionFormView;
 import com.internalaudit.client.view.AuditEngagement.AuditEngagementView;
 import com.internalaudit.client.view.Reporting.ReportingView;
 import com.internalaudit.client.view.Reporting.ReportsView;
-import com.internalaudit.client.view.Reporting.ReportAuditPlanning;
 import com.internalaudit.client.view.Scheduling.AuditAreasView;
-import com.internalaudit.client.view.Scheduling.AuditSchedulingView;
+import com.internalaudit.client.view.Scheduling.AuditSchedulingTabView;
 import com.internalaudit.client.view.Scheduling.JobCreationView;
 import com.internalaudit.client.view.Scheduling.JobTimeEstimationView;
 import com.internalaudit.client.view.dashboard.DashBoardDesignerView;
-import com.internalaudit.client.view.dashboard.DashboardNewView;
 import com.internalaudit.shared.StrategicDTO;
 import com.internalaudit.shared.User;
 
@@ -70,10 +65,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class AppController implements Presenter, ValueChangeHandler<String> {
@@ -314,11 +306,18 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			}
 			
 			if (eventToken.equals("auditScheduling")) {
-				AuditSchedulingView auditSchedulingView = new AuditSchedulingView();
+				//AuditSchedulingView auditSchedulingView = new AuditSchedulingView();
+				
+				//presenter = new AuditSchedulingPresenter(rpcService, eventBus, auditSchedulingView, loggedInUser);
+				AuditSchedulingTabView auditSchedulingView = new AuditSchedulingTabView(rpcService, eventBus);
 				presenter = new AuditSchedulingPresenter(rpcService, eventBus, auditSchedulingView, loggedInUser);
 				
+				if (presenter != null) {
+					setContainer(centerPanel);
+//					this.container = mainContainer;
+					presenter.go(container);
+				}
 				setContainer(centerPanel);
-//				this.container = mainContainer;
 
 				if (presenter != null) {
 					presenter.go(container);

@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.event.JobListingEvent;
-import com.internalaudit.client.view.Scheduling.AuditSchedulingView;
+import com.internalaudit.client.view.Scheduling.AuditSchedulingTabView;
 import com.internalaudit.shared.User;
 
 
@@ -22,7 +22,7 @@ public class AuditSchedulingPresenter implements Presenter
 {
 	private final InternalAuditServiceAsync rpcService;
 	private final HandlerManager eventBus;
-	private final Display display;
+	private final AuditSchedulingTabView display;
 	private User loggedInUser;
 
 
@@ -30,19 +30,19 @@ public class AuditSchedulingPresenter implements Presenter
 	{
 		Widget asWidget();
 		Object getHtmlErrorMessage = null;
-		Anchor getAreaOfExpertise();
-		Anchor getJobTimeEst();
-		Anchor getJobCreation();
-		Anchor getScheduling();
+		//Anchor getAreaOfExpertise();
+		//Anchor getJobTimeEst();
+		//Anchor getJobCreation();
+		//Anchor getScheduling();
 		Button getApproveSchedule();
 		VerticalPanel getApprovalContainer();
 	}  
 
-	public AuditSchedulingPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, Display view, User loggedInUser) 
+	public AuditSchedulingPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, AuditSchedulingTabView auditSchedulingView, User loggedInUser) 
 	{
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
-		this.display = view;
+		this.display = auditSchedulingView;
 		this.loggedInUser = loggedInUser;
 	}
 
@@ -91,6 +91,7 @@ public class AuditSchedulingPresenter implements Presenter
 
 			});
 		
+		/*
 		display.getAreaOfExpertise().addClickHandler(new ClickHandler(){
 			//need to remove anchors
 			@Override
@@ -111,6 +112,7 @@ public class AuditSchedulingPresenter implements Presenter
 			public void onClick(ClickEvent event) {
 				eventBus.fireEvent(new JobListingEvent("jobCreation"));
 			}});
+			
 		
 		display.getScheduling().addClickHandler(new ClickHandler() {
 			
@@ -121,7 +123,7 @@ public class AuditSchedulingPresenter implements Presenter
 				
 			}
 		});
-	
+	*/
 	
 	}
 	

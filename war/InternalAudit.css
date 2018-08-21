@@ -806,3 +806,6 @@ button {
 .pointerStyle{
 	cursor: pointer;
 }
+.pointerStyle:hover {
+    text-decoration: underline;
+}

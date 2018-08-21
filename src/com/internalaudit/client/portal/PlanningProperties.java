@@ -15,6 +15,6 @@ public interface PlanningProperties extends PropertyAccess<Planning> {
   ValueProvider<Planning, String> name();
   ValueProvider<Planning, String> status();
   ValueProvider<Planning, Date> date();
- 
+  ValueProvider<Planning, String> url();
 
 }

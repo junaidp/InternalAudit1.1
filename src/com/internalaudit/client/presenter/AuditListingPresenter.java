@@ -64,6 +64,7 @@ public class AuditListingPresenter implements Presenter {
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.display = view;
+		display.getBtnBack().setVisible(false);
 	}
 
 
