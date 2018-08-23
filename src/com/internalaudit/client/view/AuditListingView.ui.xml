@@ -9,7 +9,7 @@
 		
 	<g:VerticalPanel ui:field="mainContainer" spacing="2">
 	
-		<g:Anchor ui:field="resourceButton" addStyleNames="pointerStyle jobStatusRow">
+		<g:Anchor ui:field="resourceButton" addStyleNames="pointerStyle">
 			Show Resources
 		</g:Anchor>
 		<g:Anchor ui:field="jobsButton" styleName="pointerStyle">

@@ -5,7 +5,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.presenter.DashBoardNewPresenter.Display;
@@ -33,7 +32,6 @@ public class DashboardNewView extends VerticalPanel implements Display {
 		
 		HorizontalPanel hpnlMain = new HorizontalPanel();
 		vpnl1.add(layout());
-//		setWidth(Window.getClientWidth()-10+"px");
 		if( startup){
 			add(createheader());
 			add(btnContinue);

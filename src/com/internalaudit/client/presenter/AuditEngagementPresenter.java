@@ -338,16 +338,16 @@ public class AuditEngagementPresenter implements Presenter {
 			public void onSuccess(JobStatusDTO jobStatus) {
 				
 				JobStatusPortaLayout  p = new  JobStatusPortaLayout(jobStatus);
-				final Dialog complex = new Dialog();
+				final Dialog dialog = new Dialog();
 				ScrollPanel sp = new ScrollPanel();
-				sp.setHeight("500px");
-				complex.add(sp);
-				complex.setHeadingText("Job Status");
-				complex.setPixelSize(920, 740);
-				complex.setResizable(false);
-				complex.setBodyBorder(false);
-				complex.add(p);
-				complex.show();
+				sp.setHeight("400px");
+				dialog.add(sp);
+				dialog.setHeadingText("Job Status");
+				dialog.setPixelSize(920, 650);
+				dialog.setResizable(true);
+				dialog.setBodyBorder(false);
+				sp.add(p);
+				dialog.show();
 			}
 			
 			@Override

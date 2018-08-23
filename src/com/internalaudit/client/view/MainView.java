@@ -12,17 +12,16 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.internalaudit.client.DashboardNew.AuditWorkChart;
 import com.internalaudit.client.DashboardNew.DashboardNew;
 import com.internalaudit.client.presenter.MainPresenter.Display;
 import com.internalaudit.client.widgets.TableauAbilite;
 import com.internalaudit.client.widgets.TableauExcel;
 import com.internalaudit.client.widgets.TableauReports;
 import com.internalaudit.shared.User;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.sencha.gxt.widget.core.client.PlainTabPanel;
 import com.sencha.gxt.widget.core.client.TabItemConfig;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
@@ -136,7 +135,7 @@ public class MainView extends Composite implements Display {
 
 		HorizontalPanel hpnlMain = new HorizontalPanel();
 		Image imgHeader = new Image("images/trans.png");
-
+		imgHeader.getElement().getStyle().setPaddingLeft(50, Unit.PX);
 		VerticalPanel vp = new VerticalPanel();
 		VerticalPanel hpnl = new VerticalPanel();
 		HorizontalPanel hpnlSpace = new HorizontalPanel();
@@ -198,7 +197,8 @@ public class MainView extends Composite implements Display {
 
 		//		panel.insert(reportingView, 3, config);
 		VerticalPanel vpnlTabPanel = new VerticalPanel();
-		vpnlTabPanel.addStyleName("centerPanel");
+		//vpnlTabPanel.addStyleName("centerPanel");
+		
 		vp.setWidth("100%");
 		vp.add(vpnlTabPanel);
 		//checkpanel.add(panel);
@@ -207,6 +207,7 @@ public class MainView extends Composite implements Display {
 		checkpanel.add(panelSideBar);
 	//	checkpanel.add(panelImages);
 		checkpanel.add(panel);
+		vpnlTabPanel.getElement().getStyle().setPaddingLeft(12,  Unit.PX);
 		
 		vpnlTabPanel.add(checkpanel);
 		//vpnlTabPanel.add(panelImages);

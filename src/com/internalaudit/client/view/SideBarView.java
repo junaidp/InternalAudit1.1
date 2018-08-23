@@ -14,7 +14,7 @@ public class SideBarView extends VerticalLayoutContainer{
 
 public SideBarView(){
 	
-	panelbar.addStyleName("w3-sidebar w3-blue-grey w3-bar-block");
+	panelbar.addStyleName("w3-sidebar w3-metro-dark-blue w3-bar-block");
 	panelbar.setWidth("60px");
 	 Image ImgMenu = new Image("menu.png");
 	 Image ImgCloseCircular = new Image("close-circular-button-symbol.png");

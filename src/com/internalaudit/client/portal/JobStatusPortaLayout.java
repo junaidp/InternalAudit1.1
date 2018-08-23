@@ -20,13 +20,14 @@ import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.Portlet;
 import com.sencha.gxt.widget.core.client.button.ToolButton;
 import com.sencha.gxt.widget.core.client.container.PortalLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
 
-public class JobStatusPortaLayout extends VerticalPanel {
+public class JobStatusPortaLayout extends VerticalLayoutContainer {
 
 	protected static final int MIN_HEIGHT = 1;
 	protected static final int MIN_WIDTH = 1280;
@@ -64,7 +65,7 @@ public class JobStatusPortaLayout extends VerticalPanel {
 		configPanel(portletReporting);
 
 		portal = new PortalLayoutContainer(3);
-		portal.setSpacing(20);
+		portal.setSpacing(5);
 		portal.setColumnWidth(0, .99);
 		portal.setColumnWidth(1, .50);
 		portal.setColumnWidth(2, .30);
