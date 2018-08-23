@@ -16,90 +16,89 @@ import javax.persistence.Transient;
 
 @Entity
 
-@Table(name = "exception" )
+@Table(name = "exception")
 public class Exceptions implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -7217627195055650063L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)	
-	@Column(name="exception_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "exception_id")
 	private int exceptionId;
-	
-	@Column(name="detail")
+
+	@Column(name = "detail")
 	private String detail;
-	
-	@Column(name="jobcreation_id")
+
+	@Column(name = "jobcreation_id")
 	private int jobCreationId;
-	
+
 	@JoinColumn(name = "responsiblePerson")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employee responsiblePerson;
-	
+
 	@JoinColumn(name = "divisionHead")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employee divisionHead;
-	
-//	@JoinColumn(name = "auditStep")
-//	@ManyToOne(fetch = FetchType.LAZY)
-	@Column(name="auditStep")
+
+	// @JoinColumn(name = "auditStep")
+	// @ManyToOne(fetch = FetchType.LAZY)
+	@Column(name = "auditStep")
 	private int auditStep;
-	
-	@Column(name="dueDate")
+
+	@Column(name = "dueDate")
 	private Date dueDate;
 
-	@Column(name="jobName")
+	@Column(name = "jobName")
 	private String jobName;
-	
-	@Column(name="implementationDate")
+
+	@Column(name = "implementationDate")
 	private Date implementaionDate;
-	
-	@Column(name="managementComments")
+
+	@Column(name = "managementComments")
 	private String managementComments;
-	
-	@Column(name="auditHead")
+
+	@Column(name = "auditHead")
 	private int auditHead;
-	
-	@Column(name="status")
+
+	@Column(name = "status")
 	private String status;
-	
-	@Column(name="finalStatus")
+
+	@Column(name = "finalStatus")
 	private String finalStatus;
-	
-	@Column(name="initialStatus")
+
+	@Column(name = "initialStatus")
 	private String initialStatus;
-	
-	@Column(name="implementaionComments")
+
+	@Column(name = "implementaionComments")
 	private String implementaionComments;
-	
-	@Column(name ="isImplemented")
+
+	@Column(name = "isImplemented")
 	private int isImplemented;
-	
-	@Column(name ="isAgreed")
+
+	@Column(name = "isAgreed")
 	private int isAgreed;
-	
-	@Column(name="emailSent")
+
+	@Column(name = "emailSent")
 	private int emailSent;
-	
+
 	@Column(name = "year")
 	private int year;
-	
+
 	@Column(name = "companyId")
 	private int companyId;
-	
+
 	@Column(name = "comments")
 	private String comments;
-	
+
 	@Column(name = "recommendations")
 	private String recommendations;
-	
+
 	@Transient
 	private String displayStatus;
-	
-	
+
 	public int getExceptionId() {
 		return exceptionId;
 	}
@@ -284,5 +283,4 @@ public class Exceptions implements Serializable {
 		this.displayStatus = displayStatus;
 	}
 
-	
 }
