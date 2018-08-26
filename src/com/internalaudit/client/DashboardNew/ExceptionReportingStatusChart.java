@@ -1,5 +1,7 @@
 package com.internalaudit.client.DashboardNew;
 
+import java.util.HashMap;
+
 import org.moxieapps.gwt.highcharts.client.AxisTitle;
 import org.moxieapps.gwt.highcharts.client.Chart;
 import org.moxieapps.gwt.highcharts.client.Credits;
@@ -11,21 +13,20 @@ import org.moxieapps.gwt.highcharts.client.ToolTipFormatter;
 import org.moxieapps.gwt.highcharts.client.labels.DataLabels;
 import org.moxieapps.gwt.highcharts.client.plotOptions.BarPlotOptions;
 
-import com.internalaudit.shared.DashBoardNewDTO;
+import com.internalaudit.shared.InternalAuditConstants;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
 public class ExceptionReportingStatusChart extends VerticalLayoutContainer {
 
-	public ExceptionReportingStatusChart(DashBoardNewDTO dashboardDTO) {
+	public ExceptionReportingStatusChart(HashMap<String, Integer> reportStatus) {
 
-		add(createChart(dashboardDTO));
+		add(createChart(reportStatus));
 	}
 
-	public Chart createChart(DashBoardNewDTO dashboardDTO) {
+	public Chart createChart(HashMap<String, Integer> reportStatus) {
 
-		final Chart chart = new Chart()
-
-				.setWidth(320).setHeight(250).setType(Series.Type.BAR).setChartTitleText("Exception Reporting Status")
+		final Chart chart = new Chart().setWidth(320).setHeight(250).setType(Series.Type.BAR)
+				.setChartTitleText("Exception Reporting Status")
 
 				// .setChartSubtitleText("Source: Wikipedia.org")
 				.setBarPlotOptions(new BarPlotOptions().setDataLabels(new DataLabels().setEnabled(true)))
@@ -38,16 +39,35 @@ public class ExceptionReportingStatusChart extends VerticalLayoutContainer {
 						return toolTipData.getSeriesName() + ": " + toolTipData.getYAsLong() + " million";
 					}
 				}));
-
-		chart.getXAxis().setCategories("Agreed By MNGMNT", "Communicated To MNGMNT", "Approved By IA Head");
+		/*
+		 * Point[] pointexceptionsToSent = new Point[1]; Point[]
+		 * pointawaitingComments = new Point[1]; Point[] pointcommentsReceived =
+		 * new Point[1]; Point[] pointreportIssued = new Point[1]; Point[]
+		 * pointfinalReportIssued = new Point[1];
+		 */
+		chart.getXAxis().setCategories(InternalAuditConstants.EXCEPTIONSTOSENT, InternalAuditConstants.AWAITINGCOMMENTS,
+				InternalAuditConstants.COMMENTSRECEIVED, InternalAuditConstants.REPORTISSUED,
+				InternalAuditConstants.FINALREPORTISSUED);
 
 		chart.getYAxis().setAxisTitle(new AxisTitle().setText("Population (millions)").setAlign(AxisTitle.Align.HIGH));
 
-		chart.addSeries(chart.createSeries().setName("Year 1800").setPoints(new Number[] { 107, 31, 635, 203, 2 }));
-		// chart.addSeries(chart.createSeries()
-		// .setName("Year 1900")
-		// .setPoints(new Number[] { 133, 156, 947, 408, 6 })
-		// );
+		// Point p1 = new Point("Implem", reportStatus.get("exceptionsToSent"));
+		// pointexceptionsToSent[0] = p1;
+
+		chart.addSeries(chart.createSeries().setName("1900")
+				.setPoints(new Number[] { reportStatus.get(InternalAuditConstants.EXCEPTIONSTOSENT),
+						reportStatus.get(InternalAuditConstants.AWAITINGCOMMENTS),
+						reportStatus.get(InternalAuditConstants.COMMENTSRECEIVED),
+						reportStatus.get(InternalAuditConstants.REPORTISSUED),
+						reportStatus.get(InternalAuditConstants.FINALREPORTISSUED) }));
+
+		// chart.addSeries(chart.createSeries().setName("Year
+		// 1900").setPoints(new Number[] { 133, 156, 947, 408, 6 }));
+
+		// chart.addSeries(chart.createSeries().setName("Year 1900")
+		// .setPoints(new Number[] { reportStatus.get("exceptionsToSent"), 156,
+		// 947, 408, 6 }));
+
 		// chart.addSeries(chart.createSeries()
 		// .setName("Year 2008")
 		// .setPoints(new Number[] { 973, 914, 4054, 732, 34 })

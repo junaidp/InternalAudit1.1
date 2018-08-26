@@ -9,18 +9,21 @@ public class DashboardAuditWorkStatus extends VerticalLayoutContainer {
 
 	public DashboardAuditWorkStatus(DashBoardNewDTO dashboardDTO) {
 
-		DashboardListBoxes dashboardlistBox = new DashboardListBoxes();
-		PortalIssue portalIssues = new PortalIssue();
-		AuditWorkChart auditWorkChart = new AuditWorkChart();
-		AuditImplementationStatusChart auditImplementation = new AuditImplementationStatusChart(dashboardDTO);
-		ExceptionReportingStatusChart exceptionReporting = new ExceptionReportingStatusChart(dashboardDTO);
-		AuditPieChart auditPie = new AuditPieChart();
+		// DashboardListBoxes dashboardlistBox = new DashboardListBoxes();
+		PortalIssue portalIssues = new PortalIssue(dashboardDTO.getExceptions());
+		AuditWorkChart auditWorkChart = new AuditWorkChart(dashboardDTO.getAuditWorkStatus());
+		AuditImplementationStatusChart auditImplementation = new AuditImplementationStatusChart(
+				dashboardDTO.getJobNamesWithExceptionImplementationStatus());
+		ExceptionReportingStatusChart exceptionReporting = new ExceptionReportingStatusChart(
+				dashboardDTO.getExceptionReportingStatus());
+		CompletedAndInprogressExceptions auditPie = new CompletedAndInprogressExceptions(
+				dashboardDTO.getCompletedAndInprogressExceptions());
 		HorizontalPanel mainPanel = new HorizontalPanel();
 		VerticalPanel panelLeft = new VerticalPanel();
 		panelLeft.setWidth("750px");
 		VerticalPanel panelRight = new VerticalPanel();
 		panelRight.setWidth("30%");
-		panelLeft.add(dashboardlistBox);
+		// panelLeft.add(dashboardlistBox);
 		panelLeft.add(auditWorkChart);
 		panelLeft.add(portalIssues);
 

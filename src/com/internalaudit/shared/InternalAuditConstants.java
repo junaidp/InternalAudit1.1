@@ -34,7 +34,7 @@ public class InternalAuditConstants {
 	public static final String IMPLEMENTATIONINPROGRESS = "Implementation In Progress";
 	public static final String IMPLEMENTATIONDELAYED = "Implementation delayed";
 	public static final String IMPLEMENTATIONCOMPLETED = "Implementation completed";
-	
+
 	public static final String AUDIT_NOTIFICATION = "Audit Notification";
 	public static final String CLIEN_KICK_OFF_MEETING = "Client kick off Meeting";
 	public static final String OBJECTIVES = "Objectives";
@@ -44,6 +44,8 @@ public class InternalAuditConstants {
 	public static final String COMPLETED = "Completed";
 	public static final String INPROGRESS = "In progress";
 	public static final String NOT_STARTED = "Not Started";
-	
-	
+	public static final String COMPLETEDEXCEPTIONS = "completed exceptions";
+	public static final String INPROGRESSEXCEPTIONS = "in progress exceptions";
+	public static final String INREVIEWEXCEPTIONS = "in review exceptions";
+
 }

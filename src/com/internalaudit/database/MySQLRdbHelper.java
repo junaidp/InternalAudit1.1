@@ -52,8 +52,8 @@ import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.AuditProgramme;
 import com.internalaudit.shared.AuditSchedulingReportDTO;
 import com.internalaudit.shared.AuditStep;
-import com.internalaudit.shared.FieldWorkStatusDTO;
 import com.internalaudit.shared.AuditWork;
+import com.internalaudit.shared.AuditWorkStatusDTO;
 import com.internalaudit.shared.Company;
 import com.internalaudit.shared.CompanySkillRelation;
 import com.internalaudit.shared.DashBoardDTO;
@@ -66,12 +66,14 @@ import com.internalaudit.shared.ExcelDataDTO;
 import com.internalaudit.shared.Exceptions;
 import com.internalaudit.shared.ExceptionsReportDTO;
 import com.internalaudit.shared.Feedback;
+import com.internalaudit.shared.FieldWorkStatusDTO;
 import com.internalaudit.shared.HibernateDetachUtility;
 import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.JobAndAreaOfExpertise;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.JobCreationDTO;
 import com.internalaudit.shared.JobEmployeeRelation;
+import com.internalaudit.shared.JobNamesWithExceptionsImplementationStatus;
 import com.internalaudit.shared.JobSkillRelation;
 import com.internalaudit.shared.JobStatusDTO;
 import com.internalaudit.shared.JobTimeAllocationReportDTO;
@@ -85,8 +87,8 @@ import com.internalaudit.shared.Process;
 import com.internalaudit.shared.ProcessDTO;
 import com.internalaudit.shared.ReportsDTO;
 import com.internalaudit.shared.ResourceUse;
-import com.internalaudit.shared.RiskControlMatrixEntity;
 import com.internalaudit.shared.RiskAssesmentDTO;
+import com.internalaudit.shared.RiskControlMatrixEntity;
 import com.internalaudit.shared.RiskFactor;
 import com.internalaudit.shared.RiskJobRelation;
 import com.internalaudit.shared.RiskObjective;
@@ -102,7 +104,6 @@ import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.TimeLineDates;
 import com.internalaudit.shared.User;
-import com.sun.org.apache.xml.internal.serialize.OutputFormat.DTD;
 
 public class MySQLRdbHelper {
 
@@ -3942,6 +3943,9 @@ public class MySQLRdbHelper {
 				HibernateDetachUtility.nullOutUninitializedFields(exception,
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
+				String status = getJobCreationStatus(exception.getJobCreationId());
+				exception.setDisplayStatus(status);
+
 				exceptions.add(exception);
 			}
 			if (jobId == 0) {
@@ -5384,6 +5388,75 @@ public class MySQLRdbHelper {
 
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in getjobstatus", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+		return jobStatus;
+	}
+
+	public String getJobCreationStatus(int jobId) {
+		Session session = null;
+		String jobStatus = "";
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(JobCreation.class);
+			crit.add(Restrictions.eq("jobCreationId", jobId));
+			if (crit.list().size() > 0) {
+				JobCreation jobCreation = (JobCreation) crit.list().get(0);
+				int status = jobCreation.getReportStatus();
+
+				if (status == 0) {
+					jobStatus = "";
+				}
+				if (status == 1) {
+					jobStatus = InternalAuditConstants.EXCEPTIONSTOSENT;
+
+				} else if (status == 2) {
+					jobStatus = InternalAuditConstants.AWAITINGCOMMENTS;
+
+				} else if (status == 3) {
+					jobStatus = InternalAuditConstants.COMMENTSRECEIVED;
+
+				} else if (status == 4) {
+					jobStatus = InternalAuditConstants.REPORTISSUED;
+
+				} else if (status == 5) {
+					jobStatus = InternalAuditConstants.FINALREPORTISSUED;
+
+				}
+
+			}
+
+			logger.info(String.format("(Inside getjobstatus) getting job status for job" + jobId + "" + new Date()));
+
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in getjobstatus", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+		return jobStatus;
+	}
+
+	public int getJobCreationStatusId(int jobId) {
+		Session session = null;
+		int jobStatus = 0;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(JobCreation.class);
+			crit.add(Restrictions.eq("jobCreationId", jobId));
+			if (crit.list().size() > 0) {
+				JobCreation jobCreation = (JobCreation) crit.list().get(0);
+				jobStatus = jobCreation.getReportStatus();
+
+			}
+
+			logger.info(String
+					.format("(Inside getJobCreationStatusId) getting job status for job" + jobId + "" + new Date()));
+
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in getJobCreationStatusId", ex.getMessage()), ex);
 
 		} finally {
 			session.close();
@@ -7263,6 +7336,143 @@ public class MySQLRdbHelper {
 		}
 	}
 
+	public ArrayList<JobNamesWithExceptionsImplementationStatus> fetchJobNamesWithExceptionStatus(int year,
+			int companyId) throws Exception {
+		Session session = null;
+		ArrayList<JobNamesWithExceptionsImplementationStatus> jobWithExceptionStatus = new ArrayList<JobNamesWithExceptionsImplementationStatus>();
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.add(Restrictions.eq("year", year));
+			crit.add(Restrictions.eq("companyId", companyId));
+
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				Exceptions exceptions = (Exceptions) it.next();
+				boolean found = false;
+				for (int i = 0; i < jobWithExceptionStatus.size(); i++) {
+					if (jobWithExceptionStatus.get(i).getJobId() == exceptions.getJobCreationId()) {
+						found = true;
+						if (exceptions.getIsImplemented() == 0) {
+							jobWithExceptionStatus.get(i)
+									.setNotImplemented(jobWithExceptionStatus.get(i).getNotImplemented() + 1);
+
+						} else {
+							jobWithExceptionStatus.get(i)
+									.setImplemented(jobWithExceptionStatus.get(i).getImplemented() + 1);
+
+						}
+					}
+				}
+				if (!found) {
+					JobNamesWithExceptionsImplementationStatus jobNamesWithExceptionsImplementationStatus = new JobNamesWithExceptionsImplementationStatus();
+					jobNamesWithExceptionsImplementationStatus.setJobId(exceptions.getJobCreationId());
+					jobNamesWithExceptionsImplementationStatus
+							.setJobName(fetchJobNameFromJobId(exceptions.getJobCreationId()));
+					if (exceptions.getIsImplemented() == 0) {
+						jobNamesWithExceptionsImplementationStatus.setNotImplemented(1);
+					}
+
+					else {
+						jobNamesWithExceptionsImplementationStatus.setImplemented(1);
+					}
+					jobWithExceptionStatus.add(jobNamesWithExceptionsImplementationStatus);
+				}
+			}
+
+			logger.info(String.format("(Inside fetchJobNamesWithExceptionStatus)fetching ExceptionImplemented for year"
+					+ year + "for company" + companyId + "" + new Date()));
+
+			return jobWithExceptionStatus;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("eeror in : fetchJobNamesWithExceptionStatus");
+
+			throw e;
+		}
+	}
+
+	public ArrayList<AuditWorkStatusDTO> fetchAuditWorkStatus(int year, int companyId) throws Exception {
+		Session session = null;
+		ArrayList<AuditWorkStatusDTO> auditWorkStatusDTOList = new ArrayList<AuditWorkStatusDTO>();
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.add(Restrictions.eq("year", year));
+			crit.add(Restrictions.eq("companyId", companyId));
+
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				Exceptions exceptions = (Exceptions) it.next();
+				boolean found = false;
+				for (int i = 0; i < auditWorkStatusDTOList.size(); i++) {
+					if (auditWorkStatusDTOList.get(i).getJobId() == exceptions.getJobCreationId()) {
+						found = true;
+
+						String status = getJobCreationStatus(exceptions.getJobCreationId());
+						exceptions.setDisplayStatus(status);
+
+						if (exceptions.getFinalStatus() != null
+								&& exceptions.getFinalStatus().equalsIgnoreCase("Approved")) {
+							auditWorkStatusDTOList.get(i)
+									.setCompleted(auditWorkStatusDTOList.get(i).getCompleted() + 1);
+						} else if (exceptions.getFinalStatus() != null
+								&& !exceptions.getFinalStatus().equalsIgnoreCase("Approved")
+								&& exceptions.getIsImplemented() == 1) {
+							auditWorkStatusDTOList.get(i)
+									.setUnderReview(auditWorkStatusDTOList.get(i).getUnderReview() + 1);
+						} else {
+							auditWorkStatusDTOList.get(i).setOpen(auditWorkStatusDTOList.get(i).getOpen() + 1);
+						}
+
+					}
+				}
+				if (!found) {
+					AuditWorkStatusDTO auditWorkStatusDTO = new AuditWorkStatusDTO();
+					auditWorkStatusDTO.setJobId(exceptions.getJobCreationId());
+					auditWorkStatusDTO.setJobName(fetchJobNameFromJobId(exceptions.getJobCreationId()));
+					if (exceptions.getFinalStatus() != null
+							&& exceptions.getFinalStatus().equalsIgnoreCase("Approved")) {
+						auditWorkStatusDTO.setCompleted(1);
+					} else if (exceptions.getFinalStatus() != null
+							&& !exceptions.getFinalStatus().equalsIgnoreCase("Approved")
+							&& exceptions.getIsImplemented() == 1) {
+						auditWorkStatusDTO.setUnderReview(1);
+					} else {
+						auditWorkStatusDTO.setOpen(1);
+					}
+					auditWorkStatusDTOList.add(auditWorkStatusDTO);
+				}
+			}
+
+			logger.info(String.format("(Inside fetchAuditWorkStatus)fetching fetchAuditWorkStatus for year" + year
+					+ "for company" + companyId + "" + new Date()));
+
+			return auditWorkStatusDTOList;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("eeror in : fetchAuditWorkStatus");
+
+			throw e;
+		}
+	}
+
+	private String fetchJobNameFromJobId(int jobCreationId) throws Exception {
+		Session session = null;
+		if (jobCreationId == 0)
+			return "";
+		try {
+			session = sessionFactory.openSession();
+			JobCreation job = (JobCreation) session.get(JobCreation.class, jobCreationId);
+			return job.getJobName();
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("eeror in : fetchJobNameFromJobId");
+
+			throw e;
+		}
+	}
+
 	public ArrayList<String> fetchExceptioNotImplemented(int year, int companyId) throws Exception {
 		Session session = null;
 		ArrayList<String> exceptionImplementationsOverdueJobs = new ArrayList<String>();
@@ -7372,6 +7582,15 @@ public class MySQLRdbHelper {
 		int implemented = exceptionsImplemeted.size();
 		int notImplemented = exceptionsnotImplemeted.size();
 
+		////////// NEW DASHBOARD
+		dashBoardDTO.setJobNamesWithExceptionImplementationStatus(fetchJobNamesWithExceptionStatus(year, companyId));
+		dashBoardDTO.setCompletedAndInprogressExceptions(
+				fetchCompletedInprogressAndUnderReviewExceptionsCount(year, companyId));
+		dashBoardDTO.setExceptionReportingStatus(fetchExceptionsReportingStatus(year, companyId));
+		dashBoardDTO.setAuditWorkStatus(fetchAuditWorkStatus(year, companyId));
+		dashBoardDTO.setExceptions(fetchJobExceptions(0, year, companyId));
+		////////// NEW DASHBOARD END
+
 		dashBoardDTO.setJobsInExecCount(executionCount);
 		dashBoardDTO.setJobsInPlaning(planningCount);
 		dashBoardDTO.setJobsInReporting(inReportingCount);
@@ -7382,6 +7601,92 @@ public class MySQLRdbHelper {
 		fetchReports(year, companyId, dashBoardDTO);
 
 		return dashBoardDTO;
+	}
+
+	private HashMap<String, Integer> fetchExceptionsReportingStatus(int year, int companyId) throws Exception {
+		Session session = null;
+		int exceptionsToSent = 0;
+		int awaitingComments = 0;
+		int commentsReceived = 0;
+		int reportIssued = 0;
+		int finalReportIssued = 0;
+
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(JobCreation.class);
+			crit.add(Restrictions.eq("year", year));
+			crit.add(Restrictions.eq("companyId", companyId));
+
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				JobCreation jobCreation = (JobCreation) it.next();
+				switch (jobCreation.getReportStatus()) {
+				case 1:
+					exceptionsToSent++;
+				case 2:
+					awaitingComments++;
+				case 3:
+					commentsReceived++;
+				case 4:
+					reportIssued++;
+				case 5:
+					finalReportIssued++;
+				}
+
+			}
+			HashMap<String, Integer> map = new HashMap<String, Integer>();
+			map.put(InternalAuditConstants.EXCEPTIONSTOSENT, exceptionsToSent);
+			map.put(InternalAuditConstants.AWAITINGCOMMENTS, awaitingComments);
+			map.put(InternalAuditConstants.COMMENTSRECEIVED, commentsReceived);
+			map.put(InternalAuditConstants.REPORTISSUED, reportIssued);
+			map.put(InternalAuditConstants.FINALREPORTISSUED, finalReportIssued);
+
+			return map;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("error in : fetchCompletedAndInprogressExceptionsCount");
+
+			throw e;
+		}
+	}
+
+	private HashMap<String, Integer> fetchCompletedInprogressAndUnderReviewExceptionsCount(int year, int companyId)
+			throws Exception {
+		Session session = null;
+		int completed = 0;
+		int inprogress = 0;
+		int inReview = 0;
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.add(Restrictions.eq("year", year));
+			crit.add(Restrictions.eq("companyId", companyId));
+
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				Exceptions exceptions = (Exceptions) it.next();
+				if (exceptions.getFinalStatus() != null && exceptions.getFinalStatus().equalsIgnoreCase("Approved")) {
+					completed++;
+				} else if (exceptions.getFinalStatus() != null
+						&& !exceptions.getFinalStatus().equalsIgnoreCase("Approved")
+						&& exceptions.getIsImplemented() == 1) {
+					inReview++;
+				} else {
+					inprogress++;
+				}
+			}
+			map.put(InternalAuditConstants.COMPLETEDEXCEPTIONS, completed);
+			map.put(InternalAuditConstants.INPROGRESSEXCEPTIONS, inprogress);
+			map.put(InternalAuditConstants.INREVIEWEXCEPTIONS, inReview);
+			return map;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("error in : fetchCompletedAndInprogressExceptionsCount");
+
+			throw e;
+		}
+
 	}
 
 	private void fetchReports(int year, int companyId, DashBoardNewDTO dashBoardDTO) {
@@ -7836,7 +8141,7 @@ public class MySQLRdbHelper {
 		critAuditStep.createAlias("auditWork", "audWork");
 		critAuditStep.createAlias("audWork.jobCreationId", "jobCreationId");
 		critAuditStep.add(Restrictions.ne("status", InternalAuditConstants.DELETED));
-		
+
 		List rsListAuditStep = critAuditStep.list();
 		for (Iterator it = rsListAuditStep.iterator(); it.hasNext();) {
 			AuditStep auditStep = (AuditStep) it.next();
@@ -7846,8 +8151,9 @@ public class MySQLRdbHelper {
 			auditStepStatusDTO.setAuditStepName(auditStep.getAuditWork().getDescription());
 			auditStepStatusDTO.setAudtiStepId(auditStep.getAuditStepId());
 			auditStepStatusDTO.setHaveExceptions(auditStep.getExceptions().size() > 0 ? true : false);
-			auditStepStatusDTO.setStatus(auditStep.getStatus() == InternalAuditConstants.SAVED? InternalAuditConstants.INPROGRESS: InternalAuditConstants.COMPLETED);
-			
+			auditStepStatusDTO.setStatus(auditStep.getStatus() == InternalAuditConstants.SAVED
+					? InternalAuditConstants.INPROGRESS : InternalAuditConstants.COMPLETED);
+
 			jobStatusDTO.getListFieldWorkStatus().add(auditStepStatusDTO);
 		}
 	}
@@ -7856,7 +8162,7 @@ public class MySQLRdbHelper {
 		Criteria critObjective = session.createCriteria(ObjectiveJobRelation.class);
 		critObjective.createAlias("jobCreationId", "job");
 		critObjective.add(Restrictions.eq("job.jobCreationId", jobId));
-		
+
 		List rsListObjective = critObjective.list();
 		PlanningStatusDTO planningStatusDTO = new PlanningStatusDTO();
 		planningStatusDTO.setStatus(InternalAuditConstants.NOT_STARTED);
@@ -7865,18 +8171,19 @@ public class MySQLRdbHelper {
 		jobStatusDTO.getListPlanningStatus().add(planningStatusDTO);
 		for (Iterator it = rsListObjective.iterator(); it.hasNext();) {
 			ObjectiveJobRelation objectiveJobRelation = (ObjectiveJobRelation) it.next();
-			
+
 			planningStatusDTO.setDate(objectiveJobRelation.getDate());
-			planningStatusDTO.setStatus(objectiveJobRelation.getStatus() == InternalAuditConstants.SAVED? InternalAuditConstants.INPROGRESS: InternalAuditConstants.COMPLETED);
+			planningStatusDTO.setStatus(objectiveJobRelation.getStatus() == InternalAuditConstants.SAVED
+					? InternalAuditConstants.INPROGRESS : InternalAuditConstants.COMPLETED);
 			planningStatusDTO.setId(objectiveJobRelation.getActivityJobId());
 		}
 	}
-	
+
 	private void seKeyRiskStatus(int jobId, Session session, JobStatusDTO jobStatusDTO) {
 		Criteria critObjective = session.createCriteria(RiskJobRelation.class);
 		critObjective.createAlias("jobCreationId", "job");
 		critObjective.add(Restrictions.eq("job.jobCreationId", jobId));
-		
+
 		List rsListObjective = critObjective.list();
 		PlanningStatusDTO planningStatusDTO = new PlanningStatusDTO();
 		planningStatusDTO.setPlanningName(InternalAuditConstants.KEY_RISKS);
@@ -7885,33 +8192,34 @@ public class MySQLRdbHelper {
 		jobStatusDTO.getListPlanningStatus().add(planningStatusDTO);
 		for (Iterator it = rsListObjective.iterator(); it.hasNext();) {
 			RiskJobRelation entity = (RiskJobRelation) it.next();
-			
-			
+
 			planningStatusDTO.setDate(entity.getDate());
-			planningStatusDTO.setStatus(entity.getStatus() == InternalAuditConstants.SAVED? InternalAuditConstants.INPROGRESS: InternalAuditConstants.COMPLETED);
+			planningStatusDTO.setStatus(entity.getStatus() == InternalAuditConstants.SAVED
+					? InternalAuditConstants.INPROGRESS : InternalAuditConstants.COMPLETED);
 			planningStatusDTO.setId(entity.getRiskjobrelationId());
 		}
 	}
 
 	private void setNotificationStatus(int jobId, Session session, JobStatusDTO jobStatusDTO) {
 		try {
-		Criteria critNotification = session.createCriteria(AuditEngagement.class);
-		critNotification.createAlias("jobCreation", "job");
-		critNotification.add(Restrictions.eq("job.jobCreationId", jobId));
-		// crit.add(Restrictions.isNotEmpty("notificationSentDate"));
-		// crit.add(Restrictions.isNotNull("notificationSentDate"));
-		List rsListNotification = critNotification.list();
-		PlanningStatusDTO planningStatusDTO = new PlanningStatusDTO();
-		planningStatusDTO.setStatus(InternalAuditConstants.NOT_STARTED);
-		planningStatusDTO.setPlanningName(InternalAuditConstants.AUDIT_NOTIFICATION);
-		planningStatusDTO.setId(3);
-		for (Iterator it = rsListNotification.iterator(); it.hasNext();) {
-			AuditEngagement audEng = (AuditEngagement) it.next();
-			planningStatusDTO.setDate(audEng.getNotificationSentDate());
-			planningStatusDTO.setStatus(audEng.getNotificationSentDate()==null? InternalAuditConstants.NOT_STARTED: InternalAuditConstants.COMPLETED);
-			planningStatusDTO.setId(audEng.getAuditEngId());
-		}
-		jobStatusDTO.getListPlanningStatus().add(planningStatusDTO);
+			Criteria critNotification = session.createCriteria(AuditEngagement.class);
+			critNotification.createAlias("jobCreation", "job");
+			critNotification.add(Restrictions.eq("job.jobCreationId", jobId));
+			// crit.add(Restrictions.isNotEmpty("notificationSentDate"));
+			// crit.add(Restrictions.isNotNull("notificationSentDate"));
+			List rsListNotification = critNotification.list();
+			PlanningStatusDTO planningStatusDTO = new PlanningStatusDTO();
+			planningStatusDTO.setStatus(InternalAuditConstants.NOT_STARTED);
+			planningStatusDTO.setPlanningName(InternalAuditConstants.AUDIT_NOTIFICATION);
+			planningStatusDTO.setId(3);
+			for (Iterator it = rsListNotification.iterator(); it.hasNext();) {
+				AuditEngagement audEng = (AuditEngagement) it.next();
+				planningStatusDTO.setDate(audEng.getNotificationSentDate());
+				planningStatusDTO.setStatus(audEng.getNotificationSentDate() == null
+						? InternalAuditConstants.NOT_STARTED : InternalAuditConstants.COMPLETED);
+				planningStatusDTO.setId(audEng.getAuditEngId());
+			}
+			jobStatusDTO.getListPlanningStatus().add(planningStatusDTO);
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in setNotificationStatus", ex.getMessage()), ex);
 
@@ -7919,9 +8227,9 @@ public class MySQLRdbHelper {
 	}
 
 	private void setRiskControlStatus(int jobId, Session session, JobStatusDTO jobStatusDTO, int year, int companyId) {
-		
+
 		AuditEngagement audEng = fetchAuditEngagement(jobId, year, companyId);
-		
+
 		Criteria crit = session.createCriteria(RiskControlMatrixEntity.class);
 		crit.createAlias("auditEngageId", "auditEngage");
 		crit.add(Restrictions.eq("auditEngage.auditEngId", audEng.getAuditEngId()));
@@ -7932,16 +8240,18 @@ public class MySQLRdbHelper {
 		planningStatusDTO.setId(4);
 		for (Iterator it = rsList.iterator(); it.hasNext();) {
 			RiskControlMatrixEntity riskControl = (RiskControlMatrixEntity) it.next();
-			
+
 			planningStatusDTO.setDate(riskControl.getDate());
-			planningStatusDTO.setStatus(riskControl.getApprovedBy().getEmployeeId() == 0 ? InternalAuditConstants.INPROGRESS: InternalAuditConstants.COMPLETED);
+			planningStatusDTO.setStatus(riskControl.getApprovedBy().getEmployeeId() == 0
+					? InternalAuditConstants.INPROGRESS : InternalAuditConstants.COMPLETED);
 			planningStatusDTO.setId(riskControl.getRiskId());
 		}
 		jobStatusDTO.getListPlanningStatus().add(planningStatusDTO);
 	}
-	
-	private void setAuditWorkProgramStatus(int jobId, Session session, JobStatusDTO jobStatusDTO, int year, int companyId) {
-		
+
+	private void setAuditWorkProgramStatus(int jobId, Session session, JobStatusDTO jobStatusDTO, int year,
+			int companyId) {
+
 		Criteria crit = session.createCriteria(AuditWork.class);
 		crit.add(Restrictions.eq("companyId", companyId));
 		crit.createAlias("jobCreationId", "job");
@@ -7954,9 +8264,10 @@ public class MySQLRdbHelper {
 		planningStatusDTO.setId(5);
 		for (Iterator it = rsList.iterator(); it.hasNext();) {
 			AuditWork auditWork = (AuditWork) it.next();
-			
+
 			planningStatusDTO.setDate(auditWork.getDate());
-			planningStatusDTO.setStatus(auditWork.getApprovedBy().getEmployeeId() == 0 ? InternalAuditConstants.INPROGRESS: InternalAuditConstants.COMPLETED);
+			planningStatusDTO.setStatus(auditWork.getApprovedBy().getEmployeeId() == 0
+					? InternalAuditConstants.INPROGRESS : InternalAuditConstants.COMPLETED);
 			planningStatusDTO.setId(auditWork.getAuditWorkId());
 		}
 		jobStatusDTO.getListPlanningStatus().add(planningStatusDTO);
