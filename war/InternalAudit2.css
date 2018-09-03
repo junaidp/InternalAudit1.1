@@ -465,4 +465,8 @@ DASHBOARD UIII    -->ol, ul {
 .com-sencha-gxt-theme-neptune-client-base-grid-Css3ColumnHeaderAppearance-Styles-headInner{
 	height:  24px !important;
 }
+.com-google-gwt-user-cellview-client-CellTable-Style-cellTableHeader{
+	color:white !important;
+	font-weight: normal !important;
+}
 

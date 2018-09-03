@@ -83,6 +83,8 @@ public class EmployeeDashBoardView extends Composite {
 			}
 		};
 		objectiveName.setSortable(true);
+		table.addColumnStyleName(0, "w3-panel w3-light-blue");
+		
 		table.addColumn(objectiveName,"Name");
 		
 		initiatedBy = new Column<DashBoardDTO, String>(new TextCell()) {
@@ -92,6 +94,8 @@ public class EmployeeDashBoardView extends Composite {
 			}
 		};
 		initiatedBy.setSortable(true);
+		table.addColumnStyleName(1, "w3-panel w3-light-blue");
+		
 		table.addColumn(initiatedBy,"Initiated by");
 		
 //		assignee = new Column<DashBoardDTO, String>(new TextCell()) {
@@ -126,6 +130,11 @@ public class EmployeeDashBoardView extends Composite {
 //		};
 //		approvar.setSortable(true);
 //		table.addColumn(approvar,"Approved by");
+		table.addColumnStyleName(0, "w3-panel w3-light-blue");
+		
+		table.addColumnStyleName(2, "w3-panel w3-light-blue");
+		table.addColumnStyleName(3, "w3-panel w3-light-blue");
+		
 		
 		phase = new Column<DashBoardDTO, String>(new TextCell()) {
 			@Override

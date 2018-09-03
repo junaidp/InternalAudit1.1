@@ -16,13 +16,13 @@ import com.sencha.gxt.widget.core.client.ProgressBar;
 
 public class KickOffViewNew extends VerticalPanel {
 
-	
-	Label lblJobName = new Label("Job Name");
-	Label lblStartDate = new Label("Planned Start Date");
-	Label lblEndDate = new Label("Planned End Date");
-	Label lblPlaning = new Label("Planing");
-	Label lblFieldWork = new Label("FieldWork");
-	Label lblReporting = new Label("Reeporting");
+	LabelHeading lblSerialNo = new LabelHeading();
+	LabelHeading lblJobName = new LabelHeading();
+	LabelHeading lblStartDate = new LabelHeading();
+	LabelHeading lblEndDate = new LabelHeading();
+	LabelHeading lblPlaning = new LabelHeading();
+	LabelHeading lblFieldWork = new LabelHeading();
+	LabelHeading lblReporting = new LabelHeading();
 	
 	private Label lblJobNameData = new Label("Jobnamelable");
 	private Label lblStartDateData = new Label("Starting Date");
@@ -37,17 +37,18 @@ public class KickOffViewNew extends VerticalPanel {
 	
 	public  KickOffViewNew() {
 
+		lblSerialNo.setText("Sr#");
+		lblJobName.setText("Job Name");
+		lblStartDate.setText("Planned Start Date");
 
-		lblJobName.addStyleName("w3-panel w3-light-blue");
-		lblStartDate.addStyleName("w3-panel w3-light-blue");
+		lblEndDate.setText("Planned End Date");
 
-		lblEndDate.addStyleName("w3-panel w3-light-blue");
+		lblPlaning.setText("Planning");
 
-		lblPlaning.addStyleName("w3-panel w3-light-blue");
-
-		lblFieldWork.addStyleName("w3-panel w3-light-blue");
+		lblFieldWork.setText("Field Work");
 		
-		lblReporting.addStyleName("w3-panel w3-light-blue");
+		
+		lblReporting.setText("Reporting");
 
 	
 	

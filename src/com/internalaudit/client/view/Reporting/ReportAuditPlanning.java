@@ -94,6 +94,7 @@ public class ReportAuditPlanning extends Composite implements IStackWidget{
 		lstDomain = new ListBox(); lstDomain.setMultipleSelect(true); 	lstDomain.addStyleName("listboxStyle");
 		lstDiv = new ListBox();    lstDiv.setMultipleSelect(true);		lstDiv.addStyleName("listboxStyle");
 		lstRisk = new ListBox();   lstRisk.setMultipleSelect(true);		lstRisk.addStyleName("listboxStyle");
+		lstRisk.setWidth("110px");
 		
 		lstRisk.addItem("All", "All"); lstRisk.setSelectedIndex(0);
 		lstRisk.addItem("High", "High");

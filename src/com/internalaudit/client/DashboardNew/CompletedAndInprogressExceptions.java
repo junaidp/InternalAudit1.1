@@ -3,6 +3,7 @@ package com.internalaudit.client.DashboardNew;
 import java.util.HashMap;
 
 import org.moxieapps.gwt.highcharts.client.Chart;
+import org.moxieapps.gwt.highcharts.client.Credits;
 import org.moxieapps.gwt.highcharts.client.Point;
 import org.moxieapps.gwt.highcharts.client.Series;
 import org.moxieapps.gwt.highcharts.client.ToolTip;
@@ -23,7 +24,7 @@ public class CompletedAndInprogressExceptions extends VerticalLayoutContainer {
 
 	public Chart createChart(HashMap<String, Integer> completedAndInprogressExceptions) {
 
-		final Chart chart = new Chart().setWidth(320).setHeight(200).setType(Series.Type.PIE).setChartTitleText("")
+		final Chart chart = new Chart().setWidth(450).setHeight(200).setType(Series.Type.PIE).setChartTitleText("")
 
 				.setPlotBackgroundColor((String) null).setPlotBorderWidth(null).setPlotShadow(true)
 				.setPiePlotOptions(new PiePlotOptions().setAllowPointSelect(true).setCursor(PlotOptions.Cursor.POINTER)
@@ -33,13 +34,13 @@ public class CompletedAndInprogressExceptions extends VerticalLayoutContainer {
 						return "<b>" + toolTipData.getPointName() + "</b>: " + toolTipData.getYAsDouble() + " %";
 					}
 				}));
-
+		chart.setCredits(new Credits().setText(""));
 		chart.addSeries(chart.createSeries().setName("Exceptions")
 				.setPoints(new Point[] {
 						new Point("Completed",
-								completedAndInprogressExceptions.get(InternalAuditConstants.COMPLETEDEXCEPTIONS)),
+								completedAndInprogressExceptions.get(InternalAuditConstants.COMPLETEDEXCEPTIONS)).setColor("#4169E1"),
 						new Point("In Progress",
-								completedAndInprogressExceptions.get(InternalAuditConstants.INPROGRESSEXCEPTIONS)),
+								completedAndInprogressExceptions.get(InternalAuditConstants.INPROGRESSEXCEPTIONS)).setColor("#FF6347"),
 
 		}));
 

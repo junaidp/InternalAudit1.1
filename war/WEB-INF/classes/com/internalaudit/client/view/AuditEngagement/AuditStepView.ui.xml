@@ -2,6 +2,10 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:A="urn:import:com.internalaudit.client.view.AuditEngagement">
 	<ui:style>
+	}
+	.heading{
+	font-size: 18px;
+}
 	
 	</ui:style>
 	
@@ -9,7 +13,7 @@
 	
 	<g:Label styleName="hidden" ui:field="auditStepId" visible="false">0</g:Label>
 	
-	<g:Label styleName="heading" visible="false">Audit Step</g:Label>
+	<A:LabelHeading addStyleNames="{style.heading}" visible="false">Audit Step</A:LabelHeading>
 	
 	<div>
 	<div>
@@ -63,7 +67,7 @@
 	
 	<g:TextArea ui:field="performance" visible="false"></g:TextArea>
 	
-	<g:Label styleName="popupSmallHeading" width="100px">Exceptions</g:Label>
+	<A:LabelHeading width="100px">Exceptions</A:LabelHeading>
 		
 		
 		<g:Button ui:field="addException">Add Exception</g:Button>
@@ -78,7 +82,7 @@
 	
 	<g:HorizontalPanel spacing="5">
 		
-		<g:Label  styleName="labelTitle">Conclusion</g:Label>
+		<A:LabelHeading  >Conclusion</A:LabelHeading>
 		
 		<g:ListBox ui:field="conclusion" >
 			<g:item>Satisfactory</g:item>

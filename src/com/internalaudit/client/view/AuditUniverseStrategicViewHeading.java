@@ -1,8 +1,10 @@
 package com.internalaudit.client.view;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.shared.InternalAuditConstants;
 
 public class AuditUniverseStrategicViewHeading extends Composite {
@@ -11,11 +13,20 @@ public class AuditUniverseStrategicViewHeading extends Composite {
 		
 		final HorizontalPanel hpnlStrategic = new HorizontalPanel();
 		initWidget(hpnlStrategic);
-		Label lblStrategicObjective = new Label(InternalAuditConstants.STRATEGICOBJECTIVE);
+		LabelHeading lblStrategicObjective = new LabelHeading();
+		lblStrategicObjective.setText(InternalAuditConstants.STRATEGICOBJECTIVE);
+		//lblStrategicObjective.getElement().getStyle().setFontSize(16, Unit.PX);
 		Label lblObjectiveOwner = new Label(InternalAuditConstants.STRATEGICOBJECTIVEOWNER);
-		Label relevantDepartment = new Label(InternalAuditConstants.STRATEGICDEPT);
+		//lblObjectiveOwner.getElement().getStyle().setFontSize(16, Unit.PX);
+		LabelHeading relevantDepartment = new LabelHeading();
+		relevantDepartment.setText(InternalAuditConstants.STRATEGICDEPT);
+		//relevantDepartment.getElement().getStyle().setFontSize(16, Unit.PX);
 		Label objectiveAchievementDate = new Label(InternalAuditConstants.STRATEGICDATE);
-		Label objectiveId = new Label(AuditConstants.OBJECTIVEID);
+		LabelHeading objectiveId = new LabelHeading();
+		objectiveId.setText(AuditConstants.OBJECTIVEID);
+		//objectiveId.getElement().getStyle().setFontSize(16, Unit.PX);
+		//objectiveAchievementDate.getElement().getStyle().setFontSize(16, Unit.PX);
+		objectiveId.setHeight("20px");
 		
 		hpnlStrategic.add(objectiveId);
 		objectiveId.setWidth("20px");

@@ -5,6 +5,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.client.view.data.ConsolidationViewData;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.google.gwt.user.client.ui.Button;
@@ -47,18 +48,21 @@ public class ConsolidationHeadingView extends Composite{
 		horizontalPanel.setSize("1000px", "100%");
 		horizontalPanel.setSpacing(5);
 		
-		Label lblArea = new Label("Objective");
+		LabelHeading lblArea = new LabelHeading();
+		lblArea.setText("Objective");
 //		lblArea.setWordWrap(false);
-		lblArea.addStyleName("labelHeading");
+		//lblArea.addStyleName("labelHeading");
 		horizontalPanel.add(lblArea);
 		lblArea.setWidth("200px");
 		
-		Label lblRiskUnit = new Label("Risk Rating");
+		LabelHeading lblRiskUnit = new LabelHeading();
+		lblRiskUnit.setText("Risk Rating");
 		lblRiskUnit.addStyleName("labelHeading");
 		horizontalPanel.add(lblRiskUnit);
 		lblRiskUnit.setWidth("100px");
 		
-		Label lblAuditaleRating = new Label("Auditable Unit");
+		LabelHeading lblAuditaleRating = new LabelHeading();
+		lblAuditaleRating.setText("Auditable Unit");
 		lblAuditaleRating.addStyleName("labelHeading");
 		horizontalPanel.add(lblAuditaleRating);
 		lblAuditaleRating.setWidth("180px");
@@ -67,22 +71,25 @@ public class ConsolidationHeadingView extends Composite{
 //		horizontalPanel.addStyleName("statusRowConsolidation");
 		
 		// heading label of procees
-		Label lblAuditaleProcess = new Label("Process");
+		LabelHeading lblAuditaleProcess = new LabelHeading();
+		lblAuditaleProcess.setText("Process");
 		lblAuditaleProcess.addStyleName("labelHeading");
 		horizontalPanel.add(lblAuditaleProcess);
 		lblAuditaleProcess.setWidth("160px");
 		
 		//heading labelof sub process
-		Label lblAuditaleSubProcess = new Label("SubProcess");
+		LabelHeading lblAuditaleSubProcess = new LabelHeading();
+		lblAuditaleSubProcess.setText("SubProcess");
 		lblAuditaleSubProcess.addStyleName("labelHeading");
 		horizontalPanel.add(lblAuditaleSubProcess);
 		lblAuditaleSubProcess.setWidth("160px");
 		
 		//heading labelof  jobtype
-				Label lblAuditaleJobType = new Label("JobType");
+				LabelHeading lblAuditaleJobType = new LabelHeading();
+				lblAuditaleJobType.setText("JobType");
 				lblAuditaleJobType.addStyleName("labelHeading");
 				horizontalPanel.add(lblAuditaleJobType);
-				lblAuditaleJobType.setWidth("160px");
+				lblAuditaleJobType.setWidth("190px");
 		
 				Label lblTab = new Label("");
 				lblTab.addStyleName("blue");

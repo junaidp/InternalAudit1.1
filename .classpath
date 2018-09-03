@@ -29,6 +29,22 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gxt-3.1.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gxt-chart-3.0.1.jar"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/GWT"/>
-	<classpathentry kind="con" path="com.gwtplugins.gwt.eclipse.core.GWT_CONTAINER/GWT 2.7.0"/>
+	<classpathentry kind="lib" path="D:/softwares/eclipse-jee-neon-3-win32/eclipse/plugins/com.gwtplugins.gwt.eclipse.sdkbundle.gwt27_2.7.0.201710131939/gwt-2.7.0/gwt-user.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/D:/softwares/eclipse-jee-neon-3-win32/eclipse/plugins/com.gwtplugins.gwt.eclipse.sdkbundle.gwt27_2.7.0.201710131939/gwt-2.7.0/doc/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="D:/softwares/eclipse-jee-neon-3-win32/eclipse/plugins/com.gwtplugins.gwt.eclipse.sdkbundle.gwt27_2.7.0.201710131939/gwt-2.7.0/gwt-codeserver.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/D:/softwares/eclipse-jee-neon-3-win32/eclipse/plugins/com.gwtplugins.gwt.eclipse.sdkbundle.gwt27_2.7.0.201710131939/gwt-2.7.0/doc/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="D:/softwares/eclipse-jee-neon-3-win32/eclipse/plugins/com.gwtplugins.gwt.eclipse.sdkbundle.gwt27_2.7.0.201710131939/gwt-2.7.0/gwt-dev.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/D:/softwares/eclipse-jee-neon-3-win32/eclipse/plugins/com.gwtplugins.gwt.eclipse.sdkbundle.gwt27_2.7.0.201710131939/gwt-2.7.0/doc/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="D:/softwares/eclipse-jee-neon-3-win32/eclipse/plugins/com.gwtplugins.gwt.eclipse.sdkbundle.gwt27_2.7.0.201710131939/gwt-2.7.0/validation-api-1.0.0.GA-sources.jar"/>
+	<classpathentry kind="lib" path="D:/softwares/eclipse-jee-neon-3-win32/eclipse/plugins/com.gwtplugins.gwt.eclipse.sdkbundle.gwt27_2.7.0.201710131939/gwt-2.7.0/validation-api-1.0.0.GA.jar" sourcepath="D:/softwares/eclipse-jee-neon-3-win32/eclipse/plugins/com.gwtplugins.gwt.eclipse.sdkbundle.gwt27_2.7.0.201710131939/gwt-2.7.0/validation-api-1.0.0.GA-sources.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

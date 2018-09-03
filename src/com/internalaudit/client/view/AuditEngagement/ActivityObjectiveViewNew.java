@@ -17,10 +17,10 @@ import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.shared.ActivityObjective;
 
 public class ActivityObjectiveViewNew extends Composite {
-	Label lblHeading = new Label("Detailed Scope and Process Understanding");
-	Label lblReferenceNo = new Label("Reference Number");
-	Label lblActivityObjective = new Label("Activity Objective");
-	Label lblapplicability = new Label("Applicability");
+	Label lblHeading = new Label();
+	LabelHeading lblReferenceNo = new LabelHeading();
+	LabelHeading lblActivityObjective = new LabelHeading();
+	LabelHeading lblapplicability = new LabelHeading();
 	TextArea txtAreaActivityObj = new TextArea();
 	CheckBox checkBoxApplicability = new CheckBox("");
 	private int activityObjectiveId = 0;
@@ -42,26 +42,20 @@ public class ActivityObjectiveViewNew extends Composite {
 		
 		
 		initWidget(uiBinder.createAndBindUi(this));
-		lblHeading.addStyleName("w3-panel w3-blue");
-		lblHeading.addStyleName("w3-white");
+		lblHeading.setText("Detailed Scope and Process Understanding");
+		//lblHeading.addStyleName("w3-white");
 		lblReferenceNoData.setWidth("180px");
-		//lblReferenceNoData.addStyleName("w3-panel w3-light-blue");
 
-	//	lblReferenceNo.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		lblReferenceNo.addStyleName("w3-panel w3-light-blue");
+		lblReferenceNo.setText("Reference Number");
 
-		lblActivityObjective.addStyleName("w3-panel w3-light-blue");
-		lblapplicability.addStyleName("w3-panel w3-light-blue");
+		lblActivityObjective.setText("Activity Objective");
+		lblapplicability.setText("Applicability");
 		Button buttonAdd = new Button();
 		buttonAdd.addStyleName("w3-button w3-circle w3-teal");
 
 		txtAreaActivityObj.setWidth("650px");
 		txtAreaActivityObj.setHeight("80px");
 
-		//lblHeading.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		//lblActivityObjective.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		//lblapplicability.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		//lblReferenceNoData.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 
 		lblActivityObjective.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		lblapplicability.getElement().getStyle().setMarginLeft(20, Unit.PX);
@@ -76,8 +70,6 @@ public class ActivityObjectiveViewNew extends Composite {
 
 		flex.setWidget(1,1, lblActivityObjective);
 		flex.setWidget(2,1,txtAreaActivityObj);
-		//flex.setWidget(1,2, lblapplicability);
-		//flex.setWidget(2,2,checkBoxApplicability);
 		
 		flex.setWidget(2,2, btnSelectActivity);
 		

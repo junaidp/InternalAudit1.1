@@ -1,5 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
-<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:u="urn:import:com.internalaudit.client.upload" xmlns:A="urn:import:com.internalaudit.client.view.AuditEngagement" xmlns:s="urn:import:javax.swing" xmlns:a="urn:import:java.awt">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:u="urn:import:com.internalaudit.client.upload" xmlns:A="urn:import:com.internalaudit.client.view.AuditEngagement" xmlns:s="urn:import:javax.swing" xmlns:a="urn:import:java.awt" xmlns:D="urn:import:com.google.gwt.cell.client.ButtonCellBase.DefaultAppearance">
+
 
 	<g:HTMLPanel height="700px">
 			<g:Label styleName="heading"> Detailed scope and process understanding </g:Label>

@@ -1,13 +1,19 @@
 package com.internalaudit.client.view.Reporting;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.presenter.ReportsPresenter.Display;
+import com.sencha.gxt.widget.core.client.ContentPanel;
+import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer.AccordionLayoutAppearance;
+import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer.ExpandMode;
 
 public class ReportsView extends Composite implements Display {
 	
@@ -27,7 +33,7 @@ public class ReportsView extends Composite implements Display {
 	ReportAuditEngagement report3;
 	ReportJobTimeAllocation report4;
 	ReportAuditExceptions report5;
-	
+	AccordionLayoutContainer accordion = new AccordionLayoutContainer();
 	ListBox lstDomain;
 	ListBox lstDiv;
 	ListBox lstRisk;
@@ -35,6 +41,10 @@ public class ReportsView extends Composite implements Display {
 	public ReportsView(String arg)
 	{
 		initWidget(vpnlMain);
+		
+	   
+
+
 	
 		stckReportsContainer.setSize("1200px","200px");
 		
@@ -45,11 +55,59 @@ public class ReportsView extends Composite implements Display {
 		report4 = new ReportJobTimeAllocation(null);
 		report5 = new ReportAuditExceptions(null);
 		
-		stckReportsContainer.add(report1 , "Audit Planning Report");
-		stckReportsContainer.add(report2, "Audit Scheduling Report");
-//		stckReportsContainer.add(report3, "Audit Engagement Report");
-		stckReportsContainer.add(report4, "Job Time Allocation Report");
-		stckReportsContainer.add(report5, "Audit Exceptions Report");
+		   AccordionLayoutAppearance appearance = GWT.<AccordionLayoutAppearance> create(AccordionLayoutAppearance.class);
+		      
+		   	  ContentPanel cp1 = new ContentPanel(appearance);
+		      cp1.setAnimCollapse(false);
+		      cp1.setHeadingText("Audit Planning Report");
+		      ScrollPanel p1 = new ScrollPanel();
+		      p1.setHeight("400px");
+		      p1.add(report1);
+		      cp1.add(p1);
+		      
+		     
+		      ContentPanel cp2 = new ContentPanel(appearance);
+		      cp2.setAnimCollapse(false);
+		      cp2.setHeadingText("Audit Scheduling Report");
+		      ScrollPanel p2 = new ScrollPanel();
+		      p2.setHeight("400px");
+		      p2.add(report2);
+		      cp2.add(p2);
+		      
+		      
+		      ContentPanel cp3 = new ContentPanel(appearance);
+		      cp3.setAnimCollapse(false);
+		      ScrollPanel p3 = new ScrollPanel();
+		      p3.setHeight("400px");
+		      p3.add(report4);
+		      cp3.setHeadingText("Job Time Allocation Report ");
+		      cp3.add(p3);
+		      
+		      ContentPanel cp4 = new ContentPanel(appearance);
+		      ScrollPanel p4 = new ScrollPanel();
+		      p4.setHeight("400px");
+		      p4.add(report5);
+		      cp4.setAnimCollapse(false);
+		      cp4.setHeadingText("Audit Exceptions Report");
+		      cp4.add(p4);
+		      
+		      
+		      
+		      
+		      accordion.setSize("1200px","500px");
+		     // accordion.setWidth("1200px");
+		      accordion.setExpandMode(ExpandMode.SINGLE_FILL);
+		      accordion.add(cp1);
+		      accordion.add(cp2);
+		      accordion.add(cp3);
+		      accordion.add(cp4);
+		      //accordion.setActiveWidget(cp1);
+		
+//		stckReportsContainer.add(report1 , "Audit Planning Report");
+//		stckReportsContainer.add(report2, "Audit Scheduling Report");
+////		stckReportsContainer.add(report3, "Audit Engagement Report");
+//		stckReportsContainer.add(report4, "Job Time Allocation Report");
+//		stckReportsContainer.add(report5, "Audit Exceptions Report");
 		
 //		ancDetailed.addClickHandler(new ClickHandler() {
 //					
@@ -68,8 +126,9 @@ public class ReportsView extends Composite implements Display {
 		lstReports.addItem("Report 4","Report 4");
 		lstReports.addItem("Report 5","Report 5");
 		
-		reportsContainer.add(stckReportsContainer);
-		vpnlMain.add(reportsContainer);
+		//reportsContainer.add(stckReportsContainer);
+		//vpnlMain.add(reportsContainer);
+		vpnlMain.add(accordion);
 		
 		
 		
@@ -166,6 +225,14 @@ public class ReportsView extends Composite implements Display {
 
 	public void setReport5(ReportAuditExceptions report5) {
 		this.report5 = report5;
+	}
+
+	public AccordionLayoutContainer getAccordion() {
+		return accordion;
+	}
+
+	public void setAccordion(AccordionLayoutContainer accordion) {
+		this.accordion = accordion;
 	}
 	
 	

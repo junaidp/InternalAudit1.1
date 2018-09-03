@@ -12,12 +12,12 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class SamplingAuditStep extends VerticalPanel {
-	Label lblControl = new Label("Control");
-	Label lblControlList = new Label("Control List");
-	Label lblFrequency = new Label("Frequency");
-	Label lblSampleSize = new Label("Sample Size");
-	Label lblSamplingMethod = new Label("Sampling Method");
-	Label lblPopulationSize = new Label("Population Size");
+	LabelHeading lblControl = new LabelHeading();
+	LabelHeading lblControlList = new LabelHeading();
+	LabelHeading lblFrequency = new LabelHeading();
+	LabelHeading lblSampleSize = new LabelHeading();
+	LabelHeading lblSamplingMethod = new LabelHeading();
+	LabelHeading lblPopulationSize = new LabelHeading();
 	
 	TextArea txtAreaControl = new TextArea();
 	ListBox listBoxControlList = new ListBox();
@@ -36,19 +36,14 @@ public class SamplingAuditStep extends VerticalPanel {
 	
 		// Styling of all the labels
 		
-		lblControl.addStyleName("w3-panel w3-light-blue");
-		lblControlList.addStyleName("w3-panel w3-light-blue");
-		lblFrequency.addStyleName("w3-panel w3-light-blue");
-		lblSampleSize.addStyleName("w3-panel w3-light-blue");
-		lblSamplingMethod.addStyleName("w3-panel w3-light-blue");
-		lblPopulationSize.addStyleName("w3-panel w3-light-blue");
+		lblControl.setText("Control");
+		lblControlList.setText("Control List");
+		lblFrequency.setText("Frequency");
+		lblSampleSize.setText("Sample Size");
+		lblSamplingMethod.setText("Sampling Method");
+		lblPopulationSize.setText("Population Size");
 		
-		lblControl.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		lblControlList.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		lblFrequency.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		lblSampleSize.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		lblSamplingMethod.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		lblPopulationSize.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+
 		
 		// Styling of all the labels data
 

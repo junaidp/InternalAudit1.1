@@ -19,6 +19,7 @@ import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.FinalAuditablesView;
+import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.Strategic;
 import com.internalaudit.shared.TimeOutException;
@@ -68,12 +69,20 @@ public class FinalAuditablesViewData {
 				finalAuditablesView.getAreas().clear();
 				HorizontalPanel hpnlHeading = new HorizontalPanel();
 				hpnlHeading.setSpacing(5);
-				Label lblUnitHeading = new Label("Auditable Unit");
+				LabelHeading lblSerialNo = new LabelHeading();
+				lblSerialNo.setWidth("100px");
+				lblSerialNo.setText("Sr#");
+				LabelHeading lblStatus = new LabelHeading();
+				lblStatus.setWidth("100px");
+				lblStatus.setText("Status");
+				LabelHeading lblUnitHeading = new LabelHeading();
+				lblUnitHeading.setText("Auditable Unit");
 				Label lblObjHeading = new Label("Objective");
-				lblUnitHeading.setWidth("400px");
+				lblUnitHeading.setWidth("600px");
 				lblObjHeading.setWidth("250px");
+				hpnlHeading.add(lblSerialNo);
 				hpnlHeading.add(lblUnitHeading);
-				
+				hpnlHeading.add(lblStatus);
 //				hpnlHeading.addStyleName("statusRowConsolidation");
 
 				lblUnitHeading.addStyleName("labelHeading");
@@ -118,6 +127,7 @@ public class FinalAuditablesViewData {
 						JobCreation jb = new JobCreation();
 						
 						Label lblCount = new Label("");
+						lblCount.setWidth("100px");
 						lblCount.addStyleName("blue");
 						//lblCount.setText(count + ")" );
 					

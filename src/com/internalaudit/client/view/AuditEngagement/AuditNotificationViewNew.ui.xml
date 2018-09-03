@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:a="urn:import:com.google.gwt.thirdparty.javascript.rhino.head.ast" xmlns:u="urn:import:java.util" xmlns:c="urn:import:com.google.gwt.cell.client" xmlns:d="urn:import:com.google.gwt.user.datepicker.client">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:a="urn:import:com.google.gwt.thirdparty.javascript.rhino.head.ast" xmlns:u="urn:import:java.util" xmlns:c="urn:import:com.google.gwt.cell.client" xmlns:d="urn:import:com.google.gwt.user.datepicker.client" xmlns:A="urn:import:com.internalaudit.client.view.AuditEngagement">
 	<ui:style>
 	.verticalPanel{
 	border: solid;
@@ -15,26 +15,30 @@
 	margin-top: 3px;
 	margin-right: 3px;
 }
+	.heading{
+	font-size: 18px;
+}
 	</ui:style>
 	<g:HTMLPanel>
-	<g:Label styleName="heading" > Audit Notification </g:Label>
+	
+	<A:LabelHeading addStyleNames="{style.heading}" > Audit Notification </A:LabelHeading>
 	<g:VerticalPanel width="800px" height="300px">
 		<g:HorizontalPanel>
-		<g:Label text="Memo No:"  addStyleNames=" w3-light-blue"></g:Label>
+		<A:LabelHeading text="Memo No:"  addStyleNames=" w3-light-blue"></A:LabelHeading>
 		</g:HorizontalPanel>
 		<g:HorizontalPanel>
 			<g:VerticalPanel>
-			<g:Label text="Our Reference Number"  addStyleNames=" w3-light-blue"></g:Label>
+			<A:LabelHeading text="Our Reference Number"  ></A:LabelHeading>
 			<g:TextBox text="Company name Internal Audit"  ui:field="txtBoxReference" width="200px"></g:TextBox>
 			</g:VerticalPanel>
 			<g:VerticalPanel addStyleNames="{style.date}">
-			<g:Label text="Date"  addStyleNames=" w3-light-blue" ></g:Label>
+			<A:LabelHeading text="Date"  addStyleNames=" w3-light-blue" ></A:LabelHeading>
 			<d:DateBox></d:DateBox>
 			</g:VerticalPanel>
 		</g:HorizontalPanel>
 			<g:HorizontalPanel>
 			<g:VerticalPanel>
-			<g:Label text="From"  addStyleNames=" w3-light-blue" ></g:Label>
+			<A:LabelHeading text="From"  addStyleNames=" w3-light-blue" ></A:LabelHeading>
 			
 			<g:TextBox text="MR XYZ,Head of internal Audit" ui:field="txtBoxFrom" width="200px"></g:TextBox>
 		</g:VerticalPanel>
@@ -42,7 +46,7 @@
 			
 			<g:HorizontalPanel>
 			<g:VerticalPanel>
-			<g:Label text="For Action"  addStyleNames=" w3-light-blue"></g:Label>
+			<A:LabelHeading text="For Action"  addStyleNames=" w3-light-blue"></A:LabelHeading>
 			<g:TextBox text="MR XYZ,Director XXX" ui:field="txtBoxForAction" width="200px"></g:TextBox>
 			</g:VerticalPanel>
 			</g:HorizontalPanel>
@@ -51,7 +55,7 @@
 			
 			<g:HorizontalPanel>
 			<g:VerticalPanel>
-			<g:Label text="For Information"  addStyleNames=" w3-light-blue" ></g:Label>
+			<A:LabelHeading text="For Information"  addStyleNames=" w3-light-blue" ></A:LabelHeading>
 		    
 			<g:TextBox text="CXO Detail" width="200px" ui:field="txtBoxForInfo"></g:TextBox>
 			</g:VerticalPanel>
@@ -61,7 +65,7 @@
 	
 			<g:HorizontalPanel>
 			<g:VerticalPanel>
-			<g:Label text="Subject"  addStyleNames=" w3-light-blue"></g:Label>
+			<A:LabelHeading text="Subject"  addStyleNames=" w3-light-blue"></A:LabelHeading>
 			<g:TextBox width="200px" text="Engegement Name" ui:field="txtBoxSubject"></g:TextBox>
 			
 			</g:VerticalPanel>

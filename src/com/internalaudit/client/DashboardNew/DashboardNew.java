@@ -38,8 +38,12 @@ public class DashboardNew extends VerticalLayoutContainer {
 		// here make instance of your new dashboard class (as u made
 		// DashboardAuditWorkSpace, create an other for new dashboard and also
 		// new chart and grid classes
+		DashboardProjectManagement dashboardProjectManagement =new DashboardProjectManagement(dashboardDTO);
+
 		panel.add(dashboardAuditWorkSpace, "Audit Workspace");
-		panel.add(new Label("new dashboard here"), "New dashboard name");
+		panel.add(dashboardProjectManagement, "Project Management");
+		
+		//panel.add(new Label("new dashboard here"), "New dashboard name");
 		add(panel);
 	}
 

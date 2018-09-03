@@ -3,6 +3,7 @@ package com.internalaudit.client.DashboardNew;
 import java.util.ArrayList;
 
 import org.moxieapps.gwt.highcharts.client.Chart;
+import org.moxieapps.gwt.highcharts.client.Credits;
 import org.moxieapps.gwt.highcharts.client.Legend;
 import org.moxieapps.gwt.highcharts.client.Point;
 import org.moxieapps.gwt.highcharts.client.Series;
@@ -24,7 +25,7 @@ public class AuditWorkChart extends VerticalLayoutContainer {
 
 	public Chart createChart(ArrayList<AuditWorkStatusDTO> auditWorkStatusDTO) {
 
-		final Chart chart = new Chart().setWidth(700).setType(Series.Type.BAR).setChartTitleText("Audit Work Statuss")
+		final Chart chart = new Chart().setWidth(700).setType(Series.Type.BAR).setChartTitleText("Audit Work Status")
 				.setSeriesPlotOptions(new SeriesPlotOptions().setStacking(PlotOptions.Stacking.NORMAL))
 				.setLegend(new Legend().setBackgroundColor("#FFFFFF").setReversed(true))
 				.setToolTip(new ToolTip().setFormatter(new ToolTipFormatter() {
@@ -33,14 +34,18 @@ public class AuditWorkChart extends VerticalLayoutContainer {
 								+ toolTipData.getXAsString();
 					}
 				}));
-
+	 
 		chart.getYAxis().setMin(0).setAxisTitleText("Audit Work Status");
+		chart.setCredits(new Credits().setText(""));
+		
+		chart.getYAxis().setTickInterval(1);
 
 		String[] listCat = new String[auditWorkStatusDTO.size()];
 		Point[] pointsUnderReview = new Point[auditWorkStatusDTO.size()];
 		Point[] pointsOpen = new Point[auditWorkStatusDTO.size()];
 		Point[] pointsCompleted = new Point[auditWorkStatusDTO.size()];
 		Series seriesUnderReview = chart.createSeries().setName("Under Review");
+
 		Series seriesOpen = chart.createSeries().setName("Open");
 		Series seriesCompleted = chart.createSeries().setName("Completed");
 		chart.addSeries(seriesUnderReview);
@@ -53,16 +58,18 @@ public class AuditWorkChart extends VerticalLayoutContainer {
 
 			chart.getXAxis().setCategories(listCat);
 
-			Point pUnderReview = new Point("review", auditWorkStatusDTO.get(i).getUnderReview());
+			Point pUnderReview = new Point("review", auditWorkStatusDTO.get(i).getUnderReview()).setColor("#FFD700");
 			pointsUnderReview[i] = pUnderReview;
 
-			Point pOpen = new Point("open", auditWorkStatusDTO.get(i).getOpen());
+			Point pOpen = new Point("open", auditWorkStatusDTO.get(i).getOpen()).setColor("#4169E1");
 			pointsOpen[i] = pOpen;
 
-			Point pCompleted = new Point("completed", auditWorkStatusDTO.get(i).getCompleted());
+			Point pCompleted = new Point("completed", auditWorkStatusDTO.get(i).getCompleted()).setColor("#32CD32");
 			pointsCompleted[i] = pCompleted;
 
+			
 		}
+	
 
 		seriesUnderReview.setPoints(pointsUnderReview);
 		seriesOpen.setPoints(pointsOpen);

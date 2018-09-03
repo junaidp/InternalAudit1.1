@@ -1,15 +1,17 @@
 package com.internalaudit.client.view.Reporting;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 
 public class AllJobsView extends VerticalPanel {
 	
 	public AllJobsView(){
 		HorizontalPanel hpnl = new HorizontalPanel();
-		Label lblAuditJob = new Label("Audit Job");
-		Label lblReportingStatus = new Label("Reporting Status");
+		LabelHeading lblAuditJob = new LabelHeading();
+		LabelHeading lblReportingStatus = new LabelHeading();
 		setStyling(lblAuditJob, lblReportingStatus);
 		hpnl.add(lblAuditJob);
 		hpnl.add(lblReportingStatus);
@@ -17,6 +19,10 @@ public class AllJobsView extends VerticalPanel {
 	}
 
 	private void setStyling(Label lblAuditJob, Label lblReportingStatus) {
+		lblAuditJob.setText("Audit Job");
+		lblAuditJob.getElement().getStyle().setFontSize(18, Unit.PX);
+		lblReportingStatus.getElement().getStyle().setFontSize(18, Unit.PX);
+		lblReportingStatus.setText("Reporting Status");
 		lblAuditJob.setWidth("615px");
 		lblReportingStatus.setWidth("400px");
 	}

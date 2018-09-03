@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:B="urn:import:com.google.gwt.dev.shell.BrowserChannel">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:B="urn:import:com.google.gwt.dev.shell.BrowserChannel" xmlns:A="urn:import:com.internalaudit.client.view.AuditEngagement">
 	<ui:style>
 	.lbl{
 	margin-left: 50px;
@@ -9,10 +9,13 @@
 	
 	margin-top: 5px;
 }
+	.heading{
+	font-size: 18px;
+}
 	</ui:style>
 	<g:HTMLPanel>
-	
-		<g:Label ui:field="jobName" styleName="heading"> Loading.. </g:Label>
+
+		<A:LabelHeading ui:field="jobName" addStyleNames="{style.heading}"> Loading.. </A:LabelHeading>
 		
 	<g:VerticalPanel addStyleNames="{style.panel}">
 		<g:HorizontalPanel>

@@ -99,34 +99,34 @@ public class MainView extends Composite implements Display {
 		 panelImages.add(vpTeamMgm);
 		 panelImages.add(vpClientMgm);
 		 
-		 vpTeamMgm.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				
-				
-				PopupsView pp = new PopupsView(todoview, "");
-				pp.getLabelheading().setText("To Do");
-				pp.getVpnlMain().setWidth("320px");
-				pp.getHpnlSPace().setWidth("320px");
-				pp.getVpnlMain().setHeight("320px");
-				}
-		});
-		 
-		 vpClientMgm.addClickHandler(new ClickHandler() {
-				
-				@Override
-				public void onClick(ClickEvent event) {
-					
-					PopupsView pp = new PopupsView(informationreq, "");
-					pp.getLabelheading().setText("Information Request");
-					pp.getVpnlMain().setTitle("Information Request");
-					pp.getVpnlMain().setWidth("400px");
-					pp.getHpnlSPace().setWidth("400px");
-					pp.getVpnlMain().setHeight("530px");
-	
-				}
-			});
+//		 vpTeamMgm.addClickHandler(new ClickHandler() {
+//			
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				
+//				
+//				PopupsView pp = new PopupsView(todoview, "");
+//				pp.getLabelheading().setText("To Do");
+//				pp.getVpnlMain().setWidth("320px");
+//				pp.getHpnlSPace().setWidth("320px");
+//				pp.getVpnlMain().setHeight("320px");
+//				}
+//		});
+//		 
+//		 vpClientMgm.addClickHandler(new ClickHandler() {
+//				
+//				@Override
+//				public void onClick(ClickEvent event) {
+//					
+//					PopupsView pp = new PopupsView(informationreq, "");
+//					pp.getLabelheading().setText("Information Request");
+//					pp.getVpnlMain().setTitle("Information Request");
+//					pp.getVpnlMain().setWidth("400px");
+//					pp.getHpnlSPace().setWidth("400px");
+//					pp.getVpnlMain().setHeight("530px");
+//	
+//				}
+//			});
 			 
 		 
 		//endshere 

@@ -1,4 +1,4 @@
-/** Add css rules here for your application. */
+\/** Add css rules here for your application. */
 
 
 /** Example rules used by the template application (remove for your app) */
@@ -755,6 +755,7 @@ button {
 	width : 500px;
 	padding: 5px;
 	margin: 5px;
+	
 }
 
 
@@ -808,4 +809,8 @@ button {
 }
 .pointerStyle:hover {
     text-decoration: underline;
+}
+.lblEngagement{
+	
+	font-weight: bold;
 }

@@ -3,6 +3,7 @@ package com.internalaudit.client.DashboardNew;
 import java.util.ArrayList;
 
 import org.moxieapps.gwt.highcharts.client.Chart;
+import org.moxieapps.gwt.highcharts.client.Credits;
 import org.moxieapps.gwt.highcharts.client.Legend;
 import org.moxieapps.gwt.highcharts.client.Point;
 import org.moxieapps.gwt.highcharts.client.Series;
@@ -27,12 +28,11 @@ public class AuditImplementationStatusChart extends VerticalLayoutContainer {
 
 	public Chart createChart(ArrayList<JobNamesWithExceptionsImplementationStatus> implementationStatus) {
 
-		final Chart chart = new Chart().setWidth(320).setHeight(200).setType(Series.Type.COLUMN)
+		final Chart chart = new Chart().setWidth(450).setHeight(250).setType(Series.Type.COLUMN)
 				.setChartTitleText("Audit Issues Implementation Status")
 				.setColumnPlotOptions(new ColumnPlotOptions().setStacking(PlotOptions.Stacking.NORMAL)
 						.setDataLabels(new DataLabels().setEnabled(true).setColor("#FFFFFF")))
-				.setLegend(new Legend().setAlign(Legend.Align.RIGHT).setVerticalAlign(Legend.VerticalAlign.TOP)
-						.setX(-100).setY(20).setFloating(true).setBackgroundColor("#FFFFFF").setBorderColor("#CCC")
+				.setLegend(new Legend().setReversed(true).setBackgroundColor("#FFFFFF").setBorderColor("#CCC")
 						.setBorderWidth(1).setShadow(false))
 				.setToolTip(new ToolTip().setFormatter(new ToolTipFormatter() {
 					public String format(ToolTipData toolTipData) {
@@ -40,11 +40,12 @@ public class AuditImplementationStatusChart extends VerticalLayoutContainer {
 								+ toolTipData.getYAsLong() + "<br/>" + "Total: " + toolTipData.getTotal();
 					}
 				}));
-
+		chart.setCredits(new Credits().setText(""));
 		String[] listCat = new String[implementationStatus.size()];
 		Point[] pointsImplemented = new Point[implementationStatus.size()];
 		Point[] pointsNotImplemented = new Point[implementationStatus.size()];
 		Series seriesImplemented = chart.createSeries().setName("Implemented");
+		
 		Series seriesNotImplemented = chart.createSeries().setName("Not Implemented");
 		chart.addSeries(seriesImplemented);
 		chart.addSeries(seriesNotImplemented);
@@ -53,11 +54,11 @@ public class AuditImplementationStatusChart extends VerticalLayoutContainer {
 
 			listCat[i] = implementationStatus.get(i).getJobName();
 
-			Point pImp = new Point("Implem", implementationStatus.get(i).getImplemented()).setColor("#FFD700");
+			Point pImp = new Point("Implem", implementationStatus.get(i).getImplemented()).setColor("#4169E1");
 			pointsImplemented[i] = pImp;
 
 			Point pNotImpl = new Point("not Implem", implementationStatus.get(i).getNotImplemented())
-					.setColor("#FFE4B5");
+					.setColor("#FF6347");
 			pointsNotImplemented[i] = pNotImpl;
 
 		}

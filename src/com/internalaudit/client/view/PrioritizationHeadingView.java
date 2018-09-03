@@ -5,6 +5,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.client.view.data.ConsolidationViewData;
 import com.internalaudit.client.view.data.PrioritizationViewData;
 import com.sencha.gxt.widget.core.client.ContentPanel;
@@ -47,23 +48,27 @@ public class PrioritizationHeadingView extends Composite{
 		verticalPanel.add(horizontalPanel);
 		horizontalPanel.setSize("750px", "100%");
 		
-		Label lblArea = new Label("Auditable Unit");
-		lblArea.addStyleName("labelHeading");
+		LabelHeading lblArea = new LabelHeading();
+		lblArea.setText("Auditable Unit");
+		//lblArea.addStyleName("labelHeading");
 		horizontalPanel.add(lblArea);
 		lblArea.setWidth("260px");
 		
-		Label lblObjective = new Label("Objective");
+		LabelHeading lblObjective = new LabelHeading();
+		lblObjective.setText("Objective");
 		lblObjective.addStyleName("labelHeading");
 		horizontalPanel.add(lblObjective);
 		lblObjective.setWidth("180px");
 		
-		Label lblRiskUnit = new Label("Risk Rating");
+		LabelHeading lblRiskUnit = new LabelHeading();
+		lblRiskUnit.setText("Risk Rating");
 		lblRiskUnit.addStyleName("labelHeading");
 		horizontalPanel.add(lblRiskUnit);
 		lblRiskUnit.setWidth("150px");
 		
-		Label lblAuditaleRating = new Label("Selected for Audit");
-		lblAuditaleRating.addStyleName("labelHeading");
+		LabelHeading lblAuditaleRating = new LabelHeading();
+		lblAuditaleRating.setText("Selected for Audit");
+		//lblAuditaleRating.addStyleName("labelHeading");
 		horizontalPanel.add(lblAuditaleRating);
 		lblAuditaleRating.setWidth("190px");
 		
@@ -74,7 +79,8 @@ public class PrioritizationHeadingView extends Composite{
 //		horizontalPanel.addStyleName("statusRowConsolidation");
 		horizontalPanel.setSpacing(5);
 		// new label adding year
-		Label lblAuditablYear = new Label("Year");
+		LabelHeading lblAuditablYear = new LabelHeading();
+		lblAuditablYear.setText("Year");
 		lblAuditablYear.getElement().getStyle().setMarginLeft(65, Unit.PX);
 		lblAuditablYear.addStyleName("labelHeading");
 		horizontalPanel.add(lblAuditablYear);

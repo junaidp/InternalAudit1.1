@@ -85,7 +85,7 @@ public class JobStatusPortaLayout extends VerticalLayoutContainer {
 			fieldWork.setDate(jobStatus.getListFieldWorkStatus().get(i).getApprovalDate());
 			fieldWork.setStatus(jobStatus.getListFieldWorkStatus().get(i).getStatus());
 			fieldWork.setId(jobStatus.getListFieldWorkStatus().get(i).getAudtiStepId());
-			fieldWork.setUrl(jobStatus.getListFieldWorkStatus().get(i).isHaveExceptions()? "redcircle.png": "greencircle.png");
+			fieldWork.setUrl(jobStatus.getListFieldWorkStatus().get(i).isHaveExceptions()? "redCircleNew.png": "greenCircleNew.png");
 			
 			listFieldWork.add(fieldWork);
 		}
@@ -97,7 +97,7 @@ public class JobStatusPortaLayout extends VerticalLayoutContainer {
 			planning.setDate(jobStatus.getListPlanningStatus().get(i).getDate());
 			planning.setStatus(jobStatus.getListPlanningStatus().get(i).getStatus());
 			planning.setId(jobStatus.getListPlanningStatus().get(i).getId());
-			planning.setUrl(planning.getStatus().equals(InternalAuditConstants.COMPLETED)?"greencircle.png" : "redcircle.png");
+			planning.setUrl(planning.getStatus().equals(InternalAuditConstants.COMPLETED)?"greenCircleNew.png" : "redCircleNew.png");
 			listPlanning.add(planning);
 		}
 
@@ -153,16 +153,16 @@ public class JobStatusPortaLayout extends VerticalLayoutContainer {
 		if(status.isEmpty()){
 			listReporting.get(index).setStatus(InternalAuditConstants.NOT_STARTED);
 		}
-		listReporting.get(index).setUrl(listReporting.get(index).getStatus().equals(InternalAuditConstants.COMPLETED)? "greencircle.png" : "redcircle.png");
+		listReporting.get(index).setUrl(listReporting.get(index).getStatus().equals(InternalAuditConstants.COMPLETED)? "greenCircleNew.png" : "redCircleNew.png");
 
 		for(int i=0; i< listReporting.size(); i++){
 			if(! status.equals(InternalAuditConstants.COMPLETED) && i> index){
 				listReporting.get(i).setStatus(InternalAuditConstants.NOT_STARTED);
-				listReporting.get(i).setUrl(listReporting.get(i).getStatus().equals(InternalAuditConstants.COMPLETED)? "greencircle.png" : "redcircle.png");
+				listReporting.get(i).setUrl(listReporting.get(i).getStatus().equals(InternalAuditConstants.COMPLETED)? "greenCircleNew.png" : "redCircleNew.png");
 
 			}else if(status.equals(InternalAuditConstants.COMPLETED) && i< index){
 				listReporting.get(i).setStatus(InternalAuditConstants.COMPLETED);
-				listReporting.get(i).setUrl(listReporting.get(i).getStatus().equals(InternalAuditConstants.COMPLETED)? "greencircle.png" : "redcircle.png");
+				listReporting.get(i).setUrl(listReporting.get(i).getStatus().equals(InternalAuditConstants.COMPLETED)? "greenCircleNew.png" : "redCircleNew.png");
 
 			}
 		}

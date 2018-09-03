@@ -20,23 +20,19 @@ import com.internalaudit.shared.RiskObjective;
 import com.internalaudit.shared.SuggestedControls;
 
 public class RiskControlMatrixView extends VerticalPanel {
-	//Label lblactivityObjective = new Label("Activity Objective");
-	Label lblrisk = new Label("Risks");
-	Label lblriskRatings = new Label("Inherent Risk ");
-	Label lblcontrol = new Label("Controls");
-	//	Label lblapplicability = new Label("Applicability");
-	Label lblresidualRisk = new Label("Control Risk");
+	LabelHeading lblrisk = new LabelHeading();
+	LabelHeading lblriskRatings = new LabelHeading();
+	LabelHeading lblcontrol = new LabelHeading();
+	LabelHeading lblresidualRisk = new LabelHeading();
 	Label lblRefData = new Label("");
-	Label lblReferenceNo = new Label("Reference Number");
+	LabelHeading lblReferenceNo = new LabelHeading();
 	Image imgRating = new Image();
 	Image imgRatingControl = new Image();
 	// data labels
-	//Label lblactivitydata = new Label("");
+
 	Label lblriskdata = new Label("");
 	private TextArea txtAreaControl = new TextArea();
 	private RiskObjective riskObjective = new RiskObjective();
-	//CheckBox checkBoxApplicability = new CheckBox("");
-	// private AddIcon btnAdd = new AddIcon();
 	ListBox listBoxInherintRating = new ListBox();
 	private ListBox listBoxRisk = new ListBox();
 	ListBox listBoxControlRating = new ListBox();
@@ -44,34 +40,18 @@ public class RiskControlMatrixView extends VerticalPanel {
 	private Button btnSelect = new Button("Select");
 
 
-	//Image delete = new Image("images/deleteIcon.png");
 
 	public RiskControlMatrixView() {
 		listBoxInherintRating.setEnabled(false);
-
 		listBoxRisk.setVisible(false);
-		//lblName.addStyleName("w3-panel w3-light-blue");
-
-		lblReferenceNo.addStyleName("w3-panel w3-light-blue");
-
-		//	lblactivityObjective.addStyleName("w3-panel w3-light-blue");
-
-		lblrisk.addStyleName("w3-panel w3-light-blue");
-
-		lblcontrol.addStyleName("w3-panel w3-light-blue");
-
-		lblriskRatings.addStyleName("w3-panel w3-light-blue");
-
-		//lblapplicability.addStyleName("w3-panel w3-light-blue");
-
-		lblresidualRisk.addStyleName("w3-panel w3-light-blue");
+		lblReferenceNo.setText("Reference Number");
+		lblrisk.setText("Risks");
+		lblcontrol.setText("Controls");
+		lblriskRatings.setText("Inherent Risk");;
+		lblresidualRisk.setText("Control Risk");
 
 
 		// all the data views are defined here data from db
-
-		//	lblactivitydata.setHeight("90px");
-		//	lblactivitydata.setWidth("200px");
-
 		lblriskdata.setHeight("90px");
 		lblriskdata.setWidth("200px");
 
@@ -91,34 +71,19 @@ public class RiskControlMatrixView extends VerticalPanel {
 
 		//all the styling defined here
 
-		//lblactivityObjective.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		lblrisk.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		lblcontrol.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		lblriskRatings.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 		lblriskRatings.setWidth("150px");
-		//lblapplicability.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		lblresidualRisk.getElement().getStyle().setFontWeight(FontWeight.BOLD); 
+		
 		lblresidualRisk.setWidth("140px");
-		lblRefData.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		lblReferenceNo.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 
-		//	lblactivityObjective.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		lblrisk.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		lblRefData.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		lblReferenceNo.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		lblcontrol.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		lblriskRatings.getElement().getStyle().setMarginLeft(20, Unit.PX);
-		//		lblapplicability.getElement().getStyle().setMarginLeft(20, Unit.PX);
-		//		lblapplicability.setWidth("120px");
 		lblresidualRisk.getElement().getStyle().setMarginLeft(20, Unit.PX);
-
-		//	lblactivitydata.getElement().getStyle().setMarginLeft(20, Unit.PX);
-
-
 		lblriskdata.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		txtAreaControl.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		listBoxInherintRating.getElement().getStyle().setMarginLeft(40, Unit.PX);
-		//checkBoxApplicability.getElement().getStyle().setMarginLeft(60, Unit.PX);
 		listBoxControlRating.getElement().getStyle().setMarginLeft(60, Unit.PX);
 
 		// making flexwidget and adding labels in flex widget
@@ -129,9 +94,7 @@ public class RiskControlMatrixView extends VerticalPanel {
 		flex.setWidget(0,3, lblReferenceNo);
 		vpLblRef.add(lblRefData);
 		flex.setWidget(1,3, vpLblRef);
-		//  flex.setWidget(0,1,actv);
-
-		//flex.setWidget(0,0, lblactivityObjective);
+	
 		VerticalPanel vpLblactivitydata = new VerticalPanel();
 		//vpLblactivitydata.add(lblactivitydata);
 		vpLblactivitydata.setWidth("220px");

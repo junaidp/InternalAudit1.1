@@ -59,18 +59,19 @@ public class ConsolidationView extends Composite{
 		horizontalPanel.add(riskRating);
 		HorizontalPanel hpnlSpaceRating = new HorizontalPanel();
 		horizontalPanel.add(hpnlSpaceRating);
-		hpnlSpaceRating.setWidth("70px");
+		hpnlSpaceRating.setWidth("50px");
 		
 		auditableUnit = new TextField();
+		
 		horizontalPanel.add(auditableUnit);
-		auditableUnit.setWidth("190px");
+		auditableUnit.setWidth("185px");
 		
 	
 		
 		//listboox  process added in view panel
 		listBoxProcess = new ListBox();
 		horizontalPanel.add(listBoxProcess);
-		listBoxProcess.setWidth("170px");
+		listBoxProcess.setWidth("160px");
 		
 		//listbox subricess added in panel
 		listBoxSubProcess = new ListBox();
@@ -80,7 +81,7 @@ public class ConsolidationView extends Composite{
 		//listbox jobtype added in panel
 				listBoxJobType = new ListBox();
 				horizontalPanel.add(listBoxJobType);
-				listBoxJobType.setWidth("160px");
+				listBoxJobType.setWidth("180px");
 				
 				tab = new Label();
 				horizontalPanel.add(tab);

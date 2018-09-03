@@ -4,6 +4,6 @@ import com.google.gwt.safehtml.shared.SafeHtml;
 import com.sencha.gxt.core.client.XTemplates;
 
 public interface ImageXTemplate extends XTemplates {
-  @XTemplate("<img style=\"border: 2px solid red; width: 25px;\" src=\"{url}\">")
+  @XTemplate("<img style=\" width: 17px;\" src=\"{url}\">")
   SafeHtml createImage(String url);
 }

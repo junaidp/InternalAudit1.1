@@ -2,13 +2,31 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:A="urn:import:com.internalaudit.client.view.AuditEngagement">
 	<ui:style>
+		.heading{
+	font-size: 18px;
+}
+.txtExtendedWidths {
+	width : 500px;
+	padding: 5px;
+	margin: 5px;
 	
+}
+.txtShrikedWidths {
+
+	padding : 5px;
+	margin : 5px;
+	width : 170px;
+}
+.risksRow {
+	padding : 5px;
+	margin : 5px;
+}
 	</ui:style>
 	<g:ScrollPanel height="390px" width="1197px">
 	
 	<g:HTMLPanel>
 	
-	<g:Label styleName="heading"> Audit Work Program </g:Label>
+	<A:LabelHeading addStyleNames="{style.heading}"> Audit Work Program </A:LabelHeading>
 	
 	<div>
 	
@@ -29,11 +47,11 @@
 	
 	<g:HorizontalPanel ui:field="heading" styleName="risksRow" width="611px" verticalAlignment="middle">
 	
-		<g:Label wordWrap="false" styleName="risksRow">Serial No.</g:Label>
-		<g:Label styleName="txtExtendedWidth">Audit Program</g:Label>
-		<g:Label styleName="txtShrikedWidth">Reviewer</g:Label>
-		<g:Label styleName="txtShrikedWidth">Reference(Existing Controls)</g:Label>
-		<!--  <g:Label styleName="txtShrikedWidth">Planned Status</g:Label> -->
+		<A:LabelHeading wordWrap="false" addStyleNames="{style.risksRow}">Serial No.</A:LabelHeading>
+		<A:LabelHeading addStyleNames="{style.txtExtendedWidths}">Audit Program</A:LabelHeading>
+		<A:LabelHeading addStyleNames="{style.txtShrikedWidths}">Reviewer</A:LabelHeading>
+		<A:LabelHeading addStyleNames="{style.txtShrikedWidths}">Reference(Existing Controls)</A:LabelHeading>
+		<!--  <A:LabelHeading styleName="txtShrikedWidth">Planned Status</A:LabelHeading> -->
 	
 	</g:HorizontalPanel>
 	

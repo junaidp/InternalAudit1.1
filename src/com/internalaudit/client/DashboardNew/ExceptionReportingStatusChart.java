@@ -25,7 +25,7 @@ public class ExceptionReportingStatusChart extends VerticalLayoutContainer {
 
 	public Chart createChart(HashMap<String, Integer> reportStatus) {
 
-		final Chart chart = new Chart().setWidth(320).setHeight(250).setType(Series.Type.BAR)
+		final Chart chart = new Chart().setWidth(500).setHeight(300).setType(Series.Type.BAR)
 				.setChartTitleText("Exception Reporting Status")
 
 				// .setChartSubtitleText("Source: Wikipedia.org")
@@ -36,7 +36,8 @@ public class ExceptionReportingStatusChart extends VerticalLayoutContainer {
 				.setCredits(new Credits().setEnabled(false))
 				.setToolTip(new ToolTip().setFormatter(new ToolTipFormatter() {
 					public String format(ToolTipData toolTipData) {
-						return toolTipData.getSeriesName() + ": " + toolTipData.getYAsLong() + " million";
+						return toolTipData.getSeriesName();
+						//+ ": " + toolTipData.getYAsLong() + " million";
 					}
 				}));
 		/*
@@ -49,17 +50,18 @@ public class ExceptionReportingStatusChart extends VerticalLayoutContainer {
 				InternalAuditConstants.COMMENTSRECEIVED, InternalAuditConstants.REPORTISSUED,
 				InternalAuditConstants.FINALREPORTISSUED);
 
-		chart.getYAxis().setAxisTitle(new AxisTitle().setText("Population (millions)").setAlign(AxisTitle.Align.HIGH));
+		//chart.getYAxis().setAxisTitle(new AxisTitle().setText("Population (millions)").setAlign(AxisTitle.Align.HIGH));
 
 		// Point p1 = new Point("Implem", reportStatus.get("exceptionsToSent"));
 		// pointexceptionsToSent[0] = p1;
 
-		chart.addSeries(chart.createSeries().setName("1900")
+		chart.addSeries(chart.createSeries().setName("")
 				.setPoints(new Number[] { reportStatus.get(InternalAuditConstants.EXCEPTIONSTOSENT),
+						
 						reportStatus.get(InternalAuditConstants.AWAITINGCOMMENTS),
 						reportStatus.get(InternalAuditConstants.COMMENTSRECEIVED),
 						reportStatus.get(InternalAuditConstants.REPORTISSUED),
-						reportStatus.get(InternalAuditConstants.FINALREPORTISSUED) }));
+						reportStatus.get(InternalAuditConstants.FINALREPORTISSUED) })).setColors("#4169E1") ;
 
 		// chart.addSeries(chart.createSeries().setName("Year
 		// 1900").setPoints(new Number[] { 133, 156, 947, 408, 6 }));

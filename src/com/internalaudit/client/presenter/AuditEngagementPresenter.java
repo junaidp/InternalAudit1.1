@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import javax.swing.JProgressBar;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -28,6 +29,7 @@ import com.internalaudit.client.view.JobData;
 import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.client.view.PopupsViewWhite;
 import com.internalaudit.client.view.AuditEngagement.KickoffView;
+import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.JobStatusDTO;
 import com.internalaudit.shared.TimeOutException;
@@ -173,10 +175,13 @@ public class AuditEngagementPresenter implements Presenter {
 
 			// set headings
 
-			String headings[] = {"Job Name", "Planned Start Date", "Planned End Date"," ", "Planning ", "Field Work", "Reporting" };
-
+			String headings[] = {"Sr#    Job Name", "Planned Start Date", "Planned End Date", "status","Planning ", "Field Work", "Reporting" };
+		
+			
 			for (int i = 0; i < headings.length; i++) {
-				Label heading = new Label(headings[i]);
+				
+				LabelHeading heading = new LabelHeading();
+				heading.setText(headings[i]);
 
 				// heading.addStyleName("jobStatusHeading");
 
@@ -189,7 +194,7 @@ public class AuditEngagementPresenter implements Presenter {
 					records.getRowFormatter().addStyleName(i, "jobStatusRow");
 				}
 				final Label lblJobNo = new Label((allJobsAndStatus.get(i).getJobCreation().getJobCreationId() + ")" ));
-
+				lblJobNo.setWidth("40px");
 
 				final Label jobName = new Label(allJobsAndStatus.get(i).getJobCreation().getJobName());
 
@@ -197,7 +202,9 @@ public class AuditEngagementPresenter implements Presenter {
 				// jobName.addStyleName("statusCell");
 				// jobName.addStyleName("linkStyle");
 				HorizontalPanel  p= new HorizontalPanel();
+				lblJobNo.getElement().getStyle().setPaddingLeft(10, Unit.PX);
 				p.add(lblJobNo);
+				
 				p.add(jobName);
 
 				records.setWidget(i + 1, 0, p);
@@ -212,12 +219,12 @@ public class AuditEngagementPresenter implements Presenter {
 				Label startDate = new Label(allJobsAndStatus.get(i).getJobCreation().getStartDate());
 				startDate.addStyleName("statusJobDate");
 				startDate.addStyleName("statusCell");
-
+				startDate.setWidth("190px");
 				///// ADDED////
 				Label endDate = new Label(allJobsAndStatus.get(i).getJobCreation().getEndDate());
 				endDate.addStyleName("statusJobDate");
 				endDate.addStyleName("statusCell");
-				endDate.setWidth("200px");
+				endDate.setWidth("190px");
 				////////////
 
 				records.setWidget(i + 1, 1, startDate);
@@ -322,7 +329,7 @@ public class AuditEngagementPresenter implements Presenter {
 		});
 
 		progressPlanning.setWidth(75);
-		progressFieldWork.setWidth(75);
+		progressFieldWork.setWidth(105);
 		progressReporting.setWidth(75);
 
 		records.setWidget(i+1, 4, progressPlanning);
