@@ -28,6 +28,7 @@ import com.internalaudit.shared.AuditSchedulingReportDTO;
 import com.internalaudit.shared.Company;
 import com.internalaudit.shared.DashBoardDTO;
 import com.internalaudit.shared.DashBoardNewDTO;
+import com.internalaudit.shared.DashboardListBoxDTO;
 import com.internalaudit.shared.Department;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.ExcelDataDTO;
@@ -267,14 +268,14 @@ InternalAuditService {
 		}
 	}
 	@Override
-	public ArrayList<DashBoardDTO> fetchDashBoard() throws Exception {
+	public ArrayList<DashBoardDTO> fetchDashBoard(HashMap<String, String> hm) throws Exception {
 		if(isLoggedIn()){
 			
 			session=getThreadLocalRequest().getSession(true);
 			User loggedInUser = (User) session.getAttribute("user");
 			int year = (Integer) session.getAttribute("year");
 			int companyId = (Integer) session.getAttribute("companyId");
-			return rdbHelper.fetchDashBoard(loggedInUser, year, companyId);
+			return rdbHelper.fetchDashBoard(loggedInUser, year, companyId,hm);
 		}else{
 
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);
@@ -1374,12 +1375,12 @@ InternalAuditService {
 //		}
 //	}
 	@Override
-	public DashBoardNewDTO fetchDashboard() throws Exception {
+	public DashBoardNewDTO fetchDashboard(HashMap<String, String> hm) throws Exception {
 		if(isLoggedIn()){
 			session=getThreadLocalRequest().getSession(true);
 			int year = (Integer) session.getAttribute("year");
 			int companyId = (Integer) session.getAttribute("companyId");
-			return rdbHelper.fetchDashBoard(year, companyId);
+			return rdbHelper.fetchDashBoard( year, companyId,hm);
 			}else{
 
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);
@@ -1446,5 +1447,13 @@ InternalAuditService {
 		int year = (Integer) session.getAttribute("year");
 		int companyId = (Integer) session.getAttribute("companyId");
 		return rdbHelper.fetchJobStatus(jobId, year, companyId );
+	}
+	@Override
+	public ArrayList<DashboardListBoxDTO> fetchDashBoardListBoxDTOs() {
+		session=getThreadLocalRequest().getSession(true);
+		int year = (Integer) session.getAttribute("year");
+		int companyId = (Integer) session.getAttribute("companyId");
+		return rdbHelper.fetchDashBoardListBoxDTOs(year, companyId );
+	
 	}
 }

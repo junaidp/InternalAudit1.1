@@ -15,6 +15,7 @@ import com.internalaudit.shared.AuditWork;
 import com.internalaudit.shared.Company;
 import com.internalaudit.shared.DashBoardDTO;
 import com.internalaudit.shared.DashBoardNewDTO;
+import com.internalaudit.shared.DashboardListBoxDTO;
 import com.internalaudit.shared.Department;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.ExcelDataDTO;
@@ -82,7 +83,7 @@ public interface InternalAuditService extends RemoteService {
 
 	ArrayList<StrategicAudit> fetchStrategicAudit() throws Exception;
 
-	ArrayList<DashBoardDTO> fetchDashBoard() throws Exception;
+	ArrayList<DashBoardDTO> fetchDashBoard(HashMap<String, String> hm) throws Exception;
 
 	ArrayList<Strategic> fetchFinalAuditables() throws Exception;
 
@@ -249,7 +250,7 @@ public interface InternalAuditService extends RemoteService {
 	String exportExceptionsReportToExcel(ArrayList<ExceptionsReportDTO> excelDataList) throws Exception;
 	String exportAuditSchedulingReportToExcel(ArrayList<AuditSchedulingReportDTO> excelDataList) throws Exception;
 	Boolean isScheduleApproved()throws Exception;
-	DashBoardNewDTO fetchDashboard()throws Exception;
+	DashBoardNewDTO fetchDashboard(HashMap<String, String> hm) throws Exception;
 	String updateUploadedAuditStepFile(int auditStepId)throws Exception;
 	String saveSelectedAuditStepIdInSession(int auditStepId)throws Exception;
 	String submitFeedBack(Feedback feedBack)throws Exception;
@@ -266,6 +267,7 @@ public interface InternalAuditService extends RemoteService {
 			throws Exception;
 	String deleteRiskObjective(int riskId, int jobId) throws Exception;
 	JobStatusDTO fetchJobStatus(int jobId) throws Exception;
+	ArrayList<DashboardListBoxDTO> fetchDashBoardListBoxDTOs();
 
 	
 }

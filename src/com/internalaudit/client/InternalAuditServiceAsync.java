@@ -14,6 +14,7 @@ import com.internalaudit.shared.AuditWork;
 import com.internalaudit.shared.Company;
 import com.internalaudit.shared.DashBoardDTO;
 import com.internalaudit.shared.DashBoardNewDTO;
+import com.internalaudit.shared.DashboardListBoxDTO;
 import com.internalaudit.shared.Department;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.ExcelDataDTO;
@@ -80,7 +81,7 @@ public interface InternalAuditServiceAsync {
 
 	void fetchStrategicAudit(AsyncCallback<ArrayList<StrategicAudit>> callback);
 
-	void fetchDashBoard(AsyncCallback<ArrayList<DashBoardDTO>> callback);
+	void fetchDashBoard(HashMap<String, String> hm, AsyncCallback<ArrayList<DashBoardDTO>> callback);
 
 	void fetchFinalAuditables(AsyncCallback<ArrayList<Strategic>> callback);
 
@@ -250,7 +251,7 @@ public interface InternalAuditServiceAsync {
 			AsyncCallback<String> asyncCallback);
 	
 	void isScheduleApproved(AsyncCallback<Boolean> asyncCallback);
-	void fetchDashboard(AsyncCallback<DashBoardNewDTO> asyncCallback);
+	void fetchDashboard(HashMap<String, String> hm, AsyncCallback<DashBoardNewDTO> asyncCallback);
 	void updateUploadedAuditStepFile(int auditStepId, AsyncCallback<String> asyncCallback);
 	void saveSelectedAuditStepIdInSession(int auditStepId, AsyncCallback<String> asyncCallback);
 	void submitFeedBack(Feedback feedBack, AsyncCallback<String> asyncCallback);
@@ -269,6 +270,8 @@ public interface InternalAuditServiceAsync {
 	void fetchApprovedAuditProgrammeRows(int selectedJobId,AsyncCallback<ArrayList<AuditProgramme>> asyncCallback);
 	void deleteRiskObjective(int riskId, int jobId,  AsyncCallback<String> asyncCallback);
 	void fetchJobStatus(int jobId,  AsyncCallback<JobStatusDTO> asyncCallback);
+
+	void fetchDashBoardListBoxDTOs(AsyncCallback<ArrayList<DashboardListBoxDTO>> callback);
 	
 	
 

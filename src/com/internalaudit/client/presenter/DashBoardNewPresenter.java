@@ -1,6 +1,7 @@
 package com.internalaudit.client.presenter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -100,7 +101,8 @@ public class DashBoardNewPresenter implements Presenter
 					eventBus.fireEvent(new MainEvent(loggedInUser));
 				}});
 		
-		rpcService.fetchDashboard(new AsyncCallback<DashBoardNewDTO>(){
+		
+		rpcService.fetchDashboard(null, new AsyncCallback<DashBoardNewDTO>(){
 
 			@Override
 			public void onFailure(Throwable arg0) {

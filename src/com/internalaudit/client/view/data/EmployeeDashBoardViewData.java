@@ -37,7 +37,7 @@ public class EmployeeDashBoardViewData {
 	
 	
 	public void fetchDashBoard(final EmployeeDashBoardView employeeDashBoardView){
-		rpcService.fetchDashBoard(new AsyncCallback<ArrayList<DashBoardDTO>>(){
+		rpcService.fetchDashBoard(null, new AsyncCallback<ArrayList<DashBoardDTO>>(){
 
 			@Override
 			public void onFailure(Throwable caught) {

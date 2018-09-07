@@ -58,6 +58,7 @@ import com.internalaudit.shared.Company;
 import com.internalaudit.shared.CompanySkillRelation;
 import com.internalaudit.shared.DashBoardDTO;
 import com.internalaudit.shared.DashBoardNewDTO;
+import com.internalaudit.shared.DashboardListBoxDTO;
 import com.internalaudit.shared.Department;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.EmployeeJobDTO;
@@ -1426,7 +1427,7 @@ public class MySQLRdbHelper {
 		return strategicAudits;
 	}
 
-	public ArrayList<DashBoardDTO> fetchDashBoard(User loggedInUser, int year, int companyId) {
+	public ArrayList<DashBoardDTO> fetchDashBoard(User loggedInUser, int year, int companyId, HashMap<String,String> hm) {
 
 		Session session = null;
 		// DashBoardDTO dashBoardDTO = new DashBoardDTO();
@@ -6563,7 +6564,7 @@ public class MySQLRdbHelper {
 		}
 	}
 
-	public String approveScheduling(int companyId, int year) throws Exception {
+/*	public String approveScheduling(int companyId, int year) throws Exception {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
@@ -6594,7 +6595,7 @@ public class MySQLRdbHelper {
 		}
 
 	}
-
+*/
 	public boolean isScheduleApproved(int companyId, int year) throws Exception {
 		Session session = null;
 
@@ -7337,7 +7338,7 @@ public class MySQLRdbHelper {
 	}
 
 	public ArrayList<JobNamesWithExceptionsImplementationStatus> fetchJobNamesWithExceptionStatus(int year,
-			int companyId) throws Exception {
+			int companyId, HashMap<String, String> hm) throws Exception {
 		Session session = null;
 		ArrayList<JobNamesWithExceptionsImplementationStatus> jobWithExceptionStatus = new ArrayList<JobNamesWithExceptionsImplementationStatus>();
 		try {
@@ -7345,6 +7346,7 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(Exceptions.class);
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
+			
 
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -7472,6 +7474,22 @@ public class MySQLRdbHelper {
 			throw e;
 		}
 	}
+	
+	private JobCreation fetchJobFromJobId(int jobCreationId) throws Exception {
+		Session session = null;
+		if (jobCreationId == 0)
+			return null;
+		try {
+			session = sessionFactory.openSession();
+			JobCreation job = (JobCreation) session.get(JobCreation.class, jobCreationId);
+			return job;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("eeror in : fetchJobFromJobId");
+
+			throw e;
+		}
+	}
 
 	public ArrayList<String> fetchExceptioNotImplemented(int year, int companyId) throws Exception {
 		Session session = null;
@@ -7554,7 +7572,7 @@ public class MySQLRdbHelper {
 		}
 	}
 
-	public DashBoardNewDTO fetchDashBoard(int year, int companyId) throws Exception {
+	public DashBoardNewDTO fetchDashBoard(int year, int companyId, HashMap<String, String> hm) throws Exception {
 
 		DashBoardNewDTO dashBoardDTO = new DashBoardNewDTO();
 		dashBoardDTO.setJobKDueForKickOffWithinAWeek(fetchJobsKickOffWithInaWeek(year, companyId));
@@ -7583,7 +7601,7 @@ public class MySQLRdbHelper {
 		int notImplemented = exceptionsnotImplemeted.size();
 
 		////////// NEW DASHBOARD
-		dashBoardDTO.setJobNamesWithExceptionImplementationStatus(fetchJobNamesWithExceptionStatus(year, companyId));
+		dashBoardDTO.setJobNamesWithExceptionImplementationStatus(fetchJobNamesWithExceptionStatus(year, companyId, hm));
 		dashBoardDTO.setCompletedAndInprogressExceptions(
 				fetchCompletedInprogressAndUnderReviewExceptionsCount(year, companyId));
 		dashBoardDTO.setExceptionReportingStatus(fetchExceptionsReportingStatus(year, companyId));
@@ -8272,5 +8290,65 @@ public class MySQLRdbHelper {
 		}
 		jobStatusDTO.getListPlanningStatus().add(planningStatusDTO);
 	}
+
+	public ArrayList<DashboardListBoxDTO> fetchDashBoardListBoxDTOs(int year, int companyId2) {
+		Session session = null;
+		ArrayList<DashboardListBoxDTO> dashboardListBoxDTOs = new ArrayList<DashboardListBoxDTO>();
+
+		try {
+			session = sessionFactory.openSession();
+			DashboardListBoxDTO dashboardListBox  = new DashboardListBoxDTO();
+
+			
+			dashboardListBox.setProcessList(fetchProcesses(session));
+			dashboardListBox.setEmployList(fetchEmployees( companyId2));
+			dashboardListBox.setJobList(fetchJobs(year, companyId2));
+			dashboardListBoxDTOs.add(dashboardListBox);
+			
+
+			logger.info(String.format("(Inside fetchDashboardListBoxDTO) " + new Date()));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchDashboardListBoxDTO", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+
+		return dashboardListBoxDTOs;
+	}
+
+	public String approveScheduling(int companyId, int year) throws Exception {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(JobCreation.class);
+			crit.add(Restrictions.eq("companyId", companyId));
+			crit.add(Restrictions.eq("year", year));
+	
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				JobCreation job = (JobCreation) it.next();
+				if (job.getStartDate() == null || job.getEndDate() == null) {
+					return "Jobs scheduling required";
+				}
+				job.setApproved(true);
+				session.update(job);
+				session.flush();
+			}
+			logger.info(String.format("(Inside approveScheduling)approving Schedulingexception for year:" + year
+					+ "for company" + companyId + "" + new Date()));
+	
+			return approveSchedulingInJobTimeEstimation(companyId);
+	
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in approveScheduling", ex.getMessage()), ex);
+			return null;
+		} finally {
+			session.close();
+		}
+	
+	}
+
+	
 
 }
