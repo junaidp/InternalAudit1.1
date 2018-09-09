@@ -50,6 +50,7 @@ public class JobStatusPortaLayout extends VerticalLayoutContainer {
 
 		Portlet portletFieldWork = new Portlet();
 		portletFieldWork.setHeadingHtml("Field Work");
+		portletFieldWork.setShadow(disableContextMenu);
 		portletFieldWork.add(createGridFieldWork());
 		portletFieldWork.setWidth(500);
 		configPanel(portletFieldWork);
@@ -82,7 +83,7 @@ public class JobStatusPortaLayout extends VerticalLayoutContainer {
 		for(int i=0; i<jobStatus.getListFieldWorkStatus().size(); i++){
 			FieldWork fieldWork = new FieldWork();
 			fieldWork.setName(jobStatus.getListFieldWorkStatus().get(i).getAuditStepName());
-			fieldWork.setDate(jobStatus.getListFieldWorkStatus().get(i).getApprovalDate());
+			//fieldWork.setDate(jobStatus.getListFieldWorkStatus().get(i).getApprovalDate());
 			fieldWork.setStatus(jobStatus.getListFieldWorkStatus().get(i).getStatus());
 			fieldWork.setId(jobStatus.getListFieldWorkStatus().get(i).getAudtiStepId());
 			fieldWork.setUrl(jobStatus.getListFieldWorkStatus().get(i).isHaveExceptions()? "redCircleNew.png": "greenCircleNew.png");
@@ -94,7 +95,7 @@ public class JobStatusPortaLayout extends VerticalLayoutContainer {
 		for(int i=0; i<jobStatus.getListPlanningStatus().size(); i++){
 			Planning planning = new Planning();
 			planning.setName(jobStatus.getListPlanningStatus().get(i).getPlanningName());
-			planning.setDate(jobStatus.getListPlanningStatus().get(i).getDate());
+			//planning.setDate(jobStatus.getListPlanningStatus().get(i).getDate());
 			planning.setStatus(jobStatus.getListPlanningStatus().get(i).getStatus());
 			planning.setId(jobStatus.getListPlanningStatus().get(i).getId());
 			planning.setUrl(planning.getStatus().equals(InternalAuditConstants.COMPLETED)?"greenCircleNew.png" : "redCircleNew.png");
@@ -175,10 +176,10 @@ public class JobStatusPortaLayout extends VerticalLayoutContainer {
 		imageColumn.setCell(new CustomImageCell());
 
 		ColumnConfig<FieldWork, String> fieldworkCol = new ColumnConfig<FieldWork, String>(fieldWorkProperties.name(), 150, "Name");
-		ColumnConfig<FieldWork, Date> lastTransCol = new ColumnConfig<FieldWork, Date>(fieldWorkProperties.date(), 100, "Date");
+		//ColumnConfig<FieldWork, Date> lastTransCol = new ColumnConfig<FieldWork, Date>(fieldWorkProperties.date(), 100, "Date");
 		ColumnConfig<FieldWork, String> statusCol = new ColumnConfig<FieldWork, String>(fieldWorkProperties.status(), 150, "Status");
 
-		lastTransCol.setCell(new DateCell(DateTimeFormat.getFormat("MM/dd/yyyy")));
+		//lastTransCol.setCell(new DateCell(DateTimeFormat.getFormat("MM/dd/yyyy")));
 
 		statusCol.setCell(new AbstractCell<String>() {
 			@Override
@@ -191,7 +192,7 @@ public class JobStatusPortaLayout extends VerticalLayoutContainer {
 		List<ColumnConfig<FieldWork, ?>> columns = new ArrayList<ColumnConfig<FieldWork, ?>>();
 		columns.add(imageColumn);
 		columns.add(fieldworkCol);
-		columns.add(lastTransCol);
+		//columns.add(lastTransCol);
 		columns.add(statusCol);
 
 		ColumnModel<FieldWork> cm = new ColumnModel<FieldWork>(columns);
@@ -214,15 +215,15 @@ public class JobStatusPortaLayout extends VerticalLayoutContainer {
 		imageColumn.setCell(new CustomImageCell());
 		
 		ColumnConfig<Planning, String> nameCol = new ColumnConfig<Planning, String>(planningProperties.name(), 150, "Name");
-		ColumnConfig<Planning, Date> dateCol = new ColumnConfig<Planning, Date>(planningProperties.date(), 100, "Date");
+		//ColumnConfig<Planning, Date> dateCol = new ColumnConfig<Planning, Date>(planningProperties.date(), 100, "Date");
 		ColumnConfig<Planning, String> statusCol = new ColumnConfig<Planning, String>(planningProperties.status(), 150, "Status");
 
-		dateCol.setCell(new DateCell(DateTimeFormat.getFormat("MM/dd/yyyy")));
+		//dateCol.setCell(new DateCell(DateTimeFormat.getFormat("MM/dd/yyyy")));
 
 		List<ColumnConfig<Planning, ?>> columns = new ArrayList<ColumnConfig<Planning, ?>>();
 		columns.add(imageColumn);
 		columns.add(nameCol);
-		columns.add(dateCol);
+		//columns.add(dateCol);
 		columns.add(statusCol);
 
 		statusCol.setCell(new AbstractCell<String>() {
@@ -253,15 +254,15 @@ public class JobStatusPortaLayout extends VerticalLayoutContainer {
 		imageColumn.setCell(new CustomImageCell());
 
 		ColumnConfig<Reporting, String> nameCol = new ColumnConfig<Reporting, String>(reportingProperties.name(), 150, "Name");
-		ColumnConfig<Reporting, Date> dateCol = new ColumnConfig<Reporting, Date>(reportingProperties.date(), 100, "Date");
+		//ColumnConfig<Reporting, Date> dateCol = new ColumnConfig<Reporting, Date>(reportingProperties.date(), 100, "Date");
 		ColumnConfig<Reporting, String> statusCol = new ColumnConfig<Reporting, String>(reportingProperties.status(), 150, "Status");
 
-		dateCol.setCell(new DateCell(DateTimeFormat.getFormat("MM/dd/yyyy")));
+		//dateCol.setCell(new DateCell(DateTimeFormat.getFormat("MM/dd/yyyy")));
 
 		List<ColumnConfig<Reporting, ?>> columns = new ArrayList<ColumnConfig<Reporting, ?>>();
 		columns.add(imageColumn);
 		columns.add(nameCol);
-		columns.add(dateCol);
+		//columns.add(dateCol);
 		columns.add(statusCol);
 
 		nameCol.setCell(new AbstractCell<String>() {
@@ -308,6 +309,7 @@ public class JobStatusPortaLayout extends VerticalLayoutContainer {
 	private void configPanel(final Portlet portlet) {
 		portlet.setCollapsible(true);
 		portlet.setAnimCollapse(false);
+		//portlet.setShadow(disabled);
 		portlet.getHeader().addTool(new ToolButton(ToolButton.GEAR));
 		portlet.getHeader().addTool(new ToolButton(ToolButton.CLOSE, new SelectHandler() {
 			@Override

@@ -6,7 +6,10 @@ import java.util.logging.Logger;
 
 import javax.swing.JProgressBar;
 
+import org.apache.http.conn.routing.RouteInfo.LayerType;
+
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -34,8 +37,14 @@ import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.JobStatusDTO;
 import com.internalaudit.shared.TimeOutException;
 import com.internalaudit.shared.User;
+import com.sencha.gxt.core.client.dom.Layer.ShadowPosition;
 import com.sencha.gxt.widget.core.client.Dialog;
+import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
 import com.sencha.gxt.widget.core.client.ProgressBar;
+import com.sencha.gxt.widget.core.client.event.ActivateEvent;
+import com.sencha.gxt.widget.core.client.event.ActivateEvent.ActivateHandler;
+import com.sencha.gxt.widget.core.client.event.BlurEvent;
+import com.sencha.gxt.widget.core.client.event.FocusEvent;
 import com.sun.corba.se.spi.legacy.connection.GetEndPointInfoAgainException;
 
 public class AuditEngagementPresenter implements Presenter {
@@ -343,18 +352,16 @@ public class AuditEngagementPresenter implements Presenter {
 			
 			@Override
 			public void onSuccess(JobStatusDTO jobStatus) {
-				
-				JobStatusPortaLayout  p = new  JobStatusPortaLayout(jobStatus);
-				final Dialog dialog = new Dialog();
+				JobStatusPortaLayout  jobStatusPortal = new  JobStatusPortaLayout(jobStatus);
+				com.sencha.gxt.widget.core.client.Window windowPortal = new com.sencha.gxt.widget.core.client.Window();
+				windowPortal.setModal(true);
+				windowPortal.setHeadingText("Job Status");
+				windowPortal.setPixelSize(920, 650);
 				ScrollPanel sp = new ScrollPanel();
 				sp.setHeight("400px");
-				dialog.add(sp);
-				dialog.setHeadingText("Job Status");
-				dialog.setPixelSize(920, 650);
-				dialog.setResizable(true);
-				dialog.setBodyBorder(false);
-				sp.add(p);
-				dialog.show();
+				sp.add(jobStatusPortal);
+				windowPortal.add(sp);
+				windowPortal.show();
 			}
 			
 			@Override
