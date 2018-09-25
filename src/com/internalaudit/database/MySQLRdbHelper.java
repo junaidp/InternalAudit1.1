@@ -772,44 +772,13 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Strategic.class);
 
-			// crit.createAlias("objectiveOwner", "owner");
-			// crit.createAlias("owner.cityId", "city");
-			// crit.createAlias("owner.countryId", "country");
-			// crit.createAlias("owner.userId", "user");
-			// crit.createAlias("owner.departmentId", "departmentOwner");
-			// crit.createAlias("owner.reportingTo", "ownRep");
-			// crit.createAlias("ownRep.reportingTo", "ownReprep");
-			// crit.createAlias("ownRep.userId", "ownRepuserId");
-			// crit.createAlias("relevantDepartment", "department");
-			// crit.createAlias("riskFactor", "risk");
-			crit.createAlias("initiatedBy", "initiated");
-			crit.createAlias("assignedTo", "assigned");
-			crit.createAlias("assigned.userId", "assignedUser");
-
-			crit.createAlias("process", "processId");
-			crit.createAlias("subProcess", "subProcessId");
-			crit.createAlias("jobType", "jobTypeId");
-
-			// crit.createAlias("assigned.reportingTo", "assignedReporting");
-			crit.createAlias("initiated.userId", "initiatedUser");
-			// crit.createAlias("initiated.reportingTo", "initiatedReporting");
-			// crit.createAlias("initiatedReporting.userId",
-			// "initiatedReportingUser");
-			// crit.createAlias("approvedBy", "approveby");
-			// crit.createAlias("approveby.userId", "approvedUser");
-			// crit.createAlias("approveby.reportingTo", "approvedReposrting");
-			// crit.createAlias("approvedReposrting.userId",
-			// "approvedReposrtingUser");
-
 			// Disjunction disc = Restrictions.disjunction();
 			// disc.add(Restrictions.eq("assigned.employeeId", employeeId));
 			// disc.add(Restrictions.eq("initiated.employeeId", employeeId));
 			//
 			// crit.add(disc);
 
-			///////////////////////
-			crit.createAlias("initiated.skillId", "initatedSkill");
-			crit.createAlias("initiated.rollId", "initatedRoll");
+			strategicAlias(crit);
 
 			/////////////////////
 			crit.add(Restrictions.ge("phase", phaseValue));
@@ -940,6 +909,7 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(JobEmployeeRelation.class);
 			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("jobCreation.jobId", jobId));
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -1427,7 +1397,8 @@ public class MySQLRdbHelper {
 		return strategicAudits;
 	}
 
-	public ArrayList<DashBoardDTO> fetchDashBoard(User loggedInUser, int year, int companyId, HashMap<String,String> hm) {
+	public ArrayList<DashBoardDTO> fetchDashBoard(User loggedInUser, int year, int companyId,
+			HashMap<String, String> hm) {
 
 		Session session = null;
 		// DashBoardDTO dashBoardDTO = new DashBoardDTO();
@@ -1611,7 +1582,8 @@ public class MySQLRdbHelper {
 
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(JobCreation.class);
-			crit.add(Restrictions.eq("jobId", strategicId));
+			crit.createAlias("strategicId", "strategic");
+			crit.add(Restrictions.eq("strategic.strategicId", strategicId));
 			if (crit.list().size() > 0)
 				jobCreation = (JobCreation) crit.list().get(0);
 			else
@@ -2141,7 +2113,7 @@ public class MySQLRdbHelper {
 			jobCreation.setRelevantDept(job.getDepartments().get(0).getDepartment().getDepartmentName());
 			jobCreation.setYear(year);
 			jobCreation.setCompanyId(companyId);
-			int jobCreationId = fetchJobCreationId(jobCreation.getJobId());// if
+			int jobCreationId = fetchJobCreationId(jobCreation.getStrategicId().getId());// if
 			// job
 			// is
 			// aready
@@ -2180,6 +2152,7 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(JobEmployeeRelation.class);
 			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.createAlias("employeeId", "employee");
 			crit.add(Restrictions.eq("jobCreation.jobCreationId", jobId));
 			List rsList = crit.list();
@@ -2368,16 +2341,26 @@ public class MySQLRdbHelper {
 
 		try {
 			session = sessionFactory.openSession();
-			Criteria crit = session.createCriteria(JobCreation.class);
+			Criteria crit = session.createCriteria(JobCreation.class, "jobCreation");
 			crit.add(Restrictions.eq("jobCreationId", jobcreationId));
+			jobsStrategicAliasSmall1(crit);
 
 			List rsList = crit.list();
 
 			// for (Iterator it = rsList.iterator(); it.hasNext();)
 			JobCreation jobCreation = (JobCreation) rsList.get(0);
 			// ADDED 19-7-2018 to have process ,subprocess,jobtypes in aud eng
-			Strategic strategic = fetchStrategicAgainstStrategicId(jobCreation.getJobId(), session);
+			Strategic strategic = fetchStrategicAgainstStrategicId(jobCreation.getStrategicId().getId(), session);
 			jobCreation.setStrategic(strategic);
+			HibernateDetachUtility.nullOutUninitializedFields(jobCreation,
+					HibernateDetachUtility.SerializationType.SERIALIZATION);
+			HibernateDetachUtility.nullOutUninitializedFields(jobCreation.getStrategicId().getInitiatedBy(),
+					HibernateDetachUtility.SerializationType.SERIALIZATION);
+			HibernateDetachUtility.nullOutUninitializedFields(jobCreation.getStrategicId().getAssignedTo(),
+					HibernateDetachUtility.SerializationType.SERIALIZATION);
+			HibernateDetachUtility.nullOutUninitializedFields(jobCreation.getStrategicId().getApprovedBy(),
+					HibernateDetachUtility.SerializationType.SERIALIZATION);
+
 			logger.info(String.format("(Inside fetchCreatedJobs) fetching created jobs  for creatuinid : "
 					+ jobcreationId + "" + new Date()));
 			return jobCreation;
@@ -2397,17 +2380,7 @@ public class MySQLRdbHelper {
 		try {
 			Criteria crit = session.createCriteria(Strategic.class);
 			crit.add(Restrictions.eq("id", strategicId));
-			crit.createAlias("initiatedBy", "initiated");
-			crit.createAlias("assignedTo", "assigned");
-			crit.createAlias("assigned.userId", "assignedUser");
-
-			crit.createAlias("process", "processId");
-			crit.createAlias("subProcess", "subProcessId");
-			crit.createAlias("jobType", "jobTypeId");
-
-			crit.createAlias("initiated.userId", "initiatedUser");
-			crit.createAlias("initiated.skillId", "initatedSkill");
-			crit.createAlias("initiated.rollId", "initatedRoll");
+			strategicAlias(crit);
 			strategic = (Strategic) crit.list().get(0);
 
 			HibernateDetachUtility.nullOutUninitializedFields(strategic,
@@ -2446,6 +2419,20 @@ public class MySQLRdbHelper {
 		return strategic;
 	}
 
+	private void strategicAlias(Criteria crit) {
+		crit.createAlias("initiatedBy", "initiated");
+		crit.createAlias("assignedTo", "assigned");
+		crit.createAlias("assigned.userId", "assignedUser");
+
+		crit.createAlias("process", "processId");
+		crit.createAlias("subProcess", "subProcessId");
+		crit.createAlias("jobType", "jobTypeId");
+
+		crit.createAlias("initiated.userId", "initiatedUser");
+		crit.createAlias("initiated.skillId", "initatedSkill");
+		crit.createAlias("initiated.rollId", "initatedRoll");
+	}
+
 	public ArrayList<JobEmployeeRelation> fetchEmployeeJobRelations(int jobCreationId) {
 		Session session = null;
 		ArrayList<JobEmployeeRelation> relations = new ArrayList<JobEmployeeRelation>();
@@ -2453,9 +2440,10 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(JobEmployeeRelation.class);
 
-			crit.createAlias("jobCreationId", "jobcreation");
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			// crit.createAlias("jobCreationId", "jobcreation");
-			crit.add(Restrictions.eq("jobcreation.jobCreationId", jobCreationId));
+			crit.add(Restrictions.eq("jobCreation.jobCreationId", jobCreationId));
 
 			crit.createAlias("employeeId", "employee");
 			crit.createAlias("employee.cityId", "employeeCity");
@@ -2566,7 +2554,7 @@ public class MySQLRdbHelper {
 			// crit.add(Restrictions.eq("employeeId", employeeId));
 			crit.createAlias("employeeId", "employee");
 			crit.createAlias("jobCreationId", "jobCreation");
-
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("employee.employeeId", employeeId));
 			crit.createAlias("employee.countryId", "employeeCount");
 			crit.createAlias("employee.reportingTo", "employeeRep");
@@ -2721,14 +2709,16 @@ public class MySQLRdbHelper {
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			ArrayList<Integer> jobIds = fetchjobEmployee(loggedInEmployee);
-			crit.createAlias("jobCreation", "jobcreation");
+			crit.createAlias("jobCreationId", "jobCreation");
+			// jobsStrategicAlias(crit);
+			jobsStrategicAliasSmall(crit);
 			////////// FETCHING ONLY JOBS OF LOGGEDIN EMPLOYEE
 			if (jobIds.size() <= 0) {
 				return null;
 			}
 			Disjunction disc = Restrictions.disjunction();
 			for (int i = 0; i < jobIds.size(); i++) {
-				disc.add(Restrictions.eq("jobcreation.jobCreationId", jobIds.get(i)));
+				disc.add(Restrictions.eq("jobCreation.jobCreationId", jobIds.get(i)));
 			}
 			crit.add(disc);
 
@@ -2890,8 +2880,14 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
 
-			crit.createAlias("jobCreation", "jobcreation");
-			crit.add(Restrictions.eq("jobcreation.jobCreationId", jobCreationId));
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
+
+			// crit.createAlias("initiated.userId", "initiatedUser");
+			// crit.createAlias("initiated.skillId", "initatedSkill");
+			// crit.createAlias("initiated.rollId", "initatedRoll");
+
+			crit.add(Restrictions.eq("jobCreation.jobCreationId", jobCreationId));
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 
@@ -2903,8 +2899,8 @@ public class MySQLRdbHelper {
 
 				// ADDED 19072018
 				// Library's
-				Strategic strategic = fetchStrategicAgainstStrategicId(auditEngagement.getJobCreation().getJobId(),
-						session);
+				Strategic strategic = fetchStrategicAgainstStrategicId(
+						auditEngagement.getJobCreation().getStrategicId().getId(), session);
 				auditEngagement.setStrategic(strategic);
 				EngagementDTO engagementDTO = fetchActivityObjective(strategic.getSubProcess().getSubProcessId(),
 						session);
@@ -2953,6 +2949,9 @@ public class MySQLRdbHelper {
 		try {
 			Criteria crit = session.createCriteria(ObjectiveJobRelation.class);
 			crit.createAlias("jobCreationId", "jobCreation");
+
+			jobsStrategicAlias(crit);
+
 			crit.createAlias("objectiveId", "objective");
 
 			crit.add(Restrictions.eq("jobCreation.jobCreationId", jobCreationId));
@@ -2980,6 +2979,121 @@ public class MySQLRdbHelper {
 
 	}
 
+	private void jobsStrategicAliasSmall(Criteria crit) {
+		crit.createAlias("jobCreation.strategicId", "strategic");
+		crit.createAlias("strategic.process", "processId");
+		crit.createAlias("strategic.subProcess", "subProcessId");
+		crit.createAlias("strategic.jobType", "jobTypeId");
+		crit.createAlias("strategic.relevantDepartment", "dept");
+		crit.createAlias("strategic.riskFactor", "riskFact");
+
+	}
+
+	private void jobsStrategicAliasSmall1(Criteria crit) {
+		crit.createAlias("jobCreation.strategicId", "strategic");
+		crit.createAlias("strategic.process", "processId");
+		crit.createAlias("strategic.subProcess", "subProcessId");
+		crit.createAlias("strategic.jobType", "jobTypeId");
+		crit.createAlias("strategic.relevantDepartment", "dept");
+		crit.createAlias("strategic.riskFactor", "riskFact");
+
+		crit.createAlias("strategic.initiatedBy", "sinitiated");
+		crit.createAlias("strategic.assignedTo", "sassigned");
+		crit.createAlias("strategic.approvedBy", "sapproved");
+
+		crit.createAlias("sassigned.countryId", "sassigendCount");
+		crit.createAlias("sassigned.cityId", "sassigendCCity");
+		crit.createAlias("sassigned.reportingTo", "sassigendCdRep");
+		crit.createAlias("sassigned.userId", "sassigendCdUser");
+		crit.createAlias("sassigned.rollId", "sassigendCRoll");
+		crit.createAlias("sassigned.skillId", "sassigendCSkill");
+
+		crit.createAlias("sinitiated.countryId", "sinitiatedCount");
+		crit.createAlias("sinitiated.cityId", "sinitiatedCity");
+		crit.createAlias("sinitiated.reportingTo", "sinitiatedRep");
+		crit.createAlias("sinitiated.userId", "sinitiatedUser");
+		crit.createAlias("sinitiated.rollId", "sinitiatedRoll");
+		crit.createAlias("sinitiated.skillId", "sinitiatedSkill");
+
+		crit.createAlias("sapproved.countryId", "sapprovedCount");
+		crit.createAlias("sapproved.cityId", "sapprovedCity");
+		crit.createAlias("sapproved.reportingTo", "sapprovedRep");
+		crit.createAlias("sapproved.userId", "sapprovedUser");
+		crit.createAlias("sapproved.rollId", "sapprovedRoll");
+		crit.createAlias("sapproved.skillId", "sapprovedSkill");
+
+	}
+
+	private void jobsStrategicAlias(Criteria crit) {
+		crit.createAlias("jobCreation.strategicId", "strategic");
+		crit.createAlias("strategic.process", "processId");
+		crit.createAlias("strategic.subProcess", "subProcessId");
+		crit.createAlias("strategic.jobType", "jobTypeId");
+		crit.createAlias("strategic.relevantDepartment", "dept");
+		crit.createAlias("strategic.riskFactor", "riskFact");
+
+		crit.createAlias("strategic.initiatedBy", "sinitiated");
+		crit.createAlias("strategic.assignedTo", "sassigned");
+		crit.createAlias("strategic.approvedBy", "sapproved");
+
+		crit.createAlias("sassigned.countryId", "sassigendCount");
+		crit.createAlias("sassigned.cityId", "sassigendCCity");
+		crit.createAlias("sassigned.reportingTo", "sassigendCdRep");
+		crit.createAlias("sassigned.userId", "sassigendCdUser");
+		crit.createAlias("sassigned.rollId", "sassigendCRoll");
+		crit.createAlias("sassigned.skillId", "sassigendCSkill");
+
+		crit.createAlias("sinitiated.countryId", "sinitiatedCount");
+		crit.createAlias("sinitiated.cityId", "sinitiatedCity");
+		crit.createAlias("sinitiated.reportingTo", "sinitiatedRep");
+		crit.createAlias("sinitiated.userId", "sinitiatedUser");
+		crit.createAlias("sinitiated.rollId", "sinitiatedRoll");
+		crit.createAlias("sinitiated.skillId", "sinitiatedSkill");
+
+		crit.createAlias("sapproved.countryId", "sapprovedCount");
+		crit.createAlias("sapproved.cityId", "sapprovedCity");
+		crit.createAlias("sapproved.reportingTo", "sapprovedRep");
+		crit.createAlias("sapproved.userId", "sapprovedUser");
+		crit.createAlias("sapproved.rollId", "sapprovedRoll");
+		crit.createAlias("sapproved.skillId", "sapprovedSkill");
+
+	}
+
+	private void jobsStrategicAliasbk(Criteria crit) {
+		crit.createAlias("jobCreation.strategicId", "strategic");
+		crit.createAlias("strategic.initiatedBy", "sinitiated");
+		crit.createAlias("strategic.assignedTo", "sassigned");
+		crit.createAlias("strategic.relevantDepartment", "dept");
+		crit.createAlias("strategic.riskFactor", "riskFact");
+
+		/*
+		 * crit.createAlias("initiated.countryId", "initiatedCount");
+		 * crit.createAlias("initiated.cityId", "initiatedCity");
+		 * crit.createAlias("initiated.reportingTo", "initiatedRep");
+		 * crit.createAlias("initiated.userId", "initiatedUser");
+		 * crit.createAlias("initiated.rollId", "initiatedRoll");
+		 * crit.createAlias("initiated.skillId", "initiatedSkill");
+		 */
+
+		crit.createAlias("sassigned.countryId", "sassigendCount");
+		crit.createAlias("sassigned.cityId", "sassigendCCity");
+		crit.createAlias("sassigned.reportingTo", "sassigendCdRep");
+		crit.createAlias("sassigned.userId", "sassigendCdUser");
+		crit.createAlias("sassigned.rollId", "sassigendCRoll");
+		crit.createAlias("sassigned.skillId", "sassigendCSkill");
+
+		crit.createAlias("sinitiated.countryId", "sinitiatedCount");
+		crit.createAlias("sinitiated.cityId", "sinitiatedCity");
+		crit.createAlias("sinitiated.reportingTo", "sinitiatedRep");
+		crit.createAlias("sinitiated.userId", "sinitiatedUser");
+		crit.createAlias("sinitiated.rollId", "sinitiatedRoll");
+		crit.createAlias("sinitiated.skillId", "sinitiatedSkill");
+
+		crit.createAlias("strategic.process", "processId");
+		crit.createAlias("strategic.subProcess", "subProcessId");
+		crit.createAlias("strategic.jobType", "jobTypeId");
+	}
+
 	// This will fetch All Selected/Saved Risks for a selected job (users
 	// library)
 	private ArrayList<RiskObjective> fetchObjectiveRisksForSelectedJob(int jobCreationId, Session session,
@@ -2988,6 +3102,7 @@ public class MySQLRdbHelper {
 		try {
 			Criteria crit = session.createCriteria(RiskJobRelation.class);
 			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.createAlias("riskObjective", "risk");
 
 			crit.add(Restrictions.eq("jobCreation.jobCreationId", jobCreationId));
@@ -3141,19 +3256,20 @@ public class MySQLRdbHelper {
 			Criteria critAuditEng = session.createCriteria(AuditEngagement.class, "auditEng");
 			critAuditEng.add(Restrictions.eq("year", year));
 			critAuditEng.add(Restrictions.eq("companyId", companyId));
-			critAuditEng.createAlias("auditEng.jobCreation", "jobcreation");
+			critAuditEng.createAlias("auditEng.jobCreationId", "jobCreation");
+			jobsStrategicAlias(critAuditEng);
 			////////// FETCHING ONLY JOBS OF LOGGEDIN EMPLOYEE
 			if (jobIds.size() <= 0) {
 				return;
 			}
 			Disjunction disc = Restrictions.disjunction();
 			for (int i = 0; i < jobIds.size(); i++) {
-				disc.add(Restrictions.eq("jobcreation.jobCreationId", jobIds.get(i)));
+				disc.add(Restrictions.eq("jobCreation.jobCreationId", jobIds.get(i)));
 			}
 			critAuditEng.add(disc);
 
 			//////////
-			critAuditEng.setProjection(Projections.property("jobcreation.jobCreationId"));
+			critAuditEng.setProjection(Projections.property("jobCreation.jobCreationId"));
 
 			List<Integer> idsEng = critAuditEng.list();
 
@@ -3208,7 +3324,8 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(AuditEngagement.class);
-			crit.createAlias("jobCreation", "jobCreat");
+			crit.createAlias("jobCreationId", "jobCreat");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("jobCreat.jobCreationId", jobCreationId));
 			if (crit.list().size() > 0) {
 				alreadySaved = true;
@@ -3442,7 +3559,8 @@ public class MySQLRdbHelper {
 			crit.createAlias("auditEngageId", "audEng");
 			crit.add(Restrictions.eq("audEng.auditEngId", auditEngId));
 			///
-			crit.createAlias("audEng.jobCreation", "audJobCreation");
+			crit.createAlias("audEng.jobCreationId", "jobCreation");
+			jobsStrategicAliasSmall(crit);
 
 			crit.createAlias("audEng.approvedBy", "approvedEng");
 			crit.createAlias("approvedEng.countryId", "employeeCounteng");
@@ -3539,7 +3657,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("auditEngageId", "audEng");
 			crit.add(Restrictions.eq("audEng.auditEngId", auditEngId));
 			///
-			crit.createAlias("audEng.jobCreation", "audJobCreation");
+			crit.createAlias("audEng.jobCreationId", "audJobCreation");
 
 			crit.createAlias("audEng.approvedBy", "approvedEng");
 			crit.createAlias("approvedEng.countryId", "employeeCounteng");
@@ -3639,7 +3757,7 @@ public class MySQLRdbHelper {
 
 			crit.createAlias("auditEngageId", "audEng");
 			///
-			crit.createAlias("audEng.jobCreation", "audJobCreation");
+			crit.createAlias("audEng.jobCreationId", "audJobCreation");
 
 			crit.createAlias("audEng.approvedBy", "approvedEng");
 			crit.createAlias("approvedEng.countryId", "employeeCounteng");
@@ -3741,6 +3859,7 @@ public class MySQLRdbHelper {
 			// crit.createAlias("userId", "user");
 			// crit.createAlias("skillId", "skill");
 			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.createAlias("employeeId", "emp");
 			crit.createAlias("employeeId.rollId", "empRoll");
 
@@ -3851,7 +3970,9 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
-			crit.add(Restrictions.eq("jobCreationId", jobId));
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
+			crit.add(Restrictions.eq("jobCreation.jobCreationId", jobId));
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				Exceptions exception = (Exceptions) it.next();
@@ -3906,6 +4027,8 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.createAlias("responsiblePerson", "employee");
@@ -3935,7 +4058,7 @@ public class MySQLRdbHelper {
 			// crit.createAlias("divHead.countryId", "divHeadRCount");
 			crit.createAlias("divHead.userId", "divHeadUser");
 			if (jobId != 0) {
-				crit.add(Restrictions.eq("jobCreationId", jobId));
+				crit.add(Restrictions.eq("jobCreation.jobCreationId", jobId));
 			}
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -3944,7 +4067,7 @@ public class MySQLRdbHelper {
 				HibernateDetachUtility.nullOutUninitializedFields(exception,
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
-				String status = getJobCreationStatus(exception.getJobCreationId());
+				String status = getJobCreationStatus(exception.getJobCreationId().getJobCreationId());
 				exception.setDisplayStatus(status);
 
 				exceptions.add(exception);
@@ -4022,8 +4145,8 @@ public class MySQLRdbHelper {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
-			String jobName = fetchJobName(exception.getJobCreationId(), session);
-			int auditHead = fetchAuditHead(exception.getJobCreationId(), session);
+			String jobName = fetchJobName(exception.getJobCreationId().getJobCreationId(), session);
+			int auditHead = fetchAuditHead(exception.getJobCreationId().getJobCreationId(), session);
 			Transaction tr = session.beginTransaction();
 
 			exception.setJobName(jobName);
@@ -4068,6 +4191,8 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.createAlias("responsiblePerson", "employee");
@@ -4275,6 +4400,7 @@ public class MySQLRdbHelper {
 			crit.add(Restrictions.eq("jobId", jobid));
 			crit.createAlias("auditWork", "audWork");
 			crit.createAlias("audWork.jobCreationId", "jobCreationId");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("audWork.auditWorkId", auditWorkId));// UNDO
 																			// 2018,
 																			// done
@@ -4396,6 +4522,7 @@ public class MySQLRdbHelper {
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.createAlias("auditWork", "audWork");
 			crit.createAlias("audWork.jobCreationId", "jobCreationId");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("status", InternalAuditConstants.SUBMIT));
 
 			crit.createAlias("approvedBy", "approved");
@@ -4471,6 +4598,8 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.createAlias("responsiblePerson", "responsible");
@@ -4524,6 +4653,8 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.createAlias("responsiblePerson", "responsible");
@@ -4652,12 +4783,14 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.createAlias("responsiblePerson", "employee");
 			crit.createAlias("divisionHead", "divHead");
 			// crit.add(Restrictions.eq("auditHead", auditHeadId));
-			crit.add(Restrictions.eq("jobCreationId", selectedJob));
+			crit.add(Restrictions.eq("jobCreation.jobCreationId", selectedJob));
 
 			crit.createAlias("employee.countryId", "employeeCount");
 			crit.createAlias("employee.cityId", "employeeCity");
@@ -4708,6 +4841,7 @@ public class MySQLRdbHelper {
 
 			Criteria crit = session.createCriteria(AuditWork.class);
 			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("jobCreation.jobCreationId", jocreationid));
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.add(Restrictions.eq("year", year));
@@ -4813,6 +4947,7 @@ public class MySQLRdbHelper {
 
 			Criteria crit = session.createCriteria(AuditWork.class);
 			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("status", InternalAuditConstants.SUBMIT));
@@ -4844,8 +4979,8 @@ public class MySQLRdbHelper {
 			///
 			crit.createAlias("riskId", "risk");
 			crit.createAlias("risk.auditEngageId", "audEng");
-			crit.createAlias("audEng.jobCreation", "audJobCreation");
-
+			crit.createAlias("audEng.jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.createAlias("audEng.approvedBy", "approvedEng");
 			crit.createAlias("approvedEng.countryId", "employeeCounteng");
 			crit.createAlias("approvedEng.cityId", "employeeCityyeng");
@@ -4905,6 +5040,7 @@ public class MySQLRdbHelper {
 
 			Criteria crit = session.createCriteria(AuditWork.class);
 			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("jobCreation.jobCreationId", selectedJobId));
 			crit.add(Restrictions.eq("status", InternalAuditConstants.APPROVED));
 
@@ -5003,6 +5139,7 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(JobEmployeeRelation.class);
 			crit.createAlias("employeeId", "employee");
 			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("employee.employeeId", employeeId));
 
 			List rsList = crit.list();
@@ -5041,8 +5178,8 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(JobEmployeeRelation.class);
 			crit.createAlias("employeeId", "employee");
 			crit.add(Restrictions.eq("employee.employeeId", employeeId));
-			crit.createAlias("jobCreationId", "jobCreation");
-
+			// crit.createAlias("jobCreationId", "jobCreation");
+			// jobsStrategicAlias(crit);
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				JobEmployeeRelation jobEmployeeRelation = (JobEmployeeRelation) it.next();
@@ -5078,6 +5215,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("employeeId", "employee");
 			crit.add(Restrictions.eq("employee.employeeId", employeeId));
 			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.ne("jobCreationId.jobCreationId", jobId));
 
 			List rsList = crit.list();
@@ -5115,6 +5253,7 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(JobEmployeeRelation.class);
 			crit.createAlias("employeeId", "employee");
 			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("employee.employeeId", employeeId));
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -5194,15 +5333,41 @@ public class MySQLRdbHelper {
 			crit.add(disc);
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
+			crit.createAlias("strategicId", "strategic");
+
+			crit.createAlias("strategic.approvedBy", "approved");
+			crit.createAlias("approved.countryId", "employeeCount");
+			crit.createAlias("approved.reportingTo", "employeeRep");
+			crit.createAlias("employeeRep.countryId", "employeeRCount");
+			crit.createAlias("approved.userId", "employeeUser");
+			crit.createAlias("approved.rollId", "employeeRoll");
+			crit.createAlias("approved.skillId", "employeeSkill");
+			crit.createAlias("employeeRep.rollId", "employeeRepRoll");
+			crit.createAlias("employeeRep.skillId", "employeeRepSkill");
+
+			crit.createAlias("strategic.initiatedBy", "initiated");
+			crit.createAlias("initiated.countryId", "initiatedCount");
+			crit.createAlias("initiated.reportingTo", "initiatedRep");
+			crit.createAlias("initiatedRep.countryId", "initiatedRCount");
+			crit.createAlias("initiatedRep.cityId", "initiatedRCity");
+			crit.createAlias("initiated.userId", "initiatedUser");
+			crit.createAlias("initiated.rollId", "initiatedRoll");
+			crit.createAlias("initiated.skillId", "initiatedSkill");
+			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
+			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
+
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				JobCreation jobCreation = (JobCreation) it.next();
+
 				jobCreation.setReportStatus(fetchJobExceptionStatus(jobCreation.getJobCreationId()));
 				// ADDED these 2 lines
 				session.update(jobCreation);
 				session.flush();
 				// ENd added
 				HibernateDetachUtility.nullOutUninitializedFields(jobCreation,
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(jobCreation.getStrategicId(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
 				jobsList.add(jobCreation);
@@ -5309,8 +5474,9 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(AuditEngagement.class);
-			crit.createAlias("jobCreation", "job");
-			crit.add(Restrictions.eq("job.jobId", jobId));
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
+			crit.add(Restrictions.eq("jobCreation.jobId", jobId));
 			crit.add(Restrictions.eq("jobStatus", "In Progress"));
 			if (crit.list().size() > 0) {
 				completed = true;
@@ -5573,6 +5739,8 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.setProjection(Projections.rowCount());
@@ -5597,6 +5765,8 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.add(Restrictions.ne("finalStatus", "Approved"));
@@ -5624,6 +5794,8 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.add(Restrictions.eq("isImplemented", 1));
@@ -5649,6 +5821,8 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			// crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.add(Restrictions.eq("isImplemented", 0));
@@ -5913,7 +6087,7 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(JobEmployeeRelation.class);
 			crit.createAlias("employeeId", "employee");
 			crit.createAlias("jobCreationId", "jobCreation");
-
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("jobCreation.jobCreationId", job.getJobCreationId()));
 			ArrayList<String> employees = new ArrayList<String>();
 			if (!resources.contains("All")) {
@@ -6564,38 +6738,29 @@ public class MySQLRdbHelper {
 		}
 	}
 
-/*	public String approveScheduling(int companyId, int year) throws Exception {
-		Session session = null;
-		try {
-			session = sessionFactory.openSession();
-			Criteria crit = session.createCriteria(JobCreation.class);
-			crit.add(Restrictions.eq("companyId", companyId));
-			crit.add(Restrictions.eq("year", year));
-
-			List rsList = crit.list();
-			for (Iterator it = rsList.iterator(); it.hasNext();) {
-				JobCreation job = (JobCreation) it.next();
-				if (job.getStartDate() == null || job.getEndDate() == null) {
-					return "Jobs scheduling required";
-				}
-				job.setApproved(true);
-				session.update(job);
-				session.flush();
-			}
-			logger.info(String.format("(Inside approveScheduling)approving Schedulingexception for year:" + year
-					+ "for company" + companyId + "" + new Date()));
-
-			return approveSchedulingInJobTimeEstimation(companyId);
-
-		} catch (Exception ex) {
-			logger.warn(String.format("Exception occured in approveScheduling", ex.getMessage()), ex);
-			return null;
-		} finally {
-			session.close();
-		}
-
-	}
-*/
+	/*
+	 * public String approveScheduling(int companyId, int year) throws Exception
+	 * { Session session = null; try { session = sessionFactory.openSession();
+	 * Criteria crit = session.createCriteria(JobCreation.class);
+	 * crit.add(Restrictions.eq("companyId", companyId));
+	 * crit.add(Restrictions.eq("year", year));
+	 * 
+	 * List rsList = crit.list(); for (Iterator it = rsList.iterator();
+	 * it.hasNext();) { JobCreation job = (JobCreation) it.next(); if
+	 * (job.getStartDate() == null || job.getEndDate() == null) { return
+	 * "Jobs scheduling required"; } job.setApproved(true); session.update(job);
+	 * session.flush(); } logger.info(String.
+	 * format("(Inside approveScheduling)approving Schedulingexception for year:"
+	 * + year + "for company" + companyId + "" + new Date()));
+	 * 
+	 * return approveSchedulingInJobTimeEstimation(companyId);
+	 * 
+	 * } catch (Exception ex) {
+	 * logger.warn(String.format("Exception occured in approveScheduling",
+	 * ex.getMessage()), ex); return null; } finally { session.close(); }
+	 * 
+	 * }
+	 */
 	public boolean isScheduleApproved(int companyId, int year) throws Exception {
 		Session session = null;
 
@@ -6876,6 +7041,8 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 
 			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 
@@ -7253,6 +7420,8 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.add(Restrictions.eq("isImplemented", 0));
@@ -7284,6 +7453,8 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.add(Restrictions.eq("isImplemented", 1));
@@ -7315,6 +7486,8 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.add(Restrictions.eq("isImplemented", 1));
@@ -7344,16 +7517,17 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
-			
 
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				Exceptions exceptions = (Exceptions) it.next();
 				boolean found = false;
 				for (int i = 0; i < jobWithExceptionStatus.size(); i++) {
-					if (jobWithExceptionStatus.get(i).getJobId() == exceptions.getJobCreationId()) {
+					if (jobWithExceptionStatus.get(i).getJobId() == exceptions.getJobCreationId().getJobCreationId()) {
 						found = true;
 						if (exceptions.getIsImplemented() == 0) {
 							jobWithExceptionStatus.get(i)
@@ -7368,9 +7542,10 @@ public class MySQLRdbHelper {
 				}
 				if (!found) {
 					JobNamesWithExceptionsImplementationStatus jobNamesWithExceptionsImplementationStatus = new JobNamesWithExceptionsImplementationStatus();
-					jobNamesWithExceptionsImplementationStatus.setJobId(exceptions.getJobCreationId());
 					jobNamesWithExceptionsImplementationStatus
-							.setJobName(fetchJobNameFromJobId(exceptions.getJobCreationId()));
+							.setJobId(exceptions.getJobCreationId().getJobCreationId());
+					jobNamesWithExceptionsImplementationStatus
+							.setJobName(fetchJobNameFromJobId(exceptions.getJobCreationId().getJobCreationId()));
 					if (exceptions.getIsImplemented() == 0) {
 						jobNamesWithExceptionsImplementationStatus.setNotImplemented(1);
 					}
@@ -7400,6 +7575,8 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 
@@ -7408,10 +7585,10 @@ public class MySQLRdbHelper {
 				Exceptions exceptions = (Exceptions) it.next();
 				boolean found = false;
 				for (int i = 0; i < auditWorkStatusDTOList.size(); i++) {
-					if (auditWorkStatusDTOList.get(i).getJobId() == exceptions.getJobCreationId()) {
+					if (auditWorkStatusDTOList.get(i).getJobId() == exceptions.getJobCreationId().getJobCreationId()) {
 						found = true;
 
-						String status = getJobCreationStatus(exceptions.getJobCreationId());
+						String status = getJobCreationStatus(exceptions.getJobCreationId().getJobCreationId());
 						exceptions.setDisplayStatus(status);
 
 						if (exceptions.getFinalStatus() != null
@@ -7431,8 +7608,9 @@ public class MySQLRdbHelper {
 				}
 				if (!found) {
 					AuditWorkStatusDTO auditWorkStatusDTO = new AuditWorkStatusDTO();
-					auditWorkStatusDTO.setJobId(exceptions.getJobCreationId());
-					auditWorkStatusDTO.setJobName(fetchJobNameFromJobId(exceptions.getJobCreationId()));
+					auditWorkStatusDTO.setJobId(exceptions.getJobCreationId().getJobCreationId());
+					auditWorkStatusDTO
+							.setJobName(fetchJobNameFromJobId(exceptions.getJobCreationId().getJobCreationId()));
 					if (exceptions.getFinalStatus() != null
 							&& exceptions.getFinalStatus().equalsIgnoreCase("Approved")) {
 						auditWorkStatusDTO.setCompleted(1);
@@ -7474,7 +7652,7 @@ public class MySQLRdbHelper {
 			throw e;
 		}
 	}
-	
+
 	private JobCreation fetchJobFromJobId(int jobCreationId) throws Exception {
 		Session session = null;
 		if (jobCreationId == 0)
@@ -7497,6 +7675,8 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.add(Restrictions.eq("isImplemented", 0));
@@ -7525,6 +7705,8 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.add(Restrictions.eq("isImplemented", 1));
@@ -7552,6 +7734,8 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.add(Restrictions.eq("managementComments", null));
@@ -7601,7 +7785,8 @@ public class MySQLRdbHelper {
 		int notImplemented = exceptionsnotImplemeted.size();
 
 		////////// NEW DASHBOARD
-		dashBoardDTO.setJobNamesWithExceptionImplementationStatus(fetchJobNamesWithExceptionStatus(year, companyId, hm));
+		dashBoardDTO
+				.setJobNamesWithExceptionImplementationStatus(fetchJobNamesWithExceptionStatus(year, companyId, hm));
 		dashBoardDTO.setCompletedAndInprogressExceptions(
 				fetchCompletedInprogressAndUnderReviewExceptionsCount(year, companyId));
 		dashBoardDTO.setExceptionReportingStatus(fetchExceptionsReportingStatus(year, companyId));
@@ -7678,6 +7863,8 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 
@@ -7923,6 +8110,7 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(ObjectiveJobRelation.class);
 			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.createAlias("objectiveId", "objective");
 			crit.add(Restrictions.eq("jobCreation.jobCreationId", jobId));
 			crit.add(Restrictions.eq("objective.objectiveId", acitivtyObjectiveId));
@@ -7947,6 +8135,7 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(RiskJobRelation.class);
 			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.createAlias("riskObjective", "risk");
 			crit.add(Restrictions.eq("jobCreation.jobCreationId", jobId));
 			crit.add(Restrictions.eq("risk.riskId", riskId));
@@ -8108,6 +8297,7 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(RiskJobRelation.class);
 			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.createAlias("riskObjective", "riskObject");
 
 			crit.add(Restrictions.eq("jobCreation.jobCreationId", jobId));
@@ -8272,8 +8462,9 @@ public class MySQLRdbHelper {
 
 		Criteria crit = session.createCriteria(AuditWork.class);
 		crit.add(Restrictions.eq("companyId", companyId));
-		crit.createAlias("jobCreationId", "job");
-		crit.add(Restrictions.eq("job.jobCreationId", jobId));
+		crit.createAlias("jobCreationId", "jobCreation");
+		jobsStrategicAlias(crit);
+		crit.add(Restrictions.eq("jobCreation.jobCreationId", jobId));
 		crit.add(Restrictions.eq("year", year));
 		List rsList = crit.list();
 		PlanningStatusDTO planningStatusDTO = new PlanningStatusDTO();
@@ -8297,14 +8488,12 @@ public class MySQLRdbHelper {
 
 		try {
 			session = sessionFactory.openSession();
-			DashboardListBoxDTO dashboardListBox  = new DashboardListBoxDTO();
+			DashboardListBoxDTO dashboardListBox = new DashboardListBoxDTO();
 
-			
 			dashboardListBox.setProcessList(fetchProcesses(session));
-			dashboardListBox.setEmployList(fetchEmployees( companyId2));
+			dashboardListBox.setEmployList(fetchEmployees(companyId2));
 			dashboardListBox.setJobList(fetchJobs(year, companyId2));
 			dashboardListBoxDTOs.add(dashboardListBox);
-			
 
 			logger.info(String.format("(Inside fetchDashboardListBoxDTO) " + new Date()));
 		} catch (Exception ex) {
@@ -8324,7 +8513,7 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(JobCreation.class);
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.add(Restrictions.eq("year", year));
-	
+
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				JobCreation job = (JobCreation) it.next();
@@ -8337,18 +8526,16 @@ public class MySQLRdbHelper {
 			}
 			logger.info(String.format("(Inside approveScheduling)approving Schedulingexception for year:" + year
 					+ "for company" + companyId + "" + new Date()));
-	
+
 			return approveSchedulingInJobTimeEstimation(companyId);
-	
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in approveScheduling", ex.getMessage()), ex);
 			return null;
 		} finally {
 			session.close();
 		}
-	
-	}
 
-	
+	}
 
 }
