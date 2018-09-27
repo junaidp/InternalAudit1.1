@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.sencha.gxt.widget.core.client.form.TextArea;
 
 public class AuditWorkRow extends Composite {
 
@@ -16,7 +17,7 @@ public class AuditWorkRow extends Composite {
 
     private Label auditWorkId;
 
-    private TextBox description;
+    private TextArea description;
 
     private ListBox lstReviewer;
    
@@ -32,8 +33,13 @@ public class AuditWorkRow extends Composite {
 
     public AuditWorkRow() {
 	rowContainer = new HorizontalPanel();
-	description = new TextBox();
+	description = new TextArea();
+	description.setWidth("300px");
+	description.setHeight("90px");
+	description.setText("");
+
 	step = new TextBox();
+	step.setWidth("75px");
 	lstReviewer = new ListBox();
 	listBoxRisk = new ListBox();
 	listBoxExistingCtrl = new ListBox();
@@ -41,9 +47,11 @@ public class AuditWorkRow extends Composite {
 	removeRow = new Image("images/deleteIcon.png");
 	auditWorkId = new Label("0");
 	auditWorkId.addStyleName("hidden");
+	//auditWorkId.setWidth("100px");
 	auditWorkId.setVisible(false);
 	initWidget(rowContainer);
-	lstReviewer.setWidth("200px");
+	lstReviewer.setWidth("170px");
+	listBoxExistingCtrl.setWidth("165px");
 
 	rowContainer.addStyleName("risksRow");
 	description.addStyleName("txtExtendedWidth");
@@ -76,11 +84,11 @@ public class AuditWorkRow extends Composite {
 	this.step = step;
     }
 
-    public TextBox getDescription() {
+    public TextArea getDescription() {
 	return description;
     }
 
-    public void setDescription(TextBox description) {
+    public void setDescription(TextArea description) {
 	this.description = description;
     }
 

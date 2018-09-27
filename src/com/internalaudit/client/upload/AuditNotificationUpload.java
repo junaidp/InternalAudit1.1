@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.view.ButtonRound;
 
 public class AuditNotificationUpload extends VerticalPanel {
 	
@@ -29,7 +30,7 @@ public class AuditNotificationUpload extends VerticalPanel {
 
 	public AuditNotificationUpload(){
 //		HorizontalPanel hpn1 = new HorizontalPanel();
-//		Button btn = new Button("Hello");
+
 //		hpn1.add(btn);
 //		add(hpn1);
 //	}
@@ -56,7 +57,7 @@ public class AuditNotificationUpload extends VerticalPanel {
 		panel.add(upload);
 
 		// Add a 'submit' button.
-		Button btnSubmit = new Button("Submit");
+		ButtonRound btnSubmit = new ButtonRound("Submit");
 		btnSubmit.getElement().getStyle().setMarginTop(10, Unit.PX);
 		btnSubmit.addClickHandler(new ClickHandler() {
 			
@@ -98,8 +99,8 @@ public class AuditNotificationUpload extends VerticalPanel {
 	
 	
 	
-	public Button download(){
-		Button btn = new Button("Download");
+	public ButtonRound download(){
+		ButtonRound btn = new ButtonRound("Download");
 		add(btn);
 		btn.addClickHandler(new ClickHandler(){
 

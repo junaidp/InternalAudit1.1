@@ -92,6 +92,8 @@ public class MainPresenter implements Presenter
 		
 		fetchCurrentYear();
 		
+		eventBus.fireEvent(new DashBoardEvent(display.getVpnlDashBoard()));
+		
 		display.getCreateUser().addClickHandler(new ClickHandler(){
 
 			@Override

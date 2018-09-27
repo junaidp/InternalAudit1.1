@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
@@ -17,6 +18,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.FinalAuditablesView;
 import com.internalaudit.client.view.AuditEngagement.LabelHeading;
@@ -70,7 +72,8 @@ public class FinalAuditablesViewData {
 				HorizontalPanel hpnlHeading = new HorizontalPanel();
 				hpnlHeading.setSpacing(5);
 				LabelHeading lblSerialNo = new LabelHeading();
-				lblSerialNo.setWidth("100px");
+				lblSerialNo.setWidth("50px");
+				//lblSerialNo.getElement().getStyle().setMarginRight(40, Unit.PX);
 				lblSerialNo.setText("Sr#");
 				LabelHeading lblStatus = new LabelHeading();
 				lblStatus.setWidth("100px");
@@ -106,8 +109,8 @@ public class FinalAuditablesViewData {
 				int count =0;
 				for(int i=0; i< strategic.size(); i++){
 					
-					Button btnApprove = new Button("Approve");
-					Button btnDecline = new Button("Decline");
+					ButtonRound btnApprove = new ButtonRound("Approve");
+					ButtonRound btnDecline = new ButtonRound("Decline");
 					final TextField txtComments = new TextField();
 					txtComments.setEmptyText("Comments");
 					
@@ -127,13 +130,13 @@ public class FinalAuditablesViewData {
 						JobCreation jb = new JobCreation();
 						
 						Label lblCount = new Label("");
-						lblCount.setWidth("100px");
+						lblCount.setWidth("50px");
 						lblCount.addStyleName("blue");
 						//lblCount.setText(count + ")" );
 					
 						
 						//lblCount.setText(jb.getJobCreationId() + ")" );
-						lblCount.setText(strategic.get(i).getJobCreationId() + ")" );
+						lblCount.setText(strategic.get(i).getJobCreationId() + "." );
 						hpnlMain.add(lblCount);
 						hpnlMain.add(lblUnit);
 						hpnlMain.setSpacing(5);

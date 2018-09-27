@@ -70,7 +70,7 @@ public class PortalIssue extends VerticalLayoutContainer {
 		grid.getView().setStripeRows(true);
 		grid.getView().setColumnLines(true);
 		 ScrollPanel p = new ScrollPanel();
-		 p.setHeight("350px");
+		 p.setHeight("180px");
 		
 	   p.add(grid);
 
@@ -82,6 +82,7 @@ public class PortalIssue extends VerticalLayoutContainer {
 
 	      panel = new ContentPanel();
 	      panel.setHeadingText("Issues");
+	      panel.setHeight(180);
 	      panel.add(con);
 	      return panel;
 	}

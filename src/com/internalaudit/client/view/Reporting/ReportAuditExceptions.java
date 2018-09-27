@@ -8,7 +8,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.PopupsView;
+import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.shared.InternalAuditConstants;
 
 
@@ -22,14 +24,14 @@ public class ReportAuditExceptions extends Composite implements IStackWidget{
 	ListBox lstResponsibleAuditee;
 	ListBox lstRisk;
 
-	//
-	Button btnSearch = new Button("Preview");
+	
+	ButtonRound btnSearch = new ButtonRound("Preview");
 
-	private Button btnExportToExcel = new Button("Export to Excel");
+	private ButtonRound btnExportToExcel = new ButtonRound("Export to Excel");
 
 
-	Button btnPrint = new Button("Print");
-	Button btnEmail = new Button("Email");
+	ButtonRound btnPrint = new ButtonRound("Print");
+	ButtonRound btnEmail = new ButtonRound("Email");
 	//	Anchor ancDetailed = new Anchor("Show Detailed View");
 
 	VerticalPanel vpnlMain;
@@ -43,7 +45,10 @@ public class ReportAuditExceptions extends Composite implements IStackWidget{
 	VerticalPanel chartPanel = new VerticalPanel();
 
 	public ReportAuditExceptions(String fromInternalAudit){
-
+		btnExportToExcel.addStyleName("w3-margin");
+		btnSearch.addStyleName("w3-margin");
+		btnExportToExcel.setWidth("130px");
+		btnSearch.setWidth("130px");
 		vpnlMain = new VerticalPanel();
 		vpnlTable = new VerticalPanel();
 		vpnlMain.setWidth("100%");
@@ -63,8 +68,9 @@ public class ReportAuditExceptions extends Composite implements IStackWidget{
 
 		mainRowContainer.setHeight("100px");
 
-		HorizontalPanel btnLine = new HorizontalPanel();
-		btnLine.setWidth("600px");
+		VerticalPanel btnLine = new VerticalPanel();
+		//btnLine.setWidth("600px");
+		btnLine.addStyleName("w3-right");
 		btnLine.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 
 		btnBelowTable.setVisible(false);
@@ -79,33 +85,44 @@ public class ReportAuditExceptions extends Composite implements IStackWidget{
 		VerticalPanel vpJobs = new VerticalPanel();
 		VerticalPanel vpExceptionStatus = new VerticalPanel();
 		VerticalPanel vpResponsibleAuditee = new VerticalPanel();
+		vpDomain.setWidth("100px");
+		vpDiv.setWidth("100px");
+		vpRisk.setWidth("100px");
+		vpResource.setWidth("100px");
+		vpJobs.setWidth("100px");
+		vpExceptionStatus.setWidth("150px");
+		vpResponsibleAuditee.setWidth("150px");
+		
+		
+		
 
-		Label lbl1 = new Label("Domain");
+		LabelHeading lbl1 = new LabelHeading();
+		lbl1.setText("Domain");
 
-		lbl1.addStyleName("labelHeading");
+		//lbl1.addStyleName("labelHeading");
 
-		Label lbl2 = new Label("Division");
+		LabelHeading lbl2 = new LabelHeading();
+		lbl2.setText("Division");
+		//lbl2.addStyleName("labelHeading");
 
-		lbl2.addStyleName("labelHeading");
+		LabelHeading lbl3 = new LabelHeading();
+		lbl3.setText("Risk Rating");
+		//lbl3.addStyleName("labelHeading");
+		LabelHeading lbl4 = new LabelHeading();
+		lbl4.setText("Resources");
+	//	lbl4.addStyleName("labelHeading");
 
-		Label lbl3 = new Label("Risk Rating");
+		LabelHeading lbl5 = new LabelHeading();
+		lbl5.setText("Jobs");
+		//lbl5.addStyleName("labelHeading");
 
-		lbl3.addStyleName("labelHeading");
-		Label lbl4 = new Label("Resources");
+		LabelHeading lbl6 = new LabelHeading();
+		lbl6.setText("Exception Status");
+		//lbl6.addStyleName("labelHeading");
 
-		lbl4.addStyleName("labelHeading");
-
-		Label lbl5 = new Label("Jobs");
-
-		lbl5.addStyleName("labelHeading");
-
-		Label lbl6 = new Label("Exception Status");
-
-		lbl6.addStyleName("labelHeading");
-
-		Label lbl7 = new Label("Responsible Auditee");
-
-		lbl7.addStyleName("labelHeading");
+		LabelHeading lbl7 = new LabelHeading();
+		lbl7.setText("Responsible Auditee");
+		//lbl7.addStyleName("labelHeading");
 
 		vpDomain.add( lbl1 ); 
 		vpDiv.add( lbl2 ); 
@@ -118,14 +135,27 @@ public class ReportAuditExceptions extends Composite implements IStackWidget{
 
 
 
-		lstDomain = new ListBox(); lstDomain.setMultipleSelect(true); 	lstDomain.addStyleName("listboxStyle");
-		lstDiv = new ListBox();    lstDiv.setMultipleSelect(true);		lstDiv.addStyleName("listboxStyle");
-		lstRisk = new ListBox();   lstRisk.setMultipleSelect(true);		lstRisk.addStyleName("listboxStyle");
-		lstResource = new ListBox();   lstResource.setMultipleSelect(true);		lstResource.addStyleName("listboxStyle");
-		lstJobs = new ListBox();   lstJobs.setMultipleSelect(true);		lstJobs.addStyleName("listboxStyle");
-		lstExceptionStatus = new ListBox();   lstExceptionStatus.setMultipleSelect(true);		lstExceptionStatus.addStyleName("listboxStyle");
-		lstResponsibleAuditee= new ListBox();   lstResponsibleAuditee.setMultipleSelect(true);		lstResponsibleAuditee.addStyleName("listboxStyle");
-
+		lstDomain = new ListBox();// lstDomain.setMultipleSelect(true); 	lstDomain.addStyleName("listboxStyle");
+		lstDiv = new ListBox();   // lstDiv.setMultipleSelect(true);		lstDiv.addStyleName("listboxStyle");
+		lstRisk = new ListBox();  // lstRisk.setMultipleSelect(true);		lstRisk.addStyleName("listboxStyle");
+		lstResource = new ListBox(); //  lstResource.setMultipleSelect(true);		lstResource.addStyleName("listboxStyle");
+		lstJobs = new ListBox();  /// lstJobs.setMultipleSelect(true);		lstJobs.addStyleName("listboxStyle");
+		lstExceptionStatus = new ListBox();  // lstExceptionStatus.setMultipleSelect(true);		lstExceptionStatus.addStyleName("listboxStyle");
+		lstResponsibleAuditee= new ListBox();  // lstResponsibleAuditee.setMultipleSelect(true);		lstResponsibleAuditee.addStyleName("listboxStyle");
+		lstDomain.addStyleName("w3-border");
+		lstRisk.addStyleName("w3-border");
+		lstResource.addStyleName("w3-border");
+		lstJobs.addStyleName("w3-border");
+		lstExceptionStatus.addStyleName("w3-border");
+		lstResponsibleAuditee.addStyleName("w3-border");
+		lstDiv.addStyleName("w3-border");
+		vpDomain.setWidth("100px");
+		lstDiv.setWidth("100px");
+		lstRisk.setWidth("100px");
+		lstResource.setWidth("100px");
+		lstJobs.setWidth("100px");
+		lstExceptionStatus.setWidth("150px");
+		lstResponsibleAuditee.setWidth("150px");
 		lstRisk.addItem("All", "All"); lstRisk.setSelectedIndex(0);
 		lstRisk.addItem("High", "High");
 		lstRisk.addItem("Medium", "Medium");
@@ -170,6 +200,7 @@ public class ReportAuditExceptions extends Composite implements IStackWidget{
 		mainRowContainer.add(vpJobs);
 		mainRowContainer.add(vpExceptionStatus);
 		mainRowContainer.add(vpResponsibleAuditee);
+		mainRowContainer.add(btnLine);
 
 		vpnlMain.add( mainRowContainer );
 
@@ -196,7 +227,7 @@ public class ReportAuditExceptions extends Composite implements IStackWidget{
 		//		btnBelowTable.add(btnPrint);
 		//		btnBelowTable.add(btnEmail);		
 
-		vpnlMain.add(btnLine);
+		//vpnlMain.add(btnLine);
 
 		vpnlMain.add(vpnlTable);
 		vpnlMain.setWidth("100%");
@@ -234,7 +265,7 @@ public class ReportAuditExceptions extends Composite implements IStackWidget{
 	}
 
 
-	public Button getBtnSearch() { return btnSearch; }
+	public ButtonRound getBtnSearch() { return btnSearch; }
 	//
 	//
 	public ListBox getDomainListbox() {
@@ -265,11 +296,11 @@ public class ReportAuditExceptions extends Composite implements IStackWidget{
 	//		this.btnSearch = btnSearch;
 	//	}
 
-	public Button getBtnExportToExcel() {
+	public ButtonRound getBtnExportToExcel() {
 		return btnExportToExcel;
 	}
 
-	public void setBtnExportToExcel(Button btnExportToExcel) {
+	public void setBtnExportToExcel(ButtonRound btnExportToExcel) {
 		this.btnExportToExcel = btnExportToExcel;
 	}
 

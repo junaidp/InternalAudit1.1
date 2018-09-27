@@ -25,15 +25,16 @@ public class ExceptionReportingStatusChart extends VerticalLayoutContainer {
 
 	public Chart createChart(HashMap<String, Integer> reportStatus) {
 
-		final Chart chart = new Chart().setWidth(500).setHeight(300).setType(Series.Type.BAR)
+		final Chart chart = new Chart().setWidth(500).setHeight(270).setType(Series.Type.BAR)
 				.setChartTitleText("Exception Reporting Status")
 
 				// .setChartSubtitleText("Source: Wikipedia.org")
-				.setBarPlotOptions(new BarPlotOptions().setDataLabels(new DataLabels().setEnabled(true)))
+//				.setBarPlotOptions(new BarPlotOptions().setDataLabels(new DataLabels().setEnabled(true)))
 				.setLegend(new Legend().setLayout(Legend.Layout.VERTICAL).setAlign(Legend.Align.RIGHT)
 						.setVerticalAlign(Legend.VerticalAlign.TOP).setX(-100).setY(100).setFloating(true)
-						.setBorderWidth(1).setBackgroundColor("#FFFFFF").setShadow(true))
+						.setBorderWidth(1).setBackgroundColor("#FFFFFF").setShadow(true).setEnabled(disabled))
 				.setCredits(new Credits().setEnabled(false))
+				
 				.setToolTip(new ToolTip().setFormatter(new ToolTipFormatter() {
 					public String format(ToolTipData toolTipData) {
 						return toolTipData.getSeriesName();
@@ -46,6 +47,7 @@ public class ExceptionReportingStatusChart extends VerticalLayoutContainer {
 		 * new Point[1]; Point[] pointreportIssued = new Point[1]; Point[]
 		 * pointfinalReportIssued = new Point[1];
 		 */
+		chart.getYAxis().setAxisTitleText(null);
 		chart.getXAxis().setCategories(InternalAuditConstants.EXCEPTIONSTOSENT, InternalAuditConstants.AWAITINGCOMMENTS,
 				InternalAuditConstants.COMMENTSRECEIVED, InternalAuditConstants.REPORTISSUED,
 				InternalAuditConstants.FINALREPORTISSUED);
@@ -55,7 +57,8 @@ public class ExceptionReportingStatusChart extends VerticalLayoutContainer {
 		// Point p1 = new Point("Implem", reportStatus.get("exceptionsToSent"));
 		// pointexceptionsToSent[0] = p1;
 
-		chart.addSeries(chart.createSeries().setName("")
+		chart.addSeries(chart.createSeries()
+				.setName("exception")
 				.setPoints(new Number[] { reportStatus.get(InternalAuditConstants.EXCEPTIONSTOSENT),
 						
 						reportStatus.get(InternalAuditConstants.AWAITINGCOMMENTS),

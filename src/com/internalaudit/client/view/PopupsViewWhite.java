@@ -27,11 +27,12 @@ public class PopupsViewWhite {
 	public PopupsViewWhite(Widget widget) {
 		HorizontalPanel hpnlClose = new HorizontalPanel();
 		hpnlSPace = new HorizontalPanel();
-		hpnlSPace.setWidth("1310px");
+		hpnlSPace.setWidth("1170px");
 		hpnlClose.add(hpnlSPace);
 		hpnlClose.add(close);
 		close.addStyleName("pointerStyle");
 		popup = new DecoratedPopupPanel();
+		popup.setWidth("1190px");
 		vpnlMain = new VerticalPanel();
 		vpnlMain.add(hpnlClose);
 		vpnlMain.add(widget);

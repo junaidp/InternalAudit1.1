@@ -26,6 +26,7 @@ import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.AmendmentPopup;
 import com.internalaudit.client.view.AuditUniverseStrategicView;
 import com.internalaudit.client.view.AuditUniverseStrategicViewHeading;
+import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.client.view.PhaseNames;
 import com.internalaudit.shared.Department;
@@ -57,9 +58,9 @@ public class AuditUniverseStrategicViewData {
 	}
 
 
-	public void declineStrategic(int strategicId, final VerticalPanel vpnlStrategic, final HorizontalPanel hpnlButtonInitiator, final HorizontalPanel hpnlButtonsApprovar, final Image btnAdd, final int tab, final Button buttonClicked){
+	public void declineStrategic(int strategicId, final VerticalPanel vpnlStrategic, final HorizontalPanel hpnlButtonInitiator, final HorizontalPanel hpnlButtonsApprovar, final Image btnAdd, final int tab, final ButtonRound buttonRound){
 		
-		buttonClicked.setEnabled(false);
+		buttonRound.setEnabled(false);
 		rpcService.declineStrategic(strategicId, new AsyncCallback<String>(){
 
 			@Override
@@ -73,13 +74,13 @@ public class AuditUniverseStrategicViewData {
 					Window.alert("FAIL: declineStrategic");// After FAIL ... write RPC Name  NOT Method Name..
 				}
 				
-				buttonClicked.setEnabled(true);
+				buttonRound.setEnabled(true);
 				Window.alert("decline strategic failed");
 			}
 
 			@Override
 			public void onSuccess(String result) {
-				buttonClicked.setEnabled(true);
+				buttonRound.setEnabled(true);
 				vpnlStrategic.clear();
 				
 				fetchStrategic(vpnlStrategic, hpnlButtonInitiator, hpnlButtonsApprovar, btnAdd, tab);
@@ -88,7 +89,7 @@ public class AuditUniverseStrategicViewData {
 	}
 
 	public void saveStrategic(final AuditUniverseStrategicView strategicView, final VerticalPanel vpnlStrategicData, 
-			final HorizontalPanel hpnlButtonInitiator, final HorizontalPanel hpnlButtonsApprovar, final Image btnAdd, String todo, int tab, Button buttonClicked) {
+			final HorizontalPanel hpnlButtonInitiator, final HorizontalPanel hpnlButtonsApprovar, final Image btnAdd, String todo, int tab, ButtonRound buttonRound) {
 		final ArrayList<Strategic> strategics = new ArrayList<Strategic>();
 		
 		if( strategicView.getStrategicObjective().getText().equals("") ||  strategicView.getStrategicObjective().getText().equals("Enter Objective")){
@@ -98,13 +99,13 @@ public class AuditUniverseStrategicViewData {
 //			checkDate(strategicView, vpnlStrategicData,hpnlButtonInitiator, hpnlButtonsApprovar, btnAdd, todo,
 //					strategics, tab, buttonClicked);
 				saveStrategicToServer(strategicView, vpnlStrategicData,hpnlButtonInitiator, hpnlButtonsApprovar, btnAdd, todo,
-						strategics, tab, buttonClicked);
+						strategics, tab, buttonRound);
 			
 		}
 	}
 
 	public void checkDate(final AuditUniverseStrategicView strategicView, final VerticalPanel vpnlStrategicData, final HorizontalPanel hpnlButtonInitiator, 
-			final HorizontalPanel hpnlButtonsApprovar, final Image btnAdd, final String todo, final ArrayList<Strategic> strategics, final int tab, final Button buttonClicked){
+			final HorizontalPanel hpnlButtonsApprovar, final Image btnAdd, final String todo, final ArrayList<Strategic> strategics, final int tab, final ButtonRound buttonClicked){
 		rpcService.checkDate(strategicView.getObjectiveAchievementDate().getValue(), new AsyncCallback<Boolean>(){
 
 			@Override
@@ -138,10 +139,10 @@ public class AuditUniverseStrategicViewData {
 			final VerticalPanel vpnlStrategicData,
 			final HorizontalPanel hpnlButtonInitiator,
 			final HorizontalPanel hpnlButtonsApprovar, final Image btnAdd,
-			String todo, final ArrayList<Strategic> strategics, final int tab, final Button buttonClicked) {
+			String todo, final ArrayList<Strategic> strategics, final int tab, final ButtonRound buttonRound) {
 		
 		
-		buttonClicked.setEnabled(false);
+		buttonRound.setEnabled(false);
 		Strategic strategic = new Strategic();
 		strategic.setAcheivementDate(strategicView.getObjectiveAchievementDate().getCurrentValue());
 		Employee employee = new Employee();
@@ -188,13 +189,13 @@ public class AuditUniverseStrategicViewData {
 					Window.alert("FAIL: saveStrategic");// After FAIL ... write RPC Name  NOT Method Name..
 				}
 				
-				buttonClicked.setEnabled(true);
+				buttonRound.setEnabled(true);
 				Window.alert("save strategic failed");
 			}
 
 			@Override
 			public void onSuccess(String arg0) {
-				buttonClicked.setEnabled(true);
+				buttonRound.setEnabled(true);
 				vpnlStrategicData.clear();
 				final DecoratedPopupPanel popup = new DecoratedPopupPanel();
 				if(actionperformed.equalsIgnoreCase("save")){
@@ -461,7 +462,7 @@ public class AuditUniverseStrategicViewData {
 		auditUniverseStrategicView.getComments().setTitle(result.get(i).getComments());
 		auditUniverseStrategicView.getObjectiveAchievementDate().setValue(result.get(i).getAcheivementDate());
 		auditUniverseStrategicView.getStrategicObjective().setText(result.get(i).getStrategicObjective());
-		auditUniverseStrategicView.getLblStrategicId().setText(result.get(i).getId()+"");
+		auditUniverseStrategicView.getLblStrategicId().setText(result.get(i).getId()+".");
 		auditUniverseStrategicView.getStrategicObjective().setTitle(result.get(i).getStrategicObjective());
 
 		if(result.get(i).getStatus().equals("submitted") || result.get(i).getPhase()>1){

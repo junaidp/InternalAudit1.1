@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.AmendmentPopup;
+import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.client.view.PhaseNames;
@@ -40,15 +41,15 @@ public class PrioritizationViewData {
 	private String actionPerformed;
 	private Logger logger = Logger.getLogger("PrioritizationViewData");
 
-	public void setData(ContentPanel cp, VerticalPanel vpnlData, Button submit){
+	public void setData(ContentPanel cp, VerticalPanel vpnlData, ButtonRound submit){
 		
 		setHandlers(cp, vpnlData, submit);
 		
 	}
 	
 	
-	public void savePrioritization(final VerticalPanel vpnlData, PrioritizationView prioritizationView, Strategic strategic, String todo, int tab, final Button buttonClicked){
-		buttonClicked.setEnabled(false);
+	public void savePrioritization(final VerticalPanel vpnlData, PrioritizationView prioritizationView, Strategic strategic, String todo, int tab, final ButtonRound buttonRound){
+		buttonRound.setEnabled(false);
 			strategic.setAudit(prioritizationView.getAudit().getValue());
 			
 			/////////////
@@ -81,13 +82,13 @@ public class PrioritizationViewData {
 					Window.alert("FAIL: saveStrategic");// After FAIL ... write RPC Name  NOT Method Name..
 				}
 				
-				buttonClicked.setEnabled(true);
+				buttonRound.setEnabled(true);
 				Window.alert("save Prioritization strategic failed");	
 			}
 
 			@Override
 			public void onSuccess(String arg0) {
-				buttonClicked.setEnabled(true);
+				buttonRound.setEnabled(true);
 				final DecoratedPopupPanel popup = new DecoratedPopupPanel();
 				if(actionPerformed.equalsIgnoreCase("save")){
 					popup.setWidget(new Label("Prioritization Saved "));
@@ -116,7 +117,7 @@ public class PrioritizationViewData {
 			}});
 	}
 	
-	private void setHandlers(ContentPanel cp, final VerticalPanel vpnlData, Button submit) {
+	private void setHandlers(ContentPanel cp, final VerticalPanel vpnlData, ButtonRound submit) {
 		
 //		submit.addClickHandler(new ClickHandler(){
 //
@@ -351,8 +352,8 @@ public class PrioritizationViewData {
 		}
 	}
 	
-	public void declineStrategic(int strategicId,final VerticalPanel vpnlData, final Button buttonClicked){
-		buttonClicked.setEnabled(false);
+	public void declineStrategic(int strategicId,final VerticalPanel vpnlData, final ButtonRound buttonRound){
+		buttonRound.setEnabled(false);
 		rpcService.declineStrategic(strategicId, new AsyncCallback<String>(){
 
 			@Override
@@ -367,13 +368,13 @@ public class PrioritizationViewData {
 				}
 				
 				
-				buttonClicked.setEnabled(true);
+				buttonRound.setEnabled(true);
 				Window.alert("decline strategic failed");
 			}
 
 			@Override
 			public void onSuccess(String result) {
-				buttonClicked.setEnabled(true);
+				buttonRound.setEnabled(true);
 //				vpnlStrategic.clear();
 				final DecoratedPopupPanel popup = new DecoratedPopupPanel();
 				popup.setWidget(new Label("strategic deleted ! "));

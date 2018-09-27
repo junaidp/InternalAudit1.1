@@ -59,7 +59,7 @@ public class AuditWorkProgramNew extends VerticalPanel {
 		lblAuditProg.getElement().getStyle().setMarginLeft(1, Unit.PX);
 		lblReference.getElement().getStyle().setMarginLeft(10, Unit.PX);
 		//lblReviewer.getElement().getStyle().setMarginLeft(10, Unit.PX);
-		lblSerialNoData.setWidth("135px");
+		lblSerialNoData.setWidth("150x");
 		lblSerialNoData.addStyleName("w3-panel");
 		lblReferenceData.addStyleName("w3-panel");
 		txtAreaAuditProg.addStyleName("w3-panel");

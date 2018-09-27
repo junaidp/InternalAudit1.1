@@ -39,12 +39,12 @@ public class RiskAssesmentStrategicView extends Composite {
 	@UiField HorizontalPanel hpnlButtons;
 	private Label comments = new Label(" Feedback ");
 	private Image submitted = new Image(" images/tick.png ");
-	private Button btnSave = new Button("Save");
-	private Button btnSubmit = new Button("Submit");
-	private Button btnApprove = new Button("Approve");
-	private Button btnDecline = new Button("Delete");
-	private Button btnDeclineInitiator = new Button("Delete");
-	private Button btnAmend = new Button("Feedback");
+	private ButtonRound btnSave = new ButtonRound("Save");
+	private ButtonRound btnSubmit = new ButtonRound("Submit");
+	private ButtonRound btnApprove = new ButtonRound("Approve");
+	private ButtonRound btnDecline = new ButtonRound("Delete");
+	private ButtonRound btnDeclineInitiator = new ButtonRound("Delete");
+	private ButtonRound btnAmend = new ButtonRound("Feedback");
 	private HorizontalPanel hpnlButtonInitiator = new HorizontalPanel();
 	private HorizontalPanel hpnlButtonsApprovar = new HorizontalPanel();
 	private int index;
@@ -76,17 +76,16 @@ public class RiskAssesmentStrategicView extends Composite {
 		    HorizontalPanel hpnlSpaceApprovar = new HorizontalPanel();
 		    
 			hpnlButtonsApprovar.add(hpnlSpaceApprovar);
-			hpnlButtonsApprovar.add(btnDecline);
 			hpnlButtonsApprovar.add(btnAmend);
 			hpnlButtonsApprovar.add(btnApprove);
 			hpnlButtonsApprovar.setSpacing(2);
 			
 			hpnlButtonsApprovar.setVisible(false);
 			hpnlButtonInitiator.setVisible(false);
-			
-			btnDecline.setWidth("70px");
-			btnAmend.setWidth("70px");
-			btnApprove.setWidth("70px");
+//			
+//			btnDecline.setWidth("70px");
+//			btnAmend.setWidth("70px");
+//			btnApprove.setWidth("70px");
 		    
 			hpnlSpace.setWidth("600px");
 			hpnlSpaceApprovar.setWidth("600px");
@@ -95,9 +94,9 @@ public class RiskAssesmentStrategicView extends Composite {
 			 btnDeclineInitiator.setVisible(false);
 		    hpnlButtonInitiator.add(btnSave);
 		    hpnlButtonInitiator.add(btnSubmit);
-		    btnSave.setWidth("70px");
-		    btnSubmit.setWidth("70px");
-		    btnDeclineInitiator.setWidth("70px");
+//		    btnSave.setWidth("70px");
+//		    btnSubmit.setWidth("70px");
+//		    btnDeclineInitiator.setWidth("70px");
 		    hpnlButtonInitiator.setSpacing(2);
 		    HorizontalPanel hpnlComments = new HorizontalPanel();
 		    
@@ -153,51 +152,51 @@ public class RiskAssesmentStrategicView extends Composite {
 		this.index = index;
 	}
 
-	public Button getBtnSave() {
+	public ButtonRound getBtnSave() {
 		return btnSave;
 	}
 
-	public void setBtnSave(Button btnSave) {
+	public void setBtnSave(ButtonRound btnSave) {
 		this.btnSave = btnSave;
 	}
 
-	public Button getBtnSubmit() {
+	public ButtonRound getBtnSubmit() {
 		return btnSubmit;
 	}
 
-	public void setBtnSubmit(Button btnSubmit) {
+	public void setBtnSubmit(ButtonRound btnSubmit) {
 		this.btnSubmit = btnSubmit;
 	}
 
-	public Button getBtnApprove() {
+	public ButtonRound getBtnApprove() {
 		return btnApprove;
 	}
 
-	public void setBtnApprove(Button btnApprove) {
+	public void setBtnApprove(ButtonRound btnApprove) {
 		this.btnApprove = btnApprove;
 	}
 
-	public Button getBtnDecline() {
+	public ButtonRound getBtnDecline() {
 		return btnDecline;
 	}
 
-	public void setBtnDecline(Button btnDecline) {
+	public void setBtnDecline(ButtonRound btnDecline) {
 		this.btnDecline = btnDecline;
 	}
 
-	public Button getBtnDeclineInitiator() {
+	public ButtonRound getBtnDeclineInitiator() {
 		return btnDeclineInitiator;
 	}
 
-	public void setBtnDeclineInitiator(Button btnDeclineInitiator) {
+	public void setBtnDeclineInitiator(ButtonRound btnDeclineInitiator) {
 		this.btnDeclineInitiator = btnDeclineInitiator;
 	}
 
-	public Button getBtnAmend() {
+	public ButtonRound getBtnAmend() {
 		return btnAmend;
 	}
 
-	public void setBtnAmend(Button btnAmend) {
+	public void setBtnAmend(ButtonRound btnAmend) {
 		this.btnAmend = btnAmend;
 	}
 

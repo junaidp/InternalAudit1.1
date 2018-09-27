@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DateBox.DefaultFormat;
+import com.internalaudit.client.view.ButtonRound;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.sencha.gxt.widget.core.client.form.TextField;
 
@@ -19,10 +20,10 @@ public class JobExceptionsView extends HorizontalPanel {
 	private ListBox responsiblePerson = new ListBox();
 	private ListBox divisionHead = new ListBox();
 	private DateBox dueDate = new DateBox();
-	private Button btnSave = new Button("Send");
+	private ButtonRound btnSave = new ButtonRound("Send");
 	private VerticalPanel vpnlButtons = new VerticalPanel();
-	private Button btnApprove = new Button("Approve");
-	private Button btnReject = new Button("Feedback");
+	private ButtonRound btnApprove = new ButtonRound("Approve");
+	private ButtonRound btnReject = new ButtonRound("Feedback");
 	private Label status = new Label("");
 	private TextField txtComments = new TextField();
 	public JobExceptionsView(){
@@ -71,11 +72,11 @@ public class JobExceptionsView extends HorizontalPanel {
 		
 	}
 
-	public Button getBtnSave() {
+	public ButtonRound getBtnSave() {
 		return btnSave;
 	}
 
-	public void setBtnSave(Button btnSave) {
+	public void setBtnSave(ButtonRound btnSave) {
 		this.btnSave = btnSave;
 	}
 
@@ -141,19 +142,19 @@ public class JobExceptionsView extends HorizontalPanel {
 		this.vpnlButtons = hpnlButtons;
 	}
 
-	public Button getBtnApprove() {
+	public ButtonRound getBtnApprove() {
 		return btnApprove;
 	}
 
-	public void setBtnApprove(Button btnApprove) {
+	public void setBtnApprove(ButtonRound btnApprove) {
 		this.btnApprove = btnApprove;
 	}
 
-	public Button getBtnReject() {
+	public ButtonRound getBtnReject() {
 		return btnReject;
 	}
 
-	public void setBtnReject(Button btnReject) {
+	public void setBtnReject(ButtonRound btnReject) {
 		this.btnReject = btnReject;
 	}
 

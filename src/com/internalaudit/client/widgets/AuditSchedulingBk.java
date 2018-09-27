@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
+import com.internalaudit.client.view.ButtonRound;
 
 public class AuditSchedulingBk extends Composite {
 	
@@ -26,7 +27,7 @@ public class AuditSchedulingBk extends Composite {
 	
 	private VerticalPanel timeLineContainer;
 	
-	private Button saveButton;
+	private ButtonRound saveButton;
 	
 	public AuditSchedulingBk() {
 		
@@ -37,7 +38,7 @@ public class AuditSchedulingBk extends Composite {
 		startDate.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd, MM, yyyy")));
 		endDate = new Label();
 				
-		saveButton = new Button("Save");
+		saveButton = new ButtonRound("Save");
 		
 		containerPanel = new HorizontalPanel();
 		
@@ -121,12 +122,12 @@ public class AuditSchedulingBk extends Composite {
 	}
 
 
-	public Button getSaveButton() {
+	public ButtonRound getSaveButton() {
 		return saveButton;
 	}
 
 
-	public void setSaveButton(Button saveButton) {
+	public void setSaveButton(ButtonRound saveButton) {
 		this.saveButton = saveButton;
 	}
 

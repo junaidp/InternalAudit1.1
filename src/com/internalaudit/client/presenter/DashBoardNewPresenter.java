@@ -1,37 +1,16 @@
 package com.internalaudit.client.presenter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.internalaudit.shared.TimeOutException;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DecoratedPopupPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.PasswordTextBox;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.event.MainEvent;
-import com.internalaudit.client.view.DashBoardAuditJobs;
-import com.internalaudit.client.view.DashBoardAuditObservations;
-import com.internalaudit.client.view.DashBoardResourceManagement;
-import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.client.view.dashboard.AuditJobsByFunction;
 import com.internalaudit.client.view.dashboard.AuditJobsByObjective;
 import com.internalaudit.client.view.dashboard.AuditJobsByRisk;
@@ -43,12 +22,7 @@ import com.internalaudit.client.view.dashboard.JobsDueForKickOffWithinWeek;
 import com.internalaudit.client.view.dashboard.JobsExecutionPanel;
 import com.internalaudit.client.view.dashboard.ManagementCommentsOverDue;
 import com.internalaudit.shared.DashBoardNewDTO;
-import com.internalaudit.shared.Employee;
-import com.internalaudit.shared.Exceptions;
 import com.internalaudit.shared.User;
-import com.sencha.gxt.widget.core.client.form.FieldLabel;
-import com.sencha.gxt.widget.core.client.form.PasswordField;
-import com.sencha.gxt.widget.core.client.form.TextField;
 
 
 public class DashBoardNewPresenter implements Presenter 

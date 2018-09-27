@@ -4,6 +4,8 @@ package com.internalaudit.client.DashboardNew;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import org.apache.poi.hssf.util.HSSFColor.WHITE;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.dom.client.Style.Unit;
@@ -22,7 +24,9 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.ConsolidationView;
+import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.shared.DashBoardNewDTO;
 import com.internalaudit.shared.DashboardListBoxDTO;
 import com.internalaudit.shared.Employee;
@@ -42,14 +46,14 @@ public class DashboardListBoxes extends VerticalPanel {
 	
 
 
-	private Label lblDomain= new Label("Domain");
-	Button btnSearch = new Button("search");
-	Label lblProcess = new Label("Process");
-	Label lblAudit = new Label("Audit");
-	Label lblUnit = new Label("Unit");
-	Label lblDivision = new Label("Devision");
-	Label lblResource = new Label("Resource");
-	Label lblRiskLabel = new Label("Risk Level");
+	private LabelHeading lblDomain= new LabelHeading();
+	ButtonRound btnSearch = new ButtonRound("search");
+	LabelHeading lblProcess = new LabelHeading();
+	LabelHeading lblAudit = new LabelHeading();
+	LabelHeading lblUnit = new LabelHeading();
+	LabelHeading lblDivision = new LabelHeading();
+	LabelHeading lblResource = new LabelHeading();
+	LabelHeading lblRiskLabel = new LabelHeading();
 	
 	
 	ListBox listBoxDomain = new ListBox();
@@ -66,43 +70,67 @@ public class DashboardListBoxes extends VerticalPanel {
 
 
 	public  DashboardListBoxes() {
+		lblDomain.addStyleName("w3-panel  w3-center");
+		lblProcess.addStyleName("w3-panel  w3-center");
+		lblAudit.addStyleName("w3-panel  w3-center");
+		lblUnit.addStyleName("w3-panel  w3-center");
+		lblDivision.addStyleName("w3-panel  w3-center");
+		lblResource.addStyleName("w3-panel  w3-center");
+		lblRiskLabel.addStyleName("w3-panel  w3-center");
+		
+		lblDomain.setText("Domain");
+		lblProcess.setText("Process");
+		lblAudit.setText("Audit");
+		lblUnit.setText("Unit");
+		lblUnit.addStyleName("w3-panel  w3-center");
+		lblDivision.setText("Division");
+		lblResource.setText("Resource");
+		lblRiskLabel.setText("Risk Level");
 		fetchDashBoardDTOs();
-		lblDomain.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		lblDomain.addStyleName("w3-panel w3-light-blue");
 		
-		lblProcess.addStyleName("w3-panel w3-light-blue");
-		lblProcess.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+//		lblDomain.addStyleName("w3-panel w3-light-blue");
+//		
+//		lblProcess.addStyleName("w3-panel w3-light-blue");
+//		//lblProcess.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+//		
+//		
+//		lblAudit.addStyleName("w3-panel w3-light-blue");
+//		//lblAudit.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+//		
+//		lblUnit.addStyleName("w3-panel w3-light-blue");
+//	    //lblUnit.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+//	    
+//		lblDivision.addStyleName("w3-panel w3-light-blue");
+//		//lblDivision.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+//		
+//		lblResource.addStyleName("w3-panel w3-light-blue");
+//		lblResource.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 		
-		
-		lblAudit.addStyleName("w3-panel w3-light-blue");
-		lblAudit.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		
-		lblUnit.addStyleName("w3-panel w3-light-blue");
-	    lblUnit.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-	    
-		lblDivision.addStyleName("w3-panel w3-light-blue");
-		lblDivision.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		
-		lblResource.addStyleName("w3-panel w3-light-blue");
-		lblResource.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		
-		lblRiskLabel.addStyleName("w3-panel w3-light-blue");
-		lblRiskLabel.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		
-		lblProcess.getElement().getStyle().setMarginLeft(10, Unit.PX);
-		lblAudit.getElement().getStyle().setMarginLeft(10, Unit.PX);
-		lblUnit.getElement().getStyle().setMarginLeft(10, Unit.PX);
-		lblDivision.getElement().getStyle().setMarginLeft(10, Unit.PX);
-		lblResource.getElement().getStyle().setMarginLeft(10, Unit.PX);
-		lblRiskLabel.getElement().getStyle().setMarginLeft(10, Unit.PX);
+//		lblRiskLabel.addStyleName("w3-panel w3-light-blue");
+//		//lblRiskLabel.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+		lblRiskLabel.setWidth("100px");
+		//btnSearch.setHeight("35px");
+		lblProcess.getElement().getStyle().setMarginLeft(5, Unit.PX);
+		lblAudit.getElement().getStyle().setMarginLeft(5, Unit.PX);
+		lblUnit.getElement().getStyle().setMarginLeft(5, Unit.PX);
+		lblDivision.getElement().getStyle().setMarginLeft(5, Unit.PX);
+		lblResource.getElement().getStyle().setMarginLeft(5, Unit.PX);
+		lblRiskLabel.getElement().getStyle().setMarginLeft(5, Unit.PX);
+	
+		listBoxProcess.getElement().getStyle().setMarginLeft(5, Unit.PX);
+		listBoxAudit.getElement().getStyle().setMarginLeft(5, Unit.PX);
+		listBoxDivision.getElement().getStyle().setMarginLeft(5, Unit.PX);
+		listBoxResource.getElement().getStyle().setMarginLeft(5, Unit.PX);
+		listBoxRiskLevel.getElement().getStyle().setMarginLeft(5, Unit.PX);
+		listBoxUnit.getElement().getStyle().setMarginLeft(5, Unit.PX);
 		
 		
 
 
 
 
-
-		listBoxDomain.addStyleName("w3-panel");
+		listBoxProcess.addStyleName(" w3-border");
+		listBoxDomain.addStyleName(" w3-border");
 		//listBoxDomain.addItem("All", "0");
 		listBoxDomain.addItem("All","All"); listBoxDomain.setSelectedIndex(0);
 		listBoxDomain.addItem("Strategic");
@@ -112,21 +140,21 @@ public class DashboardListBoxes extends VerticalPanel {
 		listBoxProcess.addItem("All", "0");
 //		listBoxProcess.addItem("High", "2");
 		
-		listBoxAudit.addStyleName("w3-panel");
+		listBoxAudit.addStyleName("w3-border");
 		listBoxAudit.addItem("All", "0");
-		listBoxUnit.addStyleName("w3-panel");
+		listBoxUnit.addStyleName("w3-border");
 		listBoxUnit.addItem("All", "0");
-		listBoxDivision.addStyleName("w3-panel");
+		listBoxDivision.addStyleName(" w3-border");
 		//listBoxDivision.addItem("All", "0");
 		listBoxDivision.addItem("All","All"); listBoxDivision.setSelectedIndex(0);
 		listBoxDivision.addItem("IT");
 		listBoxDivision.addItem("Finance");
 		listBoxDivision.addItem("Business");
 		
-		listBoxResource.addStyleName("w3-panel");
+		listBoxResource.addStyleName(" w3-border");
 		listBoxResource.addItem("All", "0");
 		
-		listBoxRiskLevel.addStyleName("w3-panel");
+		listBoxRiskLevel.addStyleName(" w3-border");
 		//listBoxRiskLevel.addItem("All", "0");
 		listBoxRiskLevel.addItem("All", "All"); listBoxRiskLevel.setSelectedIndex(0);
 		listBoxRiskLevel.addItem("High", "High");
@@ -166,7 +194,7 @@ public class DashboardListBoxes extends VerticalPanel {
 		flex.setWidget(0,6, lblRiskLabel);
 		flex.setWidget(1,6,listBoxRiskLevel);
 		
-		flex.setWidget(1,7,btnSearch);
+		flex.setWidget(0,7,btnSearch);
 		
 		
 		add(flex);
@@ -207,12 +235,12 @@ public class DashboardListBoxes extends VerticalPanel {
 }
 
 
-	public Button getBtnSearch() {
+	public ButtonRound getBtnSearch() {
 		return btnSearch;
 	}
 
 
-	public void setBtnSearch(Button btnSearch) {
+	public void setBtnSearch(ButtonRound btnSearch) {
 		this.btnSearch = btnSearch;
 	}
 

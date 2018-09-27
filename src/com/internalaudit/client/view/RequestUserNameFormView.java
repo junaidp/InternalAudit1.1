@@ -11,8 +11,8 @@ public class RequestUserNameFormView extends FlexTable implements Display {
 	private TextBox txtCompanyName = new TextBox();
 	private TextBox txtContactPersonName = new TextBox();
 	private TextBox txtContactPeronEmail = new TextBox();
-	private Button btnCancel = new Button("Cancel");
-	private Button btnSubmit = new Button("Submit");
+	private ButtonRound btnCancel = new ButtonRound("Cancel");
+	private ButtonRound btnSubmit = new ButtonRound("Submit");
 	
 	public RequestUserNameFormView() {
 		
@@ -59,19 +59,19 @@ public class RequestUserNameFormView extends FlexTable implements Display {
 		this.txtContactPeronEmail = txtContactPeronEmail;
 	}
 
-	public Button getBtnCancel() {
+	public ButtonRound getBtnCancel() {
 		return btnCancel;
 	}
 
-	public void setBtnCancel(Button btnCancel) {
+	public void setBtnCancel(ButtonRound btnCancel) {
 		this.btnCancel = btnCancel;
 	}
 
-	public Button getBtnSubmit() {
+	public ButtonRound getBtnSubmit() {
 		return btnSubmit;
 	}
 
-	public void setBtnSubmit(Button btnSubmit) {
+	public void setBtnSubmit(ButtonRound btnSubmit) {
 		this.btnSubmit = btnSubmit;
 	}
 

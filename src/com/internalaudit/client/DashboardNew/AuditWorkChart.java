@@ -25,7 +25,7 @@ public class AuditWorkChart extends VerticalLayoutContainer {
 
 	public Chart createChart(ArrayList<AuditWorkStatusDTO> auditWorkStatusDTO) {
 
-		final Chart chart = new Chart().setWidth(700).setType(Series.Type.BAR).setChartTitleText("Audit Work Status")
+		final Chart chart = new Chart().setWidth(700).setHeight(270).setType(Series.Type.BAR).setChartTitleText("Audit Work Status")
 				.setSeriesPlotOptions(new SeriesPlotOptions().setStacking(PlotOptions.Stacking.NORMAL))
 				.setLegend(new Legend().setBackgroundColor("#FFFFFF").setReversed(true))
 				.setToolTip(new ToolTip().setFormatter(new ToolTipFormatter() {
@@ -35,7 +35,7 @@ public class AuditWorkChart extends VerticalLayoutContainer {
 					}
 				}));
 	 
-		chart.getYAxis().setMin(0).setAxisTitleText("Audit Work Status");
+		chart.getYAxis().setMin(0).setAxisTitleText(null);
 		chart.setCredits(new Credits().setText(""));
 		
 		chart.getYAxis().setTickInterval(1);

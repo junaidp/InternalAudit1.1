@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.AmendmentPopup;
+import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.ConsolidationView;
 import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.client.view.PhaseNames;
@@ -54,7 +55,7 @@ public class ConsolidationViewData {
 		fetchProcessDTOs();
 	}
 
-	public void saveConsolidation(Strategic strategic, final VerticalPanel vpnlData, ConsolidationView consolidationView, String todo, int tab, final Button buttonClicked){
+	public void saveConsolidation(Strategic strategic, final VerticalPanel vpnlData, ConsolidationView consolidationView, String todo, int tab, final ButtonRound buttonClicked){
 		buttonClicked.setEnabled(false);
 		strategic.setAuditableUnit(consolidationView.getAuditableUnit().getText());
 		//		strategic.setProcess(consolidationView.getListBoxProcess().getSelectedItemText());
@@ -426,8 +427,8 @@ public class ConsolidationViewData {
 		}
 	}
 
-	public void declineStrategic(int strategicId,final VerticalPanel vpnlData, final Button buttonClicked){
-		buttonClicked.setEnabled(false);
+	public void declineStrategic(int strategicId,final VerticalPanel vpnlData, final ButtonRound buttonRound){
+		buttonRound.setEnabled(false);
 		rpcService.declineStrategic(strategicId, new AsyncCallback<String>(){
 
 			@Override
@@ -442,13 +443,13 @@ public class ConsolidationViewData {
 				}
 
 
-				buttonClicked.setEnabled(true);
+				buttonRound.setEnabled(true);
 				Window.alert("decline strategic failed");
 			}
 
 			@Override
 			public void onSuccess(String result) {
-				buttonClicked.setEnabled(true);
+				buttonRound.setEnabled(true);
 				final DecoratedPopupPanel popup = new DecoratedPopupPanel();
 				popup.setWidget(new Label("strategic declined ! "));
 				popup.setPopupPosition(350, 350);

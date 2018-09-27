@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.PopupsView;
 
 
@@ -18,13 +19,13 @@ public class ReportAuditEngagement extends Composite implements IStackWidget{
 	ListBox lstDiv;
 	ListBox lstRisk;
 //
-	Button btnSearch = new Button("Preview");
+	ButtonRound btnSearch = new ButtonRound("Preview");
 	
-	private Button btnExportToExcel = new Button("Export to Excel");
+	private ButtonRound btnExportToExcel = new ButtonRound("Export to Excel");
 	
 	
-	Button btnPrint = new Button("Print");
-	Button btnEmail = new Button("Email");
+	ButtonRound btnPrint = new ButtonRound("Print");
+	ButtonRound btnEmail = new ButtonRound("Email");
 	Anchor ancDetailed = new Anchor("Show Detailed View");
 	
 	VerticalPanel vpnlMain;
@@ -178,7 +179,7 @@ public class ReportAuditEngagement extends Composite implements IStackWidget{
 	}
 	
 
-	public Button getBtnSearch() { return btnSearch; }
+	public ButtonRound getBtnSearch() { return btnSearch; }
 
 
 	public ListBox getDomainListbox() {
@@ -209,11 +210,11 @@ public class ReportAuditEngagement extends Composite implements IStackWidget{
 //		this.btnSearch = btnSearch;
 //	}
 
-	public Button getBtnExportToExcel() {
+	public ButtonRound getBtnExportToExcel() {
 		return btnExportToExcel;
 	}
 
-	public void setBtnExportToExcel(Button btnExportToExcel) {
+	public void setBtnExportToExcel(ButtonRound btnExportToExcel) {
 		this.btnExportToExcel = btnExportToExcel;
 	}
 

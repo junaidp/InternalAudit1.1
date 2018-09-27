@@ -7,6 +7,7 @@ public class LabelHeading  extends Label{
 	public LabelHeading(){
 		
 		addStyleName("w3-panel w3-light-blue");
+		addStyleName("labelHeading");
 		
 	}
 }

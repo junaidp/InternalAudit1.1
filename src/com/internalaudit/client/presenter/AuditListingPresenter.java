@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.client.view.PopupsViewWhite;
@@ -127,6 +128,7 @@ public class AuditListingPresenter implements Presenter {
 			@Override
 			public void onSuccess(ArrayList<JobsOfEmployee> result) {
 				new PopupsViewWhite(resourceSchedulingView);
+			//popup.setWidth("1100px");
 				addHeadingResource(resourceSchedulingView);
 //				for ( int i = 1; i< result.size(); i++)
 				
@@ -165,6 +167,8 @@ public class AuditListingPresenter implements Presenter {
 			@Override
 			public void onSuccess(ArrayList<JobCreation> result) {
 				new PopupsViewWhite(jobSchedulingView);
+				//popup.setWidth("1000px");
+		
 				addHeading(jobSchedulingView);
 				AuditScheduling auditSchedulingTemp=null;
 				for ( int i =0; i< result.size(); i++)
@@ -209,7 +213,7 @@ public class AuditListingPresenter implements Presenter {
 
 	private void addHeading(JobsSchedulingView jobSchedulingView) {
 		HorizontalPanel headingPanel = new HorizontalPanel();
-
+		headingPanel.setWidth("1100px");
 		Label empty = new Label("");
 		empty.setWidth("100px");
 		headingPanel.add(empty);
@@ -259,7 +263,7 @@ public class AuditListingPresenter implements Presenter {
 	
 	private void addHeadingResource(JobsSchedulingView jobSchedulingView) {
 		HorizontalPanel headingPanel = new HorizontalPanel();
-
+		headingPanel.setWidth("1100px");
 		
 		Label employeeName = new Label("Employee Name");
 		employeeName.setWidth("160px");
@@ -406,7 +410,7 @@ public class AuditListingPresenter implements Presenter {
 		popup = new DecoratedPopupPanel();
 		VerticalPanel vpnl = new VerticalPanel();
 		vpnl.setSpacing(5);
-		Button btnClose = new Button("Ok");
+		ButtonRound btnClose = new ButtonRound("Ok");
 		for(int i=0; i<result.size(); i++){
 			HorizontalPanel hpnl = new HorizontalPanel();
 			hpnl.setSpacing(3);

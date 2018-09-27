@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DateBox.DefaultFormat;
+import com.internalaudit.client.view.ButtonRound;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.sencha.gxt.widget.core.client.form.TextField;
 
@@ -22,10 +23,10 @@ public class ResponsiblePersonRowView extends VerticalPanel{
 	private TextArea  implementaionComments = new TextArea();
 	private TextArea  managementComments = new TextArea();
 	private DateBox  implementaionDate = new DateBox();
-	private Button btnSend = new Button("Send");
+	private ButtonRound btnSend = new ButtonRound("Send");
 	private Label status = new Label("");
-	private Button btnApprove = new Button("Approve");
-	private Button btnReject = new Button("Feedback");
+	private ButtonRound btnApprove = new ButtonRound("Approve");
+	private ButtonRound btnReject = new ButtonRound("Feedback");
 	private VerticalPanel vpnlApprovalButton = new VerticalPanel();
 	private HorizontalPanel hpnl2= new HorizontalPanel();
 	private TextField txtComments = new TextField();
@@ -86,9 +87,9 @@ public class ResponsiblePersonRowView extends VerticalPanel{
 		isImplemented.addItem("Yes", "1");
 		isAgreed.addItem("No", "0");
 		isAgreed.addItem("Yes", "1");
-		
-		btnApprove.setWidth("60px");
-		btnReject.setWidth("60px");
+//		
+//		btnApprove.setWidth("60px");
+//		btnReject.setWidth("60px");
 		exception.setWidth("250px");
 		recommendations.setWidth("250px");
 		managementComments.setWidth("250px");
@@ -150,11 +151,11 @@ public class ResponsiblePersonRowView extends VerticalPanel{
 		this.implementaionDate = implementaionDate;
 	}
 
-	public Button getBtnSend() {
+	public ButtonRound getBtnSend() {
 		return btnSend;
 	}
 
-	public void setBtnSend(Button btnSend) {
+	public void setBtnSend(ButtonRound btnSend) {
 		this.btnSend = btnSend;
 	}
 
@@ -183,25 +184,25 @@ public class ResponsiblePersonRowView extends VerticalPanel{
 
 
 
-	public Button getBtnApprove() {
+	public ButtonRound getBtnApprove() {
 		return btnApprove;
 	}
 
 
 
-	public void setBtnApprove(Button btnApprove) {
+	public void setBtnApprove(ButtonRound btnApprove) {
 		this.btnApprove = btnApprove;
 	}
 
 
 
-	public Button getBtnReject() {
+	public ButtonRound getBtnReject() {
 		return btnReject;
 	}
 
 
 
-	public void setBtnReject(Button btnReject) {
+	public void setBtnReject(ButtonRound btnReject) {
 		this.btnReject = btnReject;
 	}
 

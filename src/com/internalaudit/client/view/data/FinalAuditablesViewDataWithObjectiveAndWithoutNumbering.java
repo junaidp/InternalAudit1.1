@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.FinalAuditablesView;
 import com.internalaudit.shared.Strategic;
@@ -94,8 +95,8 @@ public class FinalAuditablesViewDataWithObjectiveAndWithoutNumbering {
 				
 				
 				for(int i=0; i< strategic.size(); i++){
-					Button btnApprove = new Button("Approve");
-					Button btnDecline = new Button("Decline");
+					ButtonRound btnApprove = new ButtonRound("Approve");
+					ButtonRound btnDecline = new ButtonRound("Decline");
 					final TextField txtComments = new TextField();
 					txtComments.setEmptyText("Comments");
 					
@@ -157,7 +158,7 @@ public class FinalAuditablesViewDataWithObjectiveAndWithoutNumbering {
 
 				for(int i=0; i< hpnlContainer.size(); i++){
 					for(int j=0; j< strategic.size(); j++){
-						Label lblObjective = new Label(strategic.get(j).getStrategicObjective() +" ( " + strategic.get(j).getRating()+ " ) ");
+						Label lblObjective = new Label(strategic.get(j).getStrategicObjective() +" ( " + strategic.get(j).getRating()+ " . ");
 						lblObjective.setWidth("400px");
 						Label lblUnit = (Label) hpnlContainer.get(i).getWidget(0);
 						if(lblUnit.getText().equalsIgnoreCase(strategic.get(j).getAuditableUnit())){

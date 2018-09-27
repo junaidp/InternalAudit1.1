@@ -20,8 +20,8 @@ public class UserInductionFormView extends FlexTable implements Display {
 	private DateBox dateAvailabalityFrom = new DateBox();
 	private DateBox dateAvailabalityTo = new DateBox();
 	private ListBox listSkillSet = new ListBox();
-	private Button btnCancel = new Button("Back");
-	private Button btnSubmit = new Button("Save");
+	private ButtonRound btnCancel = new ButtonRound("Back");
+	private ButtonRound btnSubmit = new ButtonRound("Save");
 //	private TextBox txtEmail = new TextBox();
 	private ListBox listReportingTo = new ListBox();
 	private Label lblReportingTo = new Label("Reporting to");
@@ -134,11 +134,11 @@ public class UserInductionFormView extends FlexTable implements Display {
 		return listSkillSet;
 	}
 	
-	public Button getBtnCancel(){
+	public ButtonRound getBtnCancel(){
 		return btnCancel;
 	}
 	
-	public Button getBtnSubmit(){
+	public ButtonRound getBtnSubmit(){
 		return btnSubmit;
 	}
 

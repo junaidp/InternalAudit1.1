@@ -4,6 +4,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.internalaudit.client.widgets.AddIcon;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -22,12 +23,12 @@ public class ConsolidationView extends Composite{
 	//new listbox for subprocess
 	private ListBox listBoxSubProcess;
 	private ListBox listBoxJobType;
-	private Button btnSave = new Button("Save");
-	private Button btnSubmit = new Button("Submit");
-	private Button btnApprove = new Button("Approve");
-	private Button btnDecline = new Button("Delete");
-	private Button btnDeclineInitiator = new Button("Delete");
-	private Button btnAmend = new Button("Feedback");
+	private ButtonRound btnSave = new ButtonRound("Save");
+	private ButtonRound btnSubmit = new ButtonRound("Submit");
+	private ButtonRound btnApprove = new ButtonRound("Approve");
+	private ButtonRound btnDecline = new ButtonRound("Delete");
+	private ButtonRound btnDeclineInitiator = new ButtonRound("Delete");
+	private ButtonRound btnAmend = new ButtonRound("Feedback");
 	private HorizontalPanel hpnlButtonInitiator = new HorizontalPanel();
 	private HorizontalPanel hpnlButtonsApprovar = new HorizontalPanel();
 	private int strategicId;
@@ -35,7 +36,13 @@ public class ConsolidationView extends Composite{
 	private String comment;
 	
 	public ConsolidationView() {
-		
+//		btnSave.addStyleName("w3-button w3-small w3-circle w3-green w3-margin");
+//		btnSave.setPixelSize(20, 30);
+//		btnDeclineInitiator.addStyleName("w3-button  w3-circle w3-teal");
+//		btnDeclineInitiator.setPixelSize(15, 30);
+//		btnSubmit.addStyleName("w3-button w3-small w3-circle w3-green w3-margin");
+//		btnSubmit.setWidth("40px");
+//		btnSubmit.setPixelSize(25, 35);
 		submitted.addStyleName("pointer");
 		submitted.setTitle("submitted");
 	   
@@ -101,9 +108,9 @@ public class ConsolidationView extends Composite{
 			hpnlButtonsApprovar.setVisible(false);
 			hpnlButtonInitiator.setVisible(false);
 			
-			btnDecline.setWidth("70px");
-			btnAmend.setWidth("70px");
-			btnApprove.setWidth("70px");
+//			btnDecline.setWidth("70px");
+//			btnAmend.setWidth("70px");
+//			btnApprove.setWidth("70px");
 		    
 			hpnlSpace.setWidth("600px");
 			hpnlSpaceApprovar.setWidth("600px");
@@ -112,9 +119,9 @@ public class ConsolidationView extends Composite{
 			 btnDeclineInitiator.setVisible(false);
 		    hpnlButtonInitiator.add(btnSave);
 		    hpnlButtonInitiator.add(btnSubmit);
-		    btnSave.setWidth("70px");
-		    btnSubmit.setWidth("70px");
-		    btnDeclineInitiator.setWidth("70px");
+//		    btnSave.setWidth("70px");
+//		    btnSubmit.setWidth("70px");
+//		    btnDeclineInitiator.setWidth("70px");
 		    hpnlButtonInitiator.setSpacing(2);
 		    
 		    HorizontalPanel hpnlComments = new HorizontalPanel();
@@ -151,40 +158,40 @@ public class ConsolidationView extends Composite{
 	public void setComments(Label comments) {
 		this.comments = comments;
 	}
-	public Button getBtnSave() {
+	public ButtonRound getBtnSave() {
 		return btnSave;
 	}
-	public void setBtnSave(Button btnSave) {
+	public void setBtnSave(ButtonRound btnSave) {
 		this.btnSave = btnSave;
 	}
-	public Button getBtnSubmit() {
+	public ButtonRound getBtnSubmit() {
 		return btnSubmit;
 	}
-	public void setBtnSubmit(Button btnSubmit) {
+	public void setBtnSubmit(ButtonRound btnSubmit) {
 		this.btnSubmit = btnSubmit;
 	}
-	public Button getBtnApprove() {
+	public ButtonRound getBtnApprove() {
 		return btnApprove;
 	}
-	public void setBtnApprove(Button btnApprove) {
+	public void setBtnApprove(ButtonRound btnApprove) {
 		this.btnApprove = btnApprove;
 	}
-	public Button getBtnDecline() {
+	public ButtonRound getBtnDecline() {
 		return btnDecline;
 	}
-	public void setBtnDecline(Button btnDecline) {
+	public void setBtnDecline(ButtonRound btnDecline) {
 		this.btnDecline = btnDecline;
 	}
-	public Button getBtnDeclineInitiator() {
+	public ButtonRound getBtnDeclineInitiator() {
 		return btnDeclineInitiator;
 	}
-	public void setBtnDeclineInitiator(Button btnDeclineInitiator) {
+	public void setBtnDeclineInitiator(ButtonRound btnDeclineInitiator) {
 		this.btnDeclineInitiator = btnDeclineInitiator;
 	}
-	public Button getBtnAmend() {
+	public ButtonRound getBtnAmend() {
 		return btnAmend;
 	}
-	public void setBtnAmend(Button btnAmend) {
+	public void setBtnAmend(ButtonRound btnAmend) {
 		this.btnAmend = btnAmend;
 	}
 	public HorizontalPanel getHpnlButtonInitiator() {

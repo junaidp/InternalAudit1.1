@@ -1,5 +1,6 @@
 package com.internalaudit.client.view.Reporting;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -9,7 +10,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.PopupsView;
+import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 
 
 public class ReportJobTimeAllocation extends Composite implements IStackWidget{
@@ -19,13 +22,13 @@ public class ReportJobTimeAllocation extends Composite implements IStackWidget{
 	ListBox lstRisk;
 	ListBox lstResource;
 //
-	Button btnSearch = new Button("Preview");
+	ButtonRound btnSearch = new ButtonRound("Preview");
 	
-	private Button btnExportToExcel = new Button("Export to Excel");
+	private ButtonRound btnExportToExcel = new ButtonRound("Export to Excel");
 	
 	
-	Button btnPrint = new Button("Print");
-	Button btnEmail = new Button("Email");
+	ButtonRound btnPrint = new ButtonRound("Print");
+	ButtonRound btnEmail = new ButtonRound("Email");
 //	Anchor ancDetailed = new Anchor("Show Detailed View");
 	
 	VerticalPanel vpnlMain;
@@ -39,7 +42,10 @@ public class ReportJobTimeAllocation extends Composite implements IStackWidget{
 	VerticalPanel chartPanel = new VerticalPanel();
 	
 	public ReportJobTimeAllocation(String fromInternalAudit){
-		
+		btnSearch.addStyleName("w3-margin");
+		btnExportToExcel.addStyleName("w3-margin");
+		btnExportToExcel.setWidth("130px");
+		btnSearch.setWidth("130px");
 		vpnlMain = new VerticalPanel();
 		vpnlTable = new VerticalPanel();
 		vpnlMain.setWidth("100%");
@@ -55,12 +61,15 @@ public class ReportJobTimeAllocation extends Composite implements IStackWidget{
 		///
 		
 		HorizontalPanel mainRowContainer = new HorizontalPanel();
-		mainRowContainer.setWidth("100%");
+		//mainRowContainer.setWidth("100%");
 		
 		mainRowContainer.setHeight("100px");
 		
-		HorizontalPanel btnLine = new HorizontalPanel();
-		btnLine.setWidth("600px");
+		VerticalPanel btnLine = new VerticalPanel();
+		btnLine.addStyleName("w3-right");
+
+		btnLine.getElement().getStyle().setMarginLeft(430, Unit.PX);
+		//btnLine.setWidth("600px");
 		btnLine.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		
 		btnBelowTable.setVisible(false);
@@ -72,21 +81,31 @@ public class ReportJobTimeAllocation extends Composite implements IStackWidget{
 		VerticalPanel vpDiv = new VerticalPanel();
 		VerticalPanel vpRisk = new VerticalPanel();
 		VerticalPanel vpResource = new VerticalPanel();
+		vpDomain.setWidth("130px");
+		vpDiv.setWidth("130px");
+		vpResource.setWidth("130px");
+		vpRisk.setWidth("130px");
+		vpDiv.getElement().getStyle().setMarginLeft(20, Unit.PX);
+		vpRisk.getElement().getStyle().setMarginLeft(20, Unit.PX);
+		vpResource.getElement().getStyle().setMarginLeft(20, Unit.PX);
+		vpDomain.getElement().getStyle().setMarginLeft(20, Unit.PX);
 	
-		Label lbl1 = new Label("Domain");
+		LabelHeading lbl1 = new LabelHeading();
+		lbl1.setText("Domain");
 		
-		lbl1.addStyleName("labelHeading");
+		//lbl1.addStyleName("labelHeading");
 		
-		Label lbl2 = new Label("Division");
+		LabelHeading lbl2 = new LabelHeading();
+		lbl2.setText("Division");
+		//lbl2.addStyleName("labelHeading");
 		
-		lbl2.addStyleName("labelHeading");
+		LabelHeading lbl3 = new LabelHeading();
+		lbl3.setText("Risk Rating");
+		//lbl3.addStyleName("labelHeading");
+		LabelHeading lbl4 = new LabelHeading();
+		lbl4.setText("Resource");
 		
-		Label lbl3 = new Label("Risk Rating");
-		
-		lbl3.addStyleName("labelHeading");
-		Label lbl4 = new Label("Resources");
-		
-		lbl4.addStyleName("labelHeading");
+		//lbl4.addStyleName("labelHeading");
 		
 		vpDomain.add( lbl1 ); 
 		
@@ -97,10 +116,18 @@ public class ReportJobTimeAllocation extends Composite implements IStackWidget{
 		
 		
 				 
-		lstDomain = new ListBox(); lstDomain.setMultipleSelect(true); 	lstDomain.addStyleName("listboxStyle");
-		lstDiv = new ListBox();    lstDiv.setMultipleSelect(true);		lstDiv.addStyleName("listboxStyle");
-		lstRisk = new ListBox();   lstRisk.setMultipleSelect(true);		lstRisk.addStyleName("listboxStyle");
-		lstResource = new ListBox();   lstResource.setMultipleSelect(true);		lstResource.addStyleName("listboxStyle");
+		lstDomain = new ListBox(); //lstDomain.setMultipleSelect(true); 	lstDomain.addStyleName("listboxStyle");
+		lstDiv = new ListBox();   // lstDiv.setMultipleSelect(true);		lstDiv.addStyleName("listboxStyle");
+		lstRisk = new ListBox();   //lstRisk.setMultipleSelect(true);		lstRisk.addStyleName("listboxStyle");
+		lstResource = new ListBox();   //lstResource.setMultipleSelect(true);		lstResource.addStyleName("listboxStyle");
+		lstDomain.addStyleName(" w3-border");
+		lstDiv.addStyleName(" w3-border");
+		lstRisk.addStyleName(" w3-border");
+		lstResource.addStyleName(" w3-border");
+		lstDomain.setWidth("130px");
+		lstResource.setWidth("130px");
+		lstRisk.setWidth("130px");
+		lstDiv.setWidth("130px");
 		
 		lstRisk.addItem("All", "All"); lstRisk.setSelectedIndex(0);
 		lstRisk.addItem("High", "High");
@@ -126,8 +153,8 @@ public class ReportJobTimeAllocation extends Composite implements IStackWidget{
 		vpRisk.add( lstRisk );
 		vpResource.add( lstResource );
 
-		mainRowContainer.add( vpDomain ); mainRowContainer.add( vpDiv ); mainRowContainer.add( vpRisk );
-		mainRowContainer.add(vpResource);
+		mainRowContainer.add( vpDomain ); mainRowContainer.add( vpDiv ); mainRowContainer.add( vpRisk ); 
+		mainRowContainer.add(vpResource); mainRowContainer.add(btnLine);
 		
 		vpnlMain.add( mainRowContainer );
 		
@@ -154,7 +181,7 @@ public class ReportJobTimeAllocation extends Composite implements IStackWidget{
 //		btnBelowTable.add(btnPrint);
 //		btnBelowTable.add(btnEmail);		
 		
-		vpnlMain.add(btnLine);
+		//vpnlMain.add(btnLine);
 		
 		vpnlMain.add(vpnlTable);
 		vpnlMain.setWidth("100%");
@@ -192,7 +219,7 @@ public class ReportJobTimeAllocation extends Composite implements IStackWidget{
 	}
 	
 
-	public Button getBtnSearch() { return btnSearch; }
+	public ButtonRound getBtnSearch() { return btnSearch; }
 //
 //
 	public ListBox getDomainListbox() {
@@ -223,11 +250,11 @@ public class ReportJobTimeAllocation extends Composite implements IStackWidget{
 //		this.btnSearch = btnSearch;
 //	}
 
-	public Button getBtnExportToExcel() {
+	public ButtonRound getBtnExportToExcel() {
 		return btnExportToExcel;
 	}
 
-	public void setBtnExportToExcel(Button btnExportToExcel) {
+	public void setBtnExportToExcel(ButtonRound btnExportToExcel) {
 		this.btnExportToExcel = btnExportToExcel;
 	}
 

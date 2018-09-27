@@ -28,7 +28,7 @@ public class AuditImplementationStatusChart extends VerticalLayoutContainer {
 
 	public Chart createChart(ArrayList<JobNamesWithExceptionsImplementationStatus> implementationStatus) {
 
-		final Chart chart = new Chart().setWidth(450).setHeight(250).setType(Series.Type.COLUMN)
+		final Chart chart = new Chart().setWidth(450).setHeight(210).setType(Series.Type.COLUMN)
 				.setChartTitleText("Audit Issues Implementation Status")
 				.setColumnPlotOptions(new ColumnPlotOptions().setStacking(PlotOptions.Stacking.NORMAL)
 						.setDataLabels(new DataLabels().setEnabled(true).setColor("#FFFFFF")))

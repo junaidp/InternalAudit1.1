@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.AmendmentPopup;
+import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.client.view.PhaseNames;
 import com.internalaudit.client.view.RiskAssesmentStrategicView;
@@ -387,9 +388,9 @@ public class RiskAssesmentStrategicViewData {
     }
 
     public void declineStrategic(int strategicId, final RiskAssesmentView riskAssesmentView,
-	    final Button buttonClicked) {
+	    final ButtonRound buttonRound) {
 
-	buttonClicked.setEnabled(false);
+	buttonRound.setEnabled(false);
 	rpcService.declineStrategic(strategicId, new AsyncCallback<String>() {
 
 	    @Override
@@ -405,13 +406,13 @@ public class RiskAssesmentStrategicViewData {
 							   // Method Name..
 		}
 
-		buttonClicked.setEnabled(true);
+		buttonRound.setEnabled(true);
 		Window.alert("decline strategic failed");
 	    }
 
 	    @Override
 	    public void onSuccess(String result) {
-		buttonClicked.setEnabled(true);
+		buttonRound.setEnabled(true);
 		// vpnlStrategic.clear();
 		final DecoratedPopupPanel popup = new DecoratedPopupPanel();
 		popup.setWidget(new Label("strategic declined ! "));
@@ -433,7 +434,7 @@ public class RiskAssesmentStrategicViewData {
     private void saveAssesment(final RiskAssesmentView riskAssesmentView,
 	    final ArrayList<RiskAssesmentDTO> riskAssesmentDTOs,
 	    final RiskAssesmentStrategicView riskAssesmentStrategicView,
-	    final ArrayList<RiskFactorsView> riskFactorsUpdated, String todo, Button buttonClicked) {
+	    final ArrayList<RiskFactorsView> riskFactorsUpdated, String todo, ButtonRound buttonRound) {
 	ArrayList<StrategicRisk> strategicRisks = new ArrayList<StrategicRisk>();
 
 	// riskAssesmentDTOs.get(riskAssesmentStrategicView.getIndex()).getStrategic().setPhase("RiskAssesment1");
@@ -471,7 +472,7 @@ public class RiskAssesmentStrategicViewData {
 
 	}
 
-	saveRiskAssesment(strategicRisks, riskAssesmentView, todo, buttonClicked);
+	saveRiskAssesment(strategicRisks, riskAssesmentView, todo, buttonRound);
     }
 
     public void disablePanel(RiskAssesmentStrategicView riskAssesmentStrategicView, RiskFactorsView riskFactorsView,
@@ -523,9 +524,9 @@ public class RiskAssesmentStrategicViewData {
     }
 
     public void saveRiskAssesment(ArrayList<StrategicRisk> strategicRisks, final RiskAssesmentView riskAssesmentView,
-	    String todo, final Button buttonClicked) {
+	    String todo, final ButtonRound buttonRound) {
 
-	buttonClicked.setEnabled(false);
+	buttonRound.setEnabled(false);
 	actionPerformed = todo;
 	HashMap<String, String> hm = new HashMap<String, String>();
 	if (todo.equalsIgnoreCase("approve")) {
@@ -548,13 +549,13 @@ public class RiskAssesmentStrategicViewData {
 							    // NOT Method Name..
 		}
 
-		buttonClicked.setEnabled(true);
+		buttonRound.setEnabled(true);
 		Window.alert("saving risk assesment failed");
 	    }
 
 	    @Override
 	    public void onSuccess(String result) {
-		buttonClicked.setEnabled(true);
+		buttonRound.setEnabled(true);
 		final DecoratedPopupPanel popup = new DecoratedPopupPanel();
 		if (actionPerformed.equalsIgnoreCase("save")) {
 		    popup.setWidget(new Label("Risk Assesment Saved  "));

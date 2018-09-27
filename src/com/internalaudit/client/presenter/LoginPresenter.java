@@ -153,7 +153,8 @@ public class LoginPresenter implements Presenter
 					}
 					else{
 					display.getLblError().setVisible(false);
-					eventBus.fireEvent(new DashBoardAtStartupEvent(user));
+					//eventBus.fireEvent(new DashBoardAtStartupEvent(user));
+					eventBus.fireEvent(new MainEvent(user));
 //					eventBus.fireEvent(new MainEvent(user));
 					}
 				}

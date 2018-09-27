@@ -12,7 +12,7 @@ public class DashBoardView extends VerticalPanel implements IsWidget, Display {
     private DashBoardAuditJobs dashBoardAuditJobs = new DashBoardAuditJobs();
     private DashBoardAuditObservations dashBoardAuditObservations = new DashBoardAuditObservations();
     private DashBoardResourceManagement dashBoardResourceManagement = new DashBoardResourceManagement();
-    private Button btnContinue = new Button("Continue");
+    private ButtonRound btnContinue = new ButtonRound("Continue");
 
     public DashBoardView(boolean atStartup) {
 	HorizontalPanel hpnl = new HorizontalPanel();
@@ -51,11 +51,11 @@ public class DashBoardView extends VerticalPanel implements IsWidget, Display {
 	this.dashBoardResourceManagement = dashBoardResourceManagement;
     }
 
-    public Button getBtnContinue() {
+    public ButtonRound getBtnContinue() {
 	return btnContinue;
     }
 
-    public void setBtnContinue(Button btnContinue) {
+    public void setBtnContinue(ButtonRound btnContinue) {
 	this.btnContinue = btnContinue;
     }
 

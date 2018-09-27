@@ -36,12 +36,12 @@ public class AuditUniverseStrategicView extends Composite {
     private Image submitted = new Image(" images/tick.png ");
 
     private int strategicId;
-    private Button btnSave = new Button("Save");
-    private Button btnSubmit = new Button("Submit");
-    private Button btnApprove = new Button("Approve");
-    private Button btnDecline = new Button("Delete");
-    private Button btnDeclineInitiator = new Button("Delete");
-    private Button btnAmend = new Button("Feedback");
+    private ButtonRound btnSave = new ButtonRound("Save");
+    private ButtonRound btnSubmit = new ButtonRound("Submit");
+    private ButtonRound btnApprove = new ButtonRound("Approve");
+    private ButtonRound btnDecline = new ButtonRound("Delete");
+    private ButtonRound btnDeclineInitiator = new ButtonRound("Delete");
+    private ButtonRound btnAmend = new ButtonRound("Feedback");
     private HorizontalPanel hpnlButtonInitiator = new HorizontalPanel();
     private HorizontalPanel hpnlButtonsApprovar = new HorizontalPanel();
     private String comment;
@@ -65,7 +65,7 @@ public class AuditUniverseStrategicView extends Composite {
 	strategicObjective.setEmptyText("Enter Objective");
 	// lstObjectiveOwner.setWidth("150px");
 	relevantDepartment.setWidth("150px");
-	strategicObjective.setWidth("800px");
+	strategicObjective.setWidth("790px");
 	VerticalPanel vpnlStrategicId = new VerticalPanel();
 	VerticalPanel vpnlStrategicObjective = new VerticalPanel();
 	vpnlStrategicObjective.setWidth("920px");
@@ -107,7 +107,7 @@ public class AuditUniverseStrategicView extends Composite {
 	// hpnlStrategic.add(relevantDepartment);
 	// hpnlStrategic.add(objectiveAchievementDate);
 	lblStrategicId.addStyleName("blue");
-	lblStrategicId.setWidth("25px");
+	lblStrategicId.setWidth("45px");
 	hpnlStrategic.add(vpnlStrategicId);
 	hpnlStrategic.add(vpnlStrategicObjective);
 	// hpnlStrategic.setSpacing(3);
@@ -138,9 +138,9 @@ public class AuditUniverseStrategicView extends Composite {
 	hpnlButtonsApprovar.setVisible(false);
 	hpnlButtonInitiator.setVisible(false);
 
-	btnDecline.setWidth("70px");
-	btnAmend.setWidth("70px");
-	btnApprove.setWidth("70px");
+//	btnDecline.setWidth("70px");
+//	btnAmend.setWidth("70px");
+//	btnApprove.setWidth("70px");
 
 	hpnlSpace.setWidth("650px");
 	hpnlSpaceApprovar.setWidth("650px");
@@ -223,19 +223,19 @@ public class AuditUniverseStrategicView extends Composite {
 	this.comments = comments;
     }
 
-    public Button getBtnSave() {
+    public ButtonRound getBtnSave() {
 	return btnSave;
     }
 
-    public void setBtnSave(Button btnSave) {
+    public void setBtnSave(ButtonRound btnSave) {
 	this.btnSave = btnSave;
     }
 
-    public Button getBtnSubmit() {
+    public ButtonRound getBtnSubmit() {
 	return btnSubmit;
     }
 
-    public void setBtnSubmit(Button btnSubmit) {
+    public void setBtnSubmit(ButtonRound btnSubmit) {
 	this.btnSubmit = btnSubmit;
     }
 
@@ -247,27 +247,27 @@ public class AuditUniverseStrategicView extends Composite {
 	this.hpnlButtonInitiator = hpnlButtonInitiator;
     }
 
-    public Button getBtnApprove() {
+    public ButtonRound getBtnApprove() {
 	return btnApprove;
     }
 
-    public void setBtnApprove(Button btnApprove) {
+    public void setBtnApprove(ButtonRound btnApprove) {
 	this.btnApprove = btnApprove;
     }
 
-    public Button getBtnDecline() {
+    public ButtonRound getBtnDecline() {
 	return btnDecline;
     }
 
-    public void setBtnDecline(Button btnDecline) {
+    public void setBtnDecline(ButtonRound btnDecline) {
 	this.btnDecline = btnDecline;
     }
 
-    public Button getBtnAmend() {
+    public ButtonRound getBtnAmend() {
 	return btnAmend;
     }
 
-    public void setBtnAmend(Button btnAmend) {
+    public void setBtnAmend(ButtonRound btnAmend) {
 	this.btnAmend = btnAmend;
     }
 
@@ -279,11 +279,11 @@ public class AuditUniverseStrategicView extends Composite {
 	this.hpnlButtonsApprovar = hpnlButtonsApprovar;
     }
 
-    public Button getBtnDeclineInitiator() {
+    public ButtonRound getBtnDeclineInitiator() {
 	return btnDeclineInitiator;
     }
 
-    public void setBtnDeclineInitiator(Button btnDeclineInitiator) {
+    public void setBtnDeclineInitiator(ButtonRound btnDeclineInitiator) {
 	this.btnDeclineInitiator = btnDeclineInitiator;
     }
 

@@ -18,10 +18,10 @@ public class AllJobsView extends VerticalPanel {
 		add(hpnl);
 	}
 
-	private void setStyling(Label lblAuditJob, Label lblReportingStatus) {
+	private void setStyling(LabelHeading  lblAuditJob, LabelHeading  lblReportingStatus) {
 		lblAuditJob.setText("Audit Job");
-		lblAuditJob.getElement().getStyle().setFontSize(18, Unit.PX);
-		lblReportingStatus.getElement().getStyle().setFontSize(18, Unit.PX);
+//		lblAuditJob.getElement().getStyle().setFontSize(18, Unit.PX);
+//		lblReportingStatus.getElement().getStyle().setFontSize(18, Unit.PX);
 		lblReportingStatus.setText("Reporting Status");
 		lblAuditJob.setWidth("615px");
 		lblReportingStatus.setWidth("400px");

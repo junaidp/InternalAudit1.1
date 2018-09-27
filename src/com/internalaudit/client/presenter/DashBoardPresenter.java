@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.event.MainEvent;
+import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DashBoardAuditJobs;
 import com.internalaudit.client.view.DashBoardAuditObservations;
 import com.internalaudit.client.view.DashBoardResourceManagement;
@@ -55,7 +56,7 @@ public class DashBoardPresenter implements Presenter
 		DashBoardAuditJobs getDashBoardAuditJobs();
 		DashBoardAuditObservations getDashBoardAuditObservations();
 		DashBoardResourceManagement getDashBoardResourceManagement();
-		Button getBtnContinue();
+		ButtonRound getBtnContinue();
 	}  
 
 	public DashBoardPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, User user, Display view) 

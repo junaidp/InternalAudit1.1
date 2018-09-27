@@ -184,7 +184,7 @@ public class AuditEngagementPresenter implements Presenter {
 
 			// set headings
 
-			String headings[] = {"Sr#    Job Name", "Planned Start Date", "Planned End Date", "status","Planning ", "Field Work", "Reporting" };
+			String headings[] = {"Sr#",   " Job Name", "Planned Start Date", "Planned End Date", "status","Planning ", "Field Work", "Reporting" };
 		
 			
 			for (int i = 0; i < headings.length; i++) {
@@ -202,7 +202,7 @@ public class AuditEngagementPresenter implements Presenter {
 				if (i % 2 != 0) {
 					records.getRowFormatter().addStyleName(i, "jobStatusRow");
 				}
-				final Label lblJobNo = new Label((allJobsAndStatus.get(i).getJobCreation().getJobCreationId() + ")" ));
+				final Label lblJobNo = new Label((allJobsAndStatus.get(i).getJobCreation().getJobCreationId() + "." ));
 				lblJobNo.setWidth("40px");
 
 				final Label jobName = new Label(allJobsAndStatus.get(i).getJobCreation().getJobName());
@@ -212,11 +212,12 @@ public class AuditEngagementPresenter implements Presenter {
 				// jobName.addStyleName("linkStyle");
 				HorizontalPanel  p= new HorizontalPanel();
 				lblJobNo.getElement().getStyle().setPaddingLeft(10, Unit.PX);
-				p.add(lblJobNo);
+				//p.add(lblJobNo);
 				
 				p.add(jobName);
 
-				records.setWidget(i + 1, 0, p);
+				records.setWidget(i + 1, 0, lblJobNo);
+				records.setWidget(i + 1, 1, p);
 				jobName.setWidth("300px");
 				jobId = allJobsAndStatus.get(i).getJobCreation().getJobCreationId(); // this
 				
@@ -236,14 +237,14 @@ public class AuditEngagementPresenter implements Presenter {
 				endDate.setWidth("190px");
 				////////////
 
-				records.setWidget(i + 1, 1, startDate);
+				records.setWidget(i + 1, 2, startDate);
 
 				Label status = new Label(allJobsAndStatus.get(i).getJobStatus());
 				startDate.addStyleName("statusJobStatus");
 				startDate.addStyleName("statusCell");
 
-				records.setWidget(i + 1, 2, endDate);// Added
-				records.setWidget(i + 1, 3, status);
+				records.setWidget(i + 1, 3, endDate);// Added
+				records.setWidget(i + 1, 4, status);
 
 				displayingProgress(records, i);
 

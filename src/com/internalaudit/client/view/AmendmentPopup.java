@@ -14,7 +14,7 @@ import com.sencha.gxt.widget.core.client.form.TextArea;
 
 public class AmendmentPopup {
 	
-	Button btnSubmit;
+	ButtonRound btnSubmit;
 	DecoratedPopupPanel popupComments;
 	TextArea comments;
 	
@@ -28,8 +28,8 @@ public class AmendmentPopup {
 		comments.setSize("400px", "200px");
 		HorizontalPanel hpnlButtons = new HorizontalPanel();
 		hpnlButtons.setSpacing(2);
-		btnSubmit = new Button("Submit");
-		Button btnCancel = new Button("Cancel");
+		btnSubmit = new ButtonRound("Submit");
+		ButtonRound btnCancel = new ButtonRound("Cancel");
 		hpnlButtons.add(btnCancel);
 		hpnlButtons.add(btnSubmit);
 		vpnlComments.add(lbl);
@@ -51,12 +51,12 @@ public class AmendmentPopup {
 	}
 
 
-	public Button getBtnSubmit() {
+	public ButtonRound getBtnSubmit() {
 		return btnSubmit;
 	}
 
 
-	public void setBtnSubmit(Button btnSubmit) {
+	public void setBtnSubmit(ButtonRound btnSubmit) {
 		this.btnSubmit = btnSubmit;
 	}
 

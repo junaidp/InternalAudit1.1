@@ -8,13 +8,14 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.internalaudit.client.view.ButtonRound;
 
 public class JobAndArea extends Composite {
 	
 	private HorizontalPanel widgetContainer;
 	private Label jobLink;
 	private ArrayList<CheckBox> skills;
-	private Button saveButton;
+	private ButtonRound saveButton;
 	private int jobId;
 	
 	public JobAndArea() {
@@ -27,8 +28,8 @@ public class JobAndArea extends Composite {
 		widgetContainer.addStyleName("spacer-pad");
 		widgetContainer.add(jobLink);
 		
-		saveButton = new Button();
-		saveButton.setText("Save");
+		saveButton = new ButtonRound("Save");
+		//saveButton.setText("Save");
 		skills = new ArrayList<CheckBox>();
 		
 	}
@@ -73,11 +74,11 @@ public class JobAndArea extends Composite {
 		this.jobId = jobId;
 	}
 
-	public Button getSaveButton() {
+	public ButtonRound getSaveButton() {
 		return saveButton;
 	}
 
-	public void setSaveButton(Button saveButton) {
+	public void setSaveButton(ButtonRound saveButton) {
 		this.saveButton = saveButton;
 	}
 

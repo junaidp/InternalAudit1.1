@@ -1,5 +1,8 @@
 package com.internalaudit.client.view.Reporting;
 
+import org.moxieapps.gwt.highcharts.client.ChartTitle.Align;
+
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -9,7 +12,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.PopupsView;
+import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 
 
 public class ReportAuditPlanning extends Composite implements IStackWidget{
@@ -18,13 +23,13 @@ public class ReportAuditPlanning extends Composite implements IStackWidget{
 	ListBox lstDiv;
 	ListBox lstRisk;
 //
-	Button btnSearch = new Button("Preview");
+	ButtonRound btnSearch = new ButtonRound("Preview");
 	
-	private Button btnExportToExcel = new Button("Export to Excel");
+	private ButtonRound btnExportToExcel = new ButtonRound("Export to Excel");
 	
 	
-	Button btnPrint = new Button("Print");
-	Button btnEmail = new Button("Email");
+	ButtonRound btnPrint = new ButtonRound("Print");
+	ButtonRound btnEmail = new ButtonRound("Email");
 	Anchor ancDetailed = new Anchor("Show Detailed View");
 	
 	VerticalPanel vpnlMain;
@@ -38,7 +43,10 @@ public class ReportAuditPlanning extends Composite implements IStackWidget{
 	VerticalPanel chartPanel = new VerticalPanel();
 	
 	public ReportAuditPlanning(String fromInternalAudit){
-		
+		btnExportToExcel.setWidth("130px");
+		btnSearch.setWidth("130px");
+		btnExportToExcel.addStyleName("w3-margin");
+		btnSearch.addStyleName("w3-margin");
 		vpnlMain = new VerticalPanel();
 		vpnlTable = new VerticalPanel();
 		vpnlMain.setWidth("100%");
@@ -54,13 +62,20 @@ public class ReportAuditPlanning extends Composite implements IStackWidget{
 		///
 		
 		HorizontalPanel mainRowContainer = new HorizontalPanel();
-		mainRowContainer.setWidth("100%");
+		
 		
 		mainRowContainer.setHeight("100px");
+		mainRowContainer.setWidth("800px");
 		
-		HorizontalPanel btnLine = new HorizontalPanel();
-		btnLine.setWidth("600px");
-		btnLine.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		VerticalPanel btnLine = new VerticalPanel();
+		btnLine.addStyleName("w3-right");
+//		btnLine.add(padd);
+		btnLine.add(btnSearch);
+//		btnLine.add(ancDetailed);
+		btnLine.add(btnExportToExcel);
+		//btnLine.setWidth("600px");
+		//btnLine.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		btnLine.getElement().getStyle().setPaddingLeft(600, Unit.PX);
 		
 		btnBelowTable.setVisible(false);
 		btnBelowTable.setWidth("600px");
@@ -68,20 +83,30 @@ public class ReportAuditPlanning extends Composite implements IStackWidget{
 
 		
 		VerticalPanel vpDomain = new VerticalPanel();
+		vpDomain.setWidth("130px");
+		
 		VerticalPanel vpDiv = new VerticalPanel();
+		vpDiv.setWidth("130px");
+		vpDiv.getElement().getStyle().setPaddingLeft(20, Unit.PX);
+		vpDiv.addStyleName("w3-left");
 		VerticalPanel vpRisk = new VerticalPanel();
+		vpRisk.setWidth("130px");
+		vpRisk.getElement().getStyle().setPaddingLeft(20, Unit.PX);
 	
-		Label lbl1 = new Label("Domain");
+		LabelHeading lbl1 = new LabelHeading();
+		lbl1.setText("Domain");
 		
-		lbl1.addStyleName("labelHeading");
+		//lbl1.addStyleName("labelHeading");
 		
-		Label lbl2 = new Label("Division");
+		LabelHeading lbl2 = new LabelHeading();
+		lbl2.setText("Division");
 		
-		lbl2.addStyleName("labelHeading");
+		//lbl2.addStyleName("labelHeading");
 		
-		Label lbl3 = new Label("Risk Assessment");
+		LabelHeading lbl3 = new LabelHeading();
+		lbl3.setText("Risk Assesment");
 		
-		lbl3.addStyleName("labelHeading");
+		//lbl3.addStyleName("labelHeading");
 		
 		vpDomain.add( lbl1 ); 
 		
@@ -91,10 +116,16 @@ public class ReportAuditPlanning extends Composite implements IStackWidget{
 		
 		
 				 
-		lstDomain = new ListBox(); lstDomain.setMultipleSelect(true); 	lstDomain.addStyleName("listboxStyle");
-		lstDiv = new ListBox();    lstDiv.setMultipleSelect(true);		lstDiv.addStyleName("listboxStyle");
-		lstRisk = new ListBox();   lstRisk.setMultipleSelect(true);		lstRisk.addStyleName("listboxStyle");
-		lstRisk.setWidth("110px");
+		lstDomain = new ListBox(); //lstDomainsetMultipleSelect(true); 	//lstDomain.addStyleName("listboxStyle");
+		lstDomain.setWidth("130px");
+		lstDomain.addStyleName(" w3-border");
+		lstDiv = new ListBox(); //   lstDiv.setMultipleSelect(true);		//lstDiv.addStyleName("listboxStyle");
+		lstDiv.setWidth("130px");
+		lstDiv.addStyleName(" w3-border");
+		lstRisk = new ListBox(); //  lstRisk.setMultipleSelect(true);		//lstRisk.addStyleName("listboxStyle");
+		lstRisk.addStyleName(" w3-border");
+		lstRisk.setWidth("130px");
+		lstRisk.setWidth("130px");
 		
 		lstRisk.addItem("All", "All"); lstRisk.setSelectedIndex(0);
 		lstRisk.addItem("High", "High");
@@ -120,10 +151,11 @@ public class ReportAuditPlanning extends Composite implements IStackWidget{
 		vpDiv.add( lstDiv );
 		vpRisk.add( lstRisk );
 
-		mainRowContainer.add( vpDomain ); mainRowContainer.add( vpDiv ); mainRowContainer.add( vpRisk );
+		mainRowContainer.add( vpDomain ); mainRowContainer.add( vpDiv ); mainRowContainer.add( vpRisk ); mainRowContainer.add(btnLine);
 		
 		vpnlMain.add( mainRowContainer );
 		
+		mainRowContainer.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 //		ancDetailed.addClickHandler(new ClickHandler() {
 //			
 //			@Override
@@ -138,16 +170,13 @@ public class ReportAuditPlanning extends Composite implements IStackWidget{
 //		padd.setWidth("350px");
 //		
 //		
-//		btnLine.add(padd);
-		btnLine.add(btnSearch);
-//		btnLine.add(ancDetailed);
-		btnLine.add(btnExportToExcel);
+
 		
 //		btnBelowTable.add(padd);
 //		btnBelowTable.add(btnPrint);
 //		btnBelowTable.add(btnEmail);		
 		
-		vpnlMain.add(btnLine);
+		//vpnlMain.add(btnLine);
 		
 		vpnlMain.add(vpnlTable);
 		vpnlMain.setWidth("100%");
@@ -185,7 +214,7 @@ public class ReportAuditPlanning extends Composite implements IStackWidget{
 	}
 	
 
-	public Button getBtnSearch() { return btnSearch; }
+	public ButtonRound getBtnSearch() { return btnSearch; }
 //
 //
 	public ListBox getDomainListbox() {
@@ -216,11 +245,11 @@ public class ReportAuditPlanning extends Composite implements IStackWidget{
 //		this.btnSearch = btnSearch;
 //	}
 
-	public Button getBtnExportToExcel() {
+	public ButtonRound getBtnExportToExcel() {
 		return btnExportToExcel;
 	}
 
-	public void setBtnExportToExcel(Button btnExportToExcel) {
+	public void setBtnExportToExcel(ButtonRound btnExportToExcel) {
 		this.btnExportToExcel = btnExportToExcel;
 	}
 

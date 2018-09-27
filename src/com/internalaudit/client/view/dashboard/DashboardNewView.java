@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.presenter.DashBoardNewPresenter.Display;
+import com.internalaudit.client.view.ButtonRound;
 
 public class DashboardNewView extends VerticalPanel implements Display {
 	

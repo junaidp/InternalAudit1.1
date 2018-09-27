@@ -66,6 +66,8 @@ public class RiskAssesmentView extends Composite {
 		};
 
 		final PlainTabPanel panel = new PlainTabPanel();
+		ScrollPanel sp = new  ScrollPanel();
+		
 		panel.setWidth(Window.getClientWidth());
 		final VerticalPanel vpnlStrategic = new VerticalPanel();
 		final VerticalPanel vpnlOperation = new VerticalPanel();
@@ -105,7 +107,7 @@ public class RiskAssesmentView extends Composite {
 					
 			        
 			}});
-		
+
 		vp.add(panel);
 		mainPanel.clear();
 		mainPanel.add(vp);
@@ -140,6 +142,7 @@ public class RiskAssesmentView extends Composite {
 		
 		ScrollPanel scrollPanel = new ScrollPanel();
 		scrollPanel.setHeight("400px");
+		scrollPanel.setWidth("1200px");
 		scrollPanel.setWidget(strategicPanel);
 		riskAssesmentStrategicViewData.setData(strategicPanel,this, tab);
 	

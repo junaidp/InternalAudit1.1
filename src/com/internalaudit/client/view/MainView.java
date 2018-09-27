@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.DashboardNew.DashboardNew;
+import com.internalaudit.client.event.DashBoardEvent;
 import com.internalaudit.client.presenter.MainPresenter.Display;
 import com.internalaudit.client.widgets.TableauAbilite;
 import com.internalaudit.client.widgets.TableauExcel;
@@ -136,6 +137,8 @@ public class MainView extends Composite implements Display {
 		HorizontalPanel hpnlMain = new HorizontalPanel();
 		Image imgHeader = new Image("images/trans.png");
 		imgHeader.getElement().getStyle().setPaddingLeft(50, Unit.PX);
+		//imgHeader.addStyleName("w3-margin");
+		imgHeader.getElement().getStyle().setMarginBottom(10, Unit.PX);
 		VerticalPanel vp = new VerticalPanel();
 		VerticalPanel hpnl = new VerticalPanel();
 		HorizontalPanel hpnlSpace = new HorizontalPanel();
@@ -145,7 +148,8 @@ public class MainView extends Composite implements Display {
 		hpnlMain.add(imgHeader);
 		hpnlMain.add(hpnlHeader);
 		//		hpnlHeader.addStyleName("blueBackground");
-		hpnlHeader.setWidth(Window.getClientWidth()-imgHeader.getWidth()-70+"px");
+		//hpnlHeader.setWidth(Window.getClientWidth()-imgHeader.getWidth()-170+"px");
+		hpnlHeader.setWidth("1000px");
 		hpnlHeader.setHeight("91px");
 		hpnlHeader.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		hpnl.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
@@ -168,6 +172,7 @@ public class MainView extends Composite implements Display {
 		panel.setResizeTabs(true);
 	
 		if(loggedInUser.getEmployeeId().getFromInternalAuditDept().equalsIgnoreCase("yes")){
+			panel.add(vpnlDashBoard, "DashBoard");
 			panel.add(auditPlanningView, "Audit Planning");
 			panel.add(vpnlAuditScheduing, "Audit Scheduling");
 			panel.add(vpnlAuditEngagement, "Audit Engagement");
@@ -176,13 +181,13 @@ public class MainView extends Composite implements Display {
 			TabItemConfig config = new TabItemConfig("");
 			config.setEnabled(false); 
 
-			panel.add(vpnlDashBoard, "DashBoard");
+			
 			panel.add(new EmployeeDashBoardView(), "WorkItems");
 			panel.add(reportsView, "Reports");
 			
 			//2018 new
 			vpnlDashBoardNew.add( new DashboardNew());
-			panel.add(vpnlDashBoardNew, "DashBoardNew");
+			panel.add(vpnlDashBoardNew, "Analytics");
 			// panel.add((IsWidget) new Dashboard(),"NewDashboard");
 
 		}else{

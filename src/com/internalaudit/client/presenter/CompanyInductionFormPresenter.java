@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.shared.Company;
 
@@ -32,8 +33,8 @@ public class CompanyInductionFormPresenter implements Presenter
 		TextBox getTxtName();
 		TextBox getTxtContactPerson();
 		TextBox getTxtContactPersonEmail();
-		Button getBtnCancel();
-		Button getBtnSubmit();
+		ButtonRound getBtnCancel();
+		ButtonRound getBtnSubmit();
 		
 	}  
 

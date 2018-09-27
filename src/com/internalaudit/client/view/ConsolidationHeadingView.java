@@ -100,6 +100,7 @@ public class ConsolidationHeadingView extends Composite{
 		 
 //		 scroll.setSize("98%", "375px");
 		 scroll.setHeight("375px");
+		 scroll.setWidth("1200px");
 		 scroll.setWidget(vpnlData);
 		verticalPanel.add(scroll);
 //		vpnlData.setSize("800px", "50%");

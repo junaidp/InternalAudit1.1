@@ -62,7 +62,7 @@ public class AuditUniverseIdentificationView extends Composite {
 	ScrollPanel strategicPanel = new ScrollPanel();
 	final VerticalPanel vpnlStrategic = new VerticalPanel();
 	strategicPanel.add(vpnlStrategic);
-	strategicPanel.setSize("98%", "300px");
+	strategicPanel.setSize("97%", "300px");
 
 	final HorizontalPanel hpnlStrategic = new HorizontalPanel();
 	hpnlStrategic.setWidth("700px");

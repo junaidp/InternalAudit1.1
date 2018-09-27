@@ -24,7 +24,7 @@ public class CompletedAndInprogressExceptions extends VerticalLayoutContainer {
 
 	public Chart createChart(HashMap<String, Integer> completedAndInprogressExceptions) {
 
-		final Chart chart = new Chart().setWidth(450).setHeight(200).setType(Series.Type.PIE).setChartTitleText("")
+		final Chart chart = new Chart().setWidth(450).setHeight(170).setType(Series.Type.PIE).setChartTitleText("")
 
 				.setPlotBackgroundColor((String) null).setPlotBorderWidth(null).setPlotShadow(true)
 				.setPiePlotOptions(new PiePlotOptions().setAllowPointSelect(true).setCursor(PlotOptions.Cursor.POINTER)

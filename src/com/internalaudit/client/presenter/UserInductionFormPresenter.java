@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.shared.City;
 import com.internalaudit.shared.Company;
@@ -54,8 +55,8 @@ public class UserInductionFormPresenter implements Presenter
 		DateBox getDateAvailabilityForm();
 		DateBox getDateAvailabalityTo();
 		ListBox getListSkills();
-		Button  getBtnCancel();
-		Button  getBtnSubmit();
+		ButtonRound  getBtnCancel();
+		ButtonRound  getBtnSubmit();
 		//		TextBox getTxtEmail();
 		ListBox getListReportingTo();
 		TextBox getTxtUserName();

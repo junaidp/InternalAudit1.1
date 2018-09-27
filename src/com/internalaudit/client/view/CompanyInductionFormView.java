@@ -11,8 +11,8 @@ public class CompanyInductionFormView extends FlexTable implements Display {
 	private TextBox txtName = new TextBox();
 	private TextBox txtContactPeron= new TextBox();
 	private TextBox txtContactPersonEmail = new TextBox();
-	private Button btnCancel = new Button("Cancel");
-	private Button btnSubmit = new Button("Submit");
+	private ButtonRound btnCancel = new ButtonRound("Cancel");
+	private ButtonRound btnSubmit = new ButtonRound("Submit");
 	
 	
 	public CompanyInductionFormView() {
@@ -55,11 +55,11 @@ public class CompanyInductionFormView extends FlexTable implements Display {
 	return txtContactPersonEmail;
 }
 	
-	public Button getBtnCancel(){
+	public ButtonRound getBtnCancel(){
 		return btnCancel;
 	}
 	
-	public Button getBtnSubmit(){
+	public ButtonRound getBtnSubmit(){
 		return btnSubmit;
 	}
 

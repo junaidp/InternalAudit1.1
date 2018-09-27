@@ -20,8 +20,8 @@ public class EditUserFormView extends FlexTable implements Display {
 	private DateBox dateAvailabalityFrom = new DateBox();
 	private DateBox dateAvailabalityTo = new DateBox();
 	private ListBox listSkillSet = new ListBox();
-	private Button btnCancel = new Button("Back");
-	private Button btnSubmit = new Button("Update");
+	private ButtonRound btnCancel = new ButtonRound("Back");
+	private ButtonRound btnSubmit = new ButtonRound("Update");
 //	private TextBox txtEmail = new TextBox();
 	private ListBox listReportingTo = new ListBox();
 	private ListBox listEmployees = new ListBox();
@@ -141,11 +141,11 @@ public class EditUserFormView extends FlexTable implements Display {
 		return listSkillSet;
 	}
 	
-	public Button getBtnCancel(){
+	public ButtonRound getBtnCancel(){
 		return btnCancel;
 	}
 	
-	public Button getBtnSubmit(){
+	public ButtonRound getBtnSubmit(){
 		return btnSubmit;
 	}
 
