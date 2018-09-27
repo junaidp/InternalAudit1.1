@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:a="urn:import:com.google.gwt.thirdparty.javascript.rhino.head.ast" xmlns:u="urn:import:java.util" xmlns:c="urn:import:com.google.gwt.cell.client" xmlns:d="urn:import:com.google.gwt.user.datepicker.client" xmlns:A="urn:import:com.internalaudit.client.view.AuditEngagement">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:u="urn:import:java.util" xmlns:c="urn:import:com.google.gwt.cell.client" xmlns:d="urn:import:com.google.gwt.user.datepicker.client" xmlns:A="urn:import:com.internalaudit.client.view.AuditEngagement">
 	<ui:style>
 	.verticalPanel{
 	border: solid;

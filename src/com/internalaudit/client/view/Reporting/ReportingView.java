@@ -5,31 +5,30 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.presenter.ReportingPresenter.Display;
 
 public class ReportingView extends Composite implements Display {
-	
+
 	private VerticalPanel vpnlReporting = new VerticalPanel();
-	private VerticalPanel vpnlReportingView = new VerticalPanel(); 
+	private VerticalPanel vpnlReportingView = new VerticalPanel();
 	private VerticalPanel vpnlJobs = new VerticalPanel();
 	private VerticalPanel vpnlSelectedJob = new VerticalPanel();
-	
-	public ReportingView(String fromInternalAudit){
-		
+
+	public ReportingView(String fromInternalAudit) {
+
 		VerticalPanel vpnlMain = new VerticalPanel();
-//		if(fromInternalAudit.equals("yes")){
-			vpnlMain.add(vpnlReporting);
-			vpnlReporting.add(vpnlJobs);
-			vpnlReporting.add(vpnlSelectedJob);
-//		}else{
-//			vpnlMain.add(vpnlReportingView);
-//			
-//		}
+		// if(fromInternalAudit.equals("yes")){
+		vpnlMain.add(vpnlReporting);
+		vpnlReporting.add(vpnlJobs);
+		vpnlReporting.add(vpnlSelectedJob);
+		// }else{
+		// vpnlMain.add(vpnlReportingView);
+		//
+		// }
 		initWidget(vpnlMain);
 		bind();
 		vpnlMain.setHeight("600px");
 	}
 
 	private void bind() {
-		
-		
+
 	}
 
 	public VerticalPanel getVpnlReporting() {

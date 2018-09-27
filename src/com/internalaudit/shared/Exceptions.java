@@ -32,8 +32,9 @@ public class Exceptions implements Serializable {
 	@Column(name = "detail")
 	private String detail;
 
-	@Column(name = "jobcreation_id")
-	private int jobCreationId;
+	@JoinColumn(name = "jobcreation_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private JobCreation jobCreationId;
 
 	@JoinColumn(name = "responsiblePerson")
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -113,14 +114,6 @@ public class Exceptions implements Serializable {
 
 	public void setDetail(String detail) {
 		this.detail = detail;
-	}
-
-	public int getJobCreationId() {
-		return jobCreationId;
-	}
-
-	public void setJobCreationId(int jobCreationId) {
-		this.jobCreationId = jobCreationId;
 	}
 
 	public Employee getResponsiblePerson() {
@@ -281,6 +274,14 @@ public class Exceptions implements Serializable {
 
 	public void setDisplayStatus(String displayStatus) {
 		this.displayStatus = displayStatus;
+	}
+
+	public JobCreation getJobCreationId() {
+		return jobCreationId;
+	}
+
+	public void setJobCreationId(JobCreation jobCreationId) {
+		this.jobCreationId = jobCreationId;
 	}
 
 }

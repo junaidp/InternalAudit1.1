@@ -35,7 +35,7 @@ public class AuditEngagement implements Serializable {
 	
 	@JoinColumn(name="jobcreationid")
 	@OneToOne( fetch = FetchType.LAZY )
-	private JobCreation jobCreation;
+	private JobCreation jobCreationId;
 	
 	@Column( name = "assignmentObj" )
 	private String assignmentObj;
@@ -115,11 +115,11 @@ public class AuditEngagement implements Serializable {
 	}
 
 	public JobCreation getJobCreation() {
-		return jobCreation;
+		return jobCreationId;
 	}
 
 	public void setJobCreation(JobCreation jobCreation) {
-		this.jobCreation = jobCreation;
+		this.jobCreationId = jobCreation;
 	}
 
 	public String getAssignmentObj() {
