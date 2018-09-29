@@ -41,11 +41,11 @@ public class AuditImplementationStatusChart extends VerticalLayoutContainer {
 					}
 				}));
 		chart.setCredits(new Credits().setText(""));
-		String[] listCat = new String[implementationStatus.size()];
+		String[] listCat = new String[implementationStatus.size() > 0 ? implementationStatus.size() : 1];
 		Point[] pointsImplemented = new Point[implementationStatus.size()];
 		Point[] pointsNotImplemented = new Point[implementationStatus.size()];
 		Series seriesImplemented = chart.createSeries().setName("Implemented");
-		
+
 		Series seriesNotImplemented = chart.createSeries().setName("Not Implemented");
 		chart.addSeries(seriesImplemented);
 		chart.addSeries(seriesNotImplemented);

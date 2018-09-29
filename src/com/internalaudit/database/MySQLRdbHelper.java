@@ -4020,7 +4020,7 @@ public class MySQLRdbHelper {
 
 	}
 
-	public ArrayList<Exceptions> fetchJobExceptions(int jobId, int year, int companyId) {
+	public ArrayList<Exceptions> fetchJobExceptions(int jobId, int year, int companyId, HashMap<String, String> hm) {
 
 		Session session = null;
 		ArrayList<Exceptions> exceptions = new ArrayList<Exceptions>();
@@ -4028,10 +4028,39 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
 			crit.createAlias("jobCreationId", "jobCreation");
+			crit.createAlias("responsiblePerson", "employee");
 			jobsStrategicAlias(crit);
+
+			// check filters
+			if (hm != null) {
+				if (!hm.get("Process").equals("0")) {
+					crit.add(Restrictions.eq("processId.processId", Integer.parseInt(hm.get("Process"))));
+				}
+				if (!hm.get("Unit").equals("0")) {
+					crit.add(Restrictions.eq("strategic.auditableUnit", hm.get("Unit")));
+				}
+				if (!hm.get("Division").equals("0") && !hm.get("Division").equalsIgnoreCase("All")) {
+					crit.add(Restrictions.eq("dept.departmentName", hm.get("Division")));// TODO
+																							// should
+																							// be
+																							// depId
+
+				}
+				if (!hm.get("Resource").equals("0")) {
+					crit.add(Restrictions.eq("employee.employeeId", Integer.parseInt(hm.get("Resource"))));
+				}
+				if (!hm.get("Risk").equals("0") && !hm.get("Risk").equalsIgnoreCase("All")) {
+					crit.add(Restrictions.eq("jobCreation.riskRating", hm.get("Risk")));
+				}
+				if (!hm.get("Domain").equals("0") && !hm.get("Domain").equalsIgnoreCase("All")) {
+					crit.add(Restrictions.eq("jobCreation.domainText", hm.get("Domain")));
+				}
+			}
+			// filters end
+
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
-			crit.createAlias("responsiblePerson", "employee");
+
 			crit.createAlias("employee.countryId", "employeeCount");
 			crit.createAlias("employee.cityId", "employeeCity");
 			crit.createAlias("employee.reportingTo", "employeeRep");
@@ -7518,7 +7547,39 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
 			crit.createAlias("jobCreationId", "jobCreation");
+			crit.createAlias("responsiblePerson", "resPerson");
 			jobsStrategicAlias(crit);
+
+			// crit.createAlias("strategicId", "strategic"); just to explain
+			// crit.createAlias("strategic.process", "proc");
+
+			// check filters
+			if (hm != null) {
+				if (!hm.get("Process").equals("0")) {
+					crit.add(Restrictions.eq("processId.processId", Integer.parseInt(hm.get("Process"))));
+				}
+				if (!hm.get("Unit").equals("0")) {
+					crit.add(Restrictions.eq("strategic.auditableUnit", hm.get("Unit")));
+				}
+				if (!hm.get("Division").equals("0") && !hm.get("Division").equalsIgnoreCase("All")) {
+					crit.add(Restrictions.eq("dept.departmentName", hm.get("Division")));// TODO
+																							// should
+																							// be
+																							// depId
+
+				}
+				if (!hm.get("Resource").equals("0")) {
+					crit.add(Restrictions.eq("resPerson.employeeId", Integer.parseInt(hm.get("Resource"))));
+				}
+				if (!hm.get("Risk").equals("0") && !hm.get("Risk").equalsIgnoreCase("All")) {
+					crit.add(Restrictions.eq("jobCreation.riskRating", hm.get("Risk")));
+				}
+				if (!hm.get("Domain").equals("0") && !hm.get("Domain").equalsIgnoreCase("All")) {
+					crit.add(Restrictions.eq("jobCreation.domainText", hm.get("Domain")));
+				}
+			}
+			// filters end
+
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 
@@ -7569,14 +7630,44 @@ public class MySQLRdbHelper {
 		}
 	}
 
-	public ArrayList<AuditWorkStatusDTO> fetchAuditWorkStatus(int year, int companyId) throws Exception {
+	public ArrayList<AuditWorkStatusDTO> fetchAuditWorkStatus(int year, int companyId, HashMap<String, String> hm)
+			throws Exception {
 		Session session = null;
 		ArrayList<AuditWorkStatusDTO> auditWorkStatusDTOList = new ArrayList<AuditWorkStatusDTO>();
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
 			crit.createAlias("jobCreationId", "jobCreation");
+			crit.createAlias("responsiblePerson", "resPerson");
 			jobsStrategicAlias(crit);
+
+			// check filters
+			if (hm != null) {
+				if (!hm.get("Process").equals("0")) {
+					crit.add(Restrictions.eq("processId.processId", Integer.parseInt(hm.get("Process"))));
+				}
+				if (!hm.get("Unit").equals("0")) {
+					crit.add(Restrictions.eq("strategic.auditableUnit", hm.get("Unit")));
+				}
+				if (!hm.get("Division").equals("0") && !hm.get("Division").equalsIgnoreCase("All")) {
+					crit.add(Restrictions.eq("dept.departmentName", hm.get("Division")));// TODO
+																							// should
+																							// be
+																							// depId
+
+				}
+				if (!hm.get("Resource").equals("0")) {
+					crit.add(Restrictions.eq("resPerson.employeeId", Integer.parseInt(hm.get("Resource"))));
+				}
+				if (!hm.get("Risk").equals("0") && !hm.get("Risk").equalsIgnoreCase("All")) {
+					crit.add(Restrictions.eq("jobCreation.riskRating", hm.get("Risk")));
+				}
+				if (!hm.get("Domain").equals("0") && !hm.get("Domain").equalsIgnoreCase("All")) {
+					crit.add(Restrictions.eq("jobCreation.domainText", hm.get("Domain")));
+				}
+			}
+			// filters end
+
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 
@@ -7788,10 +7879,10 @@ public class MySQLRdbHelper {
 		dashBoardDTO
 				.setJobNamesWithExceptionImplementationStatus(fetchJobNamesWithExceptionStatus(year, companyId, hm));
 		dashBoardDTO.setCompletedAndInprogressExceptions(
-				fetchCompletedInprogressAndUnderReviewExceptionsCount(year, companyId));
-		dashBoardDTO.setExceptionReportingStatus(fetchExceptionsReportingStatus(year, companyId));
-		dashBoardDTO.setAuditWorkStatus(fetchAuditWorkStatus(year, companyId));
-		dashBoardDTO.setExceptions(fetchJobExceptions(0, year, companyId));
+				fetchCompletedInprogressAndUnderReviewExceptionsCount(year, companyId, hm));
+		dashBoardDTO.setExceptionReportingStatus(fetchExceptionsReportingStatus(year, companyId, hm));
+		dashBoardDTO.setAuditWorkStatus(fetchAuditWorkStatus(year, companyId, hm));
+		dashBoardDTO.setExceptions(fetchJobExceptions(0, year, companyId, hm));
 		////////// NEW DASHBOARD END
 
 		dashBoardDTO.setJobsInExecCount(executionCount);
@@ -7806,7 +7897,8 @@ public class MySQLRdbHelper {
 		return dashBoardDTO;
 	}
 
-	private HashMap<String, Integer> fetchExceptionsReportingStatus(int year, int companyId) throws Exception {
+	private HashMap<String, Integer> fetchExceptionsReportingStatus(int year, int companyId, HashMap<String, String> hm)
+			throws Exception {
 		Session session = null;
 		int exceptionsToSent = 0;
 		int awaitingComments = 0;
@@ -7816,9 +7908,37 @@ public class MySQLRdbHelper {
 
 		try {
 			session = sessionFactory.openSession();
-			Criteria crit = session.createCriteria(JobCreation.class);
+			Criteria crit = session.createCriteria(JobCreation.class, "jobCreation");
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
+
+			jobsStrategicAlias(crit);
+			// check filters
+			if (hm != null) {
+				if (!hm.get("Process").equals("0")) {
+					crit.add(Restrictions.eq("processId.processId", Integer.parseInt(hm.get("Process"))));
+				}
+				if (!hm.get("Unit").equals("0")) {
+					crit.add(Restrictions.eq("strategic.auditableUnit", hm.get("Unit")));
+				}
+				if (!hm.get("Division").equals("0") && !hm.get("Division").equalsIgnoreCase("All")) {
+					crit.add(Restrictions.eq("dept.departmentName", hm.get("Division")));// TODO
+																							// should
+																							// be
+																							// depId
+
+				}
+				if (!hm.get("Resource").equals("0")) {
+					crit.add(Restrictions.eq("sassigned.employeeId", Integer.parseInt(hm.get("Resource"))));
+				}
+				if (!hm.get("Risk").equals("0") && !hm.get("Risk").equalsIgnoreCase("All")) {
+					crit.add(Restrictions.eq("jobCreation.riskRating", hm.get("Risk")));
+				}
+				if (!hm.get("Domain").equals("0") && !hm.get("Domain").equalsIgnoreCase("All")) {
+					crit.add(Restrictions.eq("jobCreation.domainText", hm.get("Domain")));
+				}
+			}
+			// filters end
 
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -7853,8 +7973,8 @@ public class MySQLRdbHelper {
 		}
 	}
 
-	private HashMap<String, Integer> fetchCompletedInprogressAndUnderReviewExceptionsCount(int year, int companyId)
-			throws Exception {
+	private HashMap<String, Integer> fetchCompletedInprogressAndUnderReviewExceptionsCount(int year, int companyId,
+			HashMap<String, String> hm) throws Exception {
 		Session session = null;
 		int completed = 0;
 		int inprogress = 0;
@@ -7864,7 +7984,36 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
 			crit.createAlias("jobCreationId", "jobCreation");
+			crit.createAlias("responsiblePerson", "resPerson");
 			jobsStrategicAlias(crit);
+
+			// check filters
+			if (hm != null) {
+				if (!hm.get("Process").equals("0")) {
+					crit.add(Restrictions.eq("processId.processId", Integer.parseInt(hm.get("Process"))));
+				}
+				if (!hm.get("Unit").equals("0")) {
+					crit.add(Restrictions.eq("strategic.auditableUnit", hm.get("Unit")));
+				}
+				if (!hm.get("Division").equals("0") && !hm.get("Division").equalsIgnoreCase("All")) {
+					crit.add(Restrictions.eq("dept.departmentName", hm.get("Division")));// TODO
+																							// should
+																							// be
+																							// depId
+
+				}
+				if (!hm.get("Resource").equals("0")) {
+					crit.add(Restrictions.eq("resPerson.employeeId", Integer.parseInt(hm.get("Resource"))));
+				}
+				if (!hm.get("Risk").equals("0") && !hm.get("Risk").equalsIgnoreCase("All")) {
+					crit.add(Restrictions.eq("jobCreation.riskRating", hm.get("Risk")));
+				}
+				if (!hm.get("Domain").equals("0") && !hm.get("Domain").equalsIgnoreCase("All")) {
+					crit.add(Restrictions.eq("jobCreation.domainText", hm.get("Domain")));
+				}
+			}
+			// filters end
+
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 
