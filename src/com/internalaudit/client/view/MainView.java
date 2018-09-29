@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.thirdparty.javascript.jscomp.graph.GraphColoring.Color;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
@@ -144,7 +145,7 @@ public class MainView extends Composite implements Display {
 		HorizontalPanel hpnlSpace = new HorizontalPanel();
 		VerticalPanel hpnlHeader = new VerticalPanel();
 		vp.add(hpnlMain);
-		
+		//hpnl.addStyleName("w3-bar-block w3-border w3-light-blue");
 		hpnlMain.add(imgHeader);
 		hpnlMain.add(hpnlHeader);
 		//		hpnlHeader.addStyleName("blueBackground");
@@ -212,14 +213,22 @@ public class MainView extends Composite implements Display {
 		checkpanel.add(panelSideBar);
 	//	checkpanel.add(panelImages);
 		checkpanel.add(panel);
-		vpnlTabPanel.getElement().getStyle().setPaddingLeft(12,  Unit.PX);
+		VerticalPanel panelBar = new VerticalPanel();
 		
+		panelBar.addStyleName("w3-bar-block w3-border w3-light-blue");
+		vpnlTabPanel.getElement().getStyle().setPaddingLeft(12,  Unit.PX);
+		hpnl.setWidth("0%");
 		vpnlTabPanel.add(checkpanel);
 		//vpnlTabPanel.add(panelImages);
-
+		//selectYear().addStyleName("w3-bar-item w3-right");
 		hpnl.add(selectYear());
-		hpnl.add(welcome); // Welcome <name>
-		welcome.addStyleName("blue");
+		hpnl.add(panelBar);
+		panelBar.add(welcome);
+		panelBar.add(feedBack);
+		panelBar.add(logOut);
+		//hpnl.add(welcome); // Welcome <name>
+		welcome.addStyleName("white");
+		welcome.addStyleName("  w3-bar-item w3-hover-blue w3-right");
 		welcome.setWordWrap(false);
 		hpnlHeader.add(hpnlSpace);
 		hpnlSpace.setWidth("65%");
@@ -227,11 +236,17 @@ public class MainView extends Composite implements Display {
 		if(loggedInUser.getEmployeeId().getEmployeeName().equalsIgnoreCase("Muhammad Faheem Piracha") && loggedInUser.getEmployeeId().getEmployeeId() ==1){
 			hpnl.add(createCompany); 
 			hpnl.add(createUser); 
+			welcome.addStyleName("white");
 		}
-		hpnl.add(feedBack);
-		hpnl.add(logOut); // logout link
+		//listYears.addStyleName(" w3-blue w3-bar-item w3-hover-red w3-right");
+		logOut.addStyleName("white");
+		feedBack.addStyleName("white");
+		feedBack.addStyleName("  w3-bar-item w3-hover-blue w3-right");
+		logOut.addStyleName(" w3-bar-item w3-hover-blue w3-right");
+		//hpnl.add(feedBack);
+		//hpnl.add(logOut); // logout link
 		hpnl.setSpacing(2);
-		hpnl.setWidth("100%");
+		hpnl.setWidth("0%");
 		hpnl.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 
 		initWidget(vp);
