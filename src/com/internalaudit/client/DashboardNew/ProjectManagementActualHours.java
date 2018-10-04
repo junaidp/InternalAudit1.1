@@ -18,7 +18,8 @@ public class ProjectManagementActualHours  extends VerticalLayoutContainer {
 	        final Chart chart = new Chart()  
 //	            .setChartTitleText("Average Monthly Temperature and Rainfall in Tokyo")  
 //	            .setChartSubtitleText("Source: WorldClimate.com")  
-	            .setWidth(500)
+	            .setHeight(230)
+	        		.setWidth(500)
 	            .setToolTip(new ToolTip()  
 	                .setFormatter(new ToolTipFormatter() {  
 	                    public String format(ToolTipData toolTipData) {  

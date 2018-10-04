@@ -7,6 +7,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.shared.Exceptions;
+import com.internalaudit.shared.InformationRequestEntity;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
@@ -25,28 +26,24 @@ public class PortalInformationRequest extends VerticalLayoutContainer {
 
 	private List<InformationRequest> informationRequests = new ArrayList<InformationRequest>();
 
-	public PortalInformationRequest() {
-
+	public PortalInformationRequest(ArrayList<InformationRequestEntity> arrayList) {
+		setData(arrayList);
 		//setData(exceptions);
 		add(createGridFieldWork());
 
 	}
 
-	private void setData() {
-//		for (int i = 0; i < exceptions.size(); i++) {
-			InformationRequest informationRequest = new InformationRequest();
-			informationRequest.setId(1);
-			informationRequest.setInformationReport("some Information");
-			informationRequest.setRaisedTo("raised to?");
-			informationRequest.setRaisedBy("raisedBy?");
-			informationRequest.setOverDueDays("date?");
-//			//issue.setId(exceptions.get(i).getExceptionId());
-//			informationRequest.setId(exceptions.get(i).getExceptionId());
-//			informationRequest.setIssueTitle(exceptions.get(i).getDetail());
-//			informationRequest.setManagementResponce(exceptions.get(i).getManagementComments());
-//			informationRequest.setStatus(exceptions.get(i).getDisplayStatus());
-//
-			informationRequests.add(informationRequest);
+	private void setData(ArrayList<InformationRequestEntity> arrayList) {
+		for (int i = 0; i < arrayList.size(); i++) {
+			InformationRequest issue = new InformationRequest();
+			//issue.setId(exceptions.get(i).getExceptionId());
+			issue.setId(arrayList.get(i).getInformationRequestId());
+			issue.setInformationReport(arrayList.get(i).getRequestItem());
+			issue.setRaisedBy(arrayList.get(i).getAssignedFrom().getEmployeeName());
+			issue.setRaisedTo(arrayList.get(i).getContactResponsible().getEmployeeName());
+			issue.setOverDueDays(arrayList.get(i).getDueDate().toString());
+			informationRequests.add(issue);
+		}	
 //		}
 	}
 
@@ -58,7 +55,7 @@ public class PortalInformationRequest extends VerticalLayoutContainer {
 		ColumnConfig<InformationRequest, String> informationRaisedTo = new ColumnConfig<InformationRequest, String>(properties.raisedTo(),
 				110, "Raised To");
 		ColumnConfig<InformationRequest, String> informationRaisedBy = new ColumnConfig<InformationRequest, String>(properties.raisedBy(), 110, "Raised By");
-		ColumnConfig<InformationRequest, String> informationOverDue = new ColumnConfig<InformationRequest, String>(properties.raisedBy(), 180, "OverDue Day");
+		ColumnConfig<InformationRequest, String> informationOverDue = new ColumnConfig<InformationRequest, String>(properties.overDueDays(), 180, "OverDue Day");
 
 		List<ColumnConfig<InformationRequest, ?>> columns = new ArrayList<ColumnConfig<InformationRequest, ?>>();
 		columns.add(informationId);
@@ -80,7 +77,7 @@ public class PortalInformationRequest extends VerticalLayoutContainer {
 		grid.getView().setStripeRows(true);
 		grid.getView().setColumnLines(true);
 		 ScrollPanel p = new ScrollPanel();
-		 p.setHeight("350px");
+		 p.setHeight("180px");
 		
 	   p.add(grid);
 
@@ -91,6 +88,7 @@ public class PortalInformationRequest extends VerticalLayoutContainer {
 	      con.add(p, new VerticalLayoutData(1, 1));
 
 	      panel = new ContentPanel();
+	      panel.setHeight(250);
 	      panel.setHeadingText("InformationRequest");
 	      panel.add(con);
 	      return panel;

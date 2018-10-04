@@ -64,4 +64,7 @@ public class InformationRequest implements Serializable {
 		this.overDueDays = overDueDays;
 	}
 
+
+	
+
 }

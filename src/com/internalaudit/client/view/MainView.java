@@ -85,16 +85,9 @@ public class MainView extends Composite implements Display {
 		//VerticalPanel panelClient = new VerticalPanel();
 		//panelClient.addStyleName("w3-margin");
 		//2018 
-		SideBarView sideBarView = new SideBarView();
+		SideBarView sideBarView = new SideBarView(loggedInUser);
 		panelSideBar.add(sideBarView);
 	
-		
-		 
-		
-		 final ToDoView todoview = new ToDoView();
-		 final MainViewNew mv = new MainViewNew();
-		 final InformationRequestView informationreq = new InformationRequestView();
-		 
 		 FocusPanel vpTeamMgm = putImageInCard("TEAM MANAGEMENT", "team management.jpg");
 		 FocusPanel vpClientMgm = putImageInCard("CLIENT MANAGEMENT", "client mang.png");
 		 

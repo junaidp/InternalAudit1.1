@@ -3,7 +3,7 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:d="urn:import:com.google.gwt.user.datepicker.client" xmlns:m="urn:import:com.sencha.gxt.widget.core.client.menu">
 	<ui:style>
 	.padding{
-	padding-top: 15px;
+	padding-top: 20px;
 	
 }
 .button{
@@ -13,17 +13,18 @@
 	<g:HTMLPanel>
 	<g:VerticalPanel addStyleNames="w3-panel w3-pale-green">
 	<g:Label>Request Item</g:Label>
-	<g:TextBox width="300px" height="100px">Request item</g:TextBox>
+	<g:TextBox ui:field="txtBoxRequestItem" width="300px" height="100px"></g:TextBox>
 	<g:Label addStyleNames="{style.padding}">Contact Responsible</g:Label>
-	<g:TextBox width="250px"></g:TextBox>
+	<g:ListBox ui:field="listBoxContact" width="250px"></g:ListBox>
+	
 	<g:Label addStyleNames="{style.padding}">Contact Email (optional)</g:Label>
-	<g:TextBox width="250px"></g:TextBox>
-<g:CheckBox addStyleNames="{style.padding}" text="send notification now"></g:CheckBox>
-<g:CheckBox addStyleNames="{style.padding}" text="send recurring reminders[currently considered to once a week]"></g:CheckBox>
+	<g:TextBox ui:field="txtBoxEmail" width="250px"></g:TextBox>
+<g:CheckBox ui:field="checkBoxNotification"  text="send notification now"></g:CheckBox>
+<g:CheckBox ui:field="checkBoxReminder" text="send recurring reminders[currently considered to once a week]"></g:CheckBox>
 	<g:Label addStyleNames="{style.padding}">Due Date</g:Label>
-	<d:DateBox ></d:DateBox>
+	<d:DateBox ui:field="dueDate" ></d:DateBox>
 	<g:Label addStyleNames="{style.padding}">Status</g:Label>
-	<g:ListBox>
+	<g:ListBox ui:field="listBoxStatus">
 	 <g:item>
     complete
   </g:item>
@@ -33,10 +34,10 @@
 	</g:ListBox>
 	<g:HorizontalPanel addStyleNames="{style.button}">
 	<g:VerticalPanel>
-	<g:Button addStyleNames="w3-button w3-round-large w3-margin">Save</g:Button>
+	<g:Button  ui:field="btnSave" addStyleNames="w3-button w3-round-large w3-margin">Save</g:Button>
 	</g:VerticalPanel>
 	<g:VerticalPanel>
-	<g:Button  addStyleNames="w3-button w3-round-large w3-margin">Cancel</g:Button>
+	<g:Button ui:field="btnCancel" addStyleNames="w3-button w3-round-large w3-margin">Cancel</g:Button>
 	</g:VerticalPanel>
 	</g:HorizontalPanel>
 	</g:VerticalPanel>

@@ -1,5 +1,6 @@
 package com.internalaudit.server;
 
+import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,6 +36,7 @@ import com.internalaudit.shared.ExcelDataDTO;
 import com.internalaudit.shared.Exceptions;
 import com.internalaudit.shared.ExceptionsReportDTO;
 import com.internalaudit.shared.Feedback;
+import com.internalaudit.shared.InformationRequestEntity;
 import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.JobAndAreaOfExpertise;
 import com.internalaudit.shared.JobCreation;
@@ -61,6 +63,7 @@ import com.internalaudit.shared.StrategicRisk;
 import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.TimeOutException;
+import com.internalaudit.shared.ToDo;
 import com.internalaudit.shared.User;
 
 /**
@@ -1522,5 +1525,45 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		int companyId = (Integer) session.getAttribute("companyId");
 		return rdbHelper.fetchDashBoardListBoxDTOs(year, companyId);
 
+	}
+
+
+
+	@Override
+	public String savetoDo(ToDo todo) throws Exception {
+		User loggedInUser = (User) session.getAttribute("user");
+		int companyId = (Integer) session.getAttribute("companyId");
+		todo.setCompanyId(companyId);
+		todo.setAssignedFrom(loggedInUser.getEmployeeId());
+		return rdbHelper.savetoDo(todo);
+	}
+
+	@Override
+	public String saveinformationRequest(InformationRequestEntity informationrequest) {
+		// TODO Auto-generated method stub
+		User loggedInUser = (User) session.getAttribute("user");
+		int companyId = (Integer) session.getAttribute("companyId");
+		informationrequest.setAssignedFrom(loggedInUser.getEmployeeId());
+		informationrequest.setCompanyId(companyId);
+		return rdbHelper.saveInformationRequest(informationrequest);
+	}
+
+	@Override
+	public ArrayList<String> fetchEmailAttachments() {
+		ArrayList<String> listFiles = new ArrayList<String>();
+		 String realPath = getServletContext().getRealPath("/");     
+		 File directory = new File(realPath+"/EmailAttachmentUpload");
+	       //get all the files from a directory
+	       File[] fList = directory.listFiles();
+	       for (File file : fList){
+	           if (file.isFile()){
+	        	   listFiles.add(file.getName());
+	              
+	               
+	           }
+	       }
+	       return listFiles;
+	   
+		
 	}
 }

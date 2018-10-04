@@ -5,12 +5,14 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.internalaudit.shared.User;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
 public class SideBarView extends VerticalLayoutContainer {
-	final ToDoView todoview = new ToDoView();
+	
 	 final MainViewNew mv = new MainViewNew();
-	 final InformationRequestView informationreq = new InformationRequestView();
+	 
+	 
 	VerticalPanel panelbar = new VerticalPanel();
 	Image ImgMenu = new Image("menu.png");
 	Image ImgCloseCircular = new Image("close-circular-button-symbol.png");
@@ -26,12 +28,15 @@ public class SideBarView extends VerticalLayoutContainer {
 
 	Image ImgCalendar = new Image("calendar.png");
 	Image ImgControls = new Image("controls.png");
-	public SideBarView() {
+	
+	private User loggedInUser = null;
+	
+	public SideBarView(final User loggedInUser) {
 
 		panelbar.addStyleName("w3-sidebar w3-cobalt w3-bar-block");
 		panelbar.setWidth("60px");
 		
-		
+		this.loggedInUser = loggedInUser;
 
 		ImgMenu.addStyleName("w3-bar-item w3-button");
 		ImgCloseCircular.addStyleName("w3-bar-item w3-button");
@@ -98,7 +103,7 @@ public class SideBarView extends VerticalLayoutContainer {
 				
 				@Override
 				public void onClick(ClickEvent event) {
-					
+					ToDoView todoview = new ToDoView();
 					
 					PopupsView pp = new PopupsView(todoview, "");
 					pp.getLabelheading().setText("To Do");
@@ -112,7 +117,7 @@ public class SideBarView extends VerticalLayoutContainer {
 					
 					@Override
 					public void onClick(ClickEvent event) {
-					
+						final InformationRequestView informationreq = new InformationRequestView();
 						PopupsView pp = new PopupsView(informationreq, "");
 						pp.getLabelheading().setText("Information Request");
 						pp.getVpnlMain().setTitle("Information Request");
@@ -122,8 +127,36 @@ public class SideBarView extends VerticalLayoutContainer {
 
 					}
 				});
-				 
+				 ImgSecuirity.addClickHandler(new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						final EmailView emailView = new EmailView(loggedInUser.getTodos().get(loggedInUser.getTodos().size()-1));
+						PopupsView pp = new PopupsView(emailView, "");
+						pp.getLabelheading().setText("Email View");
+						pp.getVpnlMain().setTitle("Email View");
+						pp.getVpnlMain().setWidth("600px");
+						pp.getHpnlSPace().setWidth("600px");
+						pp.getVpnlMain().setHeight("530px");
+						
+					}
+				});
+				 ImgPie.addClickHandler(new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						
+//						//PopupsView pp = new PopupsView(informationreq, "");
+//						pp.getLabelheading().setText("Information Request");
+//						pp.getVpnlMain().setTitle("Information Request");
+//						pp.getVpnlMain().setWidth("400px");
+//						pp.getHpnlSPace().setWidth("400px");
+//						pp.getVpnlMain().setHeight("530px");
+						
+					}
+				});
 	}
+	
 	public Image getImgMenu() {
 		return ImgMenu;
 	}

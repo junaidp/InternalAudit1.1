@@ -19,8 +19,9 @@ public class ProjectManagementTimeLine  extends VerticalLayoutContainer{
     	  
         final Chart chart = new Chart()  
             .setType(Series.Type.BAR) 
+           .setHeight(230)
             .setWidth(500)
-            .setChartTitleText("Stacked bar chart")  
+            .setChartTitleText("TIME LINE")  
             .setSeriesPlotOptions(new SeriesPlotOptions()  
                 .setStacking(PlotOptions.Stacking.NORMAL)  
             )  
@@ -39,22 +40,22 @@ public class ProjectManagementTimeLine  extends VerticalLayoutContainer{
             );  
         chart.setCredits(new Credits().setText(""));
         chart.getXAxis()  
-            .setCategories("Apples", "Oranges", "Pears", "Grapes", "Bananas");  
+            .setCategories("Expenditures", "Assets", "Revcenue");  
   
         chart.getYAxis()  
             .setMin(0)  
-            .setAxisTitleText("Total fruit consumption");  
+            .setAxisTitleText("");  
   
         chart.addSeries(chart.createSeries()  
-            .setName("John")  
+            .setName("")  
             .setPoints(new Number[] { 0, 3  })  
         );  
         chart.addSeries(chart.createSeries()  
-            .setName("Jane")  
+            .setName("")  
             .setPoints(new Number[] { 4,  2 })  
         );  
         chart.addSeries(chart.createSeries()  
-            .setName("Joe")  
+            .setName("")  
             .setPoints(new Number[] { 0,  5 })  
         );  
   

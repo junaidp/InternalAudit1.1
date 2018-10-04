@@ -1,6 +1,7 @@
 package com.internalaudit.shared;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 
@@ -37,7 +39,8 @@ public class User   implements Serializable {
 	@Column(name="email")
 	private String email;
 	
-
+	@Transient
+	private ArrayList<ToDo> todos;
 	
 	public User(){}
 
@@ -90,6 +93,17 @@ public class User   implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+
+	public ArrayList<ToDo> getTodos() {
+		return todos;
+	}
+
+
+	public void setTodos(ArrayList<ToDo> todos) {
+		this.todos = todos;
+	}
+
 
 
 

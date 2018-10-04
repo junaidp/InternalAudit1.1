@@ -6,6 +6,8 @@ import java.util.HashMap;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.google.gwt.user.datepicker.client.DateBox;
+import com.internalaudit.client.DashboardNew.InformationRequest;
 import com.internalaudit.shared.ActivityObjective;
 import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.AuditProgramme;
@@ -22,6 +24,7 @@ import com.internalaudit.shared.ExcelDataDTO;
 import com.internalaudit.shared.Exceptions;
 import com.internalaudit.shared.ExceptionsReportDTO;
 import com.internalaudit.shared.Feedback;
+import com.internalaudit.shared.InformationRequestEntity;
 import com.internalaudit.shared.JobAndAreaOfExpertise;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.JobCreationDTO;
@@ -50,6 +53,7 @@ import com.internalaudit.shared.StrategicDepartments;
 import com.internalaudit.shared.StrategicRisk;
 import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.SuggestedControls;
+import com.internalaudit.shared.ToDo;
 import com.internalaudit.shared.User;
 
 /**
@@ -268,6 +272,8 @@ public interface InternalAuditService extends RemoteService {
 	String deleteRiskObjective(int riskId, int jobId) throws Exception;
 	JobStatusDTO fetchJobStatus(int jobId) throws Exception;
 	ArrayList<DashboardListBoxDTO> fetchDashBoardListBoxDTOs();
+	String savetoDo(ToDo todo ) throws Exception;
 
-	
+	String saveinformationRequest(InformationRequestEntity informationrequest);
+    ArrayList<String>fetchEmailAttachments();
 }

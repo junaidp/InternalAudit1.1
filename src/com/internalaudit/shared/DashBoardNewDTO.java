@@ -18,7 +18,9 @@ public class DashBoardNewDTO implements Serializable {
 	private HashMap<String, Integer> exceptionReportingStatus = new HashMap<String, Integer>();
 	private ArrayList<AuditWorkStatusDTO> auditWorkStatus = new ArrayList<AuditWorkStatusDTO>();
 	private ArrayList<Exceptions> exceptions = new ArrayList<Exceptions>();
-
+	
+	private ArrayList<InformationRequestEntity> informationRequests = new ArrayList<InformationRequestEntity>();
+	private ArrayList<ToDo> todo = new ArrayList<ToDo>();
 	private int jobsInExecCount = 0;
 	private int jobsInPlaning = 0;
 	private int jobsInReporting = 0;
@@ -178,6 +180,22 @@ public class DashBoardNewDTO implements Serializable {
 
 	public void setExceptions(ArrayList<Exceptions> exceptions) {
 		this.exceptions = exceptions;
+	}
+
+	public ArrayList<InformationRequestEntity> getInformationRequests() {
+		return informationRequests;
+	}
+
+	public void setInformationRequests(ArrayList<InformationRequestEntity> informationRequests) {
+		this.informationRequests = informationRequests;
+	}
+
+	public ArrayList<ToDo> getTodo() {
+		return todo;
+	}
+
+	public void setTodo(ArrayList<ToDo> todo) {
+		this.todo = todo;
 	}
 
 }

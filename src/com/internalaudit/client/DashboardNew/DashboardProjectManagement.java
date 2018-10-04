@@ -66,8 +66,8 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 				ProjectManagementTimeLine timeLine = new ProjectManagementTimeLine();
 				ProjectManagementActualHours actualHours = new ProjectManagementActualHours();
 				ProjectManagementDate pmDate = new ProjectManagementDate();
-				PortalInformationRequest portalInformation = new PortalInformationRequest();
-				PortalOutstandingCoaching portalOutstanding = new PortalOutstandingCoaching(dashboard.getExceptions());
+				PortalInformationRequest portalInformation = new PortalInformationRequest(dashboard.getInformationRequests());
+				PortalOutstandingCoaching portalOutstanding = new PortalOutstandingCoaching(dashboard.getTodo());
 				Label l = new Label("ada");
 				// add(portalOutstanding);
 				// add(timeLine);

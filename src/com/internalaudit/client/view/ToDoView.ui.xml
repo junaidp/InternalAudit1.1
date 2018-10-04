@@ -12,25 +12,20 @@
 	<g:HTMLPanel>
 	<g:VerticalPanel addStyleNames="w3-panel w3-pale-green">
 	<g:Label addStyleNames="{style.padding}">Description</g:Label>
-	<g:TextBox width="300px" height="100px"></g:TextBox>
+	<g:TextBox ui:field="txtBoxDescription"  width="300px" height="100px"></g:TextBox>
 	
 	<g:Label addStyleNames="{style.padding}">Assigned To</g:Label>
-	<g:ListBox>
-	 <g:item>
-    first
-  </g:item>
-  <g:item value='2'>
-    second
-  </g:item>
+	<g:ListBox ui:field="listBoxAssignedTo" >
+
 	</g:ListBox>
-	<g:Label addStyleNames="{style.padding}">Due Date</g:Label>
-	<d:DateBox></d:DateBox>
+	<g:Label  addStyleNames="{style.padding}">Due Date</g:Label>
+	<d:DateBox ui:field="dueDate"></d:DateBox>
 	<g:HorizontalPanel addStyleNames="{style.button}">
 	<g:VerticalPanel>
-	<g:Button addStyleNames="w3-button w3-round-large w3-margin">Save</g:Button>
+	<g:Button ui:field="btnSave" addStyleNames="w3-button w3-round-large w3-margin">Save</g:Button>
 	</g:VerticalPanel>
 	<g:VerticalPanel>
-	<g:Button addStyleNames="w3-button w3-round-large w3-margin">Cancel</g:Button>
+	<g:Button ui:field="btnCancel" addStyleNames="w3-button w3-round-large w3-margin">Cancel</g:Button>
 	</g:VerticalPanel>
 	</g:HorizontalPanel>
 	</g:VerticalPanel>

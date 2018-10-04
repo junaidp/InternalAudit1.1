@@ -6,6 +6,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.shared.Exceptions;
+import com.internalaudit.shared.ToDo;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
@@ -24,21 +25,22 @@ public class PortalOutstandingCoaching extends VerticalLayoutContainer {
 
 	private List<OutstandingCoaching> outstandingCoachings = new ArrayList<OutstandingCoaching>();
 
-	public PortalOutstandingCoaching(ArrayList<Exceptions> exceptions) {
+	public PortalOutstandingCoaching(ArrayList<ToDo> arrayList) {
 
-		setData(exceptions);
+		setData(arrayList);
 		add(createGridFieldWork());
 
 	}
 
-	private void setData(ArrayList<Exceptions> exceptions) {
-		for (int i = 0; i < exceptions.size(); i++) {
+	private void setData(ArrayList<ToDo> arrayList) {
+		for (int i = 0; i < arrayList.size(); i++) {
 			OutstandingCoaching issue = new OutstandingCoaching();
 			//issue.setId(exceptions.get(i).getExceptionId());
-			issue.setId(exceptions.get(i).getExceptionId());
-			issue.setCoachingNote(exceptions.get(i).getDetail());
-			issue.setRaisedBy(exceptions.get(i).getManagementComments());
-			issue.setRaisedTo(exceptions.get(i).getDisplayStatus());
+			issue.setId(arrayList.get(i).getToDoId());
+			issue.setCoachingNote(arrayList.get(i).getDescription());
+			issue.setRaisedBy(arrayList.get(i).getAssignedFrom().getEmployeeName());
+			issue.setRaisedTo(arrayList.get(i).getAssignedTo().getEmployeeName());
+			issue.setOverDueDays(arrayList.get(i).getDueDate().toString());
 
 			outstandingCoachings.add(issue);
 		}
@@ -73,7 +75,7 @@ public class PortalOutstandingCoaching extends VerticalLayoutContainer {
 		grid.getView().setStripeRows(true);
 		grid.getView().setColumnLines(true);
 		 ScrollPanel p = new ScrollPanel();
-		 p.setHeight("350px");
+		 p.setHeight("180px");
 		
 	   p.add(grid);
 
@@ -84,6 +86,7 @@ public class PortalOutstandingCoaching extends VerticalLayoutContainer {
 	      con.add(p, new VerticalLayoutData(1, 1));
 
 	      panel = new ContentPanel();
+	      panel.setHeight(250);
 	      panel.setHeadingText("OutstandingCoaching");
 	      panel.add(con);
 	      return panel;
