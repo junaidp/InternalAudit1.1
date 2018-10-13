@@ -42,6 +42,10 @@ public class ToDo implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employee assignedFrom;
 	
+	@JoinColumn(name = "job")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private JobCreation job;
+	
 	@Column(name="dueDate")
 	private Date dueDate;
 
@@ -102,6 +106,14 @@ public class ToDo implements Serializable {
 
 	public void setRespond(String respond) {
 		this.respond = respond;
+	}
+
+	public JobCreation getJob() {
+		return job;
+	}
+
+	public void setJob(JobCreation job) {
+		this.job = job;
 	}
 	
 	

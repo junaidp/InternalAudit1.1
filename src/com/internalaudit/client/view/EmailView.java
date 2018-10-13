@@ -3,12 +3,14 @@ package com.internalaudit.client.view;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -39,25 +41,38 @@ public class EmailView extends VerticalPanel {
 	Label lblReply = new  Label("Reply");
 	TextArea txtAreaReply = new TextArea();
 
-	Label lblFileAttached = new Label("Attached");
+	
 	ButtonRound btnSubmit = new ButtonRound("Submit");
 
 	VerticalPanel panelMailRep = new VerticalPanel();
 	VerticalPanel panelMail = new VerticalPanel();
 	VerticalPanel panelReply = new VerticalPanel();
 	HorizontalPanel panelFileDetail = new HorizontalPanel();
-	final VerticalPanel panelFileName = new VerticalPanel();
+//	final VerticalPanel panelFileName = new VerticalPanel();
 
 	public EmailView(final ToDo toDo){
 		rpcService.fetchEmailAttachments(new AsyncCallback<ArrayList<String>>() {
-
+			FlexTable records = new FlexTable();
 			@Override
 			public void onSuccess(ArrayList<String> result) {
 				for(int i=0;i<result.size();i++){
 					final Anchor	lblfilename = new Anchor(result.get(i));
-					panelFileName.add(lblfilename);
-					//				lblfilename.setText(result.get(i));
-
+					Label lblFileAttached = new Label("Attached");
+					lblfilename.addStyleName("pointerStyle");
+					lblfilename.getElement().getStyle().setTextDecoration(TextDecoration.NONE);
+					lblfilename.setHeight("25px");
+					lblFileAttached.setHeight("25px");
+					records.setWidth("100%");
+					records.setWidget(i, 0, lblfilename);
+					records.setWidget(i, 1, lblFileAttached);
+					if (i % 2 != 0) {
+						records.getRowFormatter().addStyleName(i, "jobStatusRow");
+					}
+					panelFileDetail.setWidth("100%");
+					panelFileDetail.add(records);
+					lblfilename.setWordWrap(false);
+					String upperCasedJobLink = lblfilename.getText();
+					lblfilename.setText(upperCasedJobLink);
 					lblfilename.addClickHandler(new ClickHandler() {
 
 						@Override
@@ -134,27 +149,27 @@ public class EmailView extends VerticalPanel {
 
 
 
-		VerticalPanel panelAttached = new VerticalPanel();
+//		VerticalPanel panelAttached = new VerticalPanel();
 
-		panelAttached.add(lblFileAttached);
-		panelFileDetail.add(panelFileName);
-		panelFileDetail.add(panelAttached);
+//		panelAttached.add(lblFileAttached);
+//		panelFileDetail.add(panelFileName);
+//		panelFileDetail.add(panelAttached);
 
 		PanelUpButton.setHeight("50px");
 		panelLabel.setHeight("50px");
 		panelMailRep.setHeight("300px");
 		panelFileUpload.setHeight("50px");
-		panelFileDetail.setHeight("160px");
+//		panelFileDetail.setHeight("160px");
 		panelMail.setHeight("150px");
 		txtAreaReply.setHeight("150px");
 		panelReply.setWidth("600px");
 		panelMail.setWidth("590px");
 		panelFileUpload.setWidth("590px");
 		txtAreaReply.setWidth("590px");
-		panelFileDetail.addStyleName("w3-border");
-		panelFileDetail.setWidth("590px");
-		panelFileName.setWidth("50%");
-		panelAttached.setWidth("50%");
+//		panelFileDetail.addStyleName("w3-border");
+//		panelFileDetail.setWidth("590px");
+//		panelFileName.setWidth("50%");
+//		panelAttached.setWidth("50%");
 
 
 

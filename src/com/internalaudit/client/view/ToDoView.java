@@ -18,6 +18,7 @@ import com.google.gwt.user.datepicker.client.DateBox;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.shared.Employee;
+import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.ToDo;
 
 public class ToDoView extends Composite {
@@ -30,6 +31,8 @@ public class ToDoView extends Composite {
 	DateBox dueDate;
 	@UiField
 	Button btnSave;
+	@UiField
+	ListBox listBoxJobs;
 	private InternalAuditServiceAsync rpcService;
 
 	private static ToDoViewUiBinder uiBinder = GWT.create(ToDoViewUiBinder.class);
@@ -43,6 +46,7 @@ public class ToDoView extends Composite {
 //		todo.setRes[]
 		rpcService = GWT.create(InternalAuditService.class);
 		fetchEmployees();
+		fetchJobs();
 		setHandlers();
 		
 	}
@@ -67,7 +71,10 @@ public class ToDoView extends Composite {
 		
 		Employee assignedTo = new Employee();
 		assignedTo.setEmployeeId(Integer.parseInt(listBoxAssignedTo.getSelectedValue()));
-		
+		JobCreation job = new JobCreation();
+		job.setJobCreationId(Integer.parseInt(listBoxJobs.getSelectedValue()));
+	
+		todo.setJob(job);
 		
 		todo.setAssignedTo(assignedTo);
 	
@@ -103,13 +110,33 @@ public class ToDoView extends Composite {
 				for(int i=0; i< result.size(); i++){
 				
 						listBoxAssignedTo.addItem(result.get(i).getEmployeeName(), result.get(i).getEmployeeId()+"");
-						//display.getListEmployees().addItem(result.get(i).getEmployeeName(), result.get(i).getEmployeeId()+"");
 						
 					}
 				}
 			
 		});
 	}
+	
+	private void fetchJobs(){
+		
+		rpcService.fetchJobs(new AsyncCallback<ArrayList<JobCreation>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("fail fetch jobs");
+				
+			}
+
+			@Override
+			public void onSuccess(ArrayList<JobCreation> result) {
+				for(int i=0; i< result.size(); i++){
+				listBoxJobs.addItem(result.get(i).getJobName(),result.get(i).getJobCreationId()+"");
+				}
+			}
+		});
+		
+	}
+	
 	
 	public TextBox getTxtBoxDescription() {
 		return txtBoxDescription;
@@ -133,6 +160,14 @@ public class ToDoView extends Composite {
 
 	public void setDueDate(DateBox dueDate) {
 		this.dueDate = dueDate;
+	}
+
+	public ListBox getListBoxJobs() {
+		return listBoxJobs;
+	}
+
+	public void setListBoxJobs(ListBox listBoxJobs) {
+		this.listBoxJobs = listBoxJobs;
 	}
 
 }

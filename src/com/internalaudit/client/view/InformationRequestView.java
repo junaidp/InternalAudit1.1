@@ -20,6 +20,7 @@ import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.InformationRequestEntity;
+import com.internalaudit.shared.JobCreation;
 import com.sencha.gxt.chart.client.draw.engine.SVG.TextBBox;
 
 public class InformationRequestView extends Composite {
@@ -35,6 +36,8 @@ public class InformationRequestView extends Composite {
 	CheckBox checkBoxReminder;
 	@UiField
 	DateBox dueDate;
+	@UiField
+	ListBox listBoxJobs;
 	
 	@UiField
 	ListBox listBoxStatus;
@@ -53,6 +56,7 @@ public class InformationRequestView extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		rpcService = GWT.create(InternalAuditService.class);
 		fetchEmployees();
+		fetchJobs();
 		btnSave.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -69,8 +73,10 @@ public class InformationRequestView extends Composite {
 		informationrequest.setRequestItem(txtBoxRequestItem.getText());
 		Employee responsibleContact = new Employee();
 		responsibleContact.setEmployeeId(Integer.parseInt(listBoxContact.getSelectedValue()));
-		
+		JobCreation job = new JobCreation();
+		job.setJobCreationId(Integer.parseInt(listBoxJobs.getSelectedValue()));
 		informationrequest.setContactResponsible(responsibleContact);
+		informationrequest.setJob(job);
 		informationrequest.setContactEmail(txtBoxEmail.getText());
 		informationrequest.setSendNotication(checkBoxNotification.getValue());
 		informationrequest.setSendReminder(checkBoxReminder.getValue());
@@ -111,6 +117,25 @@ public class InformationRequestView extends Composite {
 				}
 			
 		});
+	}
+private void fetchJobs(){
+		
+		rpcService.fetchJobs(new AsyncCallback<ArrayList<JobCreation>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("fail fetch jobs");
+				
+			}
+
+			@Override
+			public void onSuccess(ArrayList<JobCreation> result) {
+				for(int i=0; i< result.size(); i++){
+				listBoxJobs.addItem(result.get(i).getJobName(),result.get(i).getJobCreationId()+"");
+				}
+			}
+		});
+		
 	}
 
 }

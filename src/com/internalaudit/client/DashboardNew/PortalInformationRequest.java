@@ -50,11 +50,11 @@ public class PortalInformationRequest extends VerticalLayoutContainer {
 	public Widget createGridFieldWork() {
 
 		ColumnConfig<InformationRequest, Integer> informationId = new ColumnConfig<InformationRequest, Integer>(properties.id(), 50, "Id");
-		ColumnConfig<InformationRequest, String> informationReport = new ColumnConfig<InformationRequest, String>(properties.informationReport(), 180,
+		ColumnConfig<InformationRequest, String> informationReport = new ColumnConfig<InformationRequest, String>(properties.informationReport(), 190,
 				"Information Report");
 		ColumnConfig<InformationRequest, String> informationRaisedTo = new ColumnConfig<InformationRequest, String>(properties.raisedTo(),
-				110, "Raised To");
-		ColumnConfig<InformationRequest, String> informationRaisedBy = new ColumnConfig<InformationRequest, String>(properties.raisedBy(), 110, "Raised By");
+				130, "Raised To");
+		ColumnConfig<InformationRequest, String> informationRaisedBy = new ColumnConfig<InformationRequest, String>(properties.raisedBy(), 130, "Raised By");
 		ColumnConfig<InformationRequest, String> informationOverDue = new ColumnConfig<InformationRequest, String>(properties.overDueDays(), 180, "OverDue Day");
 
 		List<ColumnConfig<InformationRequest, ?>> columns = new ArrayList<ColumnConfig<InformationRequest, ?>>();
@@ -77,7 +77,7 @@ public class PortalInformationRequest extends VerticalLayoutContainer {
 		grid.getView().setStripeRows(true);
 		grid.getView().setColumnLines(true);
 		 ScrollPanel p = new ScrollPanel();
-		 p.setHeight("180px");
+		 p.setHeight("220px");
 		
 	   p.add(grid);
 
@@ -88,7 +88,8 @@ public class PortalInformationRequest extends VerticalLayoutContainer {
 	      con.add(p, new VerticalLayoutData(1, 1));
 
 	      panel = new ContentPanel();
-	      panel.setHeight(250);
+	      panel.setHeight(230);
+	      panel.setWidth(700);
 	      panel.setHeadingText("InformationRequest");
 	      panel.add(con);
 	      return panel;

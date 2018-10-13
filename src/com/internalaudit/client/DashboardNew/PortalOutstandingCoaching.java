@@ -49,7 +49,7 @@ public class PortalOutstandingCoaching extends VerticalLayoutContainer {
 	public Widget createGridFieldWork() {
 
 		ColumnConfig<OutstandingCoaching, Integer> outstandingId = new ColumnConfig<OutstandingCoaching, Integer>(properties.id(), 50, "Id");
-		ColumnConfig<OutstandingCoaching, String> outstandingCoachingNote = new ColumnConfig<OutstandingCoaching, String>(properties.coachingNote(), 200,
+		ColumnConfig<OutstandingCoaching, String> outstandingCoachingNote = new ColumnConfig<OutstandingCoaching, String>(properties.coachingNote(), 210,
 				"Coaching Note");
 		ColumnConfig<OutstandingCoaching, String> outstandingRaisedTo = new ColumnConfig<OutstandingCoaching, String>(properties.raisedTo(),
 				130, "Raised To");
@@ -75,7 +75,7 @@ public class PortalOutstandingCoaching extends VerticalLayoutContainer {
 		grid.getView().setStripeRows(true);
 		grid.getView().setColumnLines(true);
 		 ScrollPanel p = new ScrollPanel();
-		 p.setHeight("180px");
+		 p.setHeight("200px");
 		
 	   p.add(grid);
 
@@ -86,7 +86,8 @@ public class PortalOutstandingCoaching extends VerticalLayoutContainer {
 	      con.add(p, new VerticalLayoutData(1, 1));
 
 	      panel = new ContentPanel();
-	      panel.setHeight(250);
+	      panel.setHeight(220);
+	      panel.setWidth(700);
 	      panel.setHeadingText("OutstandingCoaching");
 	      panel.add(con);
 	      return panel;

@@ -16,6 +16,8 @@
 	<g:TextBox ui:field="txtBoxRequestItem" width="300px" height="100px"></g:TextBox>
 	<g:Label addStyleNames="{style.padding}">Contact Responsible</g:Label>
 	<g:ListBox ui:field="listBoxContact" width="250px"></g:ListBox>
+	<g:Label addStyleNames="{style.padding}">Jobs</g:Label>
+	<g:ListBox ui:field="listBoxJobs" width="250px"></g:ListBox>
 	
 	<g:Label addStyleNames="{style.padding}">Contact Email (optional)</g:Label>
 	<g:TextBox ui:field="txtBoxEmail" width="250px"></g:TextBox>

@@ -15,82 +15,82 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class PopupsView {
 
-    DecoratedPopupPanel popup;
-    VerticalPanel vpnlMain;
-    private HorizontalPanel hpnlSPace;
+	DecoratedPopupPanel popup;
+	VerticalPanel vpnlMain;
+	private HorizontalPanel hpnlSPace;
 
-    public HorizontalPanel getHpnlSPace() {
-	return hpnlSPace;
-    }
+	public HorizontalPanel getHpnlSPace() {
+		return hpnlSPace;
+	}
 
-    public void setHpnlSPace(HorizontalPanel hpnlSPace) {
-	this.hpnlSPace = hpnlSPace;
-    }
+	public void setHpnlSPace(HorizontalPanel hpnlSPace) {
+		this.hpnlSPace = hpnlSPace;
+	}
 
-    Image close = new Image("close.jpg");
-    Label labelheading = new Label();
-    
+	Image close = new Image("close.jpg");
+	Label labelheading = new Label();
 
-    public PopupsView(Widget widget, String heading) {
-    	
-    	//labelheading.getElement().getStyle().setBackgroundColor("BLUE");
-    	labelheading.getElement().getStyle().setFontSize(18, Unit.PX);
-    	labelheading.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-    	labelheading.addStyleName(" w3-container w3-pale-green");
-    
-	HorizontalPanel hpnlClose = new HorizontalPanel ();
-	hpnlSPace = new HorizontalPanel();
-	hpnlSPace.setWidth("800px");
-	hpnlClose.add(hpnlSPace);
-	hpnlClose.add(close);
-	close.addStyleName("pointerStyle");
-	popup = new DecoratedPopupPanel();
-	vpnlMain = new VerticalPanel();
-	vpnlMain.add(hpnlClose);
-	vpnlMain.add(labelheading);
-	vpnlMain.add(widget);
-	vpnlMain.setSize("800px", "425px");
-	// vpnlMain.
-	popup.setWidget(vpnlMain);
-	hpnlSPace.addStyleName("w3-panel w3-red");
-	//popup.addStyleName("w3-panel w3-green");
-	vpnlMain.addStyleName("w3-panel w3-sand");
 
-	popup.setGlassEnabled(true);
-	popup.center();
+	public PopupsView(Widget widget, String heading) {
 
-	close.addClickHandler(new ClickHandler() {
+		//labelheading.getElement().getStyle().setBackgroundColor("BLUE");
+		labelheading.getElement().getStyle().setFontSize(18, Unit.PX);
+		labelheading.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+		labelheading.addStyleName(" w3-container ");
 
-	    @Override
-	    public void onClick(ClickEvent arg0) {
-		popup.removeFromParent();
-	    }
-	});
-    }
+		HorizontalPanel hpnlClose = new HorizontalPanel ();
+		hpnlSPace = new HorizontalPanel();
+		hpnlSPace.setWidth("800px");
+		hpnlClose.add(hpnlSPace);
+		hpnlClose.add(close);
+		close.addStyleName("pointerStyle");
+		popup = new DecoratedPopupPanel();
+		vpnlMain = new VerticalPanel();
+		vpnlMain.add(hpnlClose);
+		vpnlMain.add(labelheading);
+		vpnlMain.add(widget);
+		vpnlMain.setSize("800px", "425px");
+		// vpnlMain.
+		popup.setWidget(vpnlMain);
+		hpnlSPace.addStyleName("w3-panel w3-white ");
+		//popup.addStyleName("w3-panel w3-green");
+		vpnlMain.addStyleName("w3-panel w3-white");
 
-    public DecoratedPopupPanel getPopup() {
-	return popup;
-    }
+		popup.setGlassEnabled(true);
+		popup.center();
 
-    public void setPopup(DecoratedPopupPanel popup) {
-	this.popup = popup;
-    }
+		close.addClickHandler(new ClickHandler() {
 
-    public Image getClose() {
-	return close;
-    }
+			@Override
+			public void onClick(ClickEvent arg0) {
+				popup.removeFromParent();
+			}
+		});
+	}
 
-    public void setClose(Image close) {
-	this.close = close;
-    }
+	public DecoratedPopupPanel getPopup() {
+		return popup;
+	}
 
-    public VerticalPanel getVpnlMain() {
-	return vpnlMain;
-    }
+	public void setPopup(DecoratedPopupPanel popup) {
+		this.popup = popup;
+	}
 
-    public void setVpnlMain(VerticalPanel vpnlMain) {
-	this.vpnlMain = vpnlMain;
-    }
+	public Image getClose() {
+		return close;
+	}
+
+	public void setClose(Image close) {
+		this.close = close;
+	}
+
+	public VerticalPanel getVpnlMain() {
+		return vpnlMain;
+	}
+
+	public void setVpnlMain(VerticalPanel vpnlMain) {
+		this.vpnlMain = vpnlMain;
+	}
 
 	public Label getLabelheading() {
 		return labelheading;

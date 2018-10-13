@@ -46,11 +46,11 @@ public class PortalIssue extends VerticalLayoutContainer {
 	public Widget createGridFieldWork() {
 
 		ColumnConfig<Issues, Integer> issueId = new ColumnConfig<Issues, Integer>(properties.id(), 50, "Id");
-		ColumnConfig<Issues, String> issueTitle = new ColumnConfig<Issues, String>(properties.issueTitle(), 130,
+		ColumnConfig<Issues, String> issueTitle = new ColumnConfig<Issues, String>(properties.issueTitle(), 170,
 				"Issue Title");
 		ColumnConfig<Issues, String> issueManagement = new ColumnConfig<Issues, String>(properties.managementResponce(),
 				200, "Management Response");
-		ColumnConfig<Issues, String> issueStatus = new ColumnConfig<Issues, String>(properties.status(), 400, "Status");
+		ColumnConfig<Issues, String> issueStatus = new ColumnConfig<Issues, String>(properties.status(), 350, "Status");
 
 		List<ColumnConfig<Issues, ?>> columns = new ArrayList<ColumnConfig<Issues, ?>>();
 		columns.add(issueId);
@@ -64,7 +64,7 @@ public class PortalIssue extends VerticalLayoutContainer {
 		store.addAll(issues);
 
 		final Grid<Issues> grid = new Grid<Issues>(store, cm);
-		grid.setWidth(650);
+		grid.setWidth(700);
 		grid.getView().setAutoExpandColumn(issueId);
 		grid.getView().setForceFit(true);
 		grid.getView().setStripeRows(true);
@@ -82,7 +82,8 @@ public class PortalIssue extends VerticalLayoutContainer {
 
 	      panel = new ContentPanel();
 	      panel.setHeadingText("Issues");
-	      panel.setHeight(180);
+	      panel.setWidth(700);
+	      panel.setHeight(220);
 	      panel.add(con);
 	      return panel;
 	}

@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.internalaudit.client.DashboardNew.PortalInformationRequest;
 import com.internalaudit.shared.User;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
@@ -33,23 +34,23 @@ public class SideBarView extends VerticalLayoutContainer {
 	
 	public SideBarView(final User loggedInUser) {
 
-		panelbar.addStyleName("w3-sidebar w3-cobalt w3-bar-block");
-		panelbar.setWidth("60px");
+		panelbar.addStyleName("w3-sidebar w3-cobalt  w3-bar-block ");
+		panelbar.setWidth("64px");
 		
 		this.loggedInUser = loggedInUser;
 
-		ImgMenu.addStyleName("w3-bar-item w3-button");
-		ImgCloseCircular.addStyleName("w3-bar-item w3-button");
-		ImgSecuirity.addStyleName("w3-bar-item w3-button");
-		ImgSpeedoMeter.addStyleName("w3-bar-item w3-button");
-		ImgTab.addStyleName("w3-bar-item w3-button");
-		ImgPlus.addStyleName("w3-bar-item w3-button");
-		ImgPie.addStyleName("w3-bar-item w3-button");
-		ImgMenu2.addStyleName("w3-bar-item w3-button");
-		ImgHome.addStyleName("w3-bar-item w3-button");
-		ImgAnalysis.addStyleName("w3-bar-item w3-button");
-		ImgControls.addStyleName("w3-bar-item w3-button");
-		ImgCalendar.addStyleName("w3-bar-item w3-button");
+		ImgMenu.addStyleName("w3-bar-item w3-button w3-round w3-hover-blue");
+		ImgCloseCircular.addStyleName("w3-bar-item w3-button w3-hover-blue");
+		ImgSecuirity.addStyleName("w3-bar-item w3-button w3-hover-blue");
+		ImgSpeedoMeter.addStyleName("w3-bar-item w3-button w3-hover-blue");
+		ImgTab.addStyleName("w3-bar-item w3-button w3-hover-blue");
+		ImgPlus.addStyleName("w3-bar-item w3-button w3-hover-blue");
+		ImgPie.addStyleName("w3-bar-item w3-button w3-hover-blue");
+		ImgMenu2.addStyleName("w3-bar-item w3-button w3-hover-blue");
+		ImgHome.addStyleName("w3-bar-item w3-button w3-hover-blue");
+		ImgAnalysis.addStyleName("w3-bar-item w3-button w3-hover-blue");
+		ImgControls.addStyleName("w3-bar-item w3-button w3-hover-blue");
+		ImgCalendar.addStyleName("w3-bar-item w3-button w3-hover-blue");
 
 		ImgMenu.setWidth("60px");
 		ImgMenu.setHeight("50px");
@@ -98,7 +99,7 @@ public class SideBarView extends VerticalLayoutContainer {
 		 */
 		add(panelbar);
 
-		
+		ImgHome.setTitle("To DO");
 		 ImgHome.addClickHandler(new ClickHandler() {
 				
 				@Override
@@ -112,7 +113,7 @@ public class SideBarView extends VerticalLayoutContainer {
 					pp.getVpnlMain().setHeight("320px");
 					}
 			});
-			 
+			 ImgMenu.setTitle("Information Request");
 			 ImgMenu.addClickHandler(new ClickHandler() {
 					
 					@Override
@@ -127,7 +128,8 @@ public class SideBarView extends VerticalLayoutContainer {
 
 					}
 				});
-				 ImgSecuirity.addClickHandler(new ClickHandler() {
+			 ImgSecuirity.setTitle("EmailView");
+			 ImgCalendar .addClickHandler(new ClickHandler() {
 					
 					@Override
 					public void onClick(ClickEvent event) {
@@ -141,17 +143,34 @@ public class SideBarView extends VerticalLayoutContainer {
 						
 					}
 				});
-				 ImgPie.addClickHandler(new ClickHandler() {
+				 ImgPie.setTitle("Task List");
+				ImgPie .addClickHandler(new ClickHandler() {
 					
 					@Override
 					public void onClick(ClickEvent event) {
 						
-//						//PopupsView pp = new PopupsView(informationreq, "");
-//						pp.getLabelheading().setText("Information Request");
-//						pp.getVpnlMain().setTitle("Information Request");
-//						pp.getVpnlMain().setWidth("400px");
-//						pp.getHpnlSPace().setWidth("400px");
-//						pp.getVpnlMain().setHeight("530px");
+						PortalTaskList p = new PortalTaskList();
+						PopupsView pp = new PopupsView(p, "");
+						 pp = new PopupsView(p, "");
+						pp.getLabelheading().setText("Task List");
+						pp.getVpnlMain().setTitle("TaskList");
+						pp.getVpnlMain().setWidth("800px");
+					//	pp.getHpnlSPace().setWidth("400px");
+						pp.getVpnlMain().setHeight("530px");
+						
+					}
+				});
+				 ImgSecuirity.addClickHandler(new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						final TodosList toDo = new TodosList(loggedInUser.getTodos());
+						PopupsView pp = new PopupsView(toDo, "");
+						pp.getLabelheading().setText("Todos");
+						pp.getVpnlMain().setTitle("Todos");
+						pp.getVpnlMain().setWidth("600px");
+						pp.getHpnlSPace().setWidth("600px");
+						pp.getVpnlMain().setHeight("530px");
 						
 					}
 				});

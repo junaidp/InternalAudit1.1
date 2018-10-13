@@ -2154,7 +2154,7 @@ public class MySQLRdbHelper {
 			// check below line
 			jobCreation.setRelevantDept(job.getDepartments().get(0).getDepartment().getDepartmentName());
 			jobCreation.setYear(year);
-			jobCreation.setCompanyId(companyId);
+		//	jobCreation.setCompanyId(companyId);
 			int jobCreationId = fetchJobCreationId(jobCreation.getStrategicId().getId());// if
 			// job
 			// is
@@ -2223,8 +2223,10 @@ public class MySQLRdbHelper {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
-			Criteria crit = session.createCriteria(JobCreation.class);
-			crit.add(Restrictions.eq("jobId", jobId));
+			Criteria crit = session.createCriteria(JobCreation.class, "jobCreation");
+			crit.createAlias("strategicId", "strategic");
+			
+			crit.add(Restrictions.eq("strategic.strategicId", jobId));
 			if (crit.list().size() > 0) {
 
 				JobCreation job = (JobCreation) crit.list().get(0);
@@ -2385,8 +2387,8 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(JobCreation.class, "jobCreation");
 			crit.add(Restrictions.eq("jobCreationId", jobcreationId));
-			jobsStrategicAliasSmall1(crit);
-
+			jobsStrategicAlias(crit);
+			
 			List rsList = crit.list();
 
 			// for (Iterator it = rsList.iterator(); it.hasNext();)
@@ -2396,12 +2398,9 @@ public class MySQLRdbHelper {
 			jobCreation.setStrategic(strategic);
 			HibernateDetachUtility.nullOutUninitializedFields(jobCreation,
 					HibernateDetachUtility.SerializationType.SERIALIZATION);
-			HibernateDetachUtility.nullOutUninitializedFields(jobCreation.getStrategicId().getInitiatedBy(),
+			HibernateDetachUtility.nullOutUninitializedFields(jobCreation.getStrategicId().getRelevantDepartment(),
 					HibernateDetachUtility.SerializationType.SERIALIZATION);
-			HibernateDetachUtility.nullOutUninitializedFields(jobCreation.getStrategicId().getAssignedTo(),
-					HibernateDetachUtility.SerializationType.SERIALIZATION);
-			HibernateDetachUtility.nullOutUninitializedFields(jobCreation.getStrategicId().getApprovedBy(),
-					HibernateDetachUtility.SerializationType.SERIALIZATION);
+			
 
 			logger.info(String.format("(Inside fetchCreatedJobs) fetching created jobs  for creatuinid : "
 					+ jobcreationId + "" + new Date()));
@@ -2567,6 +2566,14 @@ public class MySQLRdbHelper {
 
 				Employee employee = (Employee) it.next();
 				HibernateDetachUtility.nullOutUninitializedFields(employee,
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(employee.getRollId(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(employee.getReportingTo().getRollId(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(employee.getUserId().getEmployeeId().getRollId(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(employee.getUserId().getEmployeeId().getReportingTo().getRollId(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
 				jobForEmp.setEmployee(employee);
@@ -2753,8 +2760,8 @@ public class MySQLRdbHelper {
 			ArrayList<Integer> jobIds = fetchjobEmployee(loggedInEmployee);
 			crit.createAlias("jobCreationId", "jobCreation");
 			// jobsStrategicAlias(crit);
-			jobsStrategicAliasSmall(crit);
-			////////// FETCHING ONLY JOBS OF LOGGEDIN EMPLOYEE
+			//jobsStrategicAliasSmall(crit);
+			//////////// FETCHING ONLY JOBS OF LOGGEDIN EMPLOYEE
 			if (jobIds.size() <= 0) {
 				return null;
 			}
@@ -5367,6 +5374,7 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(JobEmployeeRelation.class);
+			crit.createAlias("jobCreationId", "jobCreation");
 			crit.createAlias("employeeId", "employee");
 			crit.add(Restrictions.eq("employee.employeeId", employeeId));
 			// crit.createAlias("jobCreationId", "jobCreation");

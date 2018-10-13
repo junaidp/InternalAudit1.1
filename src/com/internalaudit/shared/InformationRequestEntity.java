@@ -47,6 +47,10 @@ public class InformationRequestEntity implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employee assignedFrom;
 	
+	@JoinColumn(name = "job")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private JobCreation job;
+	
 	@Column(name="dueDate")
 	private Date dueDate;
 	
@@ -138,6 +142,14 @@ public class InformationRequestEntity implements Serializable {
 
 	public void setCompanyId(int companyId) {
 		this.companyId = companyId;
+	}
+
+	public JobCreation getJob() {
+		return job;
+	}
+
+	public void setJob(JobCreation job) {
+		this.job = job;
 	}
 	
 	

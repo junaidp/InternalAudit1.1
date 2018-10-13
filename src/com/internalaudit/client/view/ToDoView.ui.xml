@@ -18,6 +18,10 @@
 	<g:ListBox ui:field="listBoxAssignedTo" >
 
 	</g:ListBox>
+	<g:Label addStyleNames="{style.padding}">Jobs</g:Label>
+	<g:ListBox ui:field="listBoxJobs" >
+
+	</g:ListBox>
 	<g:Label  addStyleNames="{style.padding}">Due Date</g:Label>
 	<d:DateBox ui:field="dueDate"></d:DateBox>
 	<g:HorizontalPanel addStyleNames="{style.button}">
