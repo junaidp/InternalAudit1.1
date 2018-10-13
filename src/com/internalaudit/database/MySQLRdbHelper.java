@@ -2757,19 +2757,21 @@ public class MySQLRdbHelper {
 			crit.createAlias("jobCreationId", "jobCreation");
 			// jobsStrategicAlias(crit);
 			////////////////////////////////////////////////////////
-			crit.createAlias("jobCreation.strategicId", "strategic");
-			crit.createAlias("strategic.process", "processId");
-			crit.createAlias("strategic.subProcess", "subProcessId");
-			crit.createAlias("strategic.jobType", "jobTypeId");
-			crit.createAlias("strategic.relevantDepartment", "dept");
-			crit.createAlias("strategic.riskFactor", "riskFact");
-
-			crit.createAlias("strategic.initiatedBy", "sinitiated");
-			crit.createAlias("strategic.assignedTo", "sassigned");
-			crit.createAlias("strategic.approvedBy", "sapproved");
-			crit.createAlias("sassigned.userId", "sassigendCdUser");
-			crit.createAlias("sassigned.rollId", "sassigendCRoll");
-			crit.createAlias("sassigned.skillId", "sassigendCSkill");
+			/*
+			 * crit.createAlias("jobCreation.strategicId", "strategic");
+			 * crit.createAlias("strategic.process", "processId");
+			 * crit.createAlias("strategic.subProcess", "subProcessId");
+			 * crit.createAlias("strategic.jobType", "jobTypeId");
+			 * crit.createAlias("strategic.relevantDepartment", "dept");
+			 * crit.createAlias("strategic.riskFactor", "riskFact");
+			 * 
+			 * crit.createAlias("strategic.initiatedBy", "sinitiated");
+			 * crit.createAlias("strategic.assignedTo", "sassigned");
+			 * crit.createAlias("strategic.approvedBy", "sapproved");
+			 * crit.createAlias("sassigned.userId", "sassigendCdUser");
+			 * crit.createAlias("sassigned.rollId", "sassigendCRoll");
+			 * crit.createAlias("sassigned.skillId", "sassigendCSkill");
+			 */
 			/////////////////////////////////////////////////////////
 
 			//////////// FETCHING ONLY JOBS OF LOGGEDIN EMPLOYEE
@@ -2803,6 +2805,8 @@ public class MySQLRdbHelper {
 				// auditEngagement.setEngagementDTO(engagementDTO);
 				/////
 				HibernateDetachUtility.nullOutUninitializedFields(auditEngagement,
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(auditEngagement.getJobCreation(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(auditEngagement.getJobCreation().getStrategicId(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
