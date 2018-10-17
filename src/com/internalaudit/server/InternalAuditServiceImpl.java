@@ -80,17 +80,18 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	public User signIn(String userid, String password) throws Exception {// NOT
 																			// HERE
 		// String result = "";
-
+		System.out.println("Inside signin");
 		User user = (User) rdbHelper.getAuthentication(userid, password);
 
 		if (user != null) {
-			session = getThreadLocalRequest().getSession(true);
+			System.out.println("Inside signin: NOT null");
+			//session = getThreadLocalRequest().getSession(true);
 
-			session.setAttribute("user", user);
+			getThreadLocalRequest().getSession(true).setAttribute("user", user);
 			int currentYear = getCurrentYear();
-			session.setAttribute("year", currentYear);
-			session.setAttribute("companyId", user.getEmployeeId().getCompanyId());
-			session.setMaxInactiveInterval(InternalAuditConstants.TIMEOUT);
+			getThreadLocalRequest().getSession(true).setAttribute("year", currentYear);
+			getThreadLocalRequest().getSession(true).setAttribute("companyId", user.getEmployeeId().getCompanyId());
+			getThreadLocalRequest().getSession(true).setMaxInactiveInterval(InternalAuditConstants.TIMEOUT);
 		}
 		return user;
 
@@ -170,7 +171,9 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 
 	@Override
 	public ArrayList<Strategic> fetchStrategic(HashMap<String, String> hm) throws Exception {
+		System.out.println("fetchStrategic: now calling isLoggedIn");
 		if (isLoggedIn()) {
+			System.out.println("fetchStrategic:  loggedIn");
 			session = getThreadLocalRequest().getSession(true);
 			User loggedInUser = (User) session.getAttribute("user");
 			int year = (Integer) session.getAttribute("year");
@@ -179,7 +182,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 			hm.put("companyId", companyId + "");
 			return rdbHelper.fetchStrategic(hm, loggedInUser.getEmployeeId().getEmployeeId());
 		} else {
-
+			System.out.println("fetchStrategic: Not loggedIn");
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);
 
 		}
@@ -904,9 +907,14 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	private boolean isLoggedIn() throws Exception {
 
 		HttpSession session = getThreadLocalRequest().getSession(true);
+		System.out.println("session is :"+session);
+		System.out.println("loggedIn user is :"+session.getAttribute("user"));
+		System.out.println("year is :"+session.getAttribute("year"));
 		if (session.getAttribute("user") == null) {
+			
 			return false;
 		} else {
+			
 			return true;
 		}
 

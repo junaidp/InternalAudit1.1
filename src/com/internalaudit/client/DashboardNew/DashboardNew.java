@@ -6,6 +6,7 @@ import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 public class DashboardNew extends VerticalLayoutContainer {
 
 	public DashboardNew() {
+		
 		layout();
 
 	}
@@ -14,8 +15,9 @@ public class DashboardNew extends VerticalLayoutContainer {
 		final PlainTabPanel panel = new PlainTabPanel();
 		panel.setWidth("1200px");
 		panel.setResizeTabs(true);
-		DashboardAuditWorkStatus dashboardAuditWorkSpace = new DashboardAuditWorkStatus();
-		DashboardProjectManagement dashboardProjectManagement = new DashboardProjectManagement();
+		DashboardListBoxes dashboardlistBox = new DashboardListBoxes();
+		DashboardAuditWorkStatus dashboardAuditWorkSpace = new DashboardAuditWorkStatus(dashboardlistBox);
+		DashboardProjectManagement dashboardProjectManagement = new DashboardProjectManagement(dashboardlistBox);
 		panel.add(dashboardAuditWorkSpace, "Audit Workspace");
 		panel.add(dashboardProjectManagement, "Project Management");
 		// panel.add(dashboardProjectManagement, "New dashboard name");

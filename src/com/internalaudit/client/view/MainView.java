@@ -5,8 +5,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.thirdparty.javascript.jscomp.graph.GraphColoring.Color;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
@@ -15,10 +13,9 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.internalaudit.client.DashboardNew.DashboardNew;
-import com.internalaudit.client.event.DashBoardEvent;
 import com.internalaudit.client.presenter.MainPresenter.Display;
 import com.internalaudit.client.widgets.TableauAbilite;
 import com.internalaudit.client.widgets.TableauExcel;
@@ -28,16 +25,17 @@ import com.sencha.gxt.widget.core.client.PlainTabPanel;
 import com.sencha.gxt.widget.core.client.TabItemConfig;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
+
 public class MainView extends Composite implements Display {
 
-	private AuditPlanningView auditPlanningView ;
+	//private AuditPlanningView auditPlanningView ;
 	private User loggedInUser;
 	private Anchor logOut = new Anchor("Logout");
 	private Anchor feedBack = new Anchor("Help/Feedback");
 	private Anchor createCompany = new Anchor("Add Company");
 	private Anchor createUser = new Anchor("Add User");
 	private ListBox listYears = new ListBox();
-	private Label welcome = new Label("");
+	private Anchor welcome = new Anchor("");
 	private VerticalPanel vpnlAuditScheduing = new VerticalPanel();
 	private VerticalPanel vpnlAuditEngagement = new VerticalPanel();
 	private VerticalPanel vpnlDashBoard = new VerticalPanel();
@@ -45,6 +43,8 @@ public class MainView extends Composite implements Display {
 	private VerticalPanel reportsView = new VerticalPanel();
 	private HorizontalPanel footer = new HorizontalPanel();
 	private VerticalLayoutContainer vpnlDashBoardNew = new VerticalLayoutContainer();
+	private VerticalPanel panelBar = new VerticalPanel();
+	private VerticalPanel containerAuditPlanning = new VerticalPanel();
 	
 
 	PlainTabPanel panel = new PlainTabPanel();
@@ -126,8 +126,8 @@ public class MainView extends Composite implements Display {
 		 
 		//endshere 
 		this.loggedInUser = loggedInUser;
-		auditPlanningView = new AuditPlanningView(loggedInUser);
-
+		//auditPlanningView = new AuditPlanningView(loggedInUser);Commented when we added dashboard inside a tab
+		
 		HorizontalPanel hpnlMain = new HorizontalPanel();
 		Image imgHeader = new Image("images/trans.png");
 		imgHeader.getElement().getStyle().setPaddingLeft(50, Unit.PX);
@@ -167,7 +167,7 @@ public class MainView extends Composite implements Display {
 	
 		if(loggedInUser.getEmployeeId().getFromInternalAuditDept().equalsIgnoreCase("yes")){
 			panel.add(vpnlDashBoard, "DashBoard");
-			panel.add(auditPlanningView, "Audit Planning");
+			panel.add(containerAuditPlanning, "Audit Planning");
 			panel.add(vpnlAuditScheduing, "Audit Scheduling");
 			panel.add(vpnlAuditEngagement, "Audit Engagement");
 			panel.add(reportingView, "Reporting");
@@ -180,7 +180,7 @@ public class MainView extends Composite implements Display {
 			panel.add(reportsView, "Reports");
 			
 			//2018 new
-			vpnlDashBoardNew.add( new DashboardNew());
+		//	vpnlDashBoardNew.add( new DashboardNew());
 			panel.add(vpnlDashBoardNew, "Analytics");
 			// panel.add((IsWidget) new Dashboard(),"NewDashboard");
 
@@ -206,7 +206,7 @@ public class MainView extends Composite implements Display {
 		checkpanel.add(panelSideBar);
 	//	checkpanel.add(panelImages);
 		checkpanel.add(panel);
-		VerticalPanel panelBar = new VerticalPanel();
+		
 		
 		panelBar.addStyleName("w3-bar-block w3-border w3-light-blue");
 		vpnlTabPanel.getElement().getStyle().setPaddingLeft(12,  Unit.PX);
@@ -215,13 +215,27 @@ public class MainView extends Composite implements Display {
 		//vpnlTabPanel.add(panelImages);
 		//selectYear().addStyleName("w3-bar-item w3-right");
 		hpnl.add(selectYear());
-		hpnl.add(panelBar);
-		panelBar.add(welcome);
+		hpnl.add(welcome);
+		//hpnl.add(panelBar);
+		//panelBar.add(welcome);
 		panelBar.add(feedBack);
 		panelBar.add(logOut);
 		//hpnl.add(welcome); // Welcome <name>
-		welcome.addStyleName("white");
-		welcome.addStyleName("  w3-bar-item w3-hover-blue w3-right");
+		//welcome.addStyleName("white");
+		//welcome.addStyleName("  w3-bar-item w3-hover-blue w3-right");
+		welcome.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				PopupPanel p = new PopupPanel();
+				p.add(panelBar);
+				p.showRelativeTo(welcome);
+				p.isAutoHideEnabled();
+				p.setAutoHideEnabled(true);
+				
+				
+			}
+		});
 		welcome.setWordWrap(false);
 		hpnlHeader.add(hpnlSpace);
 		hpnlSpace.setWidth("65%");
@@ -229,15 +243,12 @@ public class MainView extends Composite implements Display {
 		if(loggedInUser.getEmployeeId().getEmployeeName().equalsIgnoreCase("Muhammad Faheem Piracha") && loggedInUser.getEmployeeId().getEmployeeId() ==1){
 			hpnl.add(createCompany); 
 			hpnl.add(createUser); 
-			welcome.addStyleName("white");
+		
 		}
-		//listYears.addStyleName(" w3-blue w3-bar-item w3-hover-red w3-right");
 		logOut.addStyleName("white");
 		feedBack.addStyleName("white");
 		feedBack.addStyleName("  w3-bar-item w3-hover-blue w3-right");
 		logOut.addStyleName(" w3-bar-item w3-hover-blue w3-right");
-		//hpnl.add(feedBack);
-		//hpnl.add(logOut); // logout link
 		hpnl.setSpacing(2);
 		hpnl.setWidth("0%");
 		hpnl.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
@@ -346,11 +357,11 @@ public class MainView extends Composite implements Display {
 		this.logOut = logOut;
 	}
 
-	public Label getWelcome() {
+	public Anchor getWelcome() {
 		return welcome;
 	}
 
-	public void setWelcome(Label welcome) {
+	public void setWelcome(Anchor welcome) {
 		this.welcome = welcome;
 	}
 
@@ -430,6 +441,14 @@ public class MainView extends Composite implements Display {
 		return feedBack;
 	}
 
+	public VerticalLayoutContainer getVpnlDashBoardNew() {
+		return vpnlDashBoardNew;
+	}
 
+	public VerticalPanel getContainerAuditPlanning() {
+		return containerAuditPlanning;
+	}
+
+	
 
 }

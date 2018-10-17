@@ -18,10 +18,10 @@ import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
 public class DashboardProjectManagement extends VerticalLayoutContainer {
 
-	DashboardListBoxes dashboardlistBox = new DashboardListBoxes();
+	DashboardListBoxes dashboardlistBox = null;
 
-	public DashboardProjectManagement() {
-
+	public DashboardProjectManagement(DashboardListBoxes dashboardlistBox) {
+		this.dashboardlistBox = dashboardlistBox;
 		loadData();
 
 		dashboardlistBox.getBtnSearch().addClickHandler(new ClickHandler() {

@@ -364,10 +364,10 @@ public class AuditUniverseStrategicViewData {
 		rpcService.fetchStrategic(hm, new AsyncCallback<ArrayList<Strategic>>(){
 
 			@Override
-			public void onFailure(Throwable caught) {
+			public void onFailure(Throwable ex) {
 				loadingPopup.remove();
 				logger.log(Level.INFO, "FAIL: fetchStrategic .Inside Audit AuditAreaspresenter");
-				if(caught instanceof TimeOutException){
+				if(ex instanceof TimeOutException){
 					History.newItem("login");
 				}else{
 					System.out.println("FAIL: fetchStrategic .Inside AuditAreaspresenter");
@@ -375,6 +375,10 @@ public class AuditUniverseStrategicViewData {
 				}
 				
 				Window.alert("Fetch Audit universe strategic failed");
+				Window.alert(""+ex.getMessage());
+				Window.alert(""+ex.getLocalizedMessage());
+				Window.alert(""+ex.getCause());
+				Window.alert(""+ex.getStackTrace());
 			}
 
 			@Override

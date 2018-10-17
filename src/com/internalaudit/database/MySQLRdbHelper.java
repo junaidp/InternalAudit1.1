@@ -122,8 +122,7 @@ public class MySQLRdbHelper {
 
 	public User getAuthentication(String userid, String password) throws Exception {
 
-		int currentYear = getCurrentYear();
-
+		System.out.print("Inisde Sign in");
 		logger = Logger.getLogger("com.internalaudit.database.MySQLRdbHelper.class");
 		logger.setLevel(Level.DEBUG);
 		User users = null;
@@ -154,7 +153,7 @@ public class MySQLRdbHelper {
 				users = (User) it.next();
 
 				users.setTodos(fetchUsersTodos(users.getEmployeeId()));
-				// create a method in mysql class to fetch Todo where userid =
+				// create a method in mysql class to  Todo where userid =
 				// users.getEmployeeId().getEmployeeId(), set it here
 
 				System.out.println(users.getName() + "Signed In on" + new Date());
@@ -800,6 +799,7 @@ public class MySQLRdbHelper {
 
 	public ArrayList<Strategic> fetchStrategic(HashMap<String, String> hm, int employeeId) {
 		Session session = null;
+		System.out.println("inside fetchStrategic");
 		String phase = hm.get("phase");
 		int tab = Integer.parseInt(hm.get("tab"));
 		int year = Integer.parseInt(hm.get("year"));
@@ -907,6 +907,7 @@ public class MySQLRdbHelper {
 			logger.info(String.format(
 					"(Inside fetchStrategic) fetching Strategic forEmployee Id : " + employeeId + " " + new Date()));
 		} catch (Exception ex) {
+			System.out.println("Exception occured in fetchStrategics"+ ex.getMessage());
 			logger.warn(String.format("Exception occured in fetchStrategics", ex.getMessage()), ex);
 
 		} finally {
@@ -2103,7 +2104,7 @@ public class MySQLRdbHelper {
 	}
 
 	public ArrayList<JobAndAreaOfExpertise> fetchCheckBoxStateFor(int jobId) {
-		// this is the fetch code .. in your auditPanel mehtiod
+		// this is the  code .. in your auditPanel mehtiod
 		Session session = null;
 		ArrayList<JobAndAreaOfExpertise> checkBoxStates = new ArrayList<JobAndAreaOfExpertise>();
 
@@ -2847,7 +2848,7 @@ public class MySQLRdbHelper {
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				ActivityObjective activityObjective = (ActivityObjective) it.next();
 
-				// move this to be fetch from Selected activityObjectives
+				// move this to be  from Selected activityObjectives
 				// fetchActivityRiskAgainstActivityObjective(activityObjective.getObjectiveId(),
 				// session, engagementDTO);
 
@@ -2859,7 +2860,7 @@ public class MySQLRdbHelper {
 		return engagementDTO;
 	}
 
-	// This will fetch All Risks for all SELECTED objectives
+	// This will  All Risks for all SELECTED objectives
 	private void fetchActivityRiskAgainstActivityObjective(int objectiveId, Session session,
 			EngagementDTO engagementDTO) {
 
@@ -2881,7 +2882,7 @@ public class MySQLRdbHelper {
 
 	}
 
-	// fetch all Controls in a library against saved Risks
+	//  all Controls in a library against saved Risks
 	private void fetchSuggestedControlsAgainstRiskObjective(int riskId, Session session, EngagementDTO engagementDTO) {
 
 		try {
@@ -2970,7 +2971,7 @@ public class MySQLRdbHelper {
 				auditEngagement.setStrategic(strategic);
 				EngagementDTO engagementDTO = fetchActivityObjective(strategic.getSubProcess().getSubProcessId(),
 						session);
-				// FETCH AcitivityObjectives of the selected job
+				//  AcitivityObjectives of the selected job
 				// User's
 				engagementDTO.setSelectedActivityObjectives(
 						fetchActivityObjectivesForSelectedJob(jobCreationId, session, engagementDTO));
@@ -2992,6 +2993,10 @@ public class MySQLRdbHelper {
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(auditEngagement.getApprovedBy(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(auditEngagement.getInitiatedBy(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(auditEngagement.getJobCreation().getStrategic(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
 			}
 
 			logger.info(String.format("(Inside fetchAuditEngagement) fetching AuditEngagement  for jobcreationId : "
@@ -3008,7 +3013,7 @@ public class MySQLRdbHelper {
 		return record;
 	}
 
-	// This will fetch All Objectives for a selected job
+	// This will  All Objectives for a selected job
 	private ArrayList<ActivityObjective> fetchActivityObjectivesForSelectedJob(int jobCreationId, Session session,
 			EngagementDTO engagementDTO) {
 		ArrayList<ActivityObjective> objectivesList = new ArrayList<ActivityObjective>();
@@ -3160,7 +3165,7 @@ public class MySQLRdbHelper {
 		crit.createAlias("strategic.jobType", "jobTypeId");
 	}
 
-	// This will fetch All Selected/Saved Risks for a selected job (users
+	// This will  All Selected/Saved Risks for a selected job (users
 	// library)
 	private ArrayList<RiskObjective> fetchObjectiveRisksForSelectedJob(int jobCreationId, Session session,
 			EngagementDTO engagementDTO) {
@@ -4604,7 +4609,7 @@ public class MySQLRdbHelper {
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.add(Restrictions.eq("jobId", jobid));
 			crit.createAlias("auditWork", "audWork");
-			crit.createAlias("audWork.jobCreationId", "jobCreationId");
+			crit.createAlias("audWork.jobCreationId", "jobCreation");
 			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("audWork.auditWorkId", auditWorkId));// UNDO
 			// 2018,
@@ -4699,6 +4704,7 @@ public class MySQLRdbHelper {
 				HibernateDetachUtility.nullOutUninitializedFields(
 						auditStep.getAuditWork().getSuggestedControlsId().getRiskId(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				
 
 				return auditStep;
 			}
@@ -4726,7 +4732,7 @@ public class MySQLRdbHelper {
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.createAlias("auditWork", "audWork");
-			crit.createAlias("audWork.jobCreationId", "jobCreationId");
+			crit.createAlias("audWork.jobCreationId", "jobCreation");
 			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("status", InternalAuditConstants.SUBMIT));
 
@@ -4834,6 +4840,8 @@ public class MySQLRdbHelper {
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				Exceptions exception = (Exceptions) it.next();
 				HibernateDetachUtility.nullOutUninitializedFields(exception,
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(exception.getJobCreationId().getStrategicId(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				records.add(exception);
 
@@ -5521,7 +5529,7 @@ public class MySQLRdbHelper {
 
 	}
 
-	// FETCH EMPLYEE JOBS FOR which audit steps are approved by Audit Head
+	//  EMPLYEE JOBS FOR which audit steps are approved by Audit Head
 	public ArrayList<JobCreation> fetchEmployeeJobs(Employee loggedInEmployee, int year, int companyId) {
 		Session session = null;
 		ArrayList<Integer> jobIds = fetchjobEmployeeWithApprovedAuditStep(loggedInEmployee.getEmployeeId());
@@ -8818,6 +8826,7 @@ public class MySQLRdbHelper {
 
 	public ArrayList<DashboardListBoxDTO> fetchDashBoardListBoxDTOs(int year, int companyId2) {
 		Session session = null;
+		System.out.println("inside fetchDashBoardListBoxDTOs");
 		ArrayList<DashboardListBoxDTO> dashboardListBoxDTOs = new ArrayList<DashboardListBoxDTO>();
 
 		try {
@@ -8829,8 +8838,11 @@ public class MySQLRdbHelper {
 			dashboardListBox.setJobList(fetchJobs(year, companyId2));
 			dashboardListBoxDTOs.add(dashboardListBox);
 
+			System.out.print("(Inside fetchDashboardListBoxDTO) " + new Date());
 			logger.info(String.format("(Inside fetchDashboardListBoxDTO) " + new Date()));
 		} catch (Exception ex) {
+			System.out.println("Exception occured in fetchDashboardListBoxDTO"+ ex.getMessage());
+
 			logger.warn(String.format("Exception occured in fetchDashboardListBoxDTO", ex.getMessage()), ex);
 
 		} finally {

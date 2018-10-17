@@ -15,10 +15,10 @@ import com.internalaudit.shared.DashBoardNewDTO;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
 public class DashboardAuditWorkStatus extends VerticalLayoutContainer {
-	DashboardListBoxes dashboardlistBox = new DashboardListBoxes();
-
-	public DashboardAuditWorkStatus() {
-
+	
+	private DashboardListBoxes dashboardlistBox;
+	public DashboardAuditWorkStatus(DashboardListBoxes dashboardlistBox) {
+		this.dashboardlistBox = dashboardlistBox;
 		loadData();
 
 		dashboardlistBox.getBtnSearch().addClickHandler(new ClickHandler() {

@@ -20,7 +20,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.event.CreateUserEvent;
-import com.internalaudit.client.event.DashBoardAtStartupEvent;
 import com.internalaudit.client.event.MainEvent;
 import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.shared.Exceptions;
@@ -123,7 +122,6 @@ public class LoginPresenter implements Presenter
 
 	public void signIn(String userName,String password)
 	{
-
 		rpcService.signIn(userName,password, new AsyncCallback<User>()
 				
 
@@ -133,10 +131,10 @@ public class LoginPresenter implements Presenter
 				if(loadingPopup!=null){
 					loadingPopup.remove();
 				}
-//				Window.alert(""+ex.getMessage());
-//				Window.alert(""+ex.getLocalizedMessage());
-//				Window.alert(""+ex.getCause());
-//				Window.alert(""+ex.getStackTrace());
+	//		Window.alert(""+ex.getMessage());
+	///			Window.alert(""+ex.getLocalizedMessage());
+	//			Window.alert(""+ex.getCause());
+	//			Window.alert(""+ex.getStackTrace());
 			}
 
 			public void onSuccess(User user) {

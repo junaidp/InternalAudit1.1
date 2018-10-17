@@ -208,9 +208,12 @@ public class DashboardListBoxes extends VerticalPanel {
 		rpcService.fetchDashBoardListBoxDTOs(new AsyncCallback<ArrayList<DashboardListBoxDTO>>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
+			public void onFailure(Throwable ex) {
 				Window.alert("Fetch Dashboard ListboxDTO faled");								
-
+				Window.alert(""+ex.getMessage());
+				Window.alert(""+ex.getLocalizedMessage());
+				Window.alert(""+ex.getCause());
+				Window.alert(""+ex.getStackTrace());
 			}
 
 			@Override

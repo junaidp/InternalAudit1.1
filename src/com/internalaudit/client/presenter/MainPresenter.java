@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import com.internalaudit.shared.Feedback;
 import com.internalaudit.shared.TimeOutException;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -17,11 +18,11 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.DashboardNew.DashboardNew;
 import com.internalaudit.client.event.AuditEngagementEvent;
 import com.internalaudit.client.event.AuditSchedulingEvent;
 import com.internalaudit.client.event.CreateUserEvent;
@@ -29,17 +30,16 @@ import com.internalaudit.client.event.DashBoardEvent;
 import com.internalaudit.client.event.MainEvent;
 import com.internalaudit.client.event.ReportingEvent;
 import com.internalaudit.client.event.ReportsEvent;
+import com.internalaudit.client.view.AuditPlanningView;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.client.view.PopupsView;
-import com.internalaudit.client.view.PopupsViewWhite;
-import com.internalaudit.client.view.Scheduling.AuditSchedulingView;
 import com.internalaudit.client.widgets.FeedbackWidget;
 import com.internalaudit.shared.User;
 import com.sencha.gxt.widget.core.client.PlainTabPanel;
 import com.sencha.gxt.widget.core.client.TabItemConfig;
 import com.sencha.gxt.widget.core.client.TabPanel;
-import com.sencha.gxt.widget.core.client.info.Info;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
 
 public class MainPresenter implements Presenter 
@@ -51,6 +51,8 @@ public class MainPresenter implements Presenter
 	private Logger logger = Logger.getLogger("DashBoardPresenter");
 	private int selectedYear=0;
 	private User loggedInUser;
+	private DashboardNew dashboardNew =  null;
+	private AuditPlanningView auditPlanningView = null;
 
 
 	public interface Display 
@@ -58,7 +60,7 @@ public class MainPresenter implements Presenter
 		Widget asWidget();
 		User getLoggedInUser();
 		Anchor getLogOut();
-		Label getWelcome();
+		Anchor getWelcome();
 		VerticalPanel getVpnlAuditScheduing();
 		PlainTabPanel getPanel();
 		VerticalPanel getVpnlAuditEngagement();
@@ -69,6 +71,8 @@ public class MainPresenter implements Presenter
 		Anchor getCreateCompany();
 		Anchor getCreateUser();
 		Anchor getFeedBack();
+		VerticalLayoutContainer getVpnlDashBoardNew();
+		VerticalPanel getContainerAuditPlanning();
 		
 	}  
 
@@ -92,7 +96,20 @@ public class MainPresenter implements Presenter
 		
 		fetchCurrentYear();
 		
-		eventBus.fireEvent(new DashBoardEvent(display.getVpnlDashBoard()));
+		final LoadingPopup loading = new LoadingPopup();
+		loading.display();
+		Timer t = new Timer() {
+		      @Override
+		      public void run() {
+		    	 eventBus.fireEvent(new DashBoardEvent(display.getVpnlDashBoard()));
+		    	  loading.remove();
+		      }
+		    };
+
+		    // Schedule the timer to run once in 5 seconds.
+		    t.schedule(5000);
+		
+		
 		
 		display.getCreateUser().addClickHandler(new ClickHandler(){
 
@@ -128,6 +145,13 @@ public class MainPresenter implements Presenter
 		        TabPanel panel = (TabPanel) event.getSource();
 		        Widget w = event.getSelectedItem();
 		        TabItemConfig config = panel.getConfig(w);
+		        
+		        if("Audit Planning".equalsIgnoreCase(config.getText())){
+		        	
+		        	display.getContainerAuditPlanning().clear();
+		        	display.getContainerAuditPlanning().add(getAuditPlanningView());
+		        }
+		        
 		        if("Audit Scheduling".equalsIgnoreCase(config.getText())){
 		        	eventBus.fireEvent(new AuditSchedulingEvent(display.getVpnlAuditScheduing()));
 		        }
@@ -151,8 +175,17 @@ public class MainPresenter implements Presenter
 		          
 				 }
 		        
+		        else if("Analytics".equalsIgnoreCase(config.getText())){
+		        	display.getVpnlDashBoardNew().add( getNewDashBoard());
+		          
+				 }
+		        
 //		        Info.display("", "" + config.getText() + "");
 		      }
+
+			
+
+			
 		    };
 		 
 		    
@@ -188,6 +221,21 @@ public class MainPresenter implements Presenter
 		});
 		
 		display.getWelcome().setText(display.getLoggedInUser().getEmployeeId().getEmployeeName() + " " );
+		
+	}
+	
+	private Widget getAuditPlanningView() {
+		if(auditPlanningView == null){
+		 auditPlanningView = new AuditPlanningView(loggedInUser);
+		}
+		return auditPlanningView;
+	}
+	
+	private Widget getNewDashBoard() {
+		if(dashboardNew == null ){
+			dashboardNew = new DashboardNew();
+		}
+		return dashboardNew;
 		
 	}
 	

@@ -370,7 +370,8 @@ public class KickoffView extends Composite {
 		panelAuditWorkBtn.add(btnApproveAuditWork);
 		ScrollPanel scroll = new ScrollPanel();
 		if(record.getEngagementDTO().getAuditProgrammeList().isEmpty() && record.getEngagementDTO().getSelectedControls().isEmpty()){
-			vpnl.clear();
+		//changedvpn1
+			auditWorkNewContainer.clear();
 		}
 		scroll.setWidget(vpnl);
 		scroll.setHeight("400px");
@@ -449,7 +450,7 @@ public class KickoffView extends Composite {
 		vps.add(vpExistingControl);
 
 		if(record.getEngagementDTO().getSuggestedControlsList().isEmpty() && record.getEngagementDTO().getSelectedObjectiveRisks().isEmpty()){
-			vpExistingControl.clear();
+			vpExistingControlContainer.clear();
 		}
 		
 		//cp.add(panelAdd);
@@ -599,7 +600,7 @@ public class KickoffView extends Composite {
 		hpnlButton.addStyleName("w3-display-bottomright w3-margin");
 
 		if(record.getEngagementDTO().getRiskObjectiveList().isEmpty() && record.getEngagementDTO().getSelectedObjectiveRisks().isEmpty()){
-			verticalPanelKeyRisks.clear();
+			verticalPanelKeyRisksContainer.clear();////////here
 			}
 		
 		v1.add(verticalPanelKeyRisks);
