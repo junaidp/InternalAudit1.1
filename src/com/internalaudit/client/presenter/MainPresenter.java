@@ -101,7 +101,11 @@ public class MainPresenter implements Presenter
 		Timer t = new Timer() {
 		      @Override
 		      public void run() {
+		    	  if(display.getLoggedInUser().getEmployeeId().getFromInternalAuditDept().equalsIgnoreCase("no")){
+		  			eventBus.fireEvent(new ReportingEvent(display.getReportingView()));
+		  		}else{
 		    	 eventBus.fireEvent(new DashBoardEvent(display.getVpnlDashBoard()));
+		  		}
 		    	  loading.remove();
 		      }
 		    };
@@ -134,9 +138,7 @@ public class MainPresenter implements Presenter
 				eventBus.fireEvent(new MainEvent(display.getLoggedInUser()));
 			}});
 		
-		if(display.getLoggedInUser().getEmployeeId().getFromInternalAuditDept().equalsIgnoreCase("no")){
-			eventBus.fireEvent(new ReportingEvent(display.getReportingView()));
-		}
+		
 		
 		
 		SelectionHandler<Widget> handler = new SelectionHandler<Widget>() {

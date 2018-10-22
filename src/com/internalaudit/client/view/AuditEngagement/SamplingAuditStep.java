@@ -4,6 +4,7 @@ import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -18,6 +19,7 @@ public class SamplingAuditStep extends VerticalPanel {
 	LabelHeading lblSampleSize = new LabelHeading();
 	LabelHeading lblSamplingMethod = new LabelHeading();
 	LabelHeading lblPopulationSize = new LabelHeading();
+	LabelHeading lblAuditProcedure = new LabelHeading();
 	
 	TextArea txtAreaControl = new TextArea();
 	ListBox listBoxControlList = new ListBox();
@@ -25,6 +27,8 @@ public class SamplingAuditStep extends VerticalPanel {
 	TextBox lblSampleSizeData = new TextBox();
 	ListBox listBoxSamplingMethod = new ListBox();
 	TextBox lblPopulationData  = new TextBox(); 
+	TextArea txtAreaAuditProcedure = new TextArea();
+	FileUpload fileUpload = new FileUpload();
 	 
 		
 		
@@ -42,6 +46,7 @@ public class SamplingAuditStep extends VerticalPanel {
 		lblSampleSize.setText("Sample Size");
 		lblSamplingMethod.setText("Sampling Method");
 		lblPopulationSize.setText("Population Size");
+		lblAuditProcedure.setText("Audit Procedure Performed");
 		
 
 		
@@ -49,6 +54,8 @@ public class SamplingAuditStep extends VerticalPanel {
 
 		
 		txtAreaControl.getElement().getStyle().setMarginLeft(50, Unit.PX);
+		txtAreaAuditProcedure.getElement().getStyle().setMarginLeft(50, Unit.PX);
+		txtAreaAuditProcedure.addStyleName("w3-border");
 		listBoxControlList.getElement().getStyle().setMarginLeft(50, Unit.PX);
 		listBoxFrequency.getElement().getStyle().setMarginLeft(50, Unit.PX);
 		lblSampleSizeData.getElement().getStyle().setMarginLeft(50, Unit.PX);
@@ -66,6 +73,9 @@ public class SamplingAuditStep extends VerticalPanel {
 	    txtAreaControl.setWidth("300px");
 		txtAreaControl.setHeight("90px");
 	    txtAreaControl.setText("Purchase Order Cannot be Issued untill and Unless vendor is selected by the authorized as per the company's approved policy within the procurement module.");
+	    
+	    txtAreaAuditProcedure.setWidth("300px");
+		txtAreaAuditProcedure.setHeight("80px");
 	    
 		listBoxControlList.addItem("Low", "0");
 		listBoxControlList.addItem("Medium", "1");
@@ -124,6 +134,12 @@ public class SamplingAuditStep extends VerticalPanel {
         
         flex.setWidget(5,0, lblPopulationSize);
         flex.setWidget(5,1,lblPopulationData);
+        
+        flex.setWidget(6,0, lblAuditProcedure);
+        flex.setWidget(6,1,txtAreaAuditProcedure);
+        flex.setWidget(6,2,fileUpload);
+        
+        
       
 		add(flex);
 	}

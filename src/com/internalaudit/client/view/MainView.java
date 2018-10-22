@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.internalaudit.client.event.ReportingEvent;
 import com.internalaudit.client.presenter.MainPresenter.Display;
 import com.internalaudit.client.widgets.TableauAbilite;
 import com.internalaudit.client.widgets.TableauExcel;
@@ -187,6 +188,7 @@ public class MainView extends Composite implements Display {
 		}else{
 			panel.add(reportingView, "Reporting");
 			panel.setActiveWidget(reportingView);
+			
 		}
 		if(loggedInUser.getEmployeeId().getUserId().getUserId() == 1){
 			addTableauTabs();

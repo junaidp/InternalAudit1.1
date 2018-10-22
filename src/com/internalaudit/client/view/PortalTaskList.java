@@ -2,15 +2,9 @@ package com.internalaudit.client.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.cell.client.Cell;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.internalaudit.client.util.CustomImageCell;
-import com.internalaudit.shared.Exceptions;
-import com.internalaudit.shared.InformationRequestEntity;
 import com.internalaudit.shared.TaskRiskEntity;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.ContentPanel;

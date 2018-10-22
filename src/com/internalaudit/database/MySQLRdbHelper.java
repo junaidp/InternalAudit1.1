@@ -2151,7 +2151,7 @@ public class MySQLRdbHelper {
 			// check below line
 			jobCreation.setRelevantDept(job.getDepartments().get(0).getDepartment().getDepartmentName());
 			jobCreation.setYear(year);
-			// jobCreation.setCompanyId(companyId);
+			jobCreation.setCompanyId(companyId);
 			int jobCreationId = fetchJobCreationId(jobCreation.getStrategicId().getId());// if
 			// job
 			// is
@@ -2996,6 +2996,8 @@ public class MySQLRdbHelper {
 				HibernateDetachUtility.nullOutUninitializedFields(auditEngagement.getInitiatedBy(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(auditEngagement.getJobCreation().getStrategic(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(auditEngagement.getEngagementDTO(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 			}
 
@@ -4042,7 +4044,7 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Exceptions.class);
 			crit.createAlias("jobCreationId", "jobCreation");
-			jobsStrategicAlias(crit);
+			//jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("jobCreation.jobCreationId", jobId));
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -4409,7 +4411,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("divisionHead", "divhead");
 			crit.add(Restrictions.eq("employee.employeeId", employeeId));
 			crit.add(Restrictions.eq("initialStatus", "Approved"));
-			crit.add(Restrictions.eq("jobCreationId", jobId));
+			crit.add(Restrictions.eq("jobCreation.jobCreationId", jobId));
 			crit.createAlias("employee.countryId", "employeeCount");
 			crit.createAlias("employee.cityId", "employeeCity");
 			crit.createAlias("employee.reportingTo", "employeeRep");
