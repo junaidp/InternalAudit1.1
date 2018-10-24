@@ -69,6 +69,16 @@
     <url-pattern>/internalaudit/AuditWorkProgramUpload</url-pattern>
   </servlet-mapping>
   
+      <servlet>
+    <servlet-name>EmailAttachmentUploadServlet</servlet-name>
+    <servlet-class>com.internalaudit.server.EmailAttachmentUploadServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>EmailAttachmentUploadServlet</servlet-name>
+    <url-pattern>/internalaudit/EmailAttachmentUpload</url-pattern>
+  </servlet-mapping>
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>InternalAudit.html</welcome-file>

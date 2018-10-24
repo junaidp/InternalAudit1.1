@@ -9,6 +9,9 @@
 	text-align: left !important;
 	text-decoration: none !important;
 }
+.submitButton{
+	color: #32CD32;
+}
 	</ui:style>
 	<g:HTMLPanel styleName='{style.loginbody}'>
 		<html>
@@ -81,8 +84,12 @@
 
 						<div class="footer">
 							
-							<g:Button ui:field="btnSubmit" styleName="button">Submit</g:Button>
+							<g:HorizontalPanel>
+							<g:Button ui:field="btnSubmit" width="230px"  styleName="w3-button  w3-border w3-border-blue w3-round-xxlarge w3-hover-blue ">Submit</g:Button>
+							</g:HorizontalPanel>
+							<g:HorizontalPanel>
 							<g:Anchor ui:field="requestUserName" styleName="register">Request username</g:Anchor>
+							</g:HorizontalPanel>
 						</div>
 
 					</form>

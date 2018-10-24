@@ -3,7 +3,7 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:A="urn:import:com.internalaudit.client.view.AuditEngagement">
 	<ui:style>
 	.heading{
-	font-size: 18px;
+	
 }
 	</ui:style>
 	<g:HTMLPanel>

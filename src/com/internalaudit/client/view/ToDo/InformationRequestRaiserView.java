@@ -1,4 +1,4 @@
-package com.internalaudit.client.view;
+package com.internalaudit.client.view.ToDo;
 
 import java.util.ArrayList;
 
@@ -18,12 +18,13 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.InformationRequestEntity;
 import com.internalaudit.shared.JobCreation;
 import com.sencha.gxt.chart.client.draw.engine.SVG.TextBBox;
 
-public class InformationRequestView extends Composite {
+public class InformationRequestRaiserView extends Composite {
 	@UiField
 	TextBox txtBoxRequestItem;
 	@UiField
@@ -49,10 +50,10 @@ public class InformationRequestView extends Composite {
 
 	private static InformationRequestViewUiBinder uiBinder = GWT.create(InformationRequestViewUiBinder.class);
 
-	interface InformationRequestViewUiBinder extends UiBinder<Widget, InformationRequestView> {
+	interface InformationRequestViewUiBinder extends UiBinder<Widget, InformationRequestRaiserView> {
 	}
 
-	public InformationRequestView() {
+	public InformationRequestRaiserView() {
 		initWidget(uiBinder.createAndBindUi(this));
 		rpcService = GWT.create(InternalAuditService.class);
 		fetchEmployees();

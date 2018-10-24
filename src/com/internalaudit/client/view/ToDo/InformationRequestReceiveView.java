@@ -1,4 +1,4 @@
-package com.internalaudit.client.view;
+package com.internalaudit.client.view.ToDo;
 
 import java.util.ArrayList;
 
@@ -17,11 +17,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.upload.EmailAttachmentUpload;
+import com.internalaudit.client.view.ButtonRound;
+import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.shared.ToDo;
 import com.sencha.gxt.widget.core.client.form.TextArea;
 
-public class EmailView extends VerticalPanel {
+public class InformationRequestReceiveView extends VerticalPanel {
 	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
 	VerticalPanel panelMain = new VerticalPanel();
 	HorizontalPanel PanelUpButton = new HorizontalPanel();
@@ -50,7 +52,7 @@ public class EmailView extends VerticalPanel {
 	HorizontalPanel panelFileDetail = new HorizontalPanel();
 //	final VerticalPanel panelFileName = new VerticalPanel();
 
-	public EmailView(final ToDo toDo){
+	public InformationRequestReceiveView(final ToDo toDo){
 		rpcService.fetchEmailAttachments(new AsyncCallback<ArrayList<String>>() {
 			FlexTable records = new FlexTable();
 			@Override

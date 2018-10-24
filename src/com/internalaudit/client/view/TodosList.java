@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.internalaudit.client.view.ToDo.InformationRequestReceiveView;
 import com.internalaudit.shared.ToDo;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
@@ -46,7 +47,7 @@ public class TodosList extends VerticalLayoutContainer {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					final EmailView emailView = new EmailView(todo);
+					final InformationRequestReceiveView emailView = new InformationRequestReceiveView(todo);
 					PopupsView pp = new PopupsView(emailView, "");
 					pp.getLabelheading().setText("Todos View");
 					pp.getVpnlMain().setTitle("Email View");

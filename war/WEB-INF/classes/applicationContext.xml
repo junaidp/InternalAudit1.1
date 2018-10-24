@@ -12,7 +12,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
   	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost/abilite" />
+		<property name="url" value="jdbc:mysql://localhost/abiliteclean" />
 		<property name="username" value="root" />
 		<property name="password" value="0502" />
 
@@ -71,6 +71,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 				<value>com.internalaudit.shared.AuditProgramme</value>
 				<value>com.internalaudit.shared.ObjectiveJobRelation</value>
 				<value>com.internalaudit.shared.RiskJobRelation</value>
+				<value>com.internalaudit.shared.ToDo</value>
+				<value>com.internalaudit.shared.InformationRequestEntity</value>
 				
 				
 			</list>

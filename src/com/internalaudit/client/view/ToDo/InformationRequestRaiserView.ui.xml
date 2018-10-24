@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:d="urn:import:com.google.gwt.user.datepicker.client" xmlns:m="urn:import:com.sencha.gxt.widget.core.client.menu">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:d="urn:import:com.google.gwt.user.datepicker.client" xmlns:m="urn:import:com.sencha.gxt.widget.core.client.menu" xmlns:v="urn:import:com.internalaudit.client.view" xmlns:f="urn:import:org.apache.commons.fileupload">
 	<ui:style>
 	.padding{
 	padding-top: 20px;
@@ -12,10 +12,12 @@
 	</ui:style>
 	<g:HTMLPanel>
 	<g:VerticalPanel addStyleNames="w3-panel w3-pale-green">
-	<g:Label>Request Item</g:Label>
-	<g:TextBox ui:field="txtBoxRequestItem" width="300px" height="100px"></g:TextBox>
-	<g:Label addStyleNames="{style.padding}">Contact Responsible</g:Label>
-	<g:ListBox ui:field="listBoxContact" width="250px"></g:ListBox>
+	<g:HorizontalPanel>
+	<g:Label >Contact Responsible</g:Label>
+	<g:ListBox ui:field="listBoxContact" width="150px"></g:ListBox>
+	<g:Label >Due Date</g:Label>
+	<d:DateBox ui:field="dueDate" ></d:DateBox>
+	</g:HorizontalPanel>
 	<g:Label addStyleNames="{style.padding}">Jobs</g:Label>
 	<g:ListBox ui:field="listBoxJobs" width="250px"></g:ListBox>
 	
@@ -23,8 +25,13 @@
 	<g:TextBox ui:field="txtBoxEmail" width="250px"></g:TextBox>
 <g:CheckBox ui:field="checkBoxNotification"  text="send notification now"></g:CheckBox>
 <g:CheckBox ui:field="checkBoxReminder" text="send recurring reminders[currently considered to once a week]"></g:CheckBox>
-	<g:Label addStyleNames="{style.padding}">Due Date</g:Label>
-	<d:DateBox ui:field="dueDate" ></d:DateBox>
+	<g:Label>Request Item</g:Label>
+	<g:TextBox ui:field="txtBoxRequestItem" width="300px" height="100px"></g:TextBox>
+
+	<g:FileUpload></g:FileUpload>
+	<g:VerticalPanel height="80px" styleName="w3-border">
+	<g:Anchor text="uploaded file"></g:Anchor>
+	</g:VerticalPanel>
 	<g:Label addStyleNames="{style.padding}">Status</g:Label>
 	<g:ListBox ui:field="listBoxStatus">
 	 <g:item>

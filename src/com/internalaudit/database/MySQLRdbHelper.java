@@ -3397,9 +3397,9 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(AuditEngagement.class);
-			crit.createAlias("jobCreationId", "jobCreat");
-			jobsStrategicAlias(crit);
-			crit.add(Restrictions.eq("jobCreat.jobCreationId", jobCreationId));
+			crit.createAlias("jobCreationId", "jobCreation");
+			//jobsStrategicAlias(crit);
+			crit.add(Restrictions.eq("jobCreation.jobCreationId", jobCreationId));
 			if (crit.list().size() > 0) {
 				alreadySaved = true;
 			} else {

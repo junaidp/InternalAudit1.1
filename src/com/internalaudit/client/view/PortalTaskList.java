@@ -1,7 +1,6 @@
 package com.internalaudit.client.view;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;

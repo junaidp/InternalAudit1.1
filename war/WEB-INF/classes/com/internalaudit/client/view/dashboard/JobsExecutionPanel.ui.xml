@@ -6,11 +6,11 @@
 		font-weight: bold;
 	}
 	</ui:style>
-	<g:HTMLPanel styleName="blueBackground" ui:field="background">
+	<g:HTMLPanel styleName="w3-container w3-card-4 w3-blue" ui:field="background">
 		<div styleName="withPadding">
-		<g:Label styleName="whiteBoldLeftPadded" ui:field="heading">Jobs In Execution</g:Label>
+		<g:Label styleName="whiteBoldLeftPadded " ui:field="heading">Jobs In Execution</g:Label>
 		</div>
-		<div styleName="withMorePadding">
+		<div >
 		<g:VerticalPanel ui:field="container" width="200px" height="100%">
 		
 		</g:VerticalPanel>

@@ -1,16 +1,31 @@
 package com.internalaudit.client.view;
 
+import java.util.ArrayList;
+
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.internalaudit.client.InternalAuditService;
+import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.DashboardNew.PortalInformationRequest;
+import com.internalaudit.client.view.ToDo.InformationRequestRaisePortal;
+import com.internalaudit.client.view.ToDo.InformationRequestRaiserView;
+import com.internalaudit.client.view.ToDo.InformationRequestReceiveView;
+import com.internalaudit.client.view.ToDo.InformationRequestReceiverPortal;
+import com.internalaudit.client.view.ToDo.ToDoRaiserPortal;
+import com.internalaudit.client.view.ToDo.ToDoRaiserView;
+import com.internalaudit.client.view.ToDo.ToDoReceiverPortal;
+import com.internalaudit.shared.DashBoardNewDTO;
+import com.internalaudit.shared.InformationRequestEntity;
 import com.internalaudit.shared.User;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
 public class SideBarView extends VerticalLayoutContainer {
-	
+	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
 	 final MainViewNew mv = new MainViewNew();
 	 
 	 
@@ -104,28 +119,59 @@ public class SideBarView extends VerticalLayoutContainer {
 				
 				@Override
 				public void onClick(ClickEvent event) {
-					ToDoView todoview = new ToDoView();
+					rpcService.fetchDashboard(null, new AsyncCallback<DashBoardNewDTO>() {
+
+						@Override
+						public void onFailure(Throwable arg0) {
+							Window.alert("fetchDashboard fail");
+						}
+
+						@Override
+						public void onSuccess(DashBoardNewDTO dashboard) {
+							
+							ToDoRaiserPortal p = new ToDoRaiserPortal(dashboard.getTodo());
+							PopupsView pp = new PopupsView(p, "");
+							 pp = new PopupsView(p, "");
+							pp.getLabelheading().setText("InformationRequestRaiser");
+							pp.getVpnlMain().setTitle("TaskList");
+							pp.getVpnlMain().setWidth("800px");
+							pp.getVpnlMain().setHeight("530px");
+						}
+
 					
-					PopupsView pp = new PopupsView(todoview, "");
-					pp.getLabelheading().setText("To Do");
-					pp.getVpnlMain().setWidth("320px");
-					pp.getHpnlSPace().setWidth("320px");
-					pp.getVpnlMain().setHeight("320px");
+				});
+			
+
 					}
 			});
 			 ImgMenu.setTitle("Information Request");
 			 ImgMenu.addClickHandler(new ClickHandler() {
-					
-					@Override
+				 @Override
 					public void onClick(ClickEvent event) {
-						final InformationRequestView informationreq = new InformationRequestView();
-						PopupsView pp = new PopupsView(informationreq, "");
-						pp.getLabelheading().setText("Information Request");
-						pp.getVpnlMain().setTitle("Information Request");
-						pp.getVpnlMain().setWidth("400px");
-						pp.getHpnlSPace().setWidth("400px");
-						pp.getVpnlMain().setHeight("530px");
+						rpcService.fetchDashboard(null, new AsyncCallback<DashBoardNewDTO>() {
 
+							@Override
+							public void onFailure(Throwable arg0) {
+								Window.alert("fetchDashboard fail");
+							}
+
+							@Override
+							public void onSuccess(DashBoardNewDTO dashboard) {
+								
+								InformationRequestRaisePortal p = new InformationRequestRaisePortal(dashboard.getInformationRequests());
+								PopupsView pp = new PopupsView(p, "");
+								 pp = new PopupsView(p, "");
+								pp.getLabelheading().setText("InformationRequestRaiser");
+								pp.getVpnlMain().setTitle("TaskList");
+								pp.getVpnlMain().setWidth("800px");
+								pp.getVpnlMain().setHeight("530px");
+							}
+
+						
+					});
+				
+					
+						
 					}
 				});
 			 ImgSecuirity.setTitle("EmailView");
@@ -133,7 +179,7 @@ public class SideBarView extends VerticalLayoutContainer {
 					
 					@Override
 					public void onClick(ClickEvent event) {
-						final EmailView emailView = new EmailView(loggedInUser.getTodos().get(loggedInUser.getTodos().size()-1));
+						final ToDoRaiserView emailView = new ToDoRaiserView(loggedInUser.getTodos().get(loggedInUser.getTodos().size()-1));
 						PopupsView pp = new PopupsView(emailView, "");
 						pp.getLabelheading().setText("Email View");
 						pp.getVpnlMain().setTitle("Email View");
@@ -148,15 +194,28 @@ public class SideBarView extends VerticalLayoutContainer {
 					
 					@Override
 					public void onClick(ClickEvent event) {
+						rpcService.fetchDashboard(null, new AsyncCallback<DashBoardNewDTO>() {
+
+							@Override
+							public void onFailure(Throwable arg0) {
+								Window.alert("fetchDashboard fail");
+							}
+
+							@Override
+							public void onSuccess(DashBoardNewDTO dashboard) {
+								InformationRequestReceiverPortal p = new InformationRequestReceiverPortal(dashboard.getInformationRequests());
+								PopupsView pp = new PopupsView(p, "");
+								pp = new PopupsView(p, "");
+								pp.getLabelheading().setText("InformationRequestReviewer");
+								pp.getVpnlMain().setTitle("TaskList");
+								pp.getVpnlMain().setWidth("800px");
+								pp.getVpnlMain().setHeight("530px");
+							}
+
 						
-						PortalTaskList p = new PortalTaskList();
-						PopupsView pp = new PopupsView(p, "");
-						 pp = new PopupsView(p, "");
-						pp.getLabelheading().setText("Task List");
-						pp.getVpnlMain().setTitle("TaskList");
-						pp.getVpnlMain().setWidth("800px");
-					//	pp.getHpnlSPace().setWidth("400px");
-						pp.getVpnlMain().setHeight("530px");
+					});
+				
+					                                                 
 						
 					}
 				});
@@ -174,6 +233,46 @@ public class SideBarView extends VerticalLayoutContainer {
 						
 					}
 				});
+				 
+					ImgCloseCircular .addClickHandler(new ClickHandler() {
+						
+						@Override
+						public void onClick(ClickEvent event) {
+							
+							
+						}
+					});
+					 
+					ImgControls .addClickHandler(new ClickHandler() {
+						
+						@Override
+						public void onClick(ClickEvent event) {
+							rpcService.fetchDashboard(null, new AsyncCallback<DashBoardNewDTO>() {
+
+								@Override
+								public void onFailure(Throwable arg0) {
+									Window.alert("fetchDashboard fail");
+								}
+
+								@Override
+								public void onSuccess(DashBoardNewDTO dashboard) {
+									ToDoReceiverPortal p = new ToDoReceiverPortal(dashboard.getTodo());
+									PopupsView pp = new PopupsView(p, "");
+									pp = new PopupsView(p, "");
+									pp.getLabelheading().setText("ToDoReceiverPortal");
+									pp.getVpnlMain().setTitle("TaskList");
+									pp.getVpnlMain().setWidth("800px");
+									pp.getVpnlMain().setHeight("530px");
+								}
+
+							
+						});
+					
+						}
+					});
+					
+			
+	
 	}
 	
 	public Image getImgMenu() {
