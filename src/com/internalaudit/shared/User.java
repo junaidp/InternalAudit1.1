@@ -42,6 +42,9 @@ public class User   implements Serializable {
 	@Transient
 	private ArrayList<ToDo> todos;
 	
+	@Transient
+	private ArrayList<InformationRequestEntity> informationRequests ;
+	
 	public User(){}
 
 
@@ -102,6 +105,16 @@ public class User   implements Serializable {
 
 	public void setTodos(ArrayList<ToDo> todos) {
 		this.todos = todos;
+	}
+
+
+	public ArrayList<InformationRequestEntity> getInformationRequests() {
+		return informationRequests;
+	}
+
+
+	public void setInformationRequests(ArrayList<InformationRequestEntity> informationRequests) {
+		this.informationRequests = informationRequests;
 	}
 
 

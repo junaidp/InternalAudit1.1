@@ -47,13 +47,13 @@ public class TodosList extends VerticalLayoutContainer {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					final InformationRequestReceiveView emailView = new InformationRequestReceiveView(todo);
-					PopupsView pp = new PopupsView(emailView, "");
-					pp.getLabelheading().setText("Todos View");
-					pp.getVpnlMain().setTitle("Email View");
-					pp.getVpnlMain().setWidth("600px");
-					pp.getHpnlSPace().setWidth("600px");
-					pp.getVpnlMain().setHeight("530px");
+//					final InformationRequestReceiveView emailView = new InformationRequestReceiveView(todo);
+//					PopupsView pp = new PopupsView(emailView, "");
+//					pp.getLabelheading().setText("Todos View");
+//					pp.getVpnlMain().setTitle("Email View");
+//					pp.getVpnlMain().setWidth("600px");
+//					pp.getHpnlSPace().setWidth("600px");
+//					pp.getVpnlMain().setHeight("530px");
 
 					
 

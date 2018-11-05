@@ -28,9 +28,9 @@
 	
 	<g:HorizontalPanel spacing="5">
 		
-		<A:LabelHeading  >Conclusion</A:LabelHeading>
+		<A:LabelHeading >Conclusion</A:LabelHeading>
 		
-		<g:ListBox ui:field="conclusion" >
+		<g:ListBox ui:field="conclusion"  >
 			<g:item>Satisfactory</g:item>
 			<g:item>Non-Satisfactory</g:item>
 		</g:ListBox>

@@ -70,11 +70,11 @@ public class SamplingAuditStep extends VerticalPanel {
 		lblPopulationData.setEnabled(false);
 		
 	
-	    txtAreaControl.setWidth("300px");
+	    txtAreaControl.setWidth("400px");
 		txtAreaControl.setHeight("90px");
 	    txtAreaControl.setText("Purchase Order Cannot be Issued untill and Unless vendor is selected by the authorized as per the company's approved policy within the procurement module.");
 	    
-	    txtAreaAuditProcedure.setWidth("300px");
+	    txtAreaAuditProcedure.setWidth("400px");
 		txtAreaAuditProcedure.setHeight("80px");
 	    
 		listBoxControlList.addItem("Low", "0");
@@ -116,28 +116,29 @@ public class SamplingAuditStep extends VerticalPanel {
         
         
         FlexTable flex = new FlexTable();
-     
+       
         flex.setWidget(0,0, lblControl);
         flex.setWidget(0,1,txtAreaControl);
         
         flex.setWidget(1,0, lblControlList);
         flex.setWidget(1,1,listBoxControlList);
         
+        
         flex.setWidget(2,0, lblFrequency);
         flex.setWidget(2,1,listBoxFrequency);
         
-        flex.setWidget(3,0, lblSampleSize);
-        flex.setWidget(3,1,lblSampleSizeData);
+        flex.setWidget(3,2, lblSampleSize);
+        flex.setWidget(3,3,lblSampleSizeData);
         
-        flex.setWidget(4,0, lblSamplingMethod);
-        flex.setWidget(4,1,listBoxSamplingMethod);
+        flex.setWidget(1,2, lblSamplingMethod);
+        flex.setWidget(1,3,listBoxSamplingMethod);
         
-        flex.setWidget(5,0, lblPopulationSize);
-        flex.setWidget(5,1,lblPopulationData);
+        flex.setWidget(2,2, lblPopulationSize);
+        flex.setWidget(2,3,lblPopulationData);
         
-        flex.setWidget(6,0, lblAuditProcedure);
-        flex.setWidget(6,1,txtAreaAuditProcedure);
-        flex.setWidget(6,2,fileUpload);
+        flex.setWidget(4,0, lblAuditProcedure);
+        flex.setWidget(4,1,txtAreaAuditProcedure);
+        flex.setWidget(4,2,fileUpload);
         
         
       

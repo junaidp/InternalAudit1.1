@@ -153,6 +153,7 @@ public class MySQLRdbHelper {
 				users = (User) it.next();
 
 				users.setTodos(fetchUsersTodos(users.getEmployeeId()));
+				users.setInformationRequests(fetchInformationUserRequest(users.getEmployeeId()));
 				// create a method in mysql class to  Todo where userid =
 				// users.getEmployeeId().getEmployeeId(), set it here
 
@@ -179,6 +180,39 @@ public class MySQLRdbHelper {
 		// sendEmailWithAttachment("", "hamzariaz1994@gmail.com", "",
 		// "Testing");
 		return users;
+	}
+
+
+
+	private ArrayList<InformationRequestEntity> fetchInformationUserRequest(Employee employeeId) {
+		Session session = null;
+		ArrayList<InformationRequestEntity> informationRequests = new ArrayList<InformationRequestEntity>();
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(InformationRequestEntity.class);
+			crit.createAlias("contactResponsible", "assignedto");
+			crit.createAlias("assignedFrom", "assignedfrom");
+			crit.add(Restrictions.eq("contactResponsible.employeeId", employeeId.getEmployeeId()));
+
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				InformationRequestEntity informationRequest = (InformationRequestEntity) it.next();
+				HibernateDetachUtility.nullOutUninitializedFields(informationRequest,
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(informationRequest.getAssignedFrom(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(informationRequest.getContactResponsible(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				informationRequests.add(informationRequest);
+			}
+			logger.info(String.format("Inside fetchInformationUserRequest() " + new Date()));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchInformationUserRequest()", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+		return informationRequests;
 	}
 
 	private ArrayList<ToDo> fetchUsersTodos(Employee employeeId) {

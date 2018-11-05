@@ -4,16 +4,23 @@ package com.internalaudit.client.view.ToDo;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.internalaudit.client.view.PopupsView;
+import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.Exceptions;
 import com.internalaudit.shared.InformationRequestEntity;
 import com.internalaudit.shared.ToDo;
+import com.sencha.gxt.cell.core.client.TextButtonCell;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.event.SelectEvent;
+import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
@@ -26,8 +33,9 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 	protected static final int PREFERRED_WIDTH = 1;
 	  private ContentPanel panel;
 	private static final ToDoReceiverProperties properties = GWT.create(ToDoReceiverProperties.class);
-
-	private List<ToDoReceiverEntity> informationRequests = new ArrayList<ToDoReceiverEntity>();
+	TextButtonCell button = new TextButtonCell() ;
+	ListStore<ToDoReceiverEntity> store ;
+	private List<ToDoReceiverEntity> toDoRequests = new ArrayList<ToDoReceiverEntity>();
 
 	public ToDoReceiverPortal(ArrayList<ToDo> arrayList) {
 		setData(arrayList);
@@ -43,9 +51,9 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 			issue.setId(arrayList.get(i).getToDoId());
 			issue.setRequestedItem(arrayList.get(i).getDescription());
 			issue.setRelatedJob(arrayList.get(i).getJob().getJobName());
-			issue.setRaisedBy(arrayList.get(i).getAssignedFrom().getEmployeeName());
+			issue.setRaisedBy(arrayList.get(i).getAssignedFrom());
 			issue.setOverDueDays(arrayList.get(i).getDueDate().toString());
-			informationRequests.add(issue);
+			toDoRequests.add(issue);
 		}	
 //		}
 	}
@@ -53,17 +61,43 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 	public Widget createGridFieldWork() {
 
 		ColumnConfig<ToDoReceiverEntity, Integer> informationId = new ColumnConfig<ToDoReceiverEntity, Integer>(properties.id(), 50, "Sr#");
-		ColumnConfig<ToDoReceiverEntity, String> requestedItem = new ColumnConfig<ToDoReceiverEntity, String>(properties.requestedItem(), 190,
+		ColumnConfig<ToDoReceiverEntity, String> requestedItem = new ColumnConfig<ToDoReceiverEntity, String>(properties.requestedItem(), 170,
 				"Task");
-		ColumnConfig<ToDoReceiverEntity, String> informationRaisedBy = new ColumnConfig<ToDoReceiverEntity, String>(properties.raisedBy(),
-				130, "Asigned By");
-		ColumnConfig<ToDoReceiverEntity, String> relatedJob = new ColumnConfig<ToDoReceiverEntity, String>(properties.relatedJob(), 130, " Job");
+		ColumnConfig<ToDoReceiverEntity, Employee> informationRaisedBy = new ColumnConfig<ToDoReceiverEntity, Employee>(properties.raisedBy(),
+				120, "Asigned By");
+		ColumnConfig<ToDoReceiverEntity, String> relatedJob = new ColumnConfig<ToDoReceiverEntity, String>(properties.relatedJob(), 110, " Job");
 		
 		
-		ColumnConfig<ToDoReceiverEntity, String> informationOverDue = new ColumnConfig<ToDoReceiverEntity, String>(properties.overDueDays(), 180, "Due Date");
-		ColumnConfig<ToDoReceiverEntity, String> informationStatus = new ColumnConfig<ToDoReceiverEntity, String>(properties.status(), 130, "status");
-		Anchor a = new  Anchor();
-		//ColumnConfig<ToDoReceiverEntity, a> view = new ColumnConfig<ToDoReceiverEntity, a>(properties.status(), 130, "status"));
+		ColumnConfig<ToDoReceiverEntity, String> informationOverDue = new ColumnConfig<ToDoReceiverEntity, String>(properties.overDueDays(), 160, "Due Date");
+		ColumnConfig<ToDoReceiverEntity, String> informationStatus = new ColumnConfig<ToDoReceiverEntity, String>(properties.status(), 110, "status");
+		ColumnConfig<ToDoReceiverEntity, String> viewButton = new ColumnConfig<ToDoReceiverEntity, String>(properties.viewButton(), 100, "");
+
+
+	      button.setText("view");
+	      
+	    
+	      
+	      button.addSelectHandler(new SelectHandler() {
+	          @Override
+	          public void onSelect(SelectEvent event) {
+	            Context c = event.getContext();
+	            int row = c.getIndex();
+	            ToDoReceiverEntity toDo = store.get(row);
+	            ToDoRaiserView toDoReceiverView = new ToDoRaiserView(toDo);
+	            PopupsView pp = new PopupsView(toDoReceiverView, "");
+				pp.getLabelheading().setText("ToDo Receiver");
+				pp.getVpnlMain().setTitle("Todos");
+				pp.getVpnlMain().setWidth("600px");
+				pp.getHpnlSPace().setWidth("600px");
+				pp.getVpnlMain().setHeight("530px");
+	   
+	          }
+	        });
+	
+	     
+	     
+	viewButton.setCell(button);
+		
 		List<ColumnConfig<ToDoReceiverEntity, ?>> columns = new ArrayList<ColumnConfig<ToDoReceiverEntity, ?>>();
 		columns.add(informationId);
 		columns.add(requestedItem);
@@ -71,12 +105,12 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 		columns.add(relatedJob);
 		columns.add(informationOverDue);
 		columns.add(informationStatus);
-		//columns.add(a);
+		columns.add(viewButton);
 
 		ColumnModel<ToDoReceiverEntity> cm = new ColumnModel<ToDoReceiverEntity>(columns);
 
-		ListStore<ToDoReceiverEntity> store = new ListStore<ToDoReceiverEntity>(properties.key());
-		store.addAll(informationRequests);
+		store = new ListStore<ToDoReceiverEntity>(properties.key());
+		store.addAll(toDoRequests);
 
 		final Grid<ToDoReceiverEntity> grid = new Grid<ToDoReceiverEntity>(store, cm);
 		//grid.setWidth(600);

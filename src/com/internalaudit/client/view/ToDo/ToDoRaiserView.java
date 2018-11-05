@@ -34,7 +34,7 @@ public class ToDoRaiserView extends VerticalPanel {
 	LabelHeading lblIr = new LabelHeading();
 	Label lblIrData = new Label(":123");
 	LabelHeading lblDate = new LabelHeading();
-	Label lblDateData = new Label("28-sep-2018");
+	Label lblDateData = new Label("");
 	Label lblSpace = new Label();
 	LabelHeading lblJob = new LabelHeading();
 	LabelHeading lblAssignedTo = new LabelHeading();
@@ -55,7 +55,7 @@ public class ToDoRaiserView extends VerticalPanel {
 	HorizontalPanel panelFileDetail = new HorizontalPanel();
 //	final VerticalPanel panelFileName = new VerticalPanel();
 
-	public ToDoRaiserView(final ToDo toDo){
+	public ToDoRaiserView(final ToDoReceiverEntity toDo){
 		rpcService.fetchEmailAttachments(new AsyncCallback<ArrayList<String>>() {
 			FlexTable records = new FlexTable();
 			@Override
@@ -97,11 +97,12 @@ public class ToDoRaiserView extends VerticalPanel {
 			}
 
 		});
-		lblIrData.setText(toDo.getToDoId()+"");
-		lblJobData.setText(toDo.getJob().getJobName());
-		lblAssignedToData.setText(toDo.getAssignedTo().getEmployeeName());
+		lblIrData.setText(toDo.getId()+"");
+		lblJobData.setText(toDo.getRelatedJob());
+		lblAssignedToData.setText(toDo.getRaisedBy().getEmployeeName());
+		lblDateData.setText(toDo.getOverDueDays().toString());
 
-		lblEmailData.setText(toDo.getDescription());
+		lblEmailData.setText(toDo.getRequestedItem());
 		setWidth("600px");
 		setHeight("700px");
 		panelMain.addStyleName("w3-border");
@@ -196,11 +197,14 @@ public class ToDoRaiserView extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				//final ToDo todo = new ToDo();
-				//toDo.setDescription(toDo.getDescription());
-				toDo.setRespond(txtAreaReply.getText());
-				toDo.setAssignedTo(toDo.getAssignedFrom());
-				rpcService.savetoDo(toDo, new AsyncCallback<String>() {
+				final ToDo todoEntity = new ToDo();
+				todoEntity.setToDoId(toDo.getId());
+				todoEntity.setDescription(toDo.getRequestedItem());
+				todoEntity.setRespond(txtAreaReply.getText());
+				todoEntity.setAssignedTo(toDo.getRaisedBy());
+				//todoEntity.setJob(toDo.getRelatedJob());
+				//todoEntity.setDueDate(toDo.getOverDueDays());
+				rpcService.savetoDo(todoEntity, new AsyncCallback<String>() {
 
 					@Override
 					public void onFailure(Throwable caught) {

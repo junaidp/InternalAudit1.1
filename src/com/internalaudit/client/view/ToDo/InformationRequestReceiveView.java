@@ -20,6 +20,7 @@ import com.internalaudit.client.upload.EmailAttachmentUpload;
 import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.AuditEngagement.LabelHeading;
+import com.internalaudit.shared.InformationRequestEntity;
 import com.internalaudit.shared.ToDo;
 import com.sencha.gxt.widget.core.client.form.TextArea;
 
@@ -52,7 +53,7 @@ public class InformationRequestReceiveView extends VerticalPanel {
 	HorizontalPanel panelFileDetail = new HorizontalPanel();
 //	final VerticalPanel panelFileName = new VerticalPanel();
 
-	public InformationRequestReceiveView(final ToDo toDo){
+	public InformationRequestReceiveView(final InformationRequestReceiverEntity informationRequest){
 		rpcService.fetchEmailAttachments(new AsyncCallback<ArrayList<String>>() {
 			FlexTable records = new FlexTable();
 			@Override
@@ -94,10 +95,10 @@ public class InformationRequestReceiveView extends VerticalPanel {
 			}
 
 		});
-		lblIrData.setText(toDo.getToDoId()+"");
-		lblRequestedData.setText(toDo.getAssignedFrom().getEmployeeName());
+		lblIrData.setText(informationRequest.getId()+"");
+		lblRequestedData.setText(informationRequest.getRaisedBy());
 
-		lblEmailData.setText(toDo.getDescription());
+		lblEmailData.setText(informationRequest.getRequestedItem());
 		setWidth("600px");
 		setHeight("700px");
 		panelMain.addStyleName("w3-border");
@@ -181,31 +182,31 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		add(panelFileUpload);
 		add(panelFileDetail);
 
-		btnSubmit.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				//final ToDo todo = new ToDo();
-				//toDo.setDescription(toDo.getDescription());
-				toDo.setRespond(txtAreaReply.getText());
-				toDo.setAssignedTo(toDo.getAssignedFrom());
-				rpcService.savetoDo(toDo, new AsyncCallback<String>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert("save Todo failed");
-					}
-
-					@Override
-					public void onSuccess(String result) {
-					
-						new DisplayAlert(result);
-					}
-				});
-
-			}
-		});
-
+//		btnSubmit.addClickHandler(new ClickHandler() {
+//
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				//final ToDo todo = new ToDo();
+//				//toDo.setDescription(toDo.getDescription());
+//				toDo.setRespond(txtAreaReply.getText());
+//				toDo.setAssignedTo(toDo.getAssignedFrom());
+//				rpcService.savetoDo(toDo, new AsyncCallback<String>() {
+//
+//					@Override
+//					public void onFailure(Throwable caught) {
+//						Window.alert("save Todo failed");
+//					}
+//
+//					@Override
+//					public void onSuccess(String result) {
+//					
+//						new DisplayAlert(result);
+//					}
+//				});
+//
+//			}
+//		});
+//
 	}
 
 

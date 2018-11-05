@@ -7,8 +7,8 @@
 	border-width: 1px;
 	
 }
-.date{
-	margin-left: 550px;
+.margin{
+	margin-right:50px;
 }
 .lblSubject{
 	font-weight:bold;
@@ -24,52 +24,68 @@
 	<A:LabelHeading addStyleNames="{style.heading}" > Audit Notification </A:LabelHeading>
 	<g:VerticalPanel width="800px" height="300px">
 		<g:HorizontalPanel>
-		<A:LabelHeading text="Memo No:"  addStyleNames=" w3-light-blue"></A:LabelHeading>
-		</g:HorizontalPanel>
-		<g:HorizontalPanel>
-			<g:VerticalPanel>
-			<A:LabelHeading text="Our Reference Number"  ></A:LabelHeading>
-			<g:TextBox text="Company name Internal Audit"  ui:field="txtBoxReference" width="200px"></g:TextBox>
+		<g:VerticalPanel>
+		<A:LabelHeading text="Memo No:"  addStyleNames=" w3-light-blue {style.margin}"></A:LabelHeading>
+		</g:VerticalPanel>
+		<g:VerticalPanel>
+		<g:Label text="mem No" addStyleNames="w3-panel  {style.margin}"></g:Label>
+		</g:VerticalPanel>
+		<g:VerticalPanel >
+			<A:LabelHeading text="Date"  addStyleNames=" w3-light-blue {style.margin}" ></A:LabelHeading>
 			</g:VerticalPanel>
-			<g:VerticalPanel addStyleNames="{style.date}">
-			<A:LabelHeading text="Date"  addStyleNames=" w3-light-blue" ></A:LabelHeading>
+			<g:VerticalPanel>
 			<d:DateBox></d:DateBox>
 			</g:VerticalPanel>
 		</g:HorizontalPanel>
-			<g:HorizontalPanel>
+		
+		
+		<g:HorizontalPanel>
 			<g:VerticalPanel>
-			<A:LabelHeading text="From"  addStyleNames=" w3-light-blue" ></A:LabelHeading>
+			<A:LabelHeading text="From" width="180px" addStyleNames=" w3-light-blue {style.margin}" ></A:LabelHeading>
+			</g:VerticalPanel>
+			<g:VerticalPanel>
+			<g:TextBox text="MR XYZ,Head of internal Audit" addStyleNames=" w3-panel {style.margin}" ui:field="txtBoxFrom" width="200px"></g:TextBox>
+			</g:VerticalPanel>
+			<g:VerticalPanel>
+			<A:LabelHeading text="Our Reference Number" width="180px" addStyleNames=" {style.margin}" ></A:LabelHeading>
+			</g:VerticalPanel>
+			<g:VerticalPanel>
+			<g:TextBox text="Company name Internal Audit" addStyleNames=" w3-panel {style.margin}"  ui:field="txtBoxReference" width="200px"></g:TextBox>
 			
-			<g:TextBox text="MR XYZ,Head of internal Audit" ui:field="txtBoxFrom" width="200px"></g:TextBox>
-		</g:VerticalPanel>
+			</g:VerticalPanel>
 		</g:HorizontalPanel>
 			
 			<g:HorizontalPanel>
 			<g:VerticalPanel>
-			<A:LabelHeading text="For Action"  addStyleNames=" w3-light-blue"></A:LabelHeading>
-			<g:TextBox text="MR XYZ,Director XXX" ui:field="txtBoxForAction" width="200px"></g:TextBox>
+			<g:HorizontalPanel>
+			<A:LabelHeading text="For Action" width="180px" addStyleNames=" w3-light-blue {style.margin}"></A:LabelHeading>
+			<g:TextBox text="MR XYZ,Director XXX" ui:field="txtBoxForAction" width="200px" addStyleNames=" w3-panel"></g:TextBox>
+			</g:HorizontalPanel>
 			</g:VerticalPanel>
 			</g:HorizontalPanel>
 		
 			
 			
-			<g:HorizontalPanel>
+		
 			<g:VerticalPanel>
-			<A:LabelHeading text="For Information"  addStyleNames=" w3-light-blue" ></A:LabelHeading>
+				<g:HorizontalPanel>
+			<A:LabelHeading text="For Information" width="180px" addStyleNames=" w3-light-blue {style.margin}" ></A:LabelHeading>
 		    
-			<g:TextBox text="CXO Detail" width="200px" ui:field="txtBoxForInfo"></g:TextBox>
-			</g:VerticalPanel>
+			<g:TextBox text="CXO Detail" width="200px"  addStyleNames=" w3-panel" ui:field="txtBoxForInfo"></g:TextBox>
 			</g:HorizontalPanel>
+			</g:VerticalPanel>
+			
 	</g:VerticalPanel>
 	<g:VerticalPanel width="813px" height="400px">
 	
-			<g:HorizontalPanel>
-			<g:VerticalPanel>
-			<A:LabelHeading text="Subject"  addStyleNames=" w3-light-blue"></A:LabelHeading>
-			<g:TextBox width="200px" text="Engegement Name" ui:field="txtBoxSubject"></g:TextBox>
 			
-			</g:VerticalPanel>
+			<g:VerticalPanel>
+			<g:HorizontalPanel>
+			<A:LabelHeading text="Subject" width="180px" addStyleNames=" w3-light-blue {style.margin}"></A:LabelHeading>
+			<g:TextBox width="200px" text="Engegement Name" ui:field="txtBoxSubject" addStyleNames=" w3-panel"></g:TextBox>
 			</g:HorizontalPanel>
+			</g:VerticalPanel>
+			
 			<g:HorizontalPanel>
 			<g:TextArea width="850px"  height="350px"  ui:field="txtAreaBody" text="bla bla blab blablaba"> </g:TextArea>
 			</g:HorizontalPanel>

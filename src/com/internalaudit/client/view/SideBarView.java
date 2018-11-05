@@ -53,7 +53,6 @@ public class SideBarView extends VerticalLayoutContainer {
 		panelbar.setWidth("64px");
 		
 		this.loggedInUser = loggedInUser;
-
 		ImgMenu.addStyleName("w3-bar-item w3-button w3-round w3-hover-blue");
 		ImgCloseCircular.addStyleName("w3-bar-item w3-button w3-hover-blue");
 		ImgSecuirity.addStyleName("w3-bar-item w3-button w3-hover-blue");
@@ -114,7 +113,7 @@ public class SideBarView extends VerticalLayoutContainer {
 		 */
 		add(panelbar);
 
-		ImgHome.setTitle("To DO");
+		ImgHome.setTitle("ToDoRaiserGrid");
 		 ImgHome.addClickHandler(new ClickHandler() {
 				
 				@Override
@@ -144,7 +143,7 @@ public class SideBarView extends VerticalLayoutContainer {
 
 					}
 			});
-			 ImgMenu.setTitle("Information Request");
+			 ImgMenu.setTitle("InformationRequestRaiserGrid");
 			 ImgMenu.addClickHandler(new ClickHandler() {
 				 @Override
 					public void onClick(ClickEvent event) {
@@ -174,22 +173,9 @@ public class SideBarView extends VerticalLayoutContainer {
 						
 					}
 				});
-			 ImgSecuirity.setTitle("EmailView");
-			 ImgCalendar .addClickHandler(new ClickHandler() {
-					
-					@Override
-					public void onClick(ClickEvent event) {
-						final ToDoRaiserView emailView = new ToDoRaiserView(loggedInUser.getTodos().get(loggedInUser.getTodos().size()-1));
-						PopupsView pp = new PopupsView(emailView, "");
-						pp.getLabelheading().setText("Email View");
-						pp.getVpnlMain().setTitle("Email View");
-						pp.getVpnlMain().setWidth("600px");
-						pp.getHpnlSPace().setWidth("600px");
-						pp.getVpnlMain().setHeight("530px");
-						
-					}
-				});
-				 ImgPie.setTitle("Task List");
+			
+
+				 ImgPie.setTitle("InformationRequestReceiverGrid");
 				ImgPie .addClickHandler(new ClickHandler() {
 					
 					@Override
@@ -203,12 +189,13 @@ public class SideBarView extends VerticalLayoutContainer {
 
 							@Override
 							public void onSuccess(DashBoardNewDTO dashboard) {
-								InformationRequestReceiverPortal p = new InformationRequestReceiverPortal(dashboard.getInformationRequests());
+							//	InformationRequestReceiverPortal p = new InformationRequestReceiverPortal(dashboard.getInformationRequests());
+								InformationRequestReceiverPortal p = new InformationRequestReceiverPortal(loggedInUser.getInformationRequests());
 								PopupsView pp = new PopupsView(p, "");
 								pp = new PopupsView(p, "");
-								pp.getLabelheading().setText("InformationRequestReviewer");
+								pp.getLabelheading().setText("InformationRequestReceiver");
 								pp.getVpnlMain().setTitle("TaskList");
-								pp.getVpnlMain().setWidth("800px");
+								pp.getVpnlMain().setWidth("900px");
 								pp.getVpnlMain().setHeight("530px");
 							}
 
@@ -219,32 +206,8 @@ public class SideBarView extends VerticalLayoutContainer {
 						
 					}
 				});
+				 ImgSecuirity.setTitle("ToDOReceiverGrid");
 				 ImgSecuirity.addClickHandler(new ClickHandler() {
-					
-					@Override
-					public void onClick(ClickEvent event) {
-						final TodosList toDo = new TodosList(loggedInUser.getTodos());
-						PopupsView pp = new PopupsView(toDo, "");
-						pp.getLabelheading().setText("Todos");
-						pp.getVpnlMain().setTitle("Todos");
-						pp.getVpnlMain().setWidth("600px");
-						pp.getHpnlSPace().setWidth("600px");
-						pp.getVpnlMain().setHeight("530px");
-						
-					}
-				});
-				 
-					ImgCloseCircular .addClickHandler(new ClickHandler() {
-						
-						@Override
-						public void onClick(ClickEvent event) {
-							
-							
-						}
-					});
-					 
-					ImgControls .addClickHandler(new ClickHandler() {
-						
 						@Override
 						public void onClick(ClickEvent event) {
 							rpcService.fetchDashboard(null, new AsyncCallback<DashBoardNewDTO>() {
@@ -256,7 +219,7 @@ public class SideBarView extends VerticalLayoutContainer {
 
 								@Override
 								public void onSuccess(DashBoardNewDTO dashboard) {
-									ToDoReceiverPortal p = new ToDoReceiverPortal(dashboard.getTodo());
+									ToDoReceiverPortal p = new ToDoReceiverPortal(loggedInUser.getTodos());
 									PopupsView pp = new PopupsView(p, "");
 									pp = new PopupsView(p, "");
 									pp.getLabelheading().setText("ToDoReceiverPortal");
@@ -270,9 +233,8 @@ public class SideBarView extends VerticalLayoutContainer {
 					
 						}
 					});
-					
+				 
 			
-	
 	}
 	
 	public Image getImgMenu() {

@@ -2,13 +2,16 @@
 
 package com.internalaudit.client.view.ToDo;
 import java.io.Serializable;
+
+import com.internalaudit.shared.Employee;
 public class ToDoReceiverEntity implements Serializable {
 
 	// field work data
 	private String requestedItem;
-	private String raisedBy;
+	private Employee raisedBy;
 	private String relatedJob;
 	private String status;
+	private String viewButton;
 	private String overDueDays;
 	private int id;
 
@@ -26,13 +29,13 @@ public class ToDoReceiverEntity implements Serializable {
 	}
 
 
-	public String getRaisedBy() {
+	public Employee getRaisedBy() {
 		return raisedBy;
 	}
 
 
-	public void setRaisedBy(String raisedTo) {
-		this.raisedBy = raisedTo;
+	public void setRaisedBy(Employee raisedBy) {
+		this.raisedBy = raisedBy;
 	}
 
 
@@ -74,6 +77,16 @@ public class ToDoReceiverEntity implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+
+	public String getViewButton() {
+		return viewButton;
+	}
+
+
+	public void setViewButton(String viewButton) {
+		this.viewButton = viewButton;
 	}
 
 

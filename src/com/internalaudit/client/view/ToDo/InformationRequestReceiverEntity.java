@@ -7,6 +7,7 @@ public class InformationRequestReceiverEntity implements Serializable {
 	private String raisedBy;
 	private String relatedJob;
 	private String status;
+	private String viewButton;
 	private String overDueDays;
 	private int id;
 
@@ -72,6 +73,16 @@ public class InformationRequestReceiverEntity implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+
+	public String getViewButton() {
+		return viewButton;
+	}
+
+
+	public void setViewButton(String viewButton) {
+		this.viewButton = viewButton;
 	}
 
 

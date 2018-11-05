@@ -84,7 +84,7 @@
 		
 		<A:LabelHeading  >Conclusion</A:LabelHeading>
 		
-		<g:ListBox ui:field="conclusion" >
+		<g:ListBox ui:field="conclusion" addStyleNames="w3-panel">
 			<g:item>Satisfactory</g:item>
 			<g:item>Non-Satisfactory</g:item>
 		</g:ListBox>

@@ -17,6 +17,8 @@ public interface InformationRequestReceiverProperties extends PropertyAccess<Inf
 	
 	ValueProvider<InformationRequestReceiverEntity, String> status();
 	
+	ValueProvider<InformationRequestReceiverEntity, String> viewButton();
+	
 	ValueProvider<InformationRequestReceiverEntity, String> overDueDays();
 
 	ValueProvider<InformationRequestReceiverEntity, Integer> id();
