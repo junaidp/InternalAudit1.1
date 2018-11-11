@@ -22,6 +22,7 @@ public class ResponsiblePersonRowView extends VerticalPanel{
 	private ListBox  isAgreed = new ListBox();
 	private TextArea  implementaionComments = new TextArea();
 	private TextArea  managementComments = new TextArea();
+	private TextArea  implication = new TextArea();
 	private DateBox  implementaionDate = new DateBox();
 	private ButtonRound btnSend = new ButtonRound("Send");
 	private Label status = new Label("");
@@ -64,6 +65,7 @@ public class ResponsiblePersonRowView extends VerticalPanel{
 		hpnl1.add(exception);
 		hpnl1.add(recommendations);
 		hpnl1.add(managementComments);
+		hpnl1.add(implication);
 		implementaionDate.setFormat(new DefaultFormat(DateTimeFormat.getShortDateFormat()));
 		hpnl1.add(implementaionDate);
 		hpnl1.add(isAgreed);
@@ -93,6 +95,7 @@ public class ResponsiblePersonRowView extends VerticalPanel{
 		exception.setWidth("250px");
 		recommendations.setWidth("250px");
 		managementComments.setWidth("250px");
+		implication.setWidth("160px");
 		status.setWidth("120px");
 		isAgreed.setWidth("100px");
 //		for(int i=0; i< getWidgetCount()-3; i++){
@@ -109,10 +112,12 @@ public class ResponsiblePersonRowView extends VerticalPanel{
 		exception.setHeight("300px");
 		recommendations.setHeight("300px");
 		managementComments.setHeight("300px");
-		
+		implication.setHeight("300px");
+		 
 		exception.addStyleName("noresize");
 		recommendations.addStyleName("noresize");
 		managementComments.addStyleName("noresize");
+		implication.addStyleName("noresize");
 		implementaionComments.addStyleName("noresize");
 		
 	}
@@ -288,6 +293,18 @@ public class ResponsiblePersonRowView extends VerticalPanel{
 
 	public void setRecommendations(TextArea recommendations) {
 		this.recommendations = recommendations;
+	}
+
+
+
+	public TextArea getImplication() {
+		return implication;
+	}
+
+
+
+	public void setImplication(TextArea implication) {
+		this.implication = implication;
 	}
 
 }

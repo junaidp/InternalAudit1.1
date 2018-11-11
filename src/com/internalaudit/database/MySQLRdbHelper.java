@@ -2063,7 +2063,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("reporting.skillId", "reportingSkill");
 			crit.createAlias("reporting.reportingTo", "reportingTot");
 			crit.add(Restrictions.ne("roll.rollId", 1));
-			crit.add(Restrictions.ne("roll.rollId", 5));
+			//crit.add(Restrictions.ne("roll.rollId", 5));
 			crit.add(Restrictions.ne("roll.rollId", 4));
 
 			crit.createAlias("userId", "user");
@@ -2983,6 +2983,7 @@ public class MySQLRdbHelper {
 
 			crit.createAlias("jobCreationId", "jobCreation");
 			jobsStrategicAlias(crit);
+			
 
 			// crit.createAlias("initiated.userId", "initiatedUser");
 			// crit.createAlias("initiated.skillId", "initatedSkill");
@@ -2990,6 +2991,9 @@ public class MySQLRdbHelper {
 
 			crit.add(Restrictions.eq("jobCreation.jobCreationId", jobCreationId));
 			crit.add(Restrictions.eq("year", year));
+			
+			
+			
 			crit.add(Restrictions.eq("companyId", companyId));
 
 			List rsList = crit.list();
@@ -5388,7 +5392,7 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(JobEmployeeRelation.class);
 			crit.createAlias("employeeId", "employee");
 			crit.createAlias("jobCreationId", "jobCreation");
-			jobsStrategicAlias(crit);
+			//jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("employee.employeeId", employeeId));
 
 			List rsList = crit.list();
@@ -5608,7 +5612,9 @@ public class MySQLRdbHelper {
 
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
-				JobCreation jobCreation = (JobCreation) it.next();
+				JobCreation jobCreationTemp = (JobCreation) it.next();
+				
+				JobCreation jobCreation = fetchSelectedJobCreation(session, jobCreationTemp.getJobCreationId());
 
 				jobCreation.setReportStatus(fetchJobExceptionStatus(jobCreation.getJobCreationId()));
 				// ADDED these 2 lines
@@ -5636,6 +5642,30 @@ public class MySQLRdbHelper {
 			session.close();
 		}
 		return jobsList;
+	}
+	
+	private JobCreation fetchSelectedJobCreation(Session session, int jobcreationId){
+		JobCreation jobCreation = null;
+		try {
+		
+		Criteria crit = session.createCriteria(JobCreation.class, "jobCreation");
+		crit.add(Restrictions.eq("jobCreationId", jobcreationId));
+		jobsStrategicAlias(crit);
+
+		List rsList = crit.list();
+
+		
+		 jobCreation = (JobCreation) rsList.get(0);
+		
+	} catch (Exception ex) {
+		logger.warn(String.format("Exception occured in fetchSelectedJobCreation", ex.getMessage()),
+				ex);
+
+	} finally {
+		
+	}
+	return jobCreation;
+		
 	}
 
 	public String saveAuditNotification(int auditEngagementId, String message, String to, String cc, int year,

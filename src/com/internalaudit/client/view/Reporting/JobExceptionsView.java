@@ -10,6 +10,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DateBox.DefaultFormat;
 import com.internalaudit.client.view.ButtonRound;
+import com.google.gwt.canvas.dom.client.Context2d.TextBaseline;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.sencha.gxt.widget.core.client.form.TextField;
 
@@ -17,6 +19,8 @@ public class JobExceptionsView extends HorizontalPanel {
 	
 	private TextArea exception = new TextArea();
 	private TextArea recommendations = new TextArea();
+	private TextArea txtAreaImplication = new TextArea();
+	private ListBox listBoxImplicationRating = new ListBox();
 	private ListBox responsiblePerson = new ListBox();
 	private ListBox divisionHead = new ListBox();
 	private DateBox dueDate = new DateBox();
@@ -34,6 +38,10 @@ public class JobExceptionsView extends HorizontalPanel {
 	}
 
 	private void createLayout() {
+		
+		listBoxImplicationRating.addItem("Low", "0");
+		listBoxImplicationRating.addItem("Medium", "1");
+		listBoxImplicationRating.addItem("High", "2");
 		status.addStyleName("blue");
 		status.setVisible(false);
 //		vpnlButtons.add(btnApprove);
@@ -46,11 +54,15 @@ public class JobExceptionsView extends HorizontalPanel {
 		txtComments.setEmptyText("Enter Comments");
 		vpnlButtons.setVisible(false);
 		add(exception);
-		add(responsiblePerson);
-		add(divisionHead);
+		add(txtAreaImplication);
+		add(listBoxImplicationRating);
+		
+		//add(divisionHead);
 		dueDate.setFormat(new DefaultFormat(DateTimeFormat.getShortDateFormat()));
-		add(dueDate);
+	//	add(dueDate);
 		add(recommendations);
+		add(responsiblePerson);
+		
 		add(btnSave);
 //		if(status.getText().length()>1){
 		add(status);
@@ -58,16 +70,18 @@ public class JobExceptionsView extends HorizontalPanel {
 		add(vpnlButtons);
 		btnSave.setWidth("120px");
 		for(int i =0; i< getWidgetCount()-1; i++){
-			getWidget(i).setWidth("190px");
+			getWidget(i).setWidth("150px");
 		}setSpacing(2);
 //		vpnlButtons.setWidth("100px");
 		status.setWidth("100px");
 		dueDate.setWidth("90px");
-		
+		txtAreaImplication.setHeight("300px");
+		listBoxImplicationRating.getElement().getStyle().setMarginLeft(10, Unit.PX);
+		listBoxImplicationRating.addStyleName("noresize w3-light-grey");
 		exception.setHeight("300px");
 		recommendations.setHeight("300px");
-		
-		exception.addStyleName("noresize");
+		txtAreaImplication.addStyleName("noresize w3-grey");
+		exception.addStyleName("noresize w3-grey");
 		recommendations.addStyleName("noresize");
 		
 	}
@@ -180,6 +194,22 @@ public class JobExceptionsView extends HorizontalPanel {
 
 	public void setRecommendations(TextArea recommendations) {
 		this.recommendations = recommendations;
+	}
+
+	public TextArea getTxtAreaImplication() {
+		return txtAreaImplication;
+	}
+
+	public void setTxtAreaImplication(TextArea txtAreaImplication) {
+		this.txtAreaImplication = txtAreaImplication;
+	}
+
+	public ListBox getListBoxImplicationRating() {
+		return listBoxImplicationRating;
+	}
+
+	public void setListBoxImplicationRating(ListBox listBoxImplicationRating) {
+		this.listBoxImplicationRating = listBoxImplicationRating;
 	}
 	
 	

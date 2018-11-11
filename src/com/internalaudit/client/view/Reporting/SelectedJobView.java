@@ -16,15 +16,19 @@ public class SelectedJobView extends Composite{
 
 	private void createLayout() {
 		HorizontalPanel hpnnlHeadings = new HorizontalPanel();
-		hpnnlHeadings.setWidth("900px");
-		hpnnlHeadings.add(new Label("Exceptions"));
-		hpnnlHeadings.add(new Label("Responsible Person"));
-		hpnnlHeadings.add(new Label("Division Head"));
+		hpnnlHeadings.setWidth("800px");
+		hpnnlHeadings.add(new Label("Observations"));
+		hpnnlHeadings.add(new Label("Implication"));
+		hpnnlHeadings.add(new Label("Implication Rating"));
+		
+		//hpnnlHeadings.add(new Label("Division Head"));
 		Label lblDUeDate = new Label("Due Date");
-		hpnnlHeadings.add(lblDUeDate);
-		hpnnlHeadings.add(new Label("Recommnedations"));
+		//hpnnlHeadings.add(lblDUeDate);
+		hpnnlHeadings.add(new Label("Recommneded Action Steps"));
+		hpnnlHeadings.add(new Label("Auditee"));
+		
 		for(int i =0; i< hpnnlHeadings.getWidgetCount(); i++){
-			hpnnlHeadings.getWidget(i).setWidth("200px");
+			hpnnlHeadings.getWidget(i).setWidth("120px");
 		}
 		lblDUeDate.setWidth("90px");
 		initWidget(selectedJobContainer);

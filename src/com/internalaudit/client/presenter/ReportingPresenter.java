@@ -128,7 +128,9 @@ public class ReportingPresenter implements Presenter
 						responsiblePersonRowView.getException().setText(result.get(i).getDetail());
 						responsiblePersonRowView.getRecommendations().setText(result.get(i).getRecommendations());
 						responsiblePersonRowView.getRecommendations().setTitle(result.get(i).getRecommendations());
-						
+
+						responsiblePersonRowView.getImplication().setText(result.get(i).getImplication());
+						responsiblePersonRowView.getImplication().setTitle(result.get(i).getImplication());
 						responsiblePersonRowView.getException().setTitle(result.get(i).getDetail());
 						responsiblePersonRowView.getAuditJob().setText(result.get(i).getJobName());
 						responsiblePersonRowView.getAuditJob().setTitle(result.get(i).getJobName());
@@ -447,10 +449,11 @@ public class ReportingPresenter implements Presenter
 			result.get(jobData.getSelectedId()).setImplementaionComments(responsiblePersonRowView.getImplementaionComments().getText());
 			result.get(jobData.getSelectedId()).setIsImplemented(Integer.parseInt(responsiblePersonRowView.getIsImplemented().getValue(responsiblePersonRowView.getIsImplemented().getSelectedIndex())));
 			result.get(jobData.getSelectedId()).setIsAgreed(Integer.parseInt(responsiblePersonRowView.getIsAgreed().getValue(responsiblePersonRowView.getIsAgreed().getSelectedIndex())));
+			result.get(jobData.getSelectedId()).setImplication(responsiblePersonRowView.getImplication().getText());
 			
 			responsiblePersonRowView.getImplementaionComments().setEnabled(false);	
 			responsiblePersonRowView.getIsImplemented().setEnabled(false);
-			
+	
 			result.get(jobData.getSelectedId()).setFinalStatus("Sent");
 		}else{
 			result.get(jobData.getSelectedId()).setStatus("Sent");
@@ -639,11 +642,19 @@ public class ReportingPresenter implements Presenter
 					jobExceptionsView.getException().setText(exceptions.get(i).getDetail());
 					jobExceptionsView.getDueDate().setValue(exceptions.get(i).getDueDate());
 					jobExceptionsView.getRecommendations().setText(exceptions.get(i).getRecommendations());
-					///Displaying Approve/Reject  BUTTONs////
+					jobExceptionsView.getTxtAreaImplication().setText(exceptions.get(i).getImplication());
+				//addeed now
+					//jobExceptionsView.getResponsiblePerson().addItem(exceptions.get(i).getResponsiblePerson().getEmployeeName());
+					//////CHanged above line here
+					jobExceptionsView.getResponsiblePerson().addItem(exceptions.get(i).getResponsiblePerson().getEmployeeName(), exceptions.get(i).getResponsiblePerson().getEmployeeId()+"");
+					
+					//jobExceptionsView.getListBoxImplicationRating().setItemText(0,exceptions.get(i).getImplicationRating());
+					/////Displaying Approv/Reject  BUTTONs////
 
 //					if(exceptions.get(i).getAuditHead() == loggedInEmployee.getEmployeeId() && (exceptions.get(i).getInitialStatus()==null || exceptions.get(i).getInitialStatus().equals(""))){
 					if(loggedInEmployee.getRollId().getRollId() ==1 && (exceptions.get(i).getInitialStatus()==null || exceptions.get(i).getInitialStatus().equals("") )&& exceptions.get(i).getDueDate()!=null){
-						
+				//	if(loggedInEmployee.getRollId().getRollId() ==1 && (exceptions.get(i).getInitialStatus()==null || exceptions.get(i).getInitialStatus().equals("") )){ //TODO CHANGE FOr DUEDATE
+							
 					jobExceptionsView.showApprovalButtons();
 					}else{
 						jobExceptionsView.hideApprovalButtons();
@@ -682,7 +693,9 @@ public class ReportingPresenter implements Presenter
 
 						@Override
 						public void onClick(ClickEvent event) {
-							setResponsibleForandDvisionHead(exceptions,
+							Window.alert("clicked");
+							//commenting this lise 2018
+							setResponsibleForandDvisionHead(exceptions,  // This line also setting responsible person and other details.
 									jobExceptionsView, exceptionData);
 							exceptions.get(exceptionData.getSelectedId()).setInitialStatus("");
 							sendException(exceptions.get(exceptionData.getSelectedId()));
@@ -787,7 +800,8 @@ public class ReportingPresenter implements Presenter
 		exceptions.get(exceptionData.getSelectedId()).setDivisionHead(divisionHead);
 		exceptions.get(exceptionData.getSelectedId()).setDueDate(jobExceptionsView.getDueDate().getValue());
 		exceptions.get(exceptionData.getSelectedId()).setRecommendations(jobExceptionsView.getRecommendations().getText());
-		
+		exceptions.get(exceptionData.getSelectedId()).setImplication(jobExceptionsView.getTxtAreaImplication().getText());
+		exceptions.get(exceptionData.getSelectedId()).setImplicationRating(jobExceptionsView.getListBoxImplicationRating().getSelectedValue().toString());
 	}
 
 	private void sendException(Exceptions exception) {

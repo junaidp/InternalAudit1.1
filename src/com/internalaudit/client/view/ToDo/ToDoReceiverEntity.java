@@ -1,7 +1,6 @@
-
-
 package com.internalaudit.client.view.ToDo;
 import java.io.Serializable;
+import java.util.Date;
 
 import com.internalaudit.shared.Employee;
 public class ToDoReceiverEntity implements Serializable {
@@ -12,9 +11,9 @@ public class ToDoReceiverEntity implements Serializable {
 	private String relatedJob;
 	private String status;
 	private String viewButton;
-	private String overDueDays;
+	private Date overDueDays;
 	private int id;
-
+	
 	public ToDoReceiverEntity() {
 
 	}
@@ -40,15 +39,7 @@ public class ToDoReceiverEntity implements Serializable {
 
 
 
-	public String getOverDueDays() {
-		return overDueDays;
-	}
-
-
-	public void setOverDueDays(String overDueDays) {
-		this.overDueDays = overDueDays;
-	}
-
+	
 
 	public String getRequestedItem() {
 		return requestedItem;
@@ -87,6 +78,16 @@ public class ToDoReceiverEntity implements Serializable {
 
 	public void setViewButton(String viewButton) {
 		this.viewButton = viewButton;
+	}
+
+
+	public Date getOverDueDays() {
+		return overDueDays;
+	}
+
+
+	public void setOverDueDays(Date overDueDays) {
+		this.overDueDays = overDueDays;
 	}
 
 

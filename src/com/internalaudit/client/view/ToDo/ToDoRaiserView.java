@@ -202,8 +202,9 @@ public class ToDoRaiserView extends VerticalPanel {
 				todoEntity.setDescription(toDo.getRequestedItem());
 				todoEntity.setRespond(txtAreaReply.getText());
 				todoEntity.setAssignedTo(toDo.getRaisedBy());
-				//todoEntity.setJob(toDo.getRelatedJob());
-				//todoEntity.setDueDate(toDo.getOverDueDays());
+				todoEntity.setDueDate(toDo.getOverDueDays());
+				//todoEntity.setJob(toDo.setRelatedJob(relatedJob););
+				
 				rpcService.savetoDo(todoEntity, new AsyncCallback<String>() {
 
 					@Override

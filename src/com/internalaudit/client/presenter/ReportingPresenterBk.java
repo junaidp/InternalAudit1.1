@@ -271,7 +271,7 @@ public class ReportingPresenterBk implements Presenter
 								result.get(jobData.getSelectedId()).setStatus("");
 								}
 
-								sendException(result.get(jobData.getSelectedId()));
+								
 								responsiblePersonRowView.disableFields();
 								responsiblePersonRowView.getBtnSend().setText("Sent.");
 								responsiblePersonRowView.getStatus().setText("");

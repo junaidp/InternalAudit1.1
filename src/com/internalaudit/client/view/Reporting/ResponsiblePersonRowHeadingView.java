@@ -20,16 +20,20 @@ public class ResponsiblePersonRowHeadingView extends VerticalPanel {
 		Label managementComments = new Label("Management Comments");
 		Label implementaionDate = new Label("Implementaion");
 		Label isAgree = new Label("Agree");
+		Label implication = new Label("implication");
 		hpnlHeading.add(auditJob);
 		hpnlHeading.add(exception);
 		hpnlHeading.add(recommendations);
 		hpnlHeading.add(managementComments);
+		hpnlHeading.add(implication);
 		hpnlHeading.add(implementaionDate);
 		hpnlHeading.add(isAgree);
+		
 		add(hpnlHeading);
 		for(int i=0; i< hpnlHeading.getWidgetCount()-1; i++){
 			hpnlHeading.getWidget(i).setWidth("270px");
 		}
+		implication.setWidth("160px");
 		isAgree.setWidth("100px");
 		implementaionDate.setWidth("120px");
 		managementComments.setWidth("260px");

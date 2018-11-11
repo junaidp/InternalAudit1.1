@@ -1,19 +1,13 @@
-
-
 package com.internalaudit.client.view.ToDo;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.shared.Employee;
-import com.internalaudit.shared.Exceptions;
-import com.internalaudit.shared.InformationRequestEntity;
 import com.internalaudit.shared.ToDo;
 import com.sencha.gxt.cell.core.client.TextButtonCell;
 import com.sencha.gxt.data.shared.ListStore;
@@ -52,7 +46,7 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 			issue.setRequestedItem(arrayList.get(i).getDescription());
 			issue.setRelatedJob(arrayList.get(i).getJob().getJobName());
 			issue.setRaisedBy(arrayList.get(i).getAssignedFrom());
-			issue.setOverDueDays(arrayList.get(i).getDueDate().toString());
+			issue.setOverDueDays(arrayList.get(i).getDueDate());
 			toDoRequests.add(issue);
 		}	
 //		}
@@ -68,7 +62,7 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 		ColumnConfig<ToDoReceiverEntity, String> relatedJob = new ColumnConfig<ToDoReceiverEntity, String>(properties.relatedJob(), 110, " Job");
 		
 		
-		ColumnConfig<ToDoReceiverEntity, String> informationOverDue = new ColumnConfig<ToDoReceiverEntity, String>(properties.overDueDays(), 160, "Due Date");
+		ColumnConfig<ToDoReceiverEntity, Date> informationOverDue = new ColumnConfig<ToDoReceiverEntity, Date>(properties.overDueDays(), 160, "Due Date");
 		ColumnConfig<ToDoReceiverEntity, String> informationStatus = new ColumnConfig<ToDoReceiverEntity, String>(properties.status(), 110, "status");
 		ColumnConfig<ToDoReceiverEntity, String> viewButton = new ColumnConfig<ToDoReceiverEntity, String>(properties.viewButton(), 100, "");
 

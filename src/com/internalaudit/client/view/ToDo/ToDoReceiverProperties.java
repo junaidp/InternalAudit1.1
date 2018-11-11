@@ -1,4 +1,6 @@
 package com.internalaudit.client.view.ToDo;
+import java.util.Date;
+
 import com.google.gwt.editor.client.Editor.Path;
 import com.internalaudit.shared.Employee;
 import com.sencha.gxt.core.client.ValueProvider;
@@ -17,7 +19,7 @@ public interface ToDoReceiverProperties extends PropertyAccess<ToDoReceiverEntit
 	
 	ValueProvider<ToDoReceiverEntity, String> status();
 	
-	ValueProvider<ToDoReceiverEntity, String> overDueDays();
+	ValueProvider<ToDoReceiverEntity, Date> overDueDays();
 
 	ValueProvider<ToDoReceiverEntity, Integer> id();
 	

@@ -96,7 +96,13 @@ public class Exceptions implements Serializable {
 
 	@Column(name = "recommendations")
 	private String recommendations;
+	
+	@Column(name = "implication")
+	private String implication;
 
+	@Column(name = "implicationRating")
+	private String implicationRating;
+	
 	@Transient
 	private String displayStatus;
 
@@ -282,6 +288,22 @@ public class Exceptions implements Serializable {
 
 	public void setJobCreationId(JobCreation jobCreationId) {
 		this.jobCreationId = jobCreationId;
+	}
+
+	public String getImplication() {
+		return implication;
+	}
+
+	public void setImplication(String implication) {
+		this.implication = implication;
+	}
+
+	public String getImplicationRating() {
+		return implicationRating;
+	}
+
+	public void setImplicationRating(String implicationRating) {
+		this.implicationRating = implicationRating;
 	}
 
 }
