@@ -4140,6 +4140,8 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(Exceptions.class);
 			crit.createAlias("jobCreationId", "jobCreation");
 			crit.createAlias("responsiblePerson", "employee");
+			crit.add(Restrictions.ne("employee.employeeId", 0));
+			
 			jobsStrategicAlias(crit);
 
 			// check filters

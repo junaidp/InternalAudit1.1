@@ -23,12 +23,12 @@ public class SelectedJobView extends Composite{
 		
 		//hpnnlHeadings.add(new Label("Division Head"));
 		Label lblDUeDate = new Label("Due Date");
-		//hpnnlHeadings.add(lblDUeDate);
+		hpnnlHeadings.add(lblDUeDate);
 		hpnnlHeadings.add(new Label("Recommneded Action Steps"));
 		hpnnlHeadings.add(new Label("Auditee"));
 		
 		for(int i =0; i< hpnnlHeadings.getWidgetCount(); i++){
-			hpnnlHeadings.getWidget(i).setWidth("120px");
+			hpnnlHeadings.getWidget(i).setWidth("150px");
 		}
 		lblDUeDate.setWidth("90px");
 		initWidget(selectedJobContainer);

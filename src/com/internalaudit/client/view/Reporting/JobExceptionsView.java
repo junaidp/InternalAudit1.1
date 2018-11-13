@@ -59,7 +59,7 @@ public class JobExceptionsView extends HorizontalPanel {
 		
 		//add(divisionHead);
 		dueDate.setFormat(new DefaultFormat(DateTimeFormat.getShortDateFormat()));
-	//	add(dueDate);
+		add(dueDate);
 		add(recommendations);
 		add(responsiblePerson);
 		
@@ -76,7 +76,7 @@ public class JobExceptionsView extends HorizontalPanel {
 		status.setWidth("100px");
 		dueDate.setWidth("90px");
 		txtAreaImplication.setHeight("300px");
-		listBoxImplicationRating.getElement().getStyle().setMarginLeft(10, Unit.PX);
+		//listBoxImplicationRating.getElement().getStyle().setMarginLeft(10, Unit.PX);
 		listBoxImplicationRating.addStyleName("noresize w3-light-grey");
 		exception.setHeight("300px");
 		recommendations.setHeight("300px");
