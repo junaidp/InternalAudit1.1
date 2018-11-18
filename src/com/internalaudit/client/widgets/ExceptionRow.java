@@ -1,6 +1,7 @@
 package com.internalaudit.client.widgets;
 
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -11,7 +12,7 @@ public class ExceptionRow extends Composite {
 	private Label exId;
 	
 	private TextBox exception;
-	
+	private FileUpload fileUploadException;
 	private HorizontalPanel hpnl;
 	private Image removeRow;
 	
@@ -26,11 +27,13 @@ public class ExceptionRow extends Composite {
 		exId.addStyleName("hidden");
 		
 		exception = new TextBox();
+		fileUploadException = new FileUpload();
 		removeRow = new Image("images/deleteIcon.png");
 		exception.addStyleName("txtExtendedWidth");
 	
 		hpnl.add(exId);
 		hpnl.add(exception);
+		hpnl.add(fileUploadException);
 		hpnl.add(removeRow);
 		exId.setVisible(false);
 	}

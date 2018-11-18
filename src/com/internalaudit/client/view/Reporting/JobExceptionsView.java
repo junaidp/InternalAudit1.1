@@ -77,11 +77,11 @@ public class JobExceptionsView extends HorizontalPanel {
 		dueDate.setWidth("90px");
 		txtAreaImplication.setHeight("300px");
 		//listBoxImplicationRating.getElement().getStyle().setMarginLeft(10, Unit.PX);
-		listBoxImplicationRating.addStyleName("noresize w3-light-grey");
+		listBoxImplicationRating.addStyleName("noresize");
 		exception.setHeight("300px");
 		recommendations.setHeight("300px");
-		txtAreaImplication.addStyleName("noresize w3-grey");
-		exception.addStyleName("noresize w3-grey");
+		txtAreaImplication.addStyleName("noresize ");
+		exception.addStyleName("noresize");
 		recommendations.addStyleName("noresize");
 		
 	}
@@ -135,7 +135,8 @@ public class JobExceptionsView extends HorizontalPanel {
 		dueDate.setEnabled(false);
 		btnSave.setEnabled(false);
 		recommendations.setEnabled(false);
-		
+		txtAreaImplication.setEnabled(false);
+		listBoxImplicationRating.setEnabled(false);
 	}
 	
 	public void showApprovalButtons(){

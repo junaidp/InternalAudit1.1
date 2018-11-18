@@ -86,7 +86,8 @@ public class JobStatusPortaLayout extends VerticalLayoutContainer {
 			//fieldWork.setDate(jobStatus.getListFieldWorkStatus().get(i).getApprovalDate());
 			fieldWork.setStatus(jobStatus.getListFieldWorkStatus().get(i).getStatus());
 			fieldWork.setId(jobStatus.getListFieldWorkStatus().get(i).getAudtiStepId());
-			fieldWork.setUrl(jobStatus.getListFieldWorkStatus().get(i).isHaveExceptions()? "redCircleNew.png": "greenCircleNew.png");
+		//	fieldWork.setUrl(jobStatus.getListFieldWorkStatus().get(i).isHaveExceptions()? "redCircleNew.png": "greenCircleNew.png");
+			fieldWork.setUrl(jobStatus.getListFieldWorkStatus().get(i).getStatus().equals(InternalAuditConstants.COMPLETED)? "greenCircleNew.png": "redCircleNew.png");
 			
 			listFieldWork.add(fieldWork);
 		}
@@ -151,12 +152,12 @@ public class JobStatusPortaLayout extends VerticalLayoutContainer {
 
 
 		listReporting.get(index).setStatus(status);
-		if(status.isEmpty()){
-			listReporting.get(index).setStatus(InternalAuditConstants.NOT_STARTED);
-		}
-		listReporting.get(index).setUrl(listReporting.get(index).getStatus().equals(InternalAuditConstants.COMPLETED)? "greenCircleNew.png" : "redCircleNew.png");
+		
+		//listReporting.get(index).setUrl(listReporting.get(index).getStatus().equals(InternalAuditConstants.COMPLETED)? "greenCircleNew.png" : "redCircleNew.png");
 
-		for(int i=0; i< listReporting.size(); i++){
+		listReporting.get(index).setUrl( "greenCircleNew.png");
+
+		/*for(int i=0; i< listReporting.size(); i++){
 			if(! status.equals(InternalAuditConstants.COMPLETED) && i> index){
 				listReporting.get(i).setStatus(InternalAuditConstants.NOT_STARTED);
 				listReporting.get(i).setUrl(listReporting.get(i).getStatus().equals(InternalAuditConstants.COMPLETED)? "greenCircleNew.png" : "redCircleNew.png");
@@ -166,6 +167,23 @@ public class JobStatusPortaLayout extends VerticalLayoutContainer {
 				listReporting.get(i).setUrl(listReporting.get(i).getStatus().equals(InternalAuditConstants.COMPLETED)? "greenCircleNew.png" : "redCircleNew.png");
 
 			}
+		}*/
+		for(int i=0; i< listReporting.size(); i++){
+			
+			if(i <= index){
+
+				listReporting.get(i).setUrl( "greenCircleNew.png");
+				listReporting.get(i).setStatus(InternalAuditConstants.COMPLETED);
+
+			}else{
+				listReporting.get(i).setUrl( "redCircleNew.png");
+				listReporting.get(i).setStatus(InternalAuditConstants.NOT_STARTED);;
+			}
+		}
+		
+		if(status.isEmpty()){
+			listReporting.get(index).setStatus(InternalAuditConstants.NOT_STARTED);
+			listReporting.get(index).setUrl( "redCircleNew.png");
 		}
 	}
 
@@ -213,7 +231,7 @@ public class JobStatusPortaLayout extends VerticalLayoutContainer {
 
 		ColumnConfig<Planning, String> imageColumn = new ColumnConfig<Planning, String>(planningProperties.url(), 20, "");
 		imageColumn.setCell(new CustomImageCell());
-		
+
 		ColumnConfig<Planning, String> nameCol = new ColumnConfig<Planning, String>(planningProperties.name(), 150, "Name");
 		//ColumnConfig<Planning, Date> dateCol = new ColumnConfig<Planning, Date>(planningProperties.date(), 100, "Date");
 		ColumnConfig<Planning, String> statusCol = new ColumnConfig<Planning, String>(planningProperties.status(), 150, "Status");
@@ -249,7 +267,7 @@ public class JobStatusPortaLayout extends VerticalLayoutContainer {
 	}
 
 	public Widget createGridReporting() {
-		
+
 		ColumnConfig<Reporting, String> imageColumn = new ColumnConfig<Reporting, String>(reportingProperties.url(), 20, "");
 		imageColumn.setCell(new CustomImageCell());
 

@@ -63,6 +63,9 @@ public class InformationRequestEntity implements Serializable {
 	@Column(name="sendReminder")
 	private Boolean sendReminder;
 
+	@Column(name="respond")
+	private String respond;
+	
 	public int getInformationRequestId() {
 		return informationRequestId;
 	}
@@ -150,6 +153,14 @@ public class InformationRequestEntity implements Serializable {
 
 	public void setJob(JobCreation job) {
 		this.job = job;
+	}
+
+	public String getRespond() {
+		return respond;
+	}
+
+	public void setRespond(String respond) {
+		this.respond = respond;
 	}
 	
 	

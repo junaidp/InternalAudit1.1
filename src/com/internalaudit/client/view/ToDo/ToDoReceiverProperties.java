@@ -13,8 +13,12 @@ public interface ToDoReceiverProperties extends PropertyAccess<ToDoReceiverEntit
 
 	ValueProvider<ToDoReceiverEntity, String> requestedItem();
 
-	ValueProvider<ToDoReceiverEntity, Employee> raisedBy();
+	ValueProvider<ToDoReceiverEntity, String> raisedBy();
+	
+	ValueProvider<ToDoReceiverEntity, Integer> raisedById();
 
+	ValueProvider<ToDoReceiverEntity, Integer> relatedjobId();
+	
 	ValueProvider<ToDoReceiverEntity, String> relatedJob();
 	
 	ValueProvider<ToDoReceiverEntity, String> status();

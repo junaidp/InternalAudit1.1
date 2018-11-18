@@ -7,7 +7,9 @@ public class ToDoReceiverEntity implements Serializable {
 
 	// field work data
 	private String requestedItem;
-	private Employee raisedBy;
+	private String raisedBy;
+	private int raisedById;
+	private int relatedJobId;
 	private String relatedJob;
 	private String status;
 	private String viewButton;
@@ -28,14 +30,6 @@ public class ToDoReceiverEntity implements Serializable {
 	}
 
 
-	public Employee getRaisedBy() {
-		return raisedBy;
-	}
-
-
-	public void setRaisedBy(Employee raisedBy) {
-		this.raisedBy = raisedBy;
-	}
 
 
 
@@ -88,6 +82,36 @@ public class ToDoReceiverEntity implements Serializable {
 
 	public void setOverDueDays(Date overDueDays) {
 		this.overDueDays = overDueDays;
+	}
+
+
+	public String getRaisedBy() {
+		return raisedBy;
+	}
+
+
+	public void setRaisedBy(String raisedBy) {
+		this.raisedBy = raisedBy;
+	}
+
+
+	public int getRaisedById() {
+		return raisedById;
+	}
+
+
+	public void setRaisedById(int raisedById) {
+		this.raisedById = raisedById;
+	}
+
+
+	public int getRelatedJobId() {
+		return relatedJobId;
+	}
+
+
+	public void setRelatedJobId(int relatedJobId) {
+		this.relatedJobId = relatedJobId;
 	}
 
 

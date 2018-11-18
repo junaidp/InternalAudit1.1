@@ -20,7 +20,9 @@ import com.internalaudit.client.upload.EmailAttachmentUpload;
 import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.AuditEngagement.LabelHeading;
+import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.InformationRequestEntity;
+import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.ToDo;
 import com.sencha.gxt.widget.core.client.form.TextArea;
 
@@ -51,50 +53,67 @@ public class InformationRequestReceiveView extends VerticalPanel {
 	VerticalPanel panelMail = new VerticalPanel();
 	VerticalPanel panelReply = new VerticalPanel();
 	HorizontalPanel panelFileDetail = new HorizontalPanel();
-//	final VerticalPanel panelFileName = new VerticalPanel();
+	private InformationRequestReceiverEntity informationRequest = null;
 
-	public InformationRequestReceiveView(final InformationRequestReceiverEntity informationRequest){
-		rpcService.fetchEmailAttachments(new AsyncCallback<ArrayList<String>>() {
-			FlexTable records = new FlexTable();
+	public InformationRequestReceiveView( InformationRequestReceiverEntity informationRequest){
+		
+		this.informationRequest = informationRequest;
+		
+		fetchEmailAttachments();
+		
+		setLayout(informationRequest);
+
+		setHandlers();
+
+	}
+
+	private void setHandlers() {
+		btnSubmit.addClickHandler(new ClickHandler() {
+
 			@Override
-			public void onSuccess(ArrayList<String> result) {
-				for(int i=0;i<result.size();i++){
-					final Anchor	lblfilename = new Anchor(result.get(i));
-					Label lblFileAttached = new Label("Attached");
-					lblfilename.addStyleName("pointerStyle");
-					lblfilename.getElement().getStyle().setTextDecoration(TextDecoration.NONE);
-					lblfilename.setHeight("25px");
-					lblFileAttached.setHeight("25px");
-					records.setWidth("100%");
-					records.setWidget(i, 0, lblfilename);
-					records.setWidget(i, 1, lblFileAttached);
-					if (i % 2 != 0) {
-						records.getRowFormatter().addStyleName(i, "jobStatusRow");
+			public void onClick(ClickEvent event) {
+				final InformationRequestEntity infoReq = new InformationRequestEntity();
+				infoReq.setRequestItem(informationRequest.getRequestedItem());
+				JobCreation jobid =  new JobCreation();
+				jobid.setJobCreationId(informationRequest.getRelatedJobId());
+				infoReq.setJob(jobid);
+				infoReq.setInformationRequestId(informationRequest.getId());
+				infoReq.setRespond(txtAreaReply.getText());
+				
+				Employee raisedBy = new Employee();
+				raisedBy.setEmployeeId(informationRequest.getRaiseById());
+				//raisedBy.setEmployeeName(informationRequest.getRaisedBy());
+				infoReq.setContactResponsible(raisedBy);
+				Employee raisedTo = new Employee();
+				raisedTo.setEmployeeId(informationRequest.getRaisedToId());
+				
+				//infoReq.setDueDate(informationRequest.getOverDueDays());
+				infoReq.setAssignedFrom(raisedTo);
+				infoReq.setContactEmail(informationRequest.getContactEmail());
+				infoReq.setSendNotication(informationRequest.getSendNotification());
+				infoReq.setSendReminder(informationRequest.getSendReminder());
+				infoReq.setStatus(informationRequest.getSstatus());
+				infoReq.setDueDate(informationRequest.getOverDueDays());
+				
+				rpcService.saveinformationRequest(infoReq, new AsyncCallback<String>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("save informationRequest failed");
 					}
-					panelFileDetail.setWidth("100%");
-					panelFileDetail.add(records);
-					lblfilename.setWordWrap(false);
-					String upperCasedJobLink = lblfilename.getText();
-					lblfilename.setText(upperCasedJobLink);
-					lblfilename.addClickHandler(new ClickHandler() {
 
-						@Override
-						public void onClick(ClickEvent event) {
-
-							Window.open("/EmailAttachmentUpload/"+lblfilename.getText(), "name", "");
-						}
-					});
-				}
+					@Override
+					public void onSuccess(String result) {
+					
+						new DisplayAlert(result);
+					}
+				});
 
 			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-
-				Window.alert("fetchEmailAttachment Failed");
-			}
-
 		});
+	}
+
+	private void setLayout(InformationRequestReceiverEntity informationRequest) {
 		lblIrData.setText(informationRequest.getId()+"");
 		lblRequestedData.setText(informationRequest.getRaisedBy());
 
@@ -142,71 +161,72 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		panelMailRep.add(panelMail);
 		panelMailRep.add(panelReply);
 		panelMailRep.add(btnSubmit);
-
-		//FileUploader f = new FileUploader();
+		
 		EmailAttachmentUpload a = new EmailAttachmentUpload();
 		VerticalPanel panelFileUpload = new VerticalPanel();
 		panelFileUpload.add(a);
 		txtAreaReply.setText("Enter your Reply here");
 
-
-
-
-//		VerticalPanel panelAttached = new VerticalPanel();
-
-//		panelAttached.add(lblFileAttached);
-//		panelFileDetail.add(panelFileName);
-//		panelFileDetail.add(panelAttached);
-
 		PanelUpButton.setHeight("50px");
 		panelLabel.setHeight("50px");
 		panelMailRep.setHeight("300px");
 		panelFileUpload.setHeight("50px");
-//		panelFileDetail.setHeight("160px");
 		panelMail.setHeight("150px");
 		txtAreaReply.setHeight("150px");
 		panelReply.setWidth("600px");
 		panelMail.setWidth("590px");
 		panelFileUpload.setWidth("590px");
 		txtAreaReply.setWidth("590px");
-//		panelFileDetail.addStyleName("w3-border");
-//		panelFileDetail.setWidth("590px");
-//		panelFileName.setWidth("50%");
-//		panelAttached.setWidth("50%");
-
-
 
 		add(PanelUpButton);
 		add(panelLabel);
 		add(panelMailRep);
 		add(panelFileUpload);
 		add(panelFileDetail);
+	}
 
-//		btnSubmit.addClickHandler(new ClickHandler() {
-//
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				//final ToDo todo = new ToDo();
-//				//toDo.setDescription(toDo.getDescription());
-//				toDo.setRespond(txtAreaReply.getText());
-//				toDo.setAssignedTo(toDo.getAssignedFrom());
-//				rpcService.savetoDo(toDo, new AsyncCallback<String>() {
-//
-//					@Override
-//					public void onFailure(Throwable caught) {
-//						Window.alert("save Todo failed");
-//					}
-//
-//					@Override
-//					public void onSuccess(String result) {
-//					
-//						new DisplayAlert(result);
-//					}
-//				});
-//
-//			}
-//		});
-//
+	private void fetchEmailAttachments() {
+		rpcService.fetchEmailAttachments(new AsyncCallback<ArrayList<String>>() {
+			FlexTable records = new FlexTable();
+			@Override
+			public void onSuccess(ArrayList<String> result) {
+				for(int i=0;i<result.size();i++){
+					final Anchor	lblfilename = new Anchor(result.get(i));
+					Label lblFileAttached = new Label("Attached");
+					lblfilename.addStyleName("pointerStyle");
+					lblfilename.getElement().getStyle().setTextDecoration(TextDecoration.NONE);
+					lblfilename.setHeight("25px");
+					lblFileAttached.setHeight("25px");
+					records.setWidth("100%");
+					records.setWidget(i, 0, lblfilename);
+					records.setWidget(i, 1, lblFileAttached);
+					if (i % 2 != 0) {
+						records.getRowFormatter().addStyleName(i, "jobStatusRow");
+					}
+					panelFileDetail.setWidth("100%");
+					panelFileDetail.add(records);
+					lblfilename.setWordWrap(false);
+					String upperCasedJobLink = lblfilename.getText();
+					lblfilename.setText(upperCasedJobLink);
+					lblfilename.addClickHandler(new ClickHandler() {
+
+						@Override
+						public void onClick(ClickEvent event) {
+
+							Window.open("/EmailAttachmentUpload/"+lblfilename.getText(), "name", "");
+						}
+					});
+				}
+
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+
+				Window.alert("fetchEmailAttachment Failed");
+			}
+
+		});
 	}
 
 

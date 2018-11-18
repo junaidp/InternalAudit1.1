@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 
-@Table(name="suggestedControls")
+@Table(name="suggestedcontrols")
 public class SuggestedControls   implements Serializable {
 
 	@Id

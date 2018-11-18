@@ -180,29 +180,14 @@ public class SideBarView extends VerticalLayoutContainer {
 					
 					@Override
 					public void onClick(ClickEvent event) {
-						rpcService.fetchDashboard(null, new AsyncCallback<DashBoardNewDTO>() {
-
-							@Override
-							public void onFailure(Throwable arg0) {
-								Window.alert("fetchDashboard fail");
-							}
-
-							@Override
-							public void onSuccess(DashBoardNewDTO dashboard) {
-							//	InformationRequestReceiverPortal p = new InformationRequestReceiverPortal(dashboard.getInformationRequests());
-								InformationRequestReceiverPortal p = new InformationRequestReceiverPortal(loggedInUser.getInformationRequests());
-								PopupsView pp = new PopupsView(p, "");
-								pp = new PopupsView(p, "");
-								pp.getLabelheading().setText("InformationRequestReceiver");
-								pp.getVpnlMain().setTitle("TaskList");
-								pp.getVpnlMain().setWidth("900px");
-								pp.getVpnlMain().setHeight("530px");
-							}
-
-						
-					});
+						InformationRequestReceiverPortal p = new InformationRequestReceiverPortal(loggedInUser.getInformationRequests());
+						PopupsView pp = new PopupsView(p, "");
+						pp = new PopupsView(p, "");
+						pp.getLabelheading().setText("InformationRequestReceiver");
+						pp.getVpnlMain().setTitle("TaskList");
+						pp.getVpnlMain().setWidth("900px");
+						pp.getVpnlMain().setHeight("530px");
 				
-					                                                 
 						
 					}
 				});

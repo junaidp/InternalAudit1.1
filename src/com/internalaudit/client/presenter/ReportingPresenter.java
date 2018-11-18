@@ -241,6 +241,19 @@ public class ReportingPresenter implements Presenter
 
 				responsiblePersonRowView.getTxtComments().setText(result.get(i).getComments());
 				responsiblePersonRowView.getTxtComments().setTitle(result.get(i).getComments());
+				responsiblePersonRowView.getImplication().setText(result.get(i).getImplication());
+				responsiblePersonRowView.getResponsiblePerson().addItem(result.get(i).getResponsiblePerson().getEmployeeName());
+				//responsiblePersonRowView.getImplicationRating().addItem(result.get(i).getImplicationRating());
+				if(result.get(i).getImplicationRating()=="0"){
+					responsiblePersonRowView.getImplicationRating().addItem("Low");
+				}
+				
+				else if(result.get(i).getImplicationRating()=="1"){
+					responsiblePersonRowView.getImplicationRating().addItem("Medium");
+				}
+				else	if(result.get(i).getImplicationRating()=="2"){
+					responsiblePersonRowView.getImplicationRating().addItem("High");
+				}
 				
 			}
 
@@ -303,7 +316,19 @@ public class ReportingPresenter implements Presenter
 						responsiblePersonRowView.getException().setText(result.get(i).getDetail());
 						responsiblePersonRowView.getRecommendations().setText(result.get(i).getRecommendations());
 						responsiblePersonRowView.getRecommendations().setTitle(result.get(i).getRecommendations());
+						responsiblePersonRowView.getImplication().setText(result.get(i).getImplication());
+						responsiblePersonRowView.getResponsiblePerson().addItem(result.get(i).getResponsiblePerson().getEmployeeName());
+						//responsiblePersonRowView.getImplicationRating().addItem(result.get(i).getImplicationRating());
+						if(result.get(i).getImplicationRating()=="0"){
+							responsiblePersonRowView.getImplicationRating().addItem("Low");
+						}
 						
+						else if(result.get(i).getImplicationRating()=="1"){
+							responsiblePersonRowView.getImplicationRating().addItem("Medium");
+						}
+						else	if(result.get(i).getImplicationRating()=="2"){
+							responsiblePersonRowView.getImplicationRating().addItem("High");
+						}
 						responsiblePersonRowView.getAuditJob().setText(result.get(i).getJobName());
 						if(result.get(i).getFinalStatus()!=null && result.get(i).getFinalStatus().equalsIgnoreCase("Approved")){
 							responsiblePersonRowView.getStatus().setText("Closed");
@@ -335,6 +360,18 @@ public class ReportingPresenter implements Presenter
 							responsiblePersonRowView.getManagementComments().setText(result.get(i).getManagementComments());
 							responsiblePersonRowView.getManagementComments().setTitle(result.get(i).getManagementComments());
 							responsiblePersonRowView.getIsAgreed().setSelectedIndex(result.get(i).getIsAgreed());
+							responsiblePersonRowView.getResponsiblePerson().addItem(result.get(i).getResponsiblePerson().getEmployeeName());
+							//responsiblePersonRowView.getImplicationRating().addItem(result.get(i).getImplicationRating());
+							if(result.get(i).getImplicationRating()=="0"){
+								responsiblePersonRowView.getImplicationRating().addItem("Low");
+							}
+							
+							else if(result.get(i).getImplicationRating()=="1"){
+								responsiblePersonRowView.getImplicationRating().addItem("Medium");
+							}
+							else	if(result.get(i).getImplicationRating()=="2"){
+								responsiblePersonRowView.getImplicationRating().addItem("High");
+							}
 
 							responsiblePersonRowView.getImplementaionDate().setValue(result.get(i).getImplementaionDate());
 							responsiblePersonRowView.disableFields();
@@ -479,6 +516,7 @@ public class ReportingPresenter implements Presenter
 				if(confirmed){
 					exception.setImplementaionDate(responsiblePersonRowView.getImplementaionDate().getValue());
 					exception.setManagementComments(responsiblePersonRowView.getManagementComments().getText());
+					
 					exception.setImplementaionComments("");
 //					responsiblePersonRowView.getManagementComments().setText("");
 					exception.setStatus("Sent");
@@ -643,6 +681,18 @@ public class ReportingPresenter implements Presenter
 					jobExceptionsView.getDueDate().setValue(exceptions.get(i).getDueDate());
 					jobExceptionsView.getRecommendations().setText(exceptions.get(i).getRecommendations());
 					jobExceptionsView.getTxtAreaImplication().setText(exceptions.get(i).getImplication());
+					
+					if(exceptions.get(i).getImplicationRating()=="0"){
+						jobExceptionsView.getListBoxImplicationRating().setItemText(0,"Low");
+					}
+					else if(exceptions.get(i).getImplicationRating()=="1"){
+						jobExceptionsView.getListBoxImplicationRating().setItemText(0,"Medium");
+					}
+					else if(exceptions.get(i).getImplicationRating()=="2"){
+						jobExceptionsView.getListBoxImplicationRating().setItemText(0,"High");
+					}
+					
+				
 				//addeed now
 					//jobExceptionsView.getResponsiblePerson().addItem(exceptions.get(i).getResponsiblePerson().getEmployeeName());
 					//////CHanged above line here

@@ -246,7 +246,7 @@ public class AuditEngagementPresenter implements Presenter {
 				records.setWidget(i + 1, 3, endDate);// Added
 				records.setWidget(i + 1, 4, status);
 
-				displayingProgress(records, i);
+				displayingProgress(records, i, jobData.getJobId());
 
 				// only 'not started' jobs can be kicked off
 
@@ -302,7 +302,7 @@ public class AuditEngagementPresenter implements Presenter {
 		}
 	}
 
-	private void displayingProgress(FlexTable records, int i) {
+	private void displayingProgress(FlexTable records, int i, final int jobId) {
 		ProgressBar progressPlanning = new ProgressBar();
 		//progressPlanning.setValue((double) 5);
 		progressPlanning.updateProgress(.20, "20%");
@@ -330,11 +330,7 @@ public class AuditEngagementPresenter implements Presenter {
 			@Override
 			public void onClick(ClickEvent event) {
 				
-				fetchJobStatus();
-
-			
-			
-
+				fetchJobStatus(jobId);
 			}
 		});
 
@@ -348,7 +344,7 @@ public class AuditEngagementPresenter implements Presenter {
 		records.setWidget(i+1,7, AnchorJobStatus);
 	}
 	
-	private void fetchJobStatus() {
+	private void fetchJobStatus(int jobId) {
 		rpcService.fetchJobStatus(jobId, new AsyncCallback<JobStatusDTO>() {
 			
 			@Override

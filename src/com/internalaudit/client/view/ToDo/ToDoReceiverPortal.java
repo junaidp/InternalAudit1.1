@@ -45,8 +45,11 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 			issue.setId(arrayList.get(i).getToDoId());
 			issue.setRequestedItem(arrayList.get(i).getDescription());
 			issue.setRelatedJob(arrayList.get(i).getJob().getJobName());
-			issue.setRaisedBy(arrayList.get(i).getAssignedFrom());
+			issue.setRaisedBy(arrayList.get(i).getAssignedFrom().getEmployeeName());
 			issue.setOverDueDays(arrayList.get(i).getDueDate());
+			issue.setRaisedById(arrayList.get(i).getAssignedFrom().getEmployeeId());
+			issue.setRelatedJobId(arrayList.get(i).getJob().getJobCreationId());
+			//issue.setStatus(arrayList.get(i).getJob().getJobName());
 			toDoRequests.add(issue);
 		}	
 //		}
@@ -57,7 +60,7 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 		ColumnConfig<ToDoReceiverEntity, Integer> informationId = new ColumnConfig<ToDoReceiverEntity, Integer>(properties.id(), 50, "Sr#");
 		ColumnConfig<ToDoReceiverEntity, String> requestedItem = new ColumnConfig<ToDoReceiverEntity, String>(properties.requestedItem(), 170,
 				"Task");
-		ColumnConfig<ToDoReceiverEntity, Employee> informationRaisedBy = new ColumnConfig<ToDoReceiverEntity, Employee>(properties.raisedBy(),
+		ColumnConfig<ToDoReceiverEntity, String> informationRaisedBy = new ColumnConfig<ToDoReceiverEntity, String>(properties.raisedBy(),
 				120, "Asigned By");
 		ColumnConfig<ToDoReceiverEntity, String> relatedJob = new ColumnConfig<ToDoReceiverEntity, String>(properties.relatedJob(), 110, " Job");
 		

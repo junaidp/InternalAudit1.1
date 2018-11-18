@@ -1,5 +1,6 @@
 package com.internalaudit.client.view.ToDo;
 import java.io.Serializable;
+import java.util.Date;
 public class InformationRequestReceiverEntity implements Serializable {
 
 	// field work data
@@ -8,8 +9,15 @@ public class InformationRequestReceiverEntity implements Serializable {
 	private String relatedJob;
 	private String status;
 	private String viewButton;
-	private String overDueDays;
+	private Date overDueDays;
 	private int id;
+	private int raiseById;
+	private int raisedToId;
+	private String contactEmail;
+	private Boolean sendNotification;
+	private Boolean sendReminder;
+	private int sstatus;
+	private int relatedJobId;
 
 	public InformationRequestReceiverEntity() {
 
@@ -36,14 +44,6 @@ public class InformationRequestReceiverEntity implements Serializable {
 
 
 
-	public String getOverDueDays() {
-		return overDueDays;
-	}
-
-
-	public void setOverDueDays(String overDueDays) {
-		this.overDueDays = overDueDays;
-	}
 
 
 	public String getRequestedItem() {
@@ -84,6 +84,88 @@ public class InformationRequestReceiverEntity implements Serializable {
 	public void setViewButton(String viewButton) {
 		this.viewButton = viewButton;
 	}
+
+
+	public int getRaiseById() {
+		return raiseById;
+	}
+
+
+	public void setRaiseById(int raiseById) {
+		this.raiseById = raiseById;
+	}
+
+
+	public int getRaisedToId() {
+		return raisedToId;
+	}
+
+
+	public void setRaisedToId(int raisedToId) {
+		this.raisedToId = raisedToId;
+	}
+
+
+	public Boolean getSendNotification() {
+		return sendNotification;
+	}
+
+
+	public void setSendNotification(Boolean sendNotification) {
+		this.sendNotification = sendNotification;
+	}
+
+
+	public Boolean getSendReminder() {
+		return sendReminder;
+	}
+
+
+	public void setSendReminder(Boolean sendReminder) {
+		this.sendReminder = sendReminder;
+	}
+
+
+	public int getSstatus() {
+		return sstatus;
+	}
+
+
+	public void setSstatus(int sstatus) {
+		this.sstatus = sstatus;
+	}
+
+
+	public String getContactEmail() {
+		return contactEmail;
+	}
+
+
+	public void setContactEmail(String contactEmail) {
+		this.contactEmail = contactEmail;
+	}
+
+
+	public void setOverDueDays(Date overDueDays) {
+		this.overDueDays = overDueDays;
+	}
+
+
+	public Date getOverDueDays() {
+		return overDueDays;
+	}
+
+
+	public int getRelatedJobId() {
+		return relatedJobId;
+	}
+
+
+	public void setRelatedJobId(int relatedJobId) {
+		this.relatedJobId = relatedJobId;
+	}
+
+
 
 
 

@@ -5806,7 +5806,9 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(JobCreation.class);
-			crit.add(Restrictions.eq("jobId", jobId));
+			//crit.createAlias("strategicId", "strategic");
+			//crit.add(Restrictions.eq("strategic.strategicId", jobId));
+			crit.add(Restrictions.eq("jobCreationId", jobId));
 			if (crit.list().size() > 0) {
 				JobCreation jobCreation = (JobCreation) crit.list().get(0);
 				int status = jobCreation.getReportStatus();
@@ -8844,8 +8846,10 @@ public class MySQLRdbHelper {
 		}
 	}
 
-	private void setRiskControlStatus(int jobId, Session session, JobStatusDTO jobStatusDTO, int year, int companyId) {
-
+	private void setRiskControlStatus(int jobId, Session sessionbk, JobStatusDTO jobStatusDTO, int year, int companyId) {
+		
+		 Session session = sessionFactory.openSession();
+		try{
 		AuditEngagement audEng = fetchAuditEngagement(jobId, year, companyId);
 
 		Criteria crit = session.createCriteria(RiskControlMatrixEntity.class);
@@ -8865,6 +8869,12 @@ public class MySQLRdbHelper {
 			planningStatusDTO.setId(riskControl.getRiskId());
 		}
 		jobStatusDTO.getListPlanningStatus().add(planningStatusDTO);
+		session.close();
+		}catch(Exception ex) 
+		{
+;			session.close();
+			System.out.println(ex.getLocalizedMessage());
+		}
 	}
 
 	private void setAuditWorkProgramStatus(int jobId, Session session, JobStatusDTO jobStatusDTO, int year,

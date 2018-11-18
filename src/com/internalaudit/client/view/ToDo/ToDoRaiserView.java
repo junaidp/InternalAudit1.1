@@ -21,6 +21,8 @@ import com.internalaudit.client.upload.EmailAttachmentUpload;
 import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.AuditEngagement.LabelHeading;
+import com.internalaudit.shared.Employee;
+import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.ToDo;
 import com.sencha.gxt.widget.core.client.form.TextArea;
 
@@ -99,7 +101,7 @@ public class ToDoRaiserView extends VerticalPanel {
 		});
 		lblIrData.setText(toDo.getId()+"");
 		lblJobData.setText(toDo.getRelatedJob());
-		lblAssignedToData.setText(toDo.getRaisedBy().getEmployeeName());
+		lblAssignedToData.setText(toDo.getRaisedBy());
 		lblDateData.setText(toDo.getOverDueDays().toString());
 
 		lblEmailData.setText(toDo.getRequestedItem());
@@ -201,9 +203,13 @@ public class ToDoRaiserView extends VerticalPanel {
 				todoEntity.setToDoId(toDo.getId());
 				todoEntity.setDescription(toDo.getRequestedItem());
 				todoEntity.setRespond(txtAreaReply.getText());
-				todoEntity.setAssignedTo(toDo.getRaisedBy());
+				Employee assignedFrom = new Employee();
+				assignedFrom.setEmployeeId(toDo.getRaisedById());
+				todoEntity.setAssignedTo(assignedFrom);
 				todoEntity.setDueDate(toDo.getOverDueDays());
-				//todoEntity.setJob(toDo.setRelatedJob(relatedJob););
+				//JobCreation jobcreationId = new JobCreation();
+				//jobcreationId.setJobCreationId(toDo.getRelatedJobId());
+				//todoEntity.setJob(jobcreationId);
 				
 				rpcService.savetoDo(todoEntity, new AsyncCallback<String>() {
 

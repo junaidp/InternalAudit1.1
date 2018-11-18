@@ -23,6 +23,8 @@ public class ResponsiblePersonRowView extends VerticalPanel{
 	private TextArea  implementaionComments = new TextArea();
 	private TextArea  managementComments = new TextArea();
 	private TextArea  implication = new TextArea();
+	private ListBox implicationRating = new ListBox();
+	private ListBox responsiblePerson = new ListBox();
 	private DateBox  implementaionDate = new DateBox();
 	private ButtonRound btnSend = new ButtonRound("Send");
 	private Label status = new Label("");
@@ -63,9 +65,12 @@ public class ResponsiblePersonRowView extends VerticalPanel{
 		vpnlApprovalButton.add(hpnlApprovalButtons);
 		hpnl1.add(auditJob);
 		hpnl1.add(exception);
+		hpnl1.add(implication);
+		hpnl1.add(implicationRating);
 		hpnl1.add(recommendations);
 		hpnl1.add(managementComments);
-		hpnl1.add(implication);
+		hpnl1.add(responsiblePerson);
+		
 		implementaionDate.setFormat(new DefaultFormat(DateTimeFormat.getShortDateFormat()));
 		hpnl1.add(implementaionDate);
 		hpnl1.add(isAgreed);
@@ -92,19 +97,25 @@ public class ResponsiblePersonRowView extends VerticalPanel{
 //		
 //		btnApprove.setWidth("60px");
 //		btnReject.setWidth("60px");
-		exception.setWidth("250px");
-		recommendations.setWidth("250px");
-		managementComments.setWidth("250px");
-		implication.setWidth("160px");
+		implicationRating.setWidth("140px");
+		exception.setWidth("150px");
+		recommendations.setWidth("150px");
+		managementComments.setWidth("150px");
+		implication.setWidth("150px");
 		status.setWidth("120px");
 		isAgreed.setWidth("100px");
 //		for(int i=0; i< getWidgetCount()-3; i++){
 //			getWidget(i).setWidth("300px");
 //		}
 		implementaionDate.setWidth("100px");
+		responsiblePerson.setWidth("140px");
 		
 		auditJob.setEnabled(false);
+		implicationRating.setEnabled(false);
+		responsiblePerson.setEnabled(false);
 		exception.setEnabled(false);
+		implication.setEnabled(false);
+		implicationRating.setEnabled(false);
 		auditJob.setVisible(false);
 		recommendations.setEnabled(false);
 		managementComments.setEnabled(false); 
@@ -305,6 +316,30 @@ public class ResponsiblePersonRowView extends VerticalPanel{
 
 	public void setImplication(TextArea implication) {
 		this.implication = implication;
+	}
+
+
+
+	public ListBox getImplicationRating() {
+		return implicationRating;
+	}
+
+
+
+	public void setImplicationRating(ListBox implicationRating) {
+		this.implicationRating = implicationRating;
+	}
+
+
+
+	public ListBox getResponsiblePerson() {
+		return responsiblePerson;
+	}
+
+
+
+	public void setResponsiblePerson(ListBox responsiblePerson) {
+		this.responsiblePerson = responsiblePerson;
 	}
 
 }
