@@ -70,6 +70,7 @@ import com.internalaudit.shared.Feedback;
 import com.internalaudit.shared.FieldWorkStatusDTO;
 import com.internalaudit.shared.HibernateDetachUtility;
 import com.internalaudit.shared.InformationRequestEntity;
+import com.internalaudit.shared.InformationRequestLogEntity;
 import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.JobAndAreaOfExpertise;
 import com.internalaudit.shared.JobCreation;
@@ -106,6 +107,7 @@ import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.TimeLineDates;
 import com.internalaudit.shared.ToDo;
+import com.internalaudit.shared.ToDoLogsEntity;
 import com.internalaudit.shared.User;
 
 public class MySQLRdbHelper {
@@ -193,7 +195,8 @@ public class MySQLRdbHelper {
 			crit.createAlias("contactResponsible", "assignedto");
 			crit.createAlias("assignedFrom", "assignedfrom");
 			crit.add(Restrictions.eq("contactResponsible.employeeId", employeeId.getEmployeeId()));
-
+			crit.createAlias("job", "jobCreation");
+			jobsStrategicAlias(crit);
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				InformationRequestEntity informationRequest = (InformationRequestEntity) it.next();
@@ -202,6 +205,8 @@ public class MySQLRdbHelper {
 				HibernateDetachUtility.nullOutUninitializedFields(informationRequest.getAssignedFrom(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(informationRequest.getContactResponsible(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(informationRequest.getJob(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				informationRequests.add(informationRequest);
 			}
@@ -224,6 +229,8 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(ToDo.class);
 			crit.createAlias("assignedTo", "assignedto");
 			crit.createAlias("assignedFrom", "assignedfrom");
+			crit.createAlias("job", "jobCreation");
+			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("assignedto.employeeId", employeeId.getEmployeeId()));
 
 			List rsList = crit.list();
@@ -234,6 +241,8 @@ public class MySQLRdbHelper {
 				HibernateDetachUtility.nullOutUninitializedFields(toDo.getAssignedFrom(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(toDo.getAssignedTo(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(toDo.getJob(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				toDos.add(toDo);
 			}
@@ -9023,6 +9032,46 @@ public class MySQLRdbHelper {
 
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in saveInformationRequest", ex.getMessage()), ex);
+
+		}
+		return "saved";
+	}
+
+	public String saveToDoLogs(ToDoLogsEntity toDoLogsEntity) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+
+			session.saveOrUpdate(toDoLogsEntity);
+			session.flush();
+
+			// logger.info(String.format("(Inside saveAuditNotification) saving
+			// AuditNotification for message to: " + to
+			// + "for message" + message + "for year" + year + "for company" +
+			// companyId + "" + new Date()));
+
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in saveToDologs", ex.getMessage()), ex);
+
+		}
+		return "saved";
+	}
+
+	public String saveInformationRequestLogs(InformationRequestLogEntity informationRequestLogEntity) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+
+			session.saveOrUpdate(informationRequestLogEntity);
+			session.flush();
+
+			// logger.info(String.format("(Inside saveAuditNotification) saving
+			// AuditNotification for message to: " + to
+			// + "for message" + message + "for year" + year + "for company" +
+			// companyId + "" + new Date()));
+
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in saveInformationRequestLogs", ex.getMessage()), ex);
 
 		}
 		return "saved";

@@ -37,6 +37,7 @@ import com.internalaudit.shared.Exceptions;
 import com.internalaudit.shared.ExceptionsReportDTO;
 import com.internalaudit.shared.Feedback;
 import com.internalaudit.shared.InformationRequestEntity;
+import com.internalaudit.shared.InformationRequestLogEntity;
 import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.JobAndAreaOfExpertise;
 import com.internalaudit.shared.JobCreation;
@@ -64,6 +65,7 @@ import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.TimeOutException;
 import com.internalaudit.shared.ToDo;
+import com.internalaudit.shared.ToDoLogsEntity;
 import com.internalaudit.shared.User;
 
 /**
@@ -1573,5 +1575,23 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	       return listFiles;
 	   
 		
+	}
+
+	@Override
+	public String saveToDoLogs(ToDoLogsEntity toDoLogsEntity) throws Exception {
+		User loggedInUser = (User) session.getAttribute("user");
+		int companyId = (Integer) session.getAttribute("companyId");
+		//todo.setCompanyId(companyId);
+		toDoLogsEntity.setAssignedFrom(loggedInUser.getEmployeeId());
+		return rdbHelper.saveToDoLogs(toDoLogsEntity);
+	}
+
+	@Override
+	public String saveInformationRequestLogs(InformationRequestLogEntity informationRequestLogEntity) throws Exception {
+		User loggedInUser = (User) session.getAttribute("user");
+		int companyId = (Integer) session.getAttribute("companyId");
+		//todo.setCompanyId(companyId);
+		informationRequestLogEntity.setAssignedFrom(loggedInUser.getEmployeeId());
+		return rdbHelper.saveInformationRequestLogs(informationRequestLogEntity);
 	}
 }

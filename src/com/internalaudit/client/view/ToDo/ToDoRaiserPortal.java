@@ -45,7 +45,7 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 			//issue.setId(exceptions.get(i).getExceptionId());
 			issue.setId(arrayList.get(i).getToDoId());
 			issue.setRequestedItem(arrayList.get(i).getDescription());
-			issue.setRelatedJob(arrayList.get(i).getJob().getJobName());
+			//issue.setRelatedJob(arrayList.get(i).getJob().getJobName());
 			issue.setRaisedTo(arrayList.get(i).getAssignedTo().getEmployeeName());
 			issue.setOverDueDays(arrayList.get(i).getDueDate().toString());
 			issue.setStatus(arrayList.get(i).getRespond());

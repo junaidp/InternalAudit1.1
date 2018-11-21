@@ -40,7 +40,7 @@ public class PopupsView {
 
 		HorizontalPanel hpnlClose = new HorizontalPanel ();
 		hpnlSPace = new HorizontalPanel();
-		hpnlSPace.setWidth("800px");
+	    hpnlSPace.setWidth("800px");
 		hpnlClose.add(hpnlSPace);
 		hpnlClose.add(close);
 		close.addStyleName("pointerStyle");
@@ -49,7 +49,7 @@ public class PopupsView {
 		vpnlMain.add(hpnlClose);
 		vpnlMain.add(labelheading);
 		vpnlMain.add(widget);
-		vpnlMain.setSize("800px", "425px");
+		//vpnlMain.setSize("800px", "425px");
 		// vpnlMain.
 		popup.setWidget(vpnlMain);
 		hpnlSPace.addStyleName("w3-panel w3-white ");

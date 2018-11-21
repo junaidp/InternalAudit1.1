@@ -48,6 +48,7 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 			issue.setRaisedBy(arrayList.get(i).getAssignedFrom().getEmployeeName());
 			issue.setOverDueDays(arrayList.get(i).getDueDate());
 			issue.setRaisedById(arrayList.get(i).getAssignedFrom().getEmployeeId());
+			issue.setRaisedToId(arrayList.get(i).getAssignedTo().getEmployeeId());
 			issue.setRelatedJobId(arrayList.get(i).getJob().getJobCreationId());
 			//issue.setStatus(arrayList.get(i).getJob().getJobName());
 			toDoRequests.add(issue);

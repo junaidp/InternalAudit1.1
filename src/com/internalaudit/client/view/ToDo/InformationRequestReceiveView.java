@@ -22,6 +22,7 @@ import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.InformationRequestEntity;
+import com.internalaudit.shared.InformationRequestLogEntity;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.ToDo;
 import com.sencha.gxt.widget.core.client.form.TextArea;
@@ -94,20 +95,40 @@ public class InformationRequestReceiveView extends VerticalPanel {
 				infoReq.setSendReminder(informationRequest.getSendReminder());
 				infoReq.setStatus(informationRequest.getSstatus());
 				infoReq.setDueDate(informationRequest.getOverDueDays());
+				//Saving data for informationRequestlog
+				InformationRequestLogEntity infoRequestLog = new InformationRequestLogEntity();
+				infoRequestLog.setAssignedFrom(raisedBy);
+				infoRequestLog.setAssignedTo(raisedTo);
+				infoRequestLog.setDescription(informationRequest.getRequestedItem());
+				infoRequestLog.setDate(informationRequest.getOverDueDays());
 				
-				rpcService.saveinformationRequest(infoReq, new AsyncCallback<String>() {
+				rpcService.saveInformationRequestLogs(infoRequestLog, new AsyncCallback<String>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						Window.alert("save informationRequest failed");
+						Window.alert("Failed SavaInformationREquestLogs");
+						
 					}
 
 					@Override
 					public void onSuccess(String result) {
-					
 						new DisplayAlert(result);
+						rpcService.saveinformationRequest(infoReq, new AsyncCallback<String>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								Window.alert("save informationRequest failed");
+							}
+
+							@Override
+							public void onSuccess(String result) {
+							
+								
+							}
+						});
 					}
 				});
+				
 
 			}
 		});

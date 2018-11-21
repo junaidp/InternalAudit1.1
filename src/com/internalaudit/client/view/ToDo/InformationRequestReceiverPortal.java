@@ -142,21 +142,6 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 		 VerticalLayoutContainer con = new VerticalLayoutContainer();
 		Anchor anchorView = new Anchor("view");
 		con.add(anchorView);
-		anchorView.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				final InformationRequestReceiveView emailView = new InformationRequestReceiveView(null);
-				PopupsView pp = new PopupsView(emailView, "");
-				pp.getLabelheading().setText("Information Request Receiver Views");
-				pp.getVpnlMain().setTitle("Info Req Receiver");
-				pp.getVpnlMain().setWidth("900px");
-				pp.getHpnlSPace().setWidth("900px");
-				pp.getVpnlMain().setHeight("530px");
-
-				
-			}
-		});
 		
 	   
 	      con.add(p, new VerticalLayoutData(1, 1));

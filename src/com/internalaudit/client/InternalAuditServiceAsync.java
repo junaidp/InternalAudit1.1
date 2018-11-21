@@ -22,6 +22,7 @@ import com.internalaudit.shared.Exceptions;
 import com.internalaudit.shared.ExceptionsReportDTO;
 import com.internalaudit.shared.Feedback;
 import com.internalaudit.shared.InformationRequestEntity;
+import com.internalaudit.shared.InformationRequestLogEntity;
 import com.internalaudit.shared.JobAndAreaOfExpertise;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.JobCreationDTO;
@@ -47,6 +48,7 @@ import com.internalaudit.shared.StrategicRisk;
 import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.ToDo;
+import com.internalaudit.shared.ToDoLogsEntity;
 import com.internalaudit.shared.User;
 
 /**
@@ -278,6 +280,11 @@ public interface InternalAuditServiceAsync {
 	void saveinformationRequest(InformationRequestEntity informationrequest, AsyncCallback<String> callback);
 
 	void fetchEmailAttachments(AsyncCallback<ArrayList<String>> callback);
+
+	void saveToDoLogs(ToDoLogsEntity toDoLogsEntity, AsyncCallback<String> callback);
+
+	void saveInformationRequestLogs(InformationRequestLogEntity informationRequestLogEntity,
+			AsyncCallback<String> callback);
 	
 	
 

@@ -15,6 +15,7 @@ public class ToDoReceiverEntity implements Serializable {
 	private String viewButton;
 	private Date overDueDays;
 	private int id;
+	private int raisedToId;
 	
 	public ToDoReceiverEntity() {
 
@@ -112,6 +113,16 @@ public class ToDoReceiverEntity implements Serializable {
 
 	public void setRelatedJobId(int relatedJobId) {
 		this.relatedJobId = relatedJobId;
+	}
+
+
+	public int getRaisedToId() {
+		return raisedToId;
+	}
+
+
+	public void setRaisedToId(int raisedToId) {
+		this.raisedToId = raisedToId;
 	}
 
 

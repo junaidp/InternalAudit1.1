@@ -195,15 +195,7 @@ public class SideBarView extends VerticalLayoutContainer {
 				 ImgSecuirity.addClickHandler(new ClickHandler() {
 						@Override
 						public void onClick(ClickEvent event) {
-							rpcService.fetchDashboard(null, new AsyncCallback<DashBoardNewDTO>() {
-
-								@Override
-								public void onFailure(Throwable arg0) {
-									Window.alert("fetchDashboard fail");
-								}
-
-								@Override
-								public void onSuccess(DashBoardNewDTO dashboard) {
+					
 									ToDoReceiverPortal p = new ToDoReceiverPortal(loggedInUser.getTodos());
 									PopupsView pp = new PopupsView(p, "");
 									pp = new PopupsView(p, "");
@@ -216,8 +208,7 @@ public class SideBarView extends VerticalLayoutContainer {
 							
 						});
 					
-						}
-					});
+				
 				 
 			
 	}

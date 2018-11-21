@@ -24,6 +24,7 @@ import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.ToDo;
+import com.internalaudit.shared.ToDoLogsEntity;
 import com.sencha.gxt.widget.core.client.form.TextArea;
 
 public class ToDoRaiserView extends VerticalPanel {
@@ -207,23 +208,46 @@ public class ToDoRaiserView extends VerticalPanel {
 				assignedFrom.setEmployeeId(toDo.getRaisedById());
 				todoEntity.setAssignedTo(assignedFrom);
 				todoEntity.setDueDate(toDo.getOverDueDays());
-				//JobCreation jobcreationId = new JobCreation();
-				//jobcreationId.setJobCreationId(toDo.getRelatedJobId());
-				//todoEntity.setJob(jobcreationId);
+				JobCreation jobcreationId = new JobCreation();
+				jobcreationId.setJobCreationId(toDo.getRelatedJobId());
+				todoEntity.setJob(jobcreationId);
 				
-				rpcService.savetoDo(todoEntity, new AsyncCallback<String>() {
+				final ToDoLogsEntity todoLogsEntity = new ToDoLogsEntity();
+				Employee assignedTo = new Employee();
+				assignedTo.setEmployeeId(toDo.getRaisedToId());
+				todoLogsEntity.setDescription(toDo.getRequestedItem());
+				todoLogsEntity.setAssignedFrom(assignedFrom);
+				todoLogsEntity.setAssignedTo(assignedTo);
+				todoLogsEntity.setDate(toDo.getOverDueDays());
+				
+				rpcService.saveToDoLogs(todoLogsEntity, new AsyncCallback<String>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						Window.alert("save Todo failed");
+						Window.alert("save ToDoLogsFailed");
+						
 					}
 
 					@Override
 					public void onSuccess(String result) {
-					
 						new DisplayAlert(result);
+						rpcService.savetoDo(todoEntity, new AsyncCallback<String>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								Window.alert("save Todo failed");
+							}
+
+							@Override
+							public void onSuccess(String result) {
+							
+								new DisplayAlert(result);
+							}
+						});
+						
 					}
 				});
+				
 
 			}
 		});
