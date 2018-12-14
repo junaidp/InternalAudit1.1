@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -80,7 +81,7 @@ public class DashBoardNewPresenter implements Presenter
 
 			@Override
 			public void onFailure(Throwable arg0) {
-					
+					Window.alert("fetchdashboard failed");
 			}
 
 			@Override

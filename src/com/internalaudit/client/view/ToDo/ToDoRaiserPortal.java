@@ -1,6 +1,7 @@
 
 package com.internalaudit.client.view.ToDo;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
@@ -14,9 +15,13 @@ import com.internalaudit.client.view.ToDoView;
 import com.internalaudit.shared.Exceptions;
 import com.internalaudit.shared.InformationRequestEntity;
 import com.internalaudit.shared.ToDo;
+import com.sencha.gxt.cell.core.client.TextButtonCell;
+import com.google.gwt.cell.client.Cell.Context;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.event.SelectEvent;
+import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
@@ -29,8 +34,9 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 	protected static final int PREFERRED_WIDTH = 1;
 	  private ContentPanel panel;
 	private static final ToDoRaiserProperties properties = GWT.create(ToDoRaiserProperties.class);
-
-	private List<ToDoRaiserEntity> informationRequests = new ArrayList<ToDoRaiserEntity>();
+	TextButtonCell button = new TextButtonCell() ;
+	ListStore<ToDoRaiserEntity> store ;
+	private List<ToDoRaiserEntity> toDos = new ArrayList<ToDoRaiserEntity>();
 
 	public ToDoRaiserPortal(ArrayList<ToDo> arrayList) {
 		setData(arrayList);
@@ -42,14 +48,20 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 	private void setData(ArrayList<ToDo> arrayList) {
 		for (int i = 0; i < arrayList.size(); i++) {
 			ToDoRaiserEntity issue = new ToDoRaiserEntity();
-			//issue.setId(exceptions.get(i).getExceptionId());
+	
 			issue.setId(arrayList.get(i).getToDoId());
 			issue.setRequestedItem(arrayList.get(i).getDescription());
-			//issue.setRelatedJob(arrayList.get(i).getJob().getJobName());
+			issue.setRelatedJob(arrayList.get(i).getJob().getJobName());
 			issue.setRaisedTo(arrayList.get(i).getAssignedTo().getEmployeeName());
-			issue.setOverDueDays(arrayList.get(i).getDueDate().toString());
+			issue.setOverDueDays(arrayList.get(i).getDueDate());
 			issue.setStatus(arrayList.get(i).getRespond());
-			informationRequests.add(issue);
+			issue.setReply(arrayList.get(i).getRespond());
+			issue.setRaisedById(arrayList.get(i).getAssignedFrom().getEmployeeId());
+			issue.setRaisedToId(arrayList.get(i).getAssignedTo().getEmployeeId());
+			issue.setRelatedJobId(arrayList.get(i).getJob().getJobCreationId());
+			issue.setTodoLogList(arrayList.get(i).getTodosLogList());
+			
+			toDos.add(issue);
 		}	
 //		}
 	}
@@ -57,16 +69,45 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 	public Widget createGridFieldWork() {
 
 		ColumnConfig<ToDoRaiserEntity, Integer> informationId = new ColumnConfig<ToDoRaiserEntity, Integer>(properties.id(), 50, "Sr#");
-		ColumnConfig<ToDoRaiserEntity, String> requestedItem = new ColumnConfig<ToDoRaiserEntity, String>(properties.requestedItem(), 190,
+		ColumnConfig<ToDoRaiserEntity, String> requestedItem = new ColumnConfig<ToDoRaiserEntity, String>(properties.requestedItem(), 180,
 				"Task");
 		ColumnConfig<ToDoRaiserEntity, String> informationRaisedBy = new ColumnConfig<ToDoRaiserEntity, String>(properties.raisedTo(),
-				130, "Asigned To");
-		ColumnConfig<ToDoRaiserEntity, String> relatedJob = new ColumnConfig<ToDoRaiserEntity, String>(properties.relatedJob(), 130, " Job");
+				120, "Asigned To");
+		ColumnConfig<ToDoRaiserEntity, String> relatedJob = new ColumnConfig<ToDoRaiserEntity, String>(properties.relatedJob(), 120, " Job");
+		ColumnConfig<ToDoRaiserEntity, Date> informationOverDue = new ColumnConfig<ToDoRaiserEntity, Date>(properties.overDueDays(), 150, "Due Date");
+		ColumnConfig<ToDoRaiserEntity, String> informationStatus = new ColumnConfig<ToDoRaiserEntity, String>(properties.status(), 100, "status");
+		ColumnConfig<ToDoRaiserEntity, String> viewButton = new ColumnConfig<ToDoRaiserEntity, String>(properties.viewButton(), 100, "");
 		
+		button.setText("view");
 		
-		ColumnConfig<ToDoRaiserEntity, String> informationOverDue = new ColumnConfig<ToDoRaiserEntity, String>(properties.overDueDays(), 180, "Due Date");
-		ColumnConfig<ToDoRaiserEntity, String> informationStatus = new ColumnConfig<ToDoRaiserEntity, String>(properties.status(), 130, "status");
-
+		 button.addSelectHandler(new SelectHandler() {
+	          @Override
+	          public void onSelect(SelectEvent event) {
+	            Context c = event.getContext();
+	            int row = c.getIndex();
+	            ToDoRaiserEntity toDo = store.get(row);
+	            ToDoRaiserFinalView toDoReceiver = new ToDoRaiserFinalView(toDo);
+	            final	PopupsView pp = new PopupsView(toDoReceiver, "");
+				pp.getLabelheading().setText("ToDo Receiver Receiver");
+				pp.getVpnlMain().setTitle("Todos");
+				pp.getVpnlMain().setWidth("600px");
+				pp.getHpnlSPace().setWidth("600px");
+				pp.getVpnlMain().setHeight("500px");
+				toDoReceiver.getBtnCancel().addClickHandler(new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						pp.getVpnlMain().removeFromParent();
+						pp.getPopup().removeFromParent();
+						
+						
+					}
+				});
+	           // Info.display("Event", "The " + p.getRequestedItem() + " was clicked.");
+	          }
+	        });	
+		
+		viewButton.setCell(button);
 		List<ColumnConfig<ToDoRaiserEntity, ?>> columns = new ArrayList<ColumnConfig<ToDoRaiserEntity, ?>>();
 		columns.add(informationId);
 		columns.add(requestedItem);
@@ -74,12 +115,13 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 		columns.add(relatedJob);
 		columns.add(informationOverDue);
 		columns.add(informationStatus);
+		columns.add(viewButton);
 		
 
 		ColumnModel<ToDoRaiserEntity> cm = new ColumnModel<ToDoRaiserEntity>(columns);
 
-		ListStore<ToDoRaiserEntity> store = new ListStore<ToDoRaiserEntity>(properties.key());
-		store.addAll(informationRequests);
+		store = new ListStore<ToDoRaiserEntity>(properties.key());
+		store.addAll(toDos);
 
 		final Grid<ToDoRaiserEntity> grid = new Grid<ToDoRaiserEntity>(store, cm);
 		//grid.setWidth(600);
@@ -103,12 +145,21 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 			@Override
 			public void onClick(ClickEvent event) {
 				final ToDoView todoview = new ToDoView();
-				PopupsView pp = new PopupsView(todoview, "");
+				 final PopupsView pp = new PopupsView(todoview, "");
 				pp.getLabelheading().setText("To Do");
 				pp.getVpnlMain().setWidth("400px");
 				pp.getHpnlSPace().setWidth("400px");
 				pp.getVpnlMain().setHeight("320px");
-
+				todoview.getBtnCancel().addClickHandler(new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						pp.getVpnlMain().removeFromParent();
+						pp.getPopup().removeFromParent();
+						
+						
+					}
+				});
 				
 			}
 		});

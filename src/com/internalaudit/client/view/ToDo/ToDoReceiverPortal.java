@@ -33,7 +33,6 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 
 	public ToDoReceiverPortal(ArrayList<ToDo> arrayList) {
 		setData(arrayList);
-		//setData(exceptions);
 		add(createGridFieldWork());
 
 	}

@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
@@ -25,7 +26,7 @@ import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.ToDo;
 import com.internalaudit.shared.ToDoLogsEntity;
-import com.sencha.gxt.widget.core.client.form.TextArea;
+
 
 public class ToDoRaiserView extends VerticalPanel {
 	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
@@ -100,6 +101,12 @@ public class ToDoRaiserView extends VerticalPanel {
 			}
 
 		});
+		setHandler(toDo);
+		clickHandler(toDo);
+
+	}
+
+	private void setHandler(final ToDoReceiverEntity toDo) {
 		lblIrData.setText(toDo.getId()+"");
 		lblJobData.setText(toDo.getRelatedJob());
 		lblAssignedToData.setText(toDo.getRaisedBy());
@@ -161,8 +168,7 @@ public class ToDoRaiserView extends VerticalPanel {
 		EmailAttachmentUpload a = new EmailAttachmentUpload();
 		VerticalPanel panelFileUpload = new VerticalPanel();
 		panelFileUpload.add(a);
-		txtAreaReply.setText("Enter your Reply here");
-
+		txtAreaReply.getElement().setPropertyString("placeholder", "Enter your Reply here");
 
 
 
@@ -196,6 +202,10 @@ public class ToDoRaiserView extends VerticalPanel {
 		add(panelFileUpload);
 		add(panelFileDetail);
 
+		
+	}
+
+	private void clickHandler(final ToDoReceiverEntity toDo) {
 		btnSubmit.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -204,22 +214,33 @@ public class ToDoRaiserView extends VerticalPanel {
 				todoEntity.setToDoId(toDo.getId());
 				todoEntity.setDescription(toDo.getRequestedItem());
 				todoEntity.setRespond(txtAreaReply.getText());
+				Employee assignedTo = new Employee();
+				assignedTo.setEmployeeId(toDo.getRaisedToId());
 				Employee assignedFrom = new Employee();
 				assignedFrom.setEmployeeId(toDo.getRaisedById());
-				todoEntity.setAssignedTo(assignedFrom);
+				todoEntity.setAssignedTo(assignedTo);
 				todoEntity.setDueDate(toDo.getOverDueDays());
+				todoEntity.setAssignedFrom(assignedFrom);
 				JobCreation jobcreationId = new JobCreation();
 				jobcreationId.setJobCreationId(toDo.getRelatedJobId());
 				todoEntity.setJob(jobcreationId);
+				todoEntity.setRead(true); 
 				
 				final ToDoLogsEntity todoLogsEntity = new ToDoLogsEntity();
-				Employee assignedTo = new Employee();
-				assignedTo.setEmployeeId(toDo.getRaisedToId());
+			
 				todoLogsEntity.setDescription(toDo.getRequestedItem());
+				todoLogsEntity.setRespond(txtAreaReply.getText());
+				todoLogsEntity.setToDoId(toDo.getId());
 				todoLogsEntity.setAssignedFrom(assignedFrom);
 				todoLogsEntity.setAssignedTo(assignedTo);
 				todoLogsEntity.setDate(toDo.getOverDueDays());
 				
+				saveToDoLog(todoEntity, todoLogsEntity);
+				
+
+			}
+
+			private void saveToDoLog(final ToDo todoEntity, final ToDoLogsEntity todoLogsEntity) {
 				rpcService.saveToDoLogs(todoLogsEntity, new AsyncCallback<String>() {
 
 					@Override
@@ -231,6 +252,11 @@ public class ToDoRaiserView extends VerticalPanel {
 					@Override
 					public void onSuccess(String result) {
 						new DisplayAlert(result);
+						saveToDo(todoEntity);
+						
+					}
+
+					private void saveToDo(final ToDo todoEntity) {
 						rpcService.savetoDo(todoEntity, new AsyncCallback<String>() {
 
 							@Override
@@ -244,14 +270,10 @@ public class ToDoRaiserView extends VerticalPanel {
 								new DisplayAlert(result);
 							}
 						});
-						
 					}
 				});
-				
-
 			}
 		});
-
 	}
 
 

@@ -1,6 +1,5 @@
 package com.internalaudit.shared;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,13 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 
-@Table(name="todo")
+@Table(name="informationrequestlogs")
 
-public class ToDo implements Serializable {
+public class InformationRequestLogEntity implements Serializable {
 
 //	private static final long serialVersionUID = -7673298596496592711L;
 
@@ -25,45 +23,38 @@ public class ToDo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="toDoId")
-	private int toDoId;
+	@Column(name="informationrequestlogsId")
+	private int informationrequestlogsId;
 	
-	 @Column(name="companyId")
-	private int companyId;
 	
 	@Column(name="description")
 	private String description;
 	
+	@Column(name="respond")
+	private String respond;
+	
+
 	@JoinColumn(name = "assignedTo")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employee assignedTo;
 	
-	@JoinColumn(name = "assignedFrom")
+	@JoinColumn(name = "assignedBy")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employee assignedFrom;
 	
-	@JoinColumn(name = "job")
-	@ManyToOne(fetch = FetchType.LAZY)
-	private JobCreation job;
-	
-	@Column(name="dueDate")
-	private Date dueDate;
+	@Column(name="informationRequestId")
+	private int informationRequestId;
 
-	@Column(name="respond")
-	private String respond;
 	
-	@Column(name="messageread")
-	private Boolean read;
-	
-	@Transient
-	private  ArrayList<ToDoLogsEntity>   todosLogList;
-	
-	public int getToDoId() {
-		return toDoId;
+	@Column(name="date")
+	private Date Date;
+
+	public int getInformationrequestlogsId() {
+		return informationrequestlogsId;
 	}
 
-	public void setToDoId(int toDoId) {
-		this.toDoId = toDoId;
+	public void setInformationrequestlogsId(int informationrequestlogsId) {
+		this.informationrequestlogsId = informationrequestlogsId;
 	}
 
 	public String getDescription() {
@@ -72,14 +63,6 @@ public class ToDo implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public Date getDueDate() {
-		return dueDate;
-	}
-
-	public void setDueDate(Date dueDate) {
-		this.dueDate = dueDate;
 	}
 
 	public Employee getAssignedTo() {
@@ -98,12 +81,12 @@ public class ToDo implements Serializable {
 		this.assignedFrom = assignedFrom;
 	}
 
-	public int getCompanyId() {
-		return companyId;
+	public Date getDate() {
+		return Date;
 	}
 
-	public void setCompanyId(int companyId) {
-		this.companyId = companyId;
+	public void setDate(Date date) {
+		Date = date;
 	}
 
 	public String getRespond() {
@@ -114,31 +97,13 @@ public class ToDo implements Serializable {
 		this.respond = respond;
 	}
 
-	public JobCreation getJob() {
-		return job;
+	public int getInformationRequestId() {
+		return informationRequestId;
 	}
 
-	public void setJob(JobCreation job) {
-		this.job = job;
+	public void setInformationRequestId(int informationRequestId) {
+		this.informationRequestId = informationRequestId;
 	}
 
-	public Boolean getRead() {
-		return read;
-	}
-
-	public void setRead(Boolean read) {
-		this.read = read;
-	}
-
-	public ArrayList<ToDoLogsEntity> getTodosLogList() {
-		return todosLogList;
-	}
-
-	public void setTodosLogList(ArrayList<ToDoLogsEntity> todosLogList) {
-		this.todosLogList = todosLogList;
-	}
-
-
-	
 	
 }

@@ -156,6 +156,8 @@ public class MySQLRdbHelper {
 
 				users.setTodos(fetchUsersTodos(users.getEmployeeId()));
 				users.setInformationRequests(fetchInformationUserRequest(users.getEmployeeId()));
+				users.setUserRaisedToDos(fetchUsersRaisedToDo(users.getEmployeeId()));
+				users.setUserRaisedInformationRequests(fetchUserRaisedInformationRequest(users.getEmployeeId()));
 				// create a method in mysql class to  Todo where userid =
 				// users.getEmployeeId().getEmployeeId(), set it here
 
@@ -186,6 +188,128 @@ public class MySQLRdbHelper {
 
 
 
+	private ArrayList<InformationRequestEntity> fetchUserRaisedInformationRequest(Employee employeeId) {
+		Session session = null;
+		ArrayList<InformationRequestEntity> informationRequests = new ArrayList<InformationRequestEntity>();
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(InformationRequestEntity.class);
+			crit.createAlias("contactResponsible", "assignedto");
+			crit.createAlias("assignedFrom", "assignedfrom");
+			crit.add(Restrictions.eq("assignedFrom.employeeId", employeeId.getEmployeeId()));
+			crit.createAlias("job", "jobCreation");
+			jobsStrategicAlias(crit);
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				InformationRequestEntity informationRequest = (InformationRequestEntity) it.next();
+			ArrayList<InformationRequestLogEntity> informationrequestlogs =	fetchInformationRequestLogs(informationRequest.getInformationRequestId());
+				informationRequest.setInformationRequestLogList(informationrequestlogs);
+				HibernateDetachUtility.nullOutUninitializedFields(informationRequest,
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(informationRequest.getAssignedFrom(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(informationRequest.getContactResponsible(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(informationRequest.getJob(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				informationRequests.add(informationRequest);
+			}
+			logger.info(String.format("Inside fetchInformationUserRaisedRequest() " + new Date()));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchInformationUserRAisedRequest()", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+		return informationRequests;
+	}
+
+	private ArrayList<InformationRequestLogEntity> fetchInformationRequestLogs(int informationRequestId) {
+		Session session = null;
+		ArrayList<InformationRequestLogEntity> informationRequestLogs = new ArrayList<InformationRequestLogEntity>();
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(InformationRequestLogEntity.class);
+			crit.add(Restrictions.eq("informationRequestId",informationRequestId)); 
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				InformationRequestLogEntity informationRequest = (InformationRequestLogEntity) it.next();
+
+
+				informationRequestLogs.add(informationRequest);
+			}
+			logger.info(String.format("Inside fetchInformationUserRequestLogs() " + new Date()));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchInformationUserRequestLogs()", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+		return informationRequestLogs;
+	}
+
+	private ArrayList<ToDo> fetchUsersRaisedToDo(Employee employeeId) {
+		Session session = null;
+		ArrayList<ToDo> toDos = new ArrayList<ToDo>();
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(ToDo.class);
+			crit.createAlias("assignedTo", "assignedto");
+			crit.createAlias("assignedFrom", "assignedfrom");
+			crit.createAlias("job", "jobCreation");
+			jobsStrategicAlias(crit);
+			crit.add(Restrictions.eq("assignedfrom.employeeId", employeeId.getEmployeeId()));
+			
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				ToDo toDo = (ToDo) it.next();
+				ArrayList<ToDoLogsEntity> todos =	fetchtoDoLogsLogs(toDo.getToDoId());
+				toDo.setTodosLogList(todos);
+				HibernateDetachUtility.nullOutUninitializedFields(toDo,
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(toDo.getAssignedFrom(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(toDo.getAssignedTo(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(toDo.getJob(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				toDos.add(toDo);
+			}
+			logger.info(String.format("Inside fetchUsersRaisedTodo() " + new Date()));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchUsersRaisedTodo()", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+		return toDos;
+	}
+
+	private ArrayList<ToDoLogsEntity> fetchtoDoLogsLogs(int toDoId) {
+		Session session = null;
+		ArrayList<ToDoLogsEntity> toDoLogs = new ArrayList<ToDoLogsEntity>();
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(ToDoLogsEntity.class);
+			crit.add(Restrictions.eq("toDoId",toDoId)); 
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				ToDoLogsEntity toDo = (ToDoLogsEntity) it.next();
+
+
+				toDoLogs.add(toDo);
+			}
+			logger.info(String.format("Inside fetchtoDotLogs() " + new Date()));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchtoDolLogs()", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+		return toDoLogs;
+	}
+
+
 	private ArrayList<InformationRequestEntity> fetchInformationUserRequest(Employee employeeId) {
 		Session session = null;
 		ArrayList<InformationRequestEntity> informationRequests = new ArrayList<InformationRequestEntity>();
@@ -195,6 +319,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("contactResponsible", "assignedto");
 			crit.createAlias("assignedFrom", "assignedfrom");
 			crit.add(Restrictions.eq("contactResponsible.employeeId", employeeId.getEmployeeId()));
+			crit.add(Restrictions.eq("read", false));
 			crit.createAlias("job", "jobCreation");
 			jobsStrategicAlias(crit);
 			List rsList = crit.list();
@@ -232,7 +357,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("job", "jobCreation");
 			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("assignedto.employeeId", employeeId.getEmployeeId()));
-
+			crit.add(Restrictions.eq("read", false));
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				ToDo toDo = (ToDo) it.next();
@@ -1487,6 +1612,7 @@ public class MySQLRdbHelper {
 		ArrayList<DashBoardDTO> dashBoardDTOs = new ArrayList<DashBoardDTO>();
 		try {
 			session = sessionFactory.openSession();
+			
 			Criteria crit = session.createCriteria(Strategic.class);
 			crit.createAlias("assignedTo", "assigned");
 			crit.createAlias("assigned.userId", "assignedUser");
@@ -4326,6 +4452,8 @@ public class MySQLRdbHelper {
 			crit.createAlias("To.cityId", "employeeCityR");
 			crit.createAlias("To.reportingTo", "employeeRepR");
 			crit.createAlias("To.userId", "employeeUserR");
+			
+			//crit.add(Restrictions.eq("read", 0));
 
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -4337,11 +4465,11 @@ public class MySQLRdbHelper {
 				toDos.add(toDo);
 			}
 
-			logger.info(String.format("(Inside fetchInformationRequest)  fetching informationRequests : "
+			logger.info(String.format("(Inside fetchTodo)  fetching todos : "
 					+ "for company" + companyId + " " + new Date()));
 
 		} catch (Exception ex) {
-			logger.warn(String.format("Exception occured in fetchInformationRequest", ex.getMessage()), ex);
+			logger.warn(String.format("Exception occured in fetchtodo", ex.getMessage()), ex);
 
 		} finally {
 			session.close();
@@ -9045,11 +9173,6 @@ public class MySQLRdbHelper {
 			session.saveOrUpdate(toDoLogsEntity);
 			session.flush();
 
-			// logger.info(String.format("(Inside saveAuditNotification) saving
-			// AuditNotification for message to: " + to
-			// + "for message" + message + "for year" + year + "for company" +
-			// companyId + "" + new Date()));
-
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in saveToDologs", ex.getMessage()), ex);
 
@@ -9064,6 +9187,10 @@ public class MySQLRdbHelper {
 
 			session.saveOrUpdate(informationRequestLogEntity);
 			session.flush();
+			
+			
+			//call new method from here(informationRequestLogEntity.getAssignedFrom())
+			// 
 
 			// logger.info(String.format("(Inside saveAuditNotification) saving
 			// AuditNotification for message to: " + to
@@ -9076,4 +9203,7 @@ public class MySQLRdbHelper {
 		}
 		return "saved";
 	}
+	
+	///new method fetchInformationreqLogs...(Employee 
+	
 }

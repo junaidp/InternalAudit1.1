@@ -49,11 +49,8 @@ public class PopupsView {
 		vpnlMain.add(hpnlClose);
 		vpnlMain.add(labelheading);
 		vpnlMain.add(widget);
-		//vpnlMain.setSize("800px", "425px");
-		// vpnlMain.
 		popup.setWidget(vpnlMain);
 		hpnlSPace.addStyleName("w3-panel w3-white ");
-		//popup.addStyleName("w3-panel w3-green");
 		vpnlMain.addStyleName("w3-panel w3-white");
 
 		popup.setGlassEnabled(true);
@@ -64,6 +61,9 @@ public class PopupsView {
 			@Override
 			public void onClick(ClickEvent arg0) {
 				popup.removeFromParent();
+				vpnlMain.removeFromParent();
+				hpnlSPace.removeFromParent();
+				
 			}
 		});
 	}

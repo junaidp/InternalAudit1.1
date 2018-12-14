@@ -1,6 +1,5 @@
 package com.internalaudit.shared;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,13 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 
-@Table(name="todo")
+@Table(name="todologs")
 
-public class ToDo implements Serializable {
+public class ToDoLogsEntity implements Serializable {
 
 //	private static final long serialVersionUID = -7673298596496592711L;
 
@@ -25,120 +23,102 @@ public class ToDo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="toDoId")
-	private int toDoId;
+	@Column(name="todologsId")
+	private int toDoLogsId;
 	
-	 @Column(name="companyId")
-	private int companyId;
 	
 	@Column(name="description")
 	private String description;
+	
+	@Column(name="respond")
+	private String respond;
 	
 	@JoinColumn(name = "assignedTo")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employee assignedTo;
 	
-	@JoinColumn(name = "assignedFrom")
+	@JoinColumn(name = "assignedBy")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employee assignedFrom;
 	
-	@JoinColumn(name = "job")
-	@ManyToOne(fetch = FetchType.LAZY)
-	private JobCreation job;
 	
-	@Column(name="dueDate")
-	private Date dueDate;
+	@Column(name="date")
+	private Date Date;
+	
+	@Column(name="toDoId")
+	private Integer toDoId;
+	
 
-	@Column(name="respond")
-	private String respond;
-	
-	@Column(name="messageread")
-	private Boolean read;
-	
-	@Transient
-	private  ArrayList<ToDoLogsEntity>   todosLogList;
-	
-	public int getToDoId() {
-		return toDoId;
+	public int getToDoLogsId() {
+		return toDoLogsId;
 	}
 
-	public void setToDoId(int toDoId) {
-		this.toDoId = toDoId;
+
+	public void setToDoLogsId(int toDoLogsId) {
+		this.toDoLogsId = toDoLogsId;
 	}
+
 
 	public String getDescription() {
 		return description;
 	}
 
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	public Date getDueDate() {
-		return dueDate;
-	}
-
-	public void setDueDate(Date dueDate) {
-		this.dueDate = dueDate;
-	}
 
 	public Employee getAssignedTo() {
 		return assignedTo;
 	}
 
+
 	public void setAssignedTo(Employee assignedTo) {
 		this.assignedTo = assignedTo;
 	}
+
 
 	public Employee getAssignedFrom() {
 		return assignedFrom;
 	}
 
+
 	public void setAssignedFrom(Employee assignedFrom) {
 		this.assignedFrom = assignedFrom;
 	}
 
-	public int getCompanyId() {
-		return companyId;
+
+	public Date getDate() {
+		return Date;
 	}
 
-	public void setCompanyId(int companyId) {
-		this.companyId = companyId;
+
+	public void setDate(Date date) {
+		Date = date;
 	}
+
 
 	public String getRespond() {
 		return respond;
 	}
 
+
 	public void setRespond(String respond) {
 		this.respond = respond;
 	}
 
-	public JobCreation getJob() {
-		return job;
-	}
 
-	public void setJob(JobCreation job) {
-		this.job = job;
-	}
-
-	public Boolean getRead() {
-		return read;
-	}
-
-	public void setRead(Boolean read) {
-		this.read = read;
-	}
-
-	public ArrayList<ToDoLogsEntity> getTodosLogList() {
-		return todosLogList;
-	}
-
-	public void setTodosLogList(ArrayList<ToDoLogsEntity> todosLogList) {
-		this.todosLogList = todosLogList;
+	public Integer getToDoId() {
+		return toDoId;
 	}
 
 
-	
-	
+	public void setToDoId(Integer toDoId) {
+		this.toDoId = toDoId;
+	}
+
+
+
+
 }

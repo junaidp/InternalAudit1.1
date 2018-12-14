@@ -43,6 +43,12 @@ public class User   implements Serializable {
 	private ArrayList<ToDo> todos;
 	
 	@Transient
+	private ArrayList<ToDo> userRaisedToDos;
+	
+	@Transient
+	private ArrayList<InformationRequestEntity> userRaisedInformationRequests;
+	
+	@Transient
 	private ArrayList<InformationRequestEntity> informationRequests ;
 	
 	public User(){}
@@ -116,6 +122,29 @@ public class User   implements Serializable {
 	public void setInformationRequests(ArrayList<InformationRequestEntity> informationRequests) {
 		this.informationRequests = informationRequests;
 	}
+
+
+	public ArrayList<ToDo> getUserRaisedToDos() {
+		return userRaisedToDos;
+	}
+
+
+	public void setUserRaisedToDos(ArrayList<ToDo> userRaisedToDos) {
+		this.userRaisedToDos = userRaisedToDos;
+	}
+
+
+	public ArrayList<InformationRequestEntity> getUserRaisedInformationRequests() {
+		return userRaisedInformationRequests;
+	}
+
+
+	public void setUserRaisedInformationRequests(ArrayList<InformationRequestEntity> userRaisedInformationRequests) {
+		this.userRaisedInformationRequests = userRaisedInformationRequests;
+	}
+
+
+
 
 
 

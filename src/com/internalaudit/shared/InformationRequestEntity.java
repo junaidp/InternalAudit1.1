@@ -1,6 +1,7 @@
 
 package com.internalaudit.shared;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 
@@ -60,12 +62,17 @@ public class InformationRequestEntity implements Serializable {
 	@Column(name="sendNotication")
 	private Boolean sendNotication;
 	
+	@Column(name="messageread")
+	private Boolean read;
+	
 	@Column(name="sendReminder")
 	private Boolean sendReminder;
 
 	@Column(name="respond")
 	private String respond;
 	
+	@Transient
+	private  ArrayList<InformationRequestLogEntity>   informationRequestLogList;
 	public int getInformationRequestId() {
 		return informationRequestId;
 	}
@@ -162,6 +169,24 @@ public class InformationRequestEntity implements Serializable {
 	public void setRespond(String respond) {
 		this.respond = respond;
 	}
+
+	public Boolean getRead() {
+		return read;
+	}
+
+	public void setRead(Boolean read) {
+		this.read = read;
+	}
+
+	public ArrayList<InformationRequestLogEntity> getInformationRequestLogList() {
+		return informationRequestLogList;
+	}
+
+	public void setInformationRequestLogList(ArrayList<InformationRequestLogEntity> informationRequestLogList) {
+		this.informationRequestLogList = informationRequestLogList;
+	}
+
+
 	
 	
 }

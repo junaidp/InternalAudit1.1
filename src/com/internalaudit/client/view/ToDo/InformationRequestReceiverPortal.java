@@ -56,7 +56,7 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 				issue.setId(arrayList.get(i).getInformationRequestId());
 				issue.setRequestedItem(arrayList.get(i).getRequestItem());
 				issue.setRelatedJob(arrayList.get(i).getJob().getJobName());
-				issue.setRaisedBy(arrayList.get(i).getContactResponsible().getEmployeeName());
+				issue.setRaisedBy(arrayList.get(i).getAssignedFrom().getEmployeeName());
 				issue.setRaiseById(arrayList.get(i).getAssignedFrom().getEmployeeId());
 				issue.setRaisedToId(arrayList.get(i).getContactResponsible().getEmployeeId());
 				issue.setContactEmail(arrayList.get(i).getContactEmail());
@@ -96,13 +96,22 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 		            int row = c.getIndex();
 		            InformationRequestReceiverEntity informationRequest = store.get(row);
 		            InformationRequestReceiveView infoReceiver = new InformationRequestReceiveView(informationRequest);
-					PopupsView pp = new PopupsView(infoReceiver, "");
+		            final	PopupsView pp = new PopupsView(infoReceiver, "");
 					pp.getLabelheading().setText("InformationRequest Receiver");
 					pp.getVpnlMain().setTitle("Todos");
 					pp.getVpnlMain().setWidth("600px");
 					pp.getHpnlSPace().setWidth("600px");
 					pp.getVpnlMain().setHeight("530px");
-		            
+//					infoReceiver.getBtnCancel().addClickHandler(new ClickHandler() {
+//						
+//						@Override
+//						public void onClick(ClickEvent event) {
+//							pp.getVpnlMain().removeFromParent();
+//							pp.getPopup().removeFromParent();
+//							
+//							
+//						}
+//					});
 		           // Info.display("Event", "The " + p.getRequestedItem() + " was clicked.");
 		          }
 		        });

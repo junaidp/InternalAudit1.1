@@ -45,6 +45,8 @@ public class InformationRequestRaiserView extends Composite {
 	
 	@UiField
 	Button btnSave;
+	@UiField
+	Button btnCancel;
 	private InternalAuditServiceAsync rpcService;
 	
 
@@ -77,12 +79,14 @@ public class InformationRequestRaiserView extends Composite {
 		JobCreation job = new JobCreation();
 		job.setJobCreationId(Integer.parseInt(listBoxJobs.getSelectedValue()));
 		informationrequest.setContactResponsible(responsibleContact);
+
 		informationrequest.setJob(job);
 		informationrequest.setContactEmail(txtBoxEmail.getText());
 		informationrequest.setSendNotication(checkBoxNotification.getValue());
 		informationrequest.setSendReminder(checkBoxReminder.getValue());
 		informationrequest.setDueDate(dueDate.getValue());
 		informationrequest.setStatus(listBoxStatus.getSelectedIndex());
+		informationrequest.setRead(false);
 			rpcService.saveinformationRequest(informationrequest, new AsyncCallback<String>() {
 				
 				@Override
@@ -138,5 +142,13 @@ private void fetchJobs(){
 		});
 		
 	}
+
+public Button getBtnCancel() {
+	return btnCancel;
+}
+
+public void setBtnCancel(Button btnCancel) {
+	this.btnCancel = btnCancel;
+}
 
 }

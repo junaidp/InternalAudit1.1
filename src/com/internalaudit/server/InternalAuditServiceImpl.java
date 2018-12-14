@@ -281,7 +281,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		if (isLoggedIn()) {
 
 			session = getThreadLocalRequest().getSession(true);
-			User loggedInUser = (User) session.getAttribute("user");
+			User loggedInUser = (User) getThreadLocalRequest().getSession(true).getAttribute("user");
 			int year = (Integer) session.getAttribute("year");
 			int companyId = (Integer) session.getAttribute("companyId");
 			return rdbHelper.fetchDashBoard(loggedInUser, year, companyId, hm);
@@ -1544,7 +1544,12 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		User loggedInUser = (User) session.getAttribute("user");
 		int companyId = (Integer) session.getAttribute("companyId");
 		todo.setCompanyId(companyId);
-		todo.setAssignedFrom(loggedInUser.getEmployeeId());
+		if( todo.getAssignedFrom()== null 
+				|| todo.getAssignedFrom().getEmployeeId() == 0)
+		{
+			todo.setAssignedFrom(loggedInUser.getEmployeeId());
+		}
+		//todo.setAssignedFrom(loggedInUser.getEmployeeId());
 		return rdbHelper.savetoDo(todo);
 	}
 
@@ -1553,7 +1558,12 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		// TODO Auto-generated method stub
 		User loggedInUser = (User) session.getAttribute("user");
 		int companyId = (Integer) session.getAttribute("companyId");
-		informationrequest.setAssignedFrom(loggedInUser.getEmployeeId());
+		if( informationrequest.getAssignedFrom()== null 
+				|| informationrequest.getAssignedFrom().getEmployeeId() == 0)
+		{
+			informationrequest.setAssignedFrom(loggedInUser.getEmployeeId());
+		}
+		//informationrequest.setAssignedFrom(loggedInUser.getEmployeeId());
 		informationrequest.setCompanyId(companyId);
 		return rdbHelper.saveInformationRequest(informationrequest);
 	}
@@ -1582,7 +1592,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		User loggedInUser = (User) session.getAttribute("user");
 		int companyId = (Integer) session.getAttribute("companyId");
 		//todo.setCompanyId(companyId);
-		toDoLogsEntity.setAssignedFrom(loggedInUser.getEmployeeId());
+		//toDoLogsEntity.setAssignedFrom(loggedInUser.getEmployeeId());
 		return rdbHelper.saveToDoLogs(toDoLogsEntity);
 	}
 

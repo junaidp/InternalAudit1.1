@@ -13,6 +13,7 @@ import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.DashboardNew.PortalInformationRequest;
 import com.internalaudit.client.view.ToDo.InformationRequestRaisePortal;
+import com.internalaudit.client.view.ToDo.InformationRequestRaiserFinalView;
 import com.internalaudit.client.view.ToDo.InformationRequestRaiserView;
 import com.internalaudit.client.view.ToDo.InformationRequestReceiveView;
 import com.internalaudit.client.view.ToDo.InformationRequestReceiverPortal;
@@ -118,28 +119,13 @@ public class SideBarView extends VerticalLayoutContainer {
 				
 				@Override
 				public void onClick(ClickEvent event) {
-					rpcService.fetchDashboard(null, new AsyncCallback<DashBoardNewDTO>() {
-
-						@Override
-						public void onFailure(Throwable arg0) {
-							Window.alert("fetchDashboard fail");
-						}
-
-						@Override
-						public void onSuccess(DashBoardNewDTO dashboard) {
-							
-							ToDoRaiserPortal p = new ToDoRaiserPortal(dashboard.getTodo());
-							PopupsView pp = new PopupsView(p, "");
-							 pp = new PopupsView(p, "");
-							pp.getLabelheading().setText("InformationRequestRaiser");
-							pp.getVpnlMain().setTitle("TaskList");
-							pp.getVpnlMain().setWidth("800px");
-							pp.getVpnlMain().setHeight("530px");
-						}
-
+					ToDoRaiserPortal p = new ToDoRaiserPortal(loggedInUser.getUserRaisedToDos());
+					PopupsView pp = new PopupsView(p, "");
 					
-				});
-			
+					pp.getLabelheading().setText("ToDoRaiser");
+					pp.getVpnlMain().setTitle("TaskList");
+					pp.getVpnlMain().setWidth("800px");
+					pp.getVpnlMain().setHeight("530px");
 
 					}
 			});
@@ -147,45 +133,28 @@ public class SideBarView extends VerticalLayoutContainer {
 			 ImgMenu.addClickHandler(new ClickHandler() {
 				 @Override
 					public void onClick(ClickEvent event) {
-						rpcService.fetchDashboard(null, new AsyncCallback<DashBoardNewDTO>() {
 
-							@Override
-							public void onFailure(Throwable arg0) {
-								Window.alert("fetchDashboard fail");
-							}
-
-							@Override
-							public void onSuccess(DashBoardNewDTO dashboard) {
-								
-								InformationRequestRaisePortal p = new InformationRequestRaisePortal(dashboard.getInformationRequests());
-								PopupsView pp = new PopupsView(p, "");
-								 pp = new PopupsView(p, "");
-								pp.getLabelheading().setText("InformationRequestRaiser");
-								pp.getVpnlMain().setTitle("TaskList");
-								pp.getVpnlMain().setWidth("800px");
-								pp.getVpnlMain().setHeight("530px");
-							}
-
-						
-					});
-				
-					
+						InformationRequestRaisePortal p = new InformationRequestRaisePortal(loggedInUser.getUserRaisedInformationRequests());
+						PopupsView pp = new PopupsView(p, "");
+						pp.getLabelheading().setText("InformationRequestRaiser");
+						pp.getVpnlMain().setTitle("TaskList");
+						pp.getVpnlMain().setWidth("800px");
+						pp.getVpnlMain().setHeight("530px");
 						
 					}
 				});
 			
 
-				 ImgPie.setTitle("InformationRequestReceiverGrid");
+				ImgPie.setTitle("InformationRequestReceiverGrid");
 				ImgPie .addClickHandler(new ClickHandler() {
 					
 					@Override
 					public void onClick(ClickEvent event) {
 						InformationRequestReceiverPortal p = new InformationRequestReceiverPortal(loggedInUser.getInformationRequests());
 						PopupsView pp = new PopupsView(p, "");
-						pp = new PopupsView(p, "");
+						
 						pp.getLabelheading().setText("InformationRequestReceiver");
-						pp.getVpnlMain().setTitle("TaskList");
-						pp.getVpnlMain().setWidth("900px");
+						pp.getVpnlMain().setWidth("650px");
 						pp.getVpnlMain().setHeight("530px");
 				
 						
@@ -198,17 +167,15 @@ public class SideBarView extends VerticalLayoutContainer {
 					
 									ToDoReceiverPortal p = new ToDoReceiverPortal(loggedInUser.getTodos());
 									PopupsView pp = new PopupsView(p, "");
-									pp = new PopupsView(p, "");
 									pp.getLabelheading().setText("ToDoReceiverPortal");
 									pp.getVpnlMain().setTitle("TaskList");
-									pp.getVpnlMain().setWidth("800px");
+									pp.getVpnlMain().setWidth("650px");
 									pp.getVpnlMain().setHeight("530px");
 								}
 
 							
 						});
-					
-				
+			
 				 
 			
 	}

@@ -33,6 +33,8 @@ public class ToDoView extends Composite {
 	Button btnSave;
 	@UiField
 	ListBox listBoxJobs;
+	@UiField
+	Button btnCancel;
 	private InternalAuditServiceAsync rpcService;
 
 	private static ToDoViewUiBinder uiBinder = GWT.create(ToDoViewUiBinder.class);
@@ -48,6 +50,7 @@ public class ToDoView extends Composite {
 		fetchEmployees();
 		fetchJobs();
 		setHandlers();
+	
 		
 	}
 
@@ -77,6 +80,7 @@ public class ToDoView extends Composite {
 		todo.setJob(job);
 		
 		todo.setAssignedTo(assignedTo);
+		todo.setRead(false);
 	
 		
 		todo.setDueDate(dueDate.getValue());
@@ -168,6 +172,14 @@ public class ToDoView extends Composite {
 
 	public void setListBoxJobs(ListBox listBoxJobs) {
 		this.listBoxJobs = listBoxJobs;
+	}
+
+	public Button getBtnCancel() {
+		return btnCancel;
+	}
+
+	public void setBtnCancel(Button btnCancel) {
+		this.btnCancel = btnCancel;
 	}
 
 }
