@@ -4275,7 +4275,7 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(Exceptions.class);
 			crit.createAlias("jobCreationId", "jobCreation");
 			crit.createAlias("responsiblePerson", "employee");
-			crit.add(Restrictions.ne("employee.employeeId", 0));
+			//crit.add(Restrictions.ne("employee.employeeId", 0));// CHANGE 15/12/2018 .. Reason: the reporting tab was not displaying thia exception when click on a job anchor.
 			
 			jobsStrategicAlias(crit);
 
