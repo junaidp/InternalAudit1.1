@@ -54,8 +54,8 @@ import com.internalaudit.client.view.Scheduling.AuditSchedulingTabView;
 import com.internalaudit.client.view.Scheduling.JobCreationView;
 import com.internalaudit.client.view.Scheduling.JobTimeEstimationView;
 import com.internalaudit.client.view.dashboard.DashBoardDesignerView;
+import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.StrategicDTO;
-import com.internalaudit.shared.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -74,7 +74,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private final InternalAuditServiceAsync rpcService; 
 	private HasWidgets container;
 	private HeaderView header;
-	private User loggedInUser;
+	private Employee loggedInUser;
 	private VerticalPanel centerPanel;
 	private HasWidgets mainContainer;
 	Presenter presenter = null;
@@ -112,7 +112,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		eventBus.addHandler(CreateUserEvent.TYPE,
 				new CreateUserEventHandler() {
 			public void onCreateUser(CreateUserEvent event) {
-				loggedInUser = event.getUser();
+				loggedInUser = event.getEmployee();
 				
 				doCreateUser();
 			}
@@ -139,7 +139,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		eventBus.addHandler(DashBoardAtStartupEvent.TYPE,
 				new DashBoardAtStartupEventHandler() {
 			public void onDashBoardAtStartup(DashBoardAtStartupEvent event) {
-				loggedInUser = event.getUser();
+				loggedInUser = event.getEmployee();
 				History.newItem("DashboardStartup");
 			}
 			
@@ -369,7 +369,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			}	
 			
 			else if (eventToken.equals("Reporting")) {
-				presenter = new ReportingPresenter(rpcService, eventBus, loggedInUser.getEmployeeId(), tokenParams, new ReportingView(loggedInUser.getEmployeeId().getFromInternalAuditDept()));
+				presenter = new ReportingPresenter(rpcService, eventBus, loggedInUser, tokenParams, new ReportingView(loggedInUser.getFromInternalAuditDept()));
 				setContainer(centerPanel);
 				if (presenter != null) {
 					presenter.go(container);
@@ -377,7 +377,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			}
 			
 			else if (eventToken.equals("Reports")) {
-				presenter = new ReportsPresenter(rpcService, eventBus, loggedInUser.getEmployeeId(), new ReportsView(loggedInUser.getEmployeeId().getFromInternalAuditDept()));
+				presenter = new ReportsPresenter(rpcService, eventBus, loggedInUser, new ReportsView(loggedInUser.getFromInternalAuditDept()));
 				setContainer(centerPanel);
 				if (presenter != null) {
 					presenter.go(container);

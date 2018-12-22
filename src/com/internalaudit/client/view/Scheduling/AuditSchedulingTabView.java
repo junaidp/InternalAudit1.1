@@ -18,7 +18,6 @@ import com.internalaudit.client.view.AuditListingView;
 import com.internalaudit.client.view.AuditUniverseIdentificationView;
 import com.internalaudit.client.view.JobListingView;
 import com.internalaudit.client.view.RiskAssesmentView;
-import com.internalaudit.shared.User;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer.AccordionLayoutAppearance;

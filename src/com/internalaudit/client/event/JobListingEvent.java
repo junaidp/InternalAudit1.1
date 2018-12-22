@@ -1,12 +1,12 @@
 package com.internalaudit.client.event;
 
 import com.google.gwt.event.shared.GwtEvent;
+import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.StrategicDTO;
-import com.internalaudit.shared.User;
 
 		public class JobListingEvent extends GwtEvent<JobListingEventHandler> {
 			
-			User loggedInUser = null;
+			Employee loggedInUser = null;
 			private String from;
 			
 			public JobListingEvent(String from){
@@ -26,11 +26,11 @@ import com.internalaudit.shared.User;
 			
 		}
 
-		public User getLoggedInUser() {
+		public Employee getLoggedInUser() {
 			return loggedInUser;
 		}
 
-		public void setLoggedInUser(User loggedInUser) {
+		public void setLoggedInUser(Employee loggedInUser) {
 			this.loggedInUser = loggedInUser;
 		}
 

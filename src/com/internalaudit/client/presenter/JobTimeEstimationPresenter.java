@@ -42,7 +42,6 @@ import com.internalaudit.shared.SkillUpdateData;
 import com.internalaudit.shared.Skills;
 import com.internalaudit.shared.StrategicDTO;
 import com.internalaudit.shared.TimeOutException;
-import com.internalaudit.shared.User;
 import com.sencha.gxt.widget.core.client.form.FieldLabel;
 import com.sencha.gxt.widget.core.client.form.PasswordField;
 import com.sencha.gxt.widget.core.client.form.TextField;

@@ -23,7 +23,8 @@ import com.internalaudit.client.view.dashboard.JobsDueForKickOffWithinWeek;
 import com.internalaudit.client.view.dashboard.JobsExecutionPanel;
 import com.internalaudit.client.view.dashboard.ManagementCommentsOverDue;
 import com.internalaudit.shared.DashBoardNewDTO;
-import com.internalaudit.shared.User;
+import com.internalaudit.shared.Employee;
+
 
 
 public class DashBoardNewPresenter implements Presenter 
@@ -33,7 +34,7 @@ public class DashBoardNewPresenter implements Presenter
 	private final HandlerManager eventBus;
 	private final Display display;
 	private Logger logger = Logger.getLogger("DashBoardPresenter");
-	private User loggedInUser = null;
+	private Employee loggedInUser = null;
 	
 	public interface Display 
 	{
@@ -52,7 +53,7 @@ public class DashBoardNewPresenter implements Presenter
 		ExceptionsImplementationChart getExceptionsImplementationChart();
 	}  
 
-	public DashBoardNewPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, User user, Display view) 
+	public DashBoardNewPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, Employee user, Display view) 
 	{
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;

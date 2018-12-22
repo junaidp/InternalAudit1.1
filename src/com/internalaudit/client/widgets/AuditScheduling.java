@@ -90,7 +90,7 @@ public class AuditScheduling extends Composite {
 		startDate.setWidth("80px");
 		endDate.setWidth("80px");
 		endDate.setAutoHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		endDate.setText("hello");
+		endDate.setText("");
 	}
 
 

@@ -2,14 +2,15 @@ package com.internalaudit.client.event;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.internalaudit.shared.User;
+import com.internalaudit.shared.Employee;
+
 
 		public class CreateUserEvent extends GwtEvent<CreateUserEventHandler> {
 			
-			User user = new User();			
+			Employee user = new Employee();			
 		  public static Type<CreateUserEventHandler> TYPE = new Type<CreateUserEventHandler>();
 
-		public CreateUserEvent(User user) {
+		public CreateUserEvent(Employee user) {
 			this.user = user;
 		}
 
@@ -24,11 +25,11 @@ import com.internalaudit.shared.User;
 			
 		}
 
-		public User getUser() {
+		public Employee getEmployee() {
 			return user;
 		}
 
-		public void setUser(User user) {
+		public void setEmployee(Employee user) {
 			this.user = user;
 		}
 

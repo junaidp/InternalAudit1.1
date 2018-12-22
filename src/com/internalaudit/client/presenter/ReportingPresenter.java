@@ -310,7 +310,7 @@ public class ReportingPresenter implements Presenter
 					for(int i=0; i< result.size(); i++){
 						final ResponsiblePersonRowView responsiblePersonRowView = new ResponsiblePersonRowView();
 //						responsiblePersonRowView.getBtnSend().setVisible(true);
-						if(loggedInEmployee.getRollId().getRollId() == 5){
+						if(loggedInEmployee.getRollId() == 5){
 							responsiblePersonRowView.getManagementComments().setEnabled(true);
 						}
 						responsiblePersonRowView.getException().setText(result.get(i).getDetail());
@@ -702,7 +702,7 @@ public class ReportingPresenter implements Presenter
 					/////Displaying Approv/Reject  BUTTONs////
 
 //					if(exceptions.get(i).getAuditHead() == loggedInEmployee.getEmployeeId() && (exceptions.get(i).getInitialStatus()==null || exceptions.get(i).getInitialStatus().equals(""))){
-					if(loggedInEmployee.getRollId().getRollId() ==1 && (exceptions.get(i).getInitialStatus()==null || exceptions.get(i).getInitialStatus().equals("") )&& exceptions.get(i).getDueDate()!=null){
+					if(loggedInEmployee.getRollId() ==1 && (exceptions.get(i).getInitialStatus()==null || exceptions.get(i).getInitialStatus().equals("") )&& exceptions.get(i).getDueDate()!=null){
 				//	if(loggedInEmployee.getRollId().getRollId() ==1 && (exceptions.get(i).getInitialStatus()==null || exceptions.get(i).getInitialStatus().equals("") )){ //TODO CHANGE FOr DUEDATE
 							
 					jobExceptionsView.showApprovalButtons();
@@ -817,7 +817,7 @@ public class ReportingPresenter implements Presenter
 						status = "Received";
 					}
 					
-					if(loggedInEmployee.getRollId().getRollId() ==1 && status!=null &&  status.equalsIgnoreCase("Approved")){
+					if(loggedInEmployee.getRollId() ==1 && status!=null &&  status.equalsIgnoreCase("Approved")){
 						jobExceptionsView.getBtnSave().setVisible(false);
 						jobExceptionsView.disableFields();
 					}

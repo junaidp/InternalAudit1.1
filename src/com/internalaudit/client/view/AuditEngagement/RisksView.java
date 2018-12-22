@@ -466,7 +466,7 @@ public class RisksView extends Composite {
 					} else if (r.get(0).getStatus() == InternalAuditConstants.SUBMIT
 							&& r.get(0).getInitiatedBy().getReportingTo() != null
 							&& (r.get(0).getInitiatedBy().getReportingTo().getEmployeeId() == loggedInEmployee
-							.getEmployeeId() || loggedInEmployee.getRollId().getRollId() == 1)) {
+							.getEmployeeId() || loggedInEmployee.getRollId()== 1)) {
 						enableApprovalnpanel();
 						enableFields();
 						enableRiskRows();

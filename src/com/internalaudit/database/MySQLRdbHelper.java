@@ -95,7 +95,6 @@ import com.internalaudit.shared.RiskControlMatrixEntity;
 import com.internalaudit.shared.RiskFactor;
 import com.internalaudit.shared.RiskJobRelation;
 import com.internalaudit.shared.RiskObjective;
-import com.internalaudit.shared.Rolls;
 import com.internalaudit.shared.SkillUpdateData;
 import com.internalaudit.shared.Skills;
 import com.internalaudit.shared.Strategic;
@@ -108,10 +107,9 @@ import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.TimeLineDates;
 import com.internalaudit.shared.ToDo;
 import com.internalaudit.shared.ToDoLogsEntity;
-import com.internalaudit.shared.User;
 
 public class MySQLRdbHelper {
-
+	//private static final Logger LOGGER = Logger.getLogger( MySQLRdbHelper.class.getName() );
 	private Session session;
 
 	private SessionFactory sessionFactory;
@@ -122,49 +120,45 @@ public class MySQLRdbHelper {
 
 	}
 
-	public User getAuthentication(String userid, String password) throws Exception {
+	public Employee getAuthentication(String userid, String password) throws Exception {
 
 		System.out.print("Inisde Sign in");
 		logger = Logger.getLogger("com.internalaudit.database.MySQLRdbHelper.class");
 		logger.setLevel(Level.DEBUG);
-		User users = null;
+		Employee employee = null;
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
 
-			Criteria crit = session.createCriteria(User.class);
-			crit.add(Restrictions.eq("name", userid));
+			Criteria crit = session.createCriteria(Employee.class);
+			crit.add(Restrictions.eq("email", userid));
 			crit.add(Restrictions.eq("password", password));
-			crit.createAlias("employeeId", "emp");
-			crit.createAlias("emp.countryId", "empcoun");
-			crit.createAlias("emp.cityId", "empcit");
-			crit.createAlias("emp.reportingTo", "empRep");
-			crit.createAlias("empRep.userId", "empRepUser");
-			crit.createAlias("emp.skillId", "skill");
+			crit.createAlias("countryId", "empcoun");
+			crit.createAlias("cityId", "empcit");
+			crit.createAlias("reportingTo", "empRep");
+			crit.createAlias("skillId", "skill");
 			// crit.createAlias("emp.companyId", "company");
-			crit.createAlias("emp.rollId", "roll");
+			
 			crit.createAlias("empRep.reportingTo", "empRepRep");
 			crit.createAlias("empRep.skillId", "skillRep");
-			crit.createAlias("empRepRep.userId", "empRepRepUser");
-			crit.createAlias("empRep.rollId", "empRepRoll");
-			crit.createAlias("empRepRep.rollId", "empRepRepRoll");
 			crit.createAlias("empRepRep.skillId", "empRepRepSkill");
 
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
-				users = (User) it.next();
+				employee = (Employee) it.next();
 
-				users.setTodos(fetchUsersTodos(users.getEmployeeId()));
-				users.setInformationRequests(fetchInformationUserRequest(users.getEmployeeId()));
-				users.setUserRaisedToDos(fetchUsersRaisedToDo(users.getEmployeeId()));
-				users.setUserRaisedInformationRequests(fetchUserRaisedInformationRequest(users.getEmployeeId()));
+				employee.setTodos(fetchUsersTodos(employee));
+				employee.setInformationRequests(fetchInformationUserRequest(employee));
+				employee.setUserRaisedToDos(fetchUsersRaisedToDo(employee));
+				employee.setUserRaisedInformationRequests(fetchUserRaisedInformationRequest(employee));
 				// create a method in mysql class to  Todo where userid =
 				// users.getEmployeeId().getEmployeeId(), set it here
 
-				System.out.println(users.getName() + "Signed In on" + new Date());
-				logger.info(String.format(users.getName() + "Signed In on from log" + new Date()));
+				System.out.println(employee.getEmail() + "Signed In on" + new Date());
+				logger.info(String.format(employee.getEmail() + "Signed In on from log" + new Date()));
+		//new	LOGGER.log( Level.ALL, String.format(users.getName() + "Signed In on from logggggg" + new Date()));
 			}
-			HibernateDetachUtility.nullOutUninitializedFields(users,
+			HibernateDetachUtility.nullOutUninitializedFields(employee,
 					HibernateDetachUtility.SerializationType.SERIALIZATION);
 
 		} catch (Exception ex) {
@@ -183,7 +177,7 @@ public class MySQLRdbHelper {
 		}
 		// sendEmailWithAttachment("", "hamzariaz1994@gmail.com", "",
 		// "Testing");
-		return users;
+		return employee;
 	}
 
 
@@ -406,8 +400,7 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(Employee.class);
 			crit.createAlias("cityId", "city");
 			crit.createAlias("countryId", "countryId");
-			crit.createAlias("rollId", "roll");
-			crit.createAlias("userId", "user");
+			
 			// crit.createAlias("companyId", "company");
 			crit.createAlias("skillId", "skill");
 			crit.add(Restrictions.ne("employeeId", 0));
@@ -449,14 +442,12 @@ public class MySQLRdbHelper {
 
 			crit.createAlias("cityId", "city");
 			crit.createAlias("countryId", "countryId");
-			crit.createAlias("rollId", "roll");
-			crit.createAlias("userId", "user");
+			//crit.createAlias("userId", "user");
 			// crit.createAlias("companyId", "company");
 			crit.createAlias("skillId", "skill");
 			crit.createAlias("reportingTo", "reporting");
 			crit.createAlias("reporting.reportingTo", "reportingrep");
 			crit.createAlias("reportingrep.skillId", "reportingrepskill");
-			crit.createAlias("reportingrep.rollId", "reportingrepR");
 			crit.add(Restrictions.eq("employeeId", employeeId));
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -468,14 +459,10 @@ public class MySQLRdbHelper {
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(employee.getReportingTo().getSkillId(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
-				HibernateDetachUtility.nullOutUninitializedFields(employee.getReportingTo().getRollId(),
-						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(
 						employee.getReportingTo().getReportingTo().getSkillId(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
-				HibernateDetachUtility.nullOutUninitializedFields(
-						employee.getReportingTo().getReportingTo().getRollId(),
-						HibernateDetachUtility.SerializationType.SERIALIZATION);
+						
 
 			}
 			logger.info(String.format(
@@ -646,7 +633,7 @@ public class MySQLRdbHelper {
 		return skills;
 	}
 
-	public String saveStrategic(Strategic strategic, User loggedInUser, HashMap<String, String> hm, int year,
+	public String saveStrategic(Strategic strategic, Employee loggedInUser, HashMap<String, String> hm, int year,
 			int companyId) {
 
 		try {
@@ -672,11 +659,9 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Employee.class);
-			crit.createAlias("userId", "user");
+			
 			crit.createAlias("skillId", "skill");
 			// crit.createAlias("companyId", "company");
-			crit.createAlias("rollId", "roll");
-
 			crit.add(Restrictions.eq("employeeId", userId));
 			if (crit.list().size() > 0) {
 				employee = (Employee) crit.list().get(0);
@@ -692,7 +677,7 @@ public class MySQLRdbHelper {
 		return employee.getReportingTo();
 	}
 
-	public void saveOneStrategic(Strategic strategic, User loggedInUser, String todo, String tab, int year,
+	public void saveOneStrategic(Strategic strategic, Employee loggedInUser, String todo, String tab, int year,
 			int companyId) {
 		Session session = null;
 		Transaction tr = null;
@@ -872,12 +857,12 @@ public class MySQLRdbHelper {
 		}
 	}
 
-	private void approveStrategic(Strategic strategic, User loggedInUser, Strategic clientSideStrategic,
+	private void approveStrategic(Strategic strategic, Employee loggedInUser, Strategic clientSideStrategic,
 			Employee initiatedBy, Session session) throws Exception {
 		strategic.setStatus("initiated");
 		strategic.setPhase(clientSideStrategic.getNextPhase());
 		strategic.setAssignedTo(initiatedBy);
-		strategic.setApprovedBy(loggedInUser.getEmployeeId());
+		strategic.setApprovedBy(loggedInUser);
 		// Employee approvedBy = (Employee) session.load(Employee.class, new
 		// Integer(loggedInUser.getEmployeeId().getEmployeeId()));
 		// Employee approvedBy =
@@ -897,29 +882,29 @@ public class MySQLRdbHelper {
 				+ " initiated by " + initiatedBy.getEmployeeName() + " " + new Date()));
 	}
 
-	private void submitStrategic(Strategic strategic, User loggedInUser, Strategic clientSideStrategic,
+	private void submitStrategic(Strategic strategic, Employee loggedInUser, Strategic clientSideStrategic,
 			Session session) {
 		strategic.setStatus("submitted");
-		Employee supervisor = loggedInUser.getEmployeeId().getReportingTo();
+		Employee supervisor = loggedInUser.getReportingTo();
 		strategic.setAssignedTo(supervisor);
 		// Employee emp = new Employee();
 		// emp.setEmployeeId(0);
 		strategic.setApprovedBy((Employee) session.load(Employee.class, 0));
-		strategic.setInitiatedBy(loggedInUser.getEmployeeId());
+		strategic.setInitiatedBy(loggedInUser);
 		strategic.setStrategicObjective(clientSideStrategic.getStrategicObjective());
 		strategic.setAudit(clientSideStrategic.isAudit());
 		logger.info(String.format("(Inside submitStrategic) submitted strategic " + strategic.getStrategicObjective()
 				+ " for Looged In User : " + loggedInUser + " " + new Date()));
 	}
 
-	private void initiateStrategic(Strategic strategic, User loggedInUser, Strategic clientSideStrategic,
+	private void initiateStrategic(Strategic strategic, Employee loggedInUser, Strategic clientSideStrategic,
 			Session session) {
 		strategic.setStatus("saved");
 		// Employee emp = new Employee();
 		// emp.setEmployeeId(0);
 		// strategic.setApprovedBy(emp);
 		strategic.setApprovedBy((Employee) session.load(Employee.class, 0));
-		strategic.setInitiatedBy(loggedInUser.getEmployeeId());
+		strategic.setInitiatedBy(loggedInUser);
 		strategic.setAssignedTo(strategic.getInitiatedBy());
 		strategic.setStrategicObjective(clientSideStrategic.getStrategicObjective());
 		strategic.setAcheivementDate(clientSideStrategic.getAcheivementDate());
@@ -931,7 +916,7 @@ public class MySQLRdbHelper {
 				+ " for Looged In User : " + loggedInUser + " " + new Date()));
 	}
 
-	private void ammendStrategic(Strategic strategic, User loggedInUser, Strategic clientSideStrategic,
+	private void ammendStrategic(Strategic strategic, Employee loggedInUser, Strategic clientSideStrategic,
 			Session session) {
 		strategic.setStatus("amend");
 		// Employee emp = new Employee();
@@ -1237,11 +1222,7 @@ public class MySQLRdbHelper {
 			// crit.createAlias("riskFactor", "risk");
 			crit.createAlias("initiatedBy", "initiated");
 			crit.createAlias("assignedTo", "assigned");
-			crit.createAlias("assigned.userId", "assignedUser");
-			// crit.createAlias("assigned.reportingTo", "reportingAssignedTo");
-			crit.createAlias("initiated.userId", "initiatedUser");
 			crit.createAlias("initiated.skillId", "initatedSkill");
-			crit.createAlias("initiated.rollId", "initatedRoll");
 
 			// crit.createAlias("approvedBy", "approveby");
 			// crit.createAlias("approveby.userId", "approvedUser");
@@ -1494,7 +1475,7 @@ public class MySQLRdbHelper {
 		}
 	}
 
-	public String saveRiskAssesment(ArrayList<StrategicRisk> strategicRisks, User loggedInUser,
+	public String saveRiskAssesment(ArrayList<StrategicRisk> strategicRisks, Employee loggedInUser,
 			HashMap<String, String> hm) {
 		String todo = hm.get("todo");
 		String tab = hm.get("tab");
@@ -1513,14 +1494,14 @@ public class MySQLRdbHelper {
 
 	}
 
-	public String amendStrategic(Strategic strategic, User loggedInUser, int year, int companyId) {
+	public String amendStrategic(Strategic strategic, Employee loggedInUser, int year, int companyId) {
 		Session session = null;
 		try {
 
 			session = sessionFactory.openSession();
 			Transaction tr = (Transaction) session.beginTransaction();
-			strategic.setInitiatedBy(loggedInUser.getEmployeeId());
-			Employee supervisor = loggedInUser.getEmployeeId().getReportingTo();
+			strategic.setInitiatedBy(loggedInUser);
+			Employee supervisor = loggedInUser.getReportingTo();
 			strategic.setInitiatedBy(supervisor);
 			strategic.setYear(year);// Added year
 			strategic.setCompanyId(companyId);// Added company
@@ -1567,24 +1548,21 @@ public class MySQLRdbHelper {
 			crit.createAlias("objectiveOwner", "owner");
 			crit.createAlias("owner.cityId", "city");
 			crit.createAlias("owner.countryId", "country");
-			crit.createAlias("owner.userId", "user");
+			
 			crit.createAlias("owner.departmentId", "departmentOwner");
 			crit.createAlias("owner.reportingTo", "ownRep");
 			crit.createAlias("ownRep.reportingTo", "ownReprep");
-			crit.createAlias("ownRep.userId", "ownRepuserId");
+			
 			crit.createAlias("relevantDepartment", "department");
 			crit.createAlias("riskFactor", "risk");
 			crit.createAlias("initiatedBy", "initiated");
 			crit.createAlias("assignedTo", "assigned");
-			crit.createAlias("assigned.userId", "assignedUser");
+			
 			crit.createAlias("assigned.reportingTo", "assignedReporting");
-			crit.createAlias("initiated.userId", "initiatedUser");
+			
 			crit.createAlias("initiated.reportingTo", "initiatedReporting");
-			crit.createAlias("initiatedReporting.userId", "initiatedReportingUser");
 			crit.createAlias("approvedBy", "approveby");
-			crit.createAlias("approveby.userId", "approvedUser");
 			crit.createAlias("approveby.reportingTo", "approvedReposrting");
-			crit.createAlias("approvedReposrting.userId", "approvedReposrtingUser");
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			List rsList = crit.list();
@@ -1604,7 +1582,7 @@ public class MySQLRdbHelper {
 		return strategicAudits;
 	}
 
-	public ArrayList<DashBoardDTO> fetchDashBoard(User loggedInUser, int year, int companyId,
+	public ArrayList<DashBoardDTO> fetchDashBoard(Employee loggedInUser, int year, int companyId,
 			HashMap<String, String> hm) {
 
 		Session session = null;
@@ -1615,11 +1593,9 @@ public class MySQLRdbHelper {
 			
 			Criteria crit = session.createCriteria(Strategic.class);
 			crit.createAlias("assignedTo", "assigned");
-			crit.createAlias("assigned.userId", "assignedUser");
 			crit.createAlias("assigned.reportingTo", "assignedReporting");
 			crit.createAlias("approvedBy", "approveby");
-			crit.createAlias("approveby.userId", "approvedUser");
-			crit.add(Restrictions.eq("assigned.employeeId", loggedInUser.getEmployeeId().getEmployeeId()));
+			crit.add(Restrictions.eq("assigned.employeeId", loggedInUser.getEmployeeId()));
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.add(Restrictions.ne("status", "deleted"));
@@ -1644,11 +1620,7 @@ public class MySQLRdbHelper {
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(strategic.getApprovedBy().getReportingTo(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
-				if (strategic.getApprovedBy().getReportingTo().getReportingTo() != null) {
-					HibernateDetachUtility.nullOutUninitializedFields(
-							strategic.getApprovedBy().getReportingTo().getReportingTo().getUserId(),
-							HibernateDetachUtility.SerializationType.SERIALIZATION);
-				}
+			
 
 				DashBoardDTO dashboardDTO = new DashBoardDTO();
 				dashboardDTO.setAssignedTo(strategic.getAssignedTo().getEmployeeName());
@@ -1661,7 +1633,7 @@ public class MySQLRdbHelper {
 			}
 
 			ArrayList<RiskControlMatrixEntity> risks = fetchEmployeeRisksForApproval(year, companyId,
-					loggedInUser.getEmployeeId().getEmployeeId());
+					loggedInUser.getEmployeeId());
 			;
 			for (int i = 0; i < risks.size(); i++) {
 				DashBoardDTO dashboardDTO = new DashBoardDTO();
@@ -1674,7 +1646,7 @@ public class MySQLRdbHelper {
 			}
 
 			ArrayList<AuditWork> auditWorks = fetchEmployeeAuditWorksForapproval(companyId, year,
-					loggedInUser.getEmployeeId().getEmployeeId());
+					loggedInUser.getEmployeeId());
 			for (int i = 0; i < auditWorks.size(); i++) {
 				DashBoardDTO dashboardDTO = new DashBoardDTO();
 				dashboardDTO.setInitiatedBy(auditWorks.get(i).getInitiatedBy().getEmployeeName());
@@ -1685,7 +1657,7 @@ public class MySQLRdbHelper {
 			}
 
 			ArrayList<AuditStep> auditSteps = fetchEmployeeAuditStepsForApproval(year, companyId,
-					loggedInUser.getEmployeeId().getEmployeeId());
+					loggedInUser.getEmployeeId());
 			for (int i = 0; i < auditSteps.size(); i++) {
 				DashBoardDTO dashboardDTO = new DashBoardDTO();
 				dashboardDTO.setInitiatedBy(auditSteps.get(i).getInitiatedBy().getEmployeeName());
@@ -1696,7 +1668,7 @@ public class MySQLRdbHelper {
 			}
 
 			ArrayList<Exceptions> exceptions = fetchEmployeeExceptionsForApproval(year, companyId,
-					loggedInUser.getEmployeeId().getEmployeeId());
+					loggedInUser.getEmployeeId());
 			for (int i = 0; i < exceptions.size(); i++) {
 				DashBoardDTO dashboardDTO = new DashBoardDTO();
 				dashboardDTO.setInitiatedBy("Audit team");
@@ -1705,7 +1677,7 @@ public class MySQLRdbHelper {
 				dashboardDTO.setStatus("sent");
 				dashBoardDTOs.add(dashboardDTO);
 			}
-			logger.info(String.format("(Inside fetchDashBoard) Fetching dashboard for user :" + loggedInUser.getName()
+			logger.info(String.format("(Inside fetchDashBoard) Fetching dashboard for user :" + loggedInUser.getEmail()
 					+ " for year : " + year + " of Company ID " + companyId + " " + new Date()));
 		}
 
@@ -1871,9 +1843,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("cityId", "city");
 			crit.createAlias("countryId", "countryId");
 			// crit.createAlias("companyId", "company");
-			crit.createAlias("rollId", "roll");
-
-			crit.createAlias("userId", "user");
+			
 			crit.createAlias("skillId", "skill");
 			crit.add(Restrictions.eq("skill.skillId", resourceUse.getSkill().getSkillId()));
 
@@ -2110,24 +2080,21 @@ public class MySQLRdbHelper {
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.createAlias("cityId", "city");
 			// crit.createAlias("companyId", "company");
-			crit.createAlias("rollId", "roll");
 			crit.createAlias("reportingTo", "reporting");
-			crit.createAlias("reporting.rollId", "reportingRoll");
 			crit.createAlias("reporting.skillId", "reportingSkill");
 			crit.createAlias("reporting.reportingTo", "reportingTot");
-			crit.add(Restrictions.ne("roll.rollId", 1));
-			crit.add(Restrictions.ne("roll.rollId", 5));
-			crit.add(Restrictions.ne("roll.rollId", 4));
+			crit.add(Restrictions.ne("rollId", 1));
+			crit.add(Restrictions.ne("rollId", 5));
+			crit.add(Restrictions.ne("rollId", 4));
 
-			crit.createAlias("userId", "user");
-			crit.createAlias("reporting.userId", "userrep");
+			
+			
 			List rsList = crit.list();// .. ?run
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				Employee employee = (Employee) it.next();
 				HibernateDetachUtility.nullOutUninitializedFields(employee,
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
-				HibernateDetachUtility.nullOutUninitializedFields(employee.getReportingTo().getUserId(),
-						HibernateDetachUtility.SerializationType.SERIALIZATION);
+			
 				HibernateDetachUtility.nullOutUninitializedFields(employee.getReportingTo().getReportingTo(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
@@ -2192,23 +2159,18 @@ public class MySQLRdbHelper {
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.createAlias("cityId", "city");
 			// crit.createAlias("companyId", "company");
-			crit.createAlias("rollId", "roll");
 			crit.createAlias("reportingTo", "reporting");
-			crit.createAlias("reporting.rollId", "reportingRoll");
 			crit.createAlias("reporting.skillId", "reportingSkill");
 			crit.createAlias("reporting.reportingTo", "reportingTot");
-			crit.add(Restrictions.ne("roll.rollId", 1));
+			crit.add(Restrictions.ne("rollId", 1));
 			//crit.add(Restrictions.ne("roll.rollId", 5));
-			crit.add(Restrictions.ne("roll.rollId", 4));
+			crit.add(Restrictions.ne("rollId", 4));
 
-			crit.createAlias("userId", "user");
-			crit.createAlias("reporting.userId", "userrep");
+			
 			List rsList = crit.list();// .. ?run
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				Employee employee = (Employee) it.next();
 				HibernateDetachUtility.nullOutUninitializedFields(employee,
-						HibernateDetachUtility.SerializationType.SERIALIZATION);
-				HibernateDetachUtility.nullOutUninitializedFields(employee.getReportingTo().getUserId(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(employee.getReportingTo().getReportingTo(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
@@ -2628,15 +2590,12 @@ public class MySQLRdbHelper {
 	private void strategicAlias(Criteria crit) {
 		crit.createAlias("initiatedBy", "initiated");
 		crit.createAlias("assignedTo", "assigned");
-		crit.createAlias("assigned.userId", "assignedUser");
-
+		
 		crit.createAlias("process", "processId");
 		crit.createAlias("subProcess", "subProcessId");
 		crit.createAlias("jobType", "jobTypeId");
 
-		crit.createAlias("initiated.userId", "initiatedUser");
 		crit.createAlias("initiated.skillId", "initatedSkill");
-		crit.createAlias("initiated.rollId", "initatedRoll");
 	}
 
 	public ArrayList<JobEmployeeRelation> fetchEmployeeJobRelations(int jobCreationId) {
@@ -2656,10 +2615,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("employee.countryId", "employeeCount");
 			crit.createAlias("employee.reportingTo", "employeeRep");
 			crit.createAlias("employeeRep.countryId", "employeeRCount");
-			crit.createAlias("employee.userId", "employeeUser");
-			crit.createAlias("employee.rollId", "employeeRoll");
 			crit.createAlias("employee.skillId", "employeeSkill");
-			crit.createAlias("employeeRep.rollId", "employeeRepRoll");
 			crit.createAlias("employeeRep.skillId", "employeeRepSkill");
 
 			List rsList = crit.list();
@@ -2708,21 +2664,19 @@ public class MySQLRdbHelper {
 			crit.createAlias("cityId", "city");
 			crit.createAlias("countryId", "countryId");
 			// crit.createAlias("companyId", "company");
-			crit.createAlias("rollId", "roll");
 			crit.createAlias("reportingTo", "report");
-			crit.createAlias("report.rollId", "reportRoll");
 			crit.createAlias("report.skillId", "reportSKill");
 			crit.createAlias("report.reportingTo", "reportreportingTo");
-			crit.createAlias("reportreportingTo.rollId", "reportreportingToRoll");
 			crit.createAlias("reportreportingTo.skillId", "reporreportingTotSKill");
 
-			crit.createAlias("userId", "user");
+			
 			crit.createAlias("skillId", "skill");
-			crit.createAlias("reportreportingTo.userId", "userrep");
+			
 
 			/// Change here
-			crit.add(Restrictions.ne("roll.rollId", 1));
-			crit.add(Restrictions.ne("roll.rollId", 4));
+			crit.add(Restrictions.ne("rollId", 1));
+			//crit.add(Restrictions.ne("roll.rollId", 4));
+			crit.add(Restrictions.ne("rollId", 4));
 			crit.add(Restrictions.eq("companyId", companyId));
 			////
 			List rsList = crit.list();
@@ -2732,16 +2686,8 @@ public class MySQLRdbHelper {
 				Employee employee = (Employee) it.next();
 				HibernateDetachUtility.nullOutUninitializedFields(employee,
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
-				HibernateDetachUtility.nullOutUninitializedFields(employee.getRollId(),
-						HibernateDetachUtility.SerializationType.SERIALIZATION);
-				HibernateDetachUtility.nullOutUninitializedFields(employee.getReportingTo().getRollId(),
-						HibernateDetachUtility.SerializationType.SERIALIZATION);
-				HibernateDetachUtility.nullOutUninitializedFields(employee.getUserId().getEmployeeId().getRollId(),
-						HibernateDetachUtility.SerializationType.SERIALIZATION);
-				HibernateDetachUtility.nullOutUninitializedFields(
-						employee.getUserId().getEmployeeId().getReportingTo().getRollId(),
-						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
+	
 				jobForEmp.setEmployee(employee);
 
 				jobForEmp.setJobs(getAllJobsForEmployee(employee.getEmployeeId()));
@@ -2774,7 +2720,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("employee.countryId", "employeeCount");
 			crit.createAlias("employee.reportingTo", "employeeRep");
 			crit.createAlias("employeeRep.countryId", "employeeRCount");
-			crit.createAlias("employee.userId", "employeeUser");
+			
 			// crit.createAlias("employeeUser.countryId", "employeeUCount");
 
 			List rsList = crit.list();
@@ -2882,7 +2828,7 @@ public class MySQLRdbHelper {
 						employeeJobDTO.setEndDate(job.getEndDate());
 						employeeJobDTO.setSatrtDate(job.getStartDate());
 						employeeJobDTO.setJobName(job.getJobName());
-						if (!(employeesOnThisJobs.get(i).getRollId().getRollId() == 1)) {
+						if (!(employeesOnThisJobs.get(i).getRollId()== 1)) {
 							employeeJobDTOs.add(employeeJobDTO);
 						}
 					}
@@ -2904,10 +2850,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("approved.countryId", "employeeCount");
 			crit.createAlias("approved.reportingTo", "employeeRep");
 			crit.createAlias("employeeRep.countryId", "employeeRCount");
-			crit.createAlias("approved.userId", "employeeUser");
-			crit.createAlias("approved.rollId", "employeeRoll");
 			crit.createAlias("approved.skillId", "employeeSkill");
-			crit.createAlias("employeeRep.rollId", "employeeRepRoll");
 			crit.createAlias("employeeRep.skillId", "employeeRepSkill");
 
 			crit.createAlias("initiatedBy", "initiated");
@@ -2915,10 +2858,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiated.reportingTo", "initiatedRep");
 			crit.createAlias("initiatedRep.countryId", "initiatedRCount");
 			crit.createAlias("initiatedRep.cityId", "initiatedRCity");
-			crit.createAlias("initiated.userId", "initiatedUser");
-			crit.createAlias("initiated.rollId", "initiatedRoll");
 			crit.createAlias("initiated.skillId", "initiatedSkill");
-			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
 
 			crit.add(Restrictions.eq("year", year));
@@ -3099,10 +3039,8 @@ public class MySQLRdbHelper {
 			crit.createAlias("approved.countryId", "employeeCount");
 			crit.createAlias("approved.reportingTo", "employeeRep");
 			crit.createAlias("employeeRep.countryId", "employeeRCount");
-			crit.createAlias("approved.userId", "employeeUser");
-			crit.createAlias("approved.rollId", "employeeRoll");
+			
 			crit.createAlias("approved.skillId", "employeeSkill");
-			crit.createAlias("employeeRep.rollId", "employeeRepRoll");
 			crit.createAlias("employeeRep.skillId", "employeeRepSkill");
 
 			crit.createAlias("initiatedBy", "initiated");
@@ -3110,10 +3048,8 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiatedRep.cityId", "initiatedRCity");
 			crit.createAlias("initiated.reportingTo", "initiatedRep");
 			crit.createAlias("initiatedRep.countryId", "initiatedRCount");
-			crit.createAlias("initiated.userId", "initiatedUser");
-			crit.createAlias("initiated.rollId", "initiatedRoll");
+			
 			crit.createAlias("initiated.skillId", "initiatedSkill");
-			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
 
 			crit.createAlias("jobCreationId", "jobCreation");
@@ -3250,22 +3186,19 @@ public class MySQLRdbHelper {
 		crit.createAlias("sassigned.countryId", "sassigendCount");
 		crit.createAlias("sassigned.cityId", "sassigendCCity");
 		crit.createAlias("sassigned.reportingTo", "sassigendCdRep");
-		crit.createAlias("sassigned.userId", "sassigendCdUser");
-		crit.createAlias("sassigned.rollId", "sassigendCRoll");
+		
 		crit.createAlias("sassigned.skillId", "sassigendCSkill");
 
 		crit.createAlias("sinitiated.countryId", "sinitiatedCount");
 		crit.createAlias("sinitiated.cityId", "sinitiatedCity");
 		crit.createAlias("sinitiated.reportingTo", "sinitiatedRep");
-		crit.createAlias("sinitiated.userId", "sinitiatedUser");
-		crit.createAlias("sinitiated.rollId", "sinitiatedRoll");
+		
 		crit.createAlias("sinitiated.skillId", "sinitiatedSkill");
 
 		crit.createAlias("sapproved.countryId", "sapprovedCount");
 		crit.createAlias("sapproved.cityId", "sapprovedCity");
 		crit.createAlias("sapproved.reportingTo", "sapprovedRep");
-		crit.createAlias("sapproved.userId", "sapprovedUser");
-		crit.createAlias("sapproved.rollId", "sapprovedRoll");
+
 		crit.createAlias("sapproved.skillId", "sapprovedSkill");
 
 	}
@@ -3285,22 +3218,19 @@ public class MySQLRdbHelper {
 		crit.createAlias("sassigned.countryId", "sassigendCount");
 		crit.createAlias("sassigned.cityId", "sassigendCCity");
 		crit.createAlias("sassigned.reportingTo", "sassigendCdRep");
-		crit.createAlias("sassigned.userId", "sassigendCdUser");
-		crit.createAlias("sassigned.rollId", "sassigendCRoll");
+	
 		crit.createAlias("sassigned.skillId", "sassigendCSkill");
 
 		crit.createAlias("sinitiated.countryId", "sinitiatedCount");
 		crit.createAlias("sinitiated.cityId", "sinitiatedCity");
 		crit.createAlias("sinitiated.reportingTo", "sinitiatedRep");
-		crit.createAlias("sinitiated.userId", "sinitiatedUser");
-		crit.createAlias("sinitiated.rollId", "sinitiatedRoll");
+	
 		crit.createAlias("sinitiated.skillId", "sinitiatedSkill");
 
 		crit.createAlias("sapproved.countryId", "sapprovedCount");
 		crit.createAlias("sapproved.cityId", "sapprovedCity");
 		crit.createAlias("sapproved.reportingTo", "sapprovedRep");
-		crit.createAlias("sapproved.userId", "sapprovedUser");
-		crit.createAlias("sapproved.rollId", "sapprovedRoll");
+
 		crit.createAlias("sapproved.skillId", "sapprovedSkill");
 
 	}
@@ -3324,15 +3254,12 @@ public class MySQLRdbHelper {
 		crit.createAlias("sassigned.countryId", "sassigendCount");
 		crit.createAlias("sassigned.cityId", "sassigendCCity");
 		crit.createAlias("sassigned.reportingTo", "sassigendCdRep");
-		crit.createAlias("sassigned.userId", "sassigendCdUser");
-		crit.createAlias("sassigned.rollId", "sassigendCRoll");
+	
 		crit.createAlias("sassigned.skillId", "sassigendCSkill");
 
 		crit.createAlias("sinitiated.countryId", "sinitiatedCount");
 		crit.createAlias("sinitiated.cityId", "sinitiatedCity");
 		crit.createAlias("sinitiated.reportingTo", "sinitiatedRep");
-		crit.createAlias("sinitiated.userId", "sinitiatedUser");
-		crit.createAlias("sinitiated.rollId", "sinitiatedRoll");
 		crit.createAlias("sinitiated.skillId", "sinitiatedSkill");
 
 		crit.createAlias("strategic.process", "processId");
@@ -3785,10 +3712,8 @@ public class MySQLRdbHelper {
 			crit.createAlias("approved.reportingTo", "employeeRep");
 			crit.createAlias("employeeRep.countryId", "employeeRCount");
 			crit.createAlias("employeeRep.cityId", "employeeRCity");
-			crit.createAlias("approved.userId", "employeeUser");
-			crit.createAlias("approved.rollId", "employeeRoll");
+			
 			crit.createAlias("approved.skillId", "employeeSkill");
-			crit.createAlias("employeeRep.rollId", "employeeRepRoll");
 			crit.createAlias("employeeRep.skillId", "employeeRepSkill");
 
 			crit.createAlias("initiatedBy", "initiated");
@@ -3796,10 +3721,8 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiated.cityId", "initiatedCity");
 			crit.createAlias("initiated.reportingTo", "initiatedRep");
 			crit.createAlias("initiatedRep.countryId", "initiatedRCount");
-			crit.createAlias("initiated.userId", "initiatedUser");
-			crit.createAlias("initiated.rollId", "initiatedRoll");
+			
 			crit.createAlias("initiated.skillId", "initiatedSkill");
-			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
 
 			crit.createAlias("auditEngageId", "audEng");
@@ -3813,10 +3736,8 @@ public class MySQLRdbHelper {
 			crit.createAlias("approvedEng.cityId", "employeeCityyeng");
 			crit.createAlias("approvedEng.reportingTo", "employeeRepeng");
 			crit.createAlias("employeeRepeng.countryId", "employeeRCounteng");
-			crit.createAlias("approvedEng.userId", "employeeUsereng");
-			crit.createAlias("approvedEng.rollId", "employeeRolleng");
+		
 			crit.createAlias("approvedEng.skillId", "employeeSkilleng");
-			crit.createAlias("employeeRepeng.rollId", "employeeRepRolleng");
 			crit.createAlias("employeeRepeng.skillId", "employeeRepSkilleng");
 
 			crit.createAlias("audEng.initiatedBy", "initiatedeng");
@@ -3824,10 +3745,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiatedeng.cityId", "initiatedCityyeng");
 			crit.createAlias("initiatedeng.reportingTo", "initiatedRepeng");
 			crit.createAlias("initiatedRepeng.countryId", "initiatedRCounteng");
-			crit.createAlias("initiatedeng.userId", "initiatedUsereng");
-			crit.createAlias("initiatedeng.rollId", "initiatedRolleng");
 			crit.createAlias("initiatedeng.skillId", "initiatedSkilleng");
-			crit.createAlias("initiatedRepeng.rollId", "initiatedRepRolleng");
 			crit.createAlias("initiatedRepeng.skillId", "initiatedRepSkilleng");
 
 			crit.createAlias("suggestedControlsId", "suggestedControls");
@@ -3883,10 +3801,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("approved.reportingTo", "employeeRep");
 			crit.createAlias("employeeRep.countryId", "employeeRCount");
 			crit.createAlias("employeeRep.cityId", "employeeRCity");
-			crit.createAlias("approved.userId", "employeeUser");
-			crit.createAlias("approved.rollId", "employeeRoll");
 			crit.createAlias("approved.skillId", "employeeSkill");
-			crit.createAlias("employeeRep.rollId", "employeeRepRoll");
 			crit.createAlias("employeeRep.skillId", "employeeRepSkill");
 
 			crit.createAlias("initiatedBy", "initiated");
@@ -3894,10 +3809,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiated.cityId", "initiatedCity");
 			crit.createAlias("initiated.reportingTo", "initiatedRep");
 			crit.createAlias("initiatedRep.countryId", "initiatedRCount");
-			crit.createAlias("initiated.userId", "initiatedUser");
-			crit.createAlias("initiated.rollId", "initiatedRoll");
 			crit.createAlias("initiated.skillId", "initiatedSkill");
-			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
 
 			crit.createAlias("auditEngageId", "audEng");
@@ -3910,10 +3822,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("approvedEng.cityId", "employeeCityyeng");
 			crit.createAlias("approvedEng.reportingTo", "employeeRepeng");
 			crit.createAlias("employeeRepeng.countryId", "employeeRCounteng");
-			crit.createAlias("approvedEng.userId", "employeeUsereng");
-			crit.createAlias("approvedEng.rollId", "employeeRolleng");
 			crit.createAlias("approvedEng.skillId", "employeeSkilleng");
-			crit.createAlias("employeeRepeng.rollId", "employeeRepRolleng");
 			crit.createAlias("employeeRepeng.skillId", "employeeRepSkilleng");
 
 			crit.createAlias("audEng.initiatedBy", "initiatedeng");
@@ -3921,10 +3830,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiatedeng.cityId", "initiatedCityyeng");
 			crit.createAlias("initiatedeng.reportingTo", "initiatedRepeng");
 			crit.createAlias("initiatedRepeng.countryId", "initiatedRCounteng");
-			crit.createAlias("initiatedeng.userId", "initiatedUsereng");
-			crit.createAlias("initiatedeng.rollId", "initiatedRolleng");
 			crit.createAlias("initiatedeng.skillId", "initiatedSkilleng");
-			crit.createAlias("initiatedRepeng.rollId", "initiatedRepRolleng");
 			crit.createAlias("initiatedRepeng.skillId", "initiatedRepSkilleng");
 
 			crit.createAlias("suggestedControlsId", "suggestedControls");
@@ -3984,10 +3890,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("approved.reportingTo", "employeeRep");
 			crit.createAlias("employeeRep.countryId", "employeeRCount");
 			crit.createAlias("employeeRep.cityId", "employeeRCity");
-			crit.createAlias("approved.userId", "employeeUser");
-			crit.createAlias("approved.rollId", "employeeRoll");
 			crit.createAlias("approved.skillId", "employeeSkill");
-			crit.createAlias("employeeRep.rollId", "employeeRepRoll");
 			crit.createAlias("employeeRep.skillId", "employeeRepSkill");
 
 			crit.createAlias("initiatedBy", "initiated");
@@ -3995,10 +3898,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiated.cityId", "initiatedCity");
 			crit.createAlias("initiated.reportingTo", "initiatedRep");
 			crit.createAlias("initiatedRep.countryId", "initiatedRCount");
-			crit.createAlias("initiated.userId", "initiatedUser");
-			crit.createAlias("initiated.rollId", "initiatedRoll");
 			crit.createAlias("initiated.skillId", "initiatedSkill");
-			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
 
 			crit.createAlias("auditEngageId", "audEng");
@@ -4010,10 +3910,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("approvedEng.cityId", "employeeCityyeng");
 			crit.createAlias("approvedEng.reportingTo", "employeeRepeng");
 			crit.createAlias("employeeRepeng.countryId", "employeeRCounteng");
-			crit.createAlias("approvedEng.userId", "employeeUsereng");
-			crit.createAlias("approvedEng.rollId", "employeeRolleng");
 			crit.createAlias("approvedEng.skillId", "employeeSkilleng");
-			crit.createAlias("employeeRepeng.rollId", "employeeRepRolleng");
 			crit.createAlias("employeeRepeng.skillId", "employeeRepSkilleng");
 
 			crit.createAlias("audEng.initiatedBy", "initiatedeng");
@@ -4021,10 +3918,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiatedeng.cityId", "initiatedCityyeng");
 			crit.createAlias("initiatedeng.reportingTo", "initiatedRepeng");
 			crit.createAlias("initiatedRepeng.countryId", "initiatedRCounteng");
-			crit.createAlias("initiatedeng.userId", "initiatedUsereng");
-			crit.createAlias("initiatedeng.rollId", "initiatedRolleng");
 			crit.createAlias("initiatedeng.skillId", "initiatedSkilleng");
-			crit.createAlias("initiatedRepeng.rollId", "initiatedRepRolleng");
 			crit.createAlias("initiatedRepeng.skillId", "initiatedRepSkilleng");
 
 			crit.add(Restrictions.eq("initiatedRep.employeeId", employeeId));
@@ -4069,9 +3963,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("cityId", "city");
 			crit.createAlias("countryId", "countryId");
 			// crit.createAlias("companyId", "company");
-			crit.createAlias("rollId", "roll");
-
-			crit.createAlias("userId", "user");
+			
 			crit.createAlias("skillId", "skill");
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -4107,7 +3999,6 @@ public class MySQLRdbHelper {
 			crit.createAlias("jobCreationId", "jobCreation");
 			jobsStrategicAlias(crit);
 			crit.createAlias("employeeId", "emp");
-			crit.createAlias("employeeId.rollId", "empRoll");
 
 			crit.add(Restrictions.eq("jobCreation.jobCreationId", selectedJobId));
 			List rsList = crit.list();
@@ -4313,7 +4204,6 @@ public class MySQLRdbHelper {
 			crit.createAlias("employee.cityId", "employeeCity");
 			crit.createAlias("employee.reportingTo", "employeeRep");
 			crit.createAlias("employeeRep.countryId", "employeeRCount");
-			crit.createAlias("employee.userId", "employeeUser");
 
 			crit.createAlias("divisionHead", "divHead");
 			crit.createAlias("divHead.countryId", "divHeadCount");
@@ -4321,19 +4211,14 @@ public class MySQLRdbHelper {
 			crit.createAlias("divHead.reportingTo", "divHeadRep");
 
 			crit.createAlias("divHead.skillId", "divHeadSkill");
-			crit.createAlias("divHead.rollId", "divHeadRoll");
 
 			crit.createAlias("divHeadRep.skillId", "divHeadSkill1");
-			crit.createAlias("divHeadRep.rollId", "divHeadRoll1");
 
 			crit.createAlias("employee.skillId", "employeeSkill");
-			crit.createAlias("employee.rollId", "employeeRoll");
 
 			crit.createAlias("employeeRep.skillId", "employeeSkill2");
-			crit.createAlias("employeeRep.rollId", "employeeRoll2");
 
 			// crit.createAlias("divHead.countryId", "divHeadRCount");
-			crit.createAlias("divHead.userId", "divHeadUser");
 			if (jobId != 0) {
 				crit.add(Restrictions.eq("jobCreation.jobCreationId", jobId));
 			}
@@ -4384,18 +4269,11 @@ public class MySQLRdbHelper {
 			crit.createAlias("from.countryId", "employeeCount");
 			crit.createAlias("from.cityId", "employeeCity");
 			crit.createAlias("from.reportingTo", "employeeRep");
-			crit.createAlias("from.userId", "employeeUser");
-
 			crit.createAlias("from.skillId", "employeeSkill");
-			crit.createAlias("from.rollId", "employeeRoll");
-
 			crit.createAlias("To.skillId", "employeeSkill2");
-			crit.createAlias("To.rollId", "employeeRoll2");
-
 			crit.createAlias("To.countryId", "employeeCountR");
 			crit.createAlias("To.cityId", "employeeCityR");
 			crit.createAlias("To.reportingTo", "employeeRepR");
-			crit.createAlias("To.userId", "employeeUserR");
 
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -4440,18 +4318,14 @@ public class MySQLRdbHelper {
 			crit.createAlias("from.countryId", "employeeCount");
 			crit.createAlias("from.cityId", "employeeCity");
 			crit.createAlias("from.reportingTo", "employeeRep");
-			crit.createAlias("from.userId", "employeeUser");
 
 			crit.createAlias("from.skillId", "employeeSkill");
-			crit.createAlias("from.rollId", "employeeRoll");
 
 			crit.createAlias("To.skillId", "employeeSkill2");
-			crit.createAlias("To.rollId", "employeeRoll2");
 
 			crit.createAlias("To.countryId", "employeeCountR");
 			crit.createAlias("To.cityId", "employeeCityR");
 			crit.createAlias("To.reportingTo", "employeeRepR");
-			crit.createAlias("To.userId", "employeeUserR");
 			
 			//crit.add(Restrictions.eq("read", 0));
 
@@ -4595,15 +4469,10 @@ public class MySQLRdbHelper {
 			crit.createAlias("divhead.reportingTo", "divheadRep");
 			crit.createAlias("employeeRep.countryId", "employeeRCount");
 			crit.createAlias("employeeRep.cityId", "employeeRCity");
-			crit.createAlias("employee.userId", "employeeUser");
-			crit.createAlias("employee.rollId", "employeeRoll");
 			crit.createAlias("employee.skillId", "employeeSkill");
-			crit.createAlias("divhead.rollId", "divheadRoll");
 			crit.createAlias("divhead.cityId", "divheadcityy");
 			crit.createAlias("divhead.skillId", "divheadSkill");
-			crit.createAlias("employeeRep.rollId", "employeeRepRoll");
 			crit.createAlias("employeeRep.skillId", "employeeRepSkill");
-			crit.createAlias("divheadRep.rollId", "divheadRepRoll");
 			crit.createAlias("divheadRep.skillId", "divheadRepSkill");
 
 			List rsList = crit.list();
@@ -4759,10 +4628,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiated.countryId", "initiatedCount");
 			crit.createAlias("initiated.reportingTo", "initiatedRep");
 			crit.createAlias("initiatedRep.countryId", "initiatedRCount");
-			crit.createAlias("initiated.userId", "initiatedUser");
-			crit.createAlias("initiated.rollId", "initiatedRoll");
 			crit.createAlias("initiated.skillId", "initiatedSkill");
-			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
 
 			AuditStep auditStep = (AuditStep) crit.list().get(0);
@@ -4808,10 +4674,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("approved.cityId", "employeeCity");
 			crit.createAlias("approved.reportingTo", "employeeRep");
 			crit.createAlias("employeeRep.countryId", "employeeRCount");
-			crit.createAlias("approved.userId", "employeeUser");
-			crit.createAlias("approved.rollId", "employeeRoll");
 			crit.createAlias("approved.skillId", "employeeSkill");
-			crit.createAlias("employeeRep.rollId", "employeeRepRoll");
 			crit.createAlias("employeeRep.skillId", "employeeRepSkill");
 
 			crit.createAlias("initiatedBy", "initiated");
@@ -4819,10 +4682,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiated.cityId", "initiatedCity");
 			crit.createAlias("initiated.reportingTo", "initiatedRep");
 			crit.createAlias("initiatedRep.countryId", "initiatedRCount");
-			crit.createAlias("initiated.userId", "initiatedUser");
-			crit.createAlias("initiated.rollId", "initiatedRoll");
 			crit.createAlias("initiated.skillId", "initiatedSkill");
-			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
 
 			///
@@ -4922,10 +4782,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("approved.cityId", "employeeCity");
 			crit.createAlias("approved.reportingTo", "employeeRep");
 			crit.createAlias("employeeRep.countryId", "employeeRCount");
-			crit.createAlias("approved.userId", "employeeUser");
-			crit.createAlias("approved.rollId", "employeeRoll");
 			crit.createAlias("approved.skillId", "employeeSkill");
-			crit.createAlias("employeeRep.rollId", "employeeRepRoll");
 			crit.createAlias("employeeRep.skillId", "employeeRepSkill");
 
 			crit.createAlias("initiatedBy", "initiated");
@@ -4933,10 +4790,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiated.cityId", "initiatedCity");
 			crit.createAlias("initiated.reportingTo", "initiatedRep");
 			crit.createAlias("initiatedRep.countryId", "initiatedRCount");
-			crit.createAlias("initiated.userId", "initiatedUser");
-			crit.createAlias("initiated.rollId", "initiatedRoll");
 			crit.createAlias("initiated.skillId", "initiatedSkill");
-			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
 
 			crit.add(Restrictions.eq("initiatedRep.employeeId", employeeId));
@@ -5002,17 +4856,13 @@ public class MySQLRdbHelper {
 			crit.createAlias("responsible.cityId", "employeeCity");
 			crit.createAlias("responsible.reportingTo", "employeeRep");
 			crit.createAlias("employeeRep.countryId", "employeeRCount");
-			crit.createAlias("responsible.userId", "employeeUser");
 
 			crit.createAlias("division.countryId", "employeeCount1");
 			crit.createAlias("division.cityId", "employeeCity1");
 			crit.createAlias("division.reportingTo", "employeeRep1");
 			crit.createAlias("employeeRep1.countryId", "employeeRCount1");
-			crit.createAlias("divisionHead.userId", "employeeUser1");
 
-			crit.createAlias("division.rollId", "divisionRoll");
 			crit.createAlias("division.skillId", "divisionSkill");
-			crit.createAlias("employeeRep1.rollId", "divisionRoll1");
 			crit.createAlias("employeeRep1.skillId", "divisionSkill1");
 
 			List rsList = crit.list();
@@ -5056,17 +4906,13 @@ public class MySQLRdbHelper {
 			crit.createAlias("responsible.cityId", "employeeCity");
 			crit.createAlias("responsible.reportingTo", "employeeRep");
 			crit.createAlias("employeeRep.countryId", "employeeRCount");
-			crit.createAlias("responsible.userId", "employeeUser");
 
 			crit.createAlias("division.countryId", "employeeCount1");
 			crit.createAlias("division.cityId", "employeeCity1");
 			crit.createAlias("division.reportingTo", "employeeRep1");
 			crit.createAlias("employeeRep1.countryId", "employeeRCount1");
-			crit.createAlias("divisionHead.userId", "employeeUser1");
 
-			crit.createAlias("division.rollId", "divisionRoll");
 			crit.createAlias("division.skillId", "divisionSkill");
-			crit.createAlias("employeeRep1.rollId", "divisionRoll1");
 			crit.createAlias("employeeRep1.skillId", "divisionSkill1");
 			Disjunction disc = Restrictions.disjunction();
 			disc.add(Restrictions.eq("status", "Sent"));
@@ -5137,7 +4983,7 @@ public class MySQLRdbHelper {
 
 	}
 
-	public void updateKickoffStatus(int auditEngId, int year, int companyId, User loggedInUser) {
+	public void updateKickoffStatus(int auditEngId, int year, int companyId, Employee loggedInUser) {
 		Session session = null;
 
 		try {
@@ -5151,7 +4997,7 @@ public class MySQLRdbHelper {
 				prevCreated.setYear(year);
 				// prevCreated.setInitiatedBy(loggedInUser.getEmployeeId());
 				prevCreated.setInitiatedBy(
-						(Employee) session.get(Employee.class, loggedInUser.getEmployeeId().getEmployeeId()));
+						(Employee) session.get(Employee.class, loggedInUser.getEmployeeId()));
 				prevCreated.setApprovedBy((Employee) session.get(Employee.class, 0));
 				Transaction tr = session.beginTransaction();
 				session.saveOrUpdate(prevCreated);
@@ -5159,7 +5005,7 @@ public class MySQLRdbHelper {
 			}
 			logger.info(String.format(
 					"(Inside updateKickoffStatus)   updating KickoffStatus for audit eng: " + auditEngId + "for company"
-							+ companyId + "for logged in user" + loggedInUser.getName() + "" + new Date()));
+							+ companyId + "for logged in user" + loggedInUser.getEmail() + "" + new Date()));
 
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in  updating kickoff status", ex.getMessage()), ex);
@@ -5189,16 +5035,11 @@ public class MySQLRdbHelper {
 			crit.createAlias("employee.reportingTo", "employeeRep");
 			crit.createAlias("divHead.reportingTo", "divHeadRep");
 			crit.createAlias("employeeRep.countryId", "employeeRCount");
-			crit.createAlias("employee.userId", "employeeUser");
 
-			crit.createAlias("employee.rollId", "employeeRoll");
 			crit.createAlias("employee.skillId", "employeeSkill");
-			crit.createAlias("employeeRep.rollId", "employeeRepRoll");
 			crit.createAlias("employeeRep.skillId", "employeeRepkill");
-			crit.createAlias("divHead.rollId", "divHeadRoll");
 			crit.createAlias("divHead.cityId", "divHeadCity");
 			crit.createAlias("divHead.skillId", "divHeadSkill");
-			crit.createAlias("divHeadRep.rollId", "divHeadRepRoll");
 			crit.createAlias("divHeadRep.skillId", "divHeadRepSkill");
 
 			crit.add(Restrictions.ne("managementComments", ""));
@@ -5244,10 +5085,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("approved.cityId", "employeeCityy");
 			crit.createAlias("approved.reportingTo", "employeeRep");
 			crit.createAlias("employeeRep.countryId", "employeeRCount");
-			crit.createAlias("approved.userId", "employeeUser");
-			crit.createAlias("approved.rollId", "employeeRoll");
 			crit.createAlias("approved.skillId", "employeeSkill");
-			crit.createAlias("employeeRep.rollId", "employeeRepRoll");
 			crit.createAlias("employeeRep.skillId", "employeeRepSkill");
 
 			crit.createAlias("initiatedBy", "initiated");
@@ -5255,10 +5093,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiated.cityId", "initiatedCityy");
 			crit.createAlias("initiated.reportingTo", "initiatedRep");
 			crit.createAlias("initiatedRep.countryId", "initiatedRCount");
-			crit.createAlias("initiated.userId", "initiatedUser");
-			crit.createAlias("initiated.rollId", "initiatedRoll");
 			crit.createAlias("initiated.skillId", "initiatedSkill");
-			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
 
 			crit.createAlias("suggestedControlsId", "controls");
@@ -5349,10 +5184,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("approved.cityId", "employeeCityy");
 			crit.createAlias("approved.reportingTo", "employeeRep");
 			crit.createAlias("employeeRep.countryId", "employeeRCount");
-			crit.createAlias("approved.userId", "employeeUser");
-			crit.createAlias("approved.rollId", "employeeRoll");
 			crit.createAlias("approved.skillId", "employeeSkill");
-			crit.createAlias("employeeRep.rollId", "employeeRepRoll");
 			crit.createAlias("employeeRep.skillId", "employeeRepSkill");
 
 			crit.createAlias("initiatedBy", "initiated");
@@ -5360,10 +5192,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiated.cityId", "initiatedCityy");
 			crit.createAlias("initiated.reportingTo", "initiatedRep");
 			crit.createAlias("initiatedRep.countryId", "initiatedRCount");
-			crit.createAlias("initiated.userId", "initiatedUser");
-			crit.createAlias("initiated.rollId", "initiatedRoll");
 			crit.createAlias("initiated.skillId", "initiatedSkill");
-			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
 
 			crit.add(Restrictions.eq("initiatedRep.employeeId", employeeId));
@@ -5378,10 +5207,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("approvedEng.cityId", "employeeCityyeng");
 			crit.createAlias("approvedEng.reportingTo", "employeeRepeng");
 			crit.createAlias("employeeRepeng.countryId", "employeeRCounteng");
-			crit.createAlias("approvedEng.userId", "employeeUsereng");
-			crit.createAlias("approvedEng.rollId", "employeeRolleng");
 			crit.createAlias("approvedEng.skillId", "employeeSkilleng");
-			crit.createAlias("employeeRepeng.rollId", "employeeRepRolleng");
 			crit.createAlias("employeeRepeng.skillId", "employeeRepSkilleng");
 
 			crit.createAlias("audEng.initiatedBy", "initiatedeng");
@@ -5389,10 +5215,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiatedeng.cityId", "initiatedCityyeng");
 			crit.createAlias("initiatedeng.reportingTo", "initiatedRepeng");
 			crit.createAlias("initiatedRepeng.countryId", "initiatedRCounteng");
-			crit.createAlias("initiatedeng.userId", "initiatedUsereng");
-			crit.createAlias("initiatedeng.rollId", "initiatedRolleng");
 			crit.createAlias("initiatedeng.skillId", "initiatedSkilleng");
-			crit.createAlias("initiatedRepeng.rollId", "initiatedRepRolleng");
 			crit.createAlias("initiatedRepeng.skillId", "initiatedRepSkilleng");
 
 			List rsList = crit.list();
@@ -5441,23 +5264,17 @@ public class MySQLRdbHelper {
 			crit.createAlias("approved.cityId", "employeeCity");
 			crit.createAlias("approved.reportingTo", "employeeRep");
 			crit.createAlias("employeeRep.countryId", "employeeRCount");
-			crit.createAlias("approved.userId", "employeeUser");
-			crit.createAlias("approved.rollId", "employeeRoll");
 			crit.createAlias("approved.skillId", "employeeSkill");
-			crit.createAlias("employeeRep.rollId", "employeeRepRoll");
 			crit.createAlias("employeeRep.skillId", "employeeRepSkill");
 
-			crit.add(Restrictions.eq("employeeRoll.rollId", 1));
+			crit.add(Restrictions.eq("employeeRep.rollId", 1));
 
 			crit.createAlias("initiatedBy", "initiated");
 			crit.createAlias("initiated.countryId", "initiatedCount");
 			crit.createAlias("initiated.cityId", "initiatedCity");
 			crit.createAlias("initiated.reportingTo", "initiatedRep");
 			crit.createAlias("initiatedRep.countryId", "initiatedRCount");
-			crit.createAlias("initiated.userId", "initiatedUser");
-			crit.createAlias("initiated.rollId", "initiatedRoll");
 			crit.createAlias("initiated.skillId", "initiatedSkill");
-			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
 
 			///
@@ -5684,7 +5501,7 @@ public class MySQLRdbHelper {
 				AuditStep auditStep = (AuditStep) it.next();
 				int status = auditStep.getStatus();
 				if (status == InternalAuditConstants.APPROVED
-						&& auditStep.getApprovedBy().getRollId().getRollId() == 1) {
+						&& auditStep.getApprovedBy().getRollId()== 1) {
 					jobAuditStepApproved = true;
 				} else {
 					jobAuditStepApproved = false;
@@ -5732,10 +5549,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("approved.countryId", "employeeCount");
 			crit.createAlias("approved.reportingTo", "employeeRep");
 			crit.createAlias("employeeRep.countryId", "employeeRCount");
-			crit.createAlias("approved.userId", "employeeUser");
-			crit.createAlias("approved.rollId", "employeeRoll");
 			crit.createAlias("approved.skillId", "employeeSkill");
-			crit.createAlias("employeeRep.rollId", "employeeRepRoll");
 			crit.createAlias("employeeRep.skillId", "employeeRepSkill");
 
 			crit.createAlias("strategic.initiatedBy", "initiated");
@@ -5743,10 +5557,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiated.reportingTo", "initiatedRep");
 			crit.createAlias("initiatedRep.countryId", "initiatedRCount");
 			crit.createAlias("initiatedRep.cityId", "initiatedRCity");
-			crit.createAlias("initiated.userId", "initiatedUser");
-			crit.createAlias("initiated.rollId", "initiatedRoll");
 			crit.createAlias("initiated.skillId", "initiatedSkill");
-			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
 
 			List rsList = crit.list();
@@ -6272,7 +6083,6 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(Employee.class);
 			crit.createAlias("skillId", "skill");
-			crit.createAlias("rollId", "roll");
 
 			crit.add(Restrictions.ne("employeeId", 0));
 			// crit.createAlias("companyId", "company");
@@ -6367,8 +6177,6 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(Strategic.class);
 			crit.createAlias("initiatedBy", "initiated");
 			crit.createAlias("assignedTo", "assigned");
-			crit.createAlias("assigned.userId", "assignedUser");
-			crit.createAlias("initiated.userId", "initiatedUser");
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			// crit.add(Restrictions.eq("tab", domain));
@@ -6630,8 +6438,6 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(Strategic.class);
 			crit.createAlias("initiatedBy", "initiated");
 			crit.createAlias("assignedTo", "assigned");
-			crit.createAlias("assigned.userId", "assignedUser");
-			crit.createAlias("initiated.userId", "initiatedUser");
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			// crit.add(Restrictions.eq("tab", domain));
@@ -6871,17 +6677,13 @@ public class MySQLRdbHelper {
 			try {
 				session = sessionFactory.openSession();
 				session.save(employee);
-				User user = employee.getUserId();
-
-				user.setEmployeeId(employee);
-				session.save(user);
-				employee.setUserId(user);
+		
 				if (employee.getReportingTo().getEmployeeId() == 0) {
 					employee.setReportingTo(employee);
 				}
 				session.update(employee);
 				session.flush();
-				if (employee.getRollId().getRollId() != 4 && employee.getRollId().getRollId() != 5) {
+				if (employee.getRollId() != 4 && employee.getRollId() != 5) {
 					addAvailableHoursInSkills(employee.getSkillId().getSkillId(),
 							employee.getTotalNumberOfHoursAvailable(), year, companyId);
 
@@ -6931,8 +6733,8 @@ public class MySQLRdbHelper {
 
 		try {
 			session = sessionFactory.openSession();
-			Criteria crit = session.createCriteria(User.class);
-			crit.add(Restrictions.eq("name", email));
+			Criteria crit = session.createCriteria(Employee.class);
+			crit.add(Restrictions.eq("email", email));
 			if (crit.list().size() > 0) {
 				return false;
 			} else {
@@ -7031,28 +6833,28 @@ public class MySQLRdbHelper {
 		}
 	}
 
-	public ArrayList<Rolls> fetchRolls() {
-		Session session = null;
-		ArrayList<Rolls> rolls = new ArrayList<Rolls>();
-		try {
-			session = sessionFactory.openSession();
-			Criteria crit = session.createCriteria(Rolls.class);
-			crit.add(Restrictions.ne("rollId", 0));
-			List rsList = crit.list();
-			for (Iterator it = rsList.iterator(); it.hasNext();) {
-				Rolls roll = (Rolls) it.next();
-				rolls.add(roll);
-			}
-			logger.info(String.format("(Inside fetchRolls)fetching  Rolls for rolls:" + rolls + "" + new Date()));
-			return rolls;// Return BEFORE catch Statement..
-
-		} catch (Exception ex) {
-			logger.warn(String.format("Exception occured in fetchRoles", ex.getMessage()), ex);
-			return null;
-		} finally {
-			session.close();
-		}
-	}
+//	public ArrayList<Rolls> () {
+//		Session session = null;
+//		ArrayList<Rolls> rolls = new ArrayList<Rolls>();
+//		try {
+//			session = sessionFactory.openSession();
+//			Criteria crit = session.createCriteria(Rolls.class);
+//			crit.add(Restrictions.ne("rollId", 0));
+//			List rsList = crit.list();
+//			for (Iterator it = rsList.iterator(); it.hasNext();) {
+//				Rolls roll = (Rolls) it.next();
+//				rolls.add(roll);
+//			}
+//			logger.info(String.format("(Inside fetchRolls)fetching  Rolls for rolls:" + rolls + "" + new Date()));
+//			return rolls;// Return BEFORE catch Statement..
+//
+//		} catch (Exception ex) {
+//			logger.warn(String.format("Exception occured in fetchRoles", ex.getMessage()), ex);
+//			return null;
+//		} finally {
+//			session.close();
+//		}
+//	}
 
 	public String updateStrategic(Strategic strategic) {
 		Session session = null;
@@ -7263,14 +7065,13 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			session.update(employee);
-			User user = employee.getUserId();
-			session.update(user);
+			
 			if (employee.getReportingTo().getEmployeeId() == 0) {
 				employee.setReportingTo(employee);
 			}
 			session.update(employee);
 			session.flush();
-			if (employee.getRollId().getRollId() != 4 && employee.getRollId().getRollId() != 5) {
+			if (employee.getRollId() != 4 && employee.getRollId() != 5) {
 				// addAvailableHoursInSkills(employee.getSkillId().getSkillId(),
 				// employee.getTotalNumberOfHoursAvailable(), year, companyId);
 				logger.info(String.format("(Inside updateUser)updating Userfor employe:" + employee.getEmployeeName()
@@ -7476,27 +7277,21 @@ public class MySQLRdbHelper {
 			crit.createAlias("employee.cityId", "employeeCity");
 			crit.createAlias("employee.reportingTo", "employeeRep");
 			crit.createAlias("employeeRep.countryId", "employeeRCount");
-			crit.createAlias("employee.userId", "employeeUser");
-
 			crit.createAlias("divisionHead", "divHead");
 			crit.createAlias("divHead.countryId", "divHeadCount");
 			crit.createAlias("divHead.cityId", "divHeadCity");
 			crit.createAlias("divHead.reportingTo", "divHeadRep");
 
 			crit.createAlias("divHead.skillId", "divHeadSkill");
-			crit.createAlias("divHead.rollId", "divHeadRoll");
 
 			crit.createAlias("divHeadRep.skillId", "divHeadSkill1");
-			crit.createAlias("divHeadRep.rollId", "divHeadRoll1");
 
 			crit.createAlias("employee.skillId", "employeeSkill");
-			crit.createAlias("employee.rollId", "employeeRoll");
 
 			crit.createAlias("employeeRep.skillId", "employeeSkill2");
-			crit.createAlias("employeeRep.rollId", "employeeRoll2");
 
 			// crit.createAlias("divHead.countryId", "divHeadRCount");
-			crit.createAlias("divHead.userId", "divHeadUser");
+
 
 			///////////////////////
 
@@ -8471,10 +8266,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("initiated.countryId", "initiatedCount");
 			crit.createAlias("initiated.reportingTo", "initiatedRep");
 			crit.createAlias("initiatedRep.countryId", "initiatedRCount");
-			crit.createAlias("initiated.userId", "initiatedUser");
-			crit.createAlias("initiated.rollId", "initiatedRoll");
 			crit.createAlias("initiated.skillId", "initiatedSkill");
-			crit.createAlias("initiatedRep.rollId", "initiatedRepRoll");
 			crit.createAlias("initiatedRep.skillId", "initiatedRepSkill");
 
 			AuditStep auditStep = (AuditStep) crit.list().get(0);
@@ -8817,8 +8609,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("reviewer", "review");
 			crit.createAlias("review.cityId", "city");
 			crit.createAlias("review.countryId", "countryId");
-			crit.createAlias("review.rollId", "roll");
-			crit.createAlias("review.userId", "user");
+			
 			crit.createAlias("review.skillId", "skill");
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {

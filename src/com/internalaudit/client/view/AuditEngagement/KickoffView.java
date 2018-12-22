@@ -32,13 +32,13 @@ import com.internalaudit.client.widgets.AddIcon;
 import com.internalaudit.shared.ActivityObjective;
 import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.AuditProgramme;
+import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.ObjectiveJobRelation;
 import com.internalaudit.shared.RiskObjective;
 import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.SuggestedControls;
-import com.internalaudit.shared.User;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer.AccordionLayoutAppearance;
@@ -80,7 +80,7 @@ public class KickoffView extends Composite {
 	@UiField
 	Label lblJobType;
 
-	private User loggedInUser;
+	private Employee loggedInUser;
 
 	private InternalAuditServiceAsync rpcService;
 	int selectedJobId = 0;
@@ -88,7 +88,7 @@ public class KickoffView extends Composite {
 	private  AuditEngagement selectedAuditEngagement;
 	private SubProcess subProcess;
 
-	public KickoffView(InternalAuditServiceAsync rpcService, int selectedjobId, int auditEngId, User loggedInUser, AuditEngagement auditEngagement) {
+	public KickoffView(InternalAuditServiceAsync rpcService, int selectedjobId, int auditEngId, Employee loggedInUser, AuditEngagement auditEngagement) {
 		this.selectedAuditEngagement =  auditEngagement;
 
 		this.rpcService = rpcService;
@@ -205,7 +205,7 @@ public class KickoffView extends Composite {
 
 	}
 
-	public void fetchCreatedJob(int selectedJobId, final User loggedInUser) {
+	public void fetchCreatedJob(int selectedJobId, final Employee loggedInUser) {
 
 
 		rpcService.fetchAuditEngagement( selectedJobId , new AsyncCallback<AuditEngagement>() {
@@ -297,7 +297,7 @@ public class KickoffView extends Composite {
 		
 		final VerticalPanel auditWorkNewContainer = new VerticalPanel();
 
-		final AuditWorkProg auditWorkProg = new AuditWorkProg(rpcService, selectedJobId, loggedInUser.getEmployeeId(), record.getEngagementDTO().getSelectedControls(), auditWorkNewContainer);
+		final AuditWorkProg auditWorkProg = new AuditWorkProg(rpcService, selectedJobId, loggedInUser, record.getEngagementDTO().getSelectedControls(), auditWorkNewContainer);
 		vpnl.add(auditWorkProg);
 
 		
@@ -385,7 +385,7 @@ public class KickoffView extends Composite {
 		cp.setBodyStyleName("pad-text");
 		cp.setHeadingText("Audit Step");
 		ScrollPanel sp = new ScrollPanel();
-		sp.add(new AuditStepContainer(selectedJobId, rpcService, loggedInUser.getEmployeeId()));
+		sp.add(new AuditStepContainer(selectedJobId, rpcService, loggedInUser));
 		sp.setHeight("450px");
 		cp.add(sp);
 		con.add(cp);
@@ -409,7 +409,7 @@ public class KickoffView extends Composite {
 		
 
 		//user's
-		final RisksView riskView = new RisksView(auditEngId, rpcService, loggedInUser.getEmployeeId(), record.getEngagementDTO().getSelectedObjectiveRisks(), vpExistingControlContainer);
+		final RisksView riskView = new RisksView(auditEngId, rpcService, loggedInUser, record.getEngagementDTO().getSelectedObjectiveRisks(), vpExistingControlContainer);
 		userRiskControlContainer.add(riskView);
 		
 

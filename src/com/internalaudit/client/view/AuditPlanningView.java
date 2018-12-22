@@ -6,7 +6,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.internalaudit.shared.User;
+import com.internalaudit.shared.Employee;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer.AccordionLayoutAppearance;
@@ -19,11 +19,11 @@ public class AuditPlanningView extends Composite {
     }
 
     private ContentPanel panel;
-    private User loggedInUser;
+    private Employee loggedInUser;
     @UiField
     VerticalPanel mainPanel;
 
-    public AuditPlanningView(User loggedInUser) {
+    public AuditPlanningView(Employee loggedInUser) {
 	this.loggedInUser = loggedInUser;
 	initWidget(uiBinder.createAndBindUi(this));
 	bind();

@@ -643,7 +643,7 @@ public class JobCreationPresenter implements Presenter {
 																	// populated
 				{ // populate list
 					for (int i = 0; i < result.size(); i++) {
-						if (result.get(i).getRollId().getRollId() == 1) {
+						if (result.get(i).getRollId() == 1) {
 							display.getAuditHead().addItem(result.get(i).getEmployeeName(),
 									result.get(i).getEmployeeId() + "");
 							display.getAuditHead().setSelectedIndex(1);

@@ -14,7 +14,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.event.JobListingEvent;
 import com.internalaudit.client.view.Scheduling.AuditSchedulingTabView;
-import com.internalaudit.shared.User;
+import com.internalaudit.shared.Employee;
+
 
 
 public class AuditSchedulingPresenter implements Presenter 
@@ -23,7 +24,7 @@ public class AuditSchedulingPresenter implements Presenter
 	private final InternalAuditServiceAsync rpcService;
 	private final HandlerManager eventBus;
 	private final AuditSchedulingTabView display;
-	private User loggedInUser;
+	private Employee loggedInUser;
 
 
 	public interface Display 
@@ -38,7 +39,7 @@ public class AuditSchedulingPresenter implements Presenter
 		VerticalPanel getApprovalContainer();
 	}  
 
-	public AuditSchedulingPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, AuditSchedulingTabView auditSchedulingView, User loggedInUser) 
+	public AuditSchedulingPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, AuditSchedulingTabView auditSchedulingView, Employee loggedInUser) 
 	{
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
@@ -53,7 +54,7 @@ public class AuditSchedulingPresenter implements Presenter
 		container.clear();
 		container.add(display.asWidget());
 		bind();
-		if(loggedInUser.getEmployeeId().getRollId().getRollId()==1){
+		if(loggedInUser.getRollId()==1){
 			fetchApprovalStatus();
 			
 		}

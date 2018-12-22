@@ -22,8 +22,8 @@ import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.event.CreateUserEvent;
 import com.internalaudit.client.event.MainEvent;
 import com.internalaudit.client.view.LoadingPopup;
+import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.Exceptions;
-import com.internalaudit.shared.User;
 
 
 public class LoginPresenter implements Presenter 
@@ -122,7 +122,7 @@ public class LoginPresenter implements Presenter
 
 	public void signIn(String userName,String password)
 	{
-		rpcService.signIn(userName,password, new AsyncCallback<User>()
+		rpcService.signIn(userName,password, new AsyncCallback<Employee>()
 				
 
 				{
@@ -137,16 +137,16 @@ public class LoginPresenter implements Presenter
 	//			Window.alert(""+ex.getStackTrace());
 			}
 
-			public void onSuccess(User user) {
+			public void onSuccess(Employee user) {
 				if(loadingPopup!=null){
 					loadingPopup.remove();
 				}
 				if(user != null) 
 				{
-					if(user.getEmployeeId().getRollId().getRollId() == 4){
+					if(user.getRollId() == 4){
 						eventBus.fireEvent(new CreateUserEvent(user));
 					}
-					else if(user.getEmployeeId().getRollId().getRollId() == 5){
+					else if(user.getRollId() == 5){
 						eventBus.fireEvent(new MainEvent(user));
 					}
 					else{

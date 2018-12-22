@@ -149,7 +149,7 @@ public class TestData {
 						if( auditStep.getApprovedBy() !=null && auditStep.getApprovedBy().getEmployeeId() !=0 && auditStep.getStatus()==InternalAuditConstants.APPROVED){
 						auditStepView.getApprovedBy().setVisible(true);
 						auditStepView.getApprovedBy().setText("Approved by:" + auditStep.getApprovedBy().getEmployeeName());
-							if(auditStep.getApprovedBy().getRollId().getRollId() ==1){
+							if(auditStep.getApprovedBy().getRollId() ==1){
 								auditStepView.getImgApproved().setVisible(true);
 							}
 							auditStepView.getSubmittedBy().setVisible(true);
@@ -174,9 +174,9 @@ public class TestData {
 //					}
 					
 					if((auditStep.getInitiatedBy() !=null && auditStep.getInitiatedBy().getReportingTo().getEmployeeId() == loggedInEmployee.getEmployeeId() ||
-							loggedInEmployee.getRollId().getRollId() ==1) && (auditStep.getStatus() == InternalAuditConstants.SUBMIT)){
+							loggedInEmployee.getRollId() ==1) && (auditStep.getStatus() == InternalAuditConstants.SUBMIT)){
 						auditStepView.supervisorView();
-					}else if(!(auditStep.getApprovedBy().getRollId().getRollId()==1) && loggedInEmployee.getRollId().getRollId()==1){
+					}else if(!(auditStep.getApprovedBy().getRollId()==1) && loggedInEmployee.getRollId()==1){
 						auditStepView.supervisorView();
 						}
 

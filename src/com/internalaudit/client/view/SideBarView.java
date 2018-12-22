@@ -1,28 +1,17 @@
 package com.internalaudit.client.view;
 
-import java.util.ArrayList;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
-import com.internalaudit.client.DashboardNew.PortalInformationRequest;
 import com.internalaudit.client.view.ToDo.InformationRequestRaisePortal;
-import com.internalaudit.client.view.ToDo.InformationRequestRaiserFinalView;
-import com.internalaudit.client.view.ToDo.InformationRequestRaiserView;
-import com.internalaudit.client.view.ToDo.InformationRequestReceiveView;
 import com.internalaudit.client.view.ToDo.InformationRequestReceiverPortal;
 import com.internalaudit.client.view.ToDo.ToDoRaiserPortal;
-import com.internalaudit.client.view.ToDo.ToDoRaiserView;
 import com.internalaudit.client.view.ToDo.ToDoReceiverPortal;
-import com.internalaudit.shared.DashBoardNewDTO;
-import com.internalaudit.shared.InformationRequestEntity;
-import com.internalaudit.shared.User;
+import com.internalaudit.shared.Employee;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
 public class SideBarView extends VerticalLayoutContainer {
@@ -46,9 +35,9 @@ public class SideBarView extends VerticalLayoutContainer {
 	Image ImgCalendar = new Image("calendar.png");
 	Image ImgControls = new Image("controls.png");
 	
-	private User loggedInUser = null;
+	private Employee loggedInUser = null;
 	
-	public SideBarView(final User loggedInUser) {
+	public SideBarView(final Employee loggedInUser) {
 
 		panelbar.addStyleName("w3-sidebar w3-cobalt  w3-bar-block ");
 		panelbar.setWidth("64px");

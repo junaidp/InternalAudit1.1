@@ -53,7 +53,6 @@ import com.internalaudit.shared.RiskAssesmentDTO;
 import com.internalaudit.shared.RiskControlMatrixEntity;
 import com.internalaudit.shared.RiskFactor;
 import com.internalaudit.shared.RiskObjective;
-import com.internalaudit.shared.Rolls;
 import com.internalaudit.shared.SkillUpdateData;
 import com.internalaudit.shared.Skills;
 import com.internalaudit.shared.Strategic;
@@ -66,7 +65,7 @@ import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.TimeOutException;
 import com.internalaudit.shared.ToDo;
 import com.internalaudit.shared.ToDoLogsEntity;
-import com.internalaudit.shared.User;
+
 
 /**
  * The server side implementation of the RPC service.
@@ -79,11 +78,11 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 
 	@Override
 
-	public User signIn(String userid, String password) throws Exception {// NOT
+	public Employee signIn(String userid, String password) throws Exception {// NOT
 																			// HERE
 		// String result = "";
 		System.out.println("Inside signin");
-		User user = (User) rdbHelper.getAuthentication(userid, password);
+		Employee user = (Employee) rdbHelper.getAuthentication(userid, password);
 
 		if (user != null) {
 			System.out.println("Inside signin: NOT null");
@@ -92,7 +91,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 			getThreadLocalRequest().getSession(true).setAttribute("user", user);
 			int currentYear = getCurrentYear();
 			getThreadLocalRequest().getSession(true).setAttribute("year", currentYear);
-			getThreadLocalRequest().getSession(true).setAttribute("companyId", user.getEmployeeId().getCompanyId());
+			getThreadLocalRequest().getSession(true).setAttribute("companyId", user.getCompanyId());
 			getThreadLocalRequest().getSession(true).setMaxInactiveInterval(InternalAuditConstants.TIMEOUT);
 		}
 		return user;
@@ -138,7 +137,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	public String saveStrategic(Strategic strategic, HashMap<String, String> hm) throws Exception {
 		if (isLoggedIn()) {
 			session = getThreadLocalRequest().getSession(true);
-			User loggedInUser = (User) session.getAttribute("user");
+			Employee loggedInUser = (Employee) session.getAttribute("user");
 
 			////
 
@@ -177,12 +176,12 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		if (isLoggedIn()) {
 			System.out.println("fetchStrategic:  loggedIn");
 			session = getThreadLocalRequest().getSession(true);
-			User loggedInUser = (User) session.getAttribute("user");
+			Employee loggedInUser = (Employee) session.getAttribute("user");
 			int year = (Integer) session.getAttribute("year");
 			int companyId = (Integer) session.getAttribute("companyId");
 			hm.put("year", year + "");
 			hm.put("companyId", companyId + "");
-			return rdbHelper.fetchStrategic(hm, loggedInUser.getEmployeeId().getEmployeeId());
+			return rdbHelper.fetchStrategic(hm, loggedInUser.getEmployeeId());
 		} else {
 			System.out.println("fetchStrategic: Not loggedIn");
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);
@@ -197,7 +196,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 
 			session = getThreadLocalRequest().getSession(true);
 
-			User loggedInUser = (User) session.getAttribute("user");
+			Employee loggedInUser = (Employee) session.getAttribute("user");
 			int year = (Integer) session.getAttribute("year");
 			int companyId = (Integer) session.getAttribute("companyId");
 			hm.put("year", year + "");
@@ -216,7 +215,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 
 			session = getThreadLocalRequest().getSession(true);
 
-			User loggedInUser = (User) session.getAttribute("user");
+			Employee loggedInUser = (Employee) session.getAttribute("user");
 			int year = (Integer) session.getAttribute("year");
 			int companyId = (Integer) session.getAttribute("companyId");
 
@@ -234,10 +233,10 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 
 			session = getThreadLocalRequest().getSession(true);
 
-			User loggedInUser = (User) session.getAttribute("user");
+			Employee loggedInUser = (Employee) session.getAttribute("user");
 			int year = (Integer) session.getAttribute("year");
 			int companyId = (Integer) session.getAttribute("companyId");
-			return rdbHelper.fetchRiskAssesment(hm, loggedInUser.getEmployeeId().getEmployeeId(), year, companyId);
+			return rdbHelper.fetchRiskAssesment(hm, loggedInUser.getEmployeeId(), year, companyId);
 		} else {
 
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);
@@ -251,7 +250,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 
 			session = getThreadLocalRequest().getSession(true);
 
-			User loggedInUser = (User) session.getAttribute("user");
+			Employee loggedInUser = (Employee) session.getAttribute("user");
 			return rdbHelper.declineStrategic(strategicId);
 		} else {
 
@@ -281,7 +280,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		if (isLoggedIn()) {
 
 			session = getThreadLocalRequest().getSession(true);
-			User loggedInUser = (User) getThreadLocalRequest().getSession(true).getAttribute("user");
+			Employee loggedInUser = (Employee) getThreadLocalRequest().getSession(true).getAttribute("user");
 			int year = (Integer) session.getAttribute("year");
 			int companyId = (Integer) session.getAttribute("companyId");
 			return rdbHelper.fetchDashBoard(loggedInUser, year, companyId, hm);
@@ -809,7 +808,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	}
 
 	@Override
-	public void updateKickoffStatus(int auditEngId, User loggedInUser) throws Exception {
+	public void updateKickoffStatus(int auditEngId, Employee loggedInUser) throws Exception {
 		if (isLoggedIn()) {
 			session = getThreadLocalRequest().getSession(true);
 			int year = (Integer) session.getAttribute("year");
@@ -1271,11 +1270,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		return rdbHelper.fetchCompanies();
 	}
 
-	@Override
-	public ArrayList<Rolls> fetchRolls() throws Exception {
-		return rdbHelper.fetchRolls();
-	}
-
+	
 	@Override
 	public String updateStrategic(Strategic strategic) throws Exception {
 		return rdbHelper.updateStrategic(strategic);
@@ -1541,13 +1536,13 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 
 	@Override
 	public String savetoDo(ToDo todo) throws Exception {
-		User loggedInUser = (User) session.getAttribute("user");
+		Employee loggedInUser = (Employee) session.getAttribute("user");
 		int companyId = (Integer) session.getAttribute("companyId");
 		todo.setCompanyId(companyId);
 		if( todo.getAssignedFrom()== null 
 				|| todo.getAssignedFrom().getEmployeeId() == 0)
 		{
-			todo.setAssignedFrom(loggedInUser.getEmployeeId());
+			todo.setAssignedFrom(loggedInUser);
 		}
 		//todo.setAssignedFrom(loggedInUser.getEmployeeId());
 		return rdbHelper.savetoDo(todo);
@@ -1556,12 +1551,12 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	@Override
 	public String saveinformationRequest(InformationRequestEntity informationrequest) {
 		// TODO Auto-generated method stub
-		User loggedInUser = (User) session.getAttribute("user");
+		Employee loggedInUser = (Employee) session.getAttribute("user");
 		int companyId = (Integer) session.getAttribute("companyId");
 		if( informationrequest.getAssignedFrom()== null 
 				|| informationrequest.getAssignedFrom().getEmployeeId() == 0)
 		{
-			informationrequest.setAssignedFrom(loggedInUser.getEmployeeId());
+			informationrequest.setAssignedFrom(loggedInUser);
 		}
 		//informationrequest.setAssignedFrom(loggedInUser.getEmployeeId());
 		informationrequest.setCompanyId(companyId);
@@ -1589,7 +1584,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 
 	@Override
 	public String saveToDoLogs(ToDoLogsEntity toDoLogsEntity) throws Exception {
-		User loggedInUser = (User) session.getAttribute("user");
+		Employee loggedInUser = (Employee) session.getAttribute("user");
 		int companyId = (Integer) session.getAttribute("companyId");
 		//todo.setCompanyId(companyId);
 		//toDoLogsEntity.setAssignedFrom(loggedInUser.getEmployeeId());
@@ -1598,10 +1593,10 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 
 	@Override
 	public String saveInformationRequestLogs(InformationRequestLogEntity informationRequestLogEntity) throws Exception {
-		User loggedInUser = (User) session.getAttribute("user");
+		Employee loggedInUser = (Employee) session.getAttribute("user");
 		int companyId = (Integer) session.getAttribute("companyId");
 		//todo.setCompanyId(companyId);
-		informationRequestLogEntity.setAssignedFrom(loggedInUser.getEmployeeId());
+		informationRequestLogEntity.setAssignedFrom(loggedInUser);
 		return rdbHelper.saveInformationRequestLogs(informationRequestLogEntity);
 	}
 }

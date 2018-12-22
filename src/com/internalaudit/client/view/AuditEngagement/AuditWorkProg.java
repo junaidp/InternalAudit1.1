@@ -1,5 +1,4 @@
 package com.internalaudit.client.view.AuditEngagement;
-
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -187,7 +186,7 @@ public class AuditWorkProg extends Composite {
 		save.setVisible(true);
 		final AuditWorkRow r = new AuditWorkRow();
 		for (int i = 0; i < listData.size(); ++i) {
-			if (listData.get(i).getEmployee().getRollId().getRollId() == 1) {
+			if (listData.get(i).getEmployee().getRollId() == 1) {
 				r.getEmployeeList().insertItem(listData.get(i).getEmployee().getEmployeeName(),
 						String.valueOf(listData.get(i).getEmployee().getEmployeeId()), i);
 				break;
@@ -429,7 +428,7 @@ public class AuditWorkProg extends Composite {
 							&& auditWorks.get(0).getStatus() == InternalAuditConstants.APPROVED) {
 						approvedBy.setVisible(true);
 						approvedBy.setText("Approved by:" + auditWorks.get(0).getApprovedBy().getEmployeeName());
-						if (auditWorks.get(0).getApprovedBy().getRollId().getRollId() == 1
+						if (auditWorks.get(0).getApprovedBy().getRollId() == 1
 								&& auditWorks.get(0).getStatus() == InternalAuditConstants.APPROVED) {
 							imgApproved.setVisible(true);
 						}
@@ -452,11 +451,11 @@ public class AuditWorkProg extends Composite {
 
 						if ((auditWork.getInitiatedBy() != null && auditWork.getInitiatedBy().getReportingTo()
 								.getEmployeeId() == loggedInEmployee.getEmployeeId()
-								|| loggedInEmployee.getRollId().getRollId() == 1)
+								|| loggedInEmployee.getRollId() == 1)
 								&& (auditWork.getStatus() == InternalAuditConstants.SUBMIT)) {
 							showApprovalView(row);
-						} else if (!(auditWork.getApprovedBy().getRollId().getRollId() == 1)
-								&& loggedInEmployee.getRollId().getRollId() == 1
+						} else if (!(auditWork.getApprovedBy().getRollId() == 1)
+								&& loggedInEmployee.getRollId() == 1
 								&& (auditWork.getStatus() == InternalAuditConstants.APPROVED
 								|| auditWork.getStatus() == InternalAuditConstants.SUBMIT)) {
 							showApprovalView(row);
@@ -491,7 +490,7 @@ public class AuditWorkProg extends Composite {
 						}
 						// set selected emp;
 						for (int i = 0; i < listData.size(); ++i) {
-							if (listData.get(i).getEmployee().getRollId().getRollId() == 1) {// change
+							if (listData.get(i).getEmployee().getRollId() == 1) {// change
 								row.getEmployeeList().setEnabled(false);// change
 								// row.getEmployeeList().insertItem(listData.get(i).getEmployee().getEmployeeName(),
 								// String.valueOf(listData.get(i).getEmployee().getEmployeeId()),i);

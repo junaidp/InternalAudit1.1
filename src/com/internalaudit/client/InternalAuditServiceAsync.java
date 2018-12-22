@@ -37,7 +37,6 @@ import com.internalaudit.shared.RiskControlMatrixEntity;
 import com.internalaudit.shared.RiskAssesmentDTO;
 import com.internalaudit.shared.RiskFactor;
 import com.internalaudit.shared.RiskObjective;
-import com.internalaudit.shared.Rolls;
 import com.internalaudit.shared.SkillUpdateData;
 import com.internalaudit.shared.Skills;
 import com.internalaudit.shared.Strategic;
@@ -49,14 +48,14 @@ import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.ToDo;
 import com.internalaudit.shared.ToDoLogsEntity;
-import com.internalaudit.shared.User;
+
 
 /**
  * The async counterpart of <code>GreetingService</code>.
  */
 public interface InternalAuditServiceAsync {
 	
-	void signIn(String userid, String password, AsyncCallback<User> callback);
+	void signIn(String userid, String password, AsyncCallback<Employee> callback);
 
 	void fetchObjectiveOwners(AsyncCallback<ArrayList<Employee>> callback);
 
@@ -174,7 +173,7 @@ public interface InternalAuditServiceAsync {
 	void saveAuditWork(ArrayList<AuditWork> records,
 			AsyncCallback<Void> asyncCallback);
 
-	void updateKickoffStatus(int auditEngId, User loggedInUser, AsyncCallback<Void> asyncCallback);
+	void updateKickoffStatus(int auditEngId, Employee loggedInUser, AsyncCallback<Void> asyncCallback);
 
 	void fetchAuditHeadExceptions(int auditHeadId, int selectedJob, AsyncCallback<ArrayList<Exceptions>> asyncCallback);
 
@@ -220,8 +219,7 @@ public interface InternalAuditServiceAsync {
 	void saveCompany(Company company,	AsyncCallback<String> asyncCallback);
 
 	void fetchCompanies(AsyncCallback<ArrayList<Company>> asyncCallback);
-	void fetchRolls(AsyncCallback<ArrayList<Rolls>> asyncCallback);
-
+	
 	void updateStrategic(Strategic strategic, AsyncCallback<String> asyncCallback);
 
 	void deleteRisk(RiskControlMatrixEntity risk, AsyncCallback<String> asyncCallback);

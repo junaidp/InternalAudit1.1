@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.data.EngagementPlanningViewData;
 import com.internalaudit.shared.AuditEngagement;
-import com.internalaudit.shared.User;
+import com.internalaudit.shared.Employee;
 
 import java.util.logging.Logger;
 
@@ -88,7 +88,7 @@ public class EngagementPlanningView extends Composite {
 	
 	
 	
-	public EngagementPlanningView(final InternalAuditServiceAsync rpcService, final int selectedJobId, final int auditEngId, User loggedInUser, AuditEngagement record) {
+	public EngagementPlanningView(final InternalAuditServiceAsync rpcService, final int selectedJobId, final int auditEngId, Employee loggedInUser, AuditEngagement record) {
 		
 		this.rpcService =  rpcService;
 		

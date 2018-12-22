@@ -20,9 +20,9 @@ import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.FinalAuditablesView;
+import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.Strategic;
 import com.internalaudit.shared.TimeOutException;
-import com.internalaudit.shared.User;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.event.BeforeExpandEvent;
 import com.sencha.gxt.widget.core.client.event.BeforeExpandEvent.BeforeExpandHandler;
@@ -33,7 +33,7 @@ public class FinalAuditablesViewDataWithObjectiveAndWithoutNumbering {
 	private InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
 	private Logger logger = Logger.getLogger("FinalAuditablesViewData");
 
-	public void setData(ContentPanel cp, final FinalAuditablesView finalAuditablesView, VerticalPanel vpnlFinalAuditable, final User loggedInUser){
+	public void setData(ContentPanel cp, final FinalAuditablesView finalAuditablesView, VerticalPanel vpnlFinalAuditable, final Employee loggedInUser){
 
 		cp.addBeforeExpandHandler(new BeforeExpandHandler(){
 
@@ -45,7 +45,7 @@ public class FinalAuditablesViewDataWithObjectiveAndWithoutNumbering {
 
 	}
 
-	public void fetchFinalAuditables(final FinalAuditablesView finalAuditablesView, final User loggedInUser){
+	public void fetchFinalAuditables(final FinalAuditablesView finalAuditablesView, final Employee loggedInUser){
 		rpcService.fetchFinalAuditables(new AsyncCallback<ArrayList<Strategic>>(){
 
 			@Override
@@ -115,7 +115,7 @@ public class FinalAuditablesViewDataWithObjectiveAndWithoutNumbering {
 						hpnlMain.add(lblUnit);
 						hpnlMain.add(vpnlObjectiveContainer);
 //						if(loggedInUser.getEmployeeId().isAuditHead()) {
-						if(loggedInUser.getEmployeeId().getRollId().getRollId() == 1) {
+						if(loggedInUser.getRollId()== 1) {
 							if( strategic.get(i).isApprovedByAuditHead()){
 								Label lblApproved = new Label("Approved");
 								lblApproved.addStyleName("blue");
@@ -176,7 +176,7 @@ public class FinalAuditablesViewDataWithObjectiveAndWithoutNumbering {
 	}
 	
 	
-	public void approveFinalAuditable(Strategic strategic, final FinalAuditablesView finalAuditablesView, final User loggedInUser){
+	public void approveFinalAuditable(Strategic strategic, final FinalAuditablesView finalAuditablesView, final Employee loggedInUser){
 		strategic.setApprovedByAuditHead(true);
 		rpcService.approveFinalAuditable(strategic, new AsyncCallback<String>(){
 
@@ -193,7 +193,7 @@ public class FinalAuditablesViewDataWithObjectiveAndWithoutNumbering {
 		
 	}
 	
-	public void declineFinalAuditable(Strategic strategic, final FinalAuditablesView finalAuditablesView, final User loggedInUser){
+	public void declineFinalAuditable(Strategic strategic, final FinalAuditablesView finalAuditablesView, final Employee loggedInUser){
 		
 		strategic.setApprovedByAuditHead(false);
 		strategic.setAudit(false);

@@ -16,7 +16,7 @@ import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.JobCreation;
-import com.internalaudit.shared.User;
+
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -106,7 +106,7 @@ public class EngagementPlanningViewData {
 	}
 	*/
 	
-	public void displayData(final EngagementPlanningView engagementPlanningView,	int selectedJobId, final User loggedInUser, AuditEngagement record){
+	public void displayData(final EngagementPlanningView engagementPlanningView,	int selectedJobId, final Employee loggedInUser, AuditEngagement record){
 		if(record!=null ){
 			//19-7-2018
 			addActivityObjective(record, engagementPlanningView);
@@ -122,7 +122,7 @@ public class EngagementPlanningViewData {
 //			if(!record.getProcess().equals("") &&  !record.getActivityObj().equals("") && !record.getAssignmentObj().equals("")){
 //				engagementPlanningView.disableFields();
 //			}
-			if(record.getInitiatedBy() !=null && record.getInitiatedBy().getEmployeeId() == loggedInUser.getEmployeeId().getEmployeeId()
+			if(record.getInitiatedBy() !=null && record.getInitiatedBy().getEmployeeId() == loggedInUser.getEmployeeId()
 					&& (record.getStatus() == InternalAuditConstants.SAVED || record.getStatus() == InternalAuditConstants.INITIATED || record.getStatus() == InternalAuditConstants.REJECTED)){
 				engagementPlanningView.enableInitiationpanel();
 				engagementPlanningView.enableFields();
@@ -130,9 +130,9 @@ public class EngagementPlanningViewData {
 //			else if(record.getStatus() == InternalAuditConstants.SUBMIT && record.getInitiatedBy().getReportingTo() !=null && record.getInitiatedBy().getReportingTo().getEmployeeId() == loggedInUser.getEmployeeId().getEmployeeId()
 //					|| loggedInUser.getEmployeeId().getRollId().getRollId() == 1 ){ //2018: with this auditorhead always see approve buttons
 			else if(record.getStatus() == InternalAuditConstants.SUBMIT 
-					&& (record.getInitiatedBy().getReportingTo() !=null && record.getInitiatedBy().getReportingTo().getEmployeeId() == loggedInUser.getEmployeeId().getEmployeeId()
+					&& (record.getInitiatedBy().getReportingTo() !=null && record.getInitiatedBy().getReportingTo().getEmployeeId() == loggedInUser.getEmployeeId()
 					|| 
-					loggedInUser.getEmployeeId().getRollId().getRollId() == 1)
+					loggedInUser.getRollId() == 1)
 					 ){
 			
 			engagementPlanningView.enableApprovalnpanel();
@@ -163,7 +163,7 @@ public class EngagementPlanningViewData {
 	}
 
 	public void save(final InternalAuditServiceAsync rpcService, final int selectedJobId,
-			final User loggedInUser, final EngagementPlanningView engagementPlanningView) {
+			final Employee loggedInUser, final EngagementPlanningView engagementPlanningView) {
 		
 		//adding addclickhandler to btn add
 //		engagementPlanningView.getAdd().addClickHandler(new ClickHandler() {
@@ -182,7 +182,7 @@ public class EngagementPlanningViewData {
 				public void onClick(ClickEvent arg0) {
 					AuditEngagement auditEngagement = new AuditEngagement();
 					Employee initiatedBy = new Employee();
-					initiatedBy = loggedInUser.getEmployeeId();
+					initiatedBy = loggedInUser;
 					auditEngagement.setInitiatedBy(initiatedBy);
 					
 					Employee approvedBy = new Employee();
@@ -202,7 +202,7 @@ public class EngagementPlanningViewData {
 			public void onClick(ClickEvent arg0) {
 				AuditEngagement auditEngagement = new AuditEngagement();
 				Employee initiatedBy = new Employee();
-				initiatedBy = loggedInUser.getEmployeeId();
+				initiatedBy = loggedInUser;
 				auditEngagement.setInitiatedBy(initiatedBy);
 				
 				Employee approvedBy = new Employee();
@@ -221,7 +221,7 @@ public class EngagementPlanningViewData {
 			public void onClick(ClickEvent arg0) {
 				AuditEngagement auditEngagement = new AuditEngagement();
 				Employee approvedBy = new Employee();
-				approvedBy = loggedInUser.getEmployeeId();
+				approvedBy = loggedInUser;
 				auditEngagement.setApprovedBy(approvedBy);
 				
 				
@@ -237,7 +237,7 @@ public class EngagementPlanningViewData {
 			public void onClick(ClickEvent arg0) {
 				AuditEngagement auditEngagement = new AuditEngagement();
 				Employee approvedBy = new Employee();
-				approvedBy = loggedInUser.getEmployeeId();
+				approvedBy = loggedInUser;
 				auditEngagement.setApprovedBy(approvedBy);
 				
 				
@@ -250,7 +250,7 @@ public class EngagementPlanningViewData {
 		
 		private void updateAuditEngagement(
 				final InternalAuditServiceAsync rpcService,
-				final int selectedJobId, final User loggedInUser, AuditEngagement auditEngagement, EngagementPlanningView engagementPlanningView, final String actionPerformed) {
+				final int selectedJobId, final Employee loggedInUser, AuditEngagement auditEngagement, EngagementPlanningView engagementPlanningView, final String actionPerformed) {
 			if(!actionPerformed.equalsIgnoreCase("saved")){
 			engagementPlanningView.disableFields();
 			engagementPlanningView.disableInitiationpanel();

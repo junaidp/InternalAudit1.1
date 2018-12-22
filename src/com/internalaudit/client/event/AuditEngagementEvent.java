@@ -2,7 +2,7 @@ package com.internalaudit.client.event;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.internalaudit.shared.User;
+
 
 		public class AuditEngagementEvent extends GwtEvent<AuditEngagementEventHandler> {
 			

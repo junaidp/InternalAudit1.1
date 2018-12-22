@@ -1,6 +1,7 @@
 package com.internalaudit.shared;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -50,16 +51,11 @@ import javax.persistence.Transient;
 		@ManyToOne(fetch = FetchType.LAZY)
 		private Skills skillId;
 		
-		@JoinColumn(name = "userId", nullable = true)
-		@ManyToOne(fetch = FetchType.LAZY)
-		private User userId;
-		
 		@Column(name ="companyId")
 		private int companyId;
 		
-		@JoinColumn(name = "rollId", nullable = true)
-		@ManyToOne(fetch = FetchType.LAZY)
-		private Rolls rollId;
+		@Column(name="rollId")
+		private int rollId;
 		
 		@Column(name ="fromInternalAuditDept")
 		private String fromInternalAuditDept;
@@ -72,6 +68,23 @@ import javax.persistence.Transient;
 		
 		@Column(name = "designation")
 		private String designation;
+		
+		@Column(name = "password")
+		private String password;
+
+		
+		
+		@Transient
+		private ArrayList<ToDo> todos;
+		
+		@Transient
+		private ArrayList<ToDo> userRaisedToDos;
+		
+		@Transient
+		private ArrayList<InformationRequestEntity> userRaisedInformationRequests;
+		
+		@Transient
+		private ArrayList<InformationRequestEntity> informationRequests ;
 		
 		@Transient
 		private int TotalNumberOfHoursAvailable;
@@ -123,14 +136,6 @@ import javax.persistence.Transient;
 
 		public void setCityId(City cityId) {
 			this.cityId = cityId;
-		}
-
-		public User getUserId() {
-			return userId;
-		}
-
-		public void setUserId(User userId) {
-			this.userId = userId;
 		}
 
 		public Employee getReportingTo() {
@@ -189,15 +194,51 @@ import javax.persistence.Transient;
 			this.companyId = companyId;
 		}
 
-		public Rolls getRollId() {
+		public int getRollId() {
 			return rollId;
 		}
 
-		public void setRollId(Rolls rollId) {
+		public void setRollId(int rollId) {
 			this.rollId = rollId;
 		}
-		
-		
-		
 
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+
+		public ArrayList<ToDo> getTodos() {
+			return todos;
+		}
+
+		public void setTodos(ArrayList<ToDo> todos) {
+			this.todos = todos;
+		}
+
+		public ArrayList<ToDo> getUserRaisedToDos() {
+			return userRaisedToDos;
+		}
+
+		public void setUserRaisedToDos(ArrayList<ToDo> userRaisedToDos) {
+			this.userRaisedToDos = userRaisedToDos;
+		}
+
+		public ArrayList<InformationRequestEntity> getUserRaisedInformationRequests() {
+			return userRaisedInformationRequests;
+		}
+
+		public void setUserRaisedInformationRequests(ArrayList<InformationRequestEntity> userRaisedInformationRequests) {
+			this.userRaisedInformationRequests = userRaisedInformationRequests;
+		}
+
+		public ArrayList<InformationRequestEntity> getInformationRequests() {
+			return informationRequests;
+		}
+
+		public void setInformationRequests(ArrayList<InformationRequestEntity> informationRequests) {
+			this.informationRequests = informationRequests;
+		}
 }

@@ -21,7 +21,7 @@ import com.internalaudit.client.presenter.MainPresenter.Display;
 import com.internalaudit.client.widgets.TableauAbilite;
 import com.internalaudit.client.widgets.TableauExcel;
 import com.internalaudit.client.widgets.TableauReports;
-import com.internalaudit.shared.User;
+import com.internalaudit.shared.Employee;
 import com.sencha.gxt.widget.core.client.PlainTabPanel;
 import com.sencha.gxt.widget.core.client.TabItemConfig;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
@@ -30,7 +30,7 @@ import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 public class MainView extends Composite implements Display {
 
 	//private AuditPlanningView auditPlanningView ;
-	private User loggedInUser;
+	private Employee loggedInUser;
 	private Anchor logOut = new Anchor("Logout");
 	private Anchor feedBack = new Anchor("Help/Feedback");
 	private Anchor createCompany = new Anchor("Add Company");
@@ -54,7 +54,7 @@ public class MainView extends Composite implements Display {
 	VerticalPanel panelSideBar = new VerticalPanel();
 	
 
-	public MainView(User loggedInUser){
+	public MainView(Employee loggedInUser){
 	// new code	
 		panel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 		panelImages.setWidth("110px");
@@ -166,7 +166,7 @@ public class MainView extends Composite implements Display {
 		panel.setWidth("1200px");
 		panel.setResizeTabs(true);
 	
-		if(loggedInUser.getEmployeeId().getFromInternalAuditDept().equalsIgnoreCase("yes")){
+		if(loggedInUser.getFromInternalAuditDept().equalsIgnoreCase("yes")){
 			panel.add(vpnlDashBoard, "DashBoard");
 			panel.add(containerAuditPlanning, "Audit Planning");
 			panel.add(vpnlAuditScheduing, "Audit Scheduling");
@@ -190,7 +190,10 @@ public class MainView extends Composite implements Display {
 			panel.setActiveWidget(reportingView);
 			
 		}
-		if(loggedInUser.getEmployeeId().getUserId().getUserId() == 1){
+//2018		if(loggedInUser.getEmployeeId().getUserId().getUserId() == 1){
+//			addTableauTabs();
+//		}
+		if(loggedInUser.getEmployeeId() == 1){
 			addTableauTabs();
 		}
 
@@ -242,7 +245,7 @@ public class MainView extends Composite implements Display {
 		hpnlHeader.add(hpnlSpace);
 		hpnlSpace.setWidth("65%");
 		hpnlHeader.add(hpnl);
-		if(loggedInUser.getEmployeeId().getEmployeeName().equalsIgnoreCase("Muhammad Faheem Piracha") && loggedInUser.getEmployeeId().getEmployeeId() ==1){
+		if(loggedInUser.getEmployeeName().equalsIgnoreCase("Muhammad Faheem Piracha") && loggedInUser.getEmployeeId() ==1){
 			hpnl.add(createCompany); 
 			hpnl.add(createUser); 
 		
@@ -343,11 +346,11 @@ public class MainView extends Composite implements Display {
 
 	}
 
-	public User getLoggedInUser() {
+	public Employee getLoggedInUser() {
 		return loggedInUser;
 	}
 
-	public void setLoggedInUser(User loggedInUser) {
+	public void setLoggedInUser(Employee loggedInUser) {
 		this.loggedInUser = loggedInUser;
 	}
 

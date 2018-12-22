@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.presenter.AuditSchedulingPresenter.Display;
-import com.internalaudit.shared.User;
 
 public class AuditSchedulingView extends Composite implements Display {
 

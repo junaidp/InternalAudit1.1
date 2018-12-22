@@ -29,9 +29,8 @@ import com.internalaudit.shared.Company;
 import com.internalaudit.shared.Country;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.InternalAuditConstants;
-import com.internalaudit.shared.Rolls;
+import com.internalaudit.shared.RollsEnum;
 import com.internalaudit.shared.Skills;
-import com.internalaudit.shared.User;
 
 
 public class EditUserFormPresenter implements Presenter 
@@ -42,7 +41,7 @@ public class EditUserFormPresenter implements Presenter
 	private final Display display;
 
 	private Logger logger = Logger.getLogger("DashBoardPresenter");
-	private User loggedInUser;
+	private Employee loggedInUser;
 	private int previousNumberOfHours = 0;
 	Employee selectedEmployee;
 	public interface Display 
@@ -70,7 +69,7 @@ public class EditUserFormPresenter implements Presenter
 		ListBox getListEmployees();
 	}  
 
-	public EditUserFormPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, User loggedInUser, Display view) 
+	public EditUserFormPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, Employee loggedInUser, Display view) 
 	{
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
@@ -81,7 +80,11 @@ public class EditUserFormPresenter implements Presenter
 		getStartEndDates();
 		fetchEmployees();
 		fetchCompanies();
-		fetchRolls();
+		
+		
+		for (RollsEnum roles : RollsEnum.values()) {
+			display.getListuserProfile().addItem(roles.getName(), roles.getValue()+"");
+		}
 	}
 
 	private void fetchEmployees(){
@@ -96,7 +99,7 @@ public class EditUserFormPresenter implements Presenter
 			public void onSuccess(ArrayList<Employee> result) {
 				display.getListReportingTo().clear();
 				for(int i=0; i< result.size(); i++){
-					if(result.get(i).getCompanyId() == loggedInUser.getEmployeeId().getCompanyId()){
+					if(result.get(i).getCompanyId() == loggedInUser.getCompanyId()){
 						display.getListReportingTo().addItem(result.get(i).getEmployeeName(), result.get(i).getEmployeeId()+"");
 						display.getListEmployees().addItem(result.get(i).getEmployeeName(), result.get(i).getEmployeeId()+"");
 						
@@ -152,23 +155,6 @@ public class EditUserFormPresenter implements Presenter
 
 				for(int i=0; i<skills.size(); i++){
 					display.getListSkills().addItem(skills.get(i).getSkillName(), skills.get(i).getSkillId()+"");
-				}
-			}});
-	}
-
-	private void fetchRolls() {
-		rpcService.fetchRolls(new AsyncCallback<ArrayList<Rolls>>(){
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Window.alert("fetch Skills Failed");	
-			}
-
-			@Override
-			public void onSuccess(ArrayList<Rolls> rolls) {
-
-				for(int i=0; i<rolls.size(); i++){
-					display.getListuserProfile().addItem(rolls.get(i).getRollName(), rolls.get(i).getRollId()+"");
 				}
 			}});
 	}
@@ -348,20 +334,21 @@ public class EditUserFormPresenter implements Presenter
 			selectedEmployee.setSkillId(skill);
 			selectedEmployee.setDateOfJoining(display.getDateOfJoining().getValue());
 			selectedEmployee.setDesignation(display.getTxtDesignation().getText());
-			Rolls role = new Rolls();
-			role.setRollId(Integer.parseInt(display.getListuserProfile().getValue(display.getListuserProfile().getSelectedIndex())));
-			selectedEmployee.setRollId(role);
+			//Rolls role = new Rolls();
+			///role.setRollId(Integer.parseInt(display.getListuserProfile().getValue(display.getListuserProfile().getSelectedIndex())));
+			//selectedEmployee.setRollId(role);
+			selectedEmployee.setRollId(Integer.parseInt(display.getListuserProfile().getSelectedValue()));
 			//		Company company =new Company();
 			if(display.getListCompany().isVisible()){
 				//		company.setCompanyId(Integer.parseInt(display.getListCompany().getValue(display.getListCompany().getSelectedIndex())));
 				selectedEmployee.setCompanyId(Integer.parseInt(display.getListCompany().getValue(display.getListCompany().getSelectedIndex())));
 			}else{
-				selectedEmployee.setCompanyId(loggedInUser.getEmployeeId().getCompanyId());
+				selectedEmployee.setCompanyId(loggedInUser.getCompanyId());
 			}
 
-			selectedEmployee.getUserId().setName(display.getTxtUserName().getText());
-			selectedEmployee.getUserId().setPassword(display.getTxtPassword().getText());
-			selectedEmployee.getUserId().setEmail(display.getTxtUserName().getText());
+			//selectedEmployee.setName(display.getTxtUserName().getText());
+			selectedEmployee.setPassword(display.getTxtPassword().getText());
+			selectedEmployee.setEmail(display.getTxtUserName().getText());
 		
 		
 		

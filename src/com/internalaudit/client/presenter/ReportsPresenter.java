@@ -2,31 +2,6 @@ package com.internalaudit.client.presenter;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -157,7 +132,7 @@ public class ReportsPresenter implements Presenter
 			public void onSuccess(ArrayList<Employee> arg0) {
 				
 				for ( Employee e : arg0){
-					if(e.getRollId().getRollId()==5){
+					if(e.getRollId()==5){
 					display.getReport5().getLstResponsibleAuditee().addItem( e.getEmployeeName(), String.valueOf(e.getEmployeeId()));
 					}else{
 						display.getReport5().getLstResource().addItem( e.getEmployeeName(), String.valueOf(e.getEmployeeId()));

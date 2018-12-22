@@ -34,7 +34,6 @@ import com.internalaudit.client.view.DashBoardResourceManagement;
 import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.Exceptions;
-import com.internalaudit.shared.User;
 import com.sencha.gxt.widget.core.client.form.FieldLabel;
 import com.sencha.gxt.widget.core.client.form.PasswordField;
 import com.sencha.gxt.widget.core.client.form.TextField;
@@ -47,7 +46,7 @@ public class DashBoardPresenter implements Presenter
 	private final HandlerManager eventBus;
 	private final Display display;
 	private Logger logger = Logger.getLogger("DashBoardPresenter");
-	private User loggedInUser = null;
+	private Employee loggedInUser = null;
 	
 	public interface Display 
 	{
@@ -59,7 +58,7 @@ public class DashBoardPresenter implements Presenter
 		ButtonRound getBtnContinue();
 	}  
 
-	public DashBoardPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, User user, Display view) 
+	public DashBoardPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, Employee user, Display view) 
 	{
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;

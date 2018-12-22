@@ -2,7 +2,6 @@ package com.internalaudit.client.event;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.internalaudit.shared.StrategicDTO;
-import com.internalaudit.shared.User;
 
 		public class JobTimeEstimationEvent extends GwtEvent<JobTimeEstimationEventHandler> {
 			

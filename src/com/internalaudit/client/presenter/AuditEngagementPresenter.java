@@ -34,9 +34,9 @@ import com.internalaudit.client.view.PopupsViewWhite;
 import com.internalaudit.client.view.AuditEngagement.KickoffView;
 import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.shared.AuditEngagement;
+import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.JobStatusDTO;
 import com.internalaudit.shared.TimeOutException;
-import com.internalaudit.shared.User;
 import com.sencha.gxt.core.client.dom.Layer.ShadowPosition;
 import com.sencha.gxt.widget.core.client.Dialog;
 import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
@@ -54,7 +54,7 @@ public class AuditEngagementPresenter implements Presenter {
 	private final Display display;
 	private int jobId;
 	private int auditEngId;
-	private User loggedInUser;
+	private Employee loggedInUser;
 	private Logger logger = Logger.getLogger("AuditEngagementPresenter");
 
 	public interface Display {
@@ -68,7 +68,7 @@ public class AuditEngagementPresenter implements Presenter {
 	}
 
 	public AuditEngagementPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, Display view,
-			User loggedInUser) {
+			Employee loggedInUser) {
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.display = view;
@@ -102,7 +102,7 @@ public class AuditEngagementPresenter implements Presenter {
 			@Override
 			public void onClick(ClickEvent arg0) {
 
-				rpcService.syncAuditEngagementWithCreatedJobs(loggedInUser.getEmployeeId().getEmployeeId(),
+				rpcService.syncAuditEngagementWithCreatedJobs(loggedInUser.getEmployeeId(),
 						new AsyncCallback<Void>() {
 
 					@Override
@@ -145,7 +145,7 @@ public class AuditEngagementPresenter implements Presenter {
 	}
 
 	private void showJobsAndStatus() {
-		rpcService.fetchAllAuditEngagement(loggedInUser.getEmployeeId().getEmployeeId(),
+		rpcService.fetchAllAuditEngagement(loggedInUser.getEmployeeId(),
 				new AsyncCallback<ArrayList<AuditEngagement>>() {
 
 			@Override

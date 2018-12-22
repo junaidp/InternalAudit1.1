@@ -3,6 +3,7 @@ package com.internalaudit.client.presenter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.Feedback;
 import com.internalaudit.shared.TimeOutException;
 import com.google.gwt.user.client.History;
@@ -35,7 +36,6 @@ import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.client.widgets.FeedbackWidget;
-import com.internalaudit.shared.User;
 import com.sencha.gxt.widget.core.client.PlainTabPanel;
 import com.sencha.gxt.widget.core.client.TabItemConfig;
 import com.sencha.gxt.widget.core.client.TabPanel;
@@ -50,7 +50,7 @@ public class MainPresenter implements Presenter
 	private final Display display;
 	private Logger logger = Logger.getLogger("DashBoardPresenter");
 	private int selectedYear=0;
-	private User loggedInUser;
+	private Employee loggedInUser;
 	private DashboardNew dashboardNew =  null;
 	private AuditPlanningView auditPlanningView = null;
 
@@ -58,7 +58,7 @@ public class MainPresenter implements Presenter
 	public interface Display 
 	{
 		Widget asWidget();
-		User getLoggedInUser();
+		Employee getLoggedInUser();
 		Anchor getLogOut();
 		Anchor getWelcome();
 		VerticalPanel getVpnlAuditScheduing();
@@ -76,7 +76,7 @@ public class MainPresenter implements Presenter
 		
 	}  
 
-	public MainPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, int selectedYear, User loggedInUser, Display view) 
+	public MainPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, int selectedYear, Employee loggedInUser, Display view) 
 	{
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
@@ -101,7 +101,7 @@ public class MainPresenter implements Presenter
 		Timer t = new Timer() {
 		      @Override
 		      public void run() {
-		    	  if(display.getLoggedInUser().getEmployeeId().getFromInternalAuditDept().equalsIgnoreCase("no")){
+		    	  if(display.getLoggedInUser().getFromInternalAuditDept().equalsIgnoreCase("no")){
 		  			eventBus.fireEvent(new ReportingEvent(display.getReportingView()));
 		  		}else{
 		    	 eventBus.fireEvent(new DashBoardEvent(display.getVpnlDashBoard()));
@@ -222,7 +222,7 @@ public class MainPresenter implements Presenter
 			
 		});
 		
-		display.getWelcome().setText(display.getLoggedInUser().getEmployeeId().getEmployeeName() + " " );
+		display.getWelcome().setText(display.getLoggedInUser().getEmployeeName() + " " );
 		
 	}
 	
@@ -244,7 +244,7 @@ public class MainPresenter implements Presenter
 	private void submitFeedback(FeedbackWidget feedBackWidget, final PopupsView popup) {
 		Feedback feedBack = new Feedback();
 		
-		feedBack.setEmployee(loggedInUser.getEmployeeId());
+		feedBack.setEmployee(loggedInUser);
 		feedBack.setHeading(feedBackWidget.getTxtHeading().getText());
 		feedBack.setDescription(feedBackWidget.getTxtDescription().getText());
 		

@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.view.data.FinalAuditablesViewData;
-import com.internalaudit.shared.User;
+import com.internalaudit.shared.Employee;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 
 public class FinalAuditablesView extends Composite {
@@ -24,7 +24,7 @@ public class FinalAuditablesView extends Composite {
 
 	@UiField VerticalPanel areas;
 	
-	public FinalAuditablesView(ContentPanel cp, VerticalPanel vpnlFinalAuditable, User loggedInUser) {
+	public FinalAuditablesView(ContentPanel cp, VerticalPanel vpnlFinalAuditable, Employee loggedInUser) {
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		finalAuditablesViewData.setData(cp, this, vpnlFinalAuditable, loggedInUser);

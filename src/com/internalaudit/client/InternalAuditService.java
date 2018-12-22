@@ -44,7 +44,6 @@ import com.internalaudit.shared.RiskControlMatrixEntity;
 import com.internalaudit.shared.RiskAssesmentDTO;
 import com.internalaudit.shared.RiskFactor;
 import com.internalaudit.shared.RiskObjective;
-import com.internalaudit.shared.Rolls;
 import com.internalaudit.shared.SkillUpdateData;
 import com.internalaudit.shared.Skills;
 import com.internalaudit.shared.Strategic;
@@ -56,14 +55,14 @@ import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.ToDo;
 import com.internalaudit.shared.ToDoLogsEntity;
-import com.internalaudit.shared.User;
+
 
 /**
  * The client side stub for the RPC service.
  */
 @RemoteServiceRelativePath("greet")
 public interface InternalAuditService extends RemoteService {
-	User signIn(String userid, String password) throws Exception;
+	Employee signIn(String userid, String password) throws Exception;
 
 	ArrayList<Employee> fetchObjectiveOwners() throws Exception;
 
@@ -180,7 +179,7 @@ public interface InternalAuditService extends RemoteService {
 
 	void saveAuditWork(ArrayList<AuditWork> records) throws Exception;
 
-	void updateKickoffStatus(int auditEngId, User loggedInUser) throws Exception;
+	void updateKickoffStatus(int auditEngId, Employee loggedInUser) throws Exception;
 
 	ArrayList<Exceptions> fetchAuditHeadExceptions(int auditHeadId,
 			int selectedJob) throws Exception;
@@ -238,7 +237,6 @@ public interface InternalAuditService extends RemoteService {
 	Integer fetchNumberOfDaysBetweenTwoDates(Date from, Date to);
 	String saveCompany(Company employee)throws Exception;
 	ArrayList<Company> fetchCompanies() throws Exception;
-	ArrayList<Rolls> fetchRolls() throws Exception;
 	String updateStrategic(Strategic strategic)throws Exception;
 	String deleteRisk(RiskControlMatrixEntity risk)throws Exception;
 	String deleteAuditWork(int auditWorkId) throws Exception;

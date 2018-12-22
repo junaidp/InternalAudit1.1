@@ -8,7 +8,8 @@ import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.internalaudit.client.presenter.EditUserFormPresenter.Display;
-import com.internalaudit.shared.User;
+import com.internalaudit.shared.Employee;
+
 
 public class EditUserFormView extends FlexTable implements Display {
 	
@@ -30,12 +31,12 @@ public class EditUserFormView extends FlexTable implements Display {
 	private ListBox listCompany = new ListBox();
 	private TextBox txtUserName = new TextBox();
 	private PasswordTextBox txtPassword = new PasswordTextBox();
-	private User loggedInUser;
+	private Employee loggedInUser;
 	private Label lblUserNameError = new Label("Please enter valid Email Address");
 	private Label lblPasswordError = new Label("Password cannot be empty");
 	private Label lblEmailError = new Label("Email cannot be empty");
 	
-	public EditUserFormView(User loggedInUser) {
+	public EditUserFormView(Employee loggedInUser) {
 		this.loggedInUser = loggedInUser;
 		layout();
 	}
@@ -94,7 +95,7 @@ public class EditUserFormView extends FlexTable implements Display {
 		lblReportingTo.setVisible(false);
 		listReportingTo.setVisible(false);
 		
-		if (loggedInUser.getEmployeeId().getEmployeeName().equalsIgnoreCase("Muhammad Faheem Piracha") && loggedInUser.getEmployeeId().getEmployeeId() ==1){
+		if (loggedInUser.getEmployeeName().equalsIgnoreCase("Muhammad Faheem Piracha") && loggedInUser.getEmployeeId() ==1){
 			lblCompany.setVisible(true);
 			listCompany.setVisible(true);
 			}else{

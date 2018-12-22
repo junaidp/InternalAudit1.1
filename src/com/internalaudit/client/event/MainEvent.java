@@ -1,18 +1,19 @@
 package com.internalaudit.client.event;
 
 import com.google.gwt.event.shared.GwtEvent;
-import com.internalaudit.shared.User;
+import com.internalaudit.shared.Employee;
+
 
 		public class MainEvent extends GwtEvent<MainEventHandler> {
 			
-			User loggedInUser = null;
+			Employee loggedInUser = null;
 			int selectedYear;
 			
-			public MainEvent(User loggedInUser){
+			public MainEvent(Employee loggedInUser){
 				this.loggedInUser = loggedInUser;
 			}
 			
-		  public MainEvent(User loggedInUser, int year) {
+		  public MainEvent(Employee loggedInUser, int year) {
 			  this.loggedInUser = loggedInUser;
 			  this.selectedYear = year;
 			}
@@ -30,11 +31,11 @@ import com.internalaudit.shared.User;
 			
 		}
 
-		public User getLoggedInUser() {
+		public Employee getLoggedInUser() {
 			return loggedInUser;
 		}
 
-		public void setLoggedInUser(User loggedInUser) {
+		public void setLoggedInUser(Employee loggedInUser) {
 			this.loggedInUser = loggedInUser;
 		}
 
