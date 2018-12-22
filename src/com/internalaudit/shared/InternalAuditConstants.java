@@ -47,5 +47,7 @@ public class InternalAuditConstants {
 	public static final String COMPLETEDEXCEPTIONS = "completed exceptions";
 	public static final String INPROGRESSEXCEPTIONS = "in progress exceptions";
 	public static final String INREVIEWEXCEPTIONS = "in review exceptions";
+	public static final String FOLLOWUPTAB = "followupTab";
+	public static final String REPORTINGTAB = "reportingTab";
 
 }

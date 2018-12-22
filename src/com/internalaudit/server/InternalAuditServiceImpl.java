@@ -876,12 +876,12 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	}
 
 	@Override
-	public ArrayList<JobCreation> fetchEmployeeJobs(Employee loggedInEmployee) throws Exception {
+	public ArrayList<JobCreation> fetchEmployeeJobs(Employee loggedInEmployee, String reportingTab) throws Exception {
 		if (isLoggedIn()) {
 			session = getThreadLocalRequest().getSession(true);
 			int year = (Integer) session.getAttribute("year");
 			int companyId = (Integer) session.getAttribute("companyId");
-			return rdbHelper.fetchEmployeeJobs(loggedInEmployee, year, companyId);
+			return rdbHelper.fetchEmployeeJobs(loggedInEmployee, year, companyId, reportingTab);
 		} else {
 
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);

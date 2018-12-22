@@ -6,8 +6,6 @@ import java.util.HashMap;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import com.google.gwt.user.datepicker.client.DateBox;
-import com.internalaudit.client.DashboardNew.InformationRequest;
 import com.internalaudit.shared.ActivityObjective;
 import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.AuditProgramme;
@@ -32,12 +30,8 @@ import com.internalaudit.shared.JobCreationDTO;
 import com.internalaudit.shared.JobEmployeeRelation;
 import com.internalaudit.shared.JobStatusDTO;
 import com.internalaudit.shared.JobTimeAllocationReportDTO;
-import com.internalaudit.shared.JobTimeEstimation;
 import com.internalaudit.shared.JobTimeEstimationDTO;
-import com.internalaudit.shared.JobType;
 import com.internalaudit.shared.JobsOfEmployee;
-import com.internalaudit.shared.Process;
-import com.internalaudit.shared.ReportsDTO;
 import com.internalaudit.shared.ProcessDTO;
 import com.internalaudit.shared.ResourceUse;
 import com.internalaudit.shared.RiskControlMatrixEntity;
@@ -158,7 +152,7 @@ public interface InternalAuditService extends RemoteService {
 
 	ArrayList<JobCreation> fetchJobs() throws Exception;
 
-	ArrayList<JobCreation> fetchEmployeeJobs(Employee loggedInEmployee)
+	ArrayList<JobCreation> fetchEmployeeJobs(Employee loggedInEmployee, String reportingTab)
 			throws Exception;
 
 	ArrayList<Exceptions> fetchJobExceptions(int jobId) throws Exception;

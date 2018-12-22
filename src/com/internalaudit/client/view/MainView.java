@@ -16,7 +16,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.internalaudit.client.event.ReportingEvent;
 import com.internalaudit.client.presenter.MainPresenter.Display;
 import com.internalaudit.client.widgets.TableauAbilite;
 import com.internalaudit.client.widgets.TableauExcel;
@@ -26,10 +25,9 @@ import com.sencha.gxt.widget.core.client.PlainTabPanel;
 import com.sencha.gxt.widget.core.client.TabItemConfig;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
-
 public class MainView extends Composite implements Display {
 
-	//private AuditPlanningView auditPlanningView ;
+	// private AuditPlanningView auditPlanningView ;
 	private Employee loggedInUser;
 	private Anchor logOut = new Anchor("Logout");
 	private Anchor feedBack = new Anchor("Help/Feedback");
@@ -41,195 +39,194 @@ public class MainView extends Composite implements Display {
 	private VerticalPanel vpnlAuditEngagement = new VerticalPanel();
 	private VerticalPanel vpnlDashBoard = new VerticalPanel();
 	private VerticalPanel reportingView = new VerticalPanel();
+	private VerticalPanel followUpView = new VerticalPanel();
 	private VerticalPanel reportsView = new VerticalPanel();
 	private HorizontalPanel footer = new HorizontalPanel();
 	private VerticalLayoutContainer vpnlDashBoardNew = new VerticalLayoutContainer();
 	private VerticalPanel panelBar = new VerticalPanel();
 	private VerticalPanel containerAuditPlanning = new VerticalPanel();
-	
 
 	PlainTabPanel panel = new PlainTabPanel();
 	HorizontalPanel checkpanel = new HorizontalPanel();
 	VerticalPanel panelImages = new VerticalPanel();
 	VerticalPanel panelSideBar = new VerticalPanel();
-	
 
-	public MainView(Employee loggedInUser){
-	// new code	
+	public MainView(Employee loggedInUser) {
+		// new code
 		panel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 		panelImages.setWidth("110px");
 		panelImages.setHeight("200px");
-//		 panelImages.getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
-//		panelImages.getElement().getStyle().setBorderWidth(2, Unit.PX);	
-//		 Button btn = new Button("Hello its visible");
-//		//	panelImages.add(btn);
-//		Label dash = new Label("DASHBOARD");
-//		panelImages.add(dash);
-//		 Image dashboard = new Image("dashboard.png");
-//		 dashboard.setWidth("80px");
-//		 dashboard.setHeight("40px");
-//		 panelImages.add(dashboard);
-//		 Label rep = new Label("REPORTS");
-//		 panelImages.add(rep);?
-//		 Image reports = new Image("Reports.png");
-//		 reports.setHeight("40px");
-//		 reports.setWidth("80px");
-//		 panelImages.add(reports);
-//		 Label lblwrk = new Label("WORK ITEM");
-//		 panelImages.add(lblwrk);
-//		 Image workItem = new Image("work items.jpg");
-//		 workItem.setHeight("40px");
-//		 workItem.setWidth("80px");
-//		 panelImages.add(workItem);
-		//VerticalPanel panelTeam = new VerticalPanel();
-		//panelTeam.addStyleName("w3-margin");
-		//VerticalPanel panelClient = new VerticalPanel();
-		//panelClient.addStyleName("w3-margin");
-		//2018 
+		// panelImages.getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
+		// panelImages.getElement().getStyle().setBorderWidth(2, Unit.PX);
+		// Button btn = new Button("Hello its visible");
+		// // panelImages.add(btn);
+		// Label dash = new Label("DASHBOARD");
+		// panelImages.add(dash);
+		// Image dashboard = new Image("dashboard.png");
+		// dashboard.setWidth("80px");
+		// dashboard.setHeight("40px");
+		// panelImages.add(dashboard);
+		// Label rep = new Label("REPORTS");
+		// panelImages.add(rep);?
+		// Image reports = new Image("Reports.png");
+		// reports.setHeight("40px");
+		// reports.setWidth("80px");
+		// panelImages.add(reports);
+		// Label lblwrk = new Label("WORK ITEM");
+		// panelImages.add(lblwrk);
+		// Image workItem = new Image("work items.jpg");
+		// workItem.setHeight("40px");
+		// workItem.setWidth("80px");
+		// panelImages.add(workItem);
+		// VerticalPanel panelTeam = new VerticalPanel();
+		// panelTeam.addStyleName("w3-margin");
+		// VerticalPanel panelClient = new VerticalPanel();
+		// panelClient.addStyleName("w3-margin");
+		// 2018
 		SideBarView sideBarView = new SideBarView(loggedInUser);
 		panelSideBar.add(sideBarView);
-	
-		 FocusPanel vpTeamMgm = putImageInCard("TEAM MANAGEMENT", "team management.jpg");
-		 FocusPanel vpClientMgm = putImageInCard("CLIENT MANAGEMENT", "client mang.png");
-		 
-		 panelImages.add(vpTeamMgm);
-		 panelImages.add(vpClientMgm);
-		 
-//		 vpTeamMgm.addClickHandler(new ClickHandler() {
-//			
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				
-//				
-//				PopupsView pp = new PopupsView(todoview, "");
-//				pp.getLabelheading().setText("To Do");
-//				pp.getVpnlMain().setWidth("320px");
-//				pp.getHpnlSPace().setWidth("320px");
-//				pp.getVpnlMain().setHeight("320px");
-//				}
-//		});
-//		 
-//		 vpClientMgm.addClickHandler(new ClickHandler() {
-//				
-//				@Override
-//				public void onClick(ClickEvent event) {
-//					
-//					PopupsView pp = new PopupsView(informationreq, "");
-//					pp.getLabelheading().setText("Information Request");
-//					pp.getVpnlMain().setTitle("Information Request");
-//					pp.getVpnlMain().setWidth("400px");
-//					pp.getHpnlSPace().setWidth("400px");
-//					pp.getVpnlMain().setHeight("530px");
-//	
-//				}
-//			});
-			 
-		 
-		//endshere 
+
+		FocusPanel vpTeamMgm = putImageInCard("TEAM MANAGEMENT", "team management.jpg");
+		FocusPanel vpClientMgm = putImageInCard("CLIENT MANAGEMENT", "client mang.png");
+
+		panelImages.add(vpTeamMgm);
+		panelImages.add(vpClientMgm);
+
+		// vpTeamMgm.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		//
+		//
+		// PopupsView pp = new PopupsView(todoview, "");
+		// pp.getLabelheading().setText("To Do");
+		// pp.getVpnlMain().setWidth("320px");
+		// pp.getHpnlSPace().setWidth("320px");
+		// pp.getVpnlMain().setHeight("320px");
+		// }
+		// });
+		//
+		// vpClientMgm.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		//
+		// PopupsView pp = new PopupsView(informationreq, "");
+		// pp.getLabelheading().setText("Information Request");
+		// pp.getVpnlMain().setTitle("Information Request");
+		// pp.getVpnlMain().setWidth("400px");
+		// pp.getHpnlSPace().setWidth("400px");
+		// pp.getVpnlMain().setHeight("530px");
+		//
+		// }
+		// });
+
+		// endshere
 		this.loggedInUser = loggedInUser;
-		//auditPlanningView = new AuditPlanningView(loggedInUser);Commented when we added dashboard inside a tab
-		
+		// auditPlanningView = new AuditPlanningView(loggedInUser);Commented
+		// when we added dashboard inside a tab
+
 		HorizontalPanel hpnlMain = new HorizontalPanel();
 		Image imgHeader = new Image("images/trans.png");
 		imgHeader.getElement().getStyle().setPaddingLeft(50, Unit.PX);
-		//imgHeader.addStyleName("w3-margin");
+		// imgHeader.addStyleName("w3-margin");
 		imgHeader.getElement().getStyle().setMarginBottom(10, Unit.PX);
 		VerticalPanel vp = new VerticalPanel();
 		VerticalPanel hpnl = new VerticalPanel();
 		HorizontalPanel hpnlSpace = new HorizontalPanel();
 		VerticalPanel hpnlHeader = new VerticalPanel();
 		vp.add(hpnlMain);
-		//hpnl.addStyleName("w3-bar-block w3-border w3-light-blue");
+		// hpnl.addStyleName("w3-bar-block w3-border w3-light-blue");
 		hpnlMain.add(imgHeader);
 		hpnlMain.add(hpnlHeader);
-		//		hpnlHeader.addStyleName("blueBackground");
-		//hpnlHeader.setWidth(Window.getClientWidth()-imgHeader.getWidth()-170+"px");
+		// hpnlHeader.addStyleName("blueBackground");
+		// hpnlHeader.setWidth(Window.getClientWidth()-imgHeader.getWidth()-170+"px");
 		hpnlHeader.setWidth("1000px");
 		hpnlHeader.setHeight("91px");
 		hpnlHeader.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		hpnl.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 
-		//	 SelectionHandler<Widget> handler = new SelectionHandler<Widget>() {
-		//	      @Override
-		//	      public void onSelection(SelectionEvent<Widget> event) {
-		//	        TabPanel panel = (TabPanel) event.getSource();
-		//	        Widget w = event.getSelectedItem();
-		//	        TabItemConfig config = panel.getConfig(w);
-		//	        Info.display("Message", "'" + config.getText() + "' Selected");
-		//	      }
-		//	    };
+		// SelectionHandler<Widget> handler = new SelectionHandler<Widget>() {
+		// @Override
+		// public void onSelection(SelectionEvent<Widget> event) {
+		// TabPanel panel = (TabPanel) event.getSource();
+		// Widget w = event.getSelectedItem();
+		// TabItemConfig config = panel.getConfig(w);
+		// Info.display("Message", "'" + config.getText() + "' Selected");
+		// }
+		// };
 
-		//		logOut.addStyleName("logout");
+		// logOut.addStyleName("logout");
 
-		//		panel.setWidth(Window.getClientWidth()-100+"px");
-		//panel.setWidth("880px");
+		// panel.setWidth(Window.getClientWidth()-100+"px");
+		// panel.setWidth("880px");
 		panel.setWidth("1200px");
 		panel.setResizeTabs(true);
-	
-		if(loggedInUser.getFromInternalAuditDept().equalsIgnoreCase("yes")){
+
+		if (loggedInUser.getFromInternalAuditDept().equalsIgnoreCase("yes")) {
 			panel.add(vpnlDashBoard, "DashBoard");
 			panel.add(containerAuditPlanning, "Audit Planning");
 			panel.add(vpnlAuditScheduing, "Audit Scheduling");
 			panel.add(vpnlAuditEngagement, "Audit Engagement");
 			panel.add(reportingView, "Reporting");
+			panel.add(followUpView, "Follow Up");
 
 			TabItemConfig config = new TabItemConfig("");
-			config.setEnabled(false); 
+			config.setEnabled(false);
 
-			
 			panel.add(new EmployeeDashBoardView(), "WorkItems");
 			panel.add(reportsView, "Reports");
-			
-			//2018 new
-		//	vpnlDashBoardNew.add( new DashboardNew());
+
+			// 2018 new
+			// vpnlDashBoardNew.add( new DashboardNew());
 			panel.add(vpnlDashBoardNew, "Analytics");
 			// panel.add((IsWidget) new Dashboard(),"NewDashboard");
 
-		}else{
+		} else {
 			panel.add(reportingView, "Reporting");
+			panel.add(followUpView, "Follow Up");
 			panel.setActiveWidget(reportingView);
-			
+
 		}
-//2018		if(loggedInUser.getEmployeeId().getUserId().getUserId() == 1){
-//			addTableauTabs();
-//		}
-		if(loggedInUser.getEmployeeId() == 1){
+		// 2018 if(loggedInUser.getEmployeeId().getUserId().getUserId() == 1){
+		// addTableauTabs();
+		// }
+		if (loggedInUser.getEmployeeId() == 1) {
 			addTableauTabs();
 		}
 
 		TabItemConfig config = new TabItemConfig("Reporting");
 
-		//		panel.insert(reportingView, 3, config);
+		// panel.insert(reportingView, 3, config);
 		VerticalPanel vpnlTabPanel = new VerticalPanel();
-		//vpnlTabPanel.addStyleName("centerPanel");
-		
+		// vpnlTabPanel.addStyleName("centerPanel");
+
 		vp.setWidth("100%");
 		vp.add(vpnlTabPanel);
-		//checkpanel.add(panel);
-		//checkpanel.add(panelImages);
-		//vpnlTabPanel.add(panel);
+		// checkpanel.add(panel);
+		// checkpanel.add(panelImages);
+		// vpnlTabPanel.add(panel);
 		checkpanel.add(panelSideBar);
-	//	checkpanel.add(panelImages);
+		// checkpanel.add(panelImages);
 		checkpanel.add(panel);
-		
-		
+
 		panelBar.addStyleName("w3-bar-block w3-border w3-light-blue");
-		vpnlTabPanel.getElement().getStyle().setPaddingLeft(12,  Unit.PX);
+		vpnlTabPanel.getElement().getStyle().setPaddingLeft(12, Unit.PX);
 		hpnl.setWidth("0%");
 		vpnlTabPanel.add(checkpanel);
-		//vpnlTabPanel.add(panelImages);
-		//selectYear().addStyleName("w3-bar-item w3-right");
+		// vpnlTabPanel.add(panelImages);
+		// selectYear().addStyleName("w3-bar-item w3-right");
 		hpnl.add(selectYear());
 		hpnl.add(welcome);
-		//hpnl.add(panelBar);
-		//panelBar.add(welcome);
+		// hpnl.add(panelBar);
+		// panelBar.add(welcome);
 		panelBar.add(feedBack);
 		panelBar.add(logOut);
-		//hpnl.add(welcome); // Welcome <name>
-		//welcome.addStyleName("white");
-		//welcome.addStyleName("  w3-bar-item w3-hover-blue w3-right");
+		// hpnl.add(welcome); // Welcome <name>
+		// welcome.addStyleName("white");
+		// welcome.addStyleName(" w3-bar-item w3-hover-blue w3-right");
 		welcome.addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
 				PopupPanel p = new PopupPanel();
@@ -237,18 +234,18 @@ public class MainView extends Composite implements Display {
 				p.showRelativeTo(welcome);
 				p.isAutoHideEnabled();
 				p.setAutoHideEnabled(true);
-				
-				
+
 			}
 		});
 		welcome.setWordWrap(false);
 		hpnlHeader.add(hpnlSpace);
 		hpnlSpace.setWidth("65%");
 		hpnlHeader.add(hpnl);
-		if(loggedInUser.getEmployeeName().equalsIgnoreCase("Muhammad Faheem Piracha") && loggedInUser.getEmployeeId() ==1){
-			hpnl.add(createCompany); 
-			hpnl.add(createUser); 
-		
+		if (loggedInUser.getEmployeeName().equalsIgnoreCase("Muhammad Faheem Piracha")
+				&& loggedInUser.getEmployeeId() == 1) {
+			hpnl.add(createCompany);
+			hpnl.add(createUser);
+
 		}
 		logOut.addStyleName("white");
 		feedBack.addStyleName("white");
@@ -262,27 +259,27 @@ public class MainView extends Composite implements Display {
 	}
 
 	private FocusPanel putImageInCard(String lblName, String imgSource) {
-		 Label lbl = new Label(lblName);
-		 lbl.setWidth("125px");
-		 lbl.getElement().getStyle().setColor("White");
-		 Image img = new Image(imgSource);
-		 lbl.setWordWrap(false);
-		 //lbl.getElement().getStyle().setPaddingLeft(5, Unit.PX);
-		 img.getElement().getStyle().setMarginLeft(30,Unit.PX);
-		 img.addStyleName("point");
-		 lbl.addStyleName("point");
-		 img.setHeight("60px");
-		 img.setWidth("80px");
+		Label lbl = new Label(lblName);
+		lbl.setWidth("125px");
+		lbl.getElement().getStyle().setColor("White");
+		Image img = new Image(imgSource);
+		lbl.setWordWrap(false);
+		// lbl.getElement().getStyle().setPaddingLeft(5, Unit.PX);
+		img.getElement().getStyle().setMarginLeft(30, Unit.PX);
+		img.addStyleName("point");
+		lbl.addStyleName("point");
+		img.setHeight("60px");
+		img.setWidth("80px");
 		VerticalPanel vpTeamMgm = new VerticalPanel();
-		 vpTeamMgm.addStyleName("w3-card-4");
-		 vpTeamMgm.add(img);
-		 VerticalPanel vpTeamMgmLbl = new VerticalPanel();
-		 vpTeamMgmLbl.add(lbl);
-		 vpTeamMgmLbl.addStyleName("w3-container w3-center w3-blue");
-		 vpTeamMgm.add(vpTeamMgmLbl);
-		 FocusPanel focusPanel = new FocusPanel();
-		 focusPanel.add(vpTeamMgm);
-		 return focusPanel;
+		vpTeamMgm.addStyleName("w3-card-4");
+		vpTeamMgm.add(img);
+		VerticalPanel vpTeamMgmLbl = new VerticalPanel();
+		vpTeamMgmLbl.add(lbl);
+		vpTeamMgmLbl.addStyleName("w3-container w3-center w3-blue");
+		vpTeamMgm.add(vpTeamMgmLbl);
+		FocusPanel focusPanel = new FocusPanel();
+		focusPanel.add(vpTeamMgm);
+		return focusPanel;
 	}
 
 	private void addTableauTabs() {
@@ -302,47 +299,44 @@ public class MainView extends Composite implements Display {
 
 			@Override
 			public void onSelection(SelectionEvent<Widget> event) {
-				if(event.getSelectedItem().equals(vpTab)){
+				if (event.getSelectedItem().equals(vpTab)) {
 					vpTab.add(new TableauReports());
-				}
-				else if(event.getSelectedItem().equals(vpTabAb)){
+				} else if (event.getSelectedItem().equals(vpTabAb)) {
 					vpTabAb.add(new TableauAbilite());
-				}
-				else if(event.getSelectedItem().equals(vpTabEx)){
+				} else if (event.getSelectedItem().equals(vpTabEx)) {
 					vpTabEx.add(new TableauExcel());
 				}
 			}
 		});
 	}
 
-	public Widget selectYear(){
+	public Widget selectYear() {
 		HorizontalPanel hpnlYear = new HorizontalPanel();
 		VerticalPanel vpnlYear = new VerticalPanel();
 		Label lblSelectYear = new Label("Year");
-		//		vpnlYear.add(lblSelectYear);
+		// vpnlYear.add(lblSelectYear);
 		listYears.addStyleName("yearList");
 		vpnlYear.add(listYears);
 		hpnlYear.add(vpnlYear);
 		hpnlYear.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		vpnlYear.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 
-		//		listYears.addItem("2014");
+		// listYears.addItem("2014");
 
-		//		listYears.addItem("2015");
-		//		listYears.addItem("2016");
-		//		listYears.addItem("2017");
-		//		listYears.addItem("2018");
-		//		listYears.addItem("2019");
-		//		listYears.addItem("2020");
-		//		if(selectedYear!=0){
-		//			for(int i=0; i< listYears.getItemCount(); i++){
-		//				if(Integer.parseInt(listYears.getValue(i)) == selectedYear){
-		//					listYears.setSelectedIndex(i);
-		//				}
-		//			}
-		//		}
+		// listYears.addItem("2015");
+		// listYears.addItem("2016");
+		// listYears.addItem("2017");
+		// listYears.addItem("2018");
+		// listYears.addItem("2019");
+		// listYears.addItem("2020");
+		// if(selectedYear!=0){
+		// for(int i=0; i< listYears.getItemCount(); i++){
+		// if(Integer.parseInt(listYears.getValue(i)) == selectedYear){
+		// listYears.setSelectedIndex(i);
+		// }
+		// }
+		// }
 		return hpnlYear;
-
 
 	}
 
@@ -454,6 +448,8 @@ public class MainView extends Composite implements Display {
 		return containerAuditPlanning;
 	}
 
-	
+	public VerticalPanel getFollowUpView() {
+		return followUpView;
+	}
 
 }

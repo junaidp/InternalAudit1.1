@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -15,7 +16,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
@@ -24,16 +24,15 @@ import com.internalaudit.client.view.JobData;
 import com.internalaudit.client.view.Reporting.AllJobsView;
 import com.internalaudit.client.view.Reporting.JobExceptionsView;
 import com.internalaudit.client.view.Reporting.JobReportView;
-import com.internalaudit.client.view.Reporting.ResponsiblePersonRowView;
 import com.internalaudit.client.view.Reporting.ResponsiblePersonRowHeadingView;
+import com.internalaudit.client.view.Reporting.ResponsiblePersonRowView;
 import com.internalaudit.client.view.Reporting.SelectedJobView;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.Exceptions;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.TimeOutException;
 
-
-public class ReportingPresenter implements Presenter 
+public class ReportingPresenter implements Presenter
 
 {
 	private final InternalAuditServiceAsync rpcService;
@@ -43,236 +42,264 @@ public class ReportingPresenter implements Presenter
 	private ArrayList<Employee> employeesList = new ArrayList<Employee>();
 	private Employee loggedInEmployee;
 	private Logger logger = Logger.getLogger("ReportingPresenter");
-	
-	public interface Display 
-	{
+	private String reportingTab;
+
+	public interface Display {
 		Widget asWidget();
+
 		VerticalPanel getVpnlReporting();
+
 		VerticalPanel getVpnlJobs();
+
 		VerticalPanel getVpnlSelectedJob();
 
-	}  
+	}
 
-	public ReportingPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, Employee employee, ArrayList<String> tokenParams, Display view) 
-	{
+	public ReportingPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, Employee employee,
+			ArrayList<String> tokenParams, String reportingTab, Display view) {
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.display = view;
 		this.loggedInEmployee = employee;
+		this.reportingTab = reportingTab;
 		setInputParams(tokenParams);
 	}
 
 	private void setInputParams(ArrayList<String> input_Params) {
-		for(int i=0; i< input_Params.size(); i++){
+		for (int i = 0; i < input_Params.size(); i++) {
 			String param = (String) input_Params.get(i);
 			String paramKey = "";
 			String paramValue = "";
-			if(param.indexOf("=") != -1){
+			if (param.indexOf("=") != -1) {
 				paramKey = param.substring(0, param.indexOf("="));
-				paramValue = param.substring(param.indexOf("=")+1);
+				paramValue = param.substring(param.indexOf("=") + 1);
 			}
-			if(paramKey.equalsIgnoreCase("companyId")){
-				try{
+			if (paramKey.equalsIgnoreCase("companyId")) {
+				try {
 					int companyId = Integer.parseInt(paramValue);
-				}catch(Exception ex){
+				} catch (Exception ex) {
 					Window.alert("Sorry , above page not found");
 					History.newItem("login");
 				}
 			}
 		}
-		
+
 	}
 
-	public void go(HasWidgets container) 
-	{
+	public void go(HasWidgets container) {
 		container.clear();
 		container.add(display.asWidget());
 		bind();
 		fetchEmployees();
 		fetchJobs();
-	
+
 	}
 
-	private void fetchAuditHeadExceptions(int selectedJob){
-		rpcService.fetchAuditHeadExceptions(loggedInEmployee.getEmployeeId(),selectedJob , new AsyncCallback<ArrayList<Exceptions>>(){
+	private void fetchAuditHeadExceptions(int selectedJob) {
+		rpcService.fetchAuditHeadExceptions(loggedInEmployee.getEmployeeId(), selectedJob,
+				new AsyncCallback<ArrayList<Exceptions>>() {
 
-			@Override
-			public void onFailure(Throwable caught) {
+					@Override
+					public void onFailure(Throwable caught) {
 
-
-				logger.log(Level.INFO, "FAIL: fetchAuditHeadExceptions .Inside Audit AuditAreaspresenter");
-				if(caught instanceof TimeOutException){
-					History.newItem("login");
-				}else{
-					System.out.println("FAIL: fetchAuditHeadExceptions .Inside AuditAreaspresenter");
-					Window.alert("FAIL: fetchAuditHeadExceptions");// After FAIL ... write RPC Name  NOT Method Name..
-				}
-				
-			}
-
-			@Override
-			public void onSuccess(final ArrayList<Exceptions> result) {
-//				display.getVpnlSelectedJob().clear();/// hERE
-				if(result.size()>0){
-					display.getVpnlSelectedJob().clear();/// hERE
-					Label lblHeading = new Label(result.get(0).getJobName());
-					lblHeading.addStyleName("heading");
-					display.getVpnlSelectedJob().add(lblHeading);
-//										display.getVpnlReporting().clear();
-					ResponsiblePersonRowHeadingView responsiblePersonView = new ResponsiblePersonRowHeadingView();
-//					display.getVpnlReporting().add(responsiblePersonView);
-					display.getVpnlSelectedJob().add(responsiblePersonView);
-
-					for(int i=0; i< result.size(); i++){
-						final ResponsiblePersonRowView responsiblePersonRowView = new ResponsiblePersonRowView();
-						responsiblePersonRowView.getException().setText(result.get(i).getDetail());
-						responsiblePersonRowView.getRecommendations().setText(result.get(i).getRecommendations());
-						responsiblePersonRowView.getRecommendations().setTitle(result.get(i).getRecommendations());
-
-						responsiblePersonRowView.getImplication().setText(result.get(i).getImplication());
-						responsiblePersonRowView.getImplication().setTitle(result.get(i).getImplication());
-						responsiblePersonRowView.getException().setTitle(result.get(i).getDetail());
-						responsiblePersonRowView.getAuditJob().setText(result.get(i).getJobName());
-						responsiblePersonRowView.getAuditJob().setTitle(result.get(i).getJobName());
-						showManagementPanel(result, i, responsiblePersonRowView);
-						if(result.get(i).getFinalStatus()!=null && result.get(i).getFinalStatus().equalsIgnoreCase("Approved")){
-							responsiblePersonRowView.getStatus().setText("Closed");
-							responsiblePersonRowView.getStatus().addStyleName("blue");
-//							showManagementPanel(result, i, responsiblePersonRowView);
-							responsiblePersonRowView.getVpnlApprovalButton().setVisible(true);
-							showImplementationPanel(result, i,
-									responsiblePersonRowView);
-							responsiblePersonRowView.getVpnlApprovalButton().setVisible(false);
-						}
-						if(result.get(i).getFinalStatus()!=null && result.get(i).getFinalStatus().equalsIgnoreCase("Rejected") ||
-								result.get(i).getStatus()!=null && result.get(i).getStatus().equalsIgnoreCase("Rejected")){
-							responsiblePersonRowView.getStatus().setText("feedback given");
-							responsiblePersonRowView.getStatus().addStyleName("blue");
-							responsiblePersonRowView.getVpnlApprovalButton().setVisible(false);
-							showManagementPanel(result, i, responsiblePersonRowView);
-							showImplementationPanel(result, i,
-									responsiblePersonRowView);
-						}
-						responsiblePersonView.add(responsiblePersonRowView);
-						final JobData jobData = new JobData();
-						jobData.setSelectedId(i);
-						if(!(result.get(i).getManagementComments() ==null) && !result.get(i).getManagementComments().equals("") && ( (result.get(i).getStatus()!=null && result.get(i).getStatus().equals("Sent")) || (result.get(i).getFinalStatus()!=null && result.get(i).getFinalStatus().equals("Sent")))){
-							showManagementPanel(result, i, responsiblePersonRowView);
-							responsiblePersonRowView.disableFields();
-							responsiblePersonRowView.getVpnlApprovalButton().setVisible(true);
-//							if(result.get(i).getStatus()!=null && !result.get(i).getStatus().equals("")){
-//								responsiblePersonRowView.getImplementaionDate().setEnabled(true);
-//								
-//							}
-							///FOR ACTUAL IMPLEMENTATION APPROVAL....
-							if(result.get(i).getImplementaionComments()!=null && !result.get(i).getImplementaionComments().equals("") && result.get(i).getFinalStatus().equals("Sent")){
-								showImplementationPanel(result, i,
-										responsiblePersonRowView);
-								responsiblePersonRowView.getVpnlApprovalButton().setVisible(true);
-								
-							}
+						logger.log(Level.INFO, "FAIL: fetchAuditHeadExceptions .Inside Audit AuditAreaspresenter");
+						if (caught instanceof TimeOutException) {
+							History.newItem("login");
+						} else {
+							System.out.println("FAIL: fetchAuditHeadExceptions .Inside AuditAreaspresenter");
+							Window.alert("FAIL: fetchAuditHeadExceptions");// After
+																			// FAIL
+																			// ...
+																			// write
+																			// RPC
+																			// Name
+																			// NOT
+																			// Method
+																			// Name..
 						}
 
-						responsiblePersonRowView.getBtnApprove().addClickHandler(new ClickHandler(){
-
-							@Override
-							public void onClick(ClickEvent event) {
-								if(result.get(jobData.getSelectedId()).getImplementaionComments()!=null && !result.get(jobData.getSelectedId()).getImplementaionComments().equals("")
-										&&result.get(jobData.getSelectedId()).getStatus().equals("Approved")){
-									result.get(jobData.getSelectedId()).setFinalStatus("Approved");
-								}else{
-									result.get(jobData.getSelectedId()).setStatus("Approved");
-									
-								}
-								result.get(jobData.getSelectedId()).setComments(responsiblePersonRowView.getTxtComments().getText());
-								
-								//								responsiblePersonRowView.getStatus().setText("Approved");
-//								responsiblePersonRowView.getBtnApprove().setEnabled(false);
-//								responsiblePersonRowView.getBtnReject().setEnabled(false);
-								exceptionApproved(responsiblePersonRowView, "Approved");
-								new DisplayAlert("Exception Approved");
-								sendException(result.get(jobData.getSelectedId()));
-
-							}
-
-							});
-
-						responsiblePersonRowView.getBtnReject().addClickHandler(new ClickHandler(){
-
-							@Override
-							public void onClick(ClickEvent event) {
-								if(result.get(jobData.getSelectedId()).getImplementaionComments()!=null && !result.get(jobData.getSelectedId()).getImplementaionComments().equals("")){
-									result.get(jobData.getSelectedId()).setFinalStatus("Rejected");
-								}else{
-									result.get(jobData.getSelectedId()).setStatus("Rejected");
-								}
-								result.get(jobData.getSelectedId()).setComments(responsiblePersonRowView.getTxtComments().getText());
-								
-								//								responsiblePersonRowView.getStatus().setText("Rejected");
-//								responsiblePersonRowView.getBtnApprove().setEnabled(false);
-//								responsiblePersonRowView.getBtnReject().setEnabled(false);
-								exceptionApproved(responsiblePersonRowView, "Rejected");
-								
-								sendException(result.get(jobData.getSelectedId()));
-								new DisplayAlert("Exception Rejected");
-
-							}});
-						responsiblePersonRowView.getImplementaionDate().setEnabled(false);
-						responsiblePersonRowView.getIsAgreed().setEnabled(false);
-						responsiblePersonRowView.getBtnSend().setVisible(false);
-						
 					}
-				}
-				else {
-					//					fetchEmployees();
-					//					fetchJobs();
-				}
-			}
 
-			private void showManagementPanel(final ArrayList<Exceptions> result,
-					int i,
-					final ResponsiblePersonRowView responsiblePersonRowView) {
-//				responsiblePersonRowView.getVpnlApprovalButton().setVisible(true);
-				responsiblePersonRowView.getManagementComments().setText(result.get(i).getManagementComments());
-				responsiblePersonRowView.getManagementComments().setTitle(result.get(i).getManagementComments());
+					@Override
+					public void onSuccess(final ArrayList<Exceptions> result) {
+						// display.getVpnlSelectedJob().clear();/// hERE
+						if (result.size() > 0) {
+							display.getVpnlSelectedJob().clear();/// hERE
+							Label lblHeading = new Label(result.get(0).getJobName());
+							lblHeading.addStyleName("heading");
+							display.getVpnlSelectedJob().add(lblHeading);
+							// display.getVpnlReporting().clear();
+							ResponsiblePersonRowHeadingView responsiblePersonView = new ResponsiblePersonRowHeadingView();
+							// display.getVpnlReporting().add(responsiblePersonView);
+							display.getVpnlSelectedJob().add(responsiblePersonView);
 
-				responsiblePersonRowView.getImplementaionDate().setValue(result.get(i).getImplementaionDate());
-				responsiblePersonRowView.getIsAgreed().setSelectedIndex(result.get(i).getIsAgreed());
+							for (int i = 0; i < result.size(); i++) {
+								final ResponsiblePersonRowView responsiblePersonRowView = new ResponsiblePersonRowView();
+								responsiblePersonRowView.getException().setText(result.get(i).getDetail());
+								responsiblePersonRowView.getRecommendations()
+										.setText(result.get(i).getRecommendations());
+								responsiblePersonRowView.getRecommendations()
+										.setTitle(result.get(i).getRecommendations());
 
-				responsiblePersonRowView.getTxtComments().setText(result.get(i).getComments());
-				responsiblePersonRowView.getTxtComments().setTitle(result.get(i).getComments());
-				responsiblePersonRowView.getImplication().setText(result.get(i).getImplication());
-				responsiblePersonRowView.getResponsiblePerson().addItem(result.get(i).getResponsiblePerson().getEmployeeName());
-				//responsiblePersonRowView.getImplicationRating().addItem(result.get(i).getImplicationRating());
-				if(result.get(i).getImplicationRating()=="0"){
-					responsiblePersonRowView.getImplicationRating().addItem("Low");
-				}
-				
-				else if(result.get(i).getImplicationRating()=="1"){
-					responsiblePersonRowView.getImplicationRating().addItem("Medium");
-				}
-				else	if(result.get(i).getImplicationRating()=="2"){
-					responsiblePersonRowView.getImplicationRating().addItem("High");
-				}
-				
-			}
+								responsiblePersonRowView.getImplication().setText(result.get(i).getImplication());
+								responsiblePersonRowView.getImplication().setTitle(result.get(i).getImplication());
+								responsiblePersonRowView.getException().setTitle(result.get(i).getDetail());
+								responsiblePersonRowView.getAuditJob().setText(result.get(i).getJobName());
+								responsiblePersonRowView.getAuditJob().setTitle(result.get(i).getJobName());
+								showManagementPanel(result, i, responsiblePersonRowView);
+								if (result.get(i).getFinalStatus() != null
+										&& result.get(i).getFinalStatus().equalsIgnoreCase("Approved")) {
+									responsiblePersonRowView.getStatus().setText("Closed");
+									responsiblePersonRowView.getStatus().addStyleName("blue");
+									// showManagementPanel(result, i,
+									// responsiblePersonRowView);
+									responsiblePersonRowView.getVpnlApprovalButton().setVisible(true);
+									showImplementationPanel(result, i, responsiblePersonRowView);
+									responsiblePersonRowView.getVpnlApprovalButton().setVisible(false);
+								}
+								if (result.get(i).getFinalStatus() != null
+										&& result.get(i).getFinalStatus().equalsIgnoreCase("Rejected")
+										|| result.get(i).getStatus() != null
+												&& result.get(i).getStatus().equalsIgnoreCase("Rejected")) {
+									responsiblePersonRowView.getStatus().setText("feedback given");
+									responsiblePersonRowView.getStatus().addStyleName("blue");
+									responsiblePersonRowView.getVpnlApprovalButton().setVisible(false);
+									showManagementPanel(result, i, responsiblePersonRowView);
+									showImplementationPanel(result, i, responsiblePersonRowView);
+								}
+								responsiblePersonView.add(responsiblePersonRowView);
+								final JobData jobData = new JobData();
+								jobData.setSelectedId(i);
+								if (!(result.get(i).getManagementComments() == null)
+										&& !result.get(i).getManagementComments().equals("")
+										&& ((result.get(i).getStatus() != null
+												&& result.get(i).getStatus().equals("Sent"))
+												|| (result.get(i).getFinalStatus() != null
+														&& result.get(i).getFinalStatus().equals("Sent")))) {
+									showManagementPanel(result, i, responsiblePersonRowView);
+									responsiblePersonRowView.disableFields();
+									responsiblePersonRowView.getVpnlApprovalButton().setVisible(true);
+									// if(result.get(i).getStatus()!=null &&
+									// !result.get(i).getStatus().equals("")){
+									// responsiblePersonRowView.getImplementaionDate().setEnabled(true);
+									//
+									// }
+									/// FOR ACTUAL IMPLEMENTATION APPROVAL....
+									if (result.get(i).getImplementaionComments() != null
+											&& !result.get(i).getImplementaionComments().equals("")
+											&& result.get(i).getFinalStatus().equals("Sent")) {
+										showImplementationPanel(result, i, responsiblePersonRowView);
+										responsiblePersonRowView.getVpnlApprovalButton().setVisible(true);
 
-			private void showImplementationPanel(
-					final ArrayList<Exceptions> result, int i,
-					final ResponsiblePersonRowView responsiblePersonRowView) {
-				responsiblePersonRowView.getHpnl2().setVisible(true);
-				responsiblePersonRowView.getImplementaionComments().setText(result.get(i).getImplementaionComments());
-				responsiblePersonRowView.getIsImplemented().setSelectedIndex(result.get(i).getIsImplemented());
-				responsiblePersonRowView.getIsAgreed().setSelectedIndex(result.get(i).getIsAgreed());
-				
-				responsiblePersonRowView.getImplementaionComments().setEnabled(false);
-				responsiblePersonRowView.getIsImplemented().setEnabled(false);
-//				responsiblePersonRowView.getIsAgreed().setEnabled(false);
-			}});
+									}
+								}
+
+								responsiblePersonRowView.getBtnApprove().addClickHandler(new ClickHandler() {
+
+									@Override
+									public void onClick(ClickEvent event) {
+										if (result.get(jobData.getSelectedId()).getImplementaionComments() != null
+												&& !result.get(jobData.getSelectedId()).getImplementaionComments()
+														.equals("")
+												&& result.get(jobData.getSelectedId()).getStatus().equals("Approved")) {
+											result.get(jobData.getSelectedId()).setFinalStatus("Approved");
+										} else {
+											result.get(jobData.getSelectedId()).setStatus("Approved");
+
+										}
+										result.get(jobData.getSelectedId())
+												.setComments(responsiblePersonRowView.getTxtComments().getText());
+
+										// responsiblePersonRowView.getStatus().setText("Approved");
+										// responsiblePersonRowView.getBtnApprove().setEnabled(false);
+										// responsiblePersonRowView.getBtnReject().setEnabled(false);
+										exceptionApproved(responsiblePersonRowView, "Approved");
+										new DisplayAlert("Exception Approved");
+										sendException(result.get(jobData.getSelectedId()));
+
+									}
+
+								});
+
+								responsiblePersonRowView.getBtnReject().addClickHandler(new ClickHandler() {
+
+									@Override
+									public void onClick(ClickEvent event) {
+										if (result.get(jobData.getSelectedId()).getImplementaionComments() != null
+												&& !result.get(jobData.getSelectedId()).getImplementaionComments()
+														.equals("")) {
+											result.get(jobData.getSelectedId()).setFinalStatus("Rejected");
+										} else {
+											result.get(jobData.getSelectedId()).setStatus("Rejected");
+										}
+										result.get(jobData.getSelectedId())
+												.setComments(responsiblePersonRowView.getTxtComments().getText());
+
+										// responsiblePersonRowView.getStatus().setText("Rejected");
+										// responsiblePersonRowView.getBtnApprove().setEnabled(false);
+										// responsiblePersonRowView.getBtnReject().setEnabled(false);
+										exceptionApproved(responsiblePersonRowView, "Rejected");
+
+										sendException(result.get(jobData.getSelectedId()));
+										new DisplayAlert("Exception Rejected");
+
+									}
+								});
+								responsiblePersonRowView.getImplementaionDate().setEnabled(false);
+								responsiblePersonRowView.getIsAgreed().setEnabled(false);
+								responsiblePersonRowView.getBtnSend().setVisible(false);
+
+							}
+						} else {
+							// fetchEmployees();
+							// fetchJobs();
+						}
+					}
+
+					private void showManagementPanel(final ArrayList<Exceptions> result, int i,
+							final ResponsiblePersonRowView responsiblePersonRowView) {
+						// responsiblePersonRowView.getVpnlApprovalButton().setVisible(true);
+						responsiblePersonRowView.getManagementComments().setText(result.get(i).getManagementComments());
+						responsiblePersonRowView.getManagementComments()
+								.setTitle(result.get(i).getManagementComments());
+
+						responsiblePersonRowView.getImplementaionDate().setValue(result.get(i).getImplementaionDate());
+						responsiblePersonRowView.getIsAgreed().setSelectedIndex(result.get(i).getIsAgreed());
+
+						responsiblePersonRowView.getTxtComments().setText(result.get(i).getComments());
+						responsiblePersonRowView.getTxtComments().setTitle(result.get(i).getComments());
+						responsiblePersonRowView.getImplication().setText(result.get(i).getImplication());
+						responsiblePersonRowView.getResponsiblePerson()
+								.addItem(result.get(i).getResponsiblePerson().getEmployeeName());
+						// responsiblePersonRowView.getImplicationRating().addItem(result.get(i).getImplicationRating());
+						if (result.get(i).getImplicationRating() == "0") {
+							responsiblePersonRowView.getImplicationRating().addItem("Low");
+						}
+
+				else if (result.get(i).getImplicationRating() == "1") {
+							responsiblePersonRowView.getImplicationRating().addItem("Medium");
+						} else if (result.get(i).getImplicationRating() == "2") {
+							responsiblePersonRowView.getImplicationRating().addItem("High");
+						}
+
+					}
+
+					private void showImplementationPanel(final ArrayList<Exceptions> result, int i,
+							final ResponsiblePersonRowView responsiblePersonRowView) {
+						responsiblePersonRowView.getHpnl2().setVisible(true);
+						responsiblePersonRowView.getImplementaionComments()
+								.setText(result.get(i).getImplementaionComments());
+						responsiblePersonRowView.getIsImplemented().setSelectedIndex(result.get(i).getIsImplemented());
+						responsiblePersonRowView.getIsAgreed().setSelectedIndex(result.get(i).getIsAgreed());
+
+						responsiblePersonRowView.getImplementaionComments().setEnabled(false);
+						responsiblePersonRowView.getIsImplemented().setEnabled(false);
+						// responsiblePersonRowView.getIsAgreed().setEnabled(false);
+					}
+				});
 	}
-	
-	private void exceptionApproved(
-			final ResponsiblePersonRowView responsiblePersonRowView, String status) {
+
+	private void exceptionApproved(final ResponsiblePersonRowView responsiblePersonRowView, String status) {
 		responsiblePersonRowView.getStatus().setText(status);
 		responsiblePersonRowView.getStatus().addStyleName("blue");
 		responsiblePersonRowView.getBtnApprove().setVisible(false);
@@ -281,244 +308,284 @@ public class ReportingPresenter implements Presenter
 	}
 
 	private void fetchUserExceptions(int jobId) {
-		rpcService.fetchEmployeeExceptions(loggedInEmployee.getEmployeeId(), jobId, new AsyncCallback<ArrayList<Exceptions>>(){
+		rpcService.fetchEmployeeExceptions(loggedInEmployee.getEmployeeId(), jobId,
+				new AsyncCallback<ArrayList<Exceptions>>() {
 
-			@Override
-			public void onFailure(Throwable caught) {
+					@Override
+					public void onFailure(Throwable caught) {
 
-
-				logger.log(Level.INFO, "FAIL: fetchEmployeeExceptions .Inside Audit AuditAreaspresenter");
-				if(caught instanceof TimeOutException){
-					History.newItem("login");
-				}else{
-					System.out.println("FAIL: fetchEmployeeExceptions .Inside AuditAreaspresenter");
-					Window.alert("FAIL: fetchEmployeeExceptions");// After FAIL ... write RPC Name  NOT Method Name..
-				}
-				
-			}
-
-			@Override
-			public void onSuccess(final ArrayList<Exceptions> result) {
-				display.getVpnlSelectedJob().clear();
-
-				if(result.size()>0){
-					Label lblHeading = new Label(result.get(0).getJobName());
-					lblHeading.addStyleName("heading");
-					display.getVpnlSelectedJob().add(lblHeading);
-					ResponsiblePersonRowHeadingView responsiblePersonView = new ResponsiblePersonRowHeadingView();
-					
-					for(int i=0; i< result.size(); i++){
-						final ResponsiblePersonRowView responsiblePersonRowView = new ResponsiblePersonRowView();
-//						responsiblePersonRowView.getBtnSend().setVisible(true);
-						if(loggedInEmployee.getRollId() == 5){
-							responsiblePersonRowView.getManagementComments().setEnabled(true);
+						logger.log(Level.INFO, "FAIL: fetchEmployeeExceptions .Inside Audit AuditAreaspresenter");
+						if (caught instanceof TimeOutException) {
+							History.newItem("login");
+						} else {
+							System.out.println("FAIL: fetchEmployeeExceptions .Inside AuditAreaspresenter");
+							Window.alert("FAIL: fetchEmployeeExceptions");// After
+																			// FAIL
+																			// ...
+																			// write
+																			// RPC
+																			// Name
+																			// NOT
+																			// Method
+																			// Name..
 						}
-						responsiblePersonRowView.getException().setText(result.get(i).getDetail());
-						responsiblePersonRowView.getRecommendations().setText(result.get(i).getRecommendations());
-						responsiblePersonRowView.getRecommendations().setTitle(result.get(i).getRecommendations());
-						responsiblePersonRowView.getImplication().setText(result.get(i).getImplication());
-						responsiblePersonRowView.getResponsiblePerson().addItem(result.get(i).getResponsiblePerson().getEmployeeName());
-						//responsiblePersonRowView.getImplicationRating().addItem(result.get(i).getImplicationRating());
-						if(result.get(i).getImplicationRating()=="0"){
-							responsiblePersonRowView.getImplicationRating().addItem("Low");
-						}
-						
-						else if(result.get(i).getImplicationRating()=="1"){
-							responsiblePersonRowView.getImplicationRating().addItem("Medium");
-						}
-						else	if(result.get(i).getImplicationRating()=="2"){
-							responsiblePersonRowView.getImplicationRating().addItem("High");
-						}
-						responsiblePersonRowView.getAuditJob().setText(result.get(i).getJobName());
-						if(result.get(i).getFinalStatus()!=null && result.get(i).getFinalStatus().equalsIgnoreCase("Approved")){
-							responsiblePersonRowView.getStatus().setText("Closed");
-							responsiblePersonRowView.getStatus().addStyleName("blue");
-						}
-						responsiblePersonView.add(responsiblePersonRowView);
-						final JobData jobData = new JobData();
-						jobData.setSelectedId(i);
 
-						if(result.get(i).getStatus()!=null && result.get(i).getStatus().equalsIgnoreCase("rejected")){
-							responsiblePersonRowView.getBtnSend().setText("Send Again");
-							responsiblePersonRowView.getManagementComments().setText(result.get(i).getManagementComments());
-							responsiblePersonRowView.getManagementComments().setTitle(result.get(i).getManagementComments());
-							responsiblePersonRowView.getIsAgreed().setSelectedIndex(result.get(i).getIsAgreed());
+					}
 
-							responsiblePersonRowView.getImplementaionDate().setValue(result.get(i).getImplementaionDate());
-//							responsiblePersonRowView.getStatus().setText(result.get(i).getStatus()+" ( "+ result.get(i).getComments()+ " ) ");
-							responsiblePersonRowView.getStatus().setText(result.get(i).getStatus());
-							if(result.get(i).getStatus().equalsIgnoreCase("rejected")){
-								responsiblePersonRowView.getStatus().setText("feedback given");
-							}
-							
-							responsiblePersonRowView.getStatus().setTitle(result.get(i).getComments());
+					@Override
+					public void onSuccess(final ArrayList<Exceptions> result) {
+						display.getVpnlSelectedJob().clear();
 
-						}
-						else if(result.get(i).getManagementComments()!=null && ! result.get(i).getManagementComments().equals("")){
-//							responsiblePersonRowView.getBtnSend().setText("Sent.");
-							exceptionSent(responsiblePersonRowView, "Sent");
-							responsiblePersonRowView.getManagementComments().setText(result.get(i).getManagementComments());
-							responsiblePersonRowView.getManagementComments().setTitle(result.get(i).getManagementComments());
-							responsiblePersonRowView.getIsAgreed().setSelectedIndex(result.get(i).getIsAgreed());
-							responsiblePersonRowView.getResponsiblePerson().addItem(result.get(i).getResponsiblePerson().getEmployeeName());
-							//responsiblePersonRowView.getImplicationRating().addItem(result.get(i).getImplicationRating());
-							if(result.get(i).getImplicationRating()=="0"){
-								responsiblePersonRowView.getImplicationRating().addItem("Low");
-							}
-							
-							else if(result.get(i).getImplicationRating()=="1"){
-								responsiblePersonRowView.getImplicationRating().addItem("Medium");
-							}
-							else	if(result.get(i).getImplicationRating()=="2"){
-								responsiblePersonRowView.getImplicationRating().addItem("High");
-							}
+						if (result.size() > 0) {
+							Label lblHeading = new Label(result.get(0).getJobName());
+							lblHeading.addStyleName("heading");
+							display.getVpnlSelectedJob().add(lblHeading);
+							ResponsiblePersonRowHeadingView responsiblePersonView = new ResponsiblePersonRowHeadingView();
 
-							responsiblePersonRowView.getImplementaionDate().setValue(result.get(i).getImplementaionDate());
-							responsiblePersonRowView.disableFields();
-							responsiblePersonRowView.getBtnSend().setVisible(true);
-							
-							if((result.get(i).getFinalStatus() !=null && result.get(i).getFinalStatus().equalsIgnoreCase("Sent"))
-									|| (result.get(i).getStatus() !=null && result.get(i).getStatus().equalsIgnoreCase("Sent"))){
-								responsiblePersonRowView.getBtnSend().setVisible(false);
-							}
-							
-							///Work for Actual Implementaion for Responsible person..
-							if(result.get(i).getStatus()!=null && result.get(i).getStatus().equalsIgnoreCase("approved")){
-								responsiblePersonRowView.getHpnl2().setVisible(true);
-								responsiblePersonRowView.getBtnSend().setText("Send");
-								responsiblePersonRowView.getBtnSend().setEnabled(true);
-								/////////////////CHANGE IMPLEMENTATION DATE AFTER APPROVAL//////////
-								changeImplementationDateAfterApproval(responsiblePersonRowView, result.get(i));
-								
-								
-								if(result.get(i).getImplementaionComments()!=null && !result.get(i).getImplementaionComments().equals("")){
-									responsiblePersonRowView.getImplementaionComments().setEnabled(false);
-									responsiblePersonRowView.getIsImplemented().setEnabled(false);
-									responsiblePersonRowView.getImplementaionComments().setText(result.get(i).getImplementaionComments());
-									responsiblePersonRowView.getIsImplemented().setSelectedIndex(result.get(i).getIsImplemented());
-									responsiblePersonRowView.getIsAgreed().setSelectedIndex(result.get(i).getIsAgreed());
-									
-									//									responsiblePersonRowView.getStatus().setText(result.get(i).getFinalStatus());
-									responsiblePersonRowView.getBtnSend().setText("Send");
-									responsiblePersonRowView.getBtnSend().setEnabled(true);
+							for (int i = 0; i < result.size(); i++) {
+								final ResponsiblePersonRowView responsiblePersonRowView = new ResponsiblePersonRowView();
+								// responsiblePersonRowView.getBtnSend().setVisible(true);
+								if (loggedInEmployee.getRollId() == 5) {
+									responsiblePersonRowView.getManagementComments().setEnabled(true);
 								}
-								if(result.get(i).getFinalStatus()!=null && result.get(i).getFinalStatus().equalsIgnoreCase("approved")){
-									responsiblePersonRowView.getImplementaionComments().setEnabled(false);
-									responsiblePersonRowView.getIsImplemented().setEnabled(false);
-//									responsiblePersonRowView.getBtnSend().setText("Sent.");
-//									responsiblePersonRowView.getBtnSend().setEnabled(false);
-									exceptionSent(responsiblePersonRowView, "Closed");
-									
-
-								}else if(result.get(i).getFinalStatus()!=null && result.get(i).getFinalStatus().equalsIgnoreCase("rejected")){
-									responsiblePersonRowView.getImplementaionComments().setEnabled(true);
-									responsiblePersonRowView.getIsImplemented().setEnabled(true);
-									responsiblePersonRowView.getBtnSend().setText("Send");
-									responsiblePersonRowView.getBtnSend().setEnabled(true);
-//									responsiblePersonRowView.getStatus().setText(result.get(i).getFinalStatus()+" ( "+ result.get(i).getComments()+ " ) ");
-									responsiblePersonRowView.getStatus().setText("feedback given");
-									responsiblePersonRowView.getStatus().setTitle( result.get(i).getComments());
-									
+								responsiblePersonRowView.getException().setText(result.get(i).getDetail());
+								responsiblePersonRowView.getRecommendations()
+										.setText(result.get(i).getRecommendations());
+								responsiblePersonRowView.getRecommendations()
+										.setTitle(result.get(i).getRecommendations());
+								responsiblePersonRowView.getImplication().setText(result.get(i).getImplication());
+								responsiblePersonRowView.getResponsiblePerson()
+										.addItem(result.get(i).getResponsiblePerson().getEmployeeName());
+								// responsiblePersonRowView.getImplicationRating().addItem(result.get(i).getImplicationRating());
+								if (result.get(i).getImplicationRating() == "0") {
+									responsiblePersonRowView.getImplicationRating().addItem("Low");
 								}
 
+				else if (result.get(i).getImplicationRating() == "1") {
+									responsiblePersonRowView.getImplicationRating().addItem("Medium");
+								} else if (result.get(i).getImplicationRating() == "2") {
+									responsiblePersonRowView.getImplicationRating().addItem("High");
+								}
+								responsiblePersonRowView.getAuditJob().setText(result.get(i).getJobName());
+								if (result.get(i).getFinalStatus() != null
+										&& result.get(i).getFinalStatus().equalsIgnoreCase("Approved")) {
+									responsiblePersonRowView.getStatus().setText("Closed");
+									responsiblePersonRowView.getStatus().addStyleName("blue");
+								}
+								responsiblePersonView.add(responsiblePersonRowView);
+								final JobData jobData = new JobData();
+								jobData.setSelectedId(i);
+
+								if (result.get(i).getStatus() != null
+										&& result.get(i).getStatus().equalsIgnoreCase("rejected")) {
+									responsiblePersonRowView.getBtnSend().setText("Send Again");
+									responsiblePersonRowView.getManagementComments()
+											.setText(result.get(i).getManagementComments());
+									responsiblePersonRowView.getManagementComments()
+											.setTitle(result.get(i).getManagementComments());
+									responsiblePersonRowView.getIsAgreed()
+											.setSelectedIndex(result.get(i).getIsAgreed());
+
+									responsiblePersonRowView.getImplementaionDate()
+											.setValue(result.get(i).getImplementaionDate());
+									// responsiblePersonRowView.getStatus().setText(result.get(i).getStatus()+"
+									// ( "+ result.get(i).getComments()+ " ) ");
+									responsiblePersonRowView.getStatus().setText(result.get(i).getStatus());
+									if (result.get(i).getStatus().equalsIgnoreCase("rejected")) {
+										responsiblePersonRowView.getStatus().setText("feedback given");
+									}
+
+									responsiblePersonRowView.getStatus().setTitle(result.get(i).getComments());
+
+								} else if (result.get(i).getManagementComments() != null
+										&& !result.get(i).getManagementComments().equals("")) {
+									// responsiblePersonRowView.getBtnSend().setText("Sent.");
+									exceptionSent(responsiblePersonRowView, "Sent");
+									responsiblePersonRowView.getManagementComments()
+											.setText(result.get(i).getManagementComments());
+									responsiblePersonRowView.getManagementComments()
+											.setTitle(result.get(i).getManagementComments());
+									responsiblePersonRowView.getIsAgreed()
+											.setSelectedIndex(result.get(i).getIsAgreed());
+									responsiblePersonRowView.getResponsiblePerson()
+											.addItem(result.get(i).getResponsiblePerson().getEmployeeName());
+									// responsiblePersonRowView.getImplicationRating().addItem(result.get(i).getImplicationRating());
+									if (result.get(i).getImplicationRating() == "0") {
+										responsiblePersonRowView.getImplicationRating().addItem("Low");
+									}
+
+				else if (result.get(i).getImplicationRating() == "1") {
+										responsiblePersonRowView.getImplicationRating().addItem("Medium");
+									} else if (result.get(i).getImplicationRating() == "2") {
+										responsiblePersonRowView.getImplicationRating().addItem("High");
+									}
+
+									responsiblePersonRowView.getImplementaionDate()
+											.setValue(result.get(i).getImplementaionDate());
+									responsiblePersonRowView.disableFields();
+									responsiblePersonRowView.getBtnSend().setVisible(true);
+
+									if ((result.get(i).getFinalStatus() != null
+											&& result.get(i).getFinalStatus().equalsIgnoreCase("Sent"))
+											|| (result.get(i).getStatus() != null
+													&& result.get(i).getStatus().equalsIgnoreCase("Sent"))) {
+										responsiblePersonRowView.getBtnSend().setVisible(false);
+									}
+
+									/// Work for Actual Implementaion for
+									/// Responsible person..
+									if (result.get(i).getStatus() != null
+											&& result.get(i).getStatus().equalsIgnoreCase("approved")) {
+										responsiblePersonRowView.getHpnl2().setVisible(true);
+										responsiblePersonRowView.getBtnSend().setText("Send");
+										responsiblePersonRowView.getBtnSend().setEnabled(true);
+										///////////////// CHANGE IMPLEMENTATION
+										///////////////// DATE AFTER
+										///////////////// APPROVAL//////////
+										changeImplementationDateAfterApproval(responsiblePersonRowView, result.get(i));
+
+										if (result.get(i).getImplementaionComments() != null
+												&& !result.get(i).getImplementaionComments().equals("")) {
+											responsiblePersonRowView.getImplementaionComments().setEnabled(false);
+											responsiblePersonRowView.getIsImplemented().setEnabled(false);
+											responsiblePersonRowView.getImplementaionComments()
+													.setText(result.get(i).getImplementaionComments());
+											responsiblePersonRowView.getIsImplemented()
+													.setSelectedIndex(result.get(i).getIsImplemented());
+											responsiblePersonRowView.getIsAgreed()
+													.setSelectedIndex(result.get(i).getIsAgreed());
+
+											// responsiblePersonRowView.getStatus().setText(result.get(i).getFinalStatus());
+											responsiblePersonRowView.getBtnSend().setText("Send");
+											responsiblePersonRowView.getBtnSend().setEnabled(true);
+										}
+										if (result.get(i).getFinalStatus() != null
+												&& result.get(i).getFinalStatus().equalsIgnoreCase("approved")) {
+											responsiblePersonRowView.getImplementaionComments().setEnabled(false);
+											responsiblePersonRowView.getIsImplemented().setEnabled(false);
+											// responsiblePersonRowView.getBtnSend().setText("Sent.");
+											// responsiblePersonRowView.getBtnSend().setEnabled(false);
+											exceptionSent(responsiblePersonRowView, "Closed");
+
+										} else if (result.get(i).getFinalStatus() != null
+												&& result.get(i).getFinalStatus().equalsIgnoreCase("rejected")) {
+											responsiblePersonRowView.getImplementaionComments().setEnabled(true);
+											responsiblePersonRowView.getIsImplemented().setEnabled(true);
+											responsiblePersonRowView.getBtnSend().setText("Send");
+											responsiblePersonRowView.getBtnSend().setEnabled(true);
+											// responsiblePersonRowView.getStatus().setText(result.get(i).getFinalStatus()+"
+											// ( "+ result.get(i).getComments()+
+											// " ) ");
+											responsiblePersonRowView.getStatus().setText("feedback given");
+											responsiblePersonRowView.getStatus().setTitle(result.get(i).getComments());
+
+										}
+
+									}
+								}
+
+								if (result.get(i).getFinalStatus() != null
+										&& result.get(i).getFinalStatus().equalsIgnoreCase("Approved")) {
+									responsiblePersonRowView.getImplementaionDate().setEnabled(false);
+									responsiblePersonRowView.getIsAgreed().setEnabled(false);
+									responsiblePersonRowView.getManagementComments().setEnabled(false);
+								}
+
+								responsiblePersonRowView.getBtnSend().addClickHandler(new ClickHandler() {
+
+									@Override
+									public void onClick(ClickEvent event) {
+										boolean statusApproved = result.get(jobData.getSelectedId()).getStatus() != null
+												&& result.get(jobData.getSelectedId()).getStatus().equals("Approved");
+										if (responsiblePersonRowView.getIsAgreed()
+												.getValue(responsiblePersonRowView.getIsAgreed().getSelectedIndex())
+												.equalsIgnoreCase("1")
+												&& responsiblePersonRowView.getImplementaionDate().getValue() == null) {
+											Window.alert("Please select Implementation date");
+
+										}
+
+				else if (statusApproved && responsiblePersonRowView.getImplementaionComments().getText().isEmpty()) {
+											Window.alert("Please enter Final comments");
+										} else if (responsiblePersonRowView.getManagementComments().getText()
+												.isEmpty()) {
+											Window.alert("Please enter Management comments");
+										} else {
+											saveException(result, responsiblePersonRowView,
+
+													jobData);
+										}
+
+									}
+
+								});
 							}
+
+							// display.getVpnlReporting().clear();
+							// display.getVpnlReporting().add(responsiblePersonView);
+							display.getVpnlSelectedJob().add(responsiblePersonView);
 						}
-						
-						if(result.get(i).getFinalStatus()!=null && result.get(i).getFinalStatus().equalsIgnoreCase("Approved")){
-							responsiblePersonRowView.getImplementaionDate().setEnabled(false);
-							responsiblePersonRowView.getIsAgreed().setEnabled(false);
-							responsiblePersonRowView.getManagementComments().setEnabled(false);
-						}
-						
+					}
 
-						responsiblePersonRowView.getBtnSend().addClickHandler(new ClickHandler(){
-
-							@Override
-							public void onClick(ClickEvent event) {
-								boolean statusApproved = result.get(jobData.getSelectedId()).getStatus()!=null && result.get(jobData.getSelectedId()).getStatus().equals("Approved");
-								if(responsiblePersonRowView.getIsAgreed().getValue(responsiblePersonRowView.getIsAgreed().getSelectedIndex()).equalsIgnoreCase("1")
-										&& responsiblePersonRowView.getImplementaionDate().getValue()==null){
-									Window.alert("Please select Implementation date");
-									
-									
-								}
-								
-								else if(statusApproved&&responsiblePersonRowView.getImplementaionComments().getText().isEmpty()){
-									Window.alert("Please enter Final comments");
-								}
-								else if(responsiblePersonRowView.getManagementComments().getText().isEmpty()){
-									Window.alert("Please enter Management comments");
-								}
-								else{
-									saveException(result, responsiblePersonRowView,
-											
-											jobData);
-								}
-								
-							}
-
-							
-							});
-					}	
-					
-					//					display.getVpnlReporting().clear();
-					//					display.getVpnlReporting().add(responsiblePersonView);
-					display.getVpnlSelectedJob().add(responsiblePersonView);
-				}
-			}
-
-			
-			});
+				});
 
 	}
-	
-	private void saveException(
-			final ArrayList<Exceptions> result,
-			final ResponsiblePersonRowView responsiblePersonRowView,
-			final JobData jobData) {
-		result.get(jobData.getSelectedId()).setImplementaionDate(responsiblePersonRowView.getImplementaionDate().getValue());
-		result.get(jobData.getSelectedId()).setIsAgreed(Integer.parseInt(responsiblePersonRowView.getIsAgreed().getValue(responsiblePersonRowView.getIsAgreed().getSelectedIndex())));
-		
-		result.get(jobData.getSelectedId()).setManagementComments(responsiblePersonRowView.getManagementComments().getText());
-		
-		//For Actual Implementation of responsible person ..Sending actual imeplemetaion stats
-		if(responsiblePersonRowView.getImplementaionComments()!=null && !responsiblePersonRowView.getImplementaionComments().getText().equals("")){
-			result.get(jobData.getSelectedId()).setImplementaionComments(responsiblePersonRowView.getImplementaionComments().getText());
-			result.get(jobData.getSelectedId()).setIsImplemented(Integer.parseInt(responsiblePersonRowView.getIsImplemented().getValue(responsiblePersonRowView.getIsImplemented().getSelectedIndex())));
-			result.get(jobData.getSelectedId()).setIsAgreed(Integer.parseInt(responsiblePersonRowView.getIsAgreed().getValue(responsiblePersonRowView.getIsAgreed().getSelectedIndex())));
+
+	private void saveException(final ArrayList<Exceptions> result,
+			final ResponsiblePersonRowView responsiblePersonRowView, final JobData jobData) {
+		result.get(jobData.getSelectedId())
+				.setImplementaionDate(responsiblePersonRowView.getImplementaionDate().getValue());
+		result.get(jobData.getSelectedId()).setIsAgreed(Integer.parseInt(responsiblePersonRowView.getIsAgreed()
+				.getValue(responsiblePersonRowView.getIsAgreed().getSelectedIndex())));
+
+		result.get(jobData.getSelectedId())
+				.setManagementComments(responsiblePersonRowView.getManagementComments().getText());
+
+		// For Actual Implementation of responsible person ..Sending actual
+		// imeplemetaion stats
+		if (responsiblePersonRowView.getImplementaionComments() != null
+				&& !responsiblePersonRowView.getImplementaionComments().getText().equals("")) {
+			result.get(jobData.getSelectedId())
+					.setImplementaionComments(responsiblePersonRowView.getImplementaionComments().getText());
+			result.get(jobData.getSelectedId()).setIsImplemented(Integer.parseInt(responsiblePersonRowView
+					.getIsImplemented().getValue(responsiblePersonRowView.getIsImplemented().getSelectedIndex())));
+			result.get(jobData.getSelectedId()).setIsAgreed(Integer.parseInt(responsiblePersonRowView.getIsAgreed()
+					.getValue(responsiblePersonRowView.getIsAgreed().getSelectedIndex())));
 			result.get(jobData.getSelectedId()).setImplication(responsiblePersonRowView.getImplication().getText());
-			
-			responsiblePersonRowView.getImplementaionComments().setEnabled(false);	
+
+			responsiblePersonRowView.getImplementaionComments().setEnabled(false);
 			responsiblePersonRowView.getIsImplemented().setEnabled(false);
-	
+
 			result.get(jobData.getSelectedId()).setFinalStatus("Sent");
-		}else{
+		} else {
 			result.get(jobData.getSelectedId()).setStatus("Sent");
 		}
 
 		sendException(result.get(jobData.getSelectedId()));
 		responsiblePersonRowView.disableFields();
-//		responsiblePersonRowView.getBtnSend().setText("Sent.");
-//		responsiblePersonRowView.getStatus().setText("");
+		// responsiblePersonRowView.getBtnSend().setText("Sent.");
+		// responsiblePersonRowView.getStatus().setText("");
 		exceptionSent(responsiblePersonRowView, "Sent");
 	}
-	
-	private void changeImplementationDateAfterApproval(final ResponsiblePersonRowView responsiblePersonRowView, final Exceptions exception) {
-//		responsiblePersonRowView.getManagementComments().setEnabled(true);
+
+	private void changeImplementationDateAfterApproval(final ResponsiblePersonRowView responsiblePersonRowView,
+			final Exceptions exception) {
+		// responsiblePersonRowView.getManagementComments().setEnabled(true);
 		responsiblePersonRowView.getImplementaionDate().setEnabled(true);
 		responsiblePersonRowView.getIsAgreed().setEnabled(false);
 		responsiblePersonRowView.getManagementComments().setEnabled(false);
 		responsiblePersonRowView.getImplementaionDate().addValueChangeHandler(new ValueChangeHandler<Date>() {
-			
+
 			@Override
 			public void onValueChange(ValueChangeEvent<Date> event) {
-				boolean confirmed = Window.confirm("New Implementation date will be Sent to Audit Department for Approval");
-				if(confirmed){
+				boolean confirmed = Window
+						.confirm("New Implementation date will be Sent to Audit Department for Approval");
+				if (confirmed) {
 					exception.setImplementaionDate(responsiblePersonRowView.getImplementaionDate().getValue());
 					exception.setManagementComments(responsiblePersonRowView.getManagementComments().getText());
-					
+
 					exception.setImplementaionComments("");
-//					responsiblePersonRowView.getManagementComments().setText("");
+					// responsiblePersonRowView.getManagementComments().setText("");
 					exception.setStatus("Sent");
 					responsiblePersonRowView.getImplementaionDate().setEnabled(false);
 					responsiblePersonRowView.getIsAgreed().setEnabled(false);
@@ -541,9 +608,8 @@ public class ReportingPresenter implements Presenter
 			}
 		});
 	}
-	
-	private void exceptionSent(
-			final ResponsiblePersonRowView responsiblePersonRowView, String status) {
+
+	private void exceptionSent(final ResponsiblePersonRowView responsiblePersonRowView, String status) {
 		responsiblePersonRowView.getBtnSend().setVisible(false);
 		responsiblePersonRowView.getStatus().setText(status);
 		responsiblePersonRowView.getStatus().setVisible(true);
@@ -551,28 +617,28 @@ public class ReportingPresenter implements Presenter
 	}
 
 	private void fetchEmployees() {
-		rpcService.fetchEmployees(new AsyncCallback<ArrayList <Employee>>(){
+		rpcService.fetchEmployees(new AsyncCallback<ArrayList<Employee>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// 
-
+				//
 
 				logger.log(Level.INFO, "FAIL: fetchEmployees .Inside Audit AuditAreaspresenter");
-				if(caught instanceof TimeOutException){
+				if (caught instanceof TimeOutException) {
 					History.newItem("login");
-				}else{
+				} else {
 					System.out.println("FAIL: fetchEmployees .Inside AuditAreaspresenter");
-					Window.alert("FAIL: fetchEmployees");// After FAIL ... write RPC Name  NOT Method Name..
+					Window.alert("FAIL: fetchEmployees");// After FAIL ... write
+															// RPC Name NOT
+															// Method Name..
 				}
-				
 
 			}
 
 			@Override
 			public void onSuccess(ArrayList<Employee> employees) {
-				for(int i=0; i<employees.size(); i++ ){
-					if(employees.get(i).getFromInternalAuditDept().equalsIgnoreCase("no")){
+				for (int i = 0; i < employees.size(); i++) {
+					if (employees.get(i).getFromInternalAuditDept().equalsIgnoreCase("no")) {
 						employeesList.add(employees.get(i));
 					}
 				}
@@ -583,50 +649,52 @@ public class ReportingPresenter implements Presenter
 	}
 
 	private void fetchJobs() {
-		rpcService.fetchEmployeeJobs(loggedInEmployee, new AsyncCallback<ArrayList<JobCreation>>(){
+		rpcService.fetchEmployeeJobs(loggedInEmployee, reportingTab, new AsyncCallback<ArrayList<JobCreation>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				
 
 				logger.log(Level.INFO, "FAIL: fetchEmployeeJobs .Inside Audit AuditAreaspresenter");
-				if(caught instanceof TimeOutException){
+				if (caught instanceof TimeOutException) {
 					History.newItem("login");
-				}else{
+				} else {
 					System.out.println("FAIL: fetchEmployeeJobs .Inside AuditAreaspresenter");
-					Window.alert("FAIL: fetchEmployeeJobs");// After FAIL ... write RPC Name  NOT Method Name..
+					Window.alert("FAIL: fetchEmployeeJobs");// After FAIL ...
+															// write RPC Name
+															// NOT Method Name..
 				}
-				
 
 			}
 
 			@Override
 			public void onSuccess(ArrayList<JobCreation> result) {
-				if(result!=null){
+				display.getVpnlSelectedJob().clear();
+				display.getVpnlJobs().clear();
+
+				if (result != null) {
 					AllJobsView allJobsView = new AllJobsView();
 
-					for(int i=0; i< result.size(); i++){
+					for (int i = 0; i < result.size(); i++) {
 
 						final JobReportView jobReportView = new JobReportView();
-						if(loggedInEmployee.getFromInternalAuditDept().equals("yes")){
-							if(result.get(i).getReportStatus()!=0){
+						if (loggedInEmployee.getFromInternalAuditDept().equals("yes")) {
+							if (result.get(i).getReportStatus() != 0) {
 								allJobsView.add(jobReportView);
 							}
-						}else if(loggedInEmployee.getFromInternalAuditDept().equals("no")){
-							if(result.get(i).getReportStatus()!=1 && result.get(i).getReportStatus()!=0){
+						} else if (loggedInEmployee.getFromInternalAuditDept().equals("no")) {
+							if (result.get(i).getReportStatus() != 1 && result.get(i).getReportStatus() != 0) {
 								allJobsView.add(jobReportView);
 							}
 						}
 						jobReportView.setReportStatus(result.get(i).getReportStatus());
 
 						jobReportView.getJobAnchor().setText(result.get(i).getJobName());
-						//					display.getVpnlReporting().add(allJobsView);
+						// display.getVpnlReporting().add(allJobsView);
 						display.getVpnlJobs().add(allJobsView);
 						final JobData jobData = new JobData();
 						jobData.setSelectedId(result.get(i).getJobCreationId());
 
-
-						jobReportView.getJobAnchor().addClickHandler(new ClickHandler(){
+						jobReportView.getJobAnchor().addClickHandler(new ClickHandler() {
 
 							@Override
 							public void onClick(ClickEvent event) {
@@ -636,11 +704,11 @@ public class ReportingPresenter implements Presenter
 								display.getVpnlSelectedJob().add(selectedJobView);
 								fetchExceptionsforSelectedJob(jobData.getSelectedId(), selectedJobView);
 
-								/////////Displaying Audit head  View..///////
-								if(loggedInEmployee.getFromInternalAuditDept().equals("yes")){
+								///////// Displaying Audit head View..///////
+								if (loggedInEmployee.getFromInternalAuditDept().equals("yes")) {
 									fetchAuditHeadExceptions(jobData.getSelectedId());
 
-								}else{
+								} else {
 									fetchUserExceptions(jobData.getSelectedId());
 
 								}
@@ -649,31 +717,33 @@ public class ReportingPresenter implements Presenter
 						});
 					}
 				}
-			}});
+			}
+		});
 
 	}
 
 	private void fetchExceptionsforSelectedJob(int jobId, final SelectedJobView selectedJobView) {
-		rpcService.fetchJobExceptions(jobId, new AsyncCallback<ArrayList<Exceptions>>(){
+		rpcService.fetchJobExceptions(jobId, new AsyncCallback<ArrayList<Exceptions>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				
 
 				logger.log(Level.INFO, "FAIL: fetchJobExceptions .Inside Audit AuditAreaspresenter");
-				if(caught instanceof TimeOutException){
+				if (caught instanceof TimeOutException) {
 					History.newItem("login");
-				}else{
+				} else {
 					System.out.println("FAIL: fetchJobExceptions .Inside AuditAreaspresenter");
-					Window.alert("FAIL: fetchJobExceptions");// After FAIL ... write RPC Name  NOT Method Name..
+					Window.alert("FAIL: fetchJobExceptions");// After FAIL ...
+																// write RPC
+																// Name NOT
+																// Method Name..
 				}
-				
 
 			}
 
 			@Override
 			public void onSuccess(final ArrayList<Exceptions> exceptions) {
-				for(int i=0; i< exceptions.size(); i++){
+				for (int i = 0; i < exceptions.size(); i++) {
 
 					final JobExceptionsView jobExceptionsView = new JobExceptionsView();
 					selectedJobView.getSelectedJobContainer().add(jobExceptionsView);
@@ -681,151 +751,172 @@ public class ReportingPresenter implements Presenter
 					jobExceptionsView.getDueDate().setValue(exceptions.get(i).getDueDate());
 					jobExceptionsView.getRecommendations().setText(exceptions.get(i).getRecommendations());
 					jobExceptionsView.getTxtAreaImplication().setText(exceptions.get(i).getImplication());
-					
-					if(exceptions.get(i).getImplicationRating()=="0"){
-						jobExceptionsView.getListBoxImplicationRating().setItemText(0,"Low");
-					}
-					else if(exceptions.get(i).getImplicationRating()=="1"){
-						jobExceptionsView.getListBoxImplicationRating().setItemText(0,"Medium");
-					}
-					else if(exceptions.get(i).getImplicationRating()=="2"){
-						jobExceptionsView.getListBoxImplicationRating().setItemText(0,"High");
-					}
-					
-				
-				//addeed now
-					//jobExceptionsView.getResponsiblePerson().addItem(exceptions.get(i).getResponsiblePerson().getEmployeeName());
-					//////CHanged above line here
-					jobExceptionsView.getResponsiblePerson().addItem(exceptions.get(i).getResponsiblePerson().getEmployeeName(), exceptions.get(i).getResponsiblePerson().getEmployeeId()+"");
-					
-					//jobExceptionsView.getListBoxImplicationRating().setItemText(0,exceptions.get(i).getImplicationRating());
-					/////Displaying Approv/Reject  BUTTONs////
 
-//					if(exceptions.get(i).getAuditHead() == loggedInEmployee.getEmployeeId() && (exceptions.get(i).getInitialStatus()==null || exceptions.get(i).getInitialStatus().equals(""))){
-					if(loggedInEmployee.getRollId() ==1 && (exceptions.get(i).getInitialStatus()==null || exceptions.get(i).getInitialStatus().equals("") )&& exceptions.get(i).getDueDate()!=null){
-				//	if(loggedInEmployee.getRollId().getRollId() ==1 && (exceptions.get(i).getInitialStatus()==null || exceptions.get(i).getInitialStatus().equals("") )){ //TODO CHANGE FOr DUEDATE
-							
-					jobExceptionsView.showApprovalButtons();
-					}else{
+					if (exceptions.get(i).getImplicationRating() == "0") {
+						jobExceptionsView.getListBoxImplicationRating().setItemText(0, "Low");
+					} else if (exceptions.get(i).getImplicationRating() == "1") {
+						jobExceptionsView.getListBoxImplicationRating().setItemText(0, "Medium");
+					} else if (exceptions.get(i).getImplicationRating() == "2") {
+						jobExceptionsView.getListBoxImplicationRating().setItemText(0, "High");
+					}
+
+					// addeed now
+					// jobExceptionsView.getResponsiblePerson().addItem(exceptions.get(i).getResponsiblePerson().getEmployeeName());
+					////// CHanged above line here
+					jobExceptionsView.getResponsiblePerson().addItem(
+							exceptions.get(i).getResponsiblePerson().getEmployeeName(),
+							exceptions.get(i).getResponsiblePerson().getEmployeeId() + "");
+
+					// jobExceptionsView.getListBoxImplicationRating().setItemText(0,exceptions.get(i).getImplicationRating());
+					///// Displaying Approv/Reject BUTTONs////
+
+					// if(exceptions.get(i).getAuditHead() ==
+					// loggedInEmployee.getEmployeeId() &&
+					// (exceptions.get(i).getInitialStatus()==null ||
+					// exceptions.get(i).getInitialStatus().equals(""))){
+					if (loggedInEmployee.getRollId() == 1
+							&& (exceptions.get(i).getInitialStatus() == null
+									|| exceptions.get(i).getInitialStatus().equals(""))
+							&& exceptions.get(i).getDueDate() != null) {
+						// if(loggedInEmployee.getRollId().getRollId() ==1 &&
+						// (exceptions.get(i).getInitialStatus()==null ||
+						// exceptions.get(i).getInitialStatus().equals("") )){
+						// //TODO CHANGE FOr DUEDATE
+
+						jobExceptionsView.showApprovalButtons();
+					} else {
 						jobExceptionsView.hideApprovalButtons();
 
 					}
 
-					if(exceptions.get(i).getResponsiblePerson().getEmployeeId()!=0 && exceptions.get(i).getInitialStatus()!=null && !exceptions.get(i).getInitialStatus().equals("Rejected") ){
-//						jobExceptionsView.getBtnSave().setText("Exception Sent");
-						String status ;
-						if(exceptions.get(i).getFinalStatus()==null||exceptions.get(i).getFinalStatus().equals("") ){
+					if (exceptions.get(i).getResponsiblePerson().getEmployeeId() != 0
+							&& exceptions.get(i).getInitialStatus() != null
+							&& !exceptions.get(i).getInitialStatus().equals("Rejected")) {
+						// jobExceptionsView.getBtnSave().setText("Exception
+						// Sent");
+						String status;
+						if (exceptions.get(i).getFinalStatus() == null
+								|| exceptions.get(i).getFinalStatus().equals("")) {
 							status = exceptions.get(i).getStatus();
-						}else if(exceptions.get(i).getStatus()== null ||exceptions.get(i).getStatus().equals("") ){
+						} else if (exceptions.get(i).getStatus() == null || exceptions.get(i).getStatus().equals("")) {
 							status = exceptions.get(i).getInitialStatus();
-						}else{
+						} else {
 							status = exceptions.get(i).getFinalStatus();
 						}
-						if(status!=null && status.equals("Sent")){
+						if (status != null && status.equals("Sent")) {
 							status = "Received";
 						}
 						exceptionSent(jobExceptionsView, status);
-						if(status!=null && status.equalsIgnoreCase("Approved")){
-						jobExceptionsView.disableFields();
+						if (status != null && status.equalsIgnoreCase("Approved")) {
+							jobExceptionsView.disableFields();
 						}
 					}
-
 
 					final JobData exceptionData = new JobData();
 					exceptionData.setSelectedId(i);
-					for(int j=0; j< employeesList.size(); j++){
-						jobExceptionsView.getResponsiblePerson().addItem(employeesList.get(j).getEmployeeName(), employeesList.get(j).getEmployeeId()+"");
-						jobExceptionsView.getDivisionHead().addItem(employeesList.get(j).getEmployeeName()    , employeesList.get(j).getEmployeeId()+"");
+					for (int j = 0; j < employeesList.size(); j++) {
+						jobExceptionsView.getResponsiblePerson().addItem(employeesList.get(j).getEmployeeName(),
+								employeesList.get(j).getEmployeeId() + "");
+						jobExceptionsView.getDivisionHead().addItem(employeesList.get(j).getEmployeeName(),
+								employeesList.get(j).getEmployeeId() + "");
 
 					}
 
-					jobExceptionsView.getBtnSave().addClickHandler(new ClickHandler(){
+					jobExceptionsView.getBtnSave().addClickHandler(new ClickHandler() {
 
 						@Override
 						public void onClick(ClickEvent event) {
-							Window.alert("clicked");
-							//commenting this lise 2018
-							setResponsibleForandDvisionHead(exceptions,  // This line also setting responsible person and other details.
+
+							// commenting this lise 2018
+							setResponsibleForandDvisionHead(exceptions, // This
+																		// line
+																		// also
+																		// setting
+																		// responsible
+																		// person
+																		// and
+																		// other
+																		// details.
 									jobExceptionsView, exceptionData);
 							exceptions.get(exceptionData.getSelectedId()).setInitialStatus("");
+
 							sendException(exceptions.get(exceptionData.getSelectedId()));
-//							jobExceptionsView.getBtnSave().setText("Exception Sent.");
+							// jobExceptionsView.getBtnSave().setText("Exception
+							// Sent.");
 							jobExceptionsView.getHpnlButtons().setVisible(false);
-							
+
 							exceptionSent(jobExceptionsView, "Sent");
-							
-//							jobExceptionsView.getBtnSave().setEnabled(false);
+
+							// jobExceptionsView.getBtnSave().setEnabled(false);
 						}
-
-
 
 					});
 
-					jobExceptionsView.getBtnApprove().addClickHandler(new ClickHandler(){
+					jobExceptionsView.getBtnApprove().addClickHandler(new ClickHandler() {
 
 						@Override
 						public void onClick(ClickEvent event) {
-							//							setResponsibleForandDvisionHead(exceptions,
-							//									jobExceptionsView, exceptionData);
+							// setResponsibleForandDvisionHead(exceptions,
+							// jobExceptionsView, exceptionData);
 							exceptions.get(exceptionData.getSelectedId()).setInitialStatus("Approved");
-							exceptions.get(exceptionData.getSelectedId()).setComments(jobExceptionsView.getTxtComments().getText());
-							
+							exceptions.get(exceptionData.getSelectedId())
+									.setComments(jobExceptionsView.getTxtComments().getText());
+
 							sendException(exceptions.get(exceptionData.getSelectedId()));
-//							jobExceptionsView.getBtnSave().setText("Exception Sent.");
-//							jobExceptionsView.getBtnSave().setEnabled(false);
+							// jobExceptionsView.getBtnSave().setText("Exception
+							// Sent.");
+							// jobExceptionsView.getBtnSave().setEnabled(false);
 							jobExceptionsView.getHpnlButtons().setVisible(false);
-							
+
 							exceptionSent(jobExceptionsView, "Approved");
 							jobExceptionsView.getStatus().setText("Approved");
 							new DisplayAlert("Exception Approved");
 						}
 
-
-
 					});
 
-					jobExceptionsView.getBtnReject().addClickHandler(new ClickHandler(){
+					jobExceptionsView.getBtnReject().addClickHandler(new ClickHandler() {
 
 						@Override
 						public void onClick(ClickEvent event) {
-							//							setResponsibleForandDvisionHead(exceptions,
-							//									jobExceptionsView, exceptionData);
+							// setResponsibleForandDvisionHead(exceptions,
+							// jobExceptionsView, exceptionData);
 							exceptions.get(exceptionData.getSelectedId()).setInitialStatus("Rejected");
-							exceptions.get(exceptionData.getSelectedId()).setComments(jobExceptionsView.getTxtComments().getText());
+							exceptions.get(exceptionData.getSelectedId())
+									.setComments(jobExceptionsView.getTxtComments().getText());
 							sendException(exceptions.get(exceptionData.getSelectedId()));
-//							jobExceptionsView.getBtnSave().setText("Exception Sent.");
-//							jobExceptionsView.getBtnSave().setEnabled(false);
+							// jobExceptionsView.getBtnSave().setText("Exception
+							// Sent.");
+							// jobExceptionsView.getBtnSave().setEnabled(false);
 							jobExceptionsView.getHpnlButtons().setVisible(false);
-							
+
 							exceptionSent(jobExceptionsView, "feedback given");
 							new DisplayAlert("Exception Rejected");
 						}
 
-
-
 					});
 					////// ADDED 2018
 					String status;
-					if(exceptions.get(i).getFinalStatus()==null||exceptions.get(i).getFinalStatus().equals("") ){
+					if (exceptions.get(i).getFinalStatus() == null || exceptions.get(i).getFinalStatus().equals("")) {
 						status = exceptions.get(i).getStatus();
-					}else if(exceptions.get(i).getStatus()== null ||exceptions.get(i).getStatus().equals("") ){
+					} else if (exceptions.get(i).getStatus() == null || exceptions.get(i).getStatus().equals("")) {
 						status = exceptions.get(i).getInitialStatus();
-					}else{
+					} else {
 						status = exceptions.get(i).getFinalStatus();
 					}
-					if(status!=null && status.equals("Sent")){
+					if (status != null && status.equals("Sent")) {
 						status = "Received";
 					}
-					
-					if(loggedInEmployee.getRollId() ==1 && status!=null &&  status.equalsIgnoreCase("Approved")){
+
+					if (loggedInEmployee.getRollId() == 1 && status != null && status.equalsIgnoreCase("Approved")) {
 						jobExceptionsView.getBtnSave().setVisible(false);
 						jobExceptionsView.disableFields();
 					}
-					//////END
-					//if(loggedInEmployee.getRollId().getRollId() ==1 ){
-						//jobExceptionsView.getBtnSave().setVisible(false);
-						//jobExceptionsView.disableFields();
-					//}
+					////// END
+					// if(loggedInEmployee.getRollId().getRollId() ==1 ){
+					// jobExceptionsView.getBtnSave().setVisible(false);
+					// jobExceptionsView.disableFields();
+					// }
 				}
 			}
 
@@ -833,68 +924,69 @@ public class ReportingPresenter implements Presenter
 				jobExceptionsView.getBtnSave().setVisible(false);
 				jobExceptionsView.getStatus().setText(status);
 				jobExceptionsView.getStatus().setVisible(true);
-			}});
+			}
+		});
 
 	}
 
-	private void setResponsibleForandDvisionHead(
-			final ArrayList<Exceptions> exceptions,
-			final JobExceptionsView jobExceptionsView,
-			final JobData exceptionData) {
+	private void setResponsibleForandDvisionHead(final ArrayList<Exceptions> exceptions,
+			final JobExceptionsView jobExceptionsView, final JobData exceptionData) {
 		Employee responsiblePerson = new Employee();
-		responsiblePerson.setEmployeeId(Integer.parseInt(jobExceptionsView.getResponsiblePerson().getValue(jobExceptionsView.getResponsiblePerson().getSelectedIndex())));
+		responsiblePerson.setEmployeeId(Integer.parseInt(jobExceptionsView.getResponsiblePerson()
+				.getValue(jobExceptionsView.getResponsiblePerson().getSelectedIndex())));
 		exceptions.get(exceptionData.getSelectedId()).setResponsiblePerson(responsiblePerson);
 
 		Employee divisionHead = new Employee();
-		divisionHead.setEmployeeId(Integer.parseInt(jobExceptionsView.getDivisionHead().getValue(jobExceptionsView.getDivisionHead().getSelectedIndex())));
+		divisionHead.setEmployeeId(Integer.parseInt(
+				jobExceptionsView.getDivisionHead().getValue(jobExceptionsView.getDivisionHead().getSelectedIndex())));
 		exceptions.get(exceptionData.getSelectedId()).setDivisionHead(divisionHead);
 		exceptions.get(exceptionData.getSelectedId()).setDueDate(jobExceptionsView.getDueDate().getValue());
-		exceptions.get(exceptionData.getSelectedId()).setRecommendations(jobExceptionsView.getRecommendations().getText());
-		exceptions.get(exceptionData.getSelectedId()).setImplication(jobExceptionsView.getTxtAreaImplication().getText());
-		exceptions.get(exceptionData.getSelectedId()).setImplicationRating(jobExceptionsView.getListBoxImplicationRating().getSelectedValue().toString());
+		exceptions.get(exceptionData.getSelectedId())
+				.setRecommendations(jobExceptionsView.getRecommendations().getText());
+		exceptions.get(exceptionData.getSelectedId())
+				.setImplication(jobExceptionsView.getTxtAreaImplication().getText());
+		exceptions.get(exceptionData.getSelectedId())
+				.setImplicationRating(jobExceptionsView.getListBoxImplicationRating().getSelectedValue().toString());
 	}
 
 	private void sendException(Exceptions exception) {
-		rpcService.sendException(exception, new AsyncCallback<String>(){
+		rpcService.sendException(exception, new AsyncCallback<String>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 
-
 				logger.log(Level.INFO, "FAIL: sendException .Inside Audit AuditAreaspresenter");
-				if(caught instanceof TimeOutException){
+				if (caught instanceof TimeOutException) {
 					History.newItem("login");
-				}else{
+				} else {
 					System.out.println("FAIL: sendException .Inside AuditAreaspresenter");
-					Window.alert("FAIL: sendException");// After FAIL ... write RPC Name  NOT Method Name..
+					Window.alert("FAIL: sendException");// After FAIL ... write
+														// RPC Name NOT Method
+														// Name..
 				}
-				
+
 			}
 
 			@Override
 			public void onSuccess(String result) {
-				//				Window.alert("Exception Sent");
-			}});
-		
+				fetchJobs();
+			}
+		});
 
 	}
 
 	private void bind() {
 
-//		RootPanel.get("loadingMessage").setVisible(false);
-
+		// RootPanel.get("loadingMessage").setVisible(false);
 
 	}
 
 	private void displayLoadinPopup() {
-		popupLoading = new DecoratedPopupPanel ();
+		popupLoading = new DecoratedPopupPanel();
 		popupLoading.setSize("100%", "100%");
 		popupLoading.setWidget(new Label("Loading..."));
 		popupLoading.setGlassEnabled(true);
 		popupLoading.center();
 	}
 
-
 }
-
-

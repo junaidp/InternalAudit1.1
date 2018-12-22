@@ -1,5 +1,15 @@
 package com.internalaudit.client;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.event.AuditEngagementEvent;
 import com.internalaudit.client.event.AuditEngagementEventHandler;
 import com.internalaudit.client.event.AuditSchedulingEvent;
@@ -10,6 +20,8 @@ import com.internalaudit.client.event.DashBoardAtStartupEvent;
 import com.internalaudit.client.event.DashBoardAtStartupEventHandler;
 import com.internalaudit.client.event.DashBoardEvent;
 import com.internalaudit.client.event.DashBoardEventHandler;
+import com.internalaudit.client.event.FollowUpEvent;
+import com.internalaudit.client.event.FollowUpEventHandler;
 import com.internalaudit.client.event.JobCreationEvent;
 import com.internalaudit.client.event.JobCreationEventHandler;
 import com.internalaudit.client.event.JobListingEvent;
@@ -55,23 +67,13 @@ import com.internalaudit.client.view.Scheduling.JobCreationView;
 import com.internalaudit.client.view.Scheduling.JobTimeEstimationView;
 import com.internalaudit.client.view.dashboard.DashBoardDesignerView;
 import com.internalaudit.shared.Employee;
+import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.StrategicDTO;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.VerticalPanel;
-
 public class AppController implements Presenter, ValueChangeHandler<String> {
-		private final HandlerManager eventBus;
-	
-	private final InternalAuditServiceAsync rpcService; 
+	private final HandlerManager eventBus;
+
+	private final InternalAuditServiceAsync rpcService;
 	private HasWidgets container;
 	private HeaderView header;
 	private Employee loggedInUser;
@@ -82,7 +84,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private String callingFrom;
 	private StrategicDTO strategicDTO;
 	private int selectedYear;
-	
+
 	public AppController(InternalAuditServiceAsync rpcService, HandlerManager eventBus) {
 		this.eventBus = eventBus;
 		this.rpcService = rpcService;
@@ -90,174 +92,172 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		bind();
 	}
 
-
 	private void bind() {
 		History.addValueChangeHandler(this);
-		
-		eventBus.addHandler(MainEvent.TYPE,
-				new MainEventHandler() {
+
+		eventBus.addHandler(MainEvent.TYPE, new MainEventHandler() {
 			public void onMain(MainEvent event) {
 				loggedInUser = event.getLoggedInUser();
 				selectedYear = event.getSelectedYear();
-				
+
 				doMain();
 			}
+
 			private void doMain() {
-				
+
 				History.newItem("main");
 
 			}
-		}); 
-		
-		eventBus.addHandler(CreateUserEvent.TYPE,
-				new CreateUserEventHandler() {
+		});
+
+		eventBus.addHandler(CreateUserEvent.TYPE, new CreateUserEventHandler() {
 			public void onCreateUser(CreateUserEvent event) {
 				loggedInUser = event.getEmployee();
-				
+
 				doCreateUser();
 			}
+
 			private void doCreateUser() {
-				
+
 				History.newItem("createUser");
 
 			}
-		}); 
+		});
 
-		eventBus.addHandler(DashBoardEvent.TYPE,
-				new DashBoardEventHandler() {
+		eventBus.addHandler(DashBoardEvent.TYPE, new DashBoardEventHandler() {
 			public void onDashBoard(DashBoardEvent event) {
 				centerPanel = event.getCenterPanel();
 				doDashBoard();
 			}
+
 			private void doDashBoard() {
-				
+
 				History.newItem("Dashboard");
 
 			}
-		});  
-		
-		eventBus.addHandler(DashBoardAtStartupEvent.TYPE,
-				new DashBoardAtStartupEventHandler() {
+		});
+
+		eventBus.addHandler(DashBoardAtStartupEvent.TYPE, new DashBoardAtStartupEventHandler() {
 			public void onDashBoardAtStartup(DashBoardAtStartupEvent event) {
 				loggedInUser = event.getEmployee();
 				History.newItem("DashboardStartup");
 			}
-			
-		});  
-		
-		
-		
-		eventBus.addHandler(JobTimeEstimationEvent.TYPE,
-				new JobTimeEstimationEventHandler() {
+
+		});
+
+		eventBus.addHandler(JobTimeEstimationEvent.TYPE, new JobTimeEstimationEventHandler() {
 			public void onJobTimeEstimation(JobTimeEstimationEvent event) {
 				strategicDTO = event.getStrategicDTO();
 				doJobTimeEstimationEvent();
 			}
+
 			private void doJobTimeEstimationEvent() {
-				
+
 				History.newItem("jobTimeEstimation");
 
 			}
-		});  
-		
-		eventBus.addHandler(JobListingEvent.TYPE,	new JobListingEventHandler() {
+		});
+
+		eventBus.addHandler(JobListingEvent.TYPE, new JobListingEventHandler() {
 			public void onJobListing(JobListingEvent event) {
 				callingFrom = event.getFrom();
 				doJobListingEvent();
 			}
-			
+
 			private void doJobListingEvent() {
-				
+
 				History.newItem("jobListing");
 
 			}
-		});  
-		
-		eventBus.addHandler(JobCreationEvent.TYPE,
-				new JobCreationEventHandler() {
+		});
+
+		eventBus.addHandler(JobCreationEvent.TYPE, new JobCreationEventHandler() {
 			public void onJobCreation(JobCreationEvent event) {
 				strategicDTO = event.getStrategicDTO();
 				doJobCreation();
 			}
-		
+
 			public void doJobCreation() {
-				
+
 				History.newItem("jobCreation");
-				
+
 			}
-		});  
-		
-		eventBus.addHandler(AuditSchedulingEvent.TYPE,
-				new AuditSchedulingEventHandler() {
+		});
+
+		eventBus.addHandler(AuditSchedulingEvent.TYPE, new AuditSchedulingEventHandler() {
 			public void onAuditScheduling(AuditSchedulingEvent event) {
 				centerPanel = event.getCenterPanel();
 				doAuditSchedulingEvent();
 			}
+
 			private void doAuditSchedulingEvent() {
-				
+
 				History.newItem("auditScheduling");
 
 			}
-		});  
-		
-		eventBus.addHandler(AuditEngagementEvent.TYPE,
-				new AuditEngagementEventHandler() {
+		});
+
+		eventBus.addHandler(AuditEngagementEvent.TYPE, new AuditEngagementEventHandler() {
 			public void onAuditEngagement(AuditEngagementEvent event) {
 				centerPanel = event.getCenterPanel();
 				doAuditEngagementEvent();
 			}
+
 			private void doAuditEngagementEvent() {
-				
+
 				History.newItem("auditEngagement");
 
 			}
-		});  
-		
-		eventBus.addHandler(ReportingEvent.TYPE,
-				new ReportingEventHandler() {
+		});
+
+		eventBus.addHandler(ReportingEvent.TYPE, new ReportingEventHandler() {
 			public void onReporting(ReportingEvent event) {
 				centerPanel = event.getCenterPanel();
-				doReportingEvent();
-			}
-			private void doReportingEvent() {
-				
-				History.newItem("Reporting");
 
+				History.newItem("Reporting");
 			}
-		});  
-		
-		eventBus.addHandler(ReportsEvent.TYPE,
-				new ReportsEventHandler() {
+
+		});
+
+		eventBus.addHandler(FollowUpEvent.TYPE, new FollowUpEventHandler() {
+			public void onFollowUp(FollowUpEvent event) {
+				centerPanel = event.getCenterPanel();
+
+				History.newItem("FollowUp");
+			}
+
+		});
+
+		eventBus.addHandler(ReportsEvent.TYPE, new ReportsEventHandler() {
 			public void onReports(ReportsEvent event) {
 				centerPanel = event.getCenterPanel();
 				doReportsEvent();
 			}
+
 			private void doReportsEvent() {
-				
+
 				History.newItem("Reports");
 
 			}
-		});  
+		});
 	}
 
 	public void go(final HasWidgets container) {
 		this.container = container;
 		this.mainContainer = container;
-		
+
 		if (centerPanel == null) {
 			centerPanel = new VerticalPanel();
 		}
-		
-		
-//		if (header == null) {
-//			header = new HeaderView();
-//			new HeaderPresenter(rpcService, eventBus, header).go(RootPanel
-//					.get("headerContainer"));
-//		}
+
+		// if (header == null) {
+		// header = new HeaderView();
+		// new HeaderPresenter(rpcService, eventBus, header).go(RootPanel
+		// .get("headerContainer"));
+		// }
 		if ("".equals(History.getToken())) {
 			History.newItem("login");
-		}
-		else {
+		} else {
 			History.fireCurrentHistoryState();
 		}
 	}
@@ -268,18 +268,18 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		ArrayList<String> tokenParams = new ArrayList<String>();
 		if (token != null) {
 			presenter = null;
-			
-			//////Because of email token 
-			if(token.indexOf('/') != -1){
+
+			////// Because of email token
+			if (token.indexOf('/') != -1) {
 				eventToken = token.substring(0, token.indexOf('/'));
-			
-				List<String> listofParams = Arrays.asList(token.substring(token.indexOf('/')+1).split("/"));
+
+				List<String> listofParams = Arrays.asList(token.substring(token.indexOf('/') + 1).split("/"));
 				tokenParams.addAll(listofParams);
-			}else{
+			} else {
 				eventToken = token;
 			}
-			
-			////End
+
+			//// End
 
 			if (eventToken.equals("login")) {
 				presenter = new LoginPresenter(rpcService, eventBus, new LoginUi());
@@ -289,13 +289,14 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				}
 			}
 			if (eventToken.equals("main")) {
-				presenter = new MainPresenter(rpcService, eventBus, selectedYear, loggedInUser, new MainView(loggedInUser));
+				presenter = new MainPresenter(rpcService, eventBus, selectedYear, loggedInUser,
+						new MainView(loggedInUser));
 				if (presenter != null) {
 					this.container = mainContainer;
 					presenter.go(container);
 				}
 			}
-			
+
 			if (eventToken.equals("auditAreas")) {
 				AuditAreasView auditAreasView = new AuditAreasView();
 				presenter = new AuditAreasPresenter(rpcService, eventBus, auditAreasView);
@@ -304,17 +305,19 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 					presenter.go(container);
 				}
 			}
-			
+
 			if (eventToken.equals("auditScheduling")) {
-				//AuditSchedulingView auditSchedulingView = new AuditSchedulingView();
-				
-				//presenter = new AuditSchedulingPresenter(rpcService, eventBus, auditSchedulingView, loggedInUser);
+				// AuditSchedulingView auditSchedulingView = new
+				// AuditSchedulingView();
+
+				// presenter = new AuditSchedulingPresenter(rpcService,
+				// eventBus, auditSchedulingView, loggedInUser);
 				AuditSchedulingTabView auditSchedulingView = new AuditSchedulingTabView(rpcService, eventBus);
 				presenter = new AuditSchedulingPresenter(rpcService, eventBus, auditSchedulingView, loggedInUser);
-				
+
 				if (presenter != null) {
 					setContainer(centerPanel);
-//					this.container = mainContainer;
+					// this.container = mainContainer;
 					presenter.go(container);
 				}
 				setContainer(centerPanel);
@@ -323,16 +326,17 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 					presenter.go(container);
 				}
 			}
-			
+
 			if (eventToken.equals("jobCreation")) {
-				presenter = new JobCreationPresenter(rpcService, eventBus, new JobCreationView(strategicDTO), strategicDTO);
-//				this.container = mainContainer;
+				presenter = new JobCreationPresenter(rpcService, eventBus, new JobCreationView(strategicDTO),
+						strategicDTO);
+				// this.container = mainContainer;
 				setContainer(centerPanel);
 				if (presenter != null) {
 					presenter.go(container);
 				}
 			}
-			
+
 			if (eventToken.equals("auditListing")) {
 				AuditListingView auditSchedulingView = new AuditListingView();
 				presenter = new AuditListingPresenter(rpcService, eventBus, auditSchedulingView);
@@ -341,21 +345,22 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 					presenter.go(container);
 				}
 			}
-			
+
 			if (eventToken.equals("jobTimeEstimation")) {
-				presenter = new JobTimeEstimationPresenter(rpcService, eventBus, new JobTimeEstimationView(strategicDTO));
-//				this.container = mainContainer;
+				presenter = new JobTimeEstimationPresenter(rpcService, eventBus,
+						new JobTimeEstimationView(strategicDTO));
+				// this.container = mainContainer;
 				setContainer(centerPanel);
 				if (presenter != null) {
 					presenter.go(container);
 				}
 			}
-			
+
 			if (eventToken.equals("jobListing")) {
 				presenter = new JobListingPresenter(rpcService, eventBus, new JobListingView(callingFrom));
 				if (presenter != null) {
 					setContainer(centerPanel);
-//					this.container = mainContainer;
+					// this.container = mainContainer;
 					presenter.go(container);
 				}
 			}
@@ -366,87 +371,104 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				if (presenter != null) {
 					presenter.go(container);
 				}
-			}	
-			
+			}
+
 			else if (eventToken.equals("Reporting")) {
-				presenter = new ReportingPresenter(rpcService, eventBus, loggedInUser, tokenParams, new ReportingView(loggedInUser.getFromInternalAuditDept()));
+				presenter = new ReportingPresenter(rpcService, eventBus, loggedInUser, tokenParams,
+						InternalAuditConstants.REPORTINGTAB,
+						new ReportingView(loggedInUser.getFromInternalAuditDept()));
 				setContainer(centerPanel);
 				if (presenter != null) {
 					presenter.go(container);
 				}
 			}
-			
+
+			else if (eventToken.equals("FollowUp")) {
+				presenter = new ReportingPresenter(rpcService, eventBus, loggedInUser, tokenParams,
+						InternalAuditConstants.FOLLOWUPTAB, new ReportingView(loggedInUser.getFromInternalAuditDept()));
+				setContainer(centerPanel);
+				if (presenter != null) {
+					presenter.go(container);
+				}
+			}
+
 			else if (eventToken.equals("Reports")) {
-				presenter = new ReportsPresenter(rpcService, eventBus, loggedInUser, new ReportsView(loggedInUser.getFromInternalAuditDept()));
+				presenter = new ReportsPresenter(rpcService, eventBus, loggedInUser,
+						new ReportsView(loggedInUser.getFromInternalAuditDept()));
 				setContainer(centerPanel);
 				if (presenter != null) {
 					presenter.go(container);
 				}
 			}
-//			else if (token.equals("Dashboard")) {
-//				presenter = new DashBoardPresenter(rpcService, eventBus, loggedInUser, new DashBoardView(false));
-//				setContainer(centerPanel);
-//				if (presenter != null) {
-//					presenter.go(container);
-//				}
-//			}	
-			
+			// else if (token.equals("Dashboard")) {
+			// presenter = new DashBoardPresenter(rpcService, eventBus,
+			// loggedInUser, new DashBoardView(false));
+			// setContainer(centerPanel);
+			// if (presenter != null) {
+			// presenter.go(container);
+			// }
+			// }
+
 			else if (eventToken.equals("Dashboard")) {
-				presenter = new DashBoardNewPresenter(rpcService, eventBus, loggedInUser, new DashBoardDesignerView(false));
+				presenter = new DashBoardNewPresenter(rpcService, eventBus, loggedInUser,
+						new DashBoardDesignerView(false));
 				setContainer(centerPanel);
 				if (presenter != null) {
 					presenter.go(container);
 				}
-			}	
-			
+			}
+
 			else if (eventToken.equals("createUser")) {
-				presenter = new UserInductionFormPresenter(rpcService, eventBus, loggedInUser, new UserInductionFormView(loggedInUser));
+				presenter = new UserInductionFormPresenter(rpcService, eventBus, loggedInUser,
+						new UserInductionFormView(loggedInUser));
 				if (presenter != null) {
 					this.container = mainContainer;
 					presenter.go(container);
 				}
-			}	
-			
+			}
+
 			else if (eventToken.equals("requestUserName")) {
 				presenter = new RequestUserNameFormPresenter(rpcService, eventBus, new RequestUserNameFormView());
 				if (presenter != null) {
 					this.container = mainContainer;
 					presenter.go(container);
 				}
-			}	
-			
+			}
+
 			else if (eventToken.equals("createCompany")) {
 				presenter = new CompanyInductionFormPresenter(rpcService, eventBus, new CompanyInductionFormView());
 				if (presenter != null) {
 					this.container = mainContainer;
 					presenter.go(container);
 				}
-			}	
-			
+			}
+
 			if (eventToken.equals("DashboardStartup")) {
-				presenter = new DashBoardNewPresenter(rpcService, eventBus, loggedInUser, new DashBoardDesignerView(true));
+				presenter = new DashBoardNewPresenter(rpcService, eventBus, loggedInUser,
+						new DashBoardDesignerView(true));
 				if (presenter != null) {
 					this.container = mainContainer;
 					presenter.go(container);
 				}
 			}
-			
-//			else if (token.equals("main")) {
-//				presenter = new MainPresenter(rpcService, eventBus, new MainView(loggedInUser, selectedYear));
-//				setContainer(centerPanel);
-//				if (presenter != null) {
-//					presenter.go(container);
-//				}
-//			}	
-			
-			
-//			if (presenter != null) {
-//				this.container = mainContainer;
-//				presenter.go(container);
-//				
-//			}
+
+			// else if (token.equals("main")) {
+			// presenter = new MainPresenter(rpcService, eventBus, new
+			// MainView(loggedInUser, selectedYear));
+			// setContainer(centerPanel);
+			// if (presenter != null) {
+			// presenter.go(container);
+			// }
+			// }
+
+			// if (presenter != null) {
+			// this.container = mainContainer;
+			// presenter.go(container);
+			//
+			// }
 		}
-	} 
+	}
+
 	private void setContainer(HasWidgets container) {
 		this.container = container;
 		this.container.clear();

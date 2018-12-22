@@ -156,7 +156,7 @@ public interface InternalAuditServiceAsync {
 
 
     void fetchJobs(AsyncCallback<ArrayList<JobCreation>> asyncCallback );
-    void fetchEmployeeJobs(Employee loggedInEmployee, AsyncCallback<ArrayList<JobCreation>> asyncCallback );
+    void fetchEmployeeJobs(Employee loggedInEmployee, String reportingTab, AsyncCallback<ArrayList<JobCreation>> asyncCallback );
 
 	void fetchJobExceptions(int jobId, AsyncCallback<ArrayList<Exceptions>> asyncCallbac);
 	void fetchEmployeeExceptions(int employeeId, int jobId, AsyncCallback<ArrayList<Exceptions>> asyncCallbac);
