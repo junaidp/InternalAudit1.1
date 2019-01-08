@@ -27,10 +27,7 @@
 <g:CheckBox ui:field="checkBoxReminder" text="send recurring reminders[currently considered to once a week]"></g:CheckBox>
 	<g:Label>Request Item</g:Label>
 	<g:TextBox ui:field="txtBoxRequestItem" width="300px" height="100px"></g:TextBox>
-
-	<g:FileUpload></g:FileUpload>
-	<g:VerticalPanel height="80px" styleName="w3-border">
-	<g:Anchor text="uploaded file"></g:Anchor>
+	<g:VerticalPanel styleName="w3-border" ui:field="panelInformationUploadAttachments">
 	</g:VerticalPanel>
 	<g:Label addStyleNames="{style.padding}">Status</g:Label>
 	<g:ListBox ui:field="listBoxStatus">

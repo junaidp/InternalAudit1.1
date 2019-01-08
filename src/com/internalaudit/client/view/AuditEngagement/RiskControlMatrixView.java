@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.util.MyUtil;
+import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.shared.ActivityObjective;
 import com.internalaudit.shared.RiskObjective;
 import com.internalaudit.shared.SuggestedControls;
@@ -37,7 +38,7 @@ public class RiskControlMatrixView extends VerticalPanel {
 	private ListBox listBoxRisk = new ListBox();
 	ListBox listBoxControlRating = new ListBox();
 	private int suggestedControlsId = 0;
-	private Button btnSelect = new Button("Select");
+	private ButtonRound btnSelect = new ButtonRound("Select");
 
 
 
@@ -343,11 +344,11 @@ public class RiskControlMatrixView extends VerticalPanel {
 		this.riskObjective = riskObjective;
 	}
 
-	public Button getBtnSelect() {
+	public ButtonRound getBtnSelect() {
 		return btnSelect;
 	}
 
-	public void setBtnSelect(Button btnSelect) {
+	public void setBtnSelect(ButtonRound btnSelect) {
 		this.btnSelect = btnSelect;
 	}
 

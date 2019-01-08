@@ -283,6 +283,13 @@ public interface InternalAuditServiceAsync {
 
 	void saveInformationRequestLogs(InformationRequestLogEntity informationRequestLogEntity,
 			AsyncCallback<String> callback);
+
+	void fetchAuditStepExceptions(String id, AsyncCallback<ArrayList<String>> callback);
+
+	void fetchAuditStepsProcerdure(String id, String mainFolder, AsyncCallback<ArrayList<String>> callback);
+
+
+	void deleteUnsavedAttachemnts(String pathtodouploads, AsyncCallback<String> callback);
 	
 	
 

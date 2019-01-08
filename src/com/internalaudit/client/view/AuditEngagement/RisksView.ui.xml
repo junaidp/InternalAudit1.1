@@ -27,7 +27,7 @@
 	<g:Label ui:field="feedback" styleName="blue"></g:Label>
 	</g:HorizontalPanel>
 	
-	<g:Button ui:field="addMore">Add More</g:Button>
+	<g:Button ui:field="addMore" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Add More</g:Button>
 	
 	<g:HorizontalPanel styleName="risksRow" width="424px">
 	
@@ -63,12 +63,12 @@
 	
 	
 	<g:HorizontalPanel ui:field="initiationButtonsPanel" visible="false" >
-	<g:Button ui:field="saveRisks">Save</g:Button>
-	<g:Button ui:field="submit">Submit</g:Button>
+	<g:Button ui:field="saveRisks" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Save</g:Button>
+	<g:Button ui:field="submit" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Submit</g:Button>
 	</g:HorizontalPanel>
 	<g:HorizontalPanel ui:field="approvalButtonsPanel" visible="false">
-	<g:Button ui:field="approve" >Approve</g:Button>
-	<g:Button ui:field="reject" >Feedback</g:Button>
+	<g:Button ui:field="approve" styleName="w3-button w3-round-xxlarge w3-hover-blue"  >Approve</g:Button>
+	<g:Button ui:field="reject" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Feedback</g:Button>
 	</g:HorizontalPanel>
 	
 	</g:HTMLPanel>

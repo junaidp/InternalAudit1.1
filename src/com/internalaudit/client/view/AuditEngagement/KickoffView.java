@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.util.DataStorage;
 import com.internalaudit.client.util.MyUtil;
+import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.client.widgets.AddIcon;
@@ -303,8 +304,8 @@ public class KickoffView extends Composite {
 		
 		
 		AddIcon btnAddAuditWork = new AddIcon();
-		Button btnSaveAuditWork = new Button("Save");
-		Button btnApproveAuditWork  = new Button("Approve");
+		ButtonRound btnSaveAuditWork = new ButtonRound("Save");
+		ButtonRound btnApproveAuditWork  = new ButtonRound("Approve");
 		btnSaveAuditWork.addStyleName("w3-margin");
 		btnApproveAuditWork.addStyleName("w3-margin");
 
@@ -493,8 +494,8 @@ public class KickoffView extends Composite {
 		VerticalPanel verticalPanelKeyRisks = new VerticalPanel();
 		final VerticalPanel verticalPanelKeyRisksContainer = new VerticalPanel();
 		final VerticalPanel usersRisksContainer = new VerticalPanel();
-		Button btnSaveKeyRisk = new Button("Save");
-		Button btnSubmitKeyRisk = new Button("Submit");
+		ButtonRound  btnSaveKeyRisk = new ButtonRound("Save");
+		ButtonRound btnSubmitKeyRisk = new ButtonRound("Submit");
 		AddIcon btnAdd = new AddIcon();
 
 		verticalPanelKeyRisks.add(btnAdd);
@@ -668,8 +669,8 @@ public class KickoffView extends Composite {
 		final VerticalPanel vpnlActicityObjective = new VerticalPanel();
 		final VerticalPanel vpnlActicityObjectiveContainer = new VerticalPanel();
 		final VerticalPanel usersActivityContainer = new VerticalPanel();
-		Button btnSaveActicityObjective = new Button("Save");
-		Button btnSubmitActicityObjective = new Button("Submit");
+		ButtonRound btnSaveActicityObjective = new ButtonRound("Save");
+		ButtonRound btnSubmitActicityObjective = new ButtonRound("Submit");
 		btnSaveActicityObjective.addStyleName("w3-display-bottomright w3-margin");
 		btnSaveActicityObjective.getElement().getStyle().setMarginLeft(600, Unit.PX);
 		vpnlActicityObjective.setHeight("370px");
@@ -678,15 +679,28 @@ public class KickoffView extends Composite {
 
 		// User's LIBRARY
 		for(int j =0 ;j< record.getEngagementDTO().getSelectedActivityObjectives().size(); j++){
-			ActivityObjectiveViewNew activityObjectiveView = new ActivityObjectiveViewNew();
+			final ActivityObjectiveViewNew activityObjectiveView = new ActivityObjectiveViewNew();
 			activityObjectiveView.getBtnSelectActivity().setVisible(false);
 			activityObjectiveView.setData(record.getEngagementDTO().getSelectedActivityObjectives().get(j));
 			if(record.getEngagementDTO().getSelectedActivityObjectives().get(j).getStatus() == InternalAuditConstants.SUBMIT){
 				activityObjectiveView.disable();
 				btnSaveActicityObjective.setVisible(false);
-				btnSubmitActicityObjective.setVisible(false);
 				btnAddAcitivityObjective.setVisible(false);
 			}
+//		activityObjectiveView.getDelete().addClickHandler(new ClickHandler() {
+//				
+//				@Override
+//				public void onClick(ClickEvent event) {
+//					Window.alert("cc");
+//					boolean confirmed = Window.confirm("Are you sure you want to delete this risk?");
+//			
+//					if(confirmed){
+//					activityObjectiveView.removeFromParent();
+//					
+//	
+//					}
+//				}
+//			});
 			usersActivityContainer.add(activityObjectiveView);
 		}
 
@@ -698,7 +712,7 @@ public class KickoffView extends Composite {
 			for(int i =0 ;i< record.getEngagementDTO().getActivityObjectiveList().size(); i++){
 				final ActivityObjectiveViewNew activityObjectiveView = new ActivityObjectiveViewNew();
 				activityObjectiveView.setData(record.getEngagementDTO().getActivityObjectiveList().get(i));
-
+				//activityObjectiveView.disable();
 				vpnlActicityObjectiveContainer.add(activityObjectiveView);
 
 				activityObjectiveView.getBtnSelectActivity().addClickHandler(new ClickHandler() {

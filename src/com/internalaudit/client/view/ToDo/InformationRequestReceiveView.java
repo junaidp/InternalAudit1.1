@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.upload.AuditWorkProgramUpload;
 import com.internalaudit.client.upload.EmailAttachmentUpload;
 import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
@@ -62,7 +63,6 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		
 		this.informationRequest = informationRequest;
 		
-		fetchEmailAttachments();
 		
 		setLayout(informationRequest);
 
@@ -190,10 +190,11 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		panelMailRep.add(panelMail);
 		panelMailRep.add(panelReply);
 		panelMailRep.add(btnSubmit);
-		
-		EmailAttachmentUpload a = new EmailAttachmentUpload();
+		String mainFolder = "InformationRequestUploads";
+		String informationRequestId = informationRequest.getId()+"";
+		AuditWorkProgramUpload informationRequestUploadAttachment = new AuditWorkProgramUpload(informationRequestId, mainFolder);
 		VerticalPanel panelFileUpload = new VerticalPanel();
-		panelFileUpload.add(a);
+		panelFileUpload.add(informationRequestUploadAttachment);
 		txtAreaReply.getElement().setPropertyString("placeholder", "Enter your Reply here");
 
 		PanelUpButton.setHeight("50px");
@@ -211,52 +212,7 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		add(panelLabel);
 		add(panelMailRep);
 		add(panelFileUpload);
-		add(panelFileDetail);
+
 	}
-
-	private void fetchEmailAttachments() {
-		rpcService.fetchEmailAttachments(new AsyncCallback<ArrayList<String>>() {
-			FlexTable records = new FlexTable();
-			@Override
-			public void onSuccess(ArrayList<String> result) {
-				for(int i=0;i<result.size();i++){
-					final Anchor	lblfilename = new Anchor(result.get(i));
-					Label lblFileAttached = new Label("Attached");
-					lblfilename.addStyleName("pointerStyle");
-					lblfilename.getElement().getStyle().setTextDecoration(TextDecoration.NONE);
-					lblfilename.setHeight("25px");
-					lblFileAttached.setHeight("25px");
-					records.setWidth("100%");
-					records.setWidget(i, 0, lblfilename);
-					records.setWidget(i, 1, lblFileAttached);
-					if (i % 2 != 0) {
-						records.getRowFormatter().addStyleName(i, "jobStatusRow");
-					}
-					panelFileDetail.setWidth("100%");
-					panelFileDetail.add(records);
-					lblfilename.setWordWrap(false);
-					String upperCasedJobLink = lblfilename.getText();
-					lblfilename.setText(upperCasedJobLink);
-					lblfilename.addClickHandler(new ClickHandler() {
-
-						@Override
-						public void onClick(ClickEvent event) {
-
-							Window.open("/EmailAttachmentUpload/"+lblfilename.getText(), "name", "");
-						}
-					});
-				}
-
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-
-				Window.alert("fetchEmailAttachment Failed");
-			}
-
-		});
-	}
-
 
 }

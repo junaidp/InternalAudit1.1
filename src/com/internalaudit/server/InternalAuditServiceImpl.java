@@ -1,6 +1,7 @@
 package com.internalaudit.server;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -11,6 +12,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.springframework.context.ApplicationContext;
@@ -1537,6 +1539,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	@Override
 	public String savetoDo(ToDo todo) throws Exception {
 		Employee loggedInUser = (Employee) session.getAttribute("user");
+		 String realPath = getServletContext().getRealPath("/");
 		int companyId = (Integer) session.getAttribute("companyId");
 		todo.setCompanyId(companyId);
 		if( todo.getAssignedFrom()== null 
@@ -1545,7 +1548,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 			todo.setAssignedFrom(loggedInUser);
 		}
 		//todo.setAssignedFrom(loggedInUser.getEmployeeId());
-		return rdbHelper.savetoDo(todo);
+		return rdbHelper.savetoDo(todo,realPath);
 	}
 
 	@Override
@@ -1581,7 +1584,41 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	   
 		
 	}
-
+	
+	@Override
+	public ArrayList<String> fetchAuditStepExceptions(String id) {
+		ArrayList<String> listFiles = new ArrayList<String>();
+		 String realPath = getServletContext().getRealPath("/");     
+		 File directory = new File(realPath+"/AuditSteps/"+id);
+	       //get all the files from a directory
+	       File[] fList = directory.listFiles();
+	       for (File file : fList){
+	           if (file.isFile()){
+	        	   listFiles.add(file.getName());
+	              
+	               
+	           }
+	       }
+	       return listFiles;
+		
+	}
+	@Override
+	public ArrayList<String> fetchAuditStepsProcerdure(String id, String mainFolder) {
+		ArrayList<String> listFiles = new ArrayList<String>();
+		 String realPath = getServletContext().getRealPath("/");     
+		 File directory = new File(realPath+"/"+mainFolder+"/"+id);
+	       //get all the files from a directory
+	       File[] fList = directory.listFiles();
+	       for (File file : fList){
+	           if (file.isFile()){
+	        	   listFiles.add(file.getName());
+	              
+	               
+	           }
+	       }
+	       return listFiles;
+		
+	}
 	@Override
 	public String saveToDoLogs(ToDoLogsEntity toDoLogsEntity) throws Exception {
 		Employee loggedInUser = (Employee) session.getAttribute("user");
@@ -1598,5 +1635,27 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		//todo.setCompanyId(companyId);
 		informationRequestLogEntity.setAssignedFrom(loggedInUser);
 		return rdbHelper.saveInformationRequestLogs(informationRequestLogEntity);
+	}
+	@Override
+	public String deleteUnsavedAttachemnts(String mainFolder) {
+		 String realPath = getServletContext().getRealPath("/");
+		  // File folder = new File(realPath+"/ToDoUploads");
+	          
+          // folder.mkdirs(); We dont need to call mkdir, just give its path in New File as in below line 
+		 	// File checkFolder = new File(realPath+"/"+"TodoUploads"/"check");
+           File checkFolder = new File(realPath+"/"+mainFolder+"/"+InternalAuditConstants.PATHTOUNSAVEDATTACHMENTS);//this mainFolder will have todos path for todos and exception path when we do this for exceptions,Secondly pls make constants for other paths as well like for exceptions etc and access this way
+           if(checkFolder.exists()){
+        	   try {
+				FileUtils.cleanDirectory(checkFolder); // Folder need to be empty before deleting, just hover on the delete() method in the below line and u will see that instruction.
+				 checkFolder.delete();
+				 return "Folder Deleted";
+			} catch (IOException e) {
+				e.printStackTrace();
+				 return "Folder cannot be deleted"+ e.getLocalizedMessage();
+			}
+        	   
+           }
+           return "Folder not existed";
+    
 	}
 }

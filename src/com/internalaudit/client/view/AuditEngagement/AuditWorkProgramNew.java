@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.shared.AuditProgramme;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.SuggestedControls;
@@ -27,7 +28,7 @@ public class AuditWorkProgramNew extends VerticalPanel {
 	Image delete = new Image("images/deleteIcon.png");
 	Label lblReferenceData = new Label("");
 	private int auditWorkProgrammeId = 0;
-	private Button btnSelect = new Button("Select");
+	private ButtonRound btnSelect = new ButtonRound("Select");
 	private SuggestedControls control = new SuggestedControls();
 
 
@@ -166,11 +167,11 @@ public class AuditWorkProgramNew extends VerticalPanel {
 		this.auditWorkProgrammeId = auditWorkProgrammeId;
 	}
 
-	public Button getBtnSelect() {
+	public ButtonRound getBtnSelect() {
 		return btnSelect;
 	}
 
-	public void setBtnSelect(Button btnSelect) {
+	public void setBtnSelect(ButtonRound btnSelect) {
 		this.btnSelect = btnSelect;
 	}
 }

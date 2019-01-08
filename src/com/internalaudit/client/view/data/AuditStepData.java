@@ -210,7 +210,7 @@ public class AuditStepData {
 
 			private void fileUpload(final AuditStepView auditStepView,
 					final AuditStep auditStep) {
-				AuditStepUploads auditStepUpload = new AuditStepUploads();
+				AuditStepUploads auditStepUpload = new AuditStepUploads("0");
 				
 				auditStepUpload.getForm().addSubmitHandler(new SubmitHandler(){
 
@@ -234,7 +234,7 @@ public class AuditStepData {
 				
 				});
 				if(auditStep.getStatus() != InternalAuditConstants.APPROVED){
-				auditStepView.getUploadFileContainer().add(auditStepUpload);
+				//auditStepView.getUploadFileContainer().add(auditStepUpload);
 				}
 				
 				
@@ -267,39 +267,39 @@ public class AuditStepData {
 				System.out.println("saveSlectedAuditStepIdInSession " + auditStepId);
 			}});
 	}
-
-	public void getSavedExceptions(final VerticalPanel exceptions, int selectedJobId) {
-
-		rpcService.getSavedExceptions( selectedJobId, new AsyncCallback<ArrayList<Exceptions>>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				//error with fail
-				Window.alert("Fail getting saved ex");
-				
-
-				logger.log(Level.INFO, "FAIL: getSavedExceptions .Inside Audit AuditAreaspresenter");
-				if(caught instanceof TimeOutException){
-					History.newItem("login");
-				}else{
-					System.out.println("FAIL: getSavedExceptions .Inside AuditAreaspresenter");
-					Window.alert("FAIL: getSavedExceptions");// After FAIL ... write RPC Name  NOT Method Name..
-				}
-				
-
-			}
-
-			@Override
-			public void onSuccess(ArrayList<Exceptions> arg0) {
-
-				//				displayExceptions(exceptions, arg0);
-			}
-
-
-
-		});
-
-	}
+//
+//	public void getSavedExceptions(final VerticalPanel exceptions, int selectedJobId) {
+//
+//		rpcService.getSavedExceptions( selectedJobId, new AsyncCallback<ArrayList<Exceptions>>() {
+//
+//			@Override
+//			public void onFailure(Throwable caught) {
+//				//error with fail
+//				Window.alert("Fail getting saved ex");
+//				
+//
+//				logger.log(Level.INFO, "FAIL: getSavedExceptions .Inside Audit AuditAreaspresenter");
+//				if(caught instanceof TimeOutException){
+//					History.newItem("login");
+//				}else{
+//					System.out.println("FAIL: getSavedExceptions .Inside AuditAreaspresenter");
+//					Window.alert("FAIL: getSavedExceptions");// After FAIL ... write RPC Name  NOT Method Name..
+//				}
+//				
+//
+//			}
+//
+//			@Override
+//			public void onSuccess(ArrayList<Exceptions> arg0) {
+//
+//				//				displayExceptions(exceptions, arg0);
+//			}
+//
+//
+//
+//		});
+//
+//	}
 
 	private void displayExceptions(final VerticalPanel exceptions,	ArrayList<Exceptions> arg0) {
 		exceptions.clear();
@@ -307,7 +307,7 @@ public class AuditStepData {
 		for ( Exceptions e : arg0)
 		{
 
-			final ExceptionRow row = new ExceptionRow();//employee
+			final ExceptionRow row = new ExceptionRow(e.getExceptionId());//employee
 			row.getExId().setText( String.valueOf(e.getExceptionId()));
 			row.getException().setText( String.valueOf(e.getDetail()));
 			exceptions.add(row);

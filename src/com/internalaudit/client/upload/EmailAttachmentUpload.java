@@ -1,18 +1,14 @@
-
 package com.internalaudit.client.upload;
-//
-//public class testUpload {
-//
-//}
-
 import java.io.File;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.view.ButtonRound;
@@ -57,7 +53,6 @@ public class EmailAttachmentUpload extends VerticalPanel {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
 				form.submit();
 			}
 		});
@@ -66,15 +61,11 @@ public class EmailAttachmentUpload extends VerticalPanel {
 		
 
 		// Add an event handler to the form.
-//		form.addSubmitHandler(new FormPanel.SubmitHandler() {
-//			public void onSubmit(SubmitEvent event) {
-//				
-//			}
-//		});
+//
 //		form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
 //			public void onSubmitComplete(SubmitCompleteEvent event) {
 //				if(event.getResults().contains("success")){
-//					Window.alert("File uploaded");
+//					Window.alert("File");
 ////					updateFileNameInDatabase();
 //				}else{
 //				Window.alert(event.getResults());

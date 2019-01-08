@@ -272,4 +272,14 @@ public interface InternalAuditService extends RemoteService {
 
 	String saveinformationRequest(InformationRequestEntity informationrequest);
     ArrayList<String>fetchEmailAttachments();
+
+	ArrayList<String> fetchAuditStepExceptions(String id);
+
+	ArrayList<String> fetchAuditStepsProcerdure(String id, String mainFolder);
+
+	String deleteUnsavedAttachemnts(String pathtodouploads);
+
+
+
+
 }

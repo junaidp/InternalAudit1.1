@@ -1,5 +1,6 @@
 package com.internalaudit.database;
 
+import java.io.File;
 //import java.lang.invoke.VolatileCallSite;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -29,12 +30,16 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.tools.ant.taskdefs.Mkdir;
 //import org.eclipse.jetty.util.log.Log;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -4840,7 +4845,7 @@ public class MySQLRdbHelper {
 			// crit.add(Restrictions.eq("jobCreationId", selectedJobId));
 			crit.createAlias("divisionHead", "division");
 
-			crit.createAlias("responsible.countryId", "employeeCount");
+			/*crit.createAlias("responsible.countryId", "employeeCount");
 			crit.createAlias("responsible.cityId", "employeeCity");
 			crit.createAlias("responsible.reportingTo", "employeeRep");
 			crit.createAlias("employeeRep.countryId", "employeeRCount");
@@ -4851,7 +4856,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("employeeRep1.countryId", "employeeRCount1");
 
 			crit.createAlias("division.skillId", "divisionSkill");
-			crit.createAlias("employeeRep1.skillId", "divisionSkill1");
+			crit.createAlias("employeeRep1.skillId", "divisionSkill1");*/
 
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -8920,14 +8925,15 @@ public class MySQLRdbHelper {
 	// return "saved";
 	// }
 
-	public String savetoDo(ToDo todo) {
+	public String savetoDo(ToDo todo, String realPath) {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
 
 			session.saveOrUpdate(todo);
+			
 			session.flush();
-
+			updateFolder(todo.getToDoId(),realPath);
 			// logger.info(String.format("(Inside saveAuditNotification) saving
 			// AuditNotification for message to: " + to
 			// + "for message" + message + "for year" + year + "for company" +
@@ -8937,8 +8943,29 @@ public class MySQLRdbHelper {
 			logger.warn(String.format("Exception occured in savetoDo", ex.getMessage()), ex);
 
 		}
+		
 		return "saved";
 	}
+
+	private void updateFolder(int toDoId, String realPath) {
+
+            File folder = new File(realPath+"/ToDoUploads");
+          
+            folder.mkdirs();
+            File auditSteps = new File(folder+"/check");
+            if(auditSteps.exists()){
+            	File auditStepUpload = new File(folder+"/"+toDoId);
+            	auditSteps.renameTo(auditStepUpload);
+            	 auditSteps.mkdirs();
+            }
+      
+            auditSteps.delete();
+       
+	}  
+           
+
+
+
 
 	public String saveInformationRequest(InformationRequestEntity informationrequest) {
 		Session session = null;
@@ -8997,6 +9024,11 @@ public class MySQLRdbHelper {
 
 		}
 		return "saved";
+	}
+
+	public String deleteUnsavedAttachments(File auditSteps) {
+		auditSteps.delete();
+		return "deleted";
 	}
 
 	/// new method fetchInformationreqLogs...(Employee

@@ -12,7 +12,7 @@
 			<g:TextArea ui:field="activityObjective" width="800px" height="130px"></g:TextArea>
 		</div>
 		<div>
-			<g:Button ui:field="submit">Submit</g:Button>
+			<g:Button ui:field="submit" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Submit</g:Button>
 		</div>
 	</g:HTMLPanel>
 </ui:UiBinder> 

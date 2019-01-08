@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.shared.ActivityObjective;
 import com.internalaudit.shared.RiskObjective;
 
@@ -35,10 +36,10 @@ public class KeyRiskViewNew extends VerticalPanel {
 	ListBox listBoxRating = new ListBox();
 	private int riskId = 0;
 	CheckBox checkBoxApplicability = new CheckBox("");
-	private Button btnSave = new Button("Save");
+	private ButtonRound btnSave = new ButtonRound("Save");
 	Image delete = new Image("images/deleteIcon.png");
 	LabelHeading lblReferenceNo = new LabelHeading();
-	private Button btnSelect = new Button("Select");
+	private ButtonRound btnSelect = new ButtonRound("Select");
 	private ListBox listObjectives = new ListBox();
 
 	Image imgRating = new Image();
@@ -232,15 +233,15 @@ lblactivityObjective.setText("ActivityObjective");
 		this.riskId = riskId;
 	}
 
-	public Button getBtnSave() {
+	public ButtonRound getBtnSave() {
 		return btnSave;
 	}
 
-	public void setBtnSave(Button btnSave) {
+	public void setBtnSave(ButtonRound btnSave) {
 		this.btnSave = btnSave;
 	}
 
-	public Button getBtnSelect() {
+	public ButtonRound getBtnSelect() {
 		return btnSelect;
 	}
 

@@ -28,10 +28,13 @@
 		<A:LabelHeading text="Memo No:"  addStyleNames=" w3-light-blue {style.margin}"></A:LabelHeading>
 		</g:VerticalPanel>
 		<g:VerticalPanel>
-		<g:Label text="mem No" addStyleNames="w3-panel  {style.margin}"></g:Label>
+		<g:TextBox text="Enter Memo"  addStyleNames="w3-panel  {style.margin}"></g:TextBox>
 		</g:VerticalPanel>
-		<g:VerticalPanel >
+			<g:VerticalPanel >
 			<A:LabelHeading text="Date"  addStyleNames=" w3-light-blue {style.margin}" ></A:LabelHeading>
+			</g:VerticalPanel>
+				<g:VerticalPanel >
+			<d:DateBox addStyleNames=" w3-panel w3-light-blue {style.margin}"></d:DateBox> 
 			</g:VerticalPanel>
 			<g:VerticalPanel>
 			<d:DateBox></d:DateBox>
@@ -47,7 +50,7 @@
 			<g:TextBox text="MR XYZ,Head of internal Audit" addStyleNames=" w3-panel {style.margin}" ui:field="txtBoxFrom" width="200px"></g:TextBox>
 			</g:VerticalPanel>
 			<g:VerticalPanel>
-			<A:LabelHeading text="Our Reference Number" width="180px" addStyleNames=" {style.margin}" ></A:LabelHeading>
+			<A:LabelHeading text="Reference Number" width="180px" addStyleNames=" {style.margin}" ></A:LabelHeading>
 			</g:VerticalPanel>
 			<g:VerticalPanel>
 			<g:TextBox text="Company name Internal Audit" addStyleNames=" w3-panel {style.margin}"  ui:field="txtBoxReference" width="200px"></g:TextBox>
@@ -90,7 +93,7 @@
 			<g:TextArea width="850px"  height="350px"  ui:field="txtAreaBody" text="bla bla blab blablaba"> </g:TextArea>
 			</g:HorizontalPanel>
 	</g:VerticalPanel>
-	<g:Button text="Send" ui:field="btnSend"></g:Button>
+	<g:Button text="Send" ui:field="btnSend" styleName="w3-button w3-round-xxlarge w3-hover-blue" ></g:Button>
 	
 	</g:HTMLPanel>
 </ui:UiBinder> 

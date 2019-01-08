@@ -1,10 +1,5 @@
 
 package com.internalaudit.server;
-
-//public class UploadServlet {
-//
-//}
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -82,10 +77,10 @@ public class EmailAttachmentUploadServlet extends HttpServlet {
                        //listFiles(directoryName);
                        resp.setStatus(HttpServletResponse.SC_CREATED);
                        resp.getWriter().print("The file was created successfully.");
-                      Window.alert("File uploaded successfully");
+                     
                        resp.flushBuffer();
                    } else 
-                       Window.alert(fileName+"fie already exists");
+                     
                   	 throw new IOException("The file already exists in repository.");
                }
              //  session.setAttribute("auditStepUploadedFiles", fileNames);

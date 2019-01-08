@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.upload.AuditWorkProgramUpload;
 import com.internalaudit.client.upload.EmailAttachmentUpload;
 import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
@@ -56,51 +57,11 @@ public class ToDoRaiserView extends VerticalPanel {
 	VerticalPanel panelMailRep = new VerticalPanel();
 	VerticalPanel panelMail = new VerticalPanel();
 	VerticalPanel panelReply = new VerticalPanel();
-	HorizontalPanel panelFileDetail = new HorizontalPanel();
+	//HorizontalPanel panelFileDetail = new HorizontalPanel();
 //	final VerticalPanel panelFileName = new VerticalPanel();
 
 	public ToDoRaiserView(final ToDoReceiverEntity toDo){
-		rpcService.fetchEmailAttachments(new AsyncCallback<ArrayList<String>>() {
-			FlexTable records = new FlexTable();
-			@Override
-			public void onSuccess(ArrayList<String> result) {
-				for(int i=0;i<result.size();i++){
-					final Anchor	lblfilename = new Anchor(result.get(i));
-					Label lblFileAttached = new Label("Attached");
-					lblfilename.addStyleName("pointerStyle");
-					lblfilename.getElement().getStyle().setTextDecoration(TextDecoration.NONE);
-					lblfilename.setHeight("25px");
-					lblFileAttached.setHeight("25px");
-					records.setWidth("100%");
-					records.setWidget(i, 0, lblfilename);
-					records.setWidget(i, 1, lblFileAttached);
-					if (i % 2 != 0) {
-						records.getRowFormatter().addStyleName(i, "jobStatusRow");
-					}
-					panelFileDetail.setWidth("100%");
-					panelFileDetail.add(records);
-					lblfilename.setWordWrap(false);
-					String upperCasedJobLink = lblfilename.getText();
-					lblfilename.setText(upperCasedJobLink);
-					lblfilename.addClickHandler(new ClickHandler() {
 
-						@Override
-						public void onClick(ClickEvent event) {
-
-							Window.open("/EmailAttachmentUpload/"+lblfilename.getText(), "name", "");
-						}
-					});
-				}
-
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-
-				Window.alert("fetchEmailAttachment Failed");
-			}
-
-		});
 		setHandler(toDo);
 		clickHandler(toDo);
 
@@ -163,11 +124,12 @@ public class ToDoRaiserView extends VerticalPanel {
 		panelMailRep.add(panelMail);
 		panelMailRep.add(panelReply);
 		panelMailRep.add(btnSubmit);
-
+		String mainFolder ="ToDoUploads";
+		String toDoId = toDo.getId()+"";
 		//FileUploader f = new FileUploader();
-		EmailAttachmentUpload a = new EmailAttachmentUpload();
+		AuditWorkProgramUpload informationRequestUpload = new AuditWorkProgramUpload(toDoId, mainFolder);
 		VerticalPanel panelFileUpload = new VerticalPanel();
-		panelFileUpload.add(a);
+		panelFileUpload.add(informationRequestUpload);
 		txtAreaReply.getElement().setPropertyString("placeholder", "Enter your Reply here");
 
 
@@ -181,13 +143,13 @@ public class ToDoRaiserView extends VerticalPanel {
 		PanelUpButton.setHeight("50px");
 		panelLabel.setHeight("50px");
 		panelMailRep.setHeight("300px");
-		panelFileUpload.setHeight("50px");
+		//panelFileUpload.setHeight("50px");
 //		panelFileDetail.setHeight("160px");
 		panelMail.setHeight("150px");
 		txtAreaReply.setHeight("150px");
 		panelReply.setWidth("600px");
 		panelMail.setWidth("590px");
-		panelFileUpload.setWidth("590px");
+		//panelFileUpload.setWidth("590px");
 		txtAreaReply.setWidth("590px");
 //		panelFileDetail.addStyleName("w3-border");
 //		panelFileDetail.setWidth("590px");
@@ -200,7 +162,7 @@ public class ToDoRaiserView extends VerticalPanel {
 		add(panelLabel);
 		add(panelMailRep);
 		add(panelFileUpload);
-		add(panelFileDetail);
+
 
 		
 	}

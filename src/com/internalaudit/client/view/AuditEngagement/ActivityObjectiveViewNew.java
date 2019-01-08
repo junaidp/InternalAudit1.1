@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.shared.ActivityObjective;
 
 public class ActivityObjectiveViewNew extends Composite {
@@ -26,7 +27,7 @@ public class ActivityObjectiveViewNew extends Composite {
 	private int activityObjectiveId = 0;
 	Label lblReferenceNoData = new Label("");
     Image delete = new Image("images/deleteIcon.png");
-    private Button btnSelectActivity = new Button("Select");
+    private ButtonRound btnSelectActivity = new ButtonRound("Select");
   
 
 	@UiField
@@ -72,7 +73,7 @@ public class ActivityObjectiveViewNew extends Composite {
 		flex.setWidget(2,1,txtAreaActivityObj);
 		
 		flex.setWidget(2,2, btnSelectActivity);
-		
+		flex.setWidget(2, 3, delete);
 
 		panelActivityObjective.add(flex);
 	}
@@ -84,6 +85,7 @@ public class ActivityObjectiveViewNew extends Composite {
 
 
 	}
+
 
 	public Label getLblHeading() {
 		return lblHeading;
@@ -135,11 +137,11 @@ public class ActivityObjectiveViewNew extends Composite {
 		
 	}
 
-	public Button getBtnSelectActivity() {
+	public ButtonRound getBtnSelectActivity() {
 		return btnSelectActivity;
 	}
 
-	public void setBtnSelectActivity(Button btnSelectActivity) {
+	public void setBtnSelectActivity(ButtonRound btnSelectActivity) {
 		this.btnSelectActivity = btnSelectActivity;
 	}
 
@@ -152,6 +154,14 @@ public class ActivityObjectiveViewNew extends Composite {
 
 	public void disable() {
 		txtAreaActivityObj.setEnabled(false);
-		
+		delete.setVisible(false);
+	}
+
+	public Image getDelete() {
+		return delete;
+	}
+
+	public void setDelete(Image delete) {
+		this.delete = delete;
 	}
 }

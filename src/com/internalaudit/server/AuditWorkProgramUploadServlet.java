@@ -21,6 +21,7 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.james.mime4j.field.FieldName;
 
 import com.google.gwt.user.client.Window;
 
@@ -61,17 +62,26 @@ public class AuditWorkProgramUploadServlet extends HttpServlet {
                    // get only the file name not whole path
                    if (fileName != null) {
                        fileName = FilenameUtils. getName(fileName);
-                       fileNames.add(fileName);
+                       fileNames.add(fileName); 
                        
                    }
-
+                   
+                   ////substring//
+                   String fieldName = item.getFieldName();
+                   int index = fieldName.indexOf(":");
+                   String id = fieldName.substring(0, index);
+                   String mainFolder = fieldName.substring(index+1);
+                   
+                   ////
                    String realPath = getServletContext().getRealPath("/");
-                   File folder = new File(realPath+"/AuditWorkProgramUploads");
+                   File folder = new File(realPath+"/"+mainFolder);
                    folder.mkdirs();
-   
-                   File auditSteps = new File(folder+"/");
+           
+                   
+                   File auditSteps = new File(folder+"/"+id);
                    auditSteps.mkdirs();
-                   File uploadedFile = new File(folder+"/"+fileName);
+                   File uploadedFile = new File(auditSteps, fileName);
+                   
                    if (uploadedFile.exists()){
                   	 uploadedFile.delete();
                    }
@@ -81,10 +91,10 @@ public class AuditWorkProgramUploadServlet extends HttpServlet {
                        item.write(uploadedFile);
                        resp.setStatus(HttpServletResponse.SC_CREATED);
                        resp.getWriter().print("The file was created successfully.");
-                      Window.alert("File uploaded successfully");
+                  
                        resp.flushBuffer();
                    } else 
-                       Window.alert(fileName+"fie already exists");
+                     
                   	 throw new IOException("The file already exists in repository.");
                }
              //  session.setAttribute("auditStepUploadedFiles", fileNames);

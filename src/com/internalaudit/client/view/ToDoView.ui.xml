@@ -28,9 +28,9 @@
 	</g:ListBox>
 	<g:Label addStyleNames="{style.padding}">Description</g:Label>
 	<g:TextBox ui:field="txtBoxDescription"  width="300px" height="100px"></g:TextBox>
-	<g:FileUpload></g:FileUpload>
-	<g:VerticalPanel height="80px" styleName="w3-border">
-	<g:Anchor text="uploaded file"></g:Anchor>
+	
+	<g:VerticalPanel  styleName="w3-border" ui:field="panelAttachment">
+	
 	</g:VerticalPanel>
 	<g:HorizontalPanel addStyleNames="{style.button}">
 	<g:VerticalPanel>

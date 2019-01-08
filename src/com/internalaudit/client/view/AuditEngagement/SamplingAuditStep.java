@@ -1,18 +1,33 @@
  package com.internalaudit.client.view.AuditEngagement;
 
+import java.util.ArrayList;
+
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.FontWeight;
+import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.internalaudit.client.InternalAuditService;
+import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.upload.AuditWorkProgramUpload;
 
 public class SamplingAuditStep extends VerticalPanel {
+	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
 	LabelHeading lblControl = new LabelHeading();
 	LabelHeading lblControlList = new LabelHeading();
 	LabelHeading lblFrequency = new LabelHeading();
@@ -28,18 +43,21 @@ public class SamplingAuditStep extends VerticalPanel {
 	ListBox listBoxSamplingMethod = new ListBox();
 	TextBox lblPopulationData  = new TextBox(); 
 	TextArea txtAreaAuditProcedure = new TextArea();
-	FileUpload fileUpload = new FileUpload();
-	 
-		
+	HorizontalPanel panelFileDetail = new HorizontalPanel();
+	ScrollPanel panelFileDetailScroll = new ScrollPanel();
+	
 		
 
 	
 	
-	public SamplingAuditStep() {
+	public SamplingAuditStep(String auditStep) {
 		// TODO Auto-generated method stub
 	
-		// Styling of all the labels
-		
+		panelFileDetail.setHeight("100px");
+		panelFileDetail.setWidth("120px");
+		panelFileDetailScroll.setHeight("90px");
+		panelFileDetailScroll.setWidth("100px");
+		panelFileDetail.add(panelFileDetailScroll);
 		lblControl.setText("Control");
 		lblControlList.setText("Control List");
 		lblFrequency.setText("Frequency");
@@ -47,12 +65,10 @@ public class SamplingAuditStep extends VerticalPanel {
 		lblSamplingMethod.setText("Sampling Method");
 		lblPopulationSize.setText("Population Size");
 		lblAuditProcedure.setText("Audit Procedure Performed");
-		
-
-		
+		String mainFolder = "AuditWorkProgramUploads";
+		// Styling of all the labels
+		AuditWorkProgramUpload	fileUpload = new AuditWorkProgramUpload(auditStep,mainFolder);
 		// Styling of all the labels data
-
-		
 		txtAreaControl.getElement().getStyle().setMarginLeft(50, Unit.PX);
 		txtAreaAuditProcedure.getElement().getStyle().setMarginLeft(50, Unit.PX);
 		txtAreaAuditProcedure.addStyleName("w3-border");
@@ -70,12 +86,12 @@ public class SamplingAuditStep extends VerticalPanel {
 		lblPopulationData.setEnabled(false);
 		
 	
-	    txtAreaControl.setWidth("400px");
+	    txtAreaControl.setWidth("270px");
 		txtAreaControl.setHeight("90px");
 	    txtAreaControl.setText("Purchase Order Cannot be Issued untill and Unless vendor is selected by the authorized as per the company's approved policy within the procurement module.");
 	    
-	    txtAreaAuditProcedure.setWidth("400px");
-		txtAreaAuditProcedure.setHeight("80px");
+	    txtAreaAuditProcedure.setWidth("270px");
+		txtAreaAuditProcedure.setHeight("100px");
 	    
 		listBoxControlList.addItem("Low", "0");
 		listBoxControlList.addItem("Medium", "1");
@@ -109,12 +125,7 @@ public class SamplingAuditStep extends VerticalPanel {
 				
 			}
 		});
-		
-			
-			
-	
-        
-        
+		   
         FlexTable flex = new FlexTable();
        
         flex.setWidget(0,0, lblControl);
@@ -139,16 +150,58 @@ public class SamplingAuditStep extends VerticalPanel {
         flex.setWidget(4,0, lblAuditProcedure);
         flex.setWidget(4,1,txtAreaAuditProcedure);
         flex.setWidget(4,2,fileUpload);
-        
-        
+        flex.setWidget(4,3,panelFileDetail);
       
 		add(flex);
+		
+//		rpcService.fetchAuditStepsProcerdure(new AsyncCallback<ArrayList<String>>() {
+//			FlexTable records = new FlexTable();
+//			
+//			@Override
+//			public void onSuccess(ArrayList<String> result) {
+//				for(int i=0;i<result.size();i++){
+//					final Anchor	lblfilename = new Anchor(result.get(i));
+//					Label lblFileAttached = new Label("Attached");
+//					lblfilename.addStyleName("pointerStyle");
+//					lblfilename.getElement().getStyle().setTextDecoration(TextDecoration.NONE);
+//					lblfilename.setHeight("25px");
+//					lblFileAttached.setHeight("25px");
+//					records.setWidth("100%");
+//					records.setWidget(i, 0, lblfilename);
+//					records.setWidget(i, 1, lblFileAttached);
+//					//if (i % 2 != 0) {
+//						records.getRowFormatter().addStyleName(i, "jobStatusRow");
+//					//}
+//					//panelFileDetail.setWidth("100%");
+//					panelFileDetail.add(records);
+//					lblfilename.setWordWrap(false);
+//					String upperCasedJobLink = lblfilename.getText();
+//					lblfilename.setText(upperCasedJobLink);
+//					lblfilename.addClickHandler(new ClickHandler() {
+//
+//						@Override
+//						public void onClick(ClickEvent event) {
+//
+//							Window.open("/EmailAttachmentUpload/"+lblfilename.getText(), "name", "");
+//						}
+//					});
+//				}
+//
+//			}
+//
+//			@Override
+//			public void onFailure(Throwable caught) {
+//
+//				Window.alert("fetchEmailAttachment Failed");
+//			}
+//
+//		});
+
+
 	}
 
 
-
-
-
+	
 
 	private void getSampleSize(String control, String frequency) {
 		
@@ -263,4 +316,6 @@ public class SamplingAuditStep extends VerticalPanel {
 
 	
 	}
+
+
 }

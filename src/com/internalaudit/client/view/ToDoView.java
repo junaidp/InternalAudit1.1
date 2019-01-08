@@ -13,11 +13,15 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.upload.AuditWorkProgramUpload;
+import com.internalaudit.client.view.AuditEngagement.AuditStepUploads;
 import com.internalaudit.shared.Employee;
+import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.ToDo;
 
@@ -35,6 +39,8 @@ public class ToDoView extends Composite {
 	ListBox listBoxJobs;
 	@UiField
 	Button btnCancel;
+	@UiField
+	VerticalPanel panelAttachment;
 	private InternalAuditServiceAsync rpcService;
 
 	private static ToDoViewUiBinder uiBinder = GWT.create(ToDoViewUiBinder.class);
@@ -50,8 +56,32 @@ public class ToDoView extends Composite {
 		fetchEmployees();
 		fetchJobs();
 		setHandlers();
-	
-		
+		String toDoId = "check";
+		String mainFolder = "ToDoUploads";
+		AuditWorkProgramUpload toDoAttachmentUploqad = new AuditWorkProgramUpload(toDoId, mainFolder);
+		panelAttachment.add(toDoAttachmentUploqad);
+		btnCancel.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				
+				rpcService.deleteUnsavedAttachemnts(InternalAuditConstants.PATHTODOUPLOADS, new AsyncCallback<String>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						System.out.println("fail deleteUnsavedAttachments"+caught.getCause());
+						
+					}
+
+					@Override
+					public void onSuccess(String result) {
+						System.out.println(result);
+						
+					}
+				});
+				
+			}
+		});
 	}
 
 	private void setHandlers() {
@@ -67,6 +97,7 @@ public class ToDoView extends Composite {
 			
 		});
 	}
+	
 	
 	private void saveToDo() {
 		final ToDo todo = new ToDo();

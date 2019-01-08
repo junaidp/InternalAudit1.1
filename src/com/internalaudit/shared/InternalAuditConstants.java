@@ -49,5 +49,9 @@ public class InternalAuditConstants {
 	public static final String INREVIEWEXCEPTIONS = "in review exceptions";
 	public static final String FOLLOWUPTAB = "followupTab";
 	public static final String REPORTINGTAB = "reportingTab";
+	public static final String PATHTODOUPLOADS = "ToDoUploads";
+	public static final String PATHTOUNSAVEDATTACHMENTS = "check";
+	
+	
 
 }
