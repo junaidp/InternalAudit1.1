@@ -38,18 +38,23 @@ public class FileUploadServlet extends HttpServlet {
  
              // Create a new file upload handler
              ServletFileUpload upload = new ServletFileUpload(factory);
- 
+             
              // Parse the request
              
              HttpSession session = req.getSession(true);
-             int auditStepId = (Integer) session.getAttribute("auditStep");
+          //   int auditStepId = (Integer) session.getAttribute("auditStep");
              try {
                  List<FileItem> items = upload.parseRequest(req);
+                 
                  ArrayList<String> fileNames = new ArrayList<String>();
                  for (FileItem item : items) {
                      // process only file upload - discard other form item types
-                     if (item.isFormField()) continue;
-                     
+                   // if (item.isFormField()) continue;
+                  
+                	 if (item.isFormField()){
+                		 String fileName = item.getName();
+                	 }
+                	 else{
                      String fileName = item.getName();
                      // get only the file name not whole path
                      if (fileName != null) {
@@ -61,16 +66,23 @@ public class FileUploadServlet extends HttpServlet {
                      String realPath = getServletContext().getRealPath("/");
                      File folder = new File(realPath+"/AuditSteps");
                      folder.mkdirs();
-                     File auditSteps = new File(folder+"/"+auditStepId);
+                     
+                     File auditSteps = new File(folder+"/"+item.getFieldName());
                      auditSteps.mkdirs();
                      File uploadedFile = new File(auditSteps, fileName);
+                   //  File uploadedFile = new File(folder, fileName);
+                     if (uploadedFile.exists()){
+                      	 uploadedFile.delete();
+                       }
                      if (uploadedFile.createNewFile()) {
                          item.write(uploadedFile);
                          resp.setStatus(HttpServletResponse.SC_CREATED);
                          resp.getWriter().print("The file was created successfully.");
                          resp.flushBuffer();
                      } else
-                         throw new IOException("The file already exists in repository.");
+                         //throw new IOException("The file already exists in repository.");
+                     resp.getWriter().print("The file already uploaded.");
+                	 }
                  }
                  session.setAttribute("auditStepUploadedFiles", fileNames);
              } catch (Exception e) {

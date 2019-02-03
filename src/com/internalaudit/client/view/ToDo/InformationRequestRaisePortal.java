@@ -1,4 +1,5 @@
 package com.internalaudit.client.view.ToDo;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,7 +12,6 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.view.PopupsView;
-import com.internalaudit.shared.Exceptions;
 import com.internalaudit.shared.InformationRequestEntity;
 import com.sencha.gxt.cell.core.client.TextButtonCell;
 import com.sencha.gxt.data.shared.ListStore;
@@ -29,15 +29,16 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 	protected static final int MIN_WIDTH = 1280;
 	protected static final int PREFERRED_HEIGHT = 1;
 	protected static final int PREFERRED_WIDTH = 1;
-	  private ContentPanel panel;
-	private static final InformationRequestRaiseProperties properties = GWT.create(InformationRequestRaiseProperties.class);
-	TextButtonCell button = new TextButtonCell() ;
-	ListStore<InformationRequestRaiseEntity> store ;
+	private ContentPanel panel;
+	private static final InformationRequestRaiseProperties properties = GWT
+			.create(InformationRequestRaiseProperties.class);
+	TextButtonCell button = new TextButtonCell();
+	ListStore<InformationRequestRaiseEntity> store;
 	private List<InformationRequestRaiseEntity> informationRequests = new ArrayList<InformationRequestRaiseEntity>();
 
 	public InformationRequestRaisePortal(ArrayList<InformationRequestEntity> arrayList) {
 		setData(arrayList);
-		//setData(exceptions);
+		// setData(exceptions);
 		add(createGridFieldWork());
 
 	}
@@ -50,7 +51,8 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 			issue.setRelatedJob(arrayList.get(i).getJob().getJobName());
 			issue.setRaisedTo(arrayList.get(i).getContactResponsible().getEmployeeName());
 			issue.setOverDueDays(arrayList.get(i).getDueDate());
-			issue.setStatus(arrayList.get(i).getStatus()+"");
+			issue.setRaisedBy(arrayList.get(i).getAssignedFrom().getEmployeeName());
+			issue.setStatus(arrayList.get(i).getStatus() + "");
 			issue.setReply(arrayList.get(i).getRespond());
 			issue.setRaisedById(arrayList.get(i).getAssignedFrom().getEmployeeId());
 			issue.setRaisedToId(arrayList.get(i).getContactResponsible().getEmployeeId());
@@ -61,52 +63,58 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 			issue.setSendReminder(arrayList.get(i).getSendReminder());
 			issue.setInformationRequestLogList(arrayList.get(i).getInformationRequestLogList());
 			informationRequests.add(issue);
-		}	
-//		}
+		}
+		// }
 	}
 
 	public Widget createGridFieldWork() {
 
-		ColumnConfig<InformationRequestRaiseEntity, Integer> informationId = new ColumnConfig<InformationRequestRaiseEntity, Integer>(properties.id(), 50, "Ir#");
-		ColumnConfig<InformationRequestRaiseEntity, String> requestedItem = new ColumnConfig<InformationRequestRaiseEntity, String>(properties.requestedItem(), 190,
-				"RequestedItem");
-		ColumnConfig<InformationRequestRaiseEntity, String> informationRaisedTo = new ColumnConfig<InformationRequestRaiseEntity, String>(properties.raisedTo(),
-				130, "Requested To");
-		ColumnConfig<InformationRequestRaiseEntity, String> relatedJob = new ColumnConfig<InformationRequestRaiseEntity, String>(properties.relatedJob(), 100, "Related Job");
-		ColumnConfig<InformationRequestRaiseEntity, Date> informationOverDue = new ColumnConfig<InformationRequestRaiseEntity, Date>(properties.overDueDays(), 160, "Due Date");
-		ColumnConfig<InformationRequestRaiseEntity, String> informationStatus = new ColumnConfig<InformationRequestRaiseEntity, String>(properties.status(), 100, "status");
-		ColumnConfig<InformationRequestRaiseEntity, String> viewButton = new ColumnConfig<InformationRequestRaiseEntity, String>(properties.viewButton(), 100, "");
-		
+		ColumnConfig<InformationRequestRaiseEntity, Integer> informationId = new ColumnConfig<InformationRequestRaiseEntity, Integer>(
+				properties.id(), 50, "Ir#");
+		ColumnConfig<InformationRequestRaiseEntity, String> requestedItem = new ColumnConfig<InformationRequestRaiseEntity, String>(
+				properties.requestedItem(), 190, "RequestedItem");
+		ColumnConfig<InformationRequestRaiseEntity, String> informationRaisedTo = new ColumnConfig<InformationRequestRaiseEntity, String>(
+				properties.raisedTo(), 130, "Requested To");
+		ColumnConfig<InformationRequestRaiseEntity, String> relatedJob = new ColumnConfig<InformationRequestRaiseEntity, String>(
+				properties.relatedJob(), 100, "Related Job");
+		ColumnConfig<InformationRequestRaiseEntity, Date> informationOverDue = new ColumnConfig<InformationRequestRaiseEntity, Date>(
+				properties.overDueDays(), 160, "Due Date");
+		ColumnConfig<InformationRequestRaiseEntity, String> informationStatus = new ColumnConfig<InformationRequestRaiseEntity, String>(
+				properties.status(), 100, "status");
+		ColumnConfig<InformationRequestRaiseEntity, String> viewButton = new ColumnConfig<InformationRequestRaiseEntity, String>(
+				properties.viewButton(), 100, "");
+
 		button.setText("view");
-		
-		  button.addSelectHandler(new SelectHandler() {
-	          @Override
-	          public void onSelect(SelectEvent event) {
-	            Context c = event.getContext();
-	            int row = c.getIndex();
-	            InformationRequestRaiseEntity informationRequest = store.get(row);
-	            InformationRequestRaiserFinalView infoReceiver = new InformationRequestRaiserFinalView(informationRequest);
-	            final	PopupsView pp = new PopupsView(infoReceiver, "");
+
+		button.addSelectHandler(new SelectHandler() {
+			@Override
+			public void onSelect(SelectEvent event) {
+				Context c = event.getContext();
+				int row = c.getIndex();
+				InformationRequestRaiseEntity informationRequest = store.get(row);
+				InformationRequestRaiserFinalView infoReceiver = new InformationRequestRaiserFinalView(
+						informationRequest);
+				final PopupsView pp = new PopupsView(infoReceiver, "");
 				pp.getLabelheading().setText("InformationRequest Receiver");
 				pp.getVpnlMain().setTitle("Todos");
 				pp.getVpnlMain().setWidth("600px");
 				pp.getHpnlSPace().setWidth("600px");
 				pp.getVpnlMain().setHeight("530px");
 				infoReceiver.getBtnCancel().addClickHandler(new ClickHandler() {
-					
+
 					@Override
 					public void onClick(ClickEvent event) {
 						pp.getVpnlMain().removeFromParent();
 						pp.getPopup().removeFromParent();
-						
-						
+
 					}
 				});
-	            
-	           // Info.display("Event", "The " + p.getRequestedItem() + " was clicked.");
-	          }
-	        });	
-	
+
+				// Info.display("Event", "The " + p.getRequestedItem() + " was
+				// clicked.");
+			}
+		});
+
 		viewButton.setCell(button);
 		List<ColumnConfig<InformationRequestRaiseEntity, ?>> columns = new ArrayList<ColumnConfig<InformationRequestRaiseEntity, ?>>();
 		columns.add(informationId);
@@ -121,58 +129,62 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 
 		store = new ListStore<InformationRequestRaiseEntity>(properties.key());
 		store.addAll(informationRequests);
-		
+
 		final Grid<InformationRequestRaiseEntity> grid = new Grid<InformationRequestRaiseEntity>(store, cm);
-		//grid.setWidth(600);
+		// grid.setWidth(600);
 		grid.getView().setAutoExpandColumn(informationId);
 		grid.getView().setForceFit(true);
 		grid.getView().setStripeRows(true);
 		grid.getView().setColumnLines(true);
-		 ScrollPanel p = new ScrollPanel();
-		 p.setHeight("220px");
-		
-	   p.add(grid);
+		ScrollPanel p = new ScrollPanel();
+		p.setHeight("220px");
 
-	
-		 VerticalLayoutContainer con = new VerticalLayoutContainer();
+		p.add(grid);
+
+		VerticalLayoutContainer con = new VerticalLayoutContainer();
 		Anchor addInformationRequest = new Anchor("Raise Information Request");
 		addInformationRequest.addStyleName("w3-right");
-	   con.add(addInformationRequest);
-	   
-	   addInformationRequest.addClickHandler(new ClickHandler() {
-		
-		@Override
-		public void onClick(ClickEvent event) {
-			final InformationRequestRaiserView informationreq = new InformationRequestRaiserView();
-			final	PopupsView pp = new PopupsView(informationreq, "");
-			pp.getLabelheading().setText("Information Request");
-			pp.getVpnlMain().setTitle("Information Request");
-			pp.getVpnlMain().setWidth("650px");
-			pp.getHpnlSPace().setWidth("600px");
-			pp.getVpnlMain().setHeight("530px");
-			informationreq.getBtnCancel().addClickHandler(new ClickHandler() {
-				
-				@Override
-				public void onClick(ClickEvent event) {
-					pp.getVpnlMain().removeFromParent();
-					pp.getPopup().removeFromParent();
-					
-					
-				}
-			});
-			
-		}
-	});
-	   
-	      con.add(p, new VerticalLayoutData(1, 1));
+		con.add(addInformationRequest);
 
-	      panel = new ContentPanel();
-	      panel.setHeight(230);
-	      panel.setWidth(850);
-	      panel.setHeadingText("InformationRequestRaise");
-	      panel.add(con);
-	      return panel;
-	      
-	      
+		addInformationRequest.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				final InformationRequestRaiserView informationrequestRaiser = new InformationRequestRaiserView();
+				final PopupsView pp = new PopupsView(informationrequestRaiser, "");
+				pp.getLabelheading().setText("Information Request");
+				pp.getVpnlMain().setTitle("Information Request");
+				pp.getVpnlMain().setWidth("650px");
+				pp.getHpnlSPace().setWidth("600px");
+				pp.getVpnlMain().setHeight("530px");
+				pp.getClose().addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						informationrequestRaiser.deleteUnssavedAttachments();
+					}
+				});
+				informationrequestRaiser.getBtnCancel().addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						pp.getVpnlMain().removeFromParent();
+						pp.getPopup().removeFromParent();
+
+					}
+				});
+
+			}
+		});
+
+		con.add(p, new VerticalLayoutData(1, 1));
+
+		panel = new ContentPanel();
+		panel.setHeight(230);
+		panel.setWidth(850);
+		panel.setHeadingText("InformationRequestRaise");
+		panel.add(con);
+		return panel;
+
 	}
 }

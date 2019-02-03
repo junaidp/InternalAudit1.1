@@ -1,17 +1,11 @@
 package com.internalaudit.client.view.ToDo;
 
-import java.util.ArrayList;
-
-import com.gargoylesoftware.htmlunit.html.DisabledElement;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
@@ -19,7 +13,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.upload.AuditWorkProgramUpload;
-import com.internalaudit.client.upload.EmailAttachmentUpload;
 import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.AuditEngagement.LabelHeading;
@@ -27,8 +20,6 @@ import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.InformationRequestEntity;
 import com.internalaudit.shared.InformationRequestLogEntity;
 import com.internalaudit.shared.JobCreation;
-import com.internalaudit.shared.ToDo;
-
 
 public class InformationRequestReceiveView extends VerticalPanel {
 	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
@@ -47,10 +38,9 @@ public class InformationRequestReceiveView extends VerticalPanel {
 	Label lblMesssage = new Label("Message:");
 	Label lblEmailData = new Label("Dear XYZ plz provide the detail about");
 
-	Label lblReply = new  Label("Reply");
+	Label lblReply = new Label("Reply");
 	TextArea txtAreaReply = new TextArea();
 
-	
 	ButtonRound btnSubmit = new ButtonRound("Submit");
 
 	VerticalPanel panelMailRep = new VerticalPanel();
@@ -59,11 +49,10 @@ public class InformationRequestReceiveView extends VerticalPanel {
 	HorizontalPanel panelFileDetail = new HorizontalPanel();
 	private InformationRequestReceiverEntity informationRequest = null;
 
-	public InformationRequestReceiveView( InformationRequestReceiverEntity informationRequest){
-		
+	public InformationRequestReceiveView(InformationRequestReceiverEntity informationRequest) {
+
 		this.informationRequest = informationRequest;
-		
-		
+
 		setLayout(informationRequest);
 
 		setHandlers();
@@ -76,9 +65,9 @@ public class InformationRequestReceiveView extends VerticalPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				final InformationRequestEntity infoReq = new InformationRequestEntity();
-				
+
 				infoReq.setRequestItem(informationRequest.getRequestedItem());
-				JobCreation jobid =  new JobCreation();
+				JobCreation jobid = new JobCreation();
 				jobid.setJobCreationId(informationRequest.getRelatedJobId());
 				infoReq.setJob(jobid);
 				infoReq.setInformationRequestId(informationRequest.getId());
@@ -87,11 +76,10 @@ public class InformationRequestReceiveView extends VerticalPanel {
 				raisedTo.setEmployeeId(informationRequest.getRaisedToId());
 				Employee raisedBy = new Employee();
 				raisedBy.setEmployeeId(informationRequest.getRaiseById());
-				//raisedBy.setEmployeeName(informationRequest.getRaisedBy());
+				// raisedBy.setEmployeeName(informationRequest.getRaisedBy());
 				infoReq.setContactResponsible(raisedTo);
-				
-				
-				//infoReq.setDueDate(informationRequest.getOverDueDays());
+
+				// infoReq.setDueDate(informationRequest.getOverDueDays());
 				infoReq.setAssignedFrom(raisedBy);
 				infoReq.setContactEmail(informationRequest.getContactEmail());
 				infoReq.setSendNotication(informationRequest.getSendNotification());
@@ -99,21 +87,21 @@ public class InformationRequestReceiveView extends VerticalPanel {
 				infoReq.setStatus(informationRequest.getSstatus());
 				infoReq.setDueDate(informationRequest.getOverDueDays());
 				infoReq.setRead(true);
-				//Saving data for informationRequestlog
+				// Saving data for informationRequestlog
 				InformationRequestLogEntity infoRequestLog = new InformationRequestLogEntity();
-				infoRequestLog.setAssignedFrom(raisedBy);
-				infoRequestLog.setAssignedTo(raisedTo);
+				infoRequestLog.setAssignedFrom(raisedTo);
+				infoRequestLog.setAssignedTo(raisedBy);
 				infoRequestLog.setDescription(informationRequest.getRequestedItem());
 				infoRequestLog.setDate(informationRequest.getOverDueDays());
 				infoRequestLog.setRespond(txtAreaReply.getText());
 				infoRequestLog.setInformationRequestId(informationRequest.getId());
-				
+
 				rpcService.saveInformationRequestLogs(infoRequestLog, new AsyncCallback<String>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
 						Window.alert("Failed SavaInformationREquestLogs");
-						
+
 					}
 
 					@Override
@@ -128,29 +116,28 @@ public class InformationRequestReceiveView extends VerticalPanel {
 
 							@Override
 							public void onSuccess(String result) {
-							// call here ...
-								
+								// call here ...
+
 							}
 						});
 					}
 				});
-				
 
 			}
 		});
 	}
 
 	private void setLayout(InformationRequestReceiverEntity informationRequest) {
-		lblIrData.setText(informationRequest.getId()+"");
+		lblMesssage.setText("Message From ::" + informationRequest.getRaisedBy());
+		lblIrData.setText(informationRequest.getId() + "");
 		lblRequestedData.setText(informationRequest.getRaisedBy());
-
+		lblDateData.setText(informationRequest.getOverDueDays().toString());
 		lblEmailData.setText(informationRequest.getRequestedItem());
 		setWidth("600px");
 		setHeight("700px");
 		panelMain.addStyleName("w3-border");
 		panelLabel.setWidth("100%");
 		lblSpace.getElement().getStyle().setPaddingLeft(300, Unit.PX);
-
 
 		PanelUpButton.addStyleName(" w3-right");
 		PanelUpButton.add(btnEmial);
@@ -171,7 +158,6 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		panelReply.addStyleName("w3-border");
 		panelMail.addStyleName("w3-border");
 
-
 		lblRequestetBy.setText("RequestedBy");
 		HorizontalPanel panelMailReq = new HorizontalPanel();
 		panelMailReq.add(lblRequestetBy);
@@ -181,7 +167,6 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		panelMail.add(lblMesssage);
 		panelMail.add(lblEmailData);
 		panelMail.addStyleName("w3-gray");
-		
 
 		panelReply.add(lblReply);
 
@@ -191,8 +176,9 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		panelMailRep.add(panelReply);
 		panelMailRep.add(btnSubmit);
 		String mainFolder = "InformationRequestUploads";
-		String informationRequestId = informationRequest.getId()+"";
-		AuditWorkProgramUpload informationRequestUploadAttachment = new AuditWorkProgramUpload(informationRequestId, mainFolder);
+		String informationRequestId = informationRequest.getId() + "";
+		AuditWorkProgramUpload informationRequestUploadAttachment = new AuditWorkProgramUpload(informationRequestId,
+				mainFolder);
 		VerticalPanel panelFileUpload = new VerticalPanel();
 		panelFileUpload.add(informationRequestUploadAttachment);
 		txtAreaReply.getElement().setPropertyString("placeholder", "Enter your Reply here");

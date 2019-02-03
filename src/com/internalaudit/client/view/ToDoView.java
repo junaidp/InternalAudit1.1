@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
@@ -19,14 +20,13 @@ import com.google.gwt.user.datepicker.client.DateBox;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.upload.AuditWorkProgramUpload;
-import com.internalaudit.client.view.AuditEngagement.AuditStepUploads;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.ToDo;
 
 public class ToDoView extends Composite {
-	
+
 	@UiField
 	TextBox txtBoxDescription;
 	@UiField
@@ -46,12 +46,12 @@ public class ToDoView extends Composite {
 	private static ToDoViewUiBinder uiBinder = GWT.create(ToDoViewUiBinder.class);
 
 	interface ToDoViewUiBinder extends UiBinder<Widget, ToDoView> {
-		
+
 	}
 
 	public ToDoView() {
 		initWidget(uiBinder.createAndBindUi(this));
-//		todo.setRes[]
+		// todo.setRes[]
 		rpcService = GWT.create(InternalAuditService.class);
 		fetchEmployees();
 		fetchJobs();
@@ -60,78 +60,83 @@ public class ToDoView extends Composite {
 		String mainFolder = "ToDoUploads";
 		AuditWorkProgramUpload toDoAttachmentUploqad = new AuditWorkProgramUpload(toDoId, mainFolder);
 		panelAttachment.add(toDoAttachmentUploqad);
-		btnCancel.addClickHandler(new ClickHandler() {
-			
+		dueDate.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd MMMM , yyyy")));
+	}
+
+	public void deleteUnSavedAttachments() {
+		rpcService.deleteUnsavedAttachemnts(InternalAuditConstants.PATHTODOUPLOADS, new AsyncCallback<String>() {
+
 			@Override
-			public void onClick(ClickEvent event) {
-				
-				rpcService.deleteUnsavedAttachemnts(InternalAuditConstants.PATHTODOUPLOADS, new AsyncCallback<String>() {
+			public void onFailure(Throwable caught) {
+				System.out.println("fail deleteUnsavedAttachments" + caught.getCause());
 
-					@Override
-					public void onFailure(Throwable caught) {
-						System.out.println("fail deleteUnsavedAttachments"+caught.getCause());
-						
-					}
+			}
 
-					@Override
-					public void onSuccess(String result) {
-						System.out.println(result);
-						
-					}
-				});
-				
+			@Override
+			public void onSuccess(String result) {
+				System.out.println(result);
+
 			}
 		});
 	}
 
 	private void setHandlers() {
-		btnSave.addClickHandler(new ClickHandler() {
-			
-			
-					
+
+		btnCancel.addClickHandler(new ClickHandler() {
+
 			@Override
 			public void onClick(ClickEvent event) {
-				
+
+				deleteUnSavedAttachments();
+
+			}
+
+		});
+
+		btnSave.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+
 				saveToDo();
 			}
-			
+
 		});
 	}
-	
-	
+
 	private void saveToDo() {
 		final ToDo todo = new ToDo();
 		todo.setDescription(txtBoxDescription.getText());
-		
+
 		Employee assignedTo = new Employee();
 		assignedTo.setEmployeeId(Integer.parseInt(listBoxAssignedTo.getSelectedValue()));
 		JobCreation job = new JobCreation();
 		job.setJobCreationId(Integer.parseInt(listBoxJobs.getSelectedValue()));
-	
+
 		todo.setJob(job);
-		
+
 		todo.setAssignedTo(assignedTo);
 		todo.setRead(false);
-	
-		
+
 		todo.setDueDate(dueDate.getValue());
-		
+
 		rpcService.savetoDo(todo, new AsyncCallback<String>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 				Window.alert("error in rpc savetodo" + caught.getLocalizedMessage());
-				
+
 			}
 
 			@Override
 			public void onSuccess(String result) {
 				new DisplayAlert(result);
-				
+
 			}
 		});
 	}
-	private void fetchEmployees(){
+
+	private void fetchEmployees() {
 		rpcService.fetchEmployees(new AsyncCallback<ArrayList<Employee>>() {
 
 			@Override
@@ -141,38 +146,37 @@ public class ToDoView extends Composite {
 
 			@Override
 			public void onSuccess(ArrayList<Employee> result) {
-				
-				for(int i=0; i< result.size(); i++){
-				
-						listBoxAssignedTo.addItem(result.get(i).getEmployeeName(), result.get(i).getEmployeeId()+"");
-						
-					}
+
+				for (int i = 0; i < result.size(); i++) {
+
+					listBoxAssignedTo.addItem(result.get(i).getEmployeeName(), result.get(i).getEmployeeId() + "");
+
 				}
-			
+			}
+
 		});
 	}
-	
-	private void fetchJobs(){
-		
+
+	private void fetchJobs() {
+
 		rpcService.fetchJobs(new AsyncCallback<ArrayList<JobCreation>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 				Window.alert("fail fetch jobs");
-				
+
 			}
 
 			@Override
 			public void onSuccess(ArrayList<JobCreation> result) {
-				for(int i=0; i< result.size(); i++){
-				listBoxJobs.addItem(result.get(i).getJobName(),result.get(i).getJobCreationId()+"");
+				for (int i = 0; i < result.size(); i++) {
+					listBoxJobs.addItem(result.get(i).getJobName(), result.get(i).getJobCreationId() + "");
 				}
 			}
 		});
-		
+
 	}
-	
-	
+
 	public TextBox getTxtBoxDescription() {
 		return txtBoxDescription;
 	}

@@ -1,17 +1,12 @@
 
 package com.internalaudit.client.view.ToDo;
 
-import java.util.ArrayList;
-
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
@@ -19,7 +14,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.upload.AuditWorkProgramUpload;
-import com.internalaudit.client.upload.EmailAttachmentUpload;
 import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.AuditEngagement.LabelHeading;
@@ -27,7 +21,6 @@ import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.ToDo;
 import com.internalaudit.shared.ToDoLogsEntity;
-
 
 public class ToDoRaiserView extends VerticalPanel {
 	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
@@ -48,19 +41,18 @@ public class ToDoRaiserView extends VerticalPanel {
 	Label lblMesssage = new Label("Message:");
 	Label lblEmailData = new Label("Dear XYZ plz provide the detail about");
 
-	Label lblReply = new  Label("Reply");
+	Label lblReply = new Label("Reply");
 	TextArea txtAreaReply = new TextArea();
 
-	
 	ButtonRound btnSubmit = new ButtonRound("Submit");
 
 	VerticalPanel panelMailRep = new VerticalPanel();
 	VerticalPanel panelMail = new VerticalPanel();
 	VerticalPanel panelReply = new VerticalPanel();
-	//HorizontalPanel panelFileDetail = new HorizontalPanel();
-//	final VerticalPanel panelFileName = new VerticalPanel();
+	// HorizontalPanel panelFileDetail = new HorizontalPanel();
+	// final VerticalPanel panelFileName = new VerticalPanel();
 
-	public ToDoRaiserView(final ToDoReceiverEntity toDo){
+	public ToDoRaiserView(final ToDoReceiverEntity toDo) {
 
 		setHandler(toDo);
 		clickHandler(toDo);
@@ -68,10 +60,19 @@ public class ToDoRaiserView extends VerticalPanel {
 	}
 
 	private void setHandler(final ToDoReceiverEntity toDo) {
-		lblIrData.setText(toDo.getId()+"");
+		lblIrData.setText(toDo.getId() + "");
 		lblJobData.setText(toDo.getRelatedJob());
 		lblAssignedToData.setText(toDo.getRaisedBy());
-		lblDateData.setText(toDo.getOverDueDays().toString());
+		// SimpleDateFormat s = new SimpleDateFormat("dd/MM/yyyy");
+		// String d = (toDo.getOverDueDays() + "");
+		// try {
+		// Date date = (Date) s.parse(d);
+		// } catch (ParseException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		lblMesssage.setText("Message From ::" + toDo.getRaisedBy());
+		lblDateData.setText(toDo.getOverDueDays() + "");
 
 		lblEmailData.setText(toDo.getRequestedItem());
 		setWidth("600px");
@@ -79,7 +80,6 @@ public class ToDoRaiserView extends VerticalPanel {
 		panelMain.addStyleName("w3-border");
 		panelLabel.setWidth("100%");
 		lblSpace.getElement().getStyle().setPaddingLeft(300, Unit.PX);
-
 
 		PanelUpButton.addStyleName(" w3-right");
 		PanelUpButton.add(btnEmial);
@@ -100,8 +100,7 @@ public class ToDoRaiserView extends VerticalPanel {
 		panelReply.addStyleName("w3-border");
 		panelMail.addStyleName("w3-border");
 
-
-		//lblJob.setText("Job");
+		// lblJob.setText("Job");
 		HorizontalPanel panelMailReq = new HorizontalPanel();
 		lblJob.setText("Job");
 		panelMailReq.add(lblJob);
@@ -124,47 +123,41 @@ public class ToDoRaiserView extends VerticalPanel {
 		panelMailRep.add(panelMail);
 		panelMailRep.add(panelReply);
 		panelMailRep.add(btnSubmit);
-		String mainFolder ="ToDoUploads";
-		String toDoId = toDo.getId()+"";
-		//FileUploader f = new FileUploader();
+		String mainFolder = "ToDoUploads";
+		String toDoId = toDo.getId() + "";
+		// FileUploader f = new FileUploader();
 		AuditWorkProgramUpload informationRequestUpload = new AuditWorkProgramUpload(toDoId, mainFolder);
 		VerticalPanel panelFileUpload = new VerticalPanel();
 		panelFileUpload.add(informationRequestUpload);
 		txtAreaReply.getElement().setPropertyString("placeholder", "Enter your Reply here");
 
+		// VerticalPanel panelAttached = new VerticalPanel();
 
-
-//		VerticalPanel panelAttached = new VerticalPanel();
-
-//		panelAttached.add(lblFileAttached);
-//		panelFileDetail.add(panelFileName);
-//		panelFileDetail.add(panelAttached);
+		// panelAttached.add(lblFileAttached);
+		// panelFileDetail.add(panelFileName);
+		// panelFileDetail.add(panelAttached);
 
 		PanelUpButton.setHeight("50px");
 		panelLabel.setHeight("50px");
 		panelMailRep.setHeight("300px");
-		//panelFileUpload.setHeight("50px");
-//		panelFileDetail.setHeight("160px");
+		// panelFileUpload.setHeight("50px");
+		// panelFileDetail.setHeight("160px");
 		panelMail.setHeight("150px");
 		txtAreaReply.setHeight("150px");
 		panelReply.setWidth("600px");
 		panelMail.setWidth("590px");
-		//panelFileUpload.setWidth("590px");
+		// panelFileUpload.setWidth("590px");
 		txtAreaReply.setWidth("590px");
-//		panelFileDetail.addStyleName("w3-border");
-//		panelFileDetail.setWidth("590px");
-//		panelFileName.setWidth("50%");
-//		panelAttached.setWidth("50%");
-
-
+		// panelFileDetail.addStyleName("w3-border");
+		// panelFileDetail.setWidth("590px");
+		// panelFileName.setWidth("50%");
+		// panelAttached.setWidth("50%");
 
 		add(PanelUpButton);
 		add(panelLabel);
 		add(panelMailRep);
 		add(panelFileUpload);
 
-
-		
 	}
 
 	private void clickHandler(final ToDoReceiverEntity toDo) {
@@ -186,19 +179,18 @@ public class ToDoRaiserView extends VerticalPanel {
 				JobCreation jobcreationId = new JobCreation();
 				jobcreationId.setJobCreationId(toDo.getRelatedJobId());
 				todoEntity.setJob(jobcreationId);
-				todoEntity.setRead(true); 
-				
+				todoEntity.setRead(true);
+
 				final ToDoLogsEntity todoLogsEntity = new ToDoLogsEntity();
-			
+
 				todoLogsEntity.setDescription(toDo.getRequestedItem());
 				todoLogsEntity.setRespond(txtAreaReply.getText());
 				todoLogsEntity.setToDoId(toDo.getId());
 				todoLogsEntity.setAssignedFrom(assignedFrom);
 				todoLogsEntity.setAssignedTo(assignedTo);
 				todoLogsEntity.setDate(toDo.getOverDueDays());
-				
+
 				saveToDoLog(todoEntity, todoLogsEntity);
-				
 
 			}
 
@@ -208,14 +200,14 @@ public class ToDoRaiserView extends VerticalPanel {
 					@Override
 					public void onFailure(Throwable caught) {
 						Window.alert("save ToDoLogsFailed");
-						
+
 					}
 
 					@Override
 					public void onSuccess(String result) {
 						new DisplayAlert(result);
 						saveToDo(todoEntity);
-						
+
 					}
 
 					private void saveToDo(final ToDo todoEntity) {
@@ -228,7 +220,7 @@ public class ToDoRaiserView extends VerticalPanel {
 
 							@Override
 							public void onSuccess(String result) {
-							
+
 								new DisplayAlert(result);
 							}
 						});
@@ -237,6 +229,5 @@ public class ToDoRaiserView extends VerticalPanel {
 			}
 		});
 	}
-
 
 }

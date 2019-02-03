@@ -32,10 +32,10 @@
 	<g:Label addStyleNames="{style.padding}">Status</g:Label>
 	<g:ListBox ui:field="listBoxStatus">
 	 <g:item>
-    complete
+    Complete
   </g:item>
   <g:item value='2'>
-    incomplete
+    Incomplete
   </g:item>
 	</g:ListBox>
 	<g:HorizontalPanel addStyleNames="{style.button}">

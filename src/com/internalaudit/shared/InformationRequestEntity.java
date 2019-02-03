@@ -1,5 +1,6 @@
 
 package com.internalaudit.shared;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -7,6 +8,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,11 +18,11 @@ import javax.persistence.Transient;
 
 @Entity
 
-@Table(name="informationRequest")
+@Table(name = "informationRequest")
 
 public class InformationRequestEntity implements Serializable {
 
-//	private static final long serialVersionUID = -7673298596496592711L;
+	// private static final long serialVersionUID = -7673298596496592711L;
 
 	/**
 	 * 
@@ -27,52 +30,52 @@ public class InformationRequestEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="informationRequestId")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "informationRequestId")
 	private int informationRequestId;
-	
-	@Column(name="companyId")
+
+	@Column(name = "companyId")
 	private int companyId;
-	
-	@Column(name="requestItem")
+
+	@Column(name = "requestItem")
 	private String requestItem;
-	
+
 	@JoinColumn(name = "contactResponsible")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employee contactResponsible;
-	
 
-	
-	@Column(name="contactEmail")
+	@Column(name = "contactEmail")
 	private String contactEmail;
 
 	@JoinColumn(name = "assignedFrom")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employee assignedFrom;
-	
+
 	@JoinColumn(name = "job")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private JobCreation job;
-	
-	@Column(name="dueDate")
+
+	@Column(name = "dueDate")
 	private Date dueDate;
-	
-	@Column(name="status")
+
+	@Column(name = "status")
 	private int status;
-	
-	@Column(name="sendNotication")
+
+	@Column(name = "sendNotication")
 	private Boolean sendNotication;
-	
-	@Column(name="messageread")
+
+	@Column(name = "messageread")
 	private Boolean read;
-	
-	@Column(name="sendReminder")
+
+	@Column(name = "sendReminder")
 	private Boolean sendReminder;
 
-	@Column(name="respond")
+	@Column(name = "respond")
 	private String respond;
-	
+
 	@Transient
-	private  ArrayList<InformationRequestLogEntity>   informationRequestLogList;
+	private ArrayList<InformationRequestLogEntity> informationRequestLogList;
+
 	public int getInformationRequestId() {
 		return informationRequestId;
 	}
@@ -88,7 +91,6 @@ public class InformationRequestEntity implements Serializable {
 	public void setRequestItem(String requestItem) {
 		this.requestItem = requestItem;
 	}
-
 
 	public String getContactEmail() {
 		return contactEmail;
@@ -186,7 +188,4 @@ public class InformationRequestEntity implements Serializable {
 		this.informationRequestLogList = informationRequestLogList;
 	}
 
-
-	
-	
 }

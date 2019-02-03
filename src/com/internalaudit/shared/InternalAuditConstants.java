@@ -51,7 +51,6 @@ public class InternalAuditConstants {
 	public static final String REPORTINGTAB = "reportingTab";
 	public static final String PATHTODOUPLOADS = "ToDoUploads";
 	public static final String PATHTOUNSAVEDATTACHMENTS = "check";
-	
-	
+	public static final String PATHINFORMATIONREQUESTUPLOADS = "InformationRequestUploads";
 
 }

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,16 +31,12 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.tools.ant.taskdefs.Mkdir;
 //import org.eclipse.jetty.util.log.Log;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -182,8 +179,7 @@ public class MySQLRdbHelper {
 		} finally {
 			session.close();
 		}
-		// sendEmailWithAttachment("", "hamzariaz1994@gmail.com", "",
-		// "Testing");
+
 		return employee;
 	}
 
@@ -3608,82 +3604,72 @@ public class MySQLRdbHelper {
 		return false;
 	}
 
-	public boolean sendEmailWithAttachment(String body, String sendTo, String cc, String subject, String filePath) {
-
-		final String username = "hyphenconsult@gmail.com";
-		final String password = "ilzhkshpmtqduzuc";
-
-		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
-
-		javax.mail.Session sessionMail = javax.mail.Session.getInstance(props, new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(username, password);
-			}
-		});
-
+	public void sendAttachmentEmail(String body, String sendTo, String cc, String subject, String filePath,
+			String from) {
 		try {
 
-			Message message = new MimeMessage(sessionMail);
-			message.setFrom(new InternetAddress("hyphenconsult@gmail.com"));
-			if (cc.equals("")) {
-				message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(sendTo));
-			} else {
-				//////
-				String addresses[] = { sendTo, cc };
+			final String username = "hyphenconsult@gmail.com";
+			final String password = "ilzhkshpmtqduzuc";
 
-				InternetAddress[] addressTo = new InternetAddress[addresses.length];
-				for (int i = 0; i < addresses.length; i++) {
-					addressTo[i] = new InternetAddress(addresses[i]);
+			Properties props = new Properties();
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.starttls.enable", "true");
+			props.put("mail.smtp.host", "smtp.gmail.com");
+			props.put("mail.smtp.port", "587");
+
+			javax.mail.Session session = javax.mail.Session.getInstance(props, new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(username, password);
 				}
+			});
 
-				message.setRecipients(Message.RecipientType.TO, addressTo);
-				/////
-			}
+			MimeMessage msg = new MimeMessage(session);
+			msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
+			msg.addHeader("format", "flowed");
+			msg.addHeader("Content-Transfer-Encoding", "8bit");
 
-			message.setSubject(subject);
-			message.setContent(body, "text/html");
+			msg.setFrom(new InternetAddress(username, from));
 
-			// i wrote this one
+			msg.setReplyTo(InternetAddress.parse(username, false));
 
-			// Create the message part
+			msg.setSubject(subject, "UTF-8");
+
+			msg.setSentDate(new Date());
+
+			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(sendTo, false));
+			msg.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc, false));
+
+			// Create the message body part
 			BodyPart messageBodyPart = new MimeBodyPart();
 
-			// Now set the actual message
+			// Fill the message
+			messageBodyPart.setText(body);
 
-			// Create a multipar message
+			// Create a multipart message for attachment
 			Multipart multipart = new MimeMultipart();
 
 			// Set text message part
 			multipart.addBodyPart(messageBodyPart);
 
-			// Part two is attachment
+			// Second part is attachment
 			messageBodyPart = new MimeBodyPart();
-			// String filename =
-			// "D:\workspace-neon\InternalAudit1.1.0\war\TestUploads\logo.png" ;
-
-			DataSource source = new FileDataSource(filePath);
+			String filename = filePath;
+			DataSource source = new FileDataSource(filename);
 			messageBodyPart.setDataHandler(new DataHandler(source));
-			messageBodyPart.setFileName(filePath);
+			messageBodyPart.setFileName(filename);
 			multipart.addBodyPart(messageBodyPart);
 
 			// Send the complete message parts
-			message.setContent(multipart);
+			msg.setContent(multipart);
 
-			// ends her4e my written
-
-			Transport.send(message);
-
-			System.out.println("email sent");
-
+			// Send message
+			Transport.send(msg);
+			System.out.println("EMail Sent Successfully with attachment!!");
 		} catch (MessagingException e) {
-			throw new RuntimeException(e);
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
-
-		return false;
 	}
 
 	public ArrayList<RiskControlMatrixEntity> fetchRisks(int auditEngId, int year, int companyId) {
@@ -4720,19 +4706,30 @@ public class MySQLRdbHelper {
 				HibernateDetachUtility.nullOutUninitializedFields(auditStep.getInitiatedBy().getReportingTo(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(
+						auditStep.getInitiatedBy().getReportingTo().getSkillId(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(
 						auditStep.getInitiatedBy().getReportingTo().getReportingTo(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(auditStep.getApprovedBy(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(auditStep.getAuditWork().getApprovedBy(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(auditStep.getAuditWork().getApprovedBy().getSkillId(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(
 						auditStep.getAuditWork().getInitiatedBy().getReportingTo().getReportingTo(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(
 						auditStep.getAuditWork().getInitiatedBy().getReportingTo().getReportingTo(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(
+						auditStep.getAuditWork().getInitiatedBy().getReportingTo().getReportingTo().getSkillId(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(auditStep.getAuditWork().getInitiatedBy(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(
+						auditStep.getAuditWork().getInitiatedBy().getSkillId(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(
 						auditStep.getAuditWork().getSuggestedControlsId().getRiskId(),
@@ -4844,19 +4841,22 @@ public class MySQLRdbHelper {
 			crit.add(Restrictions.eq("auditStep", auditStepId));
 			// crit.add(Restrictions.eq("jobCreationId", selectedJobId));
 			crit.createAlias("divisionHead", "division");
+			crit.createAlias("divisionHead.skillId", "divisionSkill");
 
-			/*crit.createAlias("responsible.countryId", "employeeCount");
-			crit.createAlias("responsible.cityId", "employeeCity");
-			crit.createAlias("responsible.reportingTo", "employeeRep");
-			crit.createAlias("employeeRep.countryId", "employeeRCount");
-
-			crit.createAlias("division.countryId", "employeeCount1");
-			crit.createAlias("division.cityId", "employeeCity1");
-			crit.createAlias("division.reportingTo", "employeeRep1");
-			crit.createAlias("employeeRep1.countryId", "employeeRCount1");
-
-			crit.createAlias("division.skillId", "divisionSkill");
-			crit.createAlias("employeeRep1.skillId", "divisionSkill1");*/
+			/*
+			 * crit.createAlias("responsible.countryId", "employeeCount");
+			 * crit.createAlias("responsible.cityId", "employeeCity");
+			 * crit.createAlias("responsible.reportingTo", "employeeRep");
+			 * crit.createAlias("employeeRep.countryId", "employeeRCount");
+			 * 
+			 * crit.createAlias("division.countryId", "employeeCount1");
+			 * crit.createAlias("division.cityId", "employeeCity1");
+			 * crit.createAlias("division.reportingTo", "employeeRep1");
+			 * crit.createAlias("employeeRep1.countryId", "employeeRCount1");
+			 * 
+			 * crit.createAlias("division.skillId", "divisionSkill");
+			 * crit.createAlias("employeeRep1.skillId", "divisionSkill1");
+			 */
 
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -4864,6 +4864,8 @@ public class MySQLRdbHelper {
 				HibernateDetachUtility.nullOutUninitializedFields(exception,
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(exception.getJobCreationId().getStrategicId(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(exception.getDivisionHead().getSkillId(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				records.add(exception);
 
@@ -5653,7 +5655,7 @@ public class MySQLRdbHelper {
 		} finally {
 			session.close();
 		}
-		sendEmailWithAttachment(message, to, cc, "Audit Notification", "TestUploads/logo.png");
+		sendAttachmentEmail(message, to, cc, "Audit Notification", "TestUploads/logo.png", from);
 		return "Audit Notification saved";
 	}
 
@@ -6481,10 +6483,17 @@ public class MySQLRdbHelper {
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(strategic.getInitiatedBy(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
+
+				HibernateDetachUtility.nullOutUninitializedFields(strategic.getApprovedBy(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(strategic.getApprovedBy().getReportingTo(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+
 				HibernateDetachUtility.nullOutUninitializedFields(strategic.getInitiatedBy().getCountryId(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(strategic.getInitiatedBy().getReportingTo(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
+
 				HibernateDetachUtility.nullOutUninitializedFields(strategic.getInitiatedBy().getCityId(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(strategic.getAssignedTo(),
@@ -6493,8 +6502,17 @@ public class MySQLRdbHelper {
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(strategic.getAssignedTo().getReportingTo(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
-				HibernateDetachUtility.nullOutUninitializedFields(strategic.getAssignedTo().getCityId(),
-						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				// HibernateDetachUtility.nullOutUninitializedFields(strategic.getAssignedTo().getCityId(),
+				// HibernateDetachUtility.SerializationType.SERIALIZATION);
+				// HibernateDetachUtility.nullOutUninitializedFields(
+				// strategic.getApprovedBy().getReportingTo().getCityId(),
+				// HibernateDetachUtility.SerializationType.SERIALIZATION);
+				// HibernateDetachUtility.nullOutUninitializedFields(
+				// strategic.getApprovedBy().getReportingTo().getCountryId(),
+				// HibernateDetachUtility.SerializationType.SERIALIZATION);
+				// HibernateDetachUtility.nullOutUninitializedFields(
+				// strategic.getApprovedBy().getReportingTo().getSkillId(),
+				// HibernateDetachUtility.SerializationType.SERIALIZATION);
 				// HibernateDetachUtility.nullOutUninitializedFields(strategic.getObjectiveOwner().getCityId(),
 				// HibernateDetachUtility.SerializationType.SERIALIZATION); //
 				// HERE Objective owner
@@ -6539,7 +6557,8 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(JobCreation.class);
-			crit.add(Restrictions.eq("jobId", strategicId));
+			crit.createAlias("strategicId", "strateg");
+			crit.add(Restrictions.eq("strateg.strategicId", strategicId));
 			if (crit.list().size() > 0) {
 				job = (JobCreation) crit.list().get(0);
 
@@ -7102,9 +7121,10 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 
-			Criteria crit = session.createCriteria(JobCreation.class);
+			Criteria crit = session.createCriteria(JobCreation.class, "jobCreation");
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
+			jobsStrategicAlias(crit);
 
 			Disjunction domainOR = Restrictions.disjunction();
 
@@ -7309,7 +7329,7 @@ public class MySQLRdbHelper {
 
 			for (int i = 0; i < jobIds.size(); i++) {
 
-				jobsOR.add(Restrictions.eq("jobCreationId", jobIds.get(i)));
+				jobsOR.add(Restrictions.eq("jobCreation.jobCreationId", jobIds.get(i)));
 			}
 
 			crit.add(jobsOR);
@@ -7381,9 +7401,8 @@ public class MySQLRdbHelper {
 
 			}
 
-			logger.info(String.format("(Inside fetchExceptionReports)fetching ExceptionReports for year" + year
-					+ "for company" + companyId + "for job" + jobs + "for exceptionstatus" + exceptionStatus + ""
-					+ new Date()));
+			logger.info(String.format("(Inside " + "Reports)fetching ExceptionReports for year" + year + "for company"
+					+ companyId + "for job" + jobs + "for exceptionstatus" + exceptionStatus + "" + new Date()));
 
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchExceptionReports", ex.getMessage()), ex);
@@ -8931,9 +8950,11 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 
 			session.saveOrUpdate(todo);
-			
+
 			session.flush();
-			updateFolder(todo.getToDoId(),realPath);
+			File mainFolder = new File(realPath + "/" + InternalAuditConstants.PATHTODOUPLOADS);
+			File deleteFolder = new File(mainFolder + "/" + InternalAuditConstants.PATHTOUNSAVEDATTACHMENTS);
+			updateFolder(todo.getToDoId(), mainFolder, deleteFolder);
 			// logger.info(String.format("(Inside saveAuditNotification) saving
 			// AuditNotification for message to: " + to
 			// + "for message" + message + "for year" + year + "for company" +
@@ -8943,38 +8964,21 @@ public class MySQLRdbHelper {
 			logger.warn(String.format("Exception occured in savetoDo", ex.getMessage()), ex);
 
 		}
-		
+
 		return "saved";
 	}
 
-	private void updateFolder(int toDoId, String realPath) {
-
-            File folder = new File(realPath+"/ToDoUploads");
-          
-            folder.mkdirs();
-            File auditSteps = new File(folder+"/check");
-            if(auditSteps.exists()){
-            	File auditStepUpload = new File(folder+"/"+toDoId);
-            	auditSteps.renameTo(auditStepUpload);
-            	 auditSteps.mkdirs();
-            }
-      
-            auditSteps.delete();
-       
-	}  
-           
-
-
-
-
-	public String saveInformationRequest(InformationRequestEntity informationrequest) {
+	public String saveInformationRequest(InformationRequestEntity informationrequest, String realPath) {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
 
 			session.saveOrUpdate(informationrequest);
 			session.flush();
-
+			//
+			File mainFolder = new File(realPath + "/" + InternalAuditConstants.PATHINFORMATIONREQUESTUPLOADS);
+			File deleteFolder = new File(mainFolder + "/" + InternalAuditConstants.PATHTOUNSAVEDATTACHMENTS);
+			updateFolder(informationrequest.getInformationRequestId(), mainFolder, deleteFolder);
 			// logger.info(String.format("(Inside saveAuditNotification) saving
 			// AuditNotification for message to: " + to
 			// + "for message" + message + "for year" + year + "for company" +
@@ -8985,6 +8989,20 @@ public class MySQLRdbHelper {
 
 		}
 		return "saved";
+	}
+
+	private void updateFolder(int id, File mainFolder, File deleteFolder) {
+
+		mainFolder.mkdirs();
+
+		if (deleteFolder.exists()) {
+			File auditStepUpload = new File(mainFolder + "/" + id);
+			deleteFolder.renameTo(auditStepUpload);
+			deleteFolder.mkdirs();
+		}
+
+		deleteFolder.delete();
+
 	}
 
 	public String saveToDoLogs(ToDoLogsEntity toDoLogsEntity) {

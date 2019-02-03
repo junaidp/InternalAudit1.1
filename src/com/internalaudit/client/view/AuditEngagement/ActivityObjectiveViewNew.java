@@ -1,7 +1,6 @@
 package com.internalaudit.client.view.AuditEngagement;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -26,13 +25,11 @@ public class ActivityObjectiveViewNew extends Composite {
 	CheckBox checkBoxApplicability = new CheckBox("");
 	private int activityObjectiveId = 0;
 	Label lblReferenceNoData = new Label("");
-    Image delete = new Image("images/deleteIcon.png");
-    private ButtonRound btnSelectActivity = new ButtonRound("Select");
-  
+	Image delete = new Image("images/deleteIcon.png");
+	private ButtonRound btnSelectActivity = new ButtonRound("Select");
 
 	@UiField
 	VerticalPanel panelActivityObjective;
-
 
 	private static ActivityObjectiveViewNewUiBinder uiBinder = GWT.create(ActivityObjectiveViewNewUiBinder.class);
 
@@ -40,11 +37,10 @@ public class ActivityObjectiveViewNew extends Composite {
 	}
 
 	public ActivityObjectiveViewNew() {
-		
-		
+
 		initWidget(uiBinder.createAndBindUi(this));
 		lblHeading.setText("Detailed Scope and Process Understanding");
-		//lblHeading.addStyleName("w3-white");
+		// lblHeading.addStyleName("w3-white");
 		lblReferenceNoData.setWidth("180px");
 
 		lblReferenceNo.setText("Reference Number");
@@ -57,35 +53,31 @@ public class ActivityObjectiveViewNew extends Composite {
 		txtAreaActivityObj.setWidth("650px");
 		txtAreaActivityObj.setHeight("80px");
 
-
 		lblActivityObjective.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		lblapplicability.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		txtAreaActivityObj.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		checkBoxApplicability.getElement().getStyle().setMarginLeft(70, Unit.PX);
-		
-	
+
 		FlexTable flex = new FlexTable();
 		flex.setWidget(1, 0, lblReferenceNo);
-		flex.setWidget(2,0, lblReferenceNoData);
-		//  flex.setWidget(0,1,actv);
+		flex.setWidget(2, 0, lblReferenceNoData);
+		// flex.setWidget(0,1,actv);
 
-		flex.setWidget(1,1, lblActivityObjective);
-		flex.setWidget(2,1,txtAreaActivityObj);
-		
-		flex.setWidget(2,2, btnSelectActivity);
+		flex.setWidget(1, 1, lblActivityObjective);
+		flex.setWidget(2, 1, txtAreaActivityObj);
+
+		flex.setWidget(2, 2, btnSelectActivity);
 		flex.setWidget(2, 3, delete);
 
 		panelActivityObjective.add(flex);
 	}
 
-	public void hideElemetns(){
+	public void hideElemetns() {
 		lblHeading.setVisible(false);
 		lblActivityObjective.setVisible(false);
 		lblapplicability.setVisible(false);
 
-
 	}
-
 
 	public Label getLblHeading() {
 		return lblHeading;
@@ -124,8 +116,7 @@ public class ActivityObjectiveViewNew extends Composite {
 		activityObjectiveId = activityObjective.getObjectiveId();
 		lblReferenceNoData.setText(activityObjective.getReferenceNo());
 		checkBoxApplicability.setChecked(activityObjective.getChecked());
-	
-		
+
 	}
 
 	public void getData(ActivityObjective activityObjective) {
@@ -133,8 +124,7 @@ public class ActivityObjectiveViewNew extends Composite {
 		activityObjective.setObjectiveName(txtAreaActivityObj.getText());
 		activityObjective.setChecked(checkBoxApplicability.isChecked());
 		activityObjective.setReferenceNo(lblReferenceNoData.getText());
-	
-		
+
 	}
 
 	public ButtonRound getBtnSelectActivity() {
@@ -164,4 +154,5 @@ public class ActivityObjectiveViewNew extends Composite {
 	public void setDelete(Image delete) {
 		this.delete = delete;
 	}
+
 }

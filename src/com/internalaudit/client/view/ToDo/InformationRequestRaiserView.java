@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
@@ -14,15 +15,17 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.upload.AuditWorkProgramUpload;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.InformationRequestEntity;
+import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.JobCreation;
-import com.sencha.gxt.chart.client.draw.engine.SVG.TextBBox;
 
 public class InformationRequestRaiserView extends Composite {
 	@UiField
@@ -39,16 +42,17 @@ public class InformationRequestRaiserView extends Composite {
 	DateBox dueDate;
 	@UiField
 	ListBox listBoxJobs;
-	
+
 	@UiField
 	ListBox listBoxStatus;
-	
+
 	@UiField
 	Button btnSave;
 	@UiField
 	Button btnCancel;
+	@UiField
+	VerticalPanel panelInformationUploadAttachments;
 	private InternalAuditServiceAsync rpcService;
-	
 
 	private static InformationRequestViewUiBinder uiBinder = GWT.create(InformationRequestViewUiBinder.class);
 
@@ -59,18 +63,61 @@ public class InformationRequestRaiserView extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		rpcService = GWT.create(InternalAuditService.class);
 		fetchEmployees();
+		clickHandlers();
 		fetchJobs();
+		String mainFolder = InternalAuditConstants.PATHINFORMATIONREQUESTUPLOADS;
+		String informationRequestId = InternalAuditConstants.PATHTOUNSAVEDATTACHMENTS;
+		AuditWorkProgramUpload informationUploadAttachments = new AuditWorkProgramUpload(informationRequestId,
+				mainFolder);
+		panelInformationUploadAttachments.add(informationUploadAttachments);
+		// String dateString =
+		// DateTimeFormat.getFormat("MM/dd/yyyy").format(date);
+		// dueDate.setFormat((Format) DateTimeFormat.getFormat("MM/dd/yyyy"));
+		// dueDate.setFormat(new
+		// DateBox.DefaultFormat(DateTimeFormat.getFormat("EEEE, MMMM dd,
+		// yyyy")));
+		dueDate.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd MMMM , yyyy")));
+	}
+
+	public void deleteUnssavedAttachments() {
+		rpcService.deleteUnsavedAttachemnts(InternalAuditConstants.PATHINFORMATIONREQUESTUPLOADS,
+				new AsyncCallback<String>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						System.out.println("fail deleteUnsavedAttachments" + caught.getCause());
+
+					}
+
+					@Override
+					public void onSuccess(String result) {
+						System.out.println(result);
+
+					}
+				});
+	}
+
+	private void clickHandlers() {
 		btnSave.addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
-			saveInformationRequest();
+				saveInformationRequest();
 			}
 
-	
 		});
-	} 
-	
+		btnCancel.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+
+				deleteUnssavedAttachments();
+
+			}
+
+		});
+	}
+
 	private void saveInformationRequest() {
 		InformationRequestEntity informationrequest = new InformationRequestEntity();
 		informationrequest.setRequestItem(txtBoxRequestItem.getText());
@@ -87,22 +134,23 @@ public class InformationRequestRaiserView extends Composite {
 		informationrequest.setDueDate(dueDate.getValue());
 		informationrequest.setStatus(listBoxStatus.getSelectedIndex());
 		informationrequest.setRead(false);
-			rpcService.saveinformationRequest(informationrequest, new AsyncCallback<String>() {
-				
-				@Override
-				public void onSuccess(String result) {
+		rpcService.saveinformationRequest(informationrequest, new AsyncCallback<String>() {
+
+			@Override
+			public void onSuccess(String result) {
 				new DisplayAlert(result);
-					
-				}
-				
-				@Override
-				public void onFailure(Throwable caught) {
-					Window.alert("error in rpc saveInformationRequest" + caught.getLocalizedMessage());
-					
-				}
-			});
+
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("error in rpc saveInformationRequest" + caught.getLocalizedMessage());
+
+			}
+		});
 	}
-	private void fetchEmployees(){
+
+	private void fetchEmployees() {
 		rpcService.fetchEmployees(new AsyncCallback<ArrayList<Employee>>() {
 
 			@Override
@@ -112,43 +160,45 @@ public class InformationRequestRaiserView extends Composite {
 
 			@Override
 			public void onSuccess(ArrayList<Employee> result) {
-				
-				for(int i=0; i< result.size(); i++){
-				
-						listBoxContact.addItem(result.get(i).getEmployeeName(), result.get(i).getEmployeeId()+"");
-						//display.getListEmployees().addItem(result.get(i).getEmployeeName(), result.get(i).getEmployeeId()+"");
-						
-					}
+
+				for (int i = 0; i < result.size(); i++) {
+
+					listBoxContact.addItem(result.get(i).getEmployeeName(), result.get(i).getEmployeeId() + "");
+					// display.getListEmployees().addItem(result.get(i).getEmployeeName(),
+					// result.get(i).getEmployeeId()+"");
+
 				}
-			
+			}
+
 		});
 	}
-private void fetchJobs(){
-		
+
+	private void fetchJobs() {
+
 		rpcService.fetchJobs(new AsyncCallback<ArrayList<JobCreation>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 				Window.alert("fail fetch jobs");
-				
+
 			}
 
 			@Override
 			public void onSuccess(ArrayList<JobCreation> result) {
-				for(int i=0; i< result.size(); i++){
-				listBoxJobs.addItem(result.get(i).getJobName(),result.get(i).getJobCreationId()+"");
+				for (int i = 0; i < result.size(); i++) {
+					listBoxJobs.addItem(result.get(i).getJobName(), result.get(i).getJobCreationId() + "");
 				}
 			}
 		});
-		
+
 	}
 
-public Button getBtnCancel() {
-	return btnCancel;
-}
+	public Button getBtnCancel() {
+		return btnCancel;
+	}
 
-public void setBtnCancel(Button btnCancel) {
-	this.btnCancel = btnCancel;
-}
+	public void setBtnCancel(Button btnCancel) {
+		this.btnCancel = btnCancel;
+	}
 
 }

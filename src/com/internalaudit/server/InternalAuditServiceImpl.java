@@ -68,7 +68,6 @@ import com.internalaudit.shared.TimeOutException;
 import com.internalaudit.shared.ToDo;
 import com.internalaudit.shared.ToDoLogsEntity;
 
-
 /**
  * The server side implementation of the RPC service.
  */
@@ -81,14 +80,14 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	@Override
 
 	public Employee signIn(String userid, String password) throws Exception {// NOT
-																			// HERE
+																				// HERE
 		// String result = "";
 		System.out.println("Inside signin");
 		Employee user = (Employee) rdbHelper.getAuthentication(userid, password);
 
 		if (user != null) {
 			System.out.println("Inside signin: NOT null");
-			//session = getThreadLocalRequest().getSession(true);
+			// session = getThreadLocalRequest().getSession(true);
 
 			getThreadLocalRequest().getSession(true).setAttribute("user", user);
 			int currentYear = getCurrentYear();
@@ -910,14 +909,14 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	private boolean isLoggedIn() throws Exception {
 
 		HttpSession session = getThreadLocalRequest().getSession(true);
-		System.out.println("session is :"+session);
-		System.out.println("loggedIn user is :"+session.getAttribute("user"));
-		System.out.println("year is :"+session.getAttribute("year"));
+		System.out.println("session is :" + session);
+		System.out.println("loggedIn user is :" + session.getAttribute("user"));
+		System.out.println("year is :" + session.getAttribute("year"));
 		if (session.getAttribute("user") == null) {
-			
+
 			return false;
 		} else {
-			
+
 			return true;
 		}
 
@@ -1272,7 +1271,6 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		return rdbHelper.fetchCompanies();
 	}
 
-	
 	@Override
 	public String updateStrategic(Strategic strategic) throws Exception {
 		return rdbHelper.updateStrategic(strategic);
@@ -1534,97 +1532,90 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 
 	}
 
-
-
 	@Override
 	public String savetoDo(ToDo todo) throws Exception {
 		Employee loggedInUser = (Employee) session.getAttribute("user");
-		 String realPath = getServletContext().getRealPath("/");
+		String realPath = getServletContext().getRealPath("/");
 		int companyId = (Integer) session.getAttribute("companyId");
 		todo.setCompanyId(companyId);
-		if( todo.getAssignedFrom()== null 
-				|| todo.getAssignedFrom().getEmployeeId() == 0)
-		{
+		if (todo.getAssignedFrom() == null || todo.getAssignedFrom().getEmployeeId() == 0) {
 			todo.setAssignedFrom(loggedInUser);
 		}
-		//todo.setAssignedFrom(loggedInUser.getEmployeeId());
-		return rdbHelper.savetoDo(todo,realPath);
+		// todo.setAssignedFrom(loggedInUser.getEmployeeId());
+		return rdbHelper.savetoDo(todo, realPath);
 	}
 
 	@Override
 	public String saveinformationRequest(InformationRequestEntity informationrequest) {
-		// TODO Auto-generated method stub
+
+		String realPath = getServletContext().getRealPath("/");
 		Employee loggedInUser = (Employee) session.getAttribute("user");
 		int companyId = (Integer) session.getAttribute("companyId");
-		if( informationrequest.getAssignedFrom()== null 
-				|| informationrequest.getAssignedFrom().getEmployeeId() == 0)
-		{
+		if (informationrequest.getAssignedFrom() == null || informationrequest.getAssignedFrom().getEmployeeId() == 0) {
 			informationrequest.setAssignedFrom(loggedInUser);
 		}
-		//informationrequest.setAssignedFrom(loggedInUser.getEmployeeId());
+		// informationrequest.setAssignedFrom(loggedInUser.getEmployeeId());
 		informationrequest.setCompanyId(companyId);
-		return rdbHelper.saveInformationRequest(informationrequest);
+		return rdbHelper.saveInformationRequest(informationrequest, realPath);
 	}
 
 	@Override
 	public ArrayList<String> fetchEmailAttachments() {
 		ArrayList<String> listFiles = new ArrayList<String>();
-		 String realPath = getServletContext().getRealPath("/");     
-		 File directory = new File(realPath+"/EmailAttachmentUpload");
-	       //get all the files from a directory
-	       File[] fList = directory.listFiles();
-	       for (File file : fList){
-	           if (file.isFile()){
-	        	   listFiles.add(file.getName());
-	              
-	               
-	           }
-	       }
-	       return listFiles;
-	   
-		
+		String realPath = getServletContext().getRealPath("/");
+		File directory = new File(realPath + "/EmailAttachmentUpload");
+		// get all the files from a directory
+		File[] fList = directory.listFiles();
+		for (File file : fList) {
+			if (file.isFile()) {
+				listFiles.add(file.getName());
+
+			}
+		}
+		return listFiles;
+
 	}
-	
+
 	@Override
 	public ArrayList<String> fetchAuditStepExceptions(String id) {
 		ArrayList<String> listFiles = new ArrayList<String>();
-		 String realPath = getServletContext().getRealPath("/");     
-		 File directory = new File(realPath+"/AuditSteps/"+id);
-	       //get all the files from a directory
-	       File[] fList = directory.listFiles();
-	       for (File file : fList){
-	           if (file.isFile()){
-	        	   listFiles.add(file.getName());
-	              
-	               
-	           }
-	       }
-	       return listFiles;
-		
+		String realPath = getServletContext().getRealPath("/");
+		File directory = new File(realPath + "/AuditSteps/" + id);
+		// get all the files from a directory
+		File[] fList = directory.listFiles();
+		for (File file : fList) {
+			if (file.isFile()) {
+				listFiles.add(file.getName());
+
+			}
+		}
+		return listFiles;
+
 	}
+
 	@Override
 	public ArrayList<String> fetchAuditStepsProcerdure(String id, String mainFolder) {
 		ArrayList<String> listFiles = new ArrayList<String>();
-		 String realPath = getServletContext().getRealPath("/");     
-		 File directory = new File(realPath+"/"+mainFolder+"/"+id);
-	       //get all the files from a directory
-	       File[] fList = directory.listFiles();
-	       for (File file : fList){
-	           if (file.isFile()){
-	        	   listFiles.add(file.getName());
-	              
-	               
-	           }
-	       }
-	       return listFiles;
-		
+		String realPath = getServletContext().getRealPath("/");
+		File directory = new File(realPath + "/" + mainFolder + "/" + id);
+		// get all the files from a directory
+		File[] fList = directory.listFiles();
+		for (File file : fList) {
+			if (file.isFile()) {
+				listFiles.add(file.getName());
+
+			}
+		}
+		return listFiles;
+
 	}
+
 	@Override
 	public String saveToDoLogs(ToDoLogsEntity toDoLogsEntity) throws Exception {
 		Employee loggedInUser = (Employee) session.getAttribute("user");
 		int companyId = (Integer) session.getAttribute("companyId");
-		//todo.setCompanyId(companyId);
-		//toDoLogsEntity.setAssignedFrom(loggedInUser.getEmployeeId());
+		// todo.setCompanyId(companyId);
+		// toDoLogsEntity.setAssignedFrom(loggedInUser.getEmployeeId());
 		return rdbHelper.saveToDoLogs(toDoLogsEntity);
 	}
 
@@ -1632,30 +1623,39 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	public String saveInformationRequestLogs(InformationRequestLogEntity informationRequestLogEntity) throws Exception {
 		Employee loggedInUser = (Employee) session.getAttribute("user");
 		int companyId = (Integer) session.getAttribute("companyId");
-		//todo.setCompanyId(companyId);
+		// todo.setCompanyId(companyId);
 		informationRequestLogEntity.setAssignedFrom(loggedInUser);
 		return rdbHelper.saveInformationRequestLogs(informationRequestLogEntity);
 	}
+
 	@Override
 	public String deleteUnsavedAttachemnts(String mainFolder) {
-		 String realPath = getServletContext().getRealPath("/");
-		  // File folder = new File(realPath+"/ToDoUploads");
-	          
-          // folder.mkdirs(); We dont need to call mkdir, just give its path in New File as in below line 
-		 	// File checkFolder = new File(realPath+"/"+"TodoUploads"/"check");
-           File checkFolder = new File(realPath+"/"+mainFolder+"/"+InternalAuditConstants.PATHTOUNSAVEDATTACHMENTS);//this mainFolder will have todos path for todos and exception path when we do this for exceptions,Secondly pls make constants for other paths as well like for exceptions etc and access this way
-           if(checkFolder.exists()){
-        	   try {
-				FileUtils.cleanDirectory(checkFolder); // Folder need to be empty before deleting, just hover on the delete() method in the below line and u will see that instruction.
-				 checkFolder.delete();
-				 return "Folder Deleted";
+		String realPath = getServletContext().getRealPath("/");
+		// File folder = new File(realPath+"/ToDoUploads");
+
+		// folder.mkdirs(); We dont need to call mkdir, just give its path in
+		// New File as in below line
+		// File checkFolder = new File(realPath+"/"+"TodoUploads"/"check");
+		File checkFolder = new File(
+				realPath + "/" + mainFolder + "/" + InternalAuditConstants.PATHTOUNSAVEDATTACHMENTS);
+		if (checkFolder.exists()) {
+			try {
+				FileUtils.cleanDirectory(checkFolder); // Folder need to be
+														// empty before
+														// deleting, just hover
+														// on the delete()
+														// method in the below
+														// line and u will see
+														// that instruction.
+				checkFolder.delete();
+				return "Folder Deleted";
 			} catch (IOException e) {
 				e.printStackTrace();
-				 return "Folder cannot be deleted"+ e.getLocalizedMessage();
+				return "Folder cannot be deleted" + e.getLocalizedMessage();
 			}
-        	   
-           }
-           return "Folder not existed";
-    
+
+		}
+		return "Folder not existed";
+
 	}
 }

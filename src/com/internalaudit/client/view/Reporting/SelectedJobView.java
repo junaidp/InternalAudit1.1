@@ -5,13 +5,13 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class SelectedJobView extends Composite{
+public class SelectedJobView extends Composite {
 	private VerticalPanel selectedJobContainer = new VerticalPanel();
 	private Label lblJob = new Label();
-	
-	public SelectedJobView(){
+
+	public SelectedJobView() {
 		createLayout();
-		
+
 	}
 
 	private void createLayout() {
@@ -20,14 +20,14 @@ public class SelectedJobView extends Composite{
 		hpnnlHeadings.add(new Label("Observations"));
 		hpnnlHeadings.add(new Label("Implication"));
 		hpnnlHeadings.add(new Label("Implication Rating"));
-		
-		//hpnnlHeadings.add(new Label("Division Head"));
+
+		// hpnnlHeadings.add(new Label("Division Head"));
 		Label lblDUeDate = new Label("Due Date");
 		hpnnlHeadings.add(lblDUeDate);
-		hpnnlHeadings.add(new Label("Recommneded Action Steps"));
+		hpnnlHeadings.add(new Label("Recommended Action Steps"));
 		hpnnlHeadings.add(new Label("Auditee"));
-		
-		for(int i =0; i< hpnnlHeadings.getWidgetCount(); i++){
+
+		for (int i = 0; i < hpnnlHeadings.getWidgetCount(); i++) {
 			hpnnlHeadings.getWidget(i).setWidth("150px");
 		}
 		lblDUeDate.setWidth("90px");
@@ -36,10 +36,11 @@ public class SelectedJobView extends Composite{
 		selectedJobContainer.add(hpnnlHeadings);
 		lblJob.addStyleName("heading");
 	}
-	
+
 	public Label getLblJob() {
 		return lblJob;
 	}
+
 	public void setLblJob(Label lblJob) {
 		this.lblJob = lblJob;
 	}

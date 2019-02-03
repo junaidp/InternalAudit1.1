@@ -1,6 +1,7 @@
 package com.internalaudit.client.view.ToDo;
+
 import java.util.ArrayList;
-import com.gargoylesoftware.htmlunit.html.DisabledElement;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.dom.client.Style.Unit;
@@ -26,8 +27,6 @@ import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.InformationRequestEntity;
 import com.internalaudit.shared.InformationRequestLogEntity;
 import com.internalaudit.shared.JobCreation;
-import com.internalaudit.shared.ToDo;
-
 
 public class InformationRequestRaiserFinalView extends VerticalPanel {
 	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
@@ -43,11 +42,12 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 	Label lblSpace = new Label();
 	LabelHeading lblRequestetBy = new LabelHeading();
 	Label lblRequestedData = new Label("Hamza");
-	Label lblMesssage ;
-	TextArea lblEmailData;	
-	Label lblReplyOld ;
-	TextArea lblReplyOldData; 
-	Label lblReply = new  Label("Reply");
+	Label lblMesssageData;
+	Label lblMesssage;
+	TextArea lblEmailData;
+	Label lblReplyOld;
+	TextArea lblReplyOldData;
+	Label lblReply = new Label("Reply");
 	TextArea txtAreaReply = new TextArea();
 	ButtonRound btnSubmit = new ButtonRound("Submit/Close");
 	ButtonRound btnCancel = new ButtonRound("Cancel");
@@ -59,8 +59,8 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 	ScrollPanel panelMessage = new ScrollPanel();
 	private InformationRequestRaiseEntity informationRequest = null;
 
-	public InformationRequestRaiserFinalView( InformationRequestRaiseEntity informationRequest){
-		
+	public InformationRequestRaiserFinalView(InformationRequestRaiseEntity informationRequest) {
+
 		this.informationRequest = informationRequest;
 		setLayout(informationRequest);
 		setHandlers();
@@ -72,9 +72,9 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				Window.alert("click");
+
 				final InformationRequestEntity infoReq = new InformationRequestEntity();
-				JobCreation jobid =  new JobCreation();
+				JobCreation jobid = new JobCreation();
 				jobid.setJobCreationId(informationRequest.getRelatedJobId());
 				infoReq.setJob(jobid);
 				infoReq.setInformationRequestId(informationRequest.getId());
@@ -90,7 +90,7 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 				infoReq.setContactResponsible(raisedTo);
 				infoReq.setAssignedFrom(raisedBy);
 				infoReq.setDueDate(informationRequest.getOverDueDays());
-				//Saving data for informationRequestlog
+				// Saving data for informationRequestlog
 				InformationRequestLogEntity infoRequestLog = new InformationRequestLogEntity();
 				infoRequestLog.setInformationRequestId(informationRequest.getId());
 				infoRequestLog.setAssignedFrom(raisedBy);
@@ -98,9 +98,8 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 				infoRequestLog.setDescription(informationRequest.getRequestedItem());
 				infoRequestLog.setRespond(txtAreaReply.getText());
 				infoRequestLog.setDate(informationRequest.getOverDueDays());
-//				
+				//
 				saveInformationRequestandLogs(infoReq, infoRequestLog);
-				
 
 			}
 
@@ -111,7 +110,7 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 					@Override
 					public void onFailure(Throwable caught) {
 						Window.alert("Failed SavaInformationREquestLogs");
-						
+
 					}
 
 					@Override
@@ -126,8 +125,7 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 
 							@Override
 							public void onSuccess(String result) {
-							
-								
+
 							}
 						});
 					}
@@ -138,23 +136,28 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 
 	private void setLayout(InformationRequestRaiseEntity informationRequest) {
 		lblMesssage = new Label();
-		for(int i=0;i<informationRequest.getInformationRequestLogList().size();i++){
-			if(i ==0 ){
+		lblMesssageData = new Label();
 
-				lblMesssage.setText(informationRequest.getInformationRequestLogList().get(i).getDescription());
+		for (int i = 0; i < informationRequest.getInformationRequestLogList().size(); i++) {
+			if (i == 0) {
+				lblMesssage.setText("Message By ::" + informationRequest.getRaisedBy());
+				lblMesssageData.setText(informationRequest.getInformationRequestLogList().get(i).getDescription());
 				panelMail.add(lblMesssage);
+				panelMail.add(lblMesssageData);
 			}
-		
-				Label lblReplyOld = new Label();
-				lblReplyOld.setText(informationRequest.getInformationRequestLogList().get(i).getRespond());
-	
-				panelMail.add(lblReplyOld);
+
+			Label lblReplyOldData = new Label();
+			lblReplyOld = new Label();
+			lblReplyOld.setText("Message From ::" + informationRequest.getRaisedTo());
+			lblReplyOldData.setText(informationRequest.getInformationRequestLogList().get(i).getRespond());
+			panelMail.add(lblReplyOld);
+			panelMail.add(lblReplyOldData);
 
 		}
 
 		lblRequestedData.setText(informationRequest.getRaisedTo());
 		lblDateData.setText(informationRequest.getOverDueDays().toString());
-		lblIrData.setText(informationRequest.getId()+"");
+		lblIrData.setText(informationRequest.getId() + "");
 		setWidth("600px");
 		setHeight("600px");
 		panelMain.addStyleName("w3-border");
@@ -209,7 +212,7 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 		panelb.add(btnReply);
 		panelb.add(btnCancel);
 		panelMailRep.add(panelb);
-		
+
 		EmailAttachmentUpload a = new EmailAttachmentUpload();
 		VerticalPanel panelFileUpload = new VerticalPanel();
 		panelFileUpload.add(a);
@@ -233,10 +236,11 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 	private void fetchEmailAttachments() {
 		rpcService.fetchEmailAttachments(new AsyncCallback<ArrayList<String>>() {
 			FlexTable records = new FlexTable();
+
 			@Override
 			public void onSuccess(ArrayList<String> result) {
-				for(int i=0;i<result.size();i++){
-					final Anchor	lblfilename = new Anchor(result.get(i));
+				for (int i = 0; i < result.size(); i++) {
+					final Anchor lblfilename = new Anchor(result.get(i));
 					Label lblFileAttached = new Label("Attached");
 					lblfilename.addStyleName("pointerStyle");
 					lblfilename.getElement().getStyle().setTextDecoration(TextDecoration.NONE);
@@ -258,7 +262,7 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 						@Override
 						public void onClick(ClickEvent event) {
 
-							Window.open("/EmailAttachmentUpload/"+lblfilename.getText(), "name", "");
+							Window.open("/EmailAttachmentUpload/" + lblfilename.getText(), "name", "");
 						}
 					});
 				}
@@ -281,6 +285,5 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 	public void setBtnCancel(ButtonRound btnCancel) {
 		this.btnCancel = btnCancel;
 	}
-
 
 }

@@ -61,10 +61,11 @@
 			<g:HorizontalPanel>
 			<g:VerticalPanel>
 			<g:HorizontalPanel>
-			<A:LabelHeading text="For Action" width="180px" addStyleNames=" w3-light-blue {style.margin}"></A:LabelHeading>
+			<A:LabelHeading text="For Action(T0)" width="180px" addStyleNames=" w3-light-blue {style.margin}"></A:LabelHeading>
 			<g:TextBox text="MR XYZ,Director XXX" ui:field="txtBoxForAction" width="200px" addStyleNames=" w3-panel"></g:TextBox>
 			</g:HorizontalPanel>
 			</g:VerticalPanel>
+			
 			</g:HorizontalPanel>
 		
 			
@@ -72,7 +73,7 @@
 		
 			<g:VerticalPanel>
 				<g:HorizontalPanel>
-			<A:LabelHeading text="For Information" width="180px" addStyleNames=" w3-light-blue {style.margin}" ></A:LabelHeading>
+			<A:LabelHeading text="For Information(CC)" width="180px" addStyleNames=" w3-light-blue {style.margin}" ></A:LabelHeading>
 		    
 			<g:TextBox text="CXO Detail" width="200px"  addStyleNames=" w3-panel" ui:field="txtBoxForInfo"></g:TextBox>
 			</g:HorizontalPanel>
@@ -88,10 +89,12 @@
 			<g:TextBox width="200px" text="Engegement Name" ui:field="txtBoxSubject" addStyleNames=" w3-panel"></g:TextBox>
 			</g:HorizontalPanel>
 			</g:VerticalPanel>
+		
 			
 			<g:HorizontalPanel>
 			<g:TextArea width="850px"  height="350px"  ui:field="txtAreaBody" text="bla bla blab blablaba"> </g:TextArea>
 			</g:HorizontalPanel>
+				<g:VerticalPanel ui:field="panelUpload"></g:VerticalPanel>
 	</g:VerticalPanel>
 	<g:Button text="Send" ui:field="btnSend" styleName="w3-button w3-round-xxlarge w3-hover-blue" ></g:Button>
 	
