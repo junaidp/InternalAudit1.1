@@ -131,6 +131,20 @@ public class ToDoView extends Composite {
 			@Override
 			public void onSuccess(String result) {
 				new DisplayAlert(result);
+				rpcService.fetchToDoReLoad(new AsyncCallback<ArrayList<ToDo>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onSuccess(ArrayList<ToDo> result) {
+						Window.alert("success");
+
+					}
+				});
 
 			}
 		});

@@ -255,7 +255,7 @@ public class KickoffView extends Composite {
 		cp.setHeadingText("Audit Notification");
 		VerticalPanel vpnlIdentification = new VerticalPanel();
 		vpnlIdentification.setHeight("400px");
-		AuditNotificationViewNew auditNotificationViewNew = new AuditNotificationViewNew();
+		AuditNotificationViewNew auditNotificationViewNew = new AuditNotificationViewNew(record);
 		// AuditNotificationView auditNotificationView = new
 		// AuditNotificationView();
 		// vpnlIdentification.add(auditNotificationView);

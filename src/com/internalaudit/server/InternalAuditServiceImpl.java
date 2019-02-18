@@ -892,13 +892,13 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 
 	@Override
 	public String saveAuditNotification(int auditEngagementId, String message, String to, String cc, String refNo,
-			String from, String subject) throws Exception {
+			String from, String subject, String filePath) throws Exception {
 		if (isLoggedIn()) {
 			session = getThreadLocalRequest().getSession(true);
 			int year = (Integer) session.getAttribute("year");
 			int companyId = (Integer) session.getAttribute("companyId");
 			return rdbHelper.saveAuditNotification(auditEngagementId, message, to, cc, year, companyId, refNo, from,
-					subject);
+					subject, filePath);
 		} else {
 
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);
@@ -1657,5 +1657,25 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		}
 		return "Folder not existed";
 
+	}
+
+	@Override
+	public String deleteAttachmentFile(String id, String mainFolder, String fileName) {
+		// TODO Auto-generated method stub
+
+		String realPath = getServletContext().getRealPath("/");
+		File directory = new File(realPath + "/" + mainFolder + "/" + id + "/" + fileName);
+		// get all the files from a directory
+		directory.delete();
+
+		return "file Deleted";
+	}
+
+	@Override
+	public ArrayList<ToDo> fetchToDoReLoad() {
+		// TODO Auto-generated method stub
+		Employee loggedInUser = (Employee) session.getAttribute("user");
+
+		return rdbHelper.fetchToDoReload(loggedInUser);
 	}
 }

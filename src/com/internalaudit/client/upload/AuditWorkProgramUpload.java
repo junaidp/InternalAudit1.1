@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
@@ -25,8 +26,10 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
 	FormPanel form;
 	HorizontalPanel panelFileDetail = new HorizontalPanel();
+	Anchor lblfilename;
+	String file;
 
-	public AuditWorkProgramUpload(final String auditProcedureId, String mainFolder) {
+	public AuditWorkProgramUpload(final String auditProcedureId, final String mainFolder) {
 		form = new FormPanel();
 		form.setAction(GWT.getModuleBaseURL() + "AuditWorkProgramUpload");
 		form.setEncoding(FormPanel.ENCODING_MULTIPART);
@@ -64,6 +67,7 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 			public void onSubmitComplete(SubmitCompleteEvent event) {
 				if (event.getResults().contains("success")) {
 					Window.alert("File uploaded");
+					fetchProcedureAttachments(auditProcedureId, mainFolder);
 					// updateFileNameInDatabase();
 				} else {
 					try {
@@ -87,7 +91,7 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 		add(hpnl);
 	}
 
-	private void fetchProcedureAttachments(final String auditProcedureId, final String mainFolder) {
+	public void fetchProcedureAttachments(final String auditProcedureId, final String mainFolder) {
 		rpcService.fetchAuditStepsProcerdure(auditProcedureId, mainFolder, new AsyncCallback<ArrayList<String>>() {
 
 			FlexTable records = new FlexTable();
@@ -96,14 +100,15 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 			public void onSuccess(ArrayList<String> result) {
 				panelFileDetail.clear();
 				for (int i = 0; i < result.size(); i++) {
-					final Anchor lblfilename = new Anchor(result.get(i));
-
+					lblfilename = new Anchor(result.get(i));
+					Image delete = new Image("images/deleteIcon.png");
 					lblfilename.addStyleName("pointerStyle");
 					lblfilename.getElement().getStyle().setTextDecoration(TextDecoration.NONE);
 					lblfilename.setHeight("25px");
 
 					records.setWidth("100%");
 					records.setWidget(i, 0, lblfilename);
+					records.setWidget(i, 1, delete);
 
 					if (i % 2 != 0) {
 						records.getRowFormatter().addStyleName(i, "jobStatusRow");
@@ -111,18 +116,48 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 					panelFileDetail.setWidth("100%");
 					panelFileDetail.add(records);
 					lblfilename.setWordWrap(false);
-					String upperCasedJobLink = lblfilename.getText();
+					final String upperCasedJobLink = lblfilename.getText();
 					lblfilename.setText(upperCasedJobLink);
-					lblfilename.addClickHandler(new ClickHandler() {
 
-						@Override
-						public void onClick(ClickEvent event) {
+					clickHandlers(auditProcedureId, mainFolder, delete, upperCasedJobLink);
 
-							Window.open(mainFolder + "/" + auditProcedureId + "/" + lblfilename.getText(), "name", "");
-						}
-					});
 				}
 
+			}
+
+			private void clickHandlers(final String auditProcedureId, final String mainFolder, Image delete,
+					final String upperCasedJobLink) {
+				delete.addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						rpcService.deleteAttachmentFile(auditProcedureId, mainFolder, upperCasedJobLink,
+								new AsyncCallback<String>() {
+
+									@Override
+									public void onFailure(Throwable caught) {
+										Window.alert("fail deletefile");
+									}
+
+									@Override
+									public void onSuccess(String result) {
+										Window.alert("File Deleted Successfully");
+										fetchProcedureAttachments(auditProcedureId, mainFolder);
+
+									}
+								});
+
+					}
+				});
+				lblfilename.addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+
+						Window.open(mainFolder + "/" + auditProcedureId + "/" + lblfilename.getText(), "name", "");
+					}
+
+				});
 			}
 
 			@Override
@@ -132,6 +167,7 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 			}
 
 		});
+
 	}
 
 	public ButtonRound download() {
@@ -153,5 +189,21 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 
 	public void setForm(FormPanel form) {
 		this.form = form;
+	}
+
+	public Anchor getLblfilename() {
+		return lblfilename;
+	}
+
+	public void setLblfilename(Anchor lblfilename) {
+		this.lblfilename = lblfilename;
+	}
+
+	public String getFile() {
+		return file;
+	}
+
+	public void setFile(String file) {
+		this.file = file;
 	}
 }

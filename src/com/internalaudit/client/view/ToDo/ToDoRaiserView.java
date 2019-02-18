@@ -186,8 +186,8 @@ public class ToDoRaiserView extends VerticalPanel {
 				todoLogsEntity.setDescription(toDo.getRequestedItem());
 				todoLogsEntity.setRespond(txtAreaReply.getText());
 				todoLogsEntity.setToDoId(toDo.getId());
-				todoLogsEntity.setAssignedFrom(assignedFrom);
-				todoLogsEntity.setAssignedTo(assignedTo);
+				todoLogsEntity.setAssignedFrom(assignedTo);
+				todoLogsEntity.setAssignedTo(assignedFrom);
 				todoLogsEntity.setDate(toDo.getOverDueDays());
 
 				saveToDoLog(todoEntity, todoLogsEntity);
@@ -207,7 +207,7 @@ public class ToDoRaiserView extends VerticalPanel {
 					public void onSuccess(String result) {
 						new DisplayAlert(result);
 						saveToDo(todoEntity);
-
+						txtAreaReply.setEnabled(false);
 					}
 
 					private void saveToDo(final ToDo todoEntity) {
@@ -222,6 +222,7 @@ public class ToDoRaiserView extends VerticalPanel {
 							public void onSuccess(String result) {
 
 								new DisplayAlert(result);
+
 							}
 						});
 					}

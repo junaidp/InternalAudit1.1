@@ -116,7 +116,7 @@ public class InformationRequestReceiveView extends VerticalPanel {
 
 							@Override
 							public void onSuccess(String result) {
-								// call here ...
+								txtAreaReply.setEnabled(false);
 
 							}
 						});
@@ -166,7 +166,7 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		panelMail.add(panelMailReq);
 		panelMail.add(lblMesssage);
 		panelMail.add(lblEmailData);
-		panelMail.addStyleName("w3-gray");
+		// panelMail.addStyleName("w3-gray");
 
 		panelReply.add(lblReply);
 

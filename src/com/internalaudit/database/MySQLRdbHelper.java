@@ -151,8 +151,8 @@ public class MySQLRdbHelper {
 				employee = (Employee) it.next();
 
 				employee.setTodos(fetchUsersTodos(employee));
-				employee.setInformationRequests(fetchInformationUserRequest(employee));
 				employee.setUserRaisedToDos(fetchUsersRaisedToDo(employee));
+				employee.setInformationRequests(fetchInformationUserRequest(employee));
 				employee.setUserRaisedInformationRequests(fetchUserRaisedInformationRequest(employee));
 				// create a method in mysql class to Todo where userid =
 				// users.getEmployeeId().getEmployeeId(), set it here
@@ -5628,7 +5628,7 @@ public class MySQLRdbHelper {
 	}
 
 	public String saveAuditNotification(int auditEngagementId, String message, String to, String cc, int year,
-			int companyId, String refNo, String from, String subject) {
+			int companyId, String refNo, String from, String subject, String filePath) {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
@@ -5655,7 +5655,7 @@ public class MySQLRdbHelper {
 		} finally {
 			session.close();
 		}
-		sendAttachmentEmail(message, to, cc, "Audit Notification", "TestUploads/logo.png", from);
+		sendAttachmentEmail(message, to, cc, "Audit Notification", filePath, from);
 		return "Audit Notification saved";
 	}
 
@@ -9047,6 +9047,11 @@ public class MySQLRdbHelper {
 	public String deleteUnsavedAttachments(File auditSteps) {
 		auditSteps.delete();
 		return "deleted";
+	}
+
+	public ArrayList<ToDo> fetchToDoReload(Employee loggedInUser) {
+		// return fetchUsersRaisedToDo(loggedInUser);
+		return fetchUsersTodos(loggedInUser);
 	}
 
 	/// new method fetchInformationreqLogs...(Employee
