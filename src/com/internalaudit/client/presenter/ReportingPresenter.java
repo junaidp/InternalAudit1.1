@@ -130,6 +130,7 @@ public class ReportingPresenter implements Presenter
 							display.getVpnlSelectedJob().add(lblHeading);
 							// display.getVpnlReporting().clear();
 							ResponsiblePersonRowHeadingView responsiblePersonView = new ResponsiblePersonRowHeadingView();
+
 							// display.getVpnlReporting().add(responsiblePersonView);
 							display.getVpnlSelectedJob().add(responsiblePersonView);
 
