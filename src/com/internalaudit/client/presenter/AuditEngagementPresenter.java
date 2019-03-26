@@ -4,12 +4,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JProgressBar;
-
-import org.apache.http.conn.routing.RouteInfo.LayerType;
-
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -29,23 +24,13 @@ import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.portal.JobStatusPortaLayout;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.JobData;
-import com.internalaudit.client.view.PopupsView;
-import com.internalaudit.client.view.PopupsViewWhite;
 import com.internalaudit.client.view.AuditEngagement.KickoffView;
 import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.JobStatusDTO;
 import com.internalaudit.shared.TimeOutException;
-import com.sencha.gxt.core.client.dom.Layer.ShadowPosition;
-import com.sencha.gxt.widget.core.client.Dialog;
-import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
 import com.sencha.gxt.widget.core.client.ProgressBar;
-import com.sencha.gxt.widget.core.client.event.ActivateEvent;
-import com.sencha.gxt.widget.core.client.event.ActivateEvent.ActivateHandler;
-import com.sencha.gxt.widget.core.client.event.BlurEvent;
-import com.sencha.gxt.widget.core.client.event.FocusEvent;
-import com.sun.corba.se.spi.legacy.connection.GetEndPointInfoAgainException;
 
 public class AuditEngagementPresenter implements Presenter {
 
@@ -102,8 +87,7 @@ public class AuditEngagementPresenter implements Presenter {
 			@Override
 			public void onClick(ClickEvent arg0) {
 
-				rpcService.syncAuditEngagementWithCreatedJobs(loggedInUser.getEmployeeId(),
-						new AsyncCallback<Void>() {
+				rpcService.syncAuditEngagementWithCreatedJobs(loggedInUser.getEmployeeId(), new AsyncCallback<Void>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
@@ -115,8 +99,7 @@ public class AuditEngagementPresenter implements Presenter {
 						if (caught instanceof TimeOutException) {
 							History.newItem("login");
 						} else {
-							System.out.println(
-									"FAIL: syncAuditEngagementWithCreatedJobs .Inside AuditAreaspresenter");
+							System.out.println("FAIL: syncAuditEngagementWithCreatedJobs .Inside AuditAreaspresenter");
 							Window.alert("FAIL: syncAuditEngagementWithCreatedJobs");// After
 							// FAIL
 							// ...
@@ -148,30 +131,30 @@ public class AuditEngagementPresenter implements Presenter {
 		rpcService.fetchAllAuditEngagement(loggedInUser.getEmployeeId(),
 				new AsyncCallback<ArrayList<AuditEngagement>>() {
 
-			@Override
-			public void onSuccess(ArrayList<AuditEngagement> allJobsAndStatus) {
-				if (allJobsAndStatus != null) {
-					displayLayout(allJobsAndStatus);
-				}
+					@Override
+					public void onSuccess(ArrayList<AuditEngagement> allJobsAndStatus) {
+						if (allJobsAndStatus != null) {
+							displayLayout(allJobsAndStatus);
+						}
 
-				// Window.alert("success");
-			}
+						// Window.alert("success");
+					}
 
-			@Override
-			public void onFailure(Throwable caught) {
+					@Override
+					public void onFailure(Throwable caught) {
 
-				logger.log(Level.INFO, "FAIL: fetchAllAuditEngagement .Inside Audit AuditAreaspresenter");
-				if (caught instanceof TimeOutException) {
-					History.newItem("login");
-				} else {
-					System.out.println("FAIL: fetchAllAuditEngagement .Inside AuditAreaspresenter");
-					Window.alert("FAIL: fetchAllAuditEngagement");// After
-					
-				}
+						logger.log(Level.INFO, "FAIL: fetchAllAuditEngagement .Inside Audit AuditAreaspresenter");
+						if (caught instanceof TimeOutException) {
+							History.newItem("login");
+						} else {
+							System.out.println("FAIL: fetchAllAuditEngagement .Inside AuditAreaspresenter");
+							Window.alert("FAIL: fetchAllAuditEngagement");// After
 
-				System.out.println("fail fetchAllAuditEngagement");
-			}
-		});
+						}
+
+						System.out.println("fail fetchAllAuditEngagement");
+					}
+				});
 
 	}
 
@@ -184,11 +167,11 @@ public class AuditEngagementPresenter implements Presenter {
 
 			// set headings
 
-			String headings[] = {"Sr#",   " Job Name", "Planned Start Date", "Planned End Date", "status","Planning ", "Field Work", "Reporting" };
-		
-			
+			String headings[] = { "Sr#", " Job Name", "Planned Start Date", "Planned End Date", "status", "Planning ",
+					"Field Work", "Reporting" };
+
 			for (int i = 0; i < headings.length; i++) {
-				
+
 				LabelHeading heading = new LabelHeading();
 				heading.setText(headings[i]);
 
@@ -202,7 +185,7 @@ public class AuditEngagementPresenter implements Presenter {
 				if (i % 2 != 0) {
 					records.getRowFormatter().addStyleName(i, "jobStatusRow");
 				}
-				final Label lblJobNo = new Label((allJobsAndStatus.get(i).getJobCreation().getJobCreationId() + "." ));
+				final Label lblJobNo = new Label((allJobsAndStatus.get(i).getJobCreation().getJobCreationId() + "."));
 				lblJobNo.setWidth("40px");
 
 				final Label jobName = new Label(allJobsAndStatus.get(i).getJobCreation().getJobName());
@@ -210,17 +193,17 @@ public class AuditEngagementPresenter implements Presenter {
 				// jobName.addStyleName("statusJobName");
 				// jobName.addStyleName("statusCell");
 				// jobName.addStyleName("linkStyle");
-				HorizontalPanel  p= new HorizontalPanel();
+				HorizontalPanel p = new HorizontalPanel();
 				lblJobNo.getElement().getStyle().setPaddingLeft(10, Unit.PX);
-				//p.add(lblJobNo);
-				
+				// p.add(lblJobNo);
+
 				p.add(jobName);
 
 				records.setWidget(i + 1, 0, lblJobNo);
 				records.setWidget(i + 1, 1, p);
 				jobName.setWidth("300px");
 				jobId = allJobsAndStatus.get(i).getJobCreation().getJobCreationId(); // this
-				
+
 				auditEngId = allJobsAndStatus.get(i).getAuditEngId();
 				final JobData jobData = new JobData();
 				jobData.setJobId(jobId);
@@ -288,8 +271,8 @@ public class AuditEngagementPresenter implements Presenter {
 							System.out.println(
 									jobData.getJobId() + " Job Clicked in Audit Engagement, opening kick off view");
 							display.getPage()
-							.add(new KickoffView(rpcService, jobData.getJobId(), jobData.getAuditEngId(),
-									loggedInUser, allJobsAndStatus.get(jobData.getSelectedId())));
+									.add(new KickoffView(rpcService, jobData.getJobId(), jobData.getAuditEngId(),
+											loggedInUser, allJobsAndStatus.get(jobData.getSelectedId())));
 
 						}
 					});
@@ -304,32 +287,28 @@ public class AuditEngagementPresenter implements Presenter {
 
 	private void displayingProgress(FlexTable records, int i, final int jobId) {
 		ProgressBar progressPlanning = new ProgressBar();
-		//progressPlanning.setValue((double) 5);
+		// progressPlanning.setValue((double) 5);
 		progressPlanning.updateProgress(.20, "20%");
 		ProgressBar progressFieldWork = new ProgressBar();
 		progressFieldWork.updateProgress(.4, "40%");
-		//progressFieldWork.setValue((double) 25);
+		// progressFieldWork.setValue((double) 25);
 		ProgressBar progressReporting = new ProgressBar();
-		//progressFieldWork.addStyleName("w3-border w3-red");
+		// progressFieldWork.addStyleName("w3-border w3-red");
 		progressReporting.updateProgress(.7, "70%");
 
-
-
-
-		//		progressFieldWork.getElement().getStyle().setBackgroundColor("yellow");
-		//		progressReporting.getElement().getStyle().setText("green");
-		//		progressReporting.getElement().getStyle().setBackgroundColor("green");
-		//		progressReporting.getElement().getStyle().setColor("green");
-		//		progressPlanning.getElement().getStyle().setBackgroundColor("red");
-		//		//progressReporting.setValue((double) 75);
+		// progressFieldWork.getElement().getStyle().setBackgroundColor("yellow");
+		// progressReporting.getElement().getStyle().setText("green");
+		// progressReporting.getElement().getStyle().setBackgroundColor("green");
+		// progressReporting.getElement().getStyle().setColor("green");
+		// progressPlanning.getElement().getStyle().setBackgroundColor("red");
+		// //progressReporting.setValue((double) 75);
 		Anchor AnchorJobStatus = new Anchor("Job Stauts");
-
 
 		AnchorJobStatus.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				
+
 				fetchJobStatus(jobId);
 			}
 		});
@@ -338,18 +317,18 @@ public class AuditEngagementPresenter implements Presenter {
 		progressFieldWork.setWidth(105);
 		progressReporting.setWidth(75);
 
-		records.setWidget(i+1, 4, progressPlanning);
-		records.setWidget(i+1, 5, progressFieldWork);
-		records.setWidget(i+1, 6, progressReporting);
-		records.setWidget(i+1,7, AnchorJobStatus);
+		records.setWidget(i + 1, 4, progressPlanning);
+		records.setWidget(i + 1, 5, progressFieldWork);
+		records.setWidget(i + 1, 6, progressReporting);
+		records.setWidget(i + 1, 7, AnchorJobStatus);
 	}
-	
+
 	private void fetchJobStatus(int jobId) {
 		rpcService.fetchJobStatus(jobId, new AsyncCallback<JobStatusDTO>() {
-			
+
 			@Override
 			public void onSuccess(JobStatusDTO jobStatus) {
-				JobStatusPortaLayout  jobStatusPortal = new  JobStatusPortaLayout(jobStatus);
+				JobStatusPortaLayout jobStatusPortal = new JobStatusPortaLayout(jobStatus);
 				com.sencha.gxt.widget.core.client.Window windowPortal = new com.sencha.gxt.widget.core.client.Window();
 				windowPortal.setModal(true);
 				windowPortal.setHeadingText("Job Status");
@@ -360,15 +339,14 @@ public class AuditEngagementPresenter implements Presenter {
 				windowPortal.add(sp);
 				windowPortal.show();
 			}
-			
+
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("fetchJobStatus failed :"+caught.getLocalizedMessage());
-				
+				Window.alert("fetchJobStatus failed :" + caught.getLocalizedMessage());
+
 			}
 		});
-		
-	}
 
+	}
 
 }

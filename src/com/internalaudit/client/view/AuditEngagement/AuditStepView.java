@@ -92,13 +92,13 @@ public class AuditStepView extends Composite {
 	}
 
 	public AuditStepView(final AuditWork auditWork, final int selectedJobId, Employee loggedInEmployee) {
-		
+
 		initWidget(uiBinder.createAndBindUi(this));
 		this.loggedInEmployee = loggedInEmployee;
 		this.auditWork = auditWork;
 		this.selectedJobId = selectedJobId;
 		performance.addStyleName("messageTextarea");
-		SamplingAuditStep auditStep= new SamplingAuditStep(auditWork.getStepNo());
+		SamplingAuditStep auditStep = new SamplingAuditStep(auditWork.getStepNo());
 		panelSamplingAudit.add(auditStep);
 		addException.addClickHandler(new ClickHandler() {
 
@@ -109,7 +109,7 @@ public class AuditStepView extends Composite {
 
 				exceptions.add(row);
 				save.setVisible(false);
-	//temporarily removed//
+				// temporarily removed//
 				save.setVisible(true);
 				conclusion.setEnabled(true);
 
@@ -338,12 +338,12 @@ public class AuditStepView extends Composite {
 		addException.setVisible(false);
 
 		for (int i = 0; i < exceptions.getWidgetCount(); i++) {
-	ExceptionRow exceptionRow = (ExceptionRow) exceptions.getWidget(i);
-//	exceptionRow.getAuditStepUpload().getBtnSubmit().setVisible(false);	
-//	exceptionRow.getAuditStepUpload().getUpload().setVisible(false);
-	exceptionRow.disableFields();
+			ExceptionRow exceptionRow = (ExceptionRow) exceptions.getWidget(i);
+			// exceptionRow.getAuditStepUpload().getBtnSubmit().setVisible(false);
+			// exceptionRow.getAuditStepUpload().getUpload().setVisible(false);
+			exceptionRow.disableFields();
 		}
-		
+
 	}
 
 	public void enableFields() {

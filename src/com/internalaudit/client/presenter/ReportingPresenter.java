@@ -63,6 +63,22 @@ public class ReportingPresenter implements Presenter
 		this.loggedInEmployee = employee;
 		this.reportingTab = reportingTab;
 		setInputParams(tokenParams);
+
+		fetchEmployees();
+		fetchJobs();
+	}
+
+	public ReportingPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, Employee employee,
+			ArrayList<String> tokenParams, String reportingTab, Display view, int jobId) {
+		this.rpcService = rpcService;
+		this.eventBus = eventBus;
+		this.display = view;
+		this.loggedInEmployee = employee;
+		this.reportingTab = reportingTab;
+		setInputParams(tokenParams);
+
+		fetchEmployees();
+		fetchJob(jobId);
 	}
 
 	private void setInputParams(ArrayList<String> input_Params) {
@@ -90,8 +106,6 @@ public class ReportingPresenter implements Presenter
 		container.clear();
 		container.add(display.asWidget());
 		bind();
-		fetchEmployees();
-		fetchJobs();
 
 	}
 
@@ -669,58 +683,88 @@ public class ReportingPresenter implements Presenter
 
 			@Override
 			public void onSuccess(ArrayList<JobCreation> result) {
-				display.getVpnlSelectedJob().clear();
-				display.getVpnlJobs().clear();
+				displayJobsReportingView(result);
+			}
 
-				if (result != null) {
-					AllJobsView allJobsView = new AllJobsView();
+		});
 
-					for (int i = 0; i < result.size(); i++) {
+	}
 
-						final JobReportView jobReportView = new JobReportView();
-						if (loggedInEmployee.getFromInternalAuditDept().equals("yes")) {
-							if (result.get(i).getReportStatus() != 0) {
-								allJobsView.add(jobReportView);
-							}
-						} else if (loggedInEmployee.getFromInternalAuditDept().equals("no")) {
-							if (result.get(i).getReportStatus() != 1 && result.get(i).getReportStatus() != 0) {
-								allJobsView.add(jobReportView);
-							}
-						}
-						jobReportView.setReportStatus(result.get(i).getReportStatus());
+	private void fetchJob(int jobId) {
 
-						jobReportView.getJobAnchor().setText(result.get(i).getJobName());
-						// display.getVpnlReporting().add(allJobsView);
-						display.getVpnlJobs().add(allJobsView);
-						final JobData jobData = new JobData();
-						jobData.setSelectedId(result.get(i).getJobCreationId());
+		rpcService.fetchSelectedJob(jobId, new AsyncCallback<JobCreation>() {
 
-						jobReportView.getJobAnchor().addClickHandler(new ClickHandler() {
+			@Override
+			public void onSuccess(JobCreation result) {
+				ArrayList<JobCreation> jobs = new ArrayList<JobCreation>();
+				jobs.add(result);
+				displayJobsReportingView(jobs);
+			}
 
-							@Override
-							public void onClick(ClickEvent event) {
-								display.getVpnlSelectedJob().clear();
-								SelectedJobView selectedJobView = new SelectedJobView();
-								selectedJobView.getLblJob().setText(jobReportView.getJobAnchor().getText());
-								display.getVpnlSelectedJob().add(selectedJobView);
-								fetchExceptionsforSelectedJob(jobData.getSelectedId(), selectedJobView);
-
-								///////// Displaying Audit head View..///////
-								if (loggedInEmployee.getFromInternalAuditDept().equals("yes")) {
-									fetchAuditHeadExceptions(jobData.getSelectedId());
-
-								} else {
-									fetchUserExceptions(jobData.getSelectedId());
-
-								}
-							}
-
-						});
-					}
+			@Override
+			public void onFailure(Throwable caught) {
+				logger.log(Level.INFO, "FAIL: fetchEmployeeJobs .Inside Audit AuditAreaspresenter");
+				if (caught instanceof TimeOutException) {
+					History.newItem("login");
+				} else {
+					System.out.println("FAIL: fetchEmployeeJobs .Inside AuditAreaspresenter");
+					Window.alert("FAIL: fetchEmployeeJobs");// After FAIL ...
 				}
 			}
 		});
 
+	}
+
+	private void displayJobsReportingView(ArrayList<JobCreation> result) {
+		display.getVpnlSelectedJob().clear();
+		display.getVpnlJobs().clear();
+
+		if (result != null) {
+			AllJobsView allJobsView = new AllJobsView();
+
+			for (int i = 0; i < result.size(); i++) {
+
+				final JobReportView jobReportView = new JobReportView();
+				if (loggedInEmployee.getFromInternalAuditDept().equals("yes")) {
+					if (result.get(i).getReportStatus() != 0) {
+						allJobsView.add(jobReportView);
+					}
+				} else if (loggedInEmployee.getFromInternalAuditDept().equals("no")) {
+					if (result.get(i).getReportStatus() != 1 && result.get(i).getReportStatus() != 0) {
+						allJobsView.add(jobReportView);
+					}
+				}
+				jobReportView.setReportStatus(result.get(i).getReportStatus());
+
+				jobReportView.getJobAnchor().setText(result.get(i).getJobName());
+				// display.getVpnlReporting().add(allJobsView);
+				display.getVpnlJobs().add(allJobsView);
+				final JobData jobData = new JobData();
+				jobData.setSelectedId(result.get(i).getJobCreationId());
+
+				jobReportView.getJobAnchor().addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						display.getVpnlSelectedJob().clear();
+						SelectedJobView selectedJobView = new SelectedJobView();
+						selectedJobView.getLblJob().setText(jobReportView.getJobAnchor().getText());
+						display.getVpnlSelectedJob().add(selectedJobView);
+						fetchExceptionsforSelectedJob(jobData.getSelectedId(), selectedJobView);
+
+						///////// Displaying Audit head View..///////
+						if (loggedInEmployee.getFromInternalAuditDept().equals("yes")) {
+							fetchAuditHeadExceptions(jobData.getSelectedId());
+
+						} else {
+							fetchUserExceptions(jobData.getSelectedId());
+
+						}
+					}
+
+				});
+			}
+		}
 	}
 
 	private void fetchExceptionsforSelectedJob(int jobId, final SelectedJobView selectedJobView) {

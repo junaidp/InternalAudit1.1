@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
@@ -51,7 +52,7 @@ public class MainView extends Composite implements Display {
 	VerticalPanel panelImages = new VerticalPanel();
 	VerticalPanel panelSideBar = new VerticalPanel();
 
-	public MainView(Employee loggedInUser) {
+	public MainView(Employee loggedInUser, HandlerManager eventBus) {
 		// new code
 		panel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 		panelImages.setWidth("110px");
@@ -83,7 +84,7 @@ public class MainView extends Composite implements Display {
 		// VerticalPanel panelClient = new VerticalPanel();
 		// panelClient.addStyleName("w3-margin");
 		// 2018
-		SideBarView sideBarView = new SideBarView(loggedInUser);
+		SideBarView sideBarView = new SideBarView(loggedInUser, eventBus);
 		panelSideBar.add(sideBarView);
 
 		FocusPanel vpTeamMgm = putImageInCard("TEAM MANAGEMENT", "team management.jpg");

@@ -312,4 +312,11 @@ public interface InternalAuditServiceAsync {
 
 	void fetchToDoReLoad(AsyncCallback<ArrayList<ToDo>> callback);
 
+	void fetchJobExceptionWithImplicationRating(int jobId, int ImplicationRating,
+			AsyncCallback<ArrayList<Exceptions>> callback);
+
+	void fetchControlsForReport(int jobId, AsyncCallback<ArrayList<SuggestedControls>> callback);
+
+	void fetchSelectedJob(int jobId, AsyncCallback<JobCreation> callback);
+
 }

@@ -226,6 +226,20 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(InformationRequestLogEntity.class);
+			crit.createAlias("assignedFrom", "from");
+			crit.createAlias("assignedTo", "To");
+
+			// crit.add(Restrictions.eq("companyId", companyId));
+
+			crit.createAlias("from.countryId", "employeeCount");
+			crit.createAlias("from.cityId", "employeeCity");
+			crit.createAlias("from.reportingTo", "employeeRep");
+			crit.createAlias("from.skillId", "employeeSkill");
+			crit.createAlias("To.skillId", "employeeSkill2");
+			crit.createAlias("To.countryId", "employeeCountR");
+			crit.createAlias("To.cityId", "employeeCityR");
+			crit.createAlias("To.reportingTo", "employeeRepR");
+
 			crit.add(Restrictions.eq("informationRequestId", informationRequestId));
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -286,11 +300,28 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(ToDoLogsEntity.class);
+			crit.createAlias("assignedFrom", "from");
+			crit.createAlias("assignedTo", "To");
+
+			// crit.add(Restrictions.eq("companyId", companyId));
+
+			crit.createAlias("from.countryId", "employeeCount");
+			crit.createAlias("from.cityId", "employeeCity");
+			crit.createAlias("from.reportingTo", "employeeRep");
+
+			crit.createAlias("from.skillId", "employeeSkill");
+
+			crit.createAlias("To.skillId", "employeeSkill2");
+
+			crit.createAlias("To.countryId", "employeeCountR");
+			crit.createAlias("To.cityId", "employeeCityR");
+			crit.createAlias("To.reportingTo", "employeeRepR");
 			crit.add(Restrictions.eq("toDoId", toDoId));
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				ToDoLogsEntity toDo = (ToDoLogsEntity) it.next();
-
+				HibernateDetachUtility.nullOutUninitializedFields(toDo,
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				toDoLogs.add(toDo);
 			}
 			logger.info(String.format("Inside fetchtoDotLogs() " + new Date()));
@@ -2739,7 +2770,7 @@ public class MySQLRdbHelper {
 		return relations;
 	}
 
-	public JobCreation fetchSelectedJob(int jobId) {
+	private JobCreation fetchSelectedJob(int jobId) {
 		Session session = null;
 		JobCreation job = null;
 		try {
@@ -7965,6 +7996,28 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			JobCreation job = (JobCreation) session.get(JobCreation.class, jobCreationId);
+
+			return job;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("eeror in : fetchJobFromJobId");
+
+			throw e;
+		}
+	}
+
+	public JobCreation fetchSelectedJobForClient(int jobCreationId) throws Exception {
+		Session session = null;
+		if (jobCreationId == 0)
+			return null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(JobCreation.class, "jobCreation");
+			crit.add(Restrictions.eq("jobCreationId", jobCreationId));
+			// crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
+			JobCreation job = (JobCreation) crit.list().get(0);
+
 			return job;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -9055,5 +9108,106 @@ public class MySQLRdbHelper {
 	}
 
 	/// new method fetchInformationreqLogs...(Employee
+
+	public ArrayList<Exceptions> fetchJobExceptionWithImplicationRating(int jobId, int ImplicationRating) {
+		Session session = null;
+		ArrayList<Exceptions> exceptionsList = new ArrayList<Exceptions>();
+		int status = 0;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(Exceptions.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
+			crit.add(Restrictions.eq("implicationRating", ImplicationRating + ""));
+			crit.add(Restrictions.eq("jobCreation.jobCreationId", jobId));
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+
+				Exceptions exception = (Exceptions) it.next();
+				HibernateDetachUtility.nullOutUninitializedFields(exception,
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				// u if
+				// (exception.getImplicationRating().equals(ImplicationRating
+				// + "")) {
+				exceptionsList.add(exception);
+				// }
+			}
+
+			logger.info(
+					String.format("(Inside fetchJobStatus)  fetching JobStatus for job : " + jobId + " " + new Date()));
+
+		} catch (
+
+		Exception ex) {
+			logger.warn(String.format("Exception occured in fetchJobStatus", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+		return exceptionsList;
+
+	}
+
+	// fetching risks against job
+	public ArrayList<SuggestedControls> fetchControlsForReport(int jobId) {
+		ArrayList<SuggestedControls> controlList = new ArrayList<SuggestedControls>();
+		ArrayList<RiskJobRelation> risksList = new ArrayList<RiskJobRelation>();
+		try {
+			Criteria crit = session.createCriteria(RiskJobRelation.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
+			crit.createAlias("riskObjective", "risk");
+			crit.createAlias("risk.objectiveId", "riskObjective");
+			crit.createAlias("riskObjective.subProcessId", "risksubProcessId2");
+
+			crit.add(Restrictions.eq("jobCreation.jobCreationId", jobId));
+
+			List rsList = crit.list();
+
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				RiskJobRelation riskJobRelation = (RiskJobRelation) it.next();
+				RiskObjective riskObjective = riskJobRelation.getRiskObjective();
+				HibernateDetachUtility.nullOutUninitializedFields(riskObjective.getObjectiveId().getSubProcessId(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				controlList.addAll(fetchSuggestedControlsAgainstRiskInReport(riskObjective.getRiskId(), session));
+				risksList.add(riskJobRelation);
+			}
+
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in  fetchObjectiveRisksForSelectedJob", ex.getMessage()), ex);
+
+		} finally {
+
+		}
+		return controlList;
+
+	}
+
+	// 2019 for fetching controls
+	private ArrayList<SuggestedControls> fetchSuggestedControlsAgainstRiskInReport(int riskId, Session session) {
+		ArrayList<SuggestedControls> controlList = new ArrayList<SuggestedControls>();
+		try {
+			Criteria crit = session.createCriteria(SuggestedControls.class);
+			crit.createAlias("riskId", "risk");
+			crit.createAlias("risk.objectiveId", "riskObjective");
+			crit.createAlias("riskObjective.subProcessId", "risksubProcessId");
+			crit.add(Restrictions.eq("risk.riskId", riskId));
+
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				SuggestedControls suggestedControls = (SuggestedControls) it.next();
+				HibernateDetachUtility.nullOutUninitializedFields(suggestedControls,
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(
+						suggestedControls.getRiskId().getObjectiveId().getSubProcessId(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				controlList.add(suggestedControls);
+			}
+		} catch (Exception ex) {
+			System.out.println("error in fetchSuggestedControlsAgainstRiskObjective " + ex);
+		}
+		return controlList;
+
+	}
 
 }

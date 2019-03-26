@@ -3,6 +3,7 @@ package com.internalaudit.client.view;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -36,14 +37,11 @@ public class SideBarView extends VerticalLayoutContainer {
 	Image ImgCalendar = new Image("calendar.png");
 	Image ImgControls = new Image("controls.png");
 
-	private Employee loggedInUser = null;
-
-	public SideBarView(final Employee loggedInUser) {
+	public SideBarView(final Employee loggedInUser, final HandlerManager eventBus) {
 
 		panelbar.addStyleName("w3-sidebar w3-cobalt  w3-bar-block ");
 		panelbar.setWidth("64px");
 
-		this.loggedInUser = loggedInUser;
 		ImgMenu.addStyleName("w3-bar-item w3-button w3-round w3-hover-blue");
 		ImgCloseCircular.addStyleName("w3-bar-item w3-button w3-hover-blue");
 		ImgSecuirity.addStyleName("w3-bar-item w3-button w3-hover-blue");
@@ -169,7 +167,7 @@ public class SideBarView extends VerticalLayoutContainer {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ReportViewMain reportViewMain = new ReportViewMain();
+				ReportViewMain reportViewMain = new ReportViewMain(eventBus);
 
 				ScrollPanel panelScroll = new ScrollPanel();
 				panelScroll.setWidth("1080px");

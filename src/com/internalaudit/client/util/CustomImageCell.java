@@ -7,13 +7,13 @@ import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.safehtml.shared.UriUtils;
 
 public class CustomImageCell extends AbstractCell<String> {
-  private ImageXTemplate imageTemplate = GWT.create(ImageXTemplate.class);
+	private ImageXTemplate imageTemplate = GWT.create(ImageXTemplate.class);
 
-  @Override
-  public void render(Context context, String valueIsUrl, SafeHtmlBuilder sb) {
-    if (valueIsUrl != null) {
-      SafeUri url = UriUtils.fromString(valueIsUrl);
-      sb.append(imageTemplate.createImage(url.asString()));
-    }
-  }
+	@Override
+	public void render(Context context, String valueIsUrl, SafeHtmlBuilder sb) {
+		if (valueIsUrl != null) {
+			SafeUri url = UriUtils.fromString(valueIsUrl);
+			sb.append(imageTemplate.createImage(url.asString()));
+		}
+	}
 }

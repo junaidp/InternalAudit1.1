@@ -213,8 +213,13 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		eventBus.addHandler(ReportingEvent.TYPE, new ReportingEventHandler() {
 			public void onReporting(ReportingEvent event) {
 				centerPanel = event.getCenterPanel();
+				jobId = event.getJobId();
 
-				History.newItem("Reporting");
+				if (jobId != 0 && History.getToken().equals("Reporting"))
+					History.fireCurrentHistoryState();
+				else
+					History.newItem("Reporting");
+
 			}
 
 		});
@@ -290,7 +295,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			}
 			if (eventToken.equals("main")) {
 				presenter = new MainPresenter(rpcService, eventBus, selectedYear, loggedInUser,
-						new MainView(loggedInUser));
+						new MainView(loggedInUser, eventBus));
 				if (presenter != null) {
 					this.container = mainContainer;
 					presenter.go(container);
@@ -374,9 +379,17 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			}
 
 			else if (eventToken.equals("Reporting")) {
-				presenter = new ReportingPresenter(rpcService, eventBus, loggedInUser, tokenParams,
-						InternalAuditConstants.REPORTINGTAB,
-						new ReportingView(loggedInUser.getFromInternalAuditDept()));
+
+				if (jobId == 0) {
+					presenter = new ReportingPresenter(rpcService, eventBus, loggedInUser, tokenParams,
+							InternalAuditConstants.REPORTINGTAB,
+							new ReportingView(loggedInUser.getFromInternalAuditDept()));
+				} else {
+
+					presenter = new ReportingPresenter(rpcService, eventBus, loggedInUser, tokenParams,
+							InternalAuditConstants.REPORTINGTAB,
+							new ReportingView(loggedInUser.getFromInternalAuditDept()), jobId);
+				}
 				setContainer(centerPanel);
 				if (presenter != null) {
 					presenter.go(container);

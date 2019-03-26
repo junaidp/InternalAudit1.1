@@ -146,7 +146,8 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 			}
 			lblReplyOld = new Label();
 			lblReplyOldData = new Label();
-			lblReplyOld.setText("Message By ::" + toDo.getRaisedTo());
+			// lblReplyOld.setText("Message By ::" + toDo.getRaisedTo());
+			lblReplyOld.setText("Message By ::" + toDo.getTodoLogList().get(i).getAssignedFrom().getEmployeeName());
 			lblReplyOldData.setText(toDo.getTodoLogList().get(i).getRespond());
 			panelMail.add(lblReplyOld);
 			panelMail.add(lblReplyOldData);

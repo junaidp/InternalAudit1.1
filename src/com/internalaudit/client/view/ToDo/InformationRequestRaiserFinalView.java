@@ -148,7 +148,8 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 
 			Label lblReplyOldData = new Label();
 			lblReplyOld = new Label();
-			lblReplyOld.setText("Message From ::" + informationRequest.getRaisedTo());
+			lblReplyOld.setText("Message By ::"
+					+ informationRequest.getInformationRequestLogList().get(i).getAssignedFrom().getEmployeeName());
 			lblReplyOldData.setText(informationRequest.getInformationRequestLogList().get(i).getRespond());
 			panelMail.add(lblReplyOld);
 			panelMail.add(lblReplyOldData);

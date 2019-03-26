@@ -1673,9 +1673,25 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 
 	@Override
 	public ArrayList<ToDo> fetchToDoReLoad() {
-		// TODO Auto-generated method stub
 		Employee loggedInUser = (Employee) session.getAttribute("user");
 
 		return rdbHelper.fetchToDoReload(loggedInUser);
+	}
+
+	@Override
+	public ArrayList<Exceptions> fetchJobExceptionWithImplicationRating(int jobId, int ImplicationRating)
+			throws Exception {
+
+		return rdbHelper.fetchJobExceptionWithImplicationRating(jobId, ImplicationRating);
+	}
+
+	@Override
+	public ArrayList<SuggestedControls> fetchControlsForReport(int jobId) throws Exception {
+		return rdbHelper.fetchControlsForReport(jobId);
+	}
+
+	@Override
+	public JobCreation fetchSelectedJob(int jobId) throws Exception {
+		return rdbHelper.fetchSelectedJobForClient(jobId);
 	}
 }

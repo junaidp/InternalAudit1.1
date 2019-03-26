@@ -303,4 +303,10 @@ public interface InternalAuditService extends RemoteService {
 
 	ArrayList<ToDo> fetchToDoReLoad();
 
+	ArrayList<Exceptions> fetchJobExceptionWithImplicationRating(int jobId, int ImplicationRating) throws Exception;
+
+	ArrayList<SuggestedControls> fetchControlsForReport(int jobId) throws Exception;
+
+	JobCreation fetchSelectedJob(int jobId) throws Exception;
+
 }
