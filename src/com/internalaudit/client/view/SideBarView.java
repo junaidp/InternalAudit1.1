@@ -4,12 +4,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
-import com.internalaudit.client.view.InternalAuditReporting.ReportViewMain;
 import com.internalaudit.client.view.ToDo.InformationRequestRaisePortal;
 import com.internalaudit.client.view.ToDo.InformationRequestReceiverPortal;
 import com.internalaudit.client.view.ToDo.ToDoRaiserPortal;
@@ -167,18 +166,22 @@ public class SideBarView extends VerticalLayoutContainer {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ReportViewMain reportViewMain = new ReportViewMain(eventBus);
 
-				ScrollPanel panelScroll = new ScrollPanel();
-				panelScroll.setWidth("1080px");
-				panelScroll.setHeight("590px");
-				panelScroll.add(reportViewMain);
-				PopupsView pp = new PopupsView(panelScroll, "");
-
-				pp.getLabelheading().setText("Report View");
-				pp.getVpnlMain().setTitle("ReportView");
-				pp.getVpnlMain().setWidth("1100px");
-				pp.getVpnlMain().setHeight("600px");
+				History.newItem("AuditReporting");
+				/*
+				 * ReportViewMain reportViewMain = new ReportViewMain();
+				 * 
+				 * ScrollPanel panelScroll = new ScrollPanel();
+				 * panelScroll.setWidth("1080px");
+				 * panelScroll.setHeight("590px");
+				 * panelScroll.add(reportViewMain); PopupsView pp = new
+				 * PopupsView(panelScroll, "");
+				 * 
+				 * pp.getLabelheading().setText("Report View");
+				 * pp.getVpnlMain().setTitle("ReportView");
+				 * pp.getVpnlMain().setWidth("1100px");
+				 * pp.getVpnlMain().setHeight("600px");
+				 */
 
 			}
 		});
