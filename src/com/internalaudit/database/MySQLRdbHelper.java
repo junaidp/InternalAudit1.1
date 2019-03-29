@@ -116,7 +116,8 @@ public class MySQLRdbHelper {
 	private Session session;
 
 	private SessionFactory sessionFactory;
-	Logger logger;
+	// Logger logger;
+	private Logger logger = Logger.getLogger(MySQLRdbHelper.class.getName());
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
@@ -126,10 +127,13 @@ public class MySQLRdbHelper {
 	public Employee getAuthentication(String userid, String password) throws Exception {
 
 		System.out.print("Inisde Sign in");
+		// logger =
+		// Logger.getLogger("com.internalaudit.database.MySQLRdbHelper.class");
 		logger = Logger.getLogger("com.internalaudit.database.MySQLRdbHelper.class");
 		logger.setLevel(Level.DEBUG);
 		Employee employee = null;
 		Session session = null;
+		System.out.print(logger.getLevel() + "");
 		try {
 			session = sessionFactory.openSession();
 
@@ -158,7 +162,7 @@ public class MySQLRdbHelper {
 				// users.getEmployeeId().getEmployeeId(), set it here
 
 				System.out.println(employee.getEmail() + "Signed In on" + new Date());
-				logger.info(String.format(employee.getEmail() + "Signed In on from log" + new Date()));
+				logger.info((employee.getEmail() + "Signed In on from log" + new Date()));
 				// new LOGGER.log( Level.ALL, String.format(users.getName() +
 				// "Signed In on from logggggg" + new Date()));
 			}

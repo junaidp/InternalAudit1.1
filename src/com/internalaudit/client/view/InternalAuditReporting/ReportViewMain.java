@@ -3,6 +3,7 @@ package com.internalaudit.client.view.InternalAuditReporting;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -16,12 +17,14 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.event.ReportingEvent;
+import com.internalaudit.client.upload.AuditWorkProgramUpload;
 import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.client.view.ToDo.ToDoRaiserPortal;
@@ -36,29 +39,31 @@ public class ReportViewMain extends VerticalPanel {
 	private InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
 	private VerticalPanel panelSummaryOfAssesment = new VerticalPanel();
 	private VerticalPanel panelAllFindings = new VerticalPanel();
-	private HandlerManager eventBus;
-	private TextArea txt;
 	private TextArea txtBoxKeFinding1;
 	private LabelHeading lblKeyFinding1;
 	private VerticalPanel panelExceptionHigh = new VerticalPanel();
 	private VerticalPanel panelControls = new VerticalPanel();
 	private Button btnPrint = new Button("print");
-	// LabelHeading lblKeyFinding1;
-	// TextArea txtBoxKeFinding1;
 
-	public ReportViewMain(final HandlerManager eventBus) {
+	private VerticalPanel panelFileUpload = new VerticalPanel();
+
+	public ReportViewMain(HandlerManager eventBus) {
 
 		fetchJobs();
+		// getElement().getStyle().setMarginLeft(50, Unit.PX);
 		setWidth("850px");
 		// setHeight("700px");
 		LabelHeading lblMain = new LabelHeading();
 		HorizontalPanel panelDate = new HorizontalPanel();
+		panelDate.getElement().getStyle().setMarginRight(100, Unit.PX);
 		Label lblDate = new Label("Date");
 		DateBox dateBox = new DateBox();
+
 		LabelHeading lblExecutiveSummary = new LabelHeading();
 		TextArea txtBoxExecutiveSummary = new TextArea();
 		LabelHeading lblAuditPurpose = new LabelHeading();
 		TextArea txtBoxAuditPurpose = new TextArea();
+		TextArea txtBoxAnnexure = new TextArea();
 		LabelHeading lblSummaryOfAssesment = new LabelHeading();
 		LabelHeading lblKeyFinding = new LabelHeading();
 		LabelHeading lblKeyFinding1 = new LabelHeading();
@@ -80,8 +85,8 @@ public class ReportViewMain extends VerticalPanel {
 
 		styling(eventBus, lblMain, panelDate, lblExecutiveSummary, txtBoxExecutiveSummary, lblAuditPurpose,
 				txtBoxAuditPurpose, lblSummaryOfAssesment, lblKeyFinding, lblKeyFinding1, txtBoxKeFinding1,
-				lblAllFinding, lblAnnexure, lblOverallControl, lblAnnexure, btnSave, btnPrint);
-
+				lblAllFinding, lblAnnexure, lblOverallControl, lblAnnexure, btnSave, btnPrint, txtBoxAnnexure);
+		dateBox.getElement().setPropertyString("placeholder", "dd/mm/yyyy");
 		panelButton.add(btnSave);
 		panelButton.add(btnPrint);
 		panelButton.addStyleName("w3-right");
@@ -106,9 +111,13 @@ public class ReportViewMain extends VerticalPanel {
 		add(lblOverallControl);
 		add(panelControls);
 		add(lblAnnexure);
+		add(txtBoxAnnexure);
 		// add(txt);
+
+		String jobid = listBoxJobs.getSelectedValue();
+
+		add(panelFileUpload);
 		add(panelButton);
-		add(btnPrint);
 
 	}
 
@@ -117,41 +126,43 @@ public class ReportViewMain extends VerticalPanel {
 			TextArea txtBoxAuditPurpose, LabelHeading lblSummaryOfAssesment, LabelHeading lblKeyFinding,
 			LabelHeading lblKeyFinding1, TextArea txtBoxKeFinding1, LabelHeading lblAllFinding,
 			LabelHeading lblOverallControl, LabelHeading lblControl, LabelHeading lblAnnexure, ButtonRound btnSave,
-			ButtonRound btnPrint) {
+			ButtonRound btnPrint, TextArea txtBoxAnnexure) {
 		lblMain.setText("Internal Audit Report");
 		lblMain.addStyleName("heading");
 		panelDate.addStyleName("w3-right");
 		lblExecutiveSummary.setText("Executive Summary");
+		lblExecutiveSummary.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+		lblAuditPurpose.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+		lblSummaryOfAssesment.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+		lblAllFinding.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+		lblKeyFinding.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+		lblAnnexure.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 		txtBoxExecutiveSummary.setWidth("800px");
 		txtBoxExecutiveSummary.setHeight("50px");
-		// txtBoxExecutiveSummary.addStyleName("w3-pale-red");
-		txtBoxExecutiveSummary.setText("Executive summary text");
-		lblAuditPurpose.setText(" Audit purpose & its linkage with organisational objectives");
+		txtBoxExecutiveSummary.getElement().setPropertyString("placeholder", "Executive Summary");
+		txtBoxAuditPurpose.getElement().setPropertyString("placeholder", "Audit Purpose");
+		txtBoxAnnexure.getElement().setPropertyString("placeholder", "Audit Purpose");
+		txtBoxAnnexure.setWidth("800px");
+		txtBoxAnnexure.setHeight("50px");
 		txtBoxAuditPurpose.setWidth("800px");
 		txtBoxAuditPurpose.setHeight("50px");
 		// txtBoxAuditPurpose.addStyleName("w3-pale-green");
-		txtBoxAuditPurpose.setText("text of audit purpose");
+		// txtBoxAuditPurpose.setText("text of audit purpose");
 		lblSummaryOfAssesment.setText("Summary of overall assessment");
-		panelSummaryOfAssesment.setHeight("200px");
+		panelSummaryOfAssesment.setHeight("350px");
 		panelSummaryOfAssesment.setWidth("1000px");
 		panelControls.setWidth("1010px");
-		// panelSummaryOfAssesment.addStyleName("w3-pale-green");
 		panelSummaryOfAssesment.addStyleName("w3-border");
 		lblKeyFinding.setText("Key findings");
 		lblKeyFinding1.setText("Finding1");
 		lblKeyFinding.getElement().getStyle().setMarginTop(40, Unit.PX);
 		txtBoxKeFinding1.setText("finding of 1");
-		// fetchExceptionWithRating(jobId, ImplicationRating);
 		lblKeyFinding1.setWidth("100px");
 		txtBoxKeFinding1.setWidth("800px");
 		txtBoxKeFinding1.setHeight("50px");
-		// txtBoxKeFinding1.addStyleName("w3-pale-red");
 		lblAllFinding.setText("All Findings");
 		panelAllFindings.setHeight("250px");
-		// panelAllFindings.addStyleName("w3-pale-green");
 		panelAllFindings.addStyleName("w3-border");
-		// eventBus.fireEvent(new ReportingEvent(panelAllFindings,
-		// Integer.parseInt(listBoxJobs.getSelectedValue())));
 		lblOverallControl.setText("Overall Control Assesment");
 
 		lblAnnexure.setText("Annexure");
@@ -205,7 +216,7 @@ public class ReportViewMain extends VerticalPanel {
 
 						for (int i = 0; i < result.size(); i++) {
 							lblKeyFinding1 = new LabelHeading();
-							lblKeyFinding1.setText(result.get(i).getJobName());
+							lblKeyFinding1.setText("Finding" + (i + 1));
 							txtBoxKeFinding1 = new TextArea();
 							txtBoxKeFinding1.setText(result.get(i).getDetail());
 							panelExceptionHigh.add(lblKeyFinding1);
@@ -232,24 +243,35 @@ public class ReportViewMain extends VerticalPanel {
 				FlexTable flexOverallControl = new FlexTable();
 				flexOverallControl.setWidth("1010px");
 				LabelHeading lblControl = new LabelHeading();
+				lblControl.setWidth("500px");
 				LabelHeading lblOperationalEffectiveness = new LabelHeading();
 				LabelHeading lblObservationRef = new LabelHeading();
 				flexOverallControl.addStyleName("w3-panel w3-border");
 				lblControl.setText("Control");
 				lblOperationalEffectiveness.setText("Operational Effectiveness");
+				lblOperationalEffectiveness.setWidth("200px");
+				lblObservationRef.setWidth("200px");
 				lblObservationRef.setText("Observational Ref");
 				// flexOverallControl.setHeight("250px");
+				lblControl.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+				lblObservationRef.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+				lblOperationalEffectiveness.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+
 				flexOverallControl.setWidget(0, 1, lblControl);
 				flexOverallControl.setWidget(0, 2, lblOperationalEffectiveness);
 				flexOverallControl.setWidget(0, 3, lblObservationRef);
 				for (int i = 0; i < result.size(); i++) {
 					Label lblControlData = new Label();
-					lblControlData.setText(result.get(i).getSuggestedControlsName());
+					TextBox txtoperational = new TextBox();
 
+					lblControlData.setText(result.get(i).getSuggestedControlsName());
+					txtoperational.setWidth("200px");
 					Label lblReferenceData = new Label();
+					lblReferenceData.setWidth("200px");
+					lblControlData.setWidth("500px");
 					lblReferenceData.setText(result.get(i).getSuggestedReferenceNo());
 					flexOverallControl.setWidget(i + 1, 1, lblControlData);
-
+					flexOverallControl.setWidget(i + 1, 2, txtoperational);
 					flexOverallControl.setWidget(i + 1, 3, lblReferenceData);
 				}
 
@@ -264,6 +286,7 @@ public class ReportViewMain extends VerticalPanel {
 
 			@Override
 			public void onChange(Widget sender) {
+				panelFileUpload.clear();
 				panelExceptionHigh.clear();
 				panelControls.clear();
 				panelAllFindings.clear();
@@ -273,6 +296,9 @@ public class ReportViewMain extends VerticalPanel {
 				fetchExceptionWithRating(jobId, ImplicationRating);
 				fetchControls(jobId);
 				eventBus.fireEvent(new ReportingEvent(panelAllFindings, jobId));
+				String mainFolder = "Annexure Uploads";
+				AuditWorkProgramUpload annexureUpload = new AuditWorkProgramUpload(jobId + "", mainFolder);
+				panelFileUpload.add(annexureUpload);
 			}
 		});
 	}

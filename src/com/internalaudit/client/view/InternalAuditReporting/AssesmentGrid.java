@@ -7,12 +7,10 @@ import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
-import com.google.gwt.text.shared.AbstractSafeHtmlRenderer;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.shared.JobStatusDTO;
-import com.sencha.gxt.cell.core.client.SimpleSafeHtmlCell;
+import com.sencha.gxt.cell.core.client.form.CheckBoxCell;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.Portlet;
@@ -71,15 +69,15 @@ public class AssesmentGrid extends VerticalLayoutContainer {
 		reporting1.setId(2);
 
 		AssesmentGridEntity reporting2 = new AssesmentGridEntity();
-		reporting2.setName(" Steps were taken by the reponsible to bring improvement process");
+		reporting2.setName(" Steps were taken by the rseponsible to bring improvement process");
 		reporting2.setId(3);
 
 		AssesmentGridEntity reporting3 = new AssesmentGridEntity();
-		reporting3.setName(" Process owners precieved audit activity as an opportunity to bring improvements");
+		reporting3.setName(" Process owners perceived audit activity as an opportunity to bring improvements");
 		reporting3.setId(4);
 
 		AssesmentGridEntity reporting4 = new AssesmentGridEntity();
-		reporting4.setName(" Opprtunites exist to further improve effectiveness and efficincy of the power");
+		reporting4.setName(" Opportunities exist to further improve effectiveness and efficincy of the power");
 		reporting4.setId(5);
 
 		listReporting.add(reporting0);
@@ -95,10 +93,10 @@ public class AssesmentGrid extends VerticalLayoutContainer {
 
 		for (int i = 0; i < listReporting.size(); i++) {
 
-			listReporting.get(i).setUrlComplete("greenCircleNew.png");
+			// .AssesmentGridlistReporting.get(i).setUrlComplete("greenCircleNew.png");
 			// listReporting.get(i).setUrlComplete(new CheckBox());
 
-			listReporting.get(i).setUrlNonSatisfy("redCircleNew.png");
+			// listReporting.get(i).setUrlNonSatisfy("redCircleNew.png");
 
 			listReporting.get(i).setUrlSatisfyboolean(false);
 			listReporting.get(i).setUrlCompleteboolean(false);
@@ -123,29 +121,41 @@ public class AssesmentGrid extends VerticalLayoutContainer {
 				reportingProperties.urlSatisfyboolean(), 100, "Partially Satisfied");
 		ColumnConfig<AssesmentGridEntity, Boolean> unsatisfied = new ColumnConfig<AssesmentGridEntity, Boolean>(
 				reportingProperties.urlNonSatisfyboolean(), 100, "UnSatisfied");
-		// complete.setCell(new CustomImageCell());
-		complete.setCell(new SimpleSafeHtmlCell<Boolean>(new AbstractSafeHtmlRenderer<Boolean>() {
-			@Override
-			public SafeHtml render(Boolean object) {
-				return SafeHtmlUtils.fromTrustedString(object ? "True" : "False");
-			}
-		}));
 
-		// satisfy.setCell(new CustomImageCell());
-		satisfy.setCell(new SimpleSafeHtmlCell<Boolean>(new AbstractSafeHtmlRenderer<Boolean>() {
-			@Override
-			public SafeHtml render(Boolean object) {
-				return SafeHtmlUtils.fromTrustedString(object ? "True" : "False");
-			}
-		}));
+		CheckBoxCell cellComplete = new CheckBoxCell();
+		complete.setCell(cellComplete);
 
-		// unsatisfied.setCell(new CustomImageCell());
-		unsatisfied.setCell(new SimpleSafeHtmlCell<Boolean>(new AbstractSafeHtmlRenderer<Boolean>() {
-			@Override
-			public SafeHtml render(Boolean object) {
-				return SafeHtmlUtils.fromTrustedString(object ? "True" : "False");
-			}
-		}));
+		CheckBoxCell cellSatisfy = new CheckBoxCell();
+		satisfy.setCell(cellSatisfy);
+
+		CheckBoxCell cellNonSatisfy = new CheckBoxCell();
+		unsatisfied.setCell(cellNonSatisfy);
+		// // complete.setCell(new CustomImageCell());
+		// complete.setCell(new SimpleSafeHtmlCell<Boolean>(new
+		// AbstractSafeHtmlRenderer<Boolean>() {
+		// @Override
+		// public SafeHtml render(Boolean object) {
+		// return SafeHtmlUtils.fromTrustedString(object ? "True" : "False");
+		// }
+		// }));
+		//
+		// // satisfy.setCell(new CustomImageCell());
+		// satisfy.setCell(new SimpleSafeHtmlCell<Boolean>(new
+		// AbstractSafeHtmlRenderer<Boolean>() {
+		// @Override
+		// public SafeHtml render(Boolean object) {
+		// return SafeHtmlUtils.fromTrustedString(object ? "True" : "False");
+		// }
+		// }));
+		//
+		// // unsatisfied.setCell(new CustomImageCell());
+		// unsatisfied.setCell(new SimpleSafeHtmlCell<Boolean>(new
+		// AbstractSafeHtmlRenderer<Boolean>() {
+		// @Override
+		// public SafeHtml render(Boolean object) {
+		// return SafeHtmlUtils.fromTrustedString(object ? "True" : "False");
+		// }
+		// }));
 
 		List<ColumnConfig<AssesmentGridEntity, ?>> columns = new ArrayList<ColumnConfig<AssesmentGridEntity, ?>>();
 
@@ -196,9 +206,9 @@ public class AssesmentGrid extends VerticalLayoutContainer {
 				AssesmentGridEntity reporting = new AssesmentGridEntity();
 				reporting.setName("reporting");
 				reporting.setId(id + 5);
-				reporting.setUrlComplete("greenCircleNew.png");
-				reporting.setUrlSatisfy("yellowCircleNew.png");
-				reporting.setUrlNonSatisfy("redCircleNew.png");
+				// reporting.setUrlCompleteboolean(true);
+				// reporting.setUrlSatisfy("yellowCircleNew.png");
+				// reporting.setUrlNonSatisfy("redCircleNew.png");
 
 				// updateReportingStatusForOthers();
 

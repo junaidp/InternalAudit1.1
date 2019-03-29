@@ -1,5 +1,10 @@
 package com.internalaudit.client.view;
 
+import java.util.Date;
+
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -46,6 +51,7 @@ public class MainView extends Composite implements Display {
 	private VerticalLayoutContainer vpnlDashBoardNew = new VerticalLayoutContainer();
 	private VerticalPanel panelBar = new VerticalPanel();
 	private VerticalPanel containerAuditPlanning = new VerticalPanel();
+	Logger logger = Logger.getLogger(MainView.class);
 
 	PlainTabPanel panel = new PlainTabPanel();
 	HorizontalPanel checkpanel = new HorizontalPanel();
@@ -54,6 +60,8 @@ public class MainView extends Composite implements Display {
 
 	public MainView(Employee loggedInUser, HandlerManager eventBus) {
 		// new code
+		logger.setLevel(Level.DEBUG);
+		logger.info("Signed In on from logmain view" + new Date());
 		panel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 		panelImages.setWidth("110px");
 		panelImages.setHeight("200px");

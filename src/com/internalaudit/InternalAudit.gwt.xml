@@ -12,7 +12,7 @@
   <inherits name='com.sencha.gxt.chart.Chart' />
   <!-- <stylesheet src="reset.css" /> -->
   <inherits name="org.apache.log4j.Log4j" />
- <inherits name="com.google.gwt.logging.Logging"/>
+   <inherits name="com.google.gwt.logging.Logging"/>
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->
   <!-- any one of the following lines.                            -->
