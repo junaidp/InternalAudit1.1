@@ -100,7 +100,7 @@ public class AuditNotificationViewNew extends Composite {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// btnSend.setEnabled(false);
+				btnSend.setEnabled(false);
 				auditNotificationViewNewData.sendMessage(btnSend);
 
 			}

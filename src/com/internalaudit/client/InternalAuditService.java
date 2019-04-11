@@ -33,6 +33,7 @@ import com.internalaudit.shared.JobTimeAllocationReportDTO;
 import com.internalaudit.shared.JobTimeEstimationDTO;
 import com.internalaudit.shared.JobsOfEmployee;
 import com.internalaudit.shared.ProcessDTO;
+import com.internalaudit.shared.ReportDataEntity;
 import com.internalaudit.shared.ResourceUse;
 import com.internalaudit.shared.RiskAssesmentDTO;
 import com.internalaudit.shared.RiskControlMatrixEntity;
@@ -309,4 +310,8 @@ public interface InternalAuditService extends RemoteService {
 
 	JobCreation fetchSelectedJob(int jobId) throws Exception;
 
+	// 2019 april
+	String saveReportDataPopup(ReportDataEntity reportData);
+
+	ReportDataEntity fetchReportDataPopup(int jobId) throws Exception;
 }

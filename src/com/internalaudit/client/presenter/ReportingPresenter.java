@@ -136,6 +136,7 @@ public class ReportingPresenter implements Presenter
 
 					@Override
 					public void onSuccess(final ArrayList<Exceptions> result) {
+
 						// display.getVpnlSelectedJob().clear();/// hERE
 						if (result.size() > 0) {
 							display.getVpnlSelectedJob().clear();/// hERE

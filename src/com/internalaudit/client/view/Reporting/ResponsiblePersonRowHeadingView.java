@@ -29,16 +29,16 @@ public class ResponsiblePersonRowHeadingView extends VerticalPanel {
 		LabelHeading managementComments = new LabelHeading();
 		managementComments.setText("Management Comments");
 		LabelHeading implementaionDate = new LabelHeading();
-		implementaionDate.setText("Implementaion");
+		implementaionDate.setText("Implementation");
 
 		LabelHeading implicationRating = new LabelHeading();
-		implicationRating.setText("ImplicationRating");
+		implicationRating.setText("Implication Rating");
 		LabelHeading responsiblePerson = new LabelHeading();
 		responsiblePerson.setText("Responsible Person");
 		LabelHeading isAgree = new LabelHeading();
 		isAgree.setText("Agree");
 		LabelHeading implication = new LabelHeading();
-		implication.setText("implication");
+		implication.setText("Implication");
 
 		exception.setWidth("140px");
 		implication.setWidth("130px");

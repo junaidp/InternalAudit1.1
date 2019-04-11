@@ -31,6 +31,7 @@ import com.internalaudit.client.view.ToDo.ToDoRaiserPortal;
 import com.internalaudit.shared.Exceptions;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.JobStatusDTO;
+import com.internalaudit.shared.ReportDataEntity;
 import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.ToDo;
 
@@ -44,13 +45,18 @@ public class ReportViewMain extends VerticalPanel {
 	private VerticalPanel panelExceptionHigh = new VerticalPanel();
 	private VerticalPanel panelControls = new VerticalPanel();
 	private Button btnPrint = new Button("print");
-
+	private TextArea txtBoxExecutiveSummary = new TextArea();
+	private TextArea txtBoxAuditPurpose = new TextArea();
+	private TextArea txtBoxAnnexure = new TextArea();
 	private VerticalPanel panelFileUpload = new VerticalPanel();
+	private ButtonRound btnSave = new ButtonRound("Save");
+	private ReportDataEntity reportData1 = null;
+	int selectedJobId = 0;
 
 	public ReportViewMain(HandlerManager eventBus) {
 
 		fetchJobs();
-		// getElement().getStyle().setMarginLeft(50, Unit.PX);
+		getElement().getStyle().setMarginLeft(20, Unit.PX);
 		setWidth("850px");
 		// setHeight("700px");
 		LabelHeading lblMain = new LabelHeading();
@@ -60,10 +66,9 @@ public class ReportViewMain extends VerticalPanel {
 		DateBox dateBox = new DateBox();
 
 		LabelHeading lblExecutiveSummary = new LabelHeading();
-		TextArea txtBoxExecutiveSummary = new TextArea();
+
 		LabelHeading lblAuditPurpose = new LabelHeading();
-		TextArea txtBoxAuditPurpose = new TextArea();
-		TextArea txtBoxAnnexure = new TextArea();
+
 		LabelHeading lblSummaryOfAssesment = new LabelHeading();
 		LabelHeading lblKeyFinding = new LabelHeading();
 		LabelHeading lblKeyFinding1 = new LabelHeading();
@@ -72,7 +77,7 @@ public class ReportViewMain extends VerticalPanel {
 		LabelHeading lblOverallControl = new LabelHeading();
 
 		LabelHeading lblAnnexure = new LabelHeading();
-		ButtonRound btnSave = new ButtonRound("Save");
+
 		ButtonRound btnPrint = new ButtonRound("Print");
 		HorizontalPanel panelButton = new HorizontalPanel();
 
@@ -82,6 +87,7 @@ public class ReportViewMain extends VerticalPanel {
 		AssesmentGrid assesmentGrid = new AssesmentGrid(jobStatus);
 
 		valueChangeHandler(eventBus);
+		saveHandler();
 
 		styling(eventBus, lblMain, panelDate, lblExecutiveSummary, txtBoxExecutiveSummary, lblAuditPurpose,
 				txtBoxAuditPurpose, lblSummaryOfAssesment, lblKeyFinding, lblKeyFinding1, txtBoxKeFinding1,
@@ -121,6 +127,30 @@ public class ReportViewMain extends VerticalPanel {
 
 	}
 
+	private void saveHandler() {
+		btnSave.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// Window.alert("clicked");
+
+				// reportData.setJobId(parseInt);
+				if (reportData1 == null || reportData1.getJobId() != Integer.parseInt(listBoxJobs.getSelectedValue())) {
+					reportData1 = new ReportDataEntity();
+					reportData1.setJobId(selectedJobId);
+					// reportData1.setJobId(Integer.parseInt(listBoxJobs.getSelectedValue()));
+				}
+				reportData1.setAnnexure(txtBoxAnnexure.getText());
+				reportData1.setAuditPurpose(txtBoxAuditPurpose.getText());
+				reportData1.setExecutiveSummary(txtBoxExecutiveSummary.getText());
+
+				saveReportData(reportData1);
+
+			}
+		});
+
+	}
+
 	private void styling(HandlerManager eventBus, LabelHeading lblMain, HorizontalPanel panelDate,
 			LabelHeading lblExecutiveSummary, TextArea txtBoxExecutiveSummary, LabelHeading lblAuditPurpose,
 			TextArea txtBoxAuditPurpose, LabelHeading lblSummaryOfAssesment, LabelHeading lblKeyFinding,
@@ -131,6 +161,7 @@ public class ReportViewMain extends VerticalPanel {
 		lblMain.addStyleName("heading");
 		panelDate.addStyleName("w3-right");
 		lblExecutiveSummary.setText("Executive Summary");
+		lblAuditPurpose.setText("Audit Purpose");
 		lblExecutiveSummary.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 		lblAuditPurpose.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 		lblSummaryOfAssesment.getElement().getStyle().setFontWeight(FontWeight.BOLD);
@@ -141,7 +172,7 @@ public class ReportViewMain extends VerticalPanel {
 		txtBoxExecutiveSummary.setHeight("50px");
 		txtBoxExecutiveSummary.getElement().setPropertyString("placeholder", "Executive Summary");
 		txtBoxAuditPurpose.getElement().setPropertyString("placeholder", "Audit Purpose");
-		txtBoxAnnexure.getElement().setPropertyString("placeholder", "Audit Purpose");
+		txtBoxAnnexure.getElement().setPropertyString("placeholder", "Annexure");
 		txtBoxAnnexure.setWidth("800px");
 		txtBoxAnnexure.setHeight("50px");
 		txtBoxAuditPurpose.setWidth("800px");
@@ -152,14 +183,14 @@ public class ReportViewMain extends VerticalPanel {
 		panelSummaryOfAssesment.setHeight("350px");
 		panelSummaryOfAssesment.setWidth("1000px");
 		panelControls.setWidth("1010px");
+		panelExceptionHigh.setWidth("800px");
 		panelSummaryOfAssesment.addStyleName("w3-border");
 		lblKeyFinding.setText("Key findings");
 		lblKeyFinding1.setText("Finding1");
 		lblKeyFinding.getElement().getStyle().setMarginTop(40, Unit.PX);
 		txtBoxKeFinding1.setText("finding of 1");
-		lblKeyFinding1.setWidth("100px");
+		lblKeyFinding1.setWidth("800px");
 		txtBoxKeFinding1.setWidth("800px");
-		txtBoxKeFinding1.setHeight("50px");
 		lblAllFinding.setText("All Findings");
 		panelAllFindings.setHeight("250px");
 		panelAllFindings.addStyleName("w3-border");
@@ -168,6 +199,7 @@ public class ReportViewMain extends VerticalPanel {
 		lblAnnexure.setText("Annexure");
 		btnPrint.addStyleName("w3-margin");
 		btnSave.addStyleName("w3-margin");
+
 		btnPrint.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -218,6 +250,7 @@ public class ReportViewMain extends VerticalPanel {
 							lblKeyFinding1 = new LabelHeading();
 							lblKeyFinding1.setText("Finding" + (i + 1));
 							txtBoxKeFinding1 = new TextArea();
+							txtBoxKeFinding1.setWidth("800px");
 							txtBoxKeFinding1.setText(result.get(i).getDetail());
 							panelExceptionHigh.add(lblKeyFinding1);
 							panelExceptionHigh.add(txtBoxKeFinding1);
@@ -229,6 +262,10 @@ public class ReportViewMain extends VerticalPanel {
 	}
 
 	private void fetchControls(int jobId) {
+
+		//
+
+		//
 		rpcService.fetchControlsForReport(jobId, new AsyncCallback<ArrayList<SuggestedControls>>() {
 
 			@Override
@@ -286,11 +323,14 @@ public class ReportViewMain extends VerticalPanel {
 
 			@Override
 			public void onChange(Widget sender) {
+
 				panelFileUpload.clear();
+				CalearData();
 				panelExceptionHigh.clear();
 				panelControls.clear();
 				panelAllFindings.clear();
-				int jobId = Integer.parseInt(listBoxJobs.getSelectedValue());
+				selectedJobId = Integer.parseInt(listBoxJobs.getSelectedValue());
+				final int jobId = Integer.parseInt(listBoxJobs.getSelectedValue());
 				int ImplicationRating = 2;
 				// fetchControl(jobId, flexOverallControl);
 				fetchExceptionWithRating(jobId, ImplicationRating);
@@ -299,8 +339,63 @@ public class ReportViewMain extends VerticalPanel {
 				String mainFolder = "Annexure Uploads";
 				AuditWorkProgramUpload annexureUpload = new AuditWorkProgramUpload(jobId + "", mainFolder);
 				panelFileUpload.add(annexureUpload);
+				fetchReportData(jobId);
+
+			}
+
+		});
+	}
+
+	private void fetchReportData(int jobId) {
+		rpcService.fetchReportDataPopup(jobId, new AsyncCallback<ReportDataEntity>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("fetchReportDataPopup failed");
+
+			}
+
+			@Override
+			public void onSuccess(ReportDataEntity result) {
+				txtBoxAnnexure.setText(result.getAnnexure());
+				txtBoxAuditPurpose.setText(result.getAuditPurpose());
+				txtBoxExecutiveSummary.setText(result.getExecutiveSummary());
+
+				reportData1 = result;
+				// result.setReportDataId(result.getReportDataId());
+				// result.setAnnexure(txtBoxAnnexure.getText());
+				// result.setAuditPurpose(txtBoxAuditPurpose.getText());
+				// result.setExecutiveSummary(txtBoxExecutiveSummary.getText());
+				// saveReportData(result);
+
 			}
 		});
+
+	}
+
+	private void saveReportData(ReportDataEntity reportData) {
+		rpcService.saveReportDataPopup(reportData, new AsyncCallback<String>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("saving failed");
+
+			}
+
+			@Override
+			public void onSuccess(String result) {
+				Window.alert("Saved");
+
+			}
+
+		});
+	}
+
+	private void CalearData() {
+		txtBoxAnnexure.setText("");
+		txtBoxAuditPurpose.setText("");
+		txtBoxExecutiveSummary.setText("");
+
 	}
 
 }

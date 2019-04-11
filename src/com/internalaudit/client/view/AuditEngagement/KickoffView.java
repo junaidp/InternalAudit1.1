@@ -365,7 +365,7 @@ public class KickoffView extends Composite {
 
 		});
 		HorizontalPanel panelAuditWorkBtn = new HorizontalPanel();
-		panelAuditWorkBtn.addStyleName("w3-display-bottomright");
+		panelAuditWorkBtn.addStyleName("w3-display-bottom");
 		panelAuditWorkBtn.add(btnSaveAuditWork);
 		panelAuditWorkBtn.add(btnApproveAuditWork);
 		ScrollPanel scroll = new ScrollPanel();
@@ -447,8 +447,9 @@ public class KickoffView extends Composite {
 		}
 
 		HorizontalPanel panelButtons = new HorizontalPanel();
-		panelButtons.getElement().getStyle().setMarginTop(10, Unit.PX);
-		panelButtons.getElement().getStyle().setMarginLeft(1100, Unit.PX);
+		// panelButtons.getElement().getStyle().setMarginTop(10, Unit.PX);
+		// a panelButtons.getElement().getStyle().setMarginLeft(1100, Unit.PX);
+		panelButtons.addStyleName("w3-display-bottom w3-margin");
 		// final VerticalPanel addPanelExistingControl = new VerticalPanel();
 		// vpExistingControl.add(addPanelExistingControl);
 		vpExistingControl.add(userRiskControlContainer);
@@ -616,7 +617,8 @@ public class KickoffView extends Composite {
 		hpnlButton.add(btnSaveKeyRisk);
 		hpnlButton.add(btnSubmitKeyRisk);
 		verticalPanelKeyRisks.add(hpnlButton);
-		hpnlButton.addStyleName("w3-display-bottomright w3-margin");
+		// hpnlButton.getElement().getStyle().setMarginTop(30, Unit.PX);
+		hpnlButton.addStyleName("w3-display-bottom w3-margin");
 
 		if (record.getEngagementDTO().getRiskObjectiveList().isEmpty()
 				&& record.getEngagementDTO().getSelectedObjectiveRisks().isEmpty()) {
@@ -690,7 +692,7 @@ public class KickoffView extends Composite {
 		final VerticalPanel usersActivityContainer = new VerticalPanel();
 		ButtonRound btnSaveActicityObjective = new ButtonRound("Save");
 		ButtonRound btnSubmitActicityObjective = new ButtonRound("Submit");
-		btnSaveActicityObjective.addStyleName("w3-display-bottomright w3-margin");
+		btnSaveActicityObjective.addStyleName("w3-display-bottom w3-margin");
 		btnSaveActicityObjective.getElement().getStyle().setMarginLeft(600, Unit.PX);
 		vpnlActicityObjective.setHeight("370px");
 
@@ -706,6 +708,9 @@ public class KickoffView extends Composite {
 				activityObjectiveView.disable();
 				btnSaveActicityObjective.setVisible(false);
 				btnAddAcitivityObjective.setVisible(false);
+
+				// 2019 april
+				btnSubmitActicityObjective.setVisible(false);
 			}
 			// activityObjectiveView.getDelete().addClickHandler(new
 			// ClickHandler() {

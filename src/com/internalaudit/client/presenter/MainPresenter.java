@@ -286,15 +286,15 @@ public class MainPresenter implements Presenter
 
 			@Override
 			public void onSuccess(Integer currentYear) {
-				display.getListYears().addItem(currentYear + "");
-				display.getListYears().addItem(currentYear + 1 + "");
-				display.getListYears().addItem(currentYear + 2 + "");
-				display.getListYears().addItem(currentYear + 3 + "");
-				display.getListYears().addItem(currentYear + 4 + "");
-				display.getListYears().addItem(currentYear - 1 + "");
-				display.getListYears().addItem(currentYear - 2 + "");
-				display.getListYears().addItem(currentYear - 3 + "");
-				display.getListYears().addItem(currentYear - 4 + "");
+				display.getListYears().addItem(currentYear + "", currentYear + "");
+				display.getListYears().addItem(currentYear + 1 + "", currentYear + 1 + "");
+				display.getListYears().addItem(currentYear + 2 + "", currentYear + 2 + "");
+				display.getListYears().addItem(currentYear + 3 + "", currentYear + 3 + "");
+				display.getListYears().addItem(currentYear + 4 + "", currentYear + 4 + "");
+				display.getListYears().addItem(currentYear - 1 + "", currentYear - 1 + "");
+				display.getListYears().addItem(currentYear - 2 + "", currentYear - 2 + "");
+				display.getListYears().addItem(currentYear - 3 + "", currentYear - 3 + "");
+				display.getListYears().addItem(currentYear - 4 + "", currentYear - 4 + "");
 
 				if (selectedYear != 0) {
 					for (int i = 0; i < display.getListYears().getItemCount(); i++) {
@@ -339,7 +339,7 @@ public class MainPresenter implements Presenter
 	}
 
 	public void selectYear() {
-		final int year = Integer.parseInt(display.getListYears().getValue(display.getListYears().getSelectedIndex()));
+		final int year = Integer.parseInt(display.getListYears().getSelectedValue());
 		final LoadingPopup loading = new LoadingPopup();
 		loading.display();
 		rpcService.selectYear(year, new AsyncCallback<Void>() {

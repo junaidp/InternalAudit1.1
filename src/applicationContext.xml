@@ -73,6 +73,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 				<value>com.internalaudit.shared.InformationRequestEntity</value>
 				<value>com.internalaudit.shared.ToDoLogsEntity</value>
 				<value>com.internalaudit.shared.InformationRequestLogEntity</value>
+				<value>com.internalaudit.shared.ReportDataEntity</value>
 				
 			</list>
 		</property>

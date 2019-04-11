@@ -82,12 +82,13 @@ public class RisksView extends Composite {
 	private int auditEngId;
 	private Employee loggedInEmployee;
 	private ArrayList<RiskControlMatrixEntity> savedRisks;
-	private ArrayList<RiskObjective> listRisks ;
+	private ArrayList<RiskObjective> listRisks;
 
 	interface RisksViewUiBinder extends UiBinder<Widget, RisksView> {
 	}
 
-	public RisksView(final int auditEngId, final InternalAuditServiceAsync rpcService, Employee employee, ArrayList<RiskObjective> listSavedRisks, VerticalPanel vpExistingControlContainer) {
+	public RisksView(final int auditEngId, final InternalAuditServiceAsync rpcService, Employee employee,
+			ArrayList<RiskObjective> listSavedRisks, VerticalPanel vpExistingControlContainer) {
 		initWidget(uiBinder.createAndBindUi(this));
 
 		this.rpcService = rpcService;
@@ -97,8 +98,8 @@ public class RisksView extends Composite {
 		getRiskInfo(auditEngId, vpExistingControlContainer);
 
 		setHandlers(auditEngId, rpcService);
-		
-		initiationButtonsPanel.getElement().getStyle().setPaddingLeft(900, Unit.PX);
+		approvalButtonsPanel.getElement().getStyle().setMarginTop(40, Unit.PX);
+		initiationButtonsPanel.addStyleName("w3-display-bottom w3-margin");
 		approvalButtonsPanel.getElement().getStyle().setPaddingLeft(400, Unit.PX);
 	}
 
@@ -181,8 +182,7 @@ public class RisksView extends Composite {
 	public void addRow(final RiskControlMatrixView controlView, RiskObjective riskObjective) {
 		final RiskRow riskRow = new RiskRow();
 		riskRows.add(riskRow);
-		
-		
+
 		riskRow.getRemoveRow().addClickHandler(new ClickHandler() {
 
 			@Override
@@ -194,18 +194,17 @@ public class RisksView extends Composite {
 						riskRows.remove(i);
 					}
 				}
-				
+
 			}
 		});
-		
-		
+
 		riskRow.getExistingControlView().populateRisks(listRisks, riskObjective);
-		
-		//Setting new control matrix from selected control matrix
-		if(controlView !=null){
-			
+
+		// Setting new control matrix from selected control matrix
+		if (controlView != null) {
+
 			riskRow.getExistingControlView().setData(controlView);
-		}else{
+		} else {
 			riskRow.getExistingControlView().getLblRefData().setText(MyUtil.getRandom());
 		}
 	}
@@ -249,8 +248,8 @@ public class RisksView extends Composite {
 		});
 	}
 
-	private void saveRisks(final int auditEngId, final InternalAuditServiceAsync rpcService, ArrayList<RiskControlMatrixEntity> records,
-			int status) {
+	private void saveRisks(final int auditEngId, final InternalAuditServiceAsync rpcService,
+			ArrayList<RiskControlMatrixEntity> records, int status) {
 		feedbackPanel.setVisible(false);
 
 		for (int i = 0; i < riskRows.getWidgetCount(); i++) {
@@ -262,17 +261,15 @@ public class RisksView extends Composite {
 			AuditEngagement auditEng = new AuditEngagement();
 			auditEng.setAuditEngId(auditEngId);
 			riskControlMatrix.setAuditEngageId(auditEng);
-			
-			
+
 			saveSuggestedControls(current, riskControlMatrix);
-				
+
 			riskControlMatrix.setRiskId(Integer.parseInt(current.getRiskId().getText()));
 
 			saveSuggestedContols(current, riskControlMatrix);
 
-			//risk.setDescription(current.getExistingControlView().get.getDescription().getText());
-			//risk.setExistingControl(current.getControl().getText());
-
+			// risk.setDescription(current.getExistingControlView().get.getDescription().getText());
+			// risk.setExistingControl(current.getControl().getText());
 
 			if (status != InternalAuditConstants.SAVED) {
 				current.disableFields();
@@ -304,8 +301,8 @@ public class RisksView extends Composite {
 		riskControlMatrix.setSuggestedControlsId(suggestedControls);
 	}
 
-	private void approveRisks(final int auditEngId, final InternalAuditServiceAsync rpcService, ArrayList<RiskControlMatrixEntity> records,
-			int status, String feedback) {
+	private void approveRisks(final int auditEngId, final InternalAuditServiceAsync rpcService,
+			ArrayList<RiskControlMatrixEntity> records, int status, String feedback) {
 		for (int i = 0; i < riskRows.getWidgetCount(); i++) {
 			RiskRow current = ((RiskRow) (riskRows.getWidget(i)));
 			if (Integer.parseInt(current.getRiskId().getText()) == 0) {
@@ -315,13 +312,12 @@ public class RisksView extends Composite {
 				AuditEngagement auditEng = new AuditEngagement();
 				auditEng.setAuditEngId(auditEngId);
 				risk.setAuditEngageId(auditEng);
-				//risk.setAuditEngageId(auditEngId);
+				// risk.setAuditEngageId(auditEngId);
 
-				//	risk.setDescription(current.getDescription().getText());
-				//	risk.setExistingControl(current.getControl().getText());
+				// risk.setDescription(current.getDescription().getText());
+				// risk.setExistingControl(current.getControl().getText());
 
 				saveSuggestedContols(current, risk);
-
 
 				Employee initiatedBy = new Employee();
 				initiatedBy = loggedInEmployee;
@@ -338,8 +334,8 @@ public class RisksView extends Composite {
 				for (int j = 0; j < savedRisks.size(); j++) {
 					if (Integer.parseInt(current.getRiskId().getText()) == savedRisks.get(j).getRiskId()) {
 						RiskControlMatrixEntity risk = savedRisks.get(j);
-						//risk.setDescription(current.getDescription().getText());
-						//risk.setExistingControl(current.getControl().getText());
+						// risk.setDescription(current.getDescription().getText());
+						// risk.setExistingControl(current.getControl().getText());
 
 						saveSuggestedContols(current, risk);
 
@@ -368,13 +364,18 @@ public class RisksView extends Composite {
 	private void saveSuggestedContols(RiskRow current, RiskControlMatrixEntity risk) {
 		SuggestedControls suggestedControlsId = new SuggestedControls();
 		current.getExistingControlView().getData(suggestedControlsId);
-		
-		/*suggestedControlsId.setSuggestedControlsId(current.getExistingControlView().getSuggestedControlsId());
-		suggestedControlsId.setSuggestedControlsName(current.getExistingControlView().getTxtAreaControl().getText());
-		RiskObjective riskObjective = current.getExistingControlView().getRiskObjective();
-		riskObjective.setRiskname(current.getExistingControlView().getLblriskdata().getText());
-		suggestedControlsId.setRiskId(riskObjective);
-		*/
+
+		/*
+		 * suggestedControlsId.setSuggestedControlsId(current.
+		 * getExistingControlView().getSuggestedControlsId());
+		 * suggestedControlsId.setSuggestedControlsName(current.
+		 * getExistingControlView().getTxtAreaControl().getText());
+		 * RiskObjective riskObjective =
+		 * current.getExistingControlView().getRiskObjective();
+		 * riskObjective.setRiskname(current.getExistingControlView().
+		 * getLblriskdata().getText());
+		 * suggestedControlsId.setRiskId(riskObjective);
+		 */
 		risk.setSuggestedControlsId(suggestedControlsId);
 	}
 
@@ -409,11 +410,14 @@ public class RisksView extends Composite {
 					}
 					current.getRiskId().setText(String.valueOf(r.get(i).getRiskId()));
 
-					current.getExistingControlView().getLblriskdata().setText(r.get(i).getSuggestedControlsId().getRiskId().getRiskname());
-					current.getExistingControlView().getTxtAreaControl().setText(r.get(i).getSuggestedControlsId().getSuggestedControlsName());
-					
+					current.getExistingControlView().getLblriskdata()
+							.setText(r.get(i).getSuggestedControlsId().getRiskId().getRiskname());
+					current.getExistingControlView().getTxtAreaControl()
+							.setText(r.get(i).getSuggestedControlsId().getSuggestedControlsName());
+
 					current.getExistingControlView().setData(r.get(i).getSuggestedControlsId(), false);
-					current.getExistingControlView().populateRisks(listRisks, r.get(i).getSuggestedControlsId().getRiskId());
+					current.getExistingControlView().populateRisks(listRisks,
+							r.get(i).getSuggestedControlsId().getRiskId());
 					riskRows.add(current);
 
 					final DataSetter dataSetter = new DataSetter();
@@ -452,21 +456,22 @@ public class RisksView extends Composite {
 						submittedBy.setVisible(true);
 						submittedBy.setText("Initiated by:" + r.get(0).getInitiatedBy().getEmployeeName());
 
-						if(libraryControlContainer!=null)libraryControlContainer.clear();
+						if (libraryControlContainer != null)
+							libraryControlContainer.clear();
 					}
 
 					if (r.get(0).getInitiatedBy() != null
 							&& r.get(0).getInitiatedBy().getEmployeeId() == loggedInEmployee.getEmployeeId()
 							&& (r.get(0).getStatus() == InternalAuditConstants.SAVED
-							|| r.get(0).getStatus() == InternalAuditConstants.INITIATED
-							|| r.get(0).getStatus() == InternalAuditConstants.REJECTED)) {
+									|| r.get(0).getStatus() == InternalAuditConstants.INITIATED
+									|| r.get(0).getStatus() == InternalAuditConstants.REJECTED)) {
 						enableInitiationpanel();
 						enableFields();
 						enableRiskRows();
 					} else if (r.get(0).getStatus() == InternalAuditConstants.SUBMIT
 							&& r.get(0).getInitiatedBy().getReportingTo() != null
 							&& (r.get(0).getInitiatedBy().getReportingTo().getEmployeeId() == loggedInEmployee
-							.getEmployeeId() || loggedInEmployee.getRollId()== 1)) {
+									.getEmployeeId() || loggedInEmployee.getRollId() == 1)) {
 						enableApprovalnpanel();
 						enableFields();
 						enableRiskRows();

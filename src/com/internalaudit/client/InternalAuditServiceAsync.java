@@ -32,6 +32,7 @@ import com.internalaudit.shared.JobTimeAllocationReportDTO;
 import com.internalaudit.shared.JobTimeEstimationDTO;
 import com.internalaudit.shared.JobsOfEmployee;
 import com.internalaudit.shared.ProcessDTO;
+import com.internalaudit.shared.ReportDataEntity;
 import com.internalaudit.shared.ResourceUse;
 import com.internalaudit.shared.RiskAssesmentDTO;
 import com.internalaudit.shared.RiskControlMatrixEntity;
@@ -318,5 +319,9 @@ public interface InternalAuditServiceAsync {
 	void fetchControlsForReport(int jobId, AsyncCallback<ArrayList<SuggestedControls>> callback);
 
 	void fetchSelectedJob(int jobId, AsyncCallback<JobCreation> callback);
+
+	void saveReportDataPopup(ReportDataEntity reportData, AsyncCallback<String> callback);
+
+	void fetchReportDataPopup(int jobId, AsyncCallback<ReportDataEntity> callback);
 
 }

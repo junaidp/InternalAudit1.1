@@ -7,7 +7,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -24,14 +23,13 @@ public class KeyRiskViewNew extends VerticalPanel {
 
 	private Label lblActivityObjectiveData = new Label("");
 	LabelHeading lblactivityObjective = new LabelHeading();
-	
-	
+
 	LabelHeading lblrisks = new LabelHeading();
 	LabelHeading lblriskRatings = new LabelHeading();
 	LabelHeading lblapplicability = new LabelHeading();
 	private TextArea txtRisk = new TextArea();
 	private Label lblRef = new Label("");
-	//private AddIcon btnAddKeyRisk = new AddIcon();
+	// private AddIcon btnAddKeyRisk = new AddIcon();
 	private ActivityObjective activityObjective = new ActivityObjective();
 	ListBox listBoxRating = new ListBox();
 	private int riskId = 0;
@@ -44,12 +42,10 @@ public class KeyRiskViewNew extends VerticalPanel {
 
 	Image imgRating = new Image();
 
-
-	public  KeyRiskViewNew() {
-lblactivityObjective.setText("ActivityObjective");
+	public KeyRiskViewNew() {
+		lblactivityObjective.setText("ActivityObjective");
 		listObjectives.setVisible(false);
 		delete.setVisible(false);
-		
 
 		lblrisks.setText("Risk");
 
@@ -61,7 +57,6 @@ lblactivityObjective.setText("ActivityObjective");
 		lblActivityObjectiveData.setHeight("90px");
 		lblActivityObjectiveData.setWidth("220px");
 
-
 		txtRisk.setWidth("300px");
 		txtRisk.setHeight("90px");
 		txtRisk.setText("");
@@ -72,128 +67,117 @@ lblactivityObjective.setText("ActivityObjective");
 		listBoxRating.addItem("Medium", "1");
 		listBoxRating.addItem("High", "2");
 
-	
 		lblriskRatings.setWidth("130px");
 		lblRef.setWidth("160px");
 
 		lblactivityObjective.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		lblrisks.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		lblriskRatings.getElement().getStyle().setMarginLeft(20, Unit.PX);
-		//lblapplicability.getElement().getStyle().setMarginLeft(20, Unit.PX);
+		// lblapplicability.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		lblRef.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		lblActivityObjectiveData.getElement().getStyle().setMarginLeft(10, Unit.PX);
 		txtRisk.getElement().getStyle().setMarginLeft(10, Unit.PX);
 		listBoxRating.getElement().getStyle().setMarginLeft(30, Unit.PX);
 		checkBoxApplicability.getElement().getStyle().setMarginLeft(50, Unit.PX);
 
-		
-		
-
-
-
 		FlexTable flex = new FlexTable();
 		VerticalPanel vpLblblRef = new VerticalPanel();
 		vpLblblRef.add(lblRef);
 		vpLblblRef.setWidth("240px");
-		flex.setWidget(0,1, lblReferenceNo);
-		flex.setWidget(1,1, vpLblblRef);
-		//  flex.setWidget(0,1,actv);
-
+		flex.setWidget(0, 1, lblReferenceNo);
+		flex.setWidget(1, 1, vpLblblRef);
+		// flex.setWidget(0,1,actv);
 
 		VerticalPanel containerActivityObjective = new VerticalPanel();
 
-		flex.setWidget(0,0, lblactivityObjective);
+		flex.setWidget(0, 0, lblactivityObjective);
 		containerActivityObjective.add(listObjectives);
 		containerActivityObjective.add(lblActivityObjectiveData);
 		containerActivityObjective.setWidth("240px");
-		flex.setWidget(1,0,containerActivityObjective);
+		flex.setWidget(1, 0, containerActivityObjective);
 
-		flex.setWidget(0,2, lblrisks);
+		flex.setWidget(0, 2, lblrisks);
 		VerticalPanel vpLblrisk = new VerticalPanel();
 		vpLblrisk.add(txtRisk);
 		vpLblrisk.setWidth("240px");
-		flex.setWidget(1,2,vpLblrisk);
-		//flex.setWidget(2,2,btnAddKeyRisk);
+		flex.setWidget(1, 2, vpLblrisk);
+		// flex.setWidget(2,2,btnAddKeyRisk);
 
-		flex.setWidget(0,3, lblriskRatings);
+		flex.setWidget(0, 3, lblriskRatings);
 		HorizontalPanel vpLblriskRating = new HorizontalPanel();
 
 		vpLblriskRating.setWidth("180px");
 		vpLblriskRating.add(listBoxRating);
 		vpLblriskRating.add(imgRating);
 
-		flex.setWidget(1,3,vpLblriskRating);
+		flex.setWidget(1, 3, vpLblriskRating);
 
-		//flex.setWidget(0,4, lblapplicability);
+		// flex.setWidget(0,4, lblapplicability);
 		VerticalPanel panelchckboox = new VerticalPanel();
 		panelchckboox.setWidth("150px");
-		//panelchckboox.add(checkBoxApplicability);
-		flex.setWidget(1,4,btnSelect);
-		flex.setWidget(1,5, delete);
+		// panelchckboox.add(checkBoxApplicability);
+		flex.setWidget(1, 4, btnSelect);
+		flex.setWidget(1, 5, delete);
 		add(flex);
-		
+
 		delete.addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
-				
-				
+
 			}
 		});
 
 	}
 
-	public void hideElemetns(){
+	public void hideElemetns() {
 		lblActivityObjectiveData.setVisible(false);
 		lblactivityObjective.setVisible(false);
 		lblrisks.setVisible(false);
 		lblriskRatings.setVisible(false);
 		lblapplicability.setVisible(false);
-		//	btnAddKeyRisk.setVisible(false);
+		// btnAddKeyRisk.setVisible(false);
 		lblReferenceNo.setVisible(false);
 	}
 
-	public void setData(RiskObjective riskObjective){
+	public void setData(RiskObjective riskObjective) {
 		lblActivityObjectiveData.setText(riskObjective.getObjectiveId().getObjectiveName());
 		txtRisk.setText(riskObjective.getRiskname());
 		riskId = riskObjective.getRiskId();
-		//TODO add field refNo in subprocess Table , set the refNo from excel file in db manually , and then uncomment below line
-		//lblName.setText(riskObjective.getObjectiveId().getSubProcessId().getRefNo()+"");
+		// TODO add field refNo in subprocess Table , set the refNo from excel
+		// file in db manually , and then uncomment below line
+		// lblName.setText(riskObjective.getObjectiveId().getSubProcessId().getRefNo()+"");
 		lblRef.setText(riskObjective.getRiskReferenceNo());
-		//listBoxRating.setse.setItemText(1, riskObjective.getRiskRating());
-		for(int i=0; i< listBoxRating.getItemCount(); i++){
-			if(Integer.parseInt(listBoxRating.getValue(i)) == riskObjective.getRiskRating()){
+		// listBoxRating.setse.setItemText(1, riskObjective.getRiskRating());
+		for (int i = 0; i < listBoxRating.getItemCount(); i++) {
+			if (Integer.parseInt(listBoxRating.getValue(i)) == riskObjective.getRiskRating()) {
 				listBoxRating.setSelectedIndex(i);
-				//for circle
+				// for circle
 				imgRating.setUrl(getImgRelatedToRating(listBoxRating.getValue(i)));
 			}
 		}
 		checkBoxApplicability.setChecked(riskObjective.getChecked());
 		activityObjective = riskObjective.getObjectiveId();
-		//TODO set rating and applicabality (also create these fields in db)
+		// TODO set rating and applicabality (also create these fields in db)
 
-		/*if(objectiveNameAdded){
-			lblActivityObjectiveData.setVisible(false);
-			lblactivityObjective.setVisible(false);
-			lblName.setVisible(false);
-			lblReferenceNo.setVisible(false);
-
-			lblrisks.setVisible(false);
-			lblriskRatings.setVisible(false);
-			lblapplicability.setVisible(false);
-		}*/
+		/*
+		 * if(objectiveNameAdded){ lblActivityObjectiveData.setVisible(false);
+		 * lblactivityObjective.setVisible(false); lblName.setVisible(false);
+		 * lblReferenceNo.setVisible(false);
+		 * 
+		 * lblrisks.setVisible(false); lblriskRatings.setVisible(false);
+		 * lblapplicability.setVisible(false); }
+		 */
 	}
 
 	private String getImgRelatedToRating(String value) {
-		if (value.equals("2")){
+		if (value.equals("2")) {
 
 			return "redcircle.png";
-		}
-		else if (value.equals("1")){
+		} else if (value.equals("1")) {
 
 			return "yellowcircle.png";
-		}
-		else if (value.equals("0")){
+		} else if (value.equals("0")) {
 
 			return "greencircle.png";
 
@@ -270,36 +254,37 @@ lblactivityObjective.setText("ActivityObjective");
 		this.listBoxRating = listBoxRating;
 	}
 
-	protected void populateObjectives(final ArrayList<ActivityObjective> objectives){
+	protected void populateObjectives(final ArrayList<ActivityObjective> objectives) {
 		listObjectives.setVisible(true);
-		for(int i=0; i< objectives.size(); i++){
-			listObjectives.addItem(objectives.get(i).getReferenceNo(), objectives.get(i).getObjectiveId()+"");
-			
+		for (int i = 0; i < objectives.size(); i++) {
+			listObjectives.addItem(objectives.get(i).getReferenceNo(), objectives.get(i).getObjectiveId() + "");
+
 		}
-		
+
 		lblActivityObjectiveData.setText(objectives.get(0).getObjectiveName());
 		activityObjective = objectives.get(0);
 		listObjectives.addChangeHandler(new ChangeHandler() {
-			
+
 			@Override
 			public void onChange(ChangeEvent event) {
-				String name = fetchObjectiveNameAgaintObjectiveId(objectives, Integer.parseInt(listObjectives.getSelectedValue()));
+				String name = fetchObjectiveNameAgaintObjectiveId(objectives,
+						Integer.parseInt(listObjectives.getSelectedValue()));
 				lblActivityObjectiveData.setText(name);
 			}
 		});
 	}
-	
-	private String fetchObjectiveNameAgaintObjectiveId(ArrayList<ActivityObjective> objectives, int value){
+
+	private String fetchObjectiveNameAgaintObjectiveId(ArrayList<ActivityObjective> objectives, int value) {
 		String name = "";
-		for(int i=0 ; i< objectives.size(); i++){
-			if(objectives.get(i).getObjectiveId() == value){
+		for (int i = 0; i < objectives.size(); i++) {
+			if (objectives.get(i).getObjectiveId() == value) {
 				activityObjective = objectives.get(i);
 				name = objectives.get(i).getObjectiveName();
 			}
-			
+
 		}
 		return name;
-		
+
 	}
 
 	public Label getLblRef() {
@@ -311,7 +296,7 @@ lblactivityObjective.setText("ActivityObjective");
 		btnSelect.setVisible(false);
 	}
 
-	public void deleteRow(){
+	public void deleteRow() {
 		this.removeFromParent();
 	}
 

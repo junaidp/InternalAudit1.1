@@ -50,6 +50,7 @@ import com.internalaudit.shared.JobTimeAllocationReportDTO;
 import com.internalaudit.shared.JobTimeEstimationDTO;
 import com.internalaudit.shared.JobsOfEmployee;
 import com.internalaudit.shared.ProcessDTO;
+import com.internalaudit.shared.ReportDataEntity;
 import com.internalaudit.shared.ResourceUse;
 import com.internalaudit.shared.RiskAssesmentDTO;
 import com.internalaudit.shared.RiskControlMatrixEntity;
@@ -1693,5 +1694,17 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	@Override
 	public JobCreation fetchSelectedJob(int jobId) throws Exception {
 		return rdbHelper.fetchSelectedJobForClient(jobId);
+	}
+
+	@Override
+	public String saveReportDataPopup(ReportDataEntity reportData) {
+		// int loggedInUser = (Integer) session.getAttribute("user");
+		int loggedInUser = 124;
+		return rdbHelper.saveReportDataPopup(reportData, loggedInUser);
+	}
+
+	@Override
+	public ReportDataEntity fetchReportDataPopup(int jobId) throws Exception {
+		return rdbHelper.fetchReportDataPopup(jobId);
 	}
 }

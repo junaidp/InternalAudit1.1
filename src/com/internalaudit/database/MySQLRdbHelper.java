@@ -90,6 +90,7 @@ import com.internalaudit.shared.ObjectiveJobRelation;
 import com.internalaudit.shared.PlanningStatusDTO;
 import com.internalaudit.shared.Process;
 import com.internalaudit.shared.ProcessDTO;
+import com.internalaudit.shared.ReportDataEntity;
 import com.internalaudit.shared.ReportsDTO;
 import com.internalaudit.shared.ResourceUse;
 import com.internalaudit.shared.RiskAssesmentDTO;
@@ -1671,7 +1672,9 @@ public class MySQLRdbHelper {
 				DashBoardDTO dashboardDTO = new DashBoardDTO();
 				dashboardDTO.setInitiatedBy(risks.get(i).getInitiatedBy().getEmployeeName());
 				// dashboardDTO.setObjectiveName(risks.get(i).getDescription());
-				dashboardDTO.setObjectiveName(risks.get(i).getSuggestedControlsId().getRiskId().getRiskname());
+				if (risks.get(i).getSuggestedControlsId() != null
+						&& risks.get(i).getSuggestedControlsId().getRiskId() != null)
+					dashboardDTO.setObjectiveName(risks.get(i).getSuggestedControlsId().getRiskId().getRiskname());
 				dashboardDTO.setPhase("Risks(Audit Engagement)");
 				dashboardDTO.setStatus("submitted");
 				dashBoardDTOs.add(dashboardDTO);
@@ -5193,7 +5196,7 @@ public class MySQLRdbHelper {
 		return rows;
 	}
 
-	//
+	// 2019april
 	public ArrayList<AuditWork> fetchEmployeeAuditWorksForapproval(int companyId, int year, int employeeId) {
 
 		Session session = null;
@@ -5226,26 +5229,30 @@ public class MySQLRdbHelper {
 
 			crit.add(Restrictions.eq("initiatedRep.employeeId", employeeId));
 
-			///
-			crit.createAlias("riskId", "risk");
-			crit.createAlias("risk.auditEngageId", "audEng");
-			crit.createAlias("audEng.jobCreationId", "jobCreation");
-			jobsStrategicAlias(crit);
-			crit.createAlias("audEng.approvedBy", "approvedEng");
-			crit.createAlias("approvedEng.countryId", "employeeCounteng");
-			crit.createAlias("approvedEng.cityId", "employeeCityyeng");
-			crit.createAlias("approvedEng.reportingTo", "employeeRepeng");
-			crit.createAlias("employeeRepeng.countryId", "employeeRCounteng");
-			crit.createAlias("approvedEng.skillId", "employeeSkilleng");
-			crit.createAlias("employeeRepeng.skillId", "employeeRepSkilleng");
-
-			crit.createAlias("audEng.initiatedBy", "initiatedeng");
-			crit.createAlias("initiatedeng.countryId", "initiatedCounteng");
-			crit.createAlias("initiatedeng.cityId", "initiatedCityyeng");
-			crit.createAlias("initiatedeng.reportingTo", "initiatedRepeng");
-			crit.createAlias("initiatedRepeng.countryId", "initiatedRCounteng");
-			crit.createAlias("initiatedeng.skillId", "initiatedSkilleng");
-			crit.createAlias("initiatedRepeng.skillId", "initiatedRepSkilleng");
+			/// 2019 april commented below lines crit
+			// crit.createAlias("riskId", "risk");
+			// crit.createAlias("risk.auditEngageId", "audEng");
+			// crit.createAlias("audEng.jobCreationId", "jobCreation1");
+			// // jobsStrategicAlias(crit);
+			// crit.createAlias("audEng.approvedBy", "approvedEng");
+			// crit.createAlias("approvedEng.countryId", "employeeCounteng");
+			// crit.createAlias("approvedEng.cityId", "employeeCityyeng");
+			// crit.createAlias("approvedEng.reportingTo", "employeeRepeng");
+			// crit.createAlias("employeeRepeng.countryId",
+			// "employeeRCounteng");
+			// crit.createAlias("approvedEng.skillId", "employeeSkilleng");
+			// crit.createAlias("employeeRepeng.skillId",
+			// "employeeRepSkilleng");
+			//
+			// crit.createAlias("audEng.initiatedBy", "initiatedeng");
+			// crit.createAlias("initiatedeng.countryId", "initiatedCounteng");
+			// crit.createAlias("initiatedeng.cityId", "initiatedCityyeng");
+			// crit.createAlias("initiatedeng.reportingTo", "initiatedRepeng");
+			// crit.createAlias("initiatedRepeng.countryId",
+			// "initiatedRCounteng");
+			// crit.createAlias("initiatedeng.skillId", "initiatedSkilleng");
+			// crit.createAlias("initiatedRepeng.skillId",
+			// "initiatedRepSkilleng");
 
 			List rsList = crit.list();
 
@@ -9213,5 +9220,54 @@ public class MySQLRdbHelper {
 		return controlList;
 
 	}
+	// 2019 april
 
+	public String saveReportDataPopup(ReportDataEntity reportData, int loggedInUser) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			session.saveOrUpdate(reportData);
+			// session.save(reportData);
+			session.flush();
+
+			// logger.info(String.format("(Inside saveAuditNotification) saving
+			// AuditNotification for message to: " + to
+			// + "for message" + message + "for year" + year + "for company" +
+			// companyId + "" + new Date()));
+
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in saveReportData", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+
+		return "reportDataSaved";
+	}
+
+	public ReportDataEntity fetchReportDataPopup(int jobId) {
+
+		ArrayList<ReportDataEntity> reportDataList = new ArrayList<ReportDataEntity>();
+		Session session = null;
+		ReportDataEntity reportData = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(ReportDataEntity.class);
+
+			crit.add(Restrictions.eq("jobId", jobId));
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				reportData = (ReportDataEntity) it.next();
+				// reportDataList.add(reportData);
+			}
+			logger.info(String
+					.format("(Inside fetchREportDataPopup) fetching ReportDatat for jobid : " + " " + new Date()));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchReportData", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+		return reportData;
+	}
 }
