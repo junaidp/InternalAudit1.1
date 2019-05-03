@@ -21,34 +21,41 @@ import com.internalaudit.shared.StrategicDTO;
  *
  */
 public class JobCreationView extends Composite implements Display {
-	
-	@UiField TextBox domainText;
-	@UiField ListBox relevantDept;
-	@UiField TextBox riskRating;
-	@UiField TextBox estimatedWeeks;
-	@UiField VerticalPanel skillResourceContainer;
-	
-	@UiField TextBox techSkill;
-	@UiField ListBox softSkill;
-	@UiField ListBox proposedResources;
-	@UiField ListBox auditHead;
+
+	@UiField
+	TextBox domainText;
+	@UiField
+	ListBox relevantDept;
+	@UiField
+	TextBox riskRating;
+	@UiField
+	TextBox estimatedWeeks;
+	@UiField
+	VerticalPanel skillResourceContainer;
+
+	@UiField
+	TextBox techSkill;
+	@UiField
+	ListBox softSkill;
+	@UiField
+	ListBox proposedResources;
+	@UiField
+	ListBox auditHead;
 	private StrategicDTO strategicDTO;
-	
+
 	@UiField
 	Label heading;
 
 	@UiField
 	Button saveJobCreation;
-	
-	
+
 	@UiField
 	Button backButton;
-	
+
 	@UiField
 	TextBox jobCreationId;
-	
-	private static JobCreationViewUiBinder uiBinder = GWT
-			.create(JobCreationViewUiBinder.class);
+
+	private static JobCreationViewUiBinder uiBinder = GWT.create(JobCreationViewUiBinder.class);
 
 	interface JobCreationViewUiBinder extends UiBinder<Widget, JobCreationView> {
 	}
@@ -56,7 +63,7 @@ public class JobCreationView extends Composite implements Display {
 	public JobCreationView(StrategicDTO strategicDTO) {
 		initWidget(uiBinder.createAndBindUi(this));
 
-		this.strategicDTO = strategicDTO; 
+		this.strategicDTO = strategicDTO;
 
 	}
 
@@ -108,7 +115,6 @@ public class JobCreationView extends Composite implements Display {
 		this.domainText = domainText;
 	}
 
-	
 	public TextBox getTechSkill() {
 		return techSkill;
 	}
@@ -116,7 +122,7 @@ public class JobCreationView extends Composite implements Display {
 	public void setTechSkill(TextBox techSkill) {
 		this.techSkill = techSkill;
 	}
-	
+
 	public Label getHeading() {
 		return heading;
 	}
@@ -149,7 +155,6 @@ public class JobCreationView extends Composite implements Display {
 		this.softSkill = softSkill;
 	}
 
-
 	public ListBox getAuditHead() {
 		return auditHead;
 	}
@@ -173,8 +178,8 @@ public class JobCreationView extends Composite implements Display {
 	public void setRelevantDept(ListBox relevantDept) {
 		this.relevantDept = relevantDept;
 	}
-	
-	public void disableFields(){
+
+	public void disableFields() {
 		domainText.setEnabled(false);
 		relevantDept.setEnabled(false);
 		riskRating.setEnabled(false);
@@ -183,7 +188,8 @@ public class JobCreationView extends Composite implements Display {
 		softSkill.setEnabled(false);
 		proposedResources.setEnabled(false);
 		auditHead.setEnabled(false);
-		saveJobCreation.setEnabled(false);
+		saveJobCreation.setVisible(false);
+
 	}
 
 }

@@ -5,10 +5,8 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -18,56 +16,63 @@ import com.internalaudit.shared.StrategicDTO;
 
 public class JobTimeEstimationView extends Composite implements Display {
 
-//	@UiField ListBox skillSetListBox;
-	
-	@UiField ListBox estimatedWeeksListBox;
-	@UiField TextBox fieldWorkManHoursTextBox;
-	@UiField TextBox managementHoursTextBox;
-	@UiField TextBox totalWorkingManHoursTextBox;
-	@UiField VerticalPanel skillResourceContainer;
-	
-	@UiField Button saveJobTimeEst;
-	@UiField TextArea highLevelScopeOfWork;
-	@UiField ListBox placeofWorkListBox;
-	@UiField ListBox travelingDaysListBox;
-	@UiField TextBox hoursInclusiveOfTravel;
+	// @UiField ListBox skillSetListBox;
+
+	@UiField
+	ListBox estimatedWeeksListBox;
+	@UiField
+	TextBox fieldWorkManHoursTextBox;
+	@UiField
+	TextBox managementHoursTextBox;
+	@UiField
+	TextBox totalWorkingManHoursTextBox;
+	@UiField
+	VerticalPanel skillResourceContainer;
+
+	@UiField
+	Button saveJobTimeEst;
+	@UiField
+	TextArea highLevelScopeOfWork;
+	@UiField
+	ListBox placeofWorkListBox;
+	@UiField
+	ListBox travelingDaysListBox;
+	@UiField
+	TextBox hoursInclusiveOfTravel;
 
 	@UiField
 	Label heading;
-	
-	
+
 	@UiField
 	Label areaOfExpertise;
-	
+
 	@UiField
 	Label jobTimeEstId;
-	
+
 	@UiField
 	Button backButton;
-	
-	private StrategicDTO strategicDTO;
-	
-	private boolean listCreated = false;
-	
-	private int jobEstimationId;
-	
-	private static JobTimeEstimationViewUiBinder uiBinder = GWT
-			.create(JobTimeEstimationViewUiBinder.class);
 
-	interface JobTimeEstimationViewUiBinder extends
-			UiBinder<Widget, JobTimeEstimationView> {
+	private StrategicDTO strategicDTO;
+
+	private boolean listCreated = false;
+
+	private int jobEstimationId;
+
+	private static JobTimeEstimationViewUiBinder uiBinder = GWT.create(JobTimeEstimationViewUiBinder.class);
+
+	interface JobTimeEstimationViewUiBinder extends UiBinder<Widget, JobTimeEstimationView> {
 	}
-	
+
 	public JobTimeEstimationView(StrategicDTO dto) {
-		
+
 		initWidget(uiBinder.createAndBindUi(this));
-		
+
 		this.setStrategicDTO(dto);
 	}
 
 	@Override
 	public ListBox getEstWeeksListBox() {
-		
+
 		return estimatedWeeksListBox;
 	}
 
@@ -85,8 +90,7 @@ public class JobTimeEstimationView extends Composite implements Display {
 	public TextBox getTotalWorkingManHours() {
 		return totalWorkingManHoursTextBox;
 	}
-	
-	
+
 	public VerticalPanel getSkillsResourceContainer() {
 		return skillResourceContainer;
 	}
@@ -169,13 +173,13 @@ public class JobTimeEstimationView extends Composite implements Display {
 
 	@Override
 	public void setJobEstimationId(int jobTimeEstimationId) {
-		this.jobEstimationId  = jobTimeEstimationId;
-		
+		this.jobEstimationId = jobTimeEstimationId;
+
 	}
-	
+
 	public int getJobEstimationId() {
-		return this.jobEstimationId; 
-		
+		return this.jobEstimationId;
+
 	}
 
 	public Label getJobTimeEstId() {
@@ -185,13 +189,14 @@ public class JobTimeEstimationView extends Composite implements Display {
 	public void setJobTimeEstId(Label jobTimeEstId) {
 		this.jobTimeEstId = jobTimeEstId;
 	}
-	
-	public void disableFields(){
+
+	public void disableFields() {
 		estimatedWeeksListBox.setEnabled(false);
 		fieldWorkManHoursTextBox.setEnabled(false);
 		managementHoursTextBox.setEnabled(false);
-		totalWorkingManHoursTextBox.setEnabled(false);;
-		saveJobTimeEst.setEnabled(false);
+		totalWorkingManHoursTextBox.setEnabled(false);
+
+		saveJobTimeEst.setVisible(false);
 		highLevelScopeOfWork.setEnabled(false);
 		placeofWorkListBox.setEnabled(false);
 		travelingDaysListBox.setEnabled(false);

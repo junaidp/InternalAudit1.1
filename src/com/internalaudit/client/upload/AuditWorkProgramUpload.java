@@ -28,6 +28,8 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 	HorizontalPanel panelFileDetail = new HorizontalPanel();
 	Anchor lblfilename;
 	String file;
+	ButtonRound btnSubmit;
+	FileUpload upload;
 
 	public AuditWorkProgramUpload(final String auditProcedureId, final String mainFolder) {
 		form = new FormPanel();
@@ -39,13 +41,13 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 		ScrollPanel panelScroll = new ScrollPanel();
 		panelScroll.setHeight("120px");
 		VerticalPanel uploadPanel = new VerticalPanel();
-		final FileUpload upload = new FileUpload();
+		upload = new FileUpload();
 		upload.setName(auditProcedureId + ":" + mainFolder);
 		upload.setTitle("AuditProcedureUploads");
 		uploadPanel.add(upload);
 
 		// Add a 'submit' button.
-		ButtonRound btnSubmit = new ButtonRound("Submit");
+		btnSubmit = new ButtonRound("Submit");
 		btnSubmit.getElement().getStyle().setMarginTop(10, Unit.PX);
 		btnSubmit.addClickHandler(new ClickHandler() {
 
@@ -116,7 +118,7 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 					panelFileDetail.setWidth("100%");
 					panelFileDetail.add(records);
 					lblfilename.setWordWrap(false);
-					final String upperCasedJobLink = lblfilename.getText();
+					final String upperCasedJobLink = result.get(i);
 					lblfilename.setText(upperCasedJobLink);
 
 					clickHandlers(auditProcedureId, mainFolder, delete, upperCasedJobLink);
@@ -131,6 +133,7 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 
 					@Override
 					public void onClick(ClickEvent event) {
+
 						rpcService.deleteAttachmentFile(auditProcedureId, mainFolder, upperCasedJobLink,
 								new AsyncCallback<String>() {
 
@@ -154,7 +157,7 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 					@Override
 					public void onClick(ClickEvent event) {
 
-						Window.open(mainFolder + "/" + auditProcedureId + "/" + lblfilename.getText(), "name", "");
+						Window.open(mainFolder + "/" + auditProcedureId + "/" + upperCasedJobLink, "name", "");
 					}
 
 				});
@@ -205,5 +208,13 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 
 	public void setFile(String file) {
 		this.file = file;
+	}
+
+	public ButtonRound getBtnSubmit() {
+		return btnSubmit;
+	}
+
+	public void setBtnSubmit(ButtonRound btnSubmit) {
+		this.btnSubmit = btnSubmit;
 	}
 }

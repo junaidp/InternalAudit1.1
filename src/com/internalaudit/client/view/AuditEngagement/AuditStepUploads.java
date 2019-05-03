@@ -1,18 +1,12 @@
 package com.internalaudit.client.view.AuditEngagement;
 
-import java.util.ArrayList;
-
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FileUpload;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
@@ -22,6 +16,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.upload.AuditWorkProgramUpload;
 import com.internalaudit.client.view.ButtonRound;
 
 public class AuditStepUploads extends VerticalPanel {
@@ -60,11 +55,13 @@ public class AuditStepUploads extends VerticalPanel {
 				form.submit();
 			}
 		});
-		fetchExceptionAttachments(id);
-		panelUpload.add(btnSubmit);
-		panel.add(panelUpload);
-		panelScroll.add(panelFileDetail);
-		panel.add(panelScroll);
+		String mainFolder = "AuditExceptions";
+		AuditWorkProgramUpload upload = new AuditWorkProgramUpload(id, mainFolder);
+		// fetchExceptionAttachments(id);
+		// panelUpload.add(btnSubmit);
+		// panel.add(panelUpload);
+		// panelScroll.add(panelFileDetail);
+		panel.add(upload);
 		// Add an event handler to the form.
 		form.addSubmitHandler(new FormPanel.SubmitHandler() {
 			public void onSubmit(SubmitEvent event) {
@@ -99,51 +96,53 @@ public class AuditStepUploads extends VerticalPanel {
 		add(hpnl);
 	}
 
-	private void fetchExceptionAttachments(final String id) {
-		rpcService.fetchAuditStepExceptions(id, new AsyncCallback<ArrayList<String>>() {
-			FlexTable records = new FlexTable();
-
-			@Override
-			public void onSuccess(ArrayList<String> result) {
-
-				for (int i = 0; i < result.size(); i++) {
-					final Anchor lblfilename = new Anchor(result.get(i));
-					// Label lblFileAttached = new Label("Attached");
-					lblfilename.addStyleName("pointerStyle");
-					lblfilename.getElement().getStyle().setTextDecoration(TextDecoration.NONE);
-					lblfilename.setHeight("25px");
-					// lblFileAttached.setHeight("25px");
-					records.setWidth("100%");
-					records.setWidget(i, 0, lblfilename);
-					// records.setWidget(i, 1, lblFileAttached);
-					if (i % 2 != 0) {
-						records.getRowFormatter().addStyleName(i, "jobStatusRow");
-					}
-					panelFileDetail.setWidth("100%");
-					panelFileDetail.add(records);
-					lblfilename.setWordWrap(false);
-					String upperCasedJobLink = lblfilename.getText();
-					lblfilename.setText(upperCasedJobLink);
-					lblfilename.addClickHandler(new ClickHandler() {
-
-						@Override
-						public void onClick(ClickEvent event) {
-
-							Window.open("AuditSteps/" + id + "/" + lblfilename.getText(), "name", "");
-						}
-					});
-				}
-
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-
-				System.out.println("AuditSteps Failed");
-			}
-
-		});
-	}
+	// private void fetchExceptionAttachments(final String id) {
+	// rpcService.fetchAuditStepExceptions(id, new
+	// AsyncCallback<ArrayList<String>>() {
+	// FlexTable records = new FlexTable();
+	//
+	// @Override
+	// public void onSuccess(ArrayList<String> result) {
+	//
+	// for (int i = 0; i < result.size(); i++) {
+	// final Anchor lblfilename = new Anchor(result.get(i));
+	// // Label lblFileAttached = new Label("Attached");
+	// lblfilename.addStyleName("pointerStyle");
+	// lblfilename.getElement().getStyle().setTextDecoration(TextDecoration.NONE);
+	// lblfilename.setHeight("25px");
+	// // lblFileAttached.setHeight("25px");
+	// records.setWidth("100%");
+	// records.setWidget(i, 0, lblfilename);
+	// // records.setWidget(i, 1, lblFileAttached);
+	// if (i % 2 != 0) {
+	// records.getRowFormatter().addStyleName(i, "jobStatusRow");
+	// }
+	// panelFileDetail.setWidth("100%");
+	// panelFileDetail.add(records);
+	// lblfilename.setWordWrap(false);
+	// String upperCasedJobLink = lblfilename.getText();
+	// lblfilename.setText(upperCasedJobLink);
+	// lblfilename.addClickHandler(new ClickHandler() {
+	//
+	// @Override
+	// public void onClick(ClickEvent event) {
+	//
+	// Window.open("AuditSteps/" + id + "/" + lblfilename.getText(), "name",
+	// "");
+	// }
+	// });
+	// }
+	//
+	// }
+	//
+	// @Override
+	// public void onFailure(Throwable caught) {
+	//
+	// System.out.println("AuditSteps Failed");
+	// }
+	//
+	// });
+	// }
 
 	public Button download() {
 		Button btn = new Button("Download");

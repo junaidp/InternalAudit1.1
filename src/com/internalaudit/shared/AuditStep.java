@@ -17,72 +17,81 @@ import javax.persistence.Transient;
 
 @Entity
 
-@Table(name = "audit_step" )
+@Table(name = "audit_step")
 public class AuditStep implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -7217627195055650063L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="audit_step_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "audit_step_id")
 	private int auditStepId;
-	
-	@Column(name="population")
+
+	@Column(name = "population")
 	private String population;
-	
-	@Column(name="sample_selected")
+
+	@Column(name = "sample_selected")
 	private String sampleSelected;
 
-	@Column(name="selection_basis")
+	@Column(name = "selection_basis")
 	private String selectionBasis;
-	
-	@Column(name="proceduce_performance")
+
+	@Column(name = "proceduce_performance")
 	private String proceducePerformance;
-	
-	@Column(name="conclusion")
+
+	@Column(name = "conclusion")
 	private String conclusion;
 
-	@Column(name="job_id")
-	private int jobId; //job creation id
-	
+	@Column(name = "job_id")
+	private int jobId; // job creation id
+
 	@JoinColumn(name = "auditWork")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private AuditWork auditWork;
-	
+
 	@Transient
 	private ArrayList<Exceptions> exceptions = new ArrayList<Exceptions>();
-	
+
 	@Column(name = "year")
 	private int year;
-	
+
 	@Column(name = "companyId")
 	private int companyId;
-	
-	@Column(name="status")
+
+	@Column(name = "status")
 	private int status;
-	
+
 	@JoinColumn(name = "initiatedBy")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employee initiatedBy;
-	
+
 	@JoinColumn(name = "approvedBy")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employee approvedBy;
-	
+
 	@Column(name = "feedback")
 	private String feedback;
-	
+
 	@Column(name = "uploadedFile")
 	private String uploadedFile;
-	
-	
+
 	@Column(name = "date")
-	private Date date;// If Approved this is approval date , if only initiated this is initiation date
-	
-	
+	private Date date;// If Approved this is approval date , if only initiated
+						// this is initiation date
+
+	// 2019 april
+	@Column(name = "controllist")
+	private int controlList;
+
+	@Column(name = "frequency")
+	private int frequency;
+
+	@Column(name = "samplingmethod")
+	private int samplingMethod;
+
 	public int getAuditStepId() {
 		return auditStepId;
 	}
@@ -217,6 +226,30 @@ public class AuditStep implements Serializable {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public int getControlList() {
+		return controlList;
+	}
+
+	public void setControlList(int controlList) {
+		this.controlList = controlList;
+	}
+
+	public int getFrequency() {
+		return frequency;
+	}
+
+	public void setFrequency(int frequency) {
+		this.frequency = frequency;
+	}
+
+	public int getSamplingMethod() {
+		return samplingMethod;
+	}
+
+	public void setSamplingMethod(int samplingMethod) {
+		this.samplingMethod = samplingMethod;
 	}
 
 }

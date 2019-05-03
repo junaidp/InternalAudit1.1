@@ -86,6 +86,7 @@ public class AuditStepView extends Composite {
 	private AuditStepData viewData = new AuditStepData();
 	private Employee loggedInEmployee;
 	private AuditWork auditWork;
+	private SamplingAuditStep auditStepSamplingView;
 	private int selectedJobId;
 
 	interface AuditViewUiBinder extends UiBinder<Widget, AuditStepView> {
@@ -98,8 +99,8 @@ public class AuditStepView extends Composite {
 		this.auditWork = auditWork;
 		this.selectedJobId = selectedJobId;
 		performance.addStyleName("messageTextarea");
-		SamplingAuditStep auditStep = new SamplingAuditStep(auditWork.getStepNo());
-		panelSamplingAudit.add(auditStep);
+		auditStepSamplingView = new SamplingAuditStep(auditWork.getStepNo());
+		panelSamplingAudit.add(auditStepSamplingView);
 		addException.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -128,21 +129,22 @@ public class AuditStepView extends Composite {
 
 			}
 		});
-		viewData.getSavedAuditStep(this, selectedJobId, auditWork, exceptions, loggedInEmployee);
+		viewData.getSavedAuditStep(this, auditStepSamplingView, selectedJobId, auditWork, exceptions, loggedInEmployee);
 
 		// viewData.getSavedExceptions(exceptions, selectedJobId );
 
-		setHandlers(auditWork, selectedJobId);
+		setHandlers(auditWork, selectedJobId, auditStepSamplingView);
 	}
 
-	private void setHandlers(final AuditWork auditWork, final int selectedJobId) {
+	private void setHandlers(final AuditWork auditWork, final int selectedJobId,
+			final SamplingAuditStep auditStepSamplingView) {
 
 		save.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
 				// disableFields(exceptions);
-				saveAuditStep(auditWork, selectedJobId, InternalAuditConstants.SAVED, "");
+				saveAuditStep(auditWork, selectedJobId, auditStepSamplingView, InternalAuditConstants.SAVED, "");
 
 			}
 
@@ -152,8 +154,8 @@ public class AuditStepView extends Composite {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				disableFields(exceptions);
-				saveAuditStep(auditWork, selectedJobId, InternalAuditConstants.APPROVED, "");
+				disableFields(exceptions, auditStepSamplingView);
+				saveAuditStep(auditWork, selectedJobId, auditStepSamplingView, InternalAuditConstants.APPROVED, "");
 
 			}
 
@@ -170,8 +172,8 @@ public class AuditStepView extends Composite {
 
 					@Override
 					public void onClick(ClickEvent event) {
-						disableFields(exceptions);
-						saveAuditStep(auditWork, selectedJobId, InternalAuditConstants.REJECTED,
+						disableFields(exceptions, auditStepSamplingView);
+						saveAuditStep(auditWork, selectedJobId, auditStepSamplingView, InternalAuditConstants.REJECTED,
 								amendmentPopup.getComments().getText());
 						amendmentPopup.getPopupComments().removeFromParent();
 					}
@@ -185,15 +187,16 @@ public class AuditStepView extends Composite {
 			public void onClick(ClickEvent arg0) {
 				boolean confirm = Window.confirm("Are you done with this Audit Step ?");
 				if (confirm) {
-					disableFields(exceptions);
-					saveAuditStep(auditWork, selectedJobId, InternalAuditConstants.SUBMIT, "");
+					disableFields(exceptions, auditStepSamplingView);
+					saveAuditStep(auditWork, selectedJobId, auditStepSamplingView, InternalAuditConstants.SUBMIT, "");
 				}
 			}
 
 		});
 	}
 
-	private void saveAuditStep(final AuditWork auditWork, final int selectedJobId, int status, String feedback) {
+	private void saveAuditStep(final AuditWork auditWork, final int selectedJobId,
+			SamplingAuditStep auditStepSamplingView2, int status, String feedback) {
 		// disableFields(exceptions);
 
 		AuditStep step = new AuditStep();
@@ -201,9 +204,12 @@ public class AuditStepView extends Composite {
 		ArrayList<Exceptions> exs = new ArrayList<Exceptions>();
 
 		step.setFeedback(feedback);
-		step.setPopulation(population.getText());
-		step.setProceducePerformance(performance.getText());
-		step.setSampleSelected(sample.getText());
+		step.setFrequency(auditStepSamplingView2.getListBoxFrequency().getSelectedIndex());
+		step.setSamplingMethod(auditStepSamplingView2.getListBoxSamplingMethod().getSelectedIndex());
+		step.setControlList(auditStepSamplingView2.getListBoxControlList().getSelectedIndex());
+		step.setPopulation(auditStepSamplingView2.getLblPopulationData().getText());
+		step.setProceducePerformance(auditStepSamplingView2.getTxtAreaAuditProcedure().getText());
+		step.setSampleSelected(auditStepSamplingView2.getLblSampleSizeData().getText());
 		step.setSelectionBasis(selection.getText());
 		step.setConclusion(conclusion.getItemText(conclusion.getSelectedIndex()));
 		step.setJobId(selectedJobId);
@@ -243,7 +249,7 @@ public class AuditStepView extends Composite {
 	}
 
 	public void fetchSavedAuditStep() {
-		viewData.getSavedAuditStep(this, selectedJobId, auditWork, exceptions, loggedInEmployee);
+		viewData.getSavedAuditStep(this, auditStepSamplingView, selectedJobId, auditWork, exceptions, loggedInEmployee);
 
 	}
 
@@ -327,7 +333,7 @@ public class AuditStepView extends Composite {
 		this.save = save;
 	}
 
-	public void disableFields(VerticalPanel exceptions) {
+	public void disableFields(VerticalPanel exceptions, SamplingAuditStep auditSamplingView) {
 		performance.setEnabled(false);
 		population.setEnabled(false);
 		sample.setEnabled(false);
@@ -336,6 +342,12 @@ public class AuditStepView extends Composite {
 		initiationButtonsPanel.setVisible(false);
 		approvalButtonsPanel.setVisible(false);
 		addException.setVisible(false);
+		auditSamplingView.getLblPopulationData().setEnabled(false);
+		auditSamplingView.getLblSampleSizeData().setEnabled(false);
+		auditSamplingView.getTxtAreaAuditProcedure().setEnabled(false);
+		auditSamplingView.getListBoxControlList().setEnabled(false);
+		auditSamplingView.getListBoxFrequency().setEnabled(false);
+		auditSamplingView.getListBoxSamplingMethod().setEnabled(false);
 
 		for (int i = 0; i < exceptions.getWidgetCount(); i++) {
 			ExceptionRow exceptionRow = (ExceptionRow) exceptions.getWidget(i);

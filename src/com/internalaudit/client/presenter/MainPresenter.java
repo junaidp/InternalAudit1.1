@@ -125,8 +125,8 @@ public class MainPresenter implements Presenter
 			}
 		};
 
-		// Schedule the timer to run once in 2 seconds.
-		t.schedule(2000);
+		// Schedule the timer to run once in 4 seconds.
+		t.schedule(8000);
 
 		display.getCreateUser().addClickHandler(new ClickHandler() {
 
@@ -191,7 +191,16 @@ public class MainPresenter implements Presenter
 				}
 
 				else if ("DashBoard".equalsIgnoreCase(config.getText())) {
-					eventBus.fireEvent(new DashBoardEvent(display.getVpnlDashBoard()));
+
+					Timer t = new Timer() {
+						@Override
+						public void run() {
+							eventBus.fireEvent(new DashBoardEvent(display.getVpnlDashBoard()));
+						}
+					};
+
+					// Schedule the timer to run once in 4 seconds.
+					t.schedule(8000);
 
 				}
 

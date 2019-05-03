@@ -131,7 +131,7 @@ public class MySQLRdbHelper {
 		// logger =
 		// Logger.getLogger("com.internalaudit.database.MySQLRdbHelper.class");
 		logger = Logger.getLogger("com.internalaudit.database.MySQLRdbHelper.class");
-		logger.setLevel(Level.DEBUG);
+		logger.setLevel(Level.INFO);
 		Employee employee = null;
 		Session session = null;
 		System.out.print(logger.getLevel() + "");
@@ -1626,14 +1626,15 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 
 			Criteria crit = session.createCriteria(Strategic.class);
-			crit.createAlias("assignedTo", "assigned");
-			crit.createAlias("assigned.reportingTo", "assignedReporting");
+			// crit.createAlias("assignedTo", "assigned");
+			// crit.createAlias("assigned.reportingTo", "assignedReporting");
 			crit.createAlias("approvedBy", "approveby");
 			crit.add(Restrictions.eq("assigned.employeeId", loggedInUser.getEmployeeId()));
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.add(Restrictions.ne("status", "deleted"));
-
+			strategicAlias(crit);
+			System.out.println("Above fetchDashboard");
 			List rsList = crit.list();
 
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -1664,9 +1665,10 @@ public class MySQLRdbHelper {
 				// dashBoardDTO.getStrategics().add(strategic);
 				dashBoardDTOs.add(dashboardDTO);
 			}
-
+			System.out.println("Above FettchEmployeeRiskForApproval");
 			ArrayList<RiskControlMatrixEntity> risks = fetchEmployeeRisksForApproval(year, companyId,
 					loggedInUser.getEmployeeId());
+			System.out.println("Above insideEmployeeRiskForApproval");
 			;
 			for (int i = 0; i < risks.size(); i++) {
 				DashBoardDTO dashboardDTO = new DashBoardDTO();
@@ -1679,10 +1681,12 @@ public class MySQLRdbHelper {
 				dashboardDTO.setStatus("submitted");
 				dashBoardDTOs.add(dashboardDTO);
 			}
-
+			System.out.println("Above fetchEmployeeAuditWorksForapproval");
 			ArrayList<AuditWork> auditWorks = fetchEmployeeAuditWorksForapproval(companyId, year,
 					loggedInUser.getEmployeeId());
+			System.out.println("inside fetchEmployeeAuditWorksForapproval");
 			for (int i = 0; i < auditWorks.size(); i++) {
+
 				DashBoardDTO dashboardDTO = new DashBoardDTO();
 				dashboardDTO.setInitiatedBy(auditWorks.get(i).getInitiatedBy().getEmployeeName());
 				dashboardDTO.setObjectiveName(auditWorks.get(i).getDescription());
@@ -1690,9 +1694,10 @@ public class MySQLRdbHelper {
 				dashboardDTO.setStatus("submitted");
 				dashBoardDTOs.add(dashboardDTO);
 			}
-
+			System.out.println("Above fetchEmployeeAuditStepsForApproval");
 			ArrayList<AuditStep> auditSteps = fetchEmployeeAuditStepsForApproval(year, companyId,
 					loggedInUser.getEmployeeId());
+			System.out.println("inside fetchEmployeeAuditStepsForApproval");
 			for (int i = 0; i < auditSteps.size(); i++) {
 				DashBoardDTO dashboardDTO = new DashBoardDTO();
 				dashboardDTO.setInitiatedBy(auditSteps.get(i).getInitiatedBy().getEmployeeName());
@@ -1701,9 +1706,10 @@ public class MySQLRdbHelper {
 				dashboardDTO.setStatus("submitted");
 				dashBoardDTOs.add(dashboardDTO);
 			}
-
+			System.out.println("Above fetchEmployeeExceptionsForApproval");
 			ArrayList<Exceptions> exceptions = fetchEmployeeExceptionsForApproval(year, companyId,
 					loggedInUser.getEmployeeId());
+			System.out.println("Inside fetchEmployeeExceptionsForApproval");
 			for (int i = 0; i < exceptions.size(); i++) {
 				DashBoardDTO dashboardDTO = new DashBoardDTO();
 				dashboardDTO.setInitiatedBy("Audit team");
@@ -1722,7 +1728,7 @@ public class MySQLRdbHelper {
 		} finally {
 			session.close();
 		}
-
+		System.out.println("DASHBOARD DTO : " + dashBoardDTOs);
 		return dashBoardDTOs;
 	}
 
@@ -2622,7 +2628,7 @@ public class MySQLRdbHelper {
 	private void strategicAlias(Criteria crit) {
 		crit.createAlias("initiatedBy", "initiated");
 		crit.createAlias("assignedTo", "assigned");
-
+		crit.createAlias("assigned.reportingTo", "assignedReporting");
 		crit.createAlias("process", "processId");
 		crit.createAlias("subProcess", "subProcessId");
 		crit.createAlias("jobType", "jobTypeId");
@@ -3900,7 +3906,11 @@ public class MySQLRdbHelper {
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.add(Restrictions.eq("status", InternalAuditConstants.SUBMIT));
+			// 2019 april
+			crit.createAlias("suggestedControlsId", "suggested");
+			crit.createAlias("suggested.riskId", "riskid");
 
+			// end
 			crit.createAlias("approvedBy", "approved");
 			crit.createAlias("approved.countryId", "employeeCount");
 			crit.createAlias("approved.reportingTo", "employeeRep");
@@ -5230,7 +5240,10 @@ public class MySQLRdbHelper {
 			crit.add(Restrictions.eq("initiatedRep.employeeId", employeeId));
 
 			/// 2019 april commented below lines crit
-			// crit.createAlias("riskId", "risk");
+			//
+			crit.createAlias("suggestedControlsId", "suggestedControlsId");
+			//
+			// crit.createAlias("suggestedControlsId.riskId", "risk");
 			// crit.createAlias("risk.auditEngageId", "audEng");
 			// crit.createAlias("audEng.jobCreationId", "jobCreation1");
 			// // jobsStrategicAlias(crit);
@@ -5276,10 +5289,12 @@ public class MySQLRdbHelper {
 
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchEmployeeAuditWorksForapproval", ex.getMessage()), ex);
+			System.out.println("HERE inisde catch....." + ex.getLocalizedMessage());
 
 		} finally {
 			session.close();
 		}
+		System.out.println("HERE NOT in catch....." + ":::" + rows);
 		return rows;
 	}
 
@@ -8154,19 +8169,31 @@ public class MySQLRdbHelper {
 		int notImplemented = exceptionsnotImplemeted.size();
 
 		////////// NEW DASHBOARD Audit Workspace
+		System.out.println("Above setJobNamesWithExceptionImplementationStatus");
+		logger.info("Above setJobNamesWithExceptionImplementationStatus");
 		dashBoardDTO
 				.setJobNamesWithExceptionImplementationStatus(fetchJobNamesWithExceptionStatus(year, companyId, hm));
+		System.out.println("Above setCompletedAndInprogressExceptions");
+		logger.info("Above setCompletedAndInprogressException");
 		dashBoardDTO.setCompletedAndInprogressExceptions(
 				fetchCompletedInprogressAndUnderReviewExceptionsCount(year, companyId, hm));
+		System.out.println("Above fetchExceptionsReportingStatus");
+		logger.info("Above fetchExceptionsReportingStatus");
 		dashBoardDTO.setExceptionReportingStatus(fetchExceptionsReportingStatus(year, companyId, hm));
+		System.out.println("Above fetchAuditWorkStatus");
+		logger.info("Above fetchAuditWorkStatus");
 		dashBoardDTO.setAuditWorkStatus(fetchAuditWorkStatus(year, companyId, hm));
+		System.out.println("Above fetchJobExceptions");
+		logger.info("Above fetchJobExceptions");
 		dashBoardDTO.setExceptions(fetchJobExceptions(0, year, companyId, hm));
 
 		////////// NEW DASHBOARD END
 
 		///////// NEW Dashboard Project Management
-
+		System.out.println("Above fetchInformationRequest");
+		logger.info("Above fetchInformationRequest");
 		dashBoardDTO.setInformationRequests(fetchInformationRequest(companyId, hm));
+		System.out.println("Above fetchToDo");
 		dashBoardDTO.setTodo(fetchToDo(companyId, hm));
 
 		/////////

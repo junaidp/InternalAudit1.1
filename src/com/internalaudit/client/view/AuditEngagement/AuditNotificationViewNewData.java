@@ -66,7 +66,7 @@ public class AuditNotificationViewNewData {
 						System.out.println("Audit Notification sending FAILED.In AuditNotificatioViewData");
 						btnSend.setEnabled(true);
 						loadingPopup.remove();
-						logger.log(Level.INFO, "FAIL: saveAuditNotification .Inside Audit AuditAreaspresenter");
+						logger.log(Level.INFO, "FAIL: saveAudi+tNotification .Inside Audit AuditAreaspresenter");
 						if (caught instanceof TimeOutException) {
 							History.newItem("login");
 						} else {
