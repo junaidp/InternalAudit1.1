@@ -13,7 +13,6 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -32,8 +31,7 @@ import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.RollsEnum;
 import com.internalaudit.shared.Skills;
 
-
-public class EditUserFormPresenter implements Presenter 
+public class EditUserFormPresenter implements Presenter
 
 {
 	private final InternalAuditServiceAsync rpcService;
@@ -43,34 +41,53 @@ public class EditUserFormPresenter implements Presenter
 	private Logger logger = Logger.getLogger("DashBoardPresenter");
 	private Employee loggedInUser;
 	private int previousNumberOfHours = 0;
-	Employee selectedEmployee;
-	public interface Display 
-	{
-		Widget asWidget();
-		TextBox getTxtName();
-		ListBox getListDivision();
-		TextBox getTxtDesignation();
-		ListBox getListuserProfile();
-		DateBox getDateOfJoining();
-		DateBox getDateAvailabilityForm();
-		DateBox getDateAvailabalityTo();
-		ListBox getListSkills();
-		ButtonRound  getBtnCancel();
-		ButtonRound  getBtnSubmit();
-		//		TextBox getTxtEmail();
-		ListBox getListReportingTo();
-		TextBox getTxtUserName();
-		PasswordTextBox getTxtPassword();
-		Label getLblReportingTo();
-		Label getLblPasswordError();
-		Label getLblUserNameError();
-		Label getLblEmailError();
-		ListBox getListCompany() ;
-		ListBox getListEmployees();
-	}  
+	private Employee selectedEmployee = new Employee();
 
-	public EditUserFormPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, Employee loggedInUser, Display view) 
-	{
+	public interface Display {
+		Widget asWidget();
+
+		TextBox getTxtName();
+
+		ListBox getListDivision();
+
+		TextBox getTxtDesignation();
+
+		ListBox getListuserProfile();
+
+		DateBox getDateOfJoining();
+
+		DateBox getDateAvailabilityForm();
+
+		DateBox getDateAvailabalityTo();
+
+		ListBox getListSkills();
+
+		ButtonRound getBtnCancel();
+
+		ButtonRound getBtnSubmit();
+
+		// TextBox getTxtEmail();
+		ListBox getListReportingTo();
+
+		TextBox getTxtUserName();
+
+		PasswordTextBox getTxtPassword();
+
+		Label getLblReportingTo();
+
+		Label getLblPasswordError();
+
+		Label getLblUserNameError();
+
+		Label getLblEmailError();
+
+		ListBox getListCompany();
+
+		ListBox getListEmployees();
+	}
+
+	public EditUserFormPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, Employee loggedInUser,
+			Display view) {
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.display = view;
@@ -78,16 +95,16 @@ public class EditUserFormPresenter implements Presenter
 
 		fetchSkilss();
 		getStartEndDates();
+
 		fetchEmployees();
 		fetchCompanies();
-		
-		
+
 		for (RollsEnum roles : RollsEnum.values()) {
-			display.getListuserProfile().addItem(roles.getName(), roles.getValue()+"");
+			display.getListuserProfile().addItem(roles.getName(), roles.getValue() + "");
 		}
 	}
 
-	private void fetchEmployees(){
+	private void fetchEmployees() {
 		rpcService.fetchEmployees(new AsyncCallback<ArrayList<Employee>>() {
 
 			@Override
@@ -98,18 +115,20 @@ public class EditUserFormPresenter implements Presenter
 			@Override
 			public void onSuccess(ArrayList<Employee> result) {
 				display.getListReportingTo().clear();
-				for(int i=0; i< result.size(); i++){
-					if(result.get(i).getCompanyId() == loggedInUser.getCompanyId()){
-						display.getListReportingTo().addItem(result.get(i).getEmployeeName(), result.get(i).getEmployeeId()+"");
-						display.getListEmployees().addItem(result.get(i).getEmployeeName(), result.get(i).getEmployeeId()+"");
-						
+				for (int i = 0; i < result.size(); i++) {
+					if (result.get(i).getCompanyId() == loggedInUser.getCompanyId()) {
+						display.getListReportingTo().addItem(result.get(i).getEmployeeName(),
+								result.get(i).getEmployeeId() + "");
+						display.getListEmployees().addItem(result.get(i).getEmployeeName(),
+								result.get(i).getEmployeeId() + "");
+
 					}
 				}
 			}
 		});
 	}
 
-	private void fetchCompanies(){
+	private void fetchCompanies() {
 		rpcService.fetchCompanies(new AsyncCallback<ArrayList<Company>>() {
 
 			@Override
@@ -119,15 +138,15 @@ public class EditUserFormPresenter implements Presenter
 
 			@Override
 			public void onSuccess(ArrayList<Company> result) {
-				for(int i=0; i< result.size(); i++){
-					display.getListCompany().addItem(result.get(i).getName(), result.get(i).getCompanyId()+"");
+				for (int i = 0; i < result.size(); i++) {
+					display.getListCompany().addItem(result.get(i).getName(), result.get(i).getCompanyId() + "");
 				}
 			}
 		});
 	}
 
-	private void getStartEndDates(){
-		rpcService.getStartEndDates(new AsyncCallback<ArrayList<Date>>(){
+	private void getStartEndDates() {
+		rpcService.getStartEndDates(new AsyncCallback<ArrayList<Date>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -139,112 +158,121 @@ public class EditUserFormPresenter implements Presenter
 				display.getDateAvailabilityForm().setValue(result.get(0));
 				display.getDateAvailabalityTo().setValue(result.get(1));
 				display.getDateOfJoining().setValue(result.get(2));
-			}});
+			}
+		});
 	}
 
 	private void fetchSkilss() {
-		rpcService.fetchSkills(new AsyncCallback<ArrayList<Skills>>(){
+		rpcService.fetchSkills(new AsyncCallback<ArrayList<Skills>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("fetch Skills Failed");	
+				Window.alert("fetch Skills Failed");
 			}
 
 			@Override
 			public void onSuccess(ArrayList<Skills> skills) {
 
-				for(int i=0; i<skills.size(); i++){
-					display.getListSkills().addItem(skills.get(i).getSkillName(), skills.get(i).getSkillId()+"");
+				for (int i = 0; i < skills.size(); i++) {
+					display.getListSkills().addItem(skills.get(i).getSkillName(), skills.get(i).getSkillId() + "");
 				}
-			}});
+			}
+		});
 	}
 
-	public void go(HasWidgets container) 
-	{
+	public void go(HasWidgets container) {
 		container.clear();
 		container.add(display.asWidget());
 		bind();
+
 	}
 
 	private void bind() {
+		// fetchEmployees();
+		// display.getListuserProfile().addItem(InternalAuditConstants.AUDITHEAD
+		// );
+		// display.getListuserProfile().addItem(InternalAuditConstants.TEAMLEAD);
+		// display.getListuserProfile().addItem(InternalAuditConstants.AUDITOR);
+		// display.getListuserProfile().addItem(InternalAuditConstants.ADMIN);
 
-		//		display.getListuserProfile().addItem(InternalAuditConstants.AUDITHEAD );
-		//		display.getListuserProfile().addItem(InternalAuditConstants.TEAMLEAD);
-		//		display.getListuserProfile().addItem(InternalAuditConstants.AUDITOR);
-		//		display.getListuserProfile().addItem(InternalAuditConstants.ADMIN);
-		
-		display.getListEmployees().addChangeHandler(new ChangeHandler(){
+		display.getListEmployees().addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent arg0) {
-			
-				fetchSelectedEmployee(Integer.parseInt(display.getListEmployees().getValue(display.getListEmployees().getSelectedIndex())));
-			}}
 
-			);
+				fetchSelectedEmployee(Integer
+						.parseInt(display.getListEmployees().getValue(display.getListEmployees().getSelectedIndex())));
+			}
+		}
 
+		);
 
-		display.getListuserProfile().addChangeHandler(new ChangeHandler(){
+		display.getListuserProfile().addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
-				if( Integer.parseInt(display.getListuserProfile().getValue(display.getListuserProfile().getSelectedIndex())) == 4 || 
-						Integer.parseInt(display.getListuserProfile().getValue(display.getListuserProfile().getSelectedIndex()))== 1
-						|| Integer.parseInt(display.getListuserProfile().getValue(display.getListuserProfile().getSelectedIndex()))== 5){
+				if (Integer.parseInt(
+						display.getListuserProfile().getValue(display.getListuserProfile().getSelectedIndex())) == 4
+						|| Integer.parseInt(display.getListuserProfile()
+								.getValue(display.getListuserProfile().getSelectedIndex())) == 1
+						|| Integer.parseInt(display.getListuserProfile()
+								.getValue(display.getListuserProfile().getSelectedIndex())) == 5) {
 					display.getLblReportingTo().setVisible(false);
 					display.getListReportingTo().setVisible(false);
-				}else{
+				} else {
 					display.getLblReportingTo().setVisible(true);
 					display.getListReportingTo().setVisible(true);
 				}
 
-			}});
+			}
+		});
 
-		display.getDateAvailabalityTo().setFormat(new DateBox.DefaultFormat(
-				DateTimeFormat.getShortDateFormat()));
-		display.getDateAvailabilityForm().setFormat(new DateBox.DefaultFormat(
-				DateTimeFormat.getShortDateFormat()));
-		display.getDateOfJoining().setFormat(new DateBox.DefaultFormat(
-				DateTimeFormat.getShortDateFormat()));
+		display.getDateAvailabalityTo().setFormat(new DateBox.DefaultFormat(DateTimeFormat.getShortDateFormat()));
+		display.getDateAvailabilityForm().setFormat(new DateBox.DefaultFormat(DateTimeFormat.getShortDateFormat()));
+		display.getDateOfJoining().setFormat(new DateBox.DefaultFormat(DateTimeFormat.getShortDateFormat()));
 
-		display.getBtnCancel().addClickHandler(new ClickHandler(){
+		display.getBtnCancel().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				History.newItem("login");
-			}});
+			}
+		});
 
-		display.getBtnSubmit().addClickHandler(new ClickHandler(){
+		display.getBtnSubmit().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-
+				// Window.alert("hi");
 				display.getLblUserNameError().setVisible(false);
 				display.getLblEmailError().setVisible(false);
 				display.getLblPasswordError().setVisible(false);
 
-				if(display.getTxtUserName().getText().length()<1 || display.getTxtUserName().getText().equals("")){
+				if (display.getTxtUserName().getText().length() < 1 || display.getTxtUserName().getText().equals("")) {
 					display.getLblUserNameError().setVisible(true);
 				}
-				//				if(display.getTxtEmail().getText().length()<1 || display.getTxtEmail().getText().equals("")){
-				//					display.getLblEmailError().setVisible(true);
-				//				}
-				if(display.getTxtPassword().getText().length()<1 || display.getTxtPassword().getText().equals("")){
+				// if(display.getTxtEmail().getText().length()<1 ||
+				// display.getTxtEmail().getText().equals("")){
+				// display.getLblEmailError().setVisible(true);
+				// }
+				if (display.getTxtPassword().getText().length() < 1 || display.getTxtPassword().getText().equals("")) {
 					display.getLblPasswordError().setVisible(true);
 				}
 
-				if(display.getTxtUserName().getText().length()>1 && display.getTxtPassword().getText().length()>1){
-				updateUserToDb(previousNumberOfHours);
+				if (display.getTxtUserName().getText().length() > 1
+						&& display.getTxtPassword().getText().length() > 1) {
+					updateUserToDb(previousNumberOfHours);
 
 				}
 
-			}});
+			}
+		});
 
 	}
 
 	private void fetchSelectedEmployee(int selectedUserId) {
-		
-		rpcService.fetchSelectedEmployee(selectedUserId, new AsyncCallback<Employee>(){
+
+		rpcService.fetchSelectedEmployee(selectedUserId, new AsyncCallback<Employee>() {
 
 			@Override
 			public void onFailure(Throwable arg0) {
@@ -256,103 +284,107 @@ public class EditUserFormPresenter implements Presenter
 				displayUser(employee);
 			}
 
-			});
+		});
 	}
 
 	private void displayUser(final Employee employee) {
-		
 
-		rpcService.fetchNumberOfDaysBetweenTwoDates(display.getDateAvailabilityForm().getValue(), display.getDateAvailabalityTo().getValue(), new AsyncCallback<Integer>(){
+		rpcService.fetchNumberOfDaysBetweenTwoDates(display.getDateAvailabilityForm().getValue(),
+				display.getDateAvailabalityTo().getValue(), new AsyncCallback<Integer>() {
 
-			@Override
-			public void onFailure(Throwable caught) {
-				Window.alert("fail fetchNumberOfDaysBetweenTwoDates");
-			}
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("fail fetchNumberOfDaysBetweenTwoDates");
+					}
 
-			@Override
-			public void onSuccess(Integer days) {
-				 previousNumberOfHours = days * 8;
-				
-			}
+					@Override
+					public void onSuccess(Integer days) {
+						previousNumberOfHours = days * 8;
 
-			});
-		
+					}
+
+				});
+
 	}
-	
-	private void displayUser(){
-		
+
+	private void displayUser() {
+
 		display.getDateOfJoining().setValue(selectedEmployee.getDateOfJoining());
-//		display.getListCompany().
-		
-		
-		rpcService.fetchNumberOfDaysBetweenTwoDates(display.getDateAvailabilityForm().getValue(), display.getDateAvailabalityTo().getValue(), new AsyncCallback<Integer>(){
+		// display.getListCompany().
 
-			@Override
-			public void onFailure(Throwable caught) {
-				Window.alert("fail fetchNumberOfDaysBetweenTwoDates");
-			}
+		rpcService.fetchNumberOfDaysBetweenTwoDates(display.getDateAvailabilityForm().getValue(),
+				display.getDateAvailabalityTo().getValue(), new AsyncCallback<Integer>() {
 
-			@Override
-			public void onSuccess(Integer days) {
-				int numberOfHours = days * 8;
-				updateUserToDb(numberOfHours);
-			}});
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("fail fetchNumberOfDaysBetweenTwoDates");
+					}
 
-
+					@Override
+					public void onSuccess(Integer days) {
+						int numberOfHours = days * 8;
+						updateUserToDb(numberOfHours);
+					}
+				});
 
 	}
 
 	private void updateUserToDb(int numberOfHours) {
-		
-		if(display.getListuserProfile().getValue(display.getListuserProfile().getSelectedIndex()).equals(InternalAuditConstants.AUDITHEAD)){
-				selectedEmployee.setAuditHead(true);
 
-			}
-			City city = new City();
-			city.setCityId(1);
-			Country country = new Country();
-			country.setCountryId(1);
-			selectedEmployee.setCityId(city);
-			selectedEmployee.setCountryId(country);
-			selectedEmployee.setEmail(display.getTxtUserName().getText());
-			selectedEmployee.setEmployeeName(display.getTxtName().getText());
-			if(Integer.parseInt(display.getListuserProfile().getValue(display.getListuserProfile().getSelectedIndex()))== 5){
-				selectedEmployee.setFromInternalAuditDept("no");
-			}else{
-				selectedEmployee.setFromInternalAuditDept("yes");
-			}
+		if (display.getListuserProfile().getValue(display.getListuserProfile().getSelectedIndex())
+				.equals(InternalAuditConstants.AUDITHEAD)) {
+			selectedEmployee.setAuditHead(true);
 
-			Employee reportingTo = new Employee();
-			if(display.getListReportingTo().isVisible()){
-				reportingTo.setEmployeeId(Integer.parseInt(display.getListReportingTo().getValue(display.getListReportingTo().getSelectedIndex())));
-			}else{
-				reportingTo.setEmployeeId(0);
-			}
-			selectedEmployee.setReportingTo(reportingTo);
-			Skills skill = new Skills();
-			skill.setSkillId(Integer.parseInt(display.getListSkills().getValue(display.getListSkills().getSelectedIndex())));
-			selectedEmployee.setSkillId(skill);
-			selectedEmployee.setDateOfJoining(display.getDateOfJoining().getValue());
-			selectedEmployee.setDesignation(display.getTxtDesignation().getText());
-			//Rolls role = new Rolls();
-			///role.setRollId(Integer.parseInt(display.getListuserProfile().getValue(display.getListuserProfile().getSelectedIndex())));
-			//selectedEmployee.setRollId(role);
-			selectedEmployee.setRollId(Integer.parseInt(display.getListuserProfile().getSelectedValue()));
-			//		Company company =new Company();
-			if(display.getListCompany().isVisible()){
-				//		company.setCompanyId(Integer.parseInt(display.getListCompany().getValue(display.getListCompany().getSelectedIndex())));
-				selectedEmployee.setCompanyId(Integer.parseInt(display.getListCompany().getValue(display.getListCompany().getSelectedIndex())));
-			}else{
-				selectedEmployee.setCompanyId(loggedInUser.getCompanyId());
-			}
+		}
+		City city = new City();
+		city.setCityId(1);
+		Country country = new Country();
+		country.setCountryId(1);
+		selectedEmployee.setCityId(city);
+		selectedEmployee.setCountryId(country);
+		selectedEmployee.setEmail(display.getTxtUserName().getText());
+		selectedEmployee.setEmployeeName(display.getTxtName().getText());
+		selectedEmployee.setEmployeeId(
+				Integer.parseInt(display.getListEmployees().getValue(display.getListEmployees().getSelectedIndex())));
+		if (Integer.parseInt(
+				display.getListuserProfile().getValue(display.getListuserProfile().getSelectedIndex())) == 5) {
+			selectedEmployee.setFromInternalAuditDept("no");
+		} else {
+			selectedEmployee.setFromInternalAuditDept("yes");
+		}
 
-			//selectedEmployee.setName(display.getTxtUserName().getText());
-			selectedEmployee.setPassword(display.getTxtPassword().getText());
-			selectedEmployee.setEmail(display.getTxtUserName().getText());
-		
-		
-		
-		rpcService.updateUser(previousNumberOfHours, selectedEmployee, new AsyncCallback<String>(){
+		Employee reportingTo = new Employee();
+		if (display.getListReportingTo().isVisible()) {
+			reportingTo.setEmployeeId(Integer
+					.parseInt(display.getListReportingTo().getValue(display.getListReportingTo().getSelectedIndex())));
+		} else {
+			reportingTo.setEmployeeId(0);
+		}
+		selectedEmployee.setReportingTo(reportingTo);
+		Skills skill = new Skills();
+		skill.setSkillId(
+				Integer.parseInt(display.getListSkills().getValue(display.getListSkills().getSelectedIndex())));
+		selectedEmployee.setSkillId(skill);
+		selectedEmployee.setDateOfJoining(display.getDateOfJoining().getValue());
+		selectedEmployee.setDesignation(display.getTxtDesignation().getText());
+		// Rolls role = new Rolls();
+		/// role.setRollId(Integer.parseInt(display.getListuserProfile().getValue(display.getListuserProfile().getSelectedIndex())));
+		// selectedEmployee.setRollId(role);
+		selectedEmployee.setRollId(Integer.parseInt(display.getListuserProfile().getSelectedValue()));
+		// Company company =new Company();
+		if (display.getListCompany().isVisible()) {
+			// company.setCompanyId(Integer.parseInt(display.getListCompany().getValue(display.getListCompany().getSelectedIndex())));
+			selectedEmployee.setCompanyId(
+					Integer.parseInt(display.getListCompany().getValue(display.getListCompany().getSelectedIndex())));
+		} else {
+			selectedEmployee.setCompanyId(loggedInUser.getCompanyId());
+		}
+
+		// selectedEmployee.setName(display.getTxtUserName().getText());
+		selectedEmployee.setPassword(display.getTxtPassword().getText());
+		selectedEmployee.setEmail(display.getTxtUserName().getText());
+
+		rpcService.updateUser(previousNumberOfHours, selectedEmployee, new AsyncCallback<String>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -361,16 +393,17 @@ public class EditUserFormPresenter implements Presenter
 
 			@Override
 			public void onSuccess(String result) {
-				if(result.equalsIgnoreCase(InternalAuditConstants.INVALIDEMAIL)){
+				if (result.equalsIgnoreCase(InternalAuditConstants.INVALIDEMAIL)) {
 					display.getLblUserNameError().setText(InternalAuditConstants.INVALIDEMAIL);
 					display.getLblUserNameError().setVisible(true);
-				}else if(result.equalsIgnoreCase(InternalAuditConstants.USERNOTAVAILABLE)){
+				} else if (result.equalsIgnoreCase(InternalAuditConstants.USERNOTAVAILABLE)) {
 					display.getLblUserNameError().setText(InternalAuditConstants.USERNOTAVAILABLE);
 					display.getLblUserNameError().setVisible(true);
-				}else {
+				} else {
 					display.getLblUserNameError().setVisible(false);
 					new DisplayAlert(result);
 					clearFields();
+					display.getListEmployees().clear();
 					fetchEmployees();
 				}
 			}
@@ -380,7 +413,7 @@ public class EditUserFormPresenter implements Presenter
 
 	private void clearFields() {
 		display.getTxtDesignation().setText("");
-		//		display.getTxtEmail().setText("");
+		// display.getTxtEmail().setText("");
 		display.getTxtName().setText("");
 		display.getTxtPassword().setText("");
 		display.getTxtUserName().setText("");
@@ -388,7 +421,4 @@ public class EditUserFormPresenter implements Presenter
 		display.getListCompany().setSelectedIndex(0);
 	}
 
-
 }
-
-

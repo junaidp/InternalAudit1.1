@@ -446,7 +446,6 @@ public class MySQLRdbHelper {
 				employees.add(employee);
 			}
 			logger.info(String.format(companyId + ":" + "inside fetchEmployees()" + new Date()));
-			return employees;// Return BEFORE catch Statement..
 
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchEmployees", ex.getMessage()), ex);
@@ -459,6 +458,7 @@ public class MySQLRdbHelper {
 		} finally {
 			session.close();
 		}
+		return employees;// Return BEFORE catch Statement..
 	}
 
 	public Employee fetchEmployeeById(int employeeId) throws Exception {// Add
@@ -501,7 +501,6 @@ public class MySQLRdbHelper {
 			}
 			logger.info(String.format(
 					"(Inside fetchEmployeeById) fetching employee with employeeID: " + employeeId + new Date()));
-			return employee;// Return BEFORE catch Statement..
 
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchEmployees", ex.getMessage()), ex);
@@ -514,6 +513,7 @@ public class MySQLRdbHelper {
 		} finally {
 			session.close();
 		}
+		return employee;// Return BEFORE catch Statement..
 	}
 
 	public ArrayList<Department> fetchDepartments() {
@@ -2880,9 +2880,10 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(AuditEngagement.class);
-
+			//
 			crit.createAlias("approvedBy", "approved");
 			crit.createAlias("approved.countryId", "employeeCount");
+			crit.createAlias("approved.cityId", "cityId");
 			crit.createAlias("approved.reportingTo", "employeeRep");
 			crit.createAlias("employeeRep.countryId", "employeeRCount");
 			crit.createAlias("approved.skillId", "employeeSkill");
@@ -7130,20 +7131,39 @@ public class MySQLRdbHelper {
 		Employee employee = null;
 		try {
 			session = sessionFactory.openSession();
-			employee = (Employee) session.get(Employee.class, employeeId);
+			Criteria crit = session.createCriteria(Employee.class);
+			crit.createAlias("cityId", "city");
+			crit.createAlias("countryId", "countryId");
+
+			// crit.createAlias("companyId", "company");
+			crit.createAlias("skillId", "skill");
+			crit.add(Restrictions.ne("employeeId", employeeId));
+			// crit.add(Restrictions.eq("companyId", companyId));
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				employee = (Employee) it.next();
+				// employees.add(employee);
+				// employee = (Employee) session.get(Employee.class,
+				// employeeId);
+			}
+
+			// // Criteria crit = session.createCriteria(Employee.class);
+			// // crit.add(Restrictions.eq(employeeId, value))
 			// Criteria crit = session.createCriteria(Employee.class);
-			// crit.add(Restrictions.eq(employeeId, value))
+			// crit.createAlias("cityId", "city");
+			// crit.createAlias("counntryId", "country");
+			// crit.add(employee);
+
 			logger.info(String.format("(Inside fetchSelectedEmployee)fetching SelectedEmployee for employe:"
 					+ employeeId + "" + new Date()));
 
-			return employee;
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchSelectedEmployee", ex.getMessage()), ex);
 			return null;
 		} finally {
 			session.close();
 		}
-
+		return employee;
 	}
 
 	public String updateUser(int previousHours, Employee employee) throws Exception {
@@ -7154,7 +7174,8 @@ public class MySQLRdbHelper {
 			if (employee.getReportingTo().getEmployeeId() == 0) {
 				employee.setReportingTo(employee);
 			}
-			session.update(employee);
+			session.saveOrUpdate(employee);
+			session.save(employee);
 			session.flush();
 			if (employee.getRollId() != 4 && employee.getRollId() != 5) {
 				// addAvailableHoursInSkills(employee.getSkillId().getSkillId(),
@@ -7168,7 +7189,7 @@ public class MySQLRdbHelper {
 		} finally {
 			session.close();
 		}
-		return null;
+		return "user updated";
 	}
 
 	public ArrayList<JobCreation> fetchReportWithResourcesSearchResult(ArrayList<String> div, ArrayList<String> domain,

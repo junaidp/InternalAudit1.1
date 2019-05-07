@@ -1,18 +1,20 @@
 package com.internalaudit.client.view;
 
-import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.internalaudit.client.presenter.UserInductionFormPresenter.Display;
 import com.internalaudit.shared.Employee;
 
-
 public class UserInductionFormView extends FlexTable implements Display {
-	
+
 	private TextBox txtName = new TextBox();
 	private ListBox listDivision = new ListBox();
 	private TextBox txtDesignation = new TextBox();
@@ -22,8 +24,9 @@ public class UserInductionFormView extends FlexTable implements Display {
 	private DateBox dateAvailabalityTo = new DateBox();
 	private ListBox listSkillSet = new ListBox();
 	private ButtonRound btnCancel = new ButtonRound("Back");
+	private ButtonRound btnEdit = new ButtonRound("Edit");
 	private ButtonRound btnSubmit = new ButtonRound("Save");
-//	private TextBox txtEmail = new TextBox();
+	// private TextBox txtEmail = new TextBox();
 	private ListBox listReportingTo = new ListBox();
 	private Label lblReportingTo = new Label("Reporting to");
 	private Label lblCompany = new Label("Company");
@@ -34,7 +37,8 @@ public class UserInductionFormView extends FlexTable implements Display {
 	private Label lblUserNameError = new Label("Please enter valid Email Address");
 	private Label lblPasswordError = new Label("Password cannot be empty");
 	private Label lblEmailError = new Label("Email cannot be empty");
-	
+	private VerticalPanel p = new VerticalPanel();
+
 	public UserInductionFormView(Employee loggedInUser) {
 		this.loggedInUser = loggedInUser;
 		layout();
@@ -43,34 +47,34 @@ public class UserInductionFormView extends FlexTable implements Display {
 	private void layout() {
 		Label lblHeading = new Label("User Induction Form");
 		lblHeading.addStyleName("blue");
-		
+
 		lblUserNameError.addStyleName("error");
 		lblEmailError.addStyleName("error");
 		lblPasswordError.addStyleName("error");
-		
+
 		lblUserNameError.setVisible(false);
 		lblEmailError.setVisible(false);
 		lblPasswordError.setVisible(false);
-		
+
 		setWidget(0, 1, lblHeading);
 		setWidget(1, 0, new Label("Name"));
-//		setWidget(2, 0, new Label("Email"));
-		
+		// setWidget(2, 0, new Label("Email"));
+
 		setWidget(3, 0, new Label("Username (Email)"));
 		setWidget(3, 2, lblUserNameError);
 		setWidget(4, 2, lblPasswordError);
 		setWidget(2, 2, lblEmailError);
 		setWidget(4, 0, new Label("Password"));
-		
-//		setWidget(3,  0, new Label("Division"));
-		setWidget(5,  0, new Label("Designation"));
-		setWidget(6,  0, new Label("User Profile"));
-		setWidget(7,  0, lblReportingTo);
-		setWidget(8,  0, new Label("Date of Joining"));
-		setWidget(9,  0, new Label("Availability during the year"));
+
+		// setWidget(3, 0, new Label("Division"));
+		setWidget(5, 0, new Label("Designation"));
+		setWidget(6, 0, new Label("User Profile"));
+		setWidget(7, 0, lblReportingTo);
+		setWidget(8, 0, new Label("Date of Joining"));
+		setWidget(9, 0, new Label("Availability during the year"));
 		setWidget(10, 0, new Label("Skill Set"));
 		setWidget(1, 1, txtName);
-//		setWidget(2, 1, txtEmail);
+		// setWidget(2, 1, txtEmail);
 		setWidget(3, 1, txtUserName);
 		setWidget(4, 1, txtPassword);
 		setWidget(5, 1, txtDesignation);
@@ -84,62 +88,73 @@ public class UserInductionFormView extends FlexTable implements Display {
 		setWidget(11, 2, listCompany);
 		setWidget(12, 1, btnCancel);
 		setWidget(12, 2, btnSubmit);
-		
+		setWidget(12, 3, btnEdit);
+		setWidget(13, 1, p);
+
 		lblReportingTo.setVisible(false);
 		listReportingTo.setVisible(false);
-		
-		if (loggedInUser.getEmployeeName().equalsIgnoreCase("Muhammad Faheem Piracha") && loggedInUser.getEmployeeId() ==1){
+
+		if (loggedInUser.getEmployeeName().equalsIgnoreCase("Muhammad Faheem Piracha")
+				&& loggedInUser.getEmployeeId() == 1) {
 			lblCompany.setVisible(true);
 			listCompany.setVisible(true);
-			}else{
-				lblCompany.setVisible(false);
-				listCompany.setVisible(false);
+		} else {
+			lblCompany.setVisible(false);
+			listCompany.setVisible(false);
+		}
+		btnEdit.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// EditUserFormView b = new EditUserFormView(loggedInUser);
+				History.newItem("editUser");
+				// p.add(b);
+
 			}
-			
+		});
 	}
-	
-	public TextBox getTxtName(){
+
+	public TextBox getTxtName() {
 		return txtName;
 	}
-	
-	
-	public ListBox getListDivision(){
+
+	public ListBox getListDivision() {
 		return listDivision;
 	}
-	
-	public ListBox getListReportingTo(){
+
+	public ListBox getListReportingTo() {
 		return listReportingTo;
 	}
-	
-	public TextBox getTxtDesignation(){
+
+	public TextBox getTxtDesignation() {
 		return txtDesignation;
 	}
-	
-	public ListBox getListuserProfile(){
+
+	public ListBox getListuserProfile() {
 		return listUserProfile;
 	}
-	
-	public DateBox getDateOfJoining(){
+
+	public DateBox getDateOfJoining() {
 		return dateOfJoingin;
 	}
-	
-	public DateBox getDateAvailabilityForm(){
+
+	public DateBox getDateAvailabilityForm() {
 		return dateAvailabalityFrom;
 	}
-	
-	public DateBox getDateAvailabalityTo(){
+
+	public DateBox getDateAvailabalityTo() {
 		return dateAvailabalityTo;
 	}
-	
-	public ListBox getListSkills(){
+
+	public ListBox getListSkills() {
 		return listSkillSet;
 	}
-	
-	public ButtonRound getBtnCancel(){
+
+	public ButtonRound getBtnCancel() {
 		return btnCancel;
 	}
-	
-	public ButtonRound getBtnSubmit(){
+
+	public ButtonRound getBtnSubmit() {
 		return btnSubmit;
 	}
 
@@ -202,7 +217,5 @@ public class UserInductionFormView extends FlexTable implements Display {
 	public void setLblEmailError(Label lblEmailError) {
 		this.lblEmailError = lblEmailError;
 	}
-	
-	
 
 }

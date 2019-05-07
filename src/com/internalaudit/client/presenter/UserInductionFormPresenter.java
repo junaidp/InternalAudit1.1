@@ -238,8 +238,7 @@ public class UserInductionFormPresenter implements Presenter
 				if (display.getTxtPassword().getText().length() < 1 || display.getTxtPassword().getText().equals("")) {
 					display.getLblPasswordError().setVisible(true);
 				}
-				Window.alert(display.getTxtPassword().getText());
-				Window.alert(display.getTxtUserName().getText());
+
 				if (display.getTxtUserName().getText().length() > 1
 						&& display.getTxtPassword().getText().length() > 1) {
 					saveUser();

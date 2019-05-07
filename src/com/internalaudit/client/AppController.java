@@ -41,6 +41,7 @@ import com.internalaudit.client.presenter.AuditReportPresenter;
 import com.internalaudit.client.presenter.AuditSchedulingPresenter;
 import com.internalaudit.client.presenter.CompanyInductionFormPresenter;
 import com.internalaudit.client.presenter.DashBoardNewPresenter;
+import com.internalaudit.client.presenter.EditUserFormPresenter;
 import com.internalaudit.client.presenter.JobCreationPresenter;
 import com.internalaudit.client.presenter.JobListingPresenter;
 import com.internalaudit.client.presenter.JobTimeEstimationPresenter;
@@ -54,6 +55,7 @@ import com.internalaudit.client.presenter.UserInductionFormPresenter;
 import com.internalaudit.client.view.AuditListingView;
 import com.internalaudit.client.view.AuditReportView;
 import com.internalaudit.client.view.CompanyInductionFormView;
+import com.internalaudit.client.view.EditUserFormView;
 import com.internalaudit.client.view.HeaderView;
 import com.internalaudit.client.view.JobListingView;
 import com.internalaudit.client.view.LoginUi;
@@ -294,6 +296,17 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 					this.container = mainContainer;
 					presenter.go(container);
 				}
+
+			}
+
+			if (eventToken.equals("editUser")) {
+				presenter = new EditUserFormPresenter(rpcService, eventBus, loggedInUser,
+						new EditUserFormView(loggedInUser));
+				if (presenter != null) {
+					this.container = mainContainer;
+					presenter.go(container);
+				}
+
 			}
 
 			if (eventToken.equals("AuditReporting")) {
