@@ -54,6 +54,7 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				form.submit();
+				// btnSubmit.setVisible(false);
 
 			}
 		});
@@ -69,6 +70,7 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 			public void onSubmitComplete(SubmitCompleteEvent event) {
 				if (event.getResults().contains("success")) {
 					Window.alert("File uploaded");
+					// btnSubmit.setVisible(false);
 					fetchProcedureAttachments(auditProcedureId, mainFolder);
 					// updateFileNameInDatabase();
 				} else {
@@ -101,6 +103,11 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 			@Override
 			public void onSuccess(ArrayList<String> result) {
 				panelFileDetail.clear();
+				if (result.size() >= 1) {
+					btnSubmit.setVisible(false);
+				} else {
+					btnSubmit.setVisible(true);
+				}
 				for (int i = 0; i < result.size(); i++) {
 					lblfilename = new Anchor(result.get(i));
 					Image delete = new Image("images/deleteIcon.png");
@@ -184,6 +191,10 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 			}
 		});
 		return btn;
+	}
+
+	public void disableField() {
+		btnSubmit.setVisible(false);
 	}
 
 	public FormPanel getForm() {

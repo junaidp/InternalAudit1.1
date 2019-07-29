@@ -31,16 +31,17 @@ public class AuditNotificationViewData {
 		this.rpcService = rpcService;
 		this.selectedAuditEngagement = selectedAuditEngagement;
 		if (selectedAuditEngagement != null && !selectedAuditEngagement.getTo().equals("")) {
+			auditNotificationView.disableFields();
 			displaySavedNotification();
 		}
 
 	}
 
 	private void displaySavedNotification() {
+		// auditNotificationView.disableFields();
 		auditNotificationView.getCc().setText(selectedAuditEngagement.getCc());
 		auditNotificationView.getTo().setText(selectedAuditEngagement.getTo());
 		auditNotificationView.getMessage().setText(selectedAuditEngagement.getAuditNotification());
-		auditNotificationView.disableFields();
 
 	}
 
@@ -78,10 +79,11 @@ public class AuditNotificationViewData {
 
 					@Override
 					public void onSuccess(String result) {
-						auditNotificationView.disableFields();
+
 						new DisplayAlert("Notification Sent");
-						send.setEnabled(true);
+						// send.setEnabled(true);
 						loadingPopup.remove();
+						auditNotificationView.disableFields();
 					}
 				});
 

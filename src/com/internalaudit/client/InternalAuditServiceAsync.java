@@ -5,7 +5,9 @@ import java.util.Date;
 import java.util.HashMap;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.internalaudit.client.view.InternalAuditReporting.AssesmentGridEntity;
 import com.internalaudit.shared.ActivityObjective;
+import com.internalaudit.shared.AssesmentGridDbEntity;
 import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.AuditProgramme;
 import com.internalaudit.shared.AuditSchedulingReportDTO;
@@ -323,5 +325,9 @@ public interface InternalAuditServiceAsync {
 	void saveReportDataPopup(ReportDataEntity reportData, AsyncCallback<String> callback);
 
 	void fetchReportDataPopup(int jobId, AsyncCallback<ReportDataEntity> callback);
+
+	void saveAssesmentGrid(ArrayList<AssesmentGridEntity> listAssesment, int jobid, AsyncCallback<String> callback);
+
+	void fetchAssesmentGrid(int jobId, AsyncCallback<ArrayList<AssesmentGridDbEntity>> callback);
 
 }

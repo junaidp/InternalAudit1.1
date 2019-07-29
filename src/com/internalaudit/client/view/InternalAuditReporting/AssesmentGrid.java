@@ -7,9 +7,13 @@ import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
-import com.internalaudit.shared.JobStatusDTO;
+import com.internalaudit.client.InternalAuditService;
+import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.shared.AssesmentGridDbEntity;
 import com.sencha.gxt.cell.core.client.form.CheckBoxCell;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.ContentPanel;
@@ -31,20 +35,22 @@ import com.sencha.gxt.widget.core.client.selection.SelectionChangedEvent.Selecti
 import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
 
 public class AssesmentGrid extends VerticalLayoutContainer {
-
+	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
 	protected static final int MIN_HEIGHT = 1;
 	// protected static final int MIN_WIDTH = 1200;
 	protected static final int PREFERRED_HEIGHT = 1;
 	protected static final int PREFERRED_WIDTH = 1;
 	ContentPanel panel;
 	private int id = 0;
+	private int selectedJob;
 	private static final AssesmentGridProperties reportingProperties = GWT.create(AssesmentGridProperties.class);
 
 	private ArrayList<AssesmentGridEntity> listReporting = new ArrayList<AssesmentGridEntity>();
+	private ArrayList<AssesmentGridDbEntity> listGrid = new ArrayList<AssesmentGridDbEntity>();
 
-	public AssesmentGrid(JobStatusDTO jobStatus) {
-
-		setData(jobStatus);
+	public AssesmentGrid(ArrayList<AssesmentGridDbEntity> result, int jobId) {
+		this.selectedJob = jobId;
+		setData(result);
 
 		//
 		Portlet portletReporting = new Portlet();
@@ -55,56 +61,122 @@ public class AssesmentGrid extends VerticalLayoutContainer {
 		add(panel);
 	}
 
-	private void setData(JobStatusDTO jobStatus) {
+	private void setData(ArrayList<AssesmentGridDbEntity> result) {
 
 		listReporting.clear();
 		// REPORTING
+		if (result.size() > 0) {
 
-		AssesmentGridEntity reporting0 = new AssesmentGridEntity();
-		reporting0.setName(" Adequate controls are present to achieve the objectives of underlying process");
-		reporting0.setId(1);
+			for (int i = 0; i < result.size(); i++) {
+				;
 
-		AssesmentGridEntity reporting1 = new AssesmentGridEntity();
-		reporting1.setName("Findings identified in previous year are rectified");
-		reporting1.setId(2);
+				final AssesmentGridEntity reporting0 = new AssesmentGridEntity();
+				reporting0.setName(result.get(i).getAssesmentName());
+				reporting0.setId(0 + i);
+				reporting0.setUrlCompleteboolean(result.get(i).isCompletelySatisfied());
+				reporting0.setUrlSatisfyboolean(result.get(i).isPartiallySatisfied());
+				reporting0.setUrlNonSatisfyboolean(result.get(i).isUnSatisfied());
+				listReporting.add(reporting0);
+			}
+		} else {
+			AssesmentGridEntity reporting0 = new AssesmentGridEntity();
+			reporting0.setName(" Adequate controls are present to achieve the objectives of underlying process");
+			reporting0.setId(1);
 
-		AssesmentGridEntity reporting2 = new AssesmentGridEntity();
-		reporting2.setName(" Steps were taken by the rseponsible to bring improvement process");
-		reporting2.setId(3);
+			AssesmentGridEntity reporting1 = new AssesmentGridEntity();
+			reporting1.setName("Findings identified in previous year are rectified");
+			reporting1.setId(2);
 
-		AssesmentGridEntity reporting3 = new AssesmentGridEntity();
-		reporting3.setName(" Process owners perceived audit activity as an opportunity to bring improvements");
-		reporting3.setId(4);
+			AssesmentGridEntity reporting2 = new AssesmentGridEntity();
+			reporting2.setName(" Steps were taken by the rseponsible to bring improvement process");
+			reporting2.setId(3);
 
-		AssesmentGridEntity reporting4 = new AssesmentGridEntity();
-		reporting4.setName(" Opportunities exist to further improve effectiveness and efficincy of the power");
-		reporting4.setId(5);
+			AssesmentGridEntity reporting3 = new AssesmentGridEntity();
+			reporting3.setName(" Process owners perceived audit activity as an opportunity to bring improvements");
+			reporting3.setId(4);
 
-		listReporting.add(reporting0);
-		listReporting.add(reporting1);
-		listReporting.add(reporting2);
-		listReporting.add(reporting3);
-		listReporting.add(reporting4);
+			AssesmentGridEntity reporting4 = new AssesmentGridEntity();
+			reporting4.setName(" Opportunities exist to further improve effectiveness and efficincy of the power");
+			reporting4.setId(5);
 
-		updateReportingStatusForOthers();
+			listReporting.add(reporting0);
+			listReporting.add(reporting1);
+			listReporting.add(reporting2);
+			listReporting.add(reporting3);
+			listReporting.add(reporting4);
+
+			updateReportingStatusForOthers();
+		}
+	}
+
+	private void fetchSavedAssesments(int selectedJobId) {
+		rpcService.fetchAssesmentGrid(selectedJobId, new AsyncCallback<ArrayList<AssesmentGridDbEntity>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Failed Fetch AssesmentGRid");
+
+			}
+
+			@Override
+			public void onSuccess(ArrayList<AssesmentGridDbEntity> result) {
+				if (result.size() > 0) {
+
+					for (int i = 0; i < result.size(); i++) {
+						Window.alert(result.get(i).getAssesmentName());
+
+						final AssesmentGridEntity reporting0 = new AssesmentGridEntity();
+						reporting0.setName(result.get(i).getAssesmentName());
+						reporting0.setId(0 + i);
+						reporting0.setUrlCompleteboolean(result.get(i).isCompletelySatisfied());
+						reporting0.setUrlSatisfyboolean(result.get(i).isPartiallySatisfied());
+						reporting0.setUrlNonSatisfyboolean(result.get(i).isUnSatisfied());
+						listReporting.add(reporting0);
+					}
+				} else {
+					AssesmentGridEntity reporting0 = new AssesmentGridEntity();
+					reporting0
+							.setName(" Adequate controls are present to achieve the objectives of underlying process");
+					reporting0.setId(1);
+
+					AssesmentGridEntity reporting1 = new AssesmentGridEntity();
+					reporting1.setName("Findings identified in previous year are rectified");
+					reporting1.setId(2);
+
+					AssesmentGridEntity reporting2 = new AssesmentGridEntity();
+					reporting2.setName(" Steps were taken by the rseponsible to bringimprovement process");
+					reporting2.setId(3);
+
+					AssesmentGridEntity reporting3 = new AssesmentGridEntity();
+					reporting3.setName(
+							" Process owners perceived audit activity as an opportunity to bring improvements");
+					reporting3.setId(4);
+
+					AssesmentGridEntity reporting4 = new AssesmentGridEntity();
+					reporting4.setName(
+							" Opportunities exist to further improve effectiveness and efficincy of the power");
+					reporting4.setId(5);
+
+					listReporting.add(reporting0);
+					listReporting.add(reporting1);
+					listReporting.add(reporting2);
+					listReporting.add(reporting3);
+					listReporting.add(reporting4);
+
+					updateReportingStatusForOthers();
+				}
+
+			}
+		});
 	}
 
 	private void updateReportingStatusForOthers() {
 
 		for (int i = 0; i < listReporting.size(); i++) {
-
-			// .AssesmentGridlistReporting.get(i).setUrlComplete("greenCircleNew.png");
-			// listReporting.get(i).setUrlComplete(new CheckBox());
-
-			// listReporting.get(i).setUrlNonSatisfy("redCircleNew.png");
-
 			listReporting.get(i).setUrlSatisfyboolean(false);
 			listReporting.get(i).setUrlCompleteboolean(false);
 			listReporting.get(i).setUrlNonSatisfyboolean(false);
 
-			// if (listReporting.get(i).getUrlNonSatisfy() == "false") {
-			// listReporting.get(i).setUrlSatisfy("yellowCircleNew.png");
-			// }
 		}
 
 	}
@@ -130,32 +202,6 @@ public class AssesmentGrid extends VerticalLayoutContainer {
 
 		CheckBoxCell cellNonSatisfy = new CheckBoxCell();
 		unsatisfied.setCell(cellNonSatisfy);
-		// // complete.setCell(new CustomImageCell());
-		// complete.setCell(new SimpleSafeHtmlCell<Boolean>(new
-		// AbstractSafeHtmlRenderer<Boolean>() {
-		// @Override
-		// public SafeHtml render(Boolean object) {
-		// return SafeHtmlUtils.fromTrustedString(object ? "True" : "False");
-		// }
-		// }));
-		//
-		// // satisfy.setCell(new CustomImageCell());
-		// satisfy.setCell(new SimpleSafeHtmlCell<Boolean>(new
-		// AbstractSafeHtmlRenderer<Boolean>() {
-		// @Override
-		// public SafeHtml render(Boolean object) {
-		// return SafeHtmlUtils.fromTrustedString(object ? "True" : "False");
-		// }
-		// }));
-		//
-		// // unsatisfied.setCell(new CustomImageCell());
-		// unsatisfied.setCell(new SimpleSafeHtmlCell<Boolean>(new
-		// AbstractSafeHtmlRenderer<Boolean>() {
-		// @Override
-		// public SafeHtml render(Boolean object) {
-		// return SafeHtmlUtils.fromTrustedString(object ? "True" : "False");
-		// }
-		// }));
 
 		List<ColumnConfig<AssesmentGridEntity, ?>> columns = new ArrayList<ColumnConfig<AssesmentGridEntity, ?>>();
 
@@ -199,26 +245,7 @@ public class AssesmentGrid extends VerticalLayoutContainer {
 
 		TextButton addButton = new TextButton("Add Assesment");
 
-		addButton.addSelectHandler(new SelectHandler() {
-			@Override
-			public void onSelect(SelectEvent event) {
-				id++;
-				AssesmentGridEntity reporting = new AssesmentGridEntity();
-				reporting.setName("reporting");
-				reporting.setId(id + 5);
-				// reporting.setUrlCompleteboolean(true);
-				// reporting.setUrlSatisfy("yellowCircleNew.png");
-				// reporting.setUrlNonSatisfy("redCircleNew.png");
-
-				// updateReportingStatusForOthers();
-
-				editing.cancelEditing();
-				store.add(0, reporting);
-
-				int row = store.indexOf(reporting);
-				editing.startEditing(new GridCell(row, 0));
-			}
-		});
+		addButtonHandler(store, editing, addButton);
 		final TextButton removeButton = new TextButton("Remove Selected Row(s)");
 		removeButton.setEnabled(false);
 		SelectHandler removeButtonHandler = new SelectHandler() {
@@ -240,8 +267,7 @@ public class AssesmentGrid extends VerticalLayoutContainer {
 
 			}
 		});
-		//
-		// TextButton addButton = new TextButton("Add");
+
 		addButton.addStyleName("w3-left");
 		con.add(addButton);
 		store.addAll(listReporting);
@@ -271,10 +297,51 @@ public class AssesmentGrid extends VerticalLayoutContainer {
 			@Override
 			public void onSelect(SelectEvent event) {
 				store.commitChanges();
+
+				saveAssesmentGrid();
 			}
+
 		}));
 
 		return panel;
+	}
+
+	private void addButtonHandler(final ListStore<AssesmentGridEntity> store,
+			final GridRowEditing<AssesmentGridEntity> editing, TextButton addButton) {
+		addButton.addSelectHandler(new SelectHandler() {
+			@Override
+			public void onSelect(SelectEvent event) {
+				id++;
+				AssesmentGridEntity reporting = new AssesmentGridEntity();
+				reporting.setName("reporting");
+				reporting.setId(id + 5);
+
+				editing.cancelEditing();
+				store.add(0, reporting);
+
+				int row = store.indexOf(reporting);
+				editing.startEditing(new GridCell(row, 0));
+				listReporting.add(reporting);
+				store.commitChanges();
+			}
+		});
+	}
+
+	private void saveAssesmentGrid() {
+		rpcService.saveAssesmentGrid(listReporting, selectedJob, new AsyncCallback<String>() {
+
+			@Override
+			public void onSuccess(String result) {
+				Window.alert(result);
+
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("failed saving assesment grid");
+
+			}
+		});
 	}
 
 	private SafeHtml wrapString(String untrustedString) {

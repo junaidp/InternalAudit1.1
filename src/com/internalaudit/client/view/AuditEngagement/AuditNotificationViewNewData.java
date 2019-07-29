@@ -32,6 +32,7 @@ public class AuditNotificationViewNewData {
 		this.rpcService = rpcService;
 		this.selectedAuditEngagement = selectedAuditEngagement;
 		if (selectedAuditEngagement != null && !selectedAuditEngagement.getTo().equals("")) {
+			auditNotificationViewNew.disableFields();
 			displaySavedNotification();
 		}
 
@@ -84,7 +85,7 @@ public class AuditNotificationViewNewData {
 					public void onSuccess(String result) {
 						// auditNotificationView.disableFields();
 						new DisplayAlert("Notification Sent");
-						btnSend.setEnabled(true);
+						// btnSend.setEnabled(true);
 						loadingPopup.remove();
 					}
 				});

@@ -93,7 +93,7 @@ public class JobCreationPresenter implements Presenter {
 	}
 
 	private void fetchCreatedJob(InternalAuditServiceAsync rpcService, StrategicDTO strategicDTO) {
-		rpcService.fetchCreatedJob(strategicDTO.getStrategicId(), true, true, "jobId",
+		rpcService.fetchCreatedJob(strategicDTO.getStrategicId(), true, true, "strategicId",
 				new AsyncCallback<JobCreationDTO>() {
 
 					@Override
@@ -116,12 +116,15 @@ public class JobCreationPresenter implements Presenter {
 
 					@Override
 					public void onSuccess(JobCreationDTO jobCreationDTO) {
+
 						if (jobCreationDTO == null) {
 							System.out.println("no previouis job creation recrd found for this job");
 
 						} else {
 							if (jobCreationDTO.getJob().isApproved()) {
-								display.disableFields();
+
+								display.getSaveJobCreation().setVisible(false);
+
 							}
 							System.out.println(
 									" Job creation found with id : " + jobCreationDTO.getJob().getJobCreationId());
@@ -289,7 +292,9 @@ public class JobCreationPresenter implements Presenter {
 					@Override
 					public void onSuccess(Void result) {
 						new DisplayAlert("Saved");
+						display.disableFields();
 						History.newItem("auditScheduling");
+						//
 					}
 
 					@Override

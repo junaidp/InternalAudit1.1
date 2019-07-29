@@ -34,6 +34,7 @@ public class SamplingAuditStep extends VerticalPanel {
 	TextArea txtAreaAuditProcedure = new TextArea();
 	HorizontalPanel panelFileDetail = new HorizontalPanel();
 	ScrollPanel panelFileDetailScroll = new ScrollPanel();
+	AuditWorkProgramUpload fileUpload;
 
 	public SamplingAuditStep(String auditStep) {
 		// TODO Auto-generated method stub
@@ -52,7 +53,7 @@ public class SamplingAuditStep extends VerticalPanel {
 		lblAuditProcedure.setText("Audit Procedure Performed");
 		String mainFolder = "SamplingAuditUploads";
 		// Styling of all the labels
-		AuditWorkProgramUpload fileUpload = new AuditWorkProgramUpload(auditStep, mainFolder);
+		fileUpload = new AuditWorkProgramUpload(auditStep, mainFolder);
 		// Styling of all the labels data
 		txtAreaControl.getElement().getStyle().setMarginLeft(50, Unit.PX);
 		txtAreaAuditProcedure.getElement().getStyle().setMarginLeft(50, Unit.PX);
@@ -344,6 +345,10 @@ public class SamplingAuditStep extends VerticalPanel {
 
 	public void setTxtAreaAuditProcedure(TextArea txtAreaAuditProcedure) {
 		this.txtAreaAuditProcedure = txtAreaAuditProcedure;
+	}
+
+	public AuditWorkProgramUpload getFileUpload() {
+		return fileUpload;
 	}
 
 }

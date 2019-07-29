@@ -28,6 +28,7 @@ import com.internalaudit.client.upload.AuditWorkProgramUpload;
 import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.client.view.ToDo.ToDoRaiserPortal;
+import com.internalaudit.shared.AssesmentGridDbEntity;
 import com.internalaudit.shared.Exceptions;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.JobStatusDTO;
@@ -84,7 +85,6 @@ public class ReportViewMain extends VerticalPanel {
 		ArrayList<ToDo> a = new ArrayList<ToDo>();
 		ToDoRaiserPortal todo = new ToDoRaiserPortal(a);
 		JobStatusDTO jobStatus = null;
-		AssesmentGrid assesmentGrid = new AssesmentGrid(jobStatus);
 
 		valueChangeHandler(eventBus);
 		saveHandler();
@@ -98,7 +98,6 @@ public class ReportViewMain extends VerticalPanel {
 		panelButton.addStyleName("w3-right");
 		panelDate.add(lblDate);
 		panelDate.add(dateBox);
-		panelSummaryOfAssesment.add(assesmentGrid);
 
 		add(lblMain);
 		add(listBoxJobs);
@@ -327,10 +326,27 @@ public class ReportViewMain extends VerticalPanel {
 				panelFileUpload.clear();
 				CalearData();
 				panelExceptionHigh.clear();
+				panelSummaryOfAssesment.clear();
 				panelControls.clear();
 				panelAllFindings.clear();
 				selectedJobId = Integer.parseInt(listBoxJobs.getSelectedValue());
 				final int jobId = Integer.parseInt(listBoxJobs.getSelectedValue());
+				rpcService.fetchAssesmentGrid(jobId, new AsyncCallback<ArrayList<AssesmentGridDbEntity>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("Failed fetchAssesment");
+
+					}
+
+					@Override
+					public void onSuccess(ArrayList<AssesmentGridDbEntity> result) {
+						AssesmentGrid assesmentGrid = new AssesmentGrid(result, jobId);
+						panelSummaryOfAssesment.add(assesmentGrid);
+
+					}
+				});
+
 				int ImplicationRating = 2;
 				// fetchControl(jobId, flexOverallControl);
 				fetchExceptionWithRating(jobId, ImplicationRating);

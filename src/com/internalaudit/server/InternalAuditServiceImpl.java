@@ -21,8 +21,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.internalaudit.client.InternalAuditService;
+import com.internalaudit.client.view.InternalAuditReporting.AssesmentGridEntity;
 import com.internalaudit.database.MySQLRdbHelper;
 import com.internalaudit.shared.ActivityObjective;
+import com.internalaudit.shared.AssesmentGridDbEntity;
 import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.AuditProgramme;
 import com.internalaudit.shared.AuditSchedulingReportDTO;
@@ -1706,5 +1708,17 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	@Override
 	public ReportDataEntity fetchReportDataPopup(int jobId) throws Exception {
 		return rdbHelper.fetchReportDataPopup(jobId);
+	}
+
+	@Override
+	public String saveAssesmentGrid(ArrayList<AssesmentGridEntity> listAssesment, int jobid) {
+
+		return rdbHelper.saveAssesmentGrid(listAssesment, jobid);
+	}
+
+	@Override
+	public ArrayList<AssesmentGridDbEntity> fetchAssesmentGrid(int jobId) throws Exception {
+
+		return rdbHelper.fetchAssesmentGrid(jobId);
 	}
 }

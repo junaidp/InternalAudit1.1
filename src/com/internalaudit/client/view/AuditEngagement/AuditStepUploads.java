@@ -4,12 +4,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.Hidden;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -63,30 +60,30 @@ public class AuditStepUploads extends VerticalPanel {
 		// panelScroll.add(panelFileDetail);
 		panel.add(upload);
 		// Add an event handler to the form.
-		form.addSubmitHandler(new FormPanel.SubmitHandler() {
-			public void onSubmit(SubmitEvent event) {
-
-			}
-		});
-		form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
-			public void onSubmitComplete(SubmitCompleteEvent event) {
-				if (event.getResults().contains("success")) {
-					Window.alert("File uploaded");
-					// updateFileNameInDatabase();
-				} else {
-					try {
-						int start = event.getResults().indexOf(">");
-						int end = event.getResults().lastIndexOf(".<");
-
-						Window.alert(event.getResults().substring(start + 1, end));
-					} catch (Exception ex) {
-						// Window.alert(event.getResults().substring(start,
-						// end));
-					}
-				}
-			}
-
-		});
+		// form.addSubmitHandler(new FormPanel.SubmitHandler() {
+		// public void onSubmit(SubmitEvent event) {
+		//
+		// }
+		// });
+		// form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
+		// public void onSubmitComplete(SubmitCompleteEvent event) {
+		// if (event.getResults().contains("success")) {
+		// Window.alert("File uploaded");
+		// // updateFileNameInDatabase();
+		// } else {
+		// try {
+		// int start = event.getResults().indexOf(">");
+		// int end = event.getResults().lastIndexOf(".<");
+		//
+		// Window.alert(event.getResults().substring(start + 1, end));
+		// } catch (Exception ex) {
+		// // Window.alert(event.getResults().substring(start,
+		// // end));
+		// }
+		// }
+		// }
+		//
+		// });
 
 		HorizontalPanel hpnl = new HorizontalPanel();
 		hpnl.add(form);

@@ -23,7 +23,7 @@ import com.internalaudit.client.upload.AuditWorkProgramUpload;
 import com.internalaudit.shared.AuditEngagement;
 
 public class AuditNotificationViewNew extends Composite {
-
+	AuditWorkProgramUpload uploada;
 	private static AuditNotificationViewNewUiBinder uiBinder = GWT.create(AuditNotificationViewNewUiBinder.class);
 
 	interface AuditNotificationViewNewUiBinder extends UiBinder<Widget, AuditNotificationViewNew> {
@@ -55,7 +55,7 @@ public class AuditNotificationViewNew extends Composite {
 		HTML html = new HTML();
 		setHandlers();
 		txtAreaBody.setText(
-				"We hereby would like t'o inform you thot company Nome Internal Audit will be conducting o review of Engagement Nome from 14 December, 2017. This is port of the Internal Audit Pion for 2017, discussed with Top Monogement, Group Internal Audit, ond approved by member(s) of BoD/Audit Committee\nThe oudit will be performed by Mr DEF ond Mr GHI , members of Locol Internal Audit.\n The scope of the oudit includes review of odequocy, effectiveness & efficiency of the controls ond processes around Engagement Nome, with specific focus on xxxx. \n Please note thot IA teom moy toke contact with relevant members of your teom in the coming doys for o better process understanding relating to this oudit ond information required. Any resultant scope changes, if required, will be duly communicated. \n The completion ond finolisotion will depend on the ovoilobility of information ond interviewees, yet we oim ot delivering o droft report for your review ond comments by 8 FebruorY, 2018. \n You ore requested to forward the information in ti-is notification to those who will be involved in the oudit. If you hove ony questions concerning the oudit, please feel free to contact myself or e-moil ot xxxxx. \n We look forward to your continued support. ");
+				"We hereby would like to inform you thot company Name Internal Audit will be conducting o review of Engagement Name from 14 December, 2017. This is part of the Internal Audit Plan for 2017, discussed with Top Management, Group Internal Audit, and approved by member(s) of BOD/Audit Committee\nThe audit will be performed by Mr. DEF ond M.r GHI , members of Local Internal Audit.\n The scope of the audit includes review of adequacy, effectiveness & efficiency of the controls ond processes around Engagement Name, with specific focus on xxxx. \n Please note thot IA team may take contact with relevant members of your team in the coming doys for a better process understanding relating to this audit and information required. Any resultant scope changes, if required, will be duly communicated. \n The completion ond finalisation will depend on the availability of information and interviews, yet we oim ot delivering a draft report for your review and comments by 8 FebruorY, 2018. \n You are requested to forward the information in this notification to those who will be involved in the oudit. If you hove any questions concerning the audit, please feel free to contact myself or e-mail ot xxxxx. \n We look forward to your continued support. ");
 
 		final String notificationId = record.getAuditEngId() + "";
 		final String mainFolder = "NotificationUploads";
@@ -89,7 +89,7 @@ public class AuditNotificationViewNew extends Composite {
 
 		});
 
-		AuditWorkProgramUpload uploada = new AuditWorkProgramUpload(notificationId, mainFolder);
+		uploada = new AuditWorkProgramUpload(notificationId, mainFolder);
 		// Window.alert(uploada.getFile());
 		panelUpload.add(uploada);
 
@@ -100,11 +100,23 @@ public class AuditNotificationViewNew extends Composite {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				btnSend.setEnabled(false);
-				auditNotificationViewNewData.sendMessage(btnSend);
 
+				auditNotificationViewNewData.sendMessage(btnSend);
+				disableFields();
 			}
 		});
+	}
+
+	public void disableFields() {
+		txtAreaBody.setEnabled(false);
+		txtBoxForAction.setEnabled(false);
+		txtBoxForInfo.setEnabled(false);
+		txtBoxFrom.setEnabled(false);
+		txtBoxReference.setEnabled(false);
+		txtBoxSubject.setEnabled(false);
+		btnSend.setVisible(false);
+		uploada.getBtnSubmit().setVisible(false);
+
 	}
 
 	public AuditNotificationViewNewData getAuditNotificationViewNewData() {

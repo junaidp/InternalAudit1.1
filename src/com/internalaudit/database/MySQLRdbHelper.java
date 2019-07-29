@@ -48,7 +48,9 @@ import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
+import com.internalaudit.client.view.InternalAuditReporting.AssesmentGridEntity;
 import com.internalaudit.shared.ActivityObjective;
+import com.internalaudit.shared.AssesmentGridDbEntity;
 //import com.ibm.icu.text.SimpleDateFormat;
 import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.AuditProgramme;
@@ -809,14 +811,23 @@ public class MySQLRdbHelper {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
+
+			// 2019 jul
+			// created this deletealreadysaved dep and commented
+			// !strategicdepartment method this
+			// method deletes first already saved departments and then save the
+			// new oness
+			deleteAlreadySavedDepartment(strategic.getId());
 			for (int i = 0; i < strategic.getStrategicDepartments().size(); i++) {
 				strategic.getStrategicDepartments().get(i).setStrategic(strategic.getId());
-				if (!strategicDepartmentAlreadySaved(strategic.getId(),
-						strategic.getStrategicDepartments().get(i).getDepartment().getDepartmentId())) {
-					session.saveOrUpdate(strategic.getStrategicDepartments().get(i));
-					session.flush();
-				}
+
+				// if (!strategicDepartmentAlreadySaved(strategic.getId(),
+				// strategic.getStrategicDepartments().get(i).getDepartment().getDepartmentId()))
+				// {
+				session.saveOrUpdate(strategic.getStrategicDepartments().get(i));
+				session.flush();
 			}
+			// }
 			logger.info(String.format("(Inside saveDepartments) saving Departments for strategic objective : "
 					+ strategic.getStrategicObjective() + " " + new Date()));
 		} catch (Exception ex) {
@@ -829,6 +840,35 @@ public class MySQLRdbHelper {
 
 	}
 
+	private boolean deleteAlreadySavedDepartment(int strategicId) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(StrategicDepartments.class);
+			crit.createAlias("department", "dept");
+			crit.add(Restrictions.eq("strategic", strategicId));
+			// crit.add(Restrictions.eq("dept.departmentId", departmentId));
+			List rsList = crit.list();
+
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				StrategicDepartments jobEmployeeRelation = (StrategicDepartments) it.next();
+				session.delete(jobEmployeeRelation);
+				session.flush();
+			}
+
+			logger.info(String
+					.format("(Inside strategicDepartmentAlreadySaved) StrategicDepartmentsAlreadySaved for strategicID : "
+							+ strategicId + " of department : " + new Date()));
+		} catch (Exception ex) {
+
+			logger.warn(String.format("Exception occured in strategicDepartmentAlreadySaved", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+		return true;
+	}
+
 	private boolean strategicDepartmentAlreadySaved(int strategicId, int departmentId) {
 		Session session = null;
 		try {
@@ -836,7 +876,7 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(StrategicDepartments.class);
 			crit.createAlias("department", "dept");
 			crit.add(Restrictions.eq("strategic", strategicId));
-			crit.add(Restrictions.eq("dept.departmentId", departmentId));
+			// crit.add(Restrictions.eq("dept.departmentId", departmentId));
 
 			if (crit.list().size() > 0) {
 				return true;
@@ -1134,9 +1174,10 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(JobEmployeeRelation.class);
+			// 2019 may
 			crit.createAlias("jobCreationId", "jobCreation");
 			jobsStrategicAlias(crit);
-			crit.add(Restrictions.eq("jobCreation.jobId", jobId));
+			crit.add(Restrictions.eq("strategic.strategicId", jobId));
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				JobEmployeeRelation jobEmployeeRelation = (JobEmployeeRelation) it.next();
@@ -2336,10 +2377,14 @@ public class MySQLRdbHelper {
 				saveJobEmployeeRelation(job.getRelation().get(i));
 			}
 
-			for (int i = 0; i < job.getJobSkillRelation().size(); ++i)
+			for (int i = 0; i < job.getJobSkillRelation().size(); ++i) {
+				if (i == 0) {
+					deletePreviousSkillsOnThisJob(job.getJobSkillRelation().get(0).getJobId());
+				}
 				saveJobSkillRelation(job.getJobSkillRelation().get(i));
-			tr1.commit();
 
+				tr1.commit();
+			}
 			logger.info(String.format("(Inside saveCreatedJob) saving created job for year : " + year + "for company"
 					+ companyId + "for jobName" + job.getJob().getJobName() + " " + new Date()));
 
@@ -2352,6 +2397,39 @@ public class MySQLRdbHelper {
 		}
 
 		return true;
+	}
+
+	private void deletePreviousSkillsOnThisJob(int jobId) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(JobSkillRelation.class);
+			// crit.createAlias("jobCreationId", "jobCreation");
+			// jobsStrategicAlias(crit);
+			// crit.createAlias("employeeId", "employee");
+			crit.add(Restrictions.eq("jobId", jobId));
+			List rsList = crit.list();
+
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				JobSkillRelation jobSkillRelation = (JobSkillRelation) it.next();
+				session.delete(jobSkillRelation);
+				session.flush();
+			}
+
+			logger.info(
+					String.format("(Inside deletePreviousJobSkillRelationOnThisJob) deleting JobSkillRelation job : "
+							+ jobId + " " + new Date()));
+
+		} catch (Exception ex) {
+
+			logger.warn(String.format("Exception occured in deletePreviousJobSkillRelationOnThisJob", ex.getMessage()),
+					ex);
+			System.out.println("Exception occured in deletePreviousJobSkillRelationOnThisJob");
+
+		} finally {
+
+		}
+
 	}
 
 	private void deletePreviousResourcesOnThisJob(int jobId) {
@@ -2513,9 +2591,12 @@ public class MySQLRdbHelper {
 		JobCreationDTO job = null;
 		try {
 			session = sessionFactory.openSession();
-			Criteria crit = session.createCriteria(JobCreation.class);
+			Criteria crit = session.createCriteria(JobCreation.class, "jobCreation");
+			// crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
+			/// crit.createAlias("strategicId", "strategicId");
 
-			crit.add(Restrictions.eq(idType, id));
+			crit.add(Restrictions.eq("strategic.strategicId", id));
 
 			List rsList = crit.list();
 
@@ -5773,7 +5854,8 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(AuditEngagement.class);
 			crit.createAlias("jobCreationId", "jobCreation");
 			jobsStrategicAlias(crit);
-			crit.add(Restrictions.eq("jobCreation.jobId", jobId));
+			// 2019 may
+			crit.add(Restrictions.eq("jobCreation.strategicId", jobId));
 			crit.add(Restrictions.eq("jobStatus", "In Progress"));
 			if (crit.list().size() > 0) {
 				completed = true;
@@ -5798,7 +5880,8 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(JobCreation.class);
-			crit.add(Restrictions.eq("jobId", jobId));
+			// 2019 may
+			crit.add(Restrictions.eq("strategicId", jobId));
 			crit.add(Restrictions.eq("reportStatus", 3));
 			if (crit.list().size() > 0) {
 				jobInProgress = true;
@@ -9317,5 +9400,93 @@ public class MySQLRdbHelper {
 			session.close();
 		}
 		return reportData;
+	}
+
+	public String saveAssesmentGrid(ArrayList<AssesmentGridEntity> listAssesment, int jobid) {
+		// ArrayList<AssesmentGridDbEntity> listAssesments = new
+		// ArrayList<AssesmentGridDbEntity>();
+		Session session = null;
+		try {
+
+			session = sessionFactory.openSession();
+			// Transaction tr = session.beginTransaction();
+			deletePreviousAssesmentSaved(jobid);
+			for (int i = 0; i < listAssesment.size(); i++) {
+				AssesmentGridDbEntity assesmentgrid = new AssesmentGridDbEntity();
+				assesmentgrid.setAssesmentName(listAssesment.get(i).getName());
+				assesmentgrid.setJobId(jobid);
+				assesmentgrid.setCompletelySatisfied(listAssesment.get(i).isUrlCompleteboolean());
+				assesmentgrid.setPartiallySatisfied(listAssesment.get(i).isUrlSatisfyboolean());
+				assesmentgrid.setUnSatisfied(listAssesment.get(i).isUrlNonSatisfyboolean());
+
+				// listAssesments.add(assesmentgrid);
+				session.saveOrUpdate(assesmentgrid);
+				session.flush();
+
+			}
+			// tr.commit();
+			logger.info(String.format("(Inside saveStrategicAudit) saving Assesment Grid  for strategic objective : "
+					+ " " + new Date()));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in saveAssesmentGrid", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+		return "Assesment Grid Saved";
+	}
+
+	public ArrayList<AssesmentGridDbEntity> fetchAssesmentGrid(int jobId) {
+
+		Session session = null;
+		ArrayList<AssesmentGridDbEntity> assesmentList = new ArrayList<AssesmentGridDbEntity>();
+		try {
+			session = sessionFactory.openSession();
+
+			Criteria crit = session.createCriteria(AssesmentGridDbEntity.class);
+			crit.add(Restrictions.eq("jobId", jobId));
+
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				AssesmentGridDbEntity assesmentGrid = (AssesmentGridDbEntity) it.next();
+
+				assesmentList.add(assesmentGrid);
+			}
+			logger.info(String.format("Inside fetchAssesmentGrid() " + new Date()));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchAssesmentGrid()", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+		return assesmentList;
+	}
+
+	private void deletePreviousAssesmentSaved(int jobId) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(AssesmentGridDbEntity.class);
+			crit.add(Restrictions.eq("jobId", jobId));
+			List rsList = crit.list();
+
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				AssesmentGridDbEntity assesmentGridDbEntity = (AssesmentGridDbEntity) it.next();
+				session.delete(assesmentGridDbEntity);
+				session.flush();
+			}
+
+			logger.info(String
+					.format("(Inside AssesmentGridDbEntity) deleting resource for job : " + jobId + " " + new Date()));
+
+		} catch (Exception ex) {
+
+			logger.warn(String.format("Exception occured in AssesmentGridDbEntity", ex.getMessage()), ex);
+			System.out.println("Exception occured in AssesmentGridDbEntity");
+
+		} finally {
+
+		}
+
 	}
 }

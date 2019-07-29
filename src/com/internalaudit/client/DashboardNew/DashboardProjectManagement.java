@@ -1,16 +1,12 @@
 package com.internalaudit.client.DashboardNew;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.logging.Level;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -21,7 +17,6 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
-import com.internalaudit.client.view.PopupsViewWhite;
 import com.internalaudit.client.view.Scheduling.JobsSchedulingView;
 import com.internalaudit.client.view.Scheduling.TimeLineJobsView;
 import com.internalaudit.client.widgets.AuditScheduling;
@@ -77,18 +72,20 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 			@Override
 			public void onSuccess(DashBoardNewDTO dashboard) {
 				clear();
-				//ProjectManagementTimeLine timeLine = new ProjectManagementTimeLine();
-				//2018 mew 
-				 final JobsSchedulingView jobSchedulingView = new JobsSchedulingView();
+				// ProjectManagementTimeLine timeLine = new
+				// ProjectManagementTimeLine();
+				// 2018 mew
+				final JobsSchedulingView jobSchedulingView = new JobsSchedulingView();
 				fetchJobs(jobSchedulingView);
 				ScrollPanel paneljobviewscroll = new ScrollPanel();
 				paneljobviewscroll.add(jobSchedulingView);
 				paneljobviewscroll.setWidth("1200px");
 				paneljobviewscroll.setHeight("300px");
-				//end
+				// end
 				ProjectManagementActualHours actualHours = new ProjectManagementActualHours();
 				ProjectManagementDate pmDate = new ProjectManagementDate();
-				PortalInformationRequest portalInformation = new PortalInformationRequest(dashboard.getInformationRequests());
+				PortalInformationRequest portalInformation = new PortalInformationRequest(
+						dashboard.getInformationRequests());
 				PortalOutstandingCoaching portalOutstanding = new PortalOutstandingCoaching(dashboard.getTodo());
 				Label l = new Label("ada");
 				// add(portalOutstanding);
@@ -110,7 +107,7 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 				panelDate.getElement().getStyle().setPaddingTop(20, Unit.PX);
 				//
 				panelLeft.add(dashboardlistBox);
-			//	panelLeft.add(paneljobviewscroll);
+				// panelLeft.add(paneljobviewscroll);
 				panelLeft.add(actualHours);
 				upperPanel.add(dashboardlistBox);
 				upperPanel.add(panelDate);
@@ -127,71 +124,77 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 		});
 
 	}
+
 	private void fetchJobs(final JobsSchedulingView jobSchedulingView) {
-		rpcService.fetchJobs(new AsyncCallback<ArrayList<JobCreation>>(){
+		rpcService.fetchJobs(new AsyncCallback<ArrayList<JobCreation>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 
-
-				//logger.log(Level.INFO, "FAIL: fetchJobs .Inside Audit AuditAreaspresenter");
-				if(caught instanceof TimeOutException){
+				// logger.log(Level.INFO, "FAIL: fetchJobs .Inside Audit
+				// AuditAreaspresenter");
+				if (caught instanceof TimeOutException) {
 					History.newItem("login");
-				}else{
+				} else {
 					System.out.println("FAIL: fetchJobs .Inside AuditAreaspresenter");
-					Window.alert("FAIL: fetchJobs");// After FAIL ... write RPC Name  NOT Method Name..
+					Window.alert("FAIL: fetchJobs");// After FAIL ... write RPC
+													// Name NOT Method Name..
 				}
-				
-				
+
 			}
 
 			@Override
 			public void onSuccess(ArrayList<JobCreation> result) {
-				//new PopupsViewWhite(jobSchedulingView);
-				//popup.setWidth("1000px");
-		
+				// new PopupsViewWhite(jobSchedulingView);
+				// popup.setWidth("1000px");
+
 				addHeading(jobSchedulingView);
-				AuditScheduling auditSchedulingTemp=null;
-				for ( int i =0; i< result.size(); i++)
-				{
-					 final AuditScheduling auditScheduling = new AuditScheduling();
+				AuditScheduling auditSchedulingTemp = null;
+
+				for (int i = 0; i < result.size(); i++) {
+
+					final AuditScheduling auditScheduling = new AuditScheduling();
+					auditScheduling.getJobName().setWidth("320px");
 					auditScheduling.getJobName().setText(result.get(i).getJobName());
-					auditScheduling.setEstimatedWeeks(result.get(i).getEstimatedWeeks());	
+					auditScheduling.setEstimatedWeeks(result.get(i).getEstimatedWeeks());
 
 					auditScheduling.setJobId(result.get(i).getJobCreationId());
 					auditScheduling.getEndDate().setText(result.get(i).getEndDate());///
-//					auditScheduling.getStartDate().getTextBox().setText(result.get(i).getStartDate());
+					// auditScheduling.getStartDate().getTextBox().setText(result.get(i).getStartDate());
 					auditScheduling.getEndDate().setVisible(false);
 					auditScheduling.getStartDate().setVisible(false);
 					jobSchedulingView.getListContainer().add(auditScheduling);
 					auditScheduling.getTimeLineContainer().add(new TimeLineJobsView(result.get(i).getTimeLineDates()));
-//					setHandlers(auditScheduling);
-//					if(result.get(i).isApproved()){
-//						auditScheduling.getStartDate().setEnabled(false);
-//					}
-					
+					// setHandlers(auditScheduling);
+					// if(result.get(i).isApproved()){
+					// auditScheduling.getStartDate().setEnabled(false);
+					// }
+
 					/////////////////////
-					if(auditSchedulingTemp==null || auditSchedulingTemp!=auditScheduling){
-					auditSchedulingTemp = auditScheduling;
-					
-//					auditScheduling.getStartDate().addValueChangeHandler(new ValueChangeHandler<Date>() {
-//
-//
-//						@Override
-//						public void onValueChange(ValueChangeEvent<Date> event) {
-//							
-//						//	getEndDate(auditScheduling, event);
-//						}
-//
-//						
-//					});
-					///////////////////////
+					if (auditSchedulingTemp == null || auditSchedulingTemp != auditScheduling) {
+						auditSchedulingTemp = auditScheduling;
+
+						// auditScheduling.getStartDate().addValueChangeHandler(new
+						// ValueChangeHandler<Date>() {
+						//
+						//
+						// @Override
+						// public void onValueChange(ValueChangeEvent<Date>
+						// event) {
+						//
+						// // getEndDate(auditScheduling, event);
+						// }
+						//
+						//
+						// });
+						///////////////////////
 					}
 				}
 			}
 
 		});
 	}
+
 	private void addHeading(JobsSchedulingView jobSchedulingView) {
 		HorizontalPanel headingPanel = new HorizontalPanel();
 		headingPanel.setWidth("1100px");
@@ -203,42 +206,41 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 		jobName.setWidth("160px");
 		headingPanel.add(jobName);
 
-//		Label startDate = new Label("Start Date");
-//		headingPanel.add(startDate);
-//		startDate.setWidth("90px");
-//
-//		Label endDate = new Label("End Date");
-//		headingPanel.add(endDate);
-//		endDate.setWidth("90px");		
+		// Label startDate = new Label("Start Date");
+		// headingPanel.add(startDate);
+		// startDate.setWidth("90px");
+		//
+		// Label endDate = new Label("End Date");
+		// headingPanel.add(endDate);
+		// endDate.setWidth("90px");
 
-		String[] names  = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}; 
+		String[] names = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
 		FlexTable flexHeading = new FlexTable();
 		flexHeading.setCellSpacing(0);
 		flexHeading.setCellPadding(0);
 		flexHeading.setBorderWidth(0);
-		for ( int i = 0; i < 12 ; i++)
-		{
+		for (int i = 0; i < 12; i++) {
 			flexHeading.getCellFormatter().setWidth(0, i, "66px");
 			Label month = new Label(names[i]);
 			month.setWordWrap(false);
-			flexHeading.setWidget(0, i , month);
+			flexHeading.setWidget(0, i, month);
 			flexHeading.addStyleName("list-heading");
 
-			//Months with 5 weeks
-			if(month.getText().equals("Mar") || month.getText().equals("May")|| month.getText().equals("Jul") || month.getText().equals("Oct")){
+			// Months with 5 weeks
+			if (month.getText().equals("Mar") || month.getText().equals("May") || month.getText().equals("Jul")
+					|| month.getText().equals("Oct")) {
 				flexHeading.getCellFormatter().setWidth(0, i, "86px");
 			}
-			if(month.getText().equals("Dec")){
+			if (month.getText().equals("Dec")) {
 				flexHeading.getCellFormatter().setWidth(0, i, "90px");
 			}
 		}
 		headingPanel.addStyleName("list-heading");
 		headingPanel.setWidth("428px");
 		jobSchedulingView.getHeadingsPanel().add(headingPanel);
-		jobSchedulingView.getHeadingsPanel().add(flexHeading); 
-
+		jobSchedulingView.getHeadingsPanel().add(flexHeading);
 
 	}
-	
+
 }

@@ -6,7 +6,9 @@ import java.util.HashMap;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.internalaudit.client.view.InternalAuditReporting.AssesmentGridEntity;
 import com.internalaudit.shared.ActivityObjective;
+import com.internalaudit.shared.AssesmentGridDbEntity;
 import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.AuditProgramme;
 import com.internalaudit.shared.AuditSchedulingReportDTO;
@@ -314,4 +316,8 @@ public interface InternalAuditService extends RemoteService {
 	String saveReportDataPopup(ReportDataEntity reportData);
 
 	ReportDataEntity fetchReportDataPopup(int jobId) throws Exception;
+
+	String saveAssesmentGrid(ArrayList<AssesmentGridEntity> listAssesment, int jobid);
+
+	ArrayList<AssesmentGridDbEntity> fetchAssesmentGrid(int jobId) throws Exception;
 }

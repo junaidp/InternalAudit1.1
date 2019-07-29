@@ -74,6 +74,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 				<value>com.internalaudit.shared.ToDoLogsEntity</value>
 				<value>com.internalaudit.shared.InformationRequestLogEntity</value>
 				<value>com.internalaudit.shared.ReportDataEntity</value>
+				<value>com.internalaudit.shared.AssesmentGridDbEntity</value>
 				
 			</list>
 		</property>

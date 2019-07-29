@@ -49,7 +49,7 @@ public class AuditNotificationView extends Composite {
 	}
 
 	public void disableFields() {
-		send.setVisible(false);
+		send.setEnabled(false);
 		to.setEnabled(false);
 		cc.setEnabled(false);
 		message.setEnabled(false);
