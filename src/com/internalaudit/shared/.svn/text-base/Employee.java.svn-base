@@ -34,7 +34,7 @@ import javax.persistence.Table;
 		private int areaOfSpeciality;
 		
 		@JoinColumn(name = "countryId")
-		@ManyToOne(fetch = FetchType.LAZY)
+		@ManyToOne(fetch = FetchType.EAGER)
 		private Country countryId;
 		
 		@JoinColumn(name = "cityId", nullable = true)

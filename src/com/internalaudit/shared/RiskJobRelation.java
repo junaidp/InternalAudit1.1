@@ -25,11 +25,11 @@ public class RiskJobRelation   implements Serializable {
 	private int riskjobrelationId;
 	
 	@JoinColumn(name = "jobCreation", nullable = true)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private JobCreation jobCreationId;
 	
 	@JoinColumn(name = "riskObjective", nullable = true)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private RiskObjective riskObjective;
 	
 	@Column(name="status")

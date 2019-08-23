@@ -25,11 +25,11 @@ public class JobEmployeeRelation   implements Serializable {
 	
 	//join this with employee table
 	@JoinColumn(name = "employeeid") 
-	@ManyToOne(fetch = FetchType.LAZY)  
+	@ManyToOne(fetch = FetchType.EAGER)  
 	private Employee employeeId;
 	
 	@JoinColumn(name = "jobCreationId")
-	@ManyToOne(fetch = FetchType.LAZY) 
+	@ManyToOne(fetch = FetchType.EAGER) 
 	private JobCreation jobCreationId;
 
 	public JobCreation getJobCreationId() {

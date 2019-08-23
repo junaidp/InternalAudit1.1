@@ -29,7 +29,7 @@ public class ResourceUse implements Serializable {
 	
 	
 	@JoinColumn(name = "skillId", nullable = true)
-	@ManyToOne(fetch = FetchType.LAZY)  // in db  it will be INT
+	@ManyToOne(fetch = FetchType.EAGER)  // in db  it will be INT
 	private Skills skillId;
 	
 	

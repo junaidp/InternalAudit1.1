@@ -31,7 +31,7 @@ public class SubProcess   implements Serializable {
 		return subProcessId;
 	}
 	@JoinColumn(name = "processId")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Process processId;
 	
 

@@ -28,7 +28,7 @@ public class SuggestedControls   implements Serializable {
 	private String suggestedControlsName;
 	
 	@JoinColumn(name = "riskId", nullable = true)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private RiskObjective riskId;
 	
 	@Column(name ="checked")

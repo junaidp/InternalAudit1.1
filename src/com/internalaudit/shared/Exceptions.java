@@ -33,19 +33,19 @@ public class Exceptions implements Serializable {
 	private String detail;
 
 	@JoinColumn(name = "jobcreation_id")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private JobCreation jobCreationId;
 
 	@JoinColumn(name = "responsiblePerson")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee responsiblePerson;
 
 	@JoinColumn(name = "divisionHead")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee divisionHead;
 
 	// @JoinColumn(name = "auditStep")
-	// @ManyToOne(fetch = FetchType.LAZY)
+	// @ManyToOne(fetch = FetchType.EAGER)
 	@Column(name = "auditStep")
 	private int auditStep;
 

@@ -27,7 +27,7 @@ public class JobCreation implements Serializable {
 	private int jobCreationId;
 
 	@JoinColumn(name = "jobid")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Strategic strategicId; // strategicid
 
 	@Column(name = "jobName")

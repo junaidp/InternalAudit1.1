@@ -29,12 +29,12 @@ public class ObjectiveJobRelation   implements Serializable {
 	
 
 	@JoinColumn(name = "jobId", nullable = true)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private JobCreation jobCreationId;
 	
 
 	@JoinColumn(name = "objectiveId", nullable = true)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private ActivityObjective objectiveId;
 	
 	@Column(name="status")

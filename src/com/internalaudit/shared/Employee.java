@@ -31,7 +31,7 @@ import javax.persistence.Transient;
 		private String employeeName;
 		
 		@JoinColumn(name = "reportingTo", nullable = true)
-		@ManyToOne(fetch = FetchType.LAZY)
+		@ManyToOne(fetch = FetchType.EAGER)
 		private Employee reportingTo;
 		
 		@Column(name="email")
@@ -39,16 +39,16 @@ import javax.persistence.Transient;
 		
 		
 		@JoinColumn(name = "countryId")
-		@ManyToOne(fetch = FetchType.LAZY)
+		@ManyToOne(fetch = FetchType.EAGER)
 		private Country countryId;
 		
 		@JoinColumn(name = "cityId", nullable = true)
-		@ManyToOne(fetch = FetchType.LAZY)
+		@ManyToOne(fetch = FetchType.EAGER)
 		private City cityId;
 		
 		
 		@JoinColumn(name = "skillId", nullable = true)
-		@ManyToOne(fetch = FetchType.LAZY)
+		@ManyToOne(fetch = FetchType.EAGER)
 		private Skills skillId;
 		
 		@Column(name ="companyId")

@@ -26,11 +26,11 @@ public class AuditProgramme   implements Serializable {
 	private String auditProgrammeName;
 	
 	@JoinColumn(name = "suggestedControlId", nullable = true)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private SuggestedControls suggestedControlsId;
 	
 	@JoinColumn(name = "reviewer", nullable = true)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee reviewer;
 
 	public int getAuditProgrammeId() {

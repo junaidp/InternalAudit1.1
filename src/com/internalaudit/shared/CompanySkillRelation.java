@@ -29,7 +29,7 @@ import javax.persistence.Table;
 		private int companyId;
 		
 		@JoinColumn(name = "skillId", nullable = true)
-		@ManyToOne(fetch = FetchType.LAZY)
+		@ManyToOne(fetch = FetchType.EAGER)
 		private Skills skillId;
 		
 		@Column(name="year")

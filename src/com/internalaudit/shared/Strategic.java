@@ -31,11 +31,11 @@ public class Strategic implements Serializable {
 	private String strategicObjective;
 
 	// @JoinColumn(name = "objectiveOwner", nullable = true)
-	// @ManyToOne(fetch = FetchType.LAZY)
+	// @ManyToOne(fetch = FetchType.EAGER)
 	// private Employee objectiveOwner;
 
 	@JoinColumn(name = "relevantDepartment", nullable = true)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Department relevantDepartment;
 
 	@Column(name = "acheivementDate")
@@ -48,22 +48,22 @@ public class Strategic implements Serializable {
 	private String userDefinedRating;
 
 	@JoinColumn(name = "process")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Process process;
 
 	@JoinColumn(name = "subProcess")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private SubProcess subProcess;
 
 	@JoinColumn(name = "jobType")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private JobType jobType;
 
 	@Column(name = "audit")
 	private boolean audit;
 
 	@JoinColumn(name = "riskFactor", nullable = true)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private RiskFactor riskFactor;
 
 	@Column(name = "auditableUnit")
@@ -85,15 +85,15 @@ public class Strategic implements Serializable {
 	private int tab;
 
 	@JoinColumn(name = "initiatedBy", nullable = true)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee initiatedBy;
 
 	@JoinColumn(name = "assignedTo", nullable = true)
-	@ManyToOne(fetch = FetchType.LAZY /* , cascade = {CascadeType.ALL} */)
+	@ManyToOne(fetch = FetchType.EAGER /* , cascade = {CascadeType.ALL} */)
 	private Employee assignedTo;
 
 	@JoinColumn(name = "approvedBy", nullable = true)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee approvedBy;
 
 	@Column(name = "approvedByAuditHead")

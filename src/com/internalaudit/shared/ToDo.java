@@ -38,15 +38,15 @@ public class ToDo implements Serializable {
 	private String description;
 	
 	@JoinColumn(name = "assignedTo")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee assignedTo;
 	
 	@JoinColumn(name = "assignedFrom")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee assignedFrom;
 	
 	@JoinColumn(name = "job")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private JobCreation job;
 	
 	@Column(name="dueDate")

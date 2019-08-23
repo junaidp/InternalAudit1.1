@@ -35,7 +35,7 @@ public class JobAndAreaOfExpertise implements Serializable {
 	private int jobId;
 	
 	@JoinColumn(name="departmentid") 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Department areaOfExpertiseId;
 
 	public int getJobAndAreaId() {

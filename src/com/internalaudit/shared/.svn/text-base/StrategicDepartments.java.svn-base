@@ -29,7 +29,7 @@ import javax.persistence.Transient;
 		private int strategic;
 		
 		@JoinColumn(name = "department")
-		@ManyToOne(fetch = FetchType.LAZY)
+		@ManyToOne(fetch = FetchType.EAGER)
 		private Department department;/// You will be fetching strategicDepartment , then strategicDepatment.getdepartment.getdeptName();  should give u finance etc
 		
 		@Transient

@@ -48,11 +48,11 @@ public class RiskControlMatrixEntity implements Serializable {
 	private int status;
 	
 	@JoinColumn(name = "initiatedBy")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee initiatedBy;
 	
 	@JoinColumn(name = "approvedBy")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee approvedBy;
 	
 	@Column(name = "feedback")

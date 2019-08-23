@@ -14,33 +14,32 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-
 @Entity
 
-@Table(name="activityObjective")
-public class ActivityObjective   implements Serializable {
+@Table(name = "activityobjective")
+public class ActivityObjective implements Serializable {
 
-	@Id 
-	@GeneratedValue(strategy=GenerationType.AUTO)	
-	@Column(name="objectiveId")
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "objectiveId")
 	private int objectiveId;
-	
-	@Column(name ="objectiveName")
+
+	@Column(name = "objectiveName")
 	private String objectiveName;
-	
+
 	@JoinColumn(name = "subProcessId", nullable = true)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private SubProcess subProcessId;
-	
-	@Column(name ="checked")
+
+	@Column(name = "checked")
 	private boolean checked;
-	
-	@Column(name ="referenceNo")
+
+	@Column(name = "referenceNo")
 	private String referenceNo;
-	
+
 	@Transient
 	private int activityJobRelation;
-	
+
 	@Transient
 	private int status;
 

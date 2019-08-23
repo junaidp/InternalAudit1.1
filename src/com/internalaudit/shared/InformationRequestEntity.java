@@ -41,18 +41,18 @@ public class InformationRequestEntity implements Serializable {
 	private String requestItem;
 
 	@JoinColumn(name = "contactResponsible")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee contactResponsible;
 
 	@Column(name = "contactEmail")
 	private String contactEmail;
 
 	@JoinColumn(name = "assignedFrom")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee assignedFrom;
 
 	@JoinColumn(name = "job")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private JobCreation job;
 
 	@Column(name = "dueDate")

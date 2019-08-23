@@ -27,7 +27,7 @@ public class AuditWork implements Serializable {
 	private int auditWorkId;
 	
 	@JoinColumn(name = "jobcreationid")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private JobCreation jobCreationId;
 	
 	@Column(name="step_no")
@@ -49,11 +49,11 @@ public class AuditWork implements Serializable {
 	private int companyId;
 	
 	@JoinColumn(name = "initiatedBy")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee initiatedBy;
 	
 	@JoinColumn(name = "approvedBy")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee approvedBy;
 	
 	@Column(name = "feedback")
@@ -70,7 +70,7 @@ public class AuditWork implements Serializable {
 	//2018 adding new fields
 
 	@JoinColumn(name = "suggestedControlsId", nullable = true)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private SuggestedControls suggestedControlsId;
 	
 	//end

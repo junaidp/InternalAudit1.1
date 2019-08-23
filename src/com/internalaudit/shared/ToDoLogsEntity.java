@@ -34,11 +34,11 @@ public class ToDoLogsEntity implements Serializable {
 	private String respond;
 	
 	@JoinColumn(name = "assignedTo")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee assignedTo;
 	
 	@JoinColumn(name = "assignedBy")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee assignedFrom;
 	
 	

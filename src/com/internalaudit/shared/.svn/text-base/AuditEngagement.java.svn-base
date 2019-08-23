@@ -32,7 +32,7 @@ public class AuditEngagement implements Serializable {
 	private String jobStatus;
 	
 	@JoinColumn(name="jobcreationid")
-	@OneToOne( fetch = FetchType.LAZY )
+	@OneToOne( fetch = FetchType.EAGER )
 	private JobCreation jobCreation;
 	
 	@Column( name = "assignmentObj" )

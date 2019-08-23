@@ -25,7 +25,7 @@ public class JobSkillRelation   implements Serializable {
 	
 	//join this with employee table
 	@JoinColumn(name = "softskillid") 
-	@ManyToOne(fetch = FetchType.LAZY)  
+	@ManyToOne(fetch = FetchType.EAGER)  
 	private Softskills softskills;
 	
 	@Column(name = "jobId")

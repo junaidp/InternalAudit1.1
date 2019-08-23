@@ -24,7 +24,7 @@ public class City   implements Serializable {
 	private String city;
 	
 	@JoinColumn(name = "countryId", nullable = true)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Country countryId;
 	
 	public int getCityId() {

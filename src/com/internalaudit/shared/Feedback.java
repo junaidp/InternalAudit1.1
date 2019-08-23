@@ -27,7 +27,7 @@ public class Feedback   implements Serializable {
 	private String description;
 	
 	@JoinColumn(name = "employee")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee employee;
 
 	public int getId() {

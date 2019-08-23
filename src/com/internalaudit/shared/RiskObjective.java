@@ -29,7 +29,7 @@ public class RiskObjective   implements Serializable {
 	private String riskname;
 	
 	@JoinColumn(name = "objectiveId", nullable = true)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private ActivityObjective objectiveId;
 	
 	@Column(name ="checked")

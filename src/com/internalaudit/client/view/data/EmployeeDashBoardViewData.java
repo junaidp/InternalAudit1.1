@@ -8,7 +8,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
@@ -46,15 +45,16 @@ public class EmployeeDashBoardViewData {
 					History.newItem("login");
 				} else {
 					System.out.println("FAIL: fetchDashBoard .Inside AuditAreaspresenter");
-					Window.alert("FAIL: fetchDashBoard inside EmployeeDashboardViewData");// After
-																							// FAIL
-																							// ...
-																							// write
-																							// RPC
-																							// Name
-																							// NOT
-																							// Method
-																							// Name..
+					// Window.alert("FAIL: fetchDashBoard inside
+					// EmployeeDashboardViewData");// After
+					// FAIL
+					// ...
+					// write
+					// RPC
+					// Name
+					// NOT
+					// Method
+					// Name..
 				}
 
 			}

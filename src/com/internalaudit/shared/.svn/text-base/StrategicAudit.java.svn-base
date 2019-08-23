@@ -27,11 +27,11 @@ import javax.persistence.Transient;
 		private String strategicObjective;
 		
 		@JoinColumn(name = "objectiveOwner", nullable = true)
-		@ManyToOne(fetch = FetchType.LAZY)
+		@ManyToOne(fetch = FetchType.EAGER)
 		private Employee objectiveOwner;
 		
 		@JoinColumn(name = "relevantDepartment", nullable = true)
-		@ManyToOne(fetch = FetchType.LAZY)
+		@ManyToOne(fetch = FetchType.EAGER)
 		private Department relevantDepartment;
 		
 		@Column(name="acheivementDate")
@@ -41,7 +41,7 @@ import javax.persistence.Transient;
 		private String rating;
 		
 		@JoinColumn(name = "riskFactor", nullable = true)
-		@ManyToOne(fetch = FetchType.LAZY)
+		@ManyToOne(fetch = FetchType.EAGER)
 		private RiskFactor riskFactor;
 		
 		@Column(name="auditableUnit")
@@ -60,15 +60,15 @@ import javax.persistence.Transient;
 		private Date date;
 		
 		@JoinColumn(name = "initiatedBy", nullable = true)
-		@ManyToOne(fetch = FetchType.LAZY)
+		@ManyToOne(fetch = FetchType.EAGER)
 		private Employee initiatedBy;
 		
 		@JoinColumn(name = "assignedTo", nullable = true)
-		@ManyToOne(fetch = FetchType.LAZY)
+		@ManyToOne(fetch = FetchType.EAGER)
 		private Employee assignedTo;
 		
 		@JoinColumn(name = "approvedBy", nullable = true)
-		@ManyToOne(fetch = FetchType.LAZY)
+		@ManyToOne(fetch = FetchType.EAGER)
 		private Employee approvedBy;
 		
 		@Transient

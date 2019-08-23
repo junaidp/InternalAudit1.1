@@ -90,7 +90,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 
 		if (user != null) {
 			System.out.println("Inside signin: NOT null");
-			// session = getThreadLocalRequest().getSession(true);
+			session = getThreadLocalRequest().getSession(true);///// CHECK!!!
 
 			getThreadLocalRequest().getSession(true).setAttribute("user", user);
 			int currentYear = getCurrentYear();

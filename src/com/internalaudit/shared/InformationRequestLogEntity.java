@@ -35,11 +35,11 @@ public class InformationRequestLogEntity implements Serializable {
 	
 
 	@JoinColumn(name = "assignedTo")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee assignedTo;
 	
 	@JoinColumn(name = "assignedBy")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee assignedFrom;
 	
 	@Column(name="informationRequestId")
