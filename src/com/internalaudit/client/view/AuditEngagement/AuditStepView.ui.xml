@@ -93,7 +93,7 @@
 
 	
 	<g:HorizontalPanel ui:field="initiationButtonsPanel" visible="false">
-	<g:Button ui:field="save" visible="false" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Save</g:Button>
+	<g:Button ui:field="save"  styleName="w3-button w3-round-xxlarge w3-hover-blue" >Save</g:Button>
 	<g:Button ui:field="submit" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Submit</g:Button>
 	</g:HorizontalPanel>
 	<g:HorizontalPanel ui:field="approvalButtonsPanel" visible="false">

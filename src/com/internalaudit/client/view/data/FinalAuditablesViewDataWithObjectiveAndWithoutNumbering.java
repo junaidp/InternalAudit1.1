@@ -10,8 +10,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -33,32 +31,40 @@ public class FinalAuditablesViewDataWithObjectiveAndWithoutNumbering {
 	private InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
 	private Logger logger = Logger.getLogger("FinalAuditablesViewData");
 
-	public void setData(ContentPanel cp, final FinalAuditablesView finalAuditablesView, VerticalPanel vpnlFinalAuditable, final Employee loggedInUser){
+	public void setData(ContentPanel cp, final FinalAuditablesView finalAuditablesView,
+			VerticalPanel vpnlFinalAuditable, final Employee loggedInUser) {
 
-		cp.addBeforeExpandHandler(new BeforeExpandHandler(){
+		cp.addBeforeExpandHandler(new BeforeExpandHandler() {
 
 			@Override
 			public void onBeforeExpand(BeforeExpandEvent event) {
 				fetchFinalAuditables(finalAuditablesView, loggedInUser);
-			}});
-
+			}
+		});
 
 	}
 
-	public void fetchFinalAuditables(final FinalAuditablesView finalAuditablesView, final Employee loggedInUser){
-		rpcService.fetchFinalAuditables(new AsyncCallback<ArrayList<Strategic>>(){
+	public void fetchFinalAuditables(final FinalAuditablesView finalAuditablesView, final Employee loggedInUser) {
+		rpcService.fetchFinalAuditables(new AsyncCallback<ArrayList<Strategic>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 				Window.alert("Fetch Final Auditables failed");
 
-
 				logger.log(Level.INFO, "FAIL: fetchDashBoard .Inside Audit AuditAreaspresenter");
-				if(caught instanceof TimeOutException){
+				if (caught instanceof TimeOutException) {
 					History.newItem("login");
-				}else{
+				} else {
 					System.out.println("FAIL: fetchDashBoard .Inside AuditAreaspresenter");
-					Window.alert("FAIL: fetchDashBoard");// After FAIL ... write RPC Name  NOT Method Name..
+					Window.alert("FAIL: fetchDashBoard in final auditableviewdatawithobjective");// After
+																									// FAIL
+																									// ...
+																									// write
+																									// RPC
+																									// Name
+																									// NOT
+																									// Method
+																									// Name..
 				}
 
 			}
@@ -78,107 +84,111 @@ public class FinalAuditablesViewDataWithObjectiveAndWithoutNumbering {
 				lblUnitHeading.addStyleName("labelHeading");
 				lblObjHeading.addStyleName("labelHeading");
 				finalAuditablesView.getAreas().add(hpnlHeading);
-				//				for(int i=0; i< result.size(); i++){
-				//					Label lblObjective = new Label(result.get(i).getStrategicObjective());
-				//					Label lblUnit = new Label(result.get(i).getAuditableUnit());
-				//					lblObjective.setWidth("400px");
-				//				
-				//					lblUnit.setWidth("400px");
-				//					HorizontalPanel hpnlMain = new HorizontalPanel();
-				//					hpnlMain.add(lblUnit);
-				//					hpnlMain.add(lblObjective);
-				//					finalAuditablesView.getAreas().add(hpnlMain);
-				//					hpnlMain.addStyleName("form-row");
-				//				}
+				// for(int i=0; i< result.size(); i++){
+				// Label lblObjective = new
+				// Label(result.get(i).getStrategicObjective());
+				// Label lblUnit = new Label(result.get(i).getAuditableUnit());
+				// lblObjective.setWidth("400px");
+				//
+				// lblUnit.setWidth("400px");
+				// HorizontalPanel hpnlMain = new HorizontalPanel();
+				// hpnlMain.add(lblUnit);
+				// hpnlMain.add(lblObjective);
+				// finalAuditablesView.getAreas().add(hpnlMain);
+				// hpnlMain.addStyleName("form-row");
+				// }
 				ArrayList<String> auditableUnits = new ArrayList<String>();
-				ArrayList<HorizontalPanel>hpnlContainer = new ArrayList<HorizontalPanel>();
-				
-				
-				for(int i=0; i< strategic.size(); i++){
+				ArrayList<HorizontalPanel> hpnlContainer = new ArrayList<HorizontalPanel>();
+
+				for (int i = 0; i < strategic.size(); i++) {
 					ButtonRound btnApprove = new ButtonRound("Approve");
 					ButtonRound btnDecline = new ButtonRound("Decline");
 					final TextField txtComments = new TextField();
 					txtComments.setEmptyText("Comments");
-					
+
 					HorizontalPanel hpnlButtonContainer = new HorizontalPanel();
 					hpnlButtonContainer.add(btnDecline);
 					hpnlButtonContainer.add(btnApprove);
-					
+
 					VerticalPanel vpnlObjectiveContainer = new VerticalPanel();
 					Label lblUnit = new Label(strategic.get(i).getAuditableUnit());
 
 					lblUnit.setWidth("350px");
-					if(! auditableUnits.contains(strategic.get(i).getAuditableUnit())){
+					if (!auditableUnits.contains(strategic.get(i).getAuditableUnit())) {
 						HorizontalPanel hpnlMain = new HorizontalPanel();
 
 						auditableUnits.add(strategic.get(i).getAuditableUnit());
 						hpnlMain.add(lblUnit);
 						hpnlMain.add(vpnlObjectiveContainer);
-//						if(loggedInUser.getEmployeeId().isAuditHead()) {
-						if(loggedInUser.getRollId()== 1) {
-							if( strategic.get(i).isApprovedByAuditHead()){
+						// if(loggedInUser.getEmployeeId().isAuditHead()) {
+						if (loggedInUser.getRollId() == 1) {
+							if (strategic.get(i).isApprovedByAuditHead()) {
 								Label lblApproved = new Label("Approved");
 								lblApproved.addStyleName("blue");
 								hpnlMain.add(lblApproved);
-							}else{
+							} else {
 								VerticalPanel vpnlCommentsAndButton = new VerticalPanel();
 								vpnlCommentsAndButton.add(txtComments);
 								vpnlCommentsAndButton.add(hpnlButtonContainer);
 								hpnlMain.add(vpnlCommentsAndButton);
 							}
 						}
-						
+
 						finalAuditablesView.getAreas().add(hpnlMain);
 						hpnlMain.addStyleName("form-row");
 						hpnlContainer.add(hpnlMain);
-						
+
 						final DataSetter dataSetter = new DataSetter();
 						dataSetter.setId(i);
-						
-						btnDecline.addClickHandler(new ClickHandler(){
+
+						btnDecline.addClickHandler(new ClickHandler() {
 
 							@Override
 							public void onClick(ClickEvent event) {
 								strategic.get(dataSetter.getId()).setComments(txtComments.getText());
-								declineFinalAuditable(strategic.get(dataSetter.getId()),finalAuditablesView, loggedInUser);
-							}});
-						
-						btnApprove.addClickHandler(new ClickHandler(){
+								declineFinalAuditable(strategic.get(dataSetter.getId()), finalAuditablesView,
+										loggedInUser);
+							}
+						});
+
+						btnApprove.addClickHandler(new ClickHandler() {
 
 							@Override
 							public void onClick(ClickEvent event) {
 								strategic.get(dataSetter.getId()).setComments(txtComments.getText());
-								approveFinalAuditable(strategic.get(dataSetter.getId()),finalAuditablesView, loggedInUser);
-							}});
-						
+								approveFinalAuditable(strategic.get(dataSetter.getId()), finalAuditablesView,
+										loggedInUser);
+							}
+						});
+
 					}
 
 				}
 
-
-				for(int i=0; i< hpnlContainer.size(); i++){
-					for(int j=0; j< strategic.size(); j++){
-						Label lblObjective = new Label(strategic.get(j).getStrategicObjective() +" ( " + strategic.get(j).getRating()+ " . ");
+				for (int i = 0; i < hpnlContainer.size(); i++) {
+					for (int j = 0; j < strategic.size(); j++) {
+						Label lblObjective = new Label(strategic.get(j).getStrategicObjective() + " ( "
+								+ strategic.get(j).getRating() + " . ");
 						lblObjective.setWidth("400px");
 						Label lblUnit = (Label) hpnlContainer.get(i).getWidget(0);
-						if(lblUnit.getText().equalsIgnoreCase(strategic.get(j).getAuditableUnit())){
+						if (lblUnit.getText().equalsIgnoreCase(strategic.get(j).getAuditableUnit())) {
 							VerticalPanel vpnlObjectiveContainer = (VerticalPanel) hpnlContainer.get(i).getWidget(1);
-//							vpnlObjectiveContainer.add(lblObjective);	// ONLY SHOWING AUDITBLE UNIT FROM NOW...
+							// vpnlObjectiveContainer.add(lblObjective); // ONLY
+							// SHOWING AUDITBLE UNIT FROM NOW...
 						}
-						
+
 					}
 				}
-
 
 			}
 
 		});
 	}
-	
-	
-	public void approveFinalAuditable(Strategic strategic, final FinalAuditablesView finalAuditablesView, final Employee loggedInUser){
+
+	public void approveFinalAuditable(Strategic strategic, final FinalAuditablesView finalAuditablesView,
+			final Employee loggedInUser) {
 		strategic.setApprovedByAuditHead(true);
-		rpcService.approveFinalAuditable(strategic, new AsyncCallback<String>(){
+		rpcService.approveFinalAuditable(strategic, new AsyncCallback<String>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -189,28 +199,31 @@ public class FinalAuditablesViewDataWithObjectiveAndWithoutNumbering {
 			public void onSuccess(String result) {
 				new DisplayAlert("Approved as final auditable");
 				fetchFinalAuditables(finalAuditablesView, loggedInUser);
-			}});
-		
+			}
+		});
+
 	}
-	
-	public void declineFinalAuditable(Strategic strategic, final FinalAuditablesView finalAuditablesView, final Employee loggedInUser){
-		
+
+	public void declineFinalAuditable(Strategic strategic, final FinalAuditablesView finalAuditablesView,
+			final Employee loggedInUser) {
+
 		strategic.setApprovedByAuditHead(false);
 		strategic.setAudit(false);
-		rpcService.declineFinalAuditable(strategic, new AsyncCallback<String>(){
+		rpcService.declineFinalAuditable(strategic, new AsyncCallback<String>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 				new DisplayAlert("error in declining final auditable");
-				
+
 			}
 
 			@Override
 			public void onSuccess(String result) {
 				new DisplayAlert("Declined as final auditable");
 				fetchFinalAuditables(finalAuditablesView, loggedInUser);
-			}});
-		
+			}
+		});
+
 	}
 
 }

@@ -99,8 +99,10 @@ public class AuditStepView extends Composite {
 		this.auditWork = auditWork;
 		this.selectedJobId = selectedJobId;
 		performance.addStyleName("messageTextarea");
+
 		auditStepSamplingView = new SamplingAuditStep(auditWork.getStepNo());
 		panelSamplingAudit.add(auditStepSamplingView);
+		auditStepSamplingView.getTxtAreaControl().setText(auditWork.getDescription());
 		addException.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -154,9 +156,9 @@ public class AuditStepView extends Composite {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				disableFields(exceptions, auditStepSamplingView);
-				saveAuditStep(auditWork, selectedJobId, auditStepSamplingView, InternalAuditConstants.APPROVED, "");
 
+				saveAuditStep(auditWork, selectedJobId, auditStepSamplingView, InternalAuditConstants.APPROVED, "");
+				disableFields(exceptions, auditStepSamplingView);
 			}
 
 		});
@@ -187,8 +189,9 @@ public class AuditStepView extends Composite {
 			public void onClick(ClickEvent arg0) {
 				boolean confirm = Window.confirm("Are you done with this Audit Step ?");
 				if (confirm) {
-					disableFields(exceptions, auditStepSamplingView);
+
 					saveAuditStep(auditWork, selectedJobId, auditStepSamplingView, InternalAuditConstants.SUBMIT, "");
+					disableFields(exceptions, auditStepSamplingView);
 				}
 			}
 
@@ -335,6 +338,7 @@ public class AuditStepView extends Composite {
 
 	public void disableFields(VerticalPanel exceptions, SamplingAuditStep auditSamplingView) {
 		performance.setEnabled(false);
+		auditSamplingView.getTxtAreaControl().setEnabled(false);
 		population.setEnabled(false);
 		sample.setEnabled(false);
 		selection.setEnabled(false);
@@ -367,6 +371,9 @@ public class AuditStepView extends Composite {
 		conclusion.setEnabled(true);
 		initiationButtonsPanel.setVisible(true);
 		addException.setVisible(true);
+		// save.setVisible(true);
+		// submit.setVisible(true);
+		// approvalButtonsPanel.setVisible(false);
 	}
 
 	public void supervisorView() {

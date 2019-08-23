@@ -28,13 +28,14 @@
 		<A:LabelHeading text="Memo No:"  addStyleNames=" w3-light-blue {style.margin}"></A:LabelHeading>
 		</g:VerticalPanel>
 		<g:VerticalPanel>
-		<g:TextBox text="Enter Memo"  addStyleNames="w3-panel  {style.margin}"></g:TextBox>
+		<g:TextBox text="Enter Memo" ui:field="txtBoxMemo" addStyleNames="w3-panel  {style.margin}"></g:TextBox>
 		</g:VerticalPanel>
 			<g:VerticalPanel >
-			<A:LabelHeading text="Date"  addStyleNames=" w3-light-blue {style.margin}" ></A:LabelHeading>
+			<A:LabelHeading text="Date" addStyleNames=" w3-light-blue {style.margin}" ></A:LabelHeading>
 			</g:VerticalPanel>
 				<g:VerticalPanel >
-			<d:DateBox addStyleNames=" w3-panel w3-light-blue {style.margin}"></d:DateBox> 
+			
+			<d:DateBox ui:field="date" addStyleNames=" w3-panel w3-light-blue {style.margin}"></d:DateBox> 
 			</g:VerticalPanel>
 			<g:VerticalPanel>
 			<d:DateBox></d:DateBox>
@@ -96,7 +97,8 @@
 			</g:HorizontalPanel>
 				<g:VerticalPanel ui:field="panelUpload"></g:VerticalPanel>
 	</g:VerticalPanel>
-	<g:Button text="Send" ui:field="btnSend" styleName="w3-button w3-round-xxlarge w3-hover-blue" ></g:Button>
+	<g:Button text="Save" ui:field="btnSend" styleName="w3-button w3-round-xxlarge w3-hover-blue" ></g:Button>
+	<g:Button text="Submit" ui:field="btnSubmit" styleName="w3-button w3-round-xxlarge w3-hover-blue" ></g:Button>
 	
 	</g:HTMLPanel>
 </ui:UiBinder> 

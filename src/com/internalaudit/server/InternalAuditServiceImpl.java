@@ -439,12 +439,12 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	}
 
 	@Override
-	public void saveCreatedJob(JobCreationDTO job) throws Exception {
+	public String saveCreatedJob(JobCreationDTO job) throws Exception {
 		if (isLoggedIn()) {
 			session = getThreadLocalRequest().getSession(true);
 			int year = (Integer) session.getAttribute("year");
 			int companyId = (Integer) session.getAttribute("companyId");
-			rdbHelper.saveCreatedJob(job, year, companyId);
+			return rdbHelper.saveCreatedJob(job, year, companyId);
 		} else {
 
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);
@@ -895,13 +895,14 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 
 	@Override
 	public String saveAuditNotification(int auditEngagementId, String message, String to, String cc, String refNo,
-			String from, String subject, String filePath) throws Exception {
+			String from, String subject, String filePath, String momoNo, String date, int status)
+			throws TimeOutException, Exception {
 		if (isLoggedIn()) {
 			session = getThreadLocalRequest().getSession(true);
 			int year = (Integer) session.getAttribute("year");
 			int companyId = (Integer) session.getAttribute("companyId");
 			return rdbHelper.saveAuditNotification(auditEngagementId, message, to, cc, year, companyId, refNo, from,
-					subject, filePath);
+					subject, filePath, momoNo, date, status);
 		} else {
 
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);

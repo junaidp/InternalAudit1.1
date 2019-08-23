@@ -52,7 +52,8 @@ public class AuditNotificationViewData {
 		String filePath = "";
 		rpcService.saveAuditNotification(selectedAuditEngagement.getAuditEngId(),
 				auditNotificationView.getMessage().getText(), auditNotificationView.getTo().getText(),
-				auditNotificationView.getCc().getText(), null, null, null, filePath, new AsyncCallback<String>() {
+				auditNotificationView.getCc().getText(), null, null, null, filePath, null, null, 0,
+				new AsyncCallback<String>() {
 
 					@Override
 					public void onFailure(Throwable caught) {

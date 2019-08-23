@@ -105,7 +105,7 @@ public interface InternalAuditServiceAsync {
 
 	void fetchCheckBoxStateFor(int jobId, AsyncCallback<ArrayList<JobAndAreaOfExpertise>> callback);
 
-	void saveCreatedJob(JobCreationDTO job, AsyncCallback<Void> callback);
+	void saveCreatedJob(JobCreationDTO job, AsyncCallback<String> callback);
 
 	void fetchCreatedJobs(boolean getEmpRelation, boolean getSkillRelation,
 			AsyncCallback<ArrayList<JobCreationDTO>> asyncCallback);
@@ -170,7 +170,8 @@ public interface InternalAuditServiceAsync {
 	void fetchApprovedAuditWorkRows(int selectedJobId, AsyncCallback<ArrayList<AuditWork>> asyncCallback);
 
 	void saveAuditNotification(int auditEngagementId, String message, String to, String cc, String refNo, String from,
-			String subject, String filePath, AsyncCallback<String> asyncCallback);
+			String subject, String filePath, String momoNo, String date, int status,
+			AsyncCallback<String> asyncCallback);
 
 	void logOut(AsyncCallback<String> asyncCallback);
 

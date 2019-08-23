@@ -1,4 +1,5 @@
 package com.internalaudit.shared;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,88 +15,90 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-
-import com.internalaudit.shared.JobCreation;
-
 @Entity
 
-@Table(name="audit_engagement")
+@Table(name = "audit_engagement")
 
 public class AuditEngagement implements Serializable {
 
 	private static final long serialVersionUID = 699598646114861759L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="auditEngId")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "auditEngId")
 	private int auditEngId;// u need this ? yes
-	
-	@Column(name="jobstatus")
+
+	@Column(name = "jobstatus")
 	private String jobStatus;
-	
-	@JoinColumn(name="jobcreationid")
-	@OneToOne( fetch = FetchType.LAZY )
+
+	@JoinColumn(name = "jobcreationid")
+	@OneToOne(fetch = FetchType.LAZY)
 	private JobCreation jobCreationId;
-	
-	@Column( name = "assignmentObj" )
+
+	@Column(name = "assignmentObj")
 	private String assignmentObj;
-	
+
 	@Column(name = "activityObj")
 	private String activityObj;
-	
+
 	@Column(name = "processName")
 	private String process;
-	
+
 	@Column(name = "auditNotification")
 	private String auditNotification;
-	
+
 	@Column(name = "sendto")
 	private String to;
-	
+
 	@Column(name = "cc")
 	private String cc;
-	
-	@Column(name="referenceNo")
+
+	@Column(name = "referenceNo")
 	private String referenceNo;
-	
-	//auditEngId, jobcreationid, jobstatus, assignmentObj, activityObj, processName, auditNotification, sendto, cc, year, companyId, status, initiatedBy, approvedBy, referenceNo, from, subject
-	
-	@Column(name="fromPerson")
+
+	// auditEngId, jobcreationid, jobstatus, assignmentObj, activityObj,
+	// processName, auditNotification, sendto, cc, year, companyId, status,
+	// initiatedBy, approvedBy, referenceNo, from, subject
+
+	@Column(name = "fromPerson")
 	private String from;
-	
-	@Column(name="subject")
+
+	@Column(name = "subject")
 	private String subject;
-	
-//	@Column(name="date")
-//	private Date dateTime;
-	
+
+	// @Column(name="date")
+	// private Date dateTime;
+
 	@Column(name = "year")
 	private int year;
-	
+
 	@Column(name = "companyId")
 	private int companyId;
-	
+
 	@Column(name = "status")
 	private int status;
-	
+
+	@Column(name = "emailStatus")
+	private int emailStatus;
+
 	@Column(name = "notificationSentDate")
 	private Date notificationSentDate;
-	
+
 	@JoinColumn(name = "initiatedBy")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employee initiatedBy;
-	
+
 	@JoinColumn(name = "approvedBy")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employee approvedBy;
-	
+
 	@Transient
 	private int selectedId;
-	
-	@Transient 
+
+	@Transient
 	private Strategic strategic;
-	
-	@Transient 
+
+	@Transient
 	private EngagementDTO engagementDTO;
 
 	public int getAuditEngId() {
@@ -266,13 +269,20 @@ public class AuditEngagement implements Serializable {
 		this.notificationSentDate = notificationSentDate;
 	}
 
-//	public DateTime getDateTime() {
-//		return dateTime;
-//	}
-//
-//	public void setDateTime(DateTime dateTime) {
-//		this.dateTime = dateTime;
-//	}
+	public int getEmailStatus() {
+		return emailStatus;
+	}
 
+	public void setEmailStatus(int emailStatus) {
+		this.emailStatus = emailStatus;
+	}
+
+	// public DateTime getDateTime() {
+	// return dateTime;
+	// }
+	//
+	// public void setDateTime(DateTime dateTime) {
+	// this.dateTime = dateTime;
+	// }
 
 }

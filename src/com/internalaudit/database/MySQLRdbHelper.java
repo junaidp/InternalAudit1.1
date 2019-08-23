@@ -2349,12 +2349,39 @@ public class MySQLRdbHelper {
 
 	}
 
-	public boolean saveCreatedJob(JobCreationDTO job, int year, int companyId) {
+	private boolean allRolesSelected(ArrayList<JobEmployeeRelation> jobEmployeeList) {
+		ArrayList<Integer> roles = new ArrayList<Integer>();
+		for (JobEmployeeRelation jobEmployeeRelation : jobEmployeeList) {
+			int roleId = fetchEmployeeRoleId(jobEmployeeRelation.getEmployee().getEmployeeId());
+			roles.add(roleId);
+		}
+		if (roles.contains(5) && (roles.contains(1) || roles.contains(2) || roles.contains(3)))
+			return true;
+		else
+			return false;
+	}
+
+	private int fetchEmployeeRoleId(int employeeId) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			Employee employee = (Employee) session.get(Employee.class, employeeId);
+			return employee.getRollId();
+
+		} catch (Exception ex) {
+			return 0;
+		}
+	}
+
+	public String saveCreatedJob(JobCreationDTO job, int year, int companyId) throws Exception {
 
 		Session session = null;
 		try {
-
 			session = sessionFactory.openSession();
+			if (!allRolesSelected(job.getRelation())) {
+				return InternalAuditConstants.SELECTALLROLES;
+			}
+
 			deletePreviousResourcesOnThisJob(job.getJob().getJobCreationId());
 			Transaction tr = session.beginTransaction();
 			JobCreation jobCreation = job.getJob();
@@ -2383,20 +2410,21 @@ public class MySQLRdbHelper {
 				}
 				saveJobSkillRelation(job.getJobSkillRelation().get(i));
 
-				tr1.commit();
+				// tr1.commit();
 			}
+			tr1.commit();
 			logger.info(String.format("(Inside saveCreatedJob) saving created job for year : " + year + "for company"
 					+ companyId + "for jobName" + job.getJob().getJobName() + " " + new Date()));
 
 		} catch (Exception ex) {
 
 			logger.warn(String.format("Exception occured in saving created job", ex.getMessage()), ex);
-			return false;
+			throw new Exception("Exception occured in saving created job");
 		} finally {
 			session.close();
 		}
 
-		return true;
+		return "Job Saved";
 	}
 
 	private void deletePreviousSkillsOnThisJob(int jobId) {
@@ -3778,11 +3806,15 @@ public class MySQLRdbHelper {
 			multipart.addBodyPart(messageBodyPart);
 
 			// Second part is attachment
-			messageBodyPart = new MimeBodyPart();
-			String filename = filePath;
-			DataSource source = new FileDataSource(filename);
-			messageBodyPart.setDataHandler(new DataHandler(source));
-			messageBodyPart.setFileName(filename);
+
+			if (filePath != null) {
+				messageBodyPart = new MimeBodyPart();
+				String filename = filePath;
+				DataSource source = new FileDataSource(filename);
+				messageBodyPart.setDataHandler(new DataHandler(source));
+				messageBodyPart.setFileName(filename);
+			}
+
 			multipart.addBodyPart(messageBodyPart);
 
 			// Send the complete message parts
@@ -5633,7 +5665,8 @@ public class MySQLRdbHelper {
 				jobAuditStepApproved = true;
 				AuditStep auditStep = (AuditStep) it.next();
 				int status = auditStep.getStatus();
-				if (status == InternalAuditConstants.APPROVED && auditStep.getApprovedBy().getRollId() == 1) {
+				if (status == InternalAuditConstants.APPROVED
+						&& (auditStep.getApprovedBy().getRollId() == 1 || auditStep.getApprovedBy().getRollId() == 2)) {
 					jobAuditStepApproved = true;
 				} else {
 					jobAuditStepApproved = false;
@@ -5767,7 +5800,8 @@ public class MySQLRdbHelper {
 	}
 
 	public String saveAuditNotification(int auditEngagementId, String message, String to, String cc, int year,
-			int companyId, String refNo, String from, String subject, String filePath) {
+			int companyId, String refNo, String from, String subject, String filePath, String momoNo, String date,
+			int status) {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
@@ -5782,6 +5816,9 @@ public class MySQLRdbHelper {
 
 			auditEngagement.setYear(year);
 			auditEngagement.setCompanyId(companyId);
+			auditEngagement.setProcess(momoNo);
+			auditEngagement.setNotificationSentDate(new Date());
+			auditEngagement.setEmailStatus(status);
 			session.saveOrUpdate(auditEngagement);
 			session.flush();
 
@@ -5794,7 +5831,9 @@ public class MySQLRdbHelper {
 		} finally {
 			session.close();
 		}
-		sendAttachmentEmail(message, to, cc, "Audit Notification", filePath, from);
+		if (status == 1) {
+			sendAttachmentEmail(message, to, cc, "Audit Notification", filePath, from);
+		}
 		return "Audit Notification saved";
 	}
 
@@ -5846,7 +5885,7 @@ public class MySQLRdbHelper {
 		return num;
 	}
 
-	public boolean isJobInprogress(int jobId) {
+	public boolean isJobCompleted(int jobId) {
 		Session session = null;
 		boolean completed = false;
 		try {
@@ -5855,7 +5894,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("jobCreationId", "jobCreation");
 			jobsStrategicAlias(crit);
 			// 2019 may
-			crit.add(Restrictions.eq("jobCreation.strategicId", jobId));
+			crit.add(Restrictions.eq("jobCreation.strategicId.strategicId", jobId));
 			crit.add(Restrictions.eq("jobStatus", "In Progress"));
 			if (crit.list().size() > 0) {
 				completed = true;
@@ -5874,14 +5913,14 @@ public class MySQLRdbHelper {
 		return completed;
 	}
 
-	public boolean isJobCompleted(int jobId) {
+	public boolean isJobInprogress(int jobId) {
 		Session session = null;
 		boolean jobInProgress = false;
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(JobCreation.class);
 			// 2019 may
-			crit.add(Restrictions.eq("strategicId", jobId));
+			crit.add(Restrictions.eq("strategicId.strategicId", jobId));
 			crit.add(Restrictions.eq("reportStatus", 3));
 			if (crit.list().size() > 0) {
 				jobInProgress = true;
@@ -6606,13 +6645,13 @@ public class MySQLRdbHelper {
 
 			Disjunction jobStatusOR = Restrictions.disjunction();
 
-			if (!jobStatus.contains("All")) {
-				for (int i = 0; i < jobStatus.size(); i++) {
-
-					jobStatusOR.add(Restrictions.eq("rating", jobStatus.get(i)));
-				}
-				crit.add(jobStatusOR);
-			}
+			// if (!jobStatus.contains("All")) {
+			// for (int i = 0; i < jobStatus.size(); i++) {
+			//
+			// jobStatusOR.add(Restrictions.eq("rating", jobStatus.get(i)));
+			// }
+			// crit.add(jobStatusOR);
+			// }
 
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {

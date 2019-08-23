@@ -50,6 +50,7 @@ import com.internalaudit.shared.StrategicDepartments;
 import com.internalaudit.shared.StrategicRisk;
 import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.SuggestedControls;
+import com.internalaudit.shared.TimeOutException;
 import com.internalaudit.shared.ToDo;
 import com.internalaudit.shared.ToDoLogsEntity;
 
@@ -106,7 +107,7 @@ public interface InternalAuditService extends RemoteService {
 
 	ArrayList<JobAndAreaOfExpertise> fetchCheckBoxStateFor(int jobId) throws Exception;
 
-	void saveCreatedJob(JobCreationDTO job) throws Exception;
+	String saveCreatedJob(JobCreationDTO job) throws Exception;
 
 	String getEndDate(Date value, int estimatedWeeks) throws Exception;
 
@@ -167,7 +168,7 @@ public interface InternalAuditService extends RemoteService {
 	ArrayList<AuditWork> fetchApprovedAuditWorkRows(int selectedJobId) throws Exception;
 
 	String saveAuditNotification(int auditEngagementId, String message, String to, String cc, String refNo, String from,
-			String subject, String filePath) throws Exception;
+			String subject, String filePath, String momoNo, String date, int status) throws TimeOutException, Exception;
 
 	String logOut() throws Exception;
 

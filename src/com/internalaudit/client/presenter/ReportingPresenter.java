@@ -511,30 +511,42 @@ public class ReportingPresenter implements Presenter
 
 									@Override
 									public void onClick(ClickEvent event) {
-										boolean statusApproved = result.get(jobData.getSelectedId()).getStatus() != null
-												&& result.get(jobData.getSelectedId()).getStatus().equals("Approved");
-										if (responsiblePersonRowView.getIsAgreed()
-												.getValue(responsiblePersonRowView.getIsAgreed().getSelectedIndex())
-												.equalsIgnoreCase("1")
-												&& responsiblePersonRowView.getImplementaionDate().getValue() == null) {
-											Window.alert("Please select Implementation date");
 
-										}
+										if (responsiblePersonRowView.getImplementaionDate().getValue() == null) {
+											new DisplayAlert("Please Select implementation Date");
+										} else {
+											boolean statusApproved = result.get(jobData.getSelectedId())
+													.getStatus() != null
+													&& result.get(jobData.getSelectedId()).getStatus()
+															.equals("Approved");
+											// 2019 aug
+											if (responsiblePersonRowView.getIsAgreed()
+													.getValue(responsiblePersonRowView.getIsAgreed().getSelectedIndex())
+													.equalsIgnoreCase("1")
+													&& responsiblePersonRowView.getImplementaionDate()
+															.getValue() == null) {
+												// Window.alert("Please select
+												// Implementation date");
+												new DisplayAlert("Please select Implementation date");
+
+											}
 
 				else if (statusApproved && responsiblePersonRowView.getImplementaionComments().getText().isEmpty()) {
-											Window.alert("Please enter Final comments");
-										} else if (responsiblePersonRowView.getManagementComments().getText()
-												.isEmpty()) {
-											Window.alert("Please enter Management comments");
-										} else {
-											saveException(result, responsiblePersonRowView,
+												// Window.alert();
+												new DisplayAlert("Please enter Final comments");
+											} else if (responsiblePersonRowView.getManagementComments().getText()
+													.isEmpty()) {
+												Window.alert("Please enter Management comments");
+											} else {
+												saveException(result, responsiblePersonRowView,
 
-													jobData);
+														jobData);
+											}
+
 										}
-
 									}
-
 								});
+
 							}
 
 							// display.getVpnlReporting().clear();
@@ -873,29 +885,36 @@ public class ReportingPresenter implements Presenter
 						@Override
 						public void onClick(ClickEvent event) {
 
-							// commenting this lise 2018
-							setResponsibleForandDvisionHead(exceptions, // This
-																		// line
-																		// also
-																		// setting
-																		// responsible
-																		// person
-																		// and
-																		// other
-																		// details.
-									jobExceptionsView, exceptionData);
-							exceptions.get(exceptionData.getSelectedId()).setInitialStatus("");
+							// 2019 aug
 
-							sendException(exceptions.get(exceptionData.getSelectedId()));
-							// jobExceptionsView.getBtnSave().setText("Exception
-							// Sent.");
-							jobExceptionsView.getHpnlButtons().setVisible(false);
+							if (jobExceptionsView.getDueDate().getValue() == null) {
+								new DisplayAlert("Please Select Due Date");
+							} else {
 
-							exceptionSent(jobExceptionsView, "Sent");
+								// commenting this lise 2018
+								setResponsibleForandDvisionHead(exceptions, // This
+																			// line
+																			// also
+																			// setting
+																			// responsible
+																			// person
+																			// and
+																			// other
+																			// details.
+										jobExceptionsView, exceptionData);
+								exceptions.get(exceptionData.getSelectedId()).setInitialStatus("");
+								// 2019 aug
 
-							// jobExceptionsView.getBtnSave().setEnabled(false);
+								sendException(exceptions.get(exceptionData.getSelectedId()));
+								// jobExceptionsView.getBtnSave().setText("Exception
+								// Sent.");
+								jobExceptionsView.getHpnlButtons().setVisible(false);
+
+								exceptionSent(jobExceptionsView, "Sent");
+
+								// jobExceptionsView.getBtnSave().setEnabled(false);
+							}
 						}
-
 					});
 
 					jobExceptionsView.getBtnApprove().addClickHandler(new ClickHandler() {
@@ -964,6 +983,7 @@ public class ReportingPresenter implements Presenter
 					// jobExceptionsView.disableFields();
 					// }
 				}
+
 			}
 
 			private void exceptionSent(final JobExceptionsView jobExceptionsView, String status) {

@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.DisplayAlert;
+import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.client.view.AuditEngagement.AuditStepUploads;
 import com.internalaudit.client.view.AuditEngagement.AuditStepView;
 import com.internalaudit.client.view.AuditEngagement.SamplingAuditStep;
@@ -40,12 +41,16 @@ public class AuditStepData {
 	}
 
 	public void saveAuditStepAndException(AuditStep step, ArrayList<Exceptions> exs, final int status,
+
 			final AuditStepView auditStepView) {
+
+		final LoadingPopup loadingPopup = new LoadingPopup();
+		loadingPopup.display();
 		rpcService.saveAuditStepAndExceptions(step, exs, new AsyncCallback<Void>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-
+				loadingPopup.remove();
 				System.out.println("Fail RPC:saveAuditStepAndException  In Audit Step Data");
 
 				logger.log(Level.INFO, "FAIL: saveAuditStepAndExceptions .Inside Audit AuditAreaspresenter");
@@ -68,6 +73,7 @@ public class AuditStepData {
 
 			@Override
 			public void onSuccess(Void arg0) {
+				loadingPopup.remove();
 				auditStepView.getFeedbackPanel().setVisible(false);
 				if (status == 3) {
 					new DisplayAlert("Audit Step Saved");
@@ -111,8 +117,6 @@ public class AuditStepData {
 			@Override
 			public void onFailure(Throwable caught) {
 
-				Window.alert("Fail getting saved audit step");
-
 				logger.log(Level.INFO, "FAIL: getSavedAuditStep .Inside Audit AuditAreaspresenter");
 				if (caught instanceof TimeOutException) {
 					History.newItem("login");
@@ -136,7 +140,8 @@ public class AuditStepData {
 				if (auditStep.getAuditStepId() != 0) {
 					// auditStepView.disableFields(exceptions);
 					displayExceptions(exceptions, auditStep.getExceptions());
-					auditStepView.disableFields(exceptions, auditSamplingView);
+					// auditStepView.disableFields(exceptions,
+					// auditSamplingView);
 					//// CHECK WHO IS LOGGEDIN
 					/// To show feedback
 					if (auditStep.getFeedback() != null && !auditStep.getFeedback().isEmpty()) {
@@ -188,9 +193,11 @@ public class AuditStepData {
 							.getEmployeeId() == loggedInEmployee.getEmployeeId() || loggedInEmployee.getRollId() == 1)
 							&& (auditStep.getStatus() == InternalAuditConstants.SUBMIT)) {
 						auditStepView.supervisorView();
-					} else if (!(auditStep.getApprovedBy().getRollId() == 1) && loggedInEmployee.getRollId() == 1) {
-						auditStepView.supervisorView();
-					}
+
+					} // else if (!(auditStep.getApprovedBy().getRollId() == 1)
+						// && loggedInEmployee.getRollId() == 1) {
+						// auditStepView.supervisorView();
+						// }
 
 					else if (auditStep.getInitiatedBy() != null
 							&& auditStep.getInitiatedBy().getEmployeeId() == loggedInEmployee.getEmployeeId()
@@ -198,7 +205,9 @@ public class AuditStepData {
 									|| auditStep.getStatus() == InternalAuditConstants.REJECTED)) {
 						auditStepView.enableFields();
 					}
-
+					if (auditStep.getStatus() == InternalAuditConstants.APPROVED) {
+						auditStepView.disableFields(exceptions, auditSamplingView);
+					}
 					///
 					// System.out.println(loggedInEmployee.getEmployeeId());
 					auditStepView.getPerformance().setText(auditStep.getProceducePerformance());

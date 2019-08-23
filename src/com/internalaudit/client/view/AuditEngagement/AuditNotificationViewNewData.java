@@ -31,8 +31,13 @@ public class AuditNotificationViewNewData {
 		this.auditNotificationViewNew = auditNotificationViewNew;
 		this.rpcService = rpcService;
 		this.selectedAuditEngagement = selectedAuditEngagement;
-		if (selectedAuditEngagement != null && !selectedAuditEngagement.getTo().equals("")) {
+		// if (selectedAuditEngagement != null &&
+		// !selectedAuditEngagement.getTo().equals("")) {
+		if (selectedAuditEngagement.getEmailStatus() == 1) {
 			auditNotificationViewNew.disableFields();
+			auditNotificationViewNew.getFileUploader().getBtnSubmit().setVisible(false);
+		}
+		if (!selectedAuditEngagement.getSubject().isEmpty()) {
 			displaySavedNotification();
 		}
 
@@ -43,12 +48,14 @@ public class AuditNotificationViewNewData {
 		auditNotificationViewNew.getTxtBoxForAction().setText(selectedAuditEngagement.getTo());
 		auditNotificationViewNew.getTxtAreaBody().setText(selectedAuditEngagement.getAuditNotification());
 		// auditNotificationView.disableFields();
-		// auditNotificationViewNew.getTxtBoxReference().setText(selectedAuditEngagement.getReferenceNo());
-		// auditNotificationViewNew.getTxtBoxFrom().setText(selectedAuditEngagement.getFrom());
-		// auditNotificationViewNew.getTxtBoxSubject().setText(selectedAuditEngagement.getSubject());
+		auditNotificationViewNew.getTxtBoxReference().setText(selectedAuditEngagement.getReferenceNo());
+		auditNotificationViewNew.getTxtBoxFrom().setText(selectedAuditEngagement.getFrom());
+		auditNotificationViewNew.getTxtBoxSubject().setText(selectedAuditEngagement.getSubject());
+		auditNotificationViewNew.getTxtBoxMemo().setText(selectedAuditEngagement.getProcess());
+		auditNotificationViewNew.getDate().setValue(selectedAuditEngagement.getNotificationSentDate());
 	}
 
-	public void sendMessage(final Button btnSend) {
+	public void sendMessage(final Button btnSend, int status) {
 
 		final LoadingPopup loadingPopup = new LoadingPopup();
 		loadingPopup.display();
@@ -60,7 +67,8 @@ public class AuditNotificationViewNewData {
 				auditNotificationViewNew.getTxtBoxReference().getText(),
 				auditNotificationViewNew.getTxtBoxFrom().getText(),
 				auditNotificationViewNew.getTxtBoxSubject().getText(), auditNotificationViewNew.getFilepath(),
-				new AsyncCallback<String>() {
+				auditNotificationViewNew.getTxtBoxMemo().getText(),
+				auditNotificationViewNew.getDate().getTextBox().getText(), status, new AsyncCallback<String>() {
 
 					@Override
 					public void onFailure(Throwable caught) {

@@ -49,7 +49,7 @@ public class AuditStep implements Serializable {
 	private int jobId; // job creation id
 
 	@JoinColumn(name = "auditWork")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private AuditWork auditWork;
 
 	@Transient
@@ -65,11 +65,11 @@ public class AuditStep implements Serializable {
 	private int status;
 
 	@JoinColumn(name = "initiatedBy")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee initiatedBy;
 
 	@JoinColumn(name = "approvedBy")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee approvedBy;
 
 	@Column(name = "feedback")

@@ -1,22 +1,18 @@
 package com.internalaudit.client.view.Reporting;
 
-import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DateBox.DefaultFormat;
 import com.internalaudit.client.view.ButtonRound;
-import com.google.gwt.canvas.dom.client.Context2d.TextBaseline;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.sencha.gxt.widget.core.client.form.TextField;
 
 public class JobExceptionsView extends HorizontalPanel {
-	
+
 	private TextArea exception = new TextArea();
 	private TextArea recommendations = new TextArea();
 	private TextArea txtAreaImplication = new TextArea();
@@ -30,22 +26,23 @@ public class JobExceptionsView extends HorizontalPanel {
 	private ButtonRound btnReject = new ButtonRound("Feedback");
 	private Label status = new Label("");
 	private TextField txtComments = new TextField();
-	public JobExceptionsView(){
-	setWidth("900px");
-	
-	createLayout();
-	
+
+	public JobExceptionsView() {
+		setWidth("900px");
+
+		createLayout();
+
 	}
 
 	private void createLayout() {
-		
+
 		listBoxImplicationRating.addItem("Low", "0");
 		listBoxImplicationRating.addItem("Medium", "1");
 		listBoxImplicationRating.addItem("High", "2");
 		status.addStyleName("blue");
 		status.setVisible(false);
-//		vpnlButtons.add(btnApprove);
-//		vpnlButtons.add(btnReject);
+		// vpnlButtons.add(btnApprove);
+		// vpnlButtons.add(btnReject);
 		HorizontalPanel hpnlApprovalButtons = new HorizontalPanel();
 		vpnlButtons.add(txtComments);
 		hpnlApprovalButtons.add(btnApprove);
@@ -56,34 +53,36 @@ public class JobExceptionsView extends HorizontalPanel {
 		add(exception);
 		add(txtAreaImplication);
 		add(listBoxImplicationRating);
-		
-		//add(divisionHead);
+
+		// add(divisionHead);
 		dueDate.setFormat(new DefaultFormat(DateTimeFormat.getShortDateFormat()));
 		add(dueDate);
 		add(recommendations);
 		add(responsiblePerson);
-		
+
 		add(btnSave);
-//		if(status.getText().length()>1){
+		// if(status.getText().length()>1){
 		add(status);
-//		}
+		// }
 		add(vpnlButtons);
 		btnSave.setWidth("120px");
-		for(int i =0; i< getWidgetCount()-1; i++){
+		for (int i = 0; i < getWidgetCount() - 1; i++) {
 			getWidget(i).setWidth("150px");
-		}setSpacing(2);
-//		vpnlButtons.setWidth("100px");
+		}
+		setSpacing(2);
+		// vpnlButtons.setWidth("100px");
 		status.setWidth("100px");
 		dueDate.setWidth("90px");
 		txtAreaImplication.setHeight("300px");
-		//listBoxImplicationRating.getElement().getStyle().setMarginLeft(10, Unit.PX);
+		// listBoxImplicationRating.getElement().getStyle().setMarginLeft(10,
+		// Unit.PX);
 		listBoxImplicationRating.addStyleName("noresize");
 		exception.setHeight("300px");
 		recommendations.setHeight("300px");
 		txtAreaImplication.addStyleName("noresize ");
 		exception.addStyleName("noresize");
 		recommendations.addStyleName("noresize");
-		
+
 	}
 
 	public ButtonRound getBtnSave() {
@@ -110,8 +109,6 @@ public class JobExceptionsView extends HorizontalPanel {
 		this.responsiblePerson = responsiblePerson;
 	}
 
-	
-
 	public DateBox getDueDate() {
 		return dueDate;
 	}
@@ -131,20 +128,20 @@ public class JobExceptionsView extends HorizontalPanel {
 	public void disableFields() {
 		exception.setEnabled(false);
 		responsiblePerson.setEnabled(false);
-		divisionHead .setEnabled(false);
+		divisionHead.setEnabled(false);
 		dueDate.setEnabled(false);
 		btnSave.setEnabled(false);
 		recommendations.setEnabled(false);
 		txtAreaImplication.setEnabled(false);
 		listBoxImplicationRating.setEnabled(false);
 	}
-	
-	public void showApprovalButtons(){
+
+	public void showApprovalButtons() {
 		vpnlButtons.setVisible(true);
 		btnSave.setVisible(false);
 	}
-	
-	public void hideApprovalButtons(){
+
+	public void hideApprovalButtons() {
 		vpnlButtons.setVisible(false);
 		btnSave.setVisible(true);
 	}
@@ -212,7 +209,5 @@ public class JobExceptionsView extends HorizontalPanel {
 	public void setListBoxImplicationRating(ListBox listBoxImplicationRating) {
 		this.listBoxImplicationRating = listBoxImplicationRating;
 	}
-	
-	
 
 }

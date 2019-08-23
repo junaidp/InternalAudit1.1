@@ -263,9 +263,10 @@ public class KickoffView extends Composite {
 		// rpcService, selectedAuditEngagement);
 
 		vpnlIdentification.add(auditNotificationViewNew);
+		// if (!record.getSubject().isEmpty()) {
 		auditNotificationViewNew.getAuditNotificationViewNewData().setData(auditNotificationViewNew, rpcService,
 				selectedAuditEngagement);
-
+		// }
 		cp.add(vpnlIdentification);
 		con.add(cp);
 

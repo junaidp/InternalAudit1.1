@@ -21,6 +21,7 @@ import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.widgets.SkillsResources;
 import com.internalaudit.shared.Employee;
+import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.JobCreationDTO;
 import com.internalaudit.shared.JobEmployeeRelation;
@@ -124,6 +125,8 @@ public class JobCreationPresenter implements Presenter {
 							if (jobCreationDTO.getJob().isApproved()) {
 
 								display.getSaveJobCreation().setVisible(false);
+								display.getSoftSkill().setEnabled(false);
+								display.getProposedResources().setEnabled(false);
 
 							}
 							System.out.println(
@@ -261,7 +264,8 @@ public class JobCreationPresenter implements Presenter {
 				}
 
 				// For saving audit head end///
-
+				// if (!isAllRollSelectedI(relations))
+				// return;
 				ArrayList<JobSkillRelation> skillrelations = new ArrayList<JobSkillRelation>();
 				for (int i = 0; i < display.getSoftSkill().getItemCount(); i++) {
 					if (display.getSoftSkill().isItemSelected(i)) {
@@ -287,13 +291,16 @@ public class JobCreationPresenter implements Presenter {
 				dto.setJobSkillRelation(skillrelations);
 				dto.setDepartments(selectedStrategicDepartments);
 
-				rpcService.saveCreatedJob(dto, new AsyncCallback<Void>() {
+				rpcService.saveCreatedJob(dto, new AsyncCallback<String>() {
 
 					@Override
-					public void onSuccess(Void result) {
-						new DisplayAlert("Saved");
-						display.disableFields();
-						History.newItem("auditScheduling");
+					public void onSuccess(String result) {
+						new DisplayAlert(result);
+						if (!InternalAuditConstants.SELECTALLROLES.equals(result)) {
+							display.disableFields();
+
+							History.newItem("auditScheduling");
+						}
 						//
 					}
 
@@ -306,12 +313,13 @@ public class JobCreationPresenter implements Presenter {
 							History.newItem("login");
 						} else {
 							System.out.println("FAIL: saveCreatedJob .Inside AuditAreaspresenter");
-							Window.alert("FAIL: saveCreatedJob");// After FAIL
-																	// ... write
-																	// RPC Name
-																	// NOT
-																	// Method
-																	// Name..
+							Window.alert("FAIL: saveCreatedJob" + caught.getMessage());// After
+																						// FAIL
+							// ... write
+							// RPC Name
+							// NOT
+							// Method
+							// Name..
 						}
 
 					}
@@ -443,6 +451,19 @@ public class JobCreationPresenter implements Presenter {
 
 			}
 		});
+	}
+
+	private boolean isAllRollSelectedI(ArrayList<JobEmployeeRelation> relations) {
+		for (int j = 0; j < relations.size(); j++) {
+			Window.alert(relations.get(j).getEmployee().getRollId() + "");
+			if (relations.get(j).getEmployee().getRollId() == 5) {
+
+				return true;
+			}
+		}
+
+		return false;
+
 	}
 
 	private void fetchDepartments() {

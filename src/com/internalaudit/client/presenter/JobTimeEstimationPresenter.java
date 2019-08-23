@@ -119,6 +119,8 @@ public class JobTimeEstimationPresenter implements Presenter
 				if (result != null) {
 					// Window.alert("not null");
 					if (result.getJobTimeEstimation().isApproved()) {
+
+						disablingRequiredResources();
 						display.disableFields();
 					}
 					display.setJobEstimationId(result.getJobTimeEstimation().getJobTimeEstimationId());
@@ -180,6 +182,34 @@ public class JobTimeEstimationPresenter implements Presenter
 
 				}
 
+			}
+
+			private void disablingRequiredResources() {
+
+				rpcService.fetchSkills(new AsyncCallback<ArrayList<Skills>>() {
+
+					@Override
+					public void onSuccess(ArrayList<Skills> skillsList) {
+						for (int i = 0; i < skillsList.size(); i++) {
+							final SkillsResources skillsResources = new SkillsResources();
+
+							skillsResources.getSkillsList().addItem(skillsList.get(i).getSkillName(),
+									skillsList.get(i).getSkillId() + "");
+							((SkillsResources) display.getSkillsResourceContainer().getWidget(i)).getSkillsList()
+									.setEnabled(false);
+							// ((SkillsResources)
+							// display.getSkillsResourceContainer().getWidget(i)).getNoOfResources()
+							// .setEnabled(false);
+						}
+
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("failed fetchskills fir disabling fields");
+
+					}
+				});
 			}
 
 			@Override
@@ -516,10 +546,15 @@ public class JobTimeEstimationPresenter implements Presenter
 
 						((SkillsResources) display.getSkillsResourceContainer().getWidget(i)).getSkillsList()
 								.setSelectedIndex(i);
-						((SkillsResources) display.getSkillsResourceContainer().getWidget(i)).getSkillsList()
-								.setEnabled(false);
-						((SkillsResources) display.getSkillsResourceContainer().getWidget(i)).getNoOfResources()
-								.setEnabled(false);
+						// july 2019 commented two lines where it was enabling
+						// false
+
+						// ((SkillsResources)
+						// display.getSkillsResourceContainer().getWidget(i)).getSkillsList()
+						// .setEnabled(false);
+						// ((SkillsResources)
+						// display.getSkillsResourceContainer().getWidget(i)).getNoOfResources()
+						// .setEnabled(false);
 
 					}
 				}
