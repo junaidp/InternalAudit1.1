@@ -15,230 +15,225 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-	@Entity
+@Entity
 
-	@Table(name="employee")
-	public class Employee   implements Serializable {
+@Table(name = "employee")
+public class Employee implements Serializable {
 
-		private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-		@Id 
-		@GeneratedValue(strategy=GenerationType.AUTO)
-		@Column(name="employeeId")
-		private int employeeId;
-		
-		@Column(name="employeeName")
-		private String employeeName;
-		
-		@JoinColumn(name = "reportingTo", nullable = true)
-		@ManyToOne(fetch = FetchType.EAGER)
-		private Employee reportingTo;
-		
-		@Column(name="email")
-		private String email;
-		
-		
-		@JoinColumn(name = "countryId")
-		@ManyToOne(fetch = FetchType.EAGER)
-		private Country countryId;
-		
-		@JoinColumn(name = "cityId", nullable = true)
-		@ManyToOne(fetch = FetchType.EAGER)
-		private City cityId;
-		
-		
-		@JoinColumn(name = "skillId", nullable = true)
-		@ManyToOne(fetch = FetchType.EAGER)
-		private Skills skillId;
-		
-		@Column(name ="companyId")
-		private int companyId;
-		
-		@Column(name="rollId")
-		private int rollId;
-		
-		@Column(name ="fromInternalAuditDept")
-		private String fromInternalAuditDept;
-		
-		@Column(name="auditHead")
-		private boolean auditHead;
-		
-		@Column(name = "dateOfJoining")
-		private Date dateOfJoining;
-		
-		@Column(name = "designation")
-		private String designation;
-		
-		@Column(name = "password")
-		private String password;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "employeeId")
+	private int employeeId;
 
-		
-		
-		@Transient
-		private ArrayList<ToDo> todos;
-		
-		@Transient
-		private ArrayList<ToDo> userRaisedToDos;
-		
-		@Transient
-		private ArrayList<InformationRequestEntity> userRaisedInformationRequests;
-		
-		@Transient
-		private ArrayList<InformationRequestEntity> informationRequests ;
-		
-		@Transient
-		private int TotalNumberOfHoursAvailable;
+	@Column(name = "employeeName")
+	private String employeeName;
 
-		public boolean isAuditHead() {
-			return auditHead;
-		}
+	@JoinColumn(name = "reportingTo", nullable = true)
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Employee reportingTo;
 
-		public void setAuditHead(boolean auditHead) {
-			this.auditHead = auditHead;
-		}
+	@Column(name = "email")
+	private String email;
 
-		public int getEmployeeId() {
-			return employeeId;
-		}
+	@JoinColumn(name = "countryId")
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Country countryId;
 
-		public void setEmployeeId(int employeeId) {
-			this.employeeId = employeeId;
-		}
+	@JoinColumn(name = "cityId", nullable = true)
+	@ManyToOne(fetch = FetchType.EAGER)
+	private City cityId;
 
-		public String getEmployeeName() {
-			return employeeName;
-		}
+	@JoinColumn(name = "skillId", nullable = true)
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Skills skillId;
 
-		public void setEmployeeName(String employeeName) {
-			this.employeeName = employeeName;
-		}
+	@Column(name = "companyId")
+	private int companyId;
 
-	
-		public String getEmail() {
-			return email;
-		}
+	@Column(name = "rollId")
+	private int rollId;
 
-		public void setEmail(String email) {
-			this.email = email;
-		}
+	@Column(name = "fromInternalAuditDept")
+	private String fromInternalAuditDept;
 
-		public Country getCountryId() {
-			return countryId;
-		}
+	@Column(name = "auditHead")
+	private boolean auditHead;
 
-		public void setCountryId(Country countryId) {
-			this.countryId = countryId;
-		}
+	@Column(name = "dateOfJoining")
+	private Date dateOfJoining;
 
-		public City getCityId() {
-			return cityId;
-		}
+	@Column(name = "designation")
+	private String designation;
 
-		public void setCityId(City cityId) {
-			this.cityId = cityId;
-		}
+	@Column(name = "password")
+	private String password;
 
-		public Employee getReportingTo() {
-			return reportingTo;
-		}
+	@Transient
+	private ArrayList<ToDo> todos;
 
-		public void setReportingTo(Employee reportingTo) {
-			this.reportingTo = reportingTo;
-		}
+	@Transient
+	private ArrayList<ToDo> userRaisedToDos;
 
-		public String getFromInternalAuditDept() {
-			return fromInternalAuditDept;
-		}
+	@Transient
+	private ArrayList<InformationRequestEntity> userRaisedInformationRequests;
 
-		public void setFromInternalAuditDept(String fromInternalAuditDept) {
-			this.fromInternalAuditDept = fromInternalAuditDept;
-		}
+	@Transient
+	private ArrayList<InformationRequestEntity> informationRequests;
 
-		public void setTotalNumberOfHoursAvailable(int numberOfHours) {
-			TotalNumberOfHoursAvailable = numberOfHours;
-		}
+	@Transient
+	private int TotalNumberOfHoursAvailable;
 
-		public int getTotalNumberOfHoursAvailable() {
-			return TotalNumberOfHoursAvailable;
-		}
+	public boolean isAuditHead() {
+		return auditHead;
+	}
 
-		public Skills getSkillId() {
-			return skillId;
-		}
+	public void setAuditHead(boolean auditHead) {
+		this.auditHead = auditHead;
+	}
 
-		public void setSkillId(Skills skillId) {
-			this.skillId = skillId;
-		}
+	public int getEmployeeId() {
+		return employeeId;
+	}
 
-		public Date getDateOfJoining() {
-			return dateOfJoining;
-		}
+	public void setEmployeeId(int employeeId) {
+		this.employeeId = employeeId;
+	}
 
-		public void setDateOfJoining(Date dateOfJoining) {
-			this.dateOfJoining = dateOfJoining;
-		}
+	public String getEmployeeName() {
+		return employeeName;
+	}
 
-		public String getDesignation() {
-			return designation;
-		}
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
 
-		public void setDesignation(String designation) {
-			this.designation = designation;
-		}
+	public String getEmail() {
+		return email;
+	}
 
-		public int getCompanyId() {
-			return companyId;
-		}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-		public void setCompanyId(int companyId) {
-			this.companyId = companyId;
-		}
+	public Country getCountryId() {
+		return countryId;
+	}
 
-		public int getRollId() {
-			return rollId;
-		}
+	public void setCountryId(Country countryId) {
+		this.countryId = countryId;
+	}
 
-		public void setRollId(int rollId) {
-			this.rollId = rollId;
-		}
+	public City getCityId() {
+		return cityId;
+	}
 
-		public String getPassword() {
-			return password;
-		}
+	public void setCityId(City cityId) {
+		this.cityId = cityId;
+	}
 
-		public void setPassword(String password) {
-			this.password = password;
-		}
+	public Employee getReportingTo() {
+		return reportingTo;
+	}
 
-		public ArrayList<ToDo> getTodos() {
-			return todos;
-		}
+	public void setReportingTo(Employee reportingTo) {
+		this.reportingTo = reportingTo;
+	}
 
-		public void setTodos(ArrayList<ToDo> todos) {
-			this.todos = todos;
-		}
+	public String getFromInternalAuditDept() {
+		return fromInternalAuditDept;
+	}
 
-		public ArrayList<ToDo> getUserRaisedToDos() {
-			return userRaisedToDos;
-		}
+	public void setFromInternalAuditDept(String fromInternalAuditDept) {
+		this.fromInternalAuditDept = fromInternalAuditDept;
+	}
 
-		public void setUserRaisedToDos(ArrayList<ToDo> userRaisedToDos) {
-			this.userRaisedToDos = userRaisedToDos;
-		}
+	public void setTotalNumberOfHoursAvailable(int numberOfHours) {
+		TotalNumberOfHoursAvailable = numberOfHours;
+	}
 
-		public ArrayList<InformationRequestEntity> getUserRaisedInformationRequests() {
-			return userRaisedInformationRequests;
-		}
+	public int getTotalNumberOfHoursAvailable() {
+		return TotalNumberOfHoursAvailable;
+	}
 
-		public void setUserRaisedInformationRequests(ArrayList<InformationRequestEntity> userRaisedInformationRequests) {
-			this.userRaisedInformationRequests = userRaisedInformationRequests;
-		}
+	public Skills getSkillId() {
+		return skillId;
+	}
 
-		public ArrayList<InformationRequestEntity> getInformationRequests() {
-			return informationRequests;
-		}
+	public void setSkillId(Skills skillId) {
+		this.skillId = skillId;
+	}
 
-		public void setInformationRequests(ArrayList<InformationRequestEntity> informationRequests) {
-			this.informationRequests = informationRequests;
-		}
+	public Date getDateOfJoining() {
+		return dateOfJoining;
+	}
+
+	public void setDateOfJoining(Date dateOfJoining) {
+		this.dateOfJoining = dateOfJoining;
+	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
+
+	public int getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(int companyId) {
+		this.companyId = companyId;
+	}
+
+	public int getRollId() {
+		return rollId;
+	}
+
+	public void setRollId(int rollId) {
+		this.rollId = rollId;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public ArrayList<ToDo> getTodos() {
+		return todos;
+	}
+
+	public void setTodos(ArrayList<ToDo> todos) {
+		this.todos = todos;
+	}
+
+	public ArrayList<ToDo> getUserRaisedToDos() {
+		return userRaisedToDos;
+	}
+
+	public void setUserRaisedToDos(ArrayList<ToDo> userRaisedToDos) {
+		this.userRaisedToDos = userRaisedToDos;
+	}
+
+	public ArrayList<InformationRequestEntity> getUserRaisedInformationRequests() {
+		return userRaisedInformationRequests;
+	}
+
+	public void setUserRaisedInformationRequests(ArrayList<InformationRequestEntity> userRaisedInformationRequests) {
+		this.userRaisedInformationRequests = userRaisedInformationRequests;
+	}
+
+	public ArrayList<InformationRequestEntity> getInformationRequests() {
+		return informationRequests;
+	}
+
+	public void setInformationRequests(ArrayList<InformationRequestEntity> informationRequests) {
+		this.informationRequests = informationRequests;
+	}
 }

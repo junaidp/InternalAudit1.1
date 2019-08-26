@@ -8,7 +8,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 
 	<!-- Datasource for LOCAL database connection -->
       
-      
+       
   	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -19,6 +19,22 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 
 	</bean>
 	
+	
+	 
+	   <!-- 
+	   Data Source for mocha connection
+	  -->
+		   <!-- 
+	   
+	   	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://mysql3000.mochahost.com/rms2019_abiliteclean" />
+		<property name="username" value="rms2019_root" />
+		<property name="password" value="Password1" />
+
+	</bean> 
+	--> 
   <!-- 
 		<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">

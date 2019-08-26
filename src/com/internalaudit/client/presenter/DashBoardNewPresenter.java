@@ -25,9 +25,7 @@ import com.internalaudit.client.view.dashboard.ManagementCommentsOverDue;
 import com.internalaudit.shared.DashBoardNewDTO;
 import com.internalaudit.shared.Employee;
 
-
-
-public class DashBoardNewPresenter implements Presenter 
+public class DashBoardNewPresenter implements Presenter
 
 {
 	private final InternalAuditServiceAsync rpcService;
@@ -35,54 +33,64 @@ public class DashBoardNewPresenter implements Presenter
 	private final Display display;
 	private Logger logger = Logger.getLogger("DashBoardPresenter");
 	private Employee loggedInUser = null;
-	
-	public interface Display 
-	{
-		Widget asWidget();
-		Object getHtmlErrorMessage = null;
-		Button getBtnContinue();
-		JobsExecutionPanel getJobsInExecutionPanel();
-		JobsDueForKickOffWithinWeek getJobsDueForKickOffWithinWeek();
-		ManagementCommentsOverDue getManagementCommentsOverDue();
-		JobsDueForCompletionWithinWeek getJobsDueForCompletionWithinWeek();
-		ExceptionImplementaionOverDue getExceptionImplementaionOverDue();
-		AuditJobsByFunction getAuditJobsByFunction();
-		AuditJobsByObjective getAuditJobsByObjective();
-		AuditJobsByRisk getAuditJobsByRisk();
-		JobsByPhases getJobsByPhases();
-		ExceptionsImplementationChart getExceptionsImplementationChart();
-	}  
 
-	public DashBoardNewPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, Employee user, Display view) 
-	{
+	public interface Display {
+		Widget asWidget();
+
+		Object getHtmlErrorMessage = null;
+
+		Button getBtnContinue();
+
+		JobsExecutionPanel getJobsInExecutionPanel();
+
+		JobsDueForKickOffWithinWeek getJobsDueForKickOffWithinWeek();
+
+		ManagementCommentsOverDue getManagementCommentsOverDue();
+
+		JobsDueForCompletionWithinWeek getJobsDueForCompletionWithinWeek();
+
+		ExceptionImplementaionOverDue getExceptionImplementaionOverDue();
+
+		AuditJobsByFunction getAuditJobsByFunction();
+
+		AuditJobsByObjective getAuditJobsByObjective();
+
+		AuditJobsByRisk getAuditJobsByRisk();
+
+		JobsByPhases getJobsByPhases();
+
+		ExceptionsImplementationChart getExceptionsImplementationChart();
+	}
+
+	public DashBoardNewPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, Employee user,
+			Display view) {
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.display = view;
 		this.loggedInUser = user;
 	}
 
-	public void go(HasWidgets container) 
-	{
+	public void go(HasWidgets container) {
 		container.clear();
 		container.add(display.asWidget());
 		bind();
 	}
 
 	private void bind() {
-		
-		  display.getBtnContinue().addClickHandler(new ClickHandler(){
 
-				@Override
-				public void onClick(ClickEvent arg0) {
-					eventBus.fireEvent(new MainEvent(loggedInUser));
-				}});
-		
-		
-		rpcService.fetchDashboard(null, new AsyncCallback<DashBoardNewDTO>(){
+		display.getBtnContinue().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				eventBus.fireEvent(new MainEvent(loggedInUser));
+			}
+		});
+
+		rpcService.fetchDashboard(null, new AsyncCallback<DashBoardNewDTO>() {
 
 			@Override
 			public void onFailure(Throwable arg0) {
-					Window.alert("fetchdashboard failed");
+				Window.alert("fetchdashboard failed in DashnoardNewPresenter");
 			}
 
 			@Override
@@ -90,55 +98,59 @@ public class DashBoardNewPresenter implements Presenter
 				display.getJobsInExecutionPanel().setData(dashboard.getJobsInExcutions());
 				display.getJobsDueForKickOffWithinWeek().setData(dashboard.getJobKDueForCompletionWithinAWeek());
 				display.getManagementCommentsOverDue().setData(dashboard.getJobWithmanagemntCommentsOverdue());
-				display.getExceptionImplementaionOverDue().setData(dashboard.getJobsWithExcepptionImplementationoverdue());;
+				display.getExceptionImplementaionOverDue()
+						.setData(dashboard.getJobsWithExcepptionImplementationoverdue());
+				;
 				display.getJobsDueForCompletionWithinWeek().setData(dashboard.getJobKDueForCompletionWithinAWeek());
 				display.getAuditJobsByFunction().setData(dashboard.getDivs());
 				display.getAuditJobsByObjective().setData(dashboard.getReports());
 				display.getAuditJobsByRisk().setData(dashboard.getReports());
 				display.getJobsByPhases().setData(dashboard);
 				display.getExceptionsImplementationChart().setData(dashboard);
-			}});
-		
-//		rpcService.fetchJobsInExecution(new AsyncCallback<ArrayList<String>>(){
-//
-//			@Override
-//			public void onFailure(Throwable arg0) {
-//				Window.alert("fail : fetch jobs in execution");
-//			}
-//
-//			@Override
-//			public void onSuccess(ArrayList<String> jobNames) {
-//				display.getJobsInExecutionPanel().setData(jobNames);
-//				
-//			}});
-//		
-//		rpcService.fetchJobsKickOffWithInaWeek(new AsyncCallback<ArrayList<String>>(){
-//
-//			@Override
-//			public void onFailure(Throwable arg0) {
-//				
-//			}
-//
-//			@Override
-//			public void onSuccess(ArrayList<String> jobs) {
-//				display.getJobsDueForKickOffWithinWeek().setData(jobs);
-//				
-//			}});
-//		
-//		rpcService.fetchManagementCommentsOverdue(new AsyncCallback<ArrayList<String>>(){
-//
-//			@Override
-//			public void onFailure(Throwable arg0) {
-//				
-//			}
-//
-//			@Override
-//			public void onSuccess(ArrayList<String> jobs) {
-//				display.getManagementCommentsOverDue().setData(jobs);
-//				
-//			}});
-		
+			}
+		});
+
+		// rpcService.fetchJobsInExecution(new
+		// AsyncCallback<ArrayList<String>>(){
+		//
+		// @Override
+		// public void onFailure(Throwable arg0) {
+		// Window.alert("fail : fetch jobs in execution");
+		// }
+		//
+		// @Override
+		// public void onSuccess(ArrayList<String> jobNames) {
+		// display.getJobsInExecutionPanel().setData(jobNames);
+		//
+		// }});
+		//
+		// rpcService.fetchJobsKickOffWithInaWeek(new
+		// AsyncCallback<ArrayList<String>>(){
+		//
+		// @Override
+		// public void onFailure(Throwable arg0) {
+		//
+		// }
+		//
+		// @Override
+		// public void onSuccess(ArrayList<String> jobs) {
+		// display.getJobsDueForKickOffWithinWeek().setData(jobs);
+		//
+		// }});
+		//
+		// rpcService.fetchManagementCommentsOverdue(new
+		// AsyncCallback<ArrayList<String>>(){
+		//
+		// @Override
+		// public void onFailure(Throwable arg0) {
+		//
+		// }
+		//
+		// @Override
+		// public void onSuccess(ArrayList<String> jobs) {
+		// display.getManagementCommentsOverDue().setData(jobs);
+		//
+		// }});
+
 	}
 }
-
-

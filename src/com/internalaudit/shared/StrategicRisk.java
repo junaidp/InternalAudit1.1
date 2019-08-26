@@ -12,89 +12,89 @@ import javax.persistence.Table;
 
 @Entity
 
-@Table(name = "strategicRisk")
+@Table(name = "strategicrisk")
 public class StrategicRisk implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name = "id")
-    private int id;
+	@Id
+	@Column(name = "id")
+	private int id;
 
-    @Column(name = "rating")
-    private String rating;
+	@Column(name = "rating")
+	private String rating;
 
-    @Column(name = "probabality")
-    private String probabality;
+	@Column(name = "probabality")
+	private String probabality;
 
-    @Column(name = "impact")
-    private String impact;
+	@Column(name = "impact")
+	private String impact;
 
-    @Column(name = "comments")
-    private String comments;
+	@Column(name = "comments")
+	private String comments;
 
-    @JoinColumn(name = "strategicId", nullable = true)
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Strategic strategicId;
+	@JoinColumn(name = "strategicId", nullable = true)
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Strategic strategicId;
 
-    @JoinColumn(name = "riskFactorId", nullable = true)
-    @ManyToOne(fetch = FetchType.EAGER)
-    private RiskFactor riskFactorId;
+	@JoinColumn(name = "riskFactorId", nullable = true)
+	@ManyToOne(fetch = FetchType.EAGER)
+	private RiskFactor riskFactorId;
 
-    public int getId() {
-	return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setId(int id) {
-	this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public Strategic getStrategicId() {
-	return strategicId;
-    }
+	public Strategic getStrategicId() {
+		return strategicId;
+	}
 
-    public void setStrategicId(Strategic strategicId) {
-	this.strategicId = strategicId;
-    }
+	public void setStrategicId(Strategic strategicId) {
+		this.strategicId = strategicId;
+	}
 
-    public RiskFactor getRiskFactorId() {
-	return riskFactorId;
-    }
+	public RiskFactor getRiskFactorId() {
+		return riskFactorId;
+	}
 
-    public void setRiskFactorId(RiskFactor riskFactorId) {
-	this.riskFactorId = riskFactorId;
-    }
+	public void setRiskFactorId(RiskFactor riskFactorId) {
+		this.riskFactorId = riskFactorId;
+	}
 
-    public String getRating() {
-	return rating;
-    }
+	public String getRating() {
+		return rating;
+	}
 
-    public void setRating(String rating) {
-	this.rating = rating;
-    }
+	public void setRating(String rating) {
+		this.rating = rating;
+	}
 
-    public String getComments() {
-	return comments;
-    }
+	public String getComments() {
+		return comments;
+	}
 
-    public void setComments(String comments) {
-	this.comments = comments;
-    }
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
 
-    public String getProbabality() {
-	return probabality;
-    }
+	public String getProbabality() {
+		return probabality;
+	}
 
-    public void setProbabality(String probabality) {
-	this.probabality = probabality;
-    }
+	public void setProbabality(String probabality) {
+		this.probabality = probabality;
+	}
 
-    public String getImpact() {
-	return impact;
-    }
+	public String getImpact() {
+		return impact;
+	}
 
-    public void setImpact(String impact) {
-	this.impact = impact;
-    }
+	public void setImpact(String impact) {
+		this.impact = impact;
+	}
 
 }

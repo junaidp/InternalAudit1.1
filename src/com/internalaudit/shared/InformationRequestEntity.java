@@ -18,7 +18,7 @@ import javax.persistence.Transient;
 
 @Entity
 
-@Table(name = "informationRequest")
+@Table(name = "informationrequest")
 
 public class InformationRequestEntity implements Serializable {
 

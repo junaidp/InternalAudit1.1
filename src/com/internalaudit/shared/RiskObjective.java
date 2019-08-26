@@ -14,39 +14,37 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-
 @Entity
 
-@Table(name="riskObjective")
-public class RiskObjective   implements Serializable {
+@Table(name = "riskobjective")
+public class RiskObjective implements Serializable {
 
-	@Id 
-	@GeneratedValue(strategy=GenerationType.AUTO)	
-	@Column(name="riskId")
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "riskId")
 	private int riskId;
-	
-	@Column(name ="riskName")
+
+	@Column(name = "riskName")
 	private String riskname;
-	
+
 	@JoinColumn(name = "objectiveId", nullable = true)
 	@ManyToOne(fetch = FetchType.EAGER)
 	private ActivityObjective objectiveId;
-	
-	@Column(name ="checked")
+
+	@Column(name = "checked")
 	private boolean checked;
-	
-	@Column(name ="riskReferenceNo")
+
+	@Column(name = "riskReferenceNo")
 	private String riskReferenceNo;
 
-	@Column(name ="riskRating")
+	@Column(name = "riskRating")
 	private int riskRating;
-	
+
 	@Transient
 	private int status;
-	
+
 	@Transient
 	private int riskJobRelation;
-
 
 	public int getRiskId() {
 		return riskId;
@@ -88,7 +86,6 @@ public class RiskObjective   implements Serializable {
 		this.riskReferenceNo = riskReferenceNo;
 	}
 
-	
 	public int getStatus() {
 		return status;
 	}

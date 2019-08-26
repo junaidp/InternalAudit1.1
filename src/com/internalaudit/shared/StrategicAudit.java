@@ -12,205 +12,202 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-	@Entity
+@Entity
 
-	@Table(name="strategicAudit")
-	public class StrategicAudit   implements Serializable {
+@Table(name = "strategicaudit")
+public class StrategicAudit implements Serializable {
 
-		private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-		@Id 
-		@Column(name="auditId")
-		private int auditId;
-		
-		@Column(name="strategicObjective")
-		private String strategicObjective;
-		
-		@JoinColumn(name = "objectiveOwner", nullable = true)
-		@ManyToOne(fetch = FetchType.EAGER)
-		private Employee objectiveOwner;
-		
-		@JoinColumn(name = "relevantDepartment", nullable = true)
-		@ManyToOne(fetch = FetchType.EAGER)
-		private Department relevantDepartment;
-		
-		@Column(name="acheivementDate")
-		private Date acheivementDate;
-		
-		@Column(name="rating")
-		private String rating;
-		
-		@JoinColumn(name = "riskFactor", nullable = true)
-		@ManyToOne(fetch = FetchType.EAGER)
-		private RiskFactor riskFactor;
-		
-		@Column(name="auditableUnit")
-		private String auditableUnit;
-		
-		@Column(name="phase")
-		private String phase;
-		
-		@Column(name="status")
-		private String status;
-		
-		@Column(name="comments")
-		private String comments;
-		
-		@Column(name="date")
-		private Date date;
-		
-		@JoinColumn(name = "initiatedBy", nullable = true)
-		@ManyToOne(fetch = FetchType.EAGER)
-		private Employee initiatedBy;
-		
-		@JoinColumn(name = "assignedTo", nullable = true)
-		@ManyToOne(fetch = FetchType.EAGER)
-		private Employee assignedTo;
-		
-		@JoinColumn(name = "approvedBy", nullable = true)
-		@ManyToOne(fetch = FetchType.EAGER)
-		private Employee approvedBy;
-		
-		@Transient
-		private String nextPhase;
+	@Id
+	@Column(name = "auditId")
+	private int auditId;
 
-		
+	@Column(name = "strategicObjective")
+	private String strategicObjective;
 
-		public String getStrategicObjective() {
-			return strategicObjective;
-		}
+	@JoinColumn(name = "objectiveOwner", nullable = true)
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Employee objectiveOwner;
 
-		public void setStrategicObjective(String strategicObjective) {
-			this.strategicObjective = strategicObjective;
-		}
+	@JoinColumn(name = "relevantDepartment", nullable = true)
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Department relevantDepartment;
 
-		public Employee getObjectiveOwner() {
-			return objectiveOwner;
-		}
+	@Column(name = "acheivementDate")
+	private Date acheivementDate;
 
-		public void setObjectiveOwner(Employee objectiveOwner) {
-			this.objectiveOwner = objectiveOwner;
-		}
+	@Column(name = "rating")
+	private String rating;
 
-		public Department getRelevantDepartment() {
-			return relevantDepartment;
-		}
+	@JoinColumn(name = "riskFactor", nullable = true)
+	@ManyToOne(fetch = FetchType.EAGER)
+	private RiskFactor riskFactor;
 
-		public void setRelevantDepartment(Department relevantDepartment) {
-			this.relevantDepartment = relevantDepartment;
-		}
+	@Column(name = "auditableUnit")
+	private String auditableUnit;
 
-		public Date getAcheivementDate() {
-			return acheivementDate;
-		}
+	@Column(name = "phase")
+	private String phase;
 
-		public void setAcheivementDate(Date acheivementDate) {
-			this.acheivementDate = acheivementDate;
-		}
+	@Column(name = "status")
+	private String status;
 
-		public String getRating() {
-			return rating;
-		}
+	@Column(name = "comments")
+	private String comments;
 
-		public void setRating(String rating) {
-			this.rating = rating;
-		}
+	@Column(name = "date")
+	private Date date;
 
-		public RiskFactor getRiskFactor() {
-			return riskFactor;
-		}
+	@JoinColumn(name = "initiatedBy", nullable = true)
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Employee initiatedBy;
 
-		public void setRiskFactor(RiskFactor riskFactor) {
-			this.riskFactor = riskFactor;
-		}
+	@JoinColumn(name = "assignedTo", nullable = true)
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Employee assignedTo;
 
-		public String getAuditableUnit() {
-			return auditableUnit;
-		}
+	@JoinColumn(name = "approvedBy", nullable = true)
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Employee approvedBy;
 
-		public void setAuditableUnit(String auditableUnit) {
-			this.auditableUnit = auditableUnit;
-		}
+	@Transient
+	private String nextPhase;
 
-		public String getPhase() {
-			return phase;
-		}
+	public String getStrategicObjective() {
+		return strategicObjective;
+	}
 
-		public void setPhase(String phase) {
-			this.phase = phase;
-		}
+	public void setStrategicObjective(String strategicObjective) {
+		this.strategicObjective = strategicObjective;
+	}
 
-		public Employee getInitiatedBy() {
-			return initiatedBy;
-		}
+	public Employee getObjectiveOwner() {
+		return objectiveOwner;
+	}
 
-		public void setInitiatedBy(Employee initiatedBy) {
-			this.initiatedBy = initiatedBy;
-		}
+	public void setObjectiveOwner(Employee objectiveOwner) {
+		this.objectiveOwner = objectiveOwner;
+	}
 
-		public Employee getAssignedTo() {
-			return assignedTo;
-		}
+	public Department getRelevantDepartment() {
+		return relevantDepartment;
+	}
 
-		public void setAssignedTo(Employee assignedTo) {
-			this.assignedTo = assignedTo;
-		}
+	public void setRelevantDepartment(Department relevantDepartment) {
+		this.relevantDepartment = relevantDepartment;
+	}
 
-		public String getComments() {
-			return comments;
-		}
+	public Date getAcheivementDate() {
+		return acheivementDate;
+	}
 
-		public void setComments(String comments) {
-			this.comments = comments;
-		}
+	public void setAcheivementDate(Date acheivementDate) {
+		this.acheivementDate = acheivementDate;
+	}
 
-		public String getStatus() {
-			return status;
-		}
+	public String getRating() {
+		return rating;
+	}
 
-		public void setStatus(String status) {
-			this.status = status;
-		}
+	public void setRating(String rating) {
+		this.rating = rating;
+	}
 
-		public String getNextPhase() {
-			return nextPhase;
-		}
+	public RiskFactor getRiskFactor() {
+		return riskFactor;
+	}
 
-		public void setNextPhase(String nextPhase) {
-			this.nextPhase = nextPhase;
-		}
+	public void setRiskFactor(RiskFactor riskFactor) {
+		this.riskFactor = riskFactor;
+	}
 
-		public Employee getApprovedBy() {
-			return approvedBy;
-		}
+	public String getAuditableUnit() {
+		return auditableUnit;
+	}
 
-		public void setApprovedBy(Employee approvedBy) {
-			this.approvedBy = approvedBy;
-		}
-//
-//		public String getDelete() {
-//			return delete;
-//		}
-//
-//		public void setDelete(String delete) {
-//			this.delete = delete;
-//		}
+	public void setAuditableUnit(String auditableUnit) {
+		this.auditableUnit = auditableUnit;
+	}
 
-		public int getAuditId() {
-			return auditId;
-		}
+	public String getPhase() {
+		return phase;
+	}
 
-		public void setAuditId(int auditId) {
-			this.auditId = auditId;
-		}
+	public void setPhase(String phase) {
+		this.phase = phase;
+	}
 
-		public Date getDate() {
-			return date;
-		}
+	public Employee getInitiatedBy() {
+		return initiatedBy;
+	}
 
-		public void setDate(Date date) {
-			this.date = date;
-		}
+	public void setInitiatedBy(Employee initiatedBy) {
+		this.initiatedBy = initiatedBy;
+	}
 
-	
+	public Employee getAssignedTo() {
+		return assignedTo;
+	}
+
+	public void setAssignedTo(Employee assignedTo) {
+		this.assignedTo = assignedTo;
+	}
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getNextPhase() {
+		return nextPhase;
+	}
+
+	public void setNextPhase(String nextPhase) {
+		this.nextPhase = nextPhase;
+	}
+
+	public Employee getApprovedBy() {
+		return approvedBy;
+	}
+
+	public void setApprovedBy(Employee approvedBy) {
+		this.approvedBy = approvedBy;
+	}
+	//
+	// public String getDelete() {
+	// return delete;
+	// }
+	//
+	// public void setDelete(String delete) {
+	// this.delete = delete;
+	// }
+
+	public int getAuditId() {
+		return auditId;
+	}
+
+	public void setAuditId(int auditId) {
+		this.auditId = auditId;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
 }

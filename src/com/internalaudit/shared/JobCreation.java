@@ -30,7 +30,7 @@ public class JobCreation implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Strategic strategicId; // strategicid
 
-	@Column(name = "jobName")
+	@Column(name = "jobname")
 	private String jobName;
 
 	@Column(name = "weeks")

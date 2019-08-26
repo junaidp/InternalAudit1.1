@@ -66,7 +66,7 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 
 			@Override
 			public void onFailure(Throwable arg0) {
-				Window.alert("fetchDashboard fail");
+				Window.alert("fetchDashboard fail in DashnoardProjectManagement");
 			}
 
 			@Override
