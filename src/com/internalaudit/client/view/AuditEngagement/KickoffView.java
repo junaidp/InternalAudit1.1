@@ -701,7 +701,7 @@ public class KickoffView extends Composite {
 
 		// User's LIBRARY
 		for (int j = 0; j < record.getEngagementDTO().getSelectedActivityObjectives().size(); j++) {
-			ActivityObjectiveViewNew activityObjectiveView = new ActivityObjectiveViewNew();
+			final ActivityObjectiveViewNew activityObjectiveView = new ActivityObjectiveViewNew();
 			activityObjectiveView.getBtnSelectActivity().setVisible(false);
 			activityObjectiveView.setData(record.getEngagementDTO().getSelectedActivityObjectives().get(j));
 			if (record.getEngagementDTO().getSelectedActivityObjectives().get(j)
@@ -713,21 +713,20 @@ public class KickoffView extends Composite {
 				// 2019 april
 				btnSubmitActicityObjective.setVisible(false);
 			}
-			// activityObjectiveView.getDelete().addClickHandler(new
-			// ClickHandler() {
-			//
-			// @Override
-			// public void onClick(ClickEvent event) {
-			// Window.alert("cc");
-			// boolean confirmed = Window.confirm("Are you sure you want to
-			// delete this risk?");
-			//
-			// if (confirmed) {
-			// activityObjectiveView.removeFromParent();
-			//
-			// }
-			// }
-			// });
+			activityObjectiveView.getDelete().addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					boolean confirmed = Window.confirm("Are you sure you want to delete this Objective?");
+
+					if (confirmed) {
+						activityObjectiveView.removeFromParent();
+
+						deleteActivityObjective();
+					}
+				}
+
+			});
 
 			usersActivityContainer.add(activityObjectiveView);
 
@@ -749,7 +748,7 @@ public class KickoffView extends Composite {
 
 					@Override
 					public void onClick(ClickEvent event) {
-						ActivityObjectiveViewNew activityObjectiveSelected = new ActivityObjectiveViewNew();
+						final ActivityObjectiveViewNew activityObjectiveSelected = new ActivityObjectiveViewNew();
 						activityObjectiveView.getData(activityObjectiveSelected);
 						usersActivityContainer.add(activityObjectiveSelected);
 
@@ -757,7 +756,8 @@ public class KickoffView extends Composite {
 
 							@Override
 							public void onClick(ClickEvent event) {
-								usersActivityContainer.clear();
+								activityObjectiveSelected.removeFromParent();
+
 							}
 						});
 
@@ -773,7 +773,7 @@ public class KickoffView extends Composite {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActivityObjectiveViewNew act = new ActivityObjectiveViewNew();
+				final ActivityObjectiveViewNew act = new ActivityObjectiveViewNew();
 				act.getlblReferenceNoData().setText(MyUtil.getRandom());
 				act.getBtnSelectActivity().setVisible(false);
 				usersActivityContainer.add(act);
@@ -782,8 +782,8 @@ public class KickoffView extends Composite {
 					@Override
 					public void onClick(ClickEvent event) {
 						// TODO Auto-generated method stub
-
-						usersActivityContainer.clear();
+						act.removeFromParent();
+						// usersActivityContainer.clear();
 					}
 				});
 
@@ -834,6 +834,7 @@ public class KickoffView extends Composite {
 			ActivityObjective activityObjective = new ActivityObjective();
 			activityObjectiveView.getData(activityObjective);
 			activityObjective.setSubProcessId(subProcess);
+			// activityObjective.setChecked(true);
 			activityObjectives.add(activityObjective);
 		}
 		saveActivityObjectives(activityObjectives, status);
@@ -888,6 +889,24 @@ public class KickoffView extends Composite {
 			@Override
 			public void onSuccess(String result) {
 				new DisplayAlert(result);
+			}
+		});
+
+	}
+
+	private void deleteActivityObjective() {
+		rpcService.deleteActivityObjective(jobid, new AsyncCallback<String>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Failed Deleting ActivityObjective");
+
+			}
+
+			@Override
+			public void onSuccess(String result) {
+				new DisplayAlert(result);
+
 			}
 		});
 

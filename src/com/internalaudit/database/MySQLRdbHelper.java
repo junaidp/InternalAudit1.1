@@ -3098,6 +3098,7 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(ActivityObjective.class);
 			crit.createAlias("subProcessId", "subProcess");
 			crit.add(Restrictions.eq("subProcess.subProcessId", subProcessId));
+			crit.add(Restrictions.eq("checked", false));
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				ActivityObjective activityObjective = (ActivityObjective) it.next();
@@ -8682,6 +8683,10 @@ public class MySQLRdbHelper {
 				JobCreation jobCreation = (JobCreation) session.get(JobCreation.class, jobId);
 				objectiveJobRelation.setJobCreationId(jobCreation);
 				objectiveJobRelation.setActivityJobId(activityObjectives.get(i).getActivityJobRelation());
+				if (activityObjectives.get(i).getObjectiveId() == 0) {
+					activityObjectives.get(i).setChecked(true);
+				}
+
 				session.saveOrUpdate(activityObjectives.get(i));
 				int objectiveJobRelationId = fetchExistingActivityJobRelation(jobId,
 						activityObjectives.get(i).getObjectiveId());
@@ -9528,4 +9533,29 @@ public class MySQLRdbHelper {
 		}
 
 	}
+
+	public String deleteActivityObjective(int jobId) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(ObjectiveJobRelation.class);
+			crit.createAlias("jobCreationId", "jobCreation");
+			jobsStrategicAlias(crit);
+
+			crit.add(Restrictions.eq("jobCreation.jobCreationId", jobId));
+
+			if (crit.list().size() > 0)
+				session.delete(crit.list().get(0));
+			session.flush();
+
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in deleteActivityObjective", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+
+		}
+		return "ActivityObjective deleted";
+	}
+
 }

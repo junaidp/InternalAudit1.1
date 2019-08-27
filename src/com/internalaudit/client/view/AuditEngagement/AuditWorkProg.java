@@ -1,4 +1,5 @@
 package com.internalaudit.client.view.AuditEngagement;
+
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -80,7 +81,8 @@ public class AuditWorkProg extends Composite {
 	private ArrayList<AuditWork> savedAuditWorks;
 	private int selectedJobId;
 
-	public AuditWorkProg(final InternalAuditServiceAsync rpcService, final int selectedJobId, Employee employee,  ArrayList<SuggestedControls> controls, VerticalPanel auditWorkNewContainer) {
+	public AuditWorkProg(final InternalAuditServiceAsync rpcService, final int selectedJobId, Employee employee,
+			ArrayList<SuggestedControls> controls, VerticalPanel auditWorkNewContainer) {
 		initWidget(uiBinder.createAndBindUi(this));
 
 		this.controls = controls;
@@ -105,7 +107,6 @@ public class AuditWorkProg extends Composite {
 				addRow(null);
 
 			}
-
 
 		});
 
@@ -193,8 +194,9 @@ public class AuditWorkProg extends Composite {
 			}
 		}
 		r.getListBoxExistingCtrl().clear();
-		for(int j =0; j< controls.size(); j++){
-		r.getListBoxExistingCtrl().addItem(controls.get(j).getSuggestedReferenceNo(), controls.get(j).getSuggestedControlsId()+"");
+		for (int j = 0; j < controls.size(); j++) {
+			r.getListBoxExistingCtrl().addItem(controls.get(j).getSuggestedReferenceNo(),
+					controls.get(j).getSuggestedControlsId() + "");
 		}
 		rows.add(r);
 
@@ -214,19 +216,21 @@ public class AuditWorkProg extends Composite {
 				}
 			}
 		});
-		
-		//POPULTE DATA IF COMING FROM LIBRARY WHEN USER SELECT SOME WORK PROG FROM LIBRARY
-		if(auditWorkProgramNew != null){
+
+		// POPULTE DATA IF COMING FROM LIBRARY WHEN USER SELECT SOME WORK PROG
+		// FROM LIBRARY
+		if (auditWorkProgramNew != null) {
 			r.getDescription().setText(auditWorkProgramNew.getTxtAreaAuditProg().getText());
 			r.getStep().setText(auditWorkProgramNew.getLblReferenceData().getText());
-			
-			for(int i=0; i< r.getListBoxExistingCtrl().getItemCount(); i++){
-				if(r.getListBoxExistingCtrl().getItemText(i).equals(auditWorkProgramNew.getLblReferenceData().getText())){
+
+			for (int i = 0; i < r.getListBoxExistingCtrl().getItemCount(); i++) {
+				if (r.getListBoxExistingCtrl().getItemText(i)
+						.equals(auditWorkProgramNew.getLblReferenceData().getText())) {
 					r.getListBoxExistingCtrl().setSelectedIndex(i);
 					break;
 				}
 			}
-		}else{
+		} else {
 			r.getStep().setText(MyUtil.getRandom());
 		}
 	}
@@ -260,12 +264,13 @@ public class AuditWorkProg extends Composite {
 				Employee approvedBy = new Employee();
 				approvedBy = loggedInEmployee;
 				auditWork.setApprovedBy(approvedBy);
-				
-				//Add suggested control 2018//
+
+				// Add suggested control 2018//
 				SuggestedControls suggestedControls = new SuggestedControls();
-				suggestedControls.setSuggestedControlsId(Integer.parseInt(row.getListBoxExistingCtrl().getValue(row.getListBoxExistingCtrl().getSelectedIndex())));
+				suggestedControls.setSuggestedControlsId(Integer.parseInt(
+						row.getListBoxExistingCtrl().getValue(row.getListBoxExistingCtrl().getSelectedIndex())));
 				auditWork.setSuggestedControlsId(suggestedControls);
-				//control end
+				// control end
 
 				auditWorks.add(auditWork);
 			} else {
@@ -286,13 +291,14 @@ public class AuditWorkProg extends Composite {
 						}
 						auditWork.setStatus(status);
 						auditWork.setFeedback(feedback);
-						
-						//Add suggested control 2018//
+
+						// Add suggested control 2018//
 						SuggestedControls suggestedControls = new SuggestedControls();
-						suggestedControls.setSuggestedControlsId(Integer.parseInt(row.getListBoxExistingCtrl().getValue(row.getListBoxExistingCtrl().getSelectedIndex())));
+						suggestedControls.setSuggestedControlsId(Integer.parseInt(row.getListBoxExistingCtrl()
+								.getValue(row.getListBoxExistingCtrl().getSelectedIndex())));
 						auditWork.setSuggestedControlsId(suggestedControls);
-						//control end
-						
+						// control end
+
 						auditWorks.add(auditWork);
 					}
 				}
@@ -342,12 +348,13 @@ public class AuditWorkProg extends Composite {
 			Employee approvedBy = new Employee();
 			approvedBy.setEmployeeId(0);
 			auditWork.setApprovedBy(approvedBy);
-			
-			//Add suggested control 2018//
+
+			// Add suggested control 2018//
 			SuggestedControls suggestedControls = new SuggestedControls();
-			suggestedControls.setSuggestedControlsId(Integer.parseInt(row.getListBoxExistingCtrl().getValue(row.getListBoxExistingCtrl().getSelectedIndex())));
+			suggestedControls.setSuggestedControlsId(Integer
+					.parseInt(row.getListBoxExistingCtrl().getValue(row.getListBoxExistingCtrl().getSelectedIndex())));
 			auditWork.setSuggestedControlsId(suggestedControls);
-			//control end
+			// control end
 
 			auditWorks.add(auditWork);
 
@@ -393,7 +400,8 @@ public class AuditWorkProg extends Composite {
 		});
 	}
 
-	private void fetchSavedAuditWork(final InternalAuditServiceAsync rpcService, final int selectedJobId, final VerticalPanel auditWorkNewContainer) {
+	private void fetchSavedAuditWork(final InternalAuditServiceAsync rpcService, final int selectedJobId,
+			final VerticalPanel auditWorkNewContainer) {
 		rpcService.fetchAuditWorkRows(selectedJobId, new AsyncCallback<ArrayList<AuditWork>>() {
 
 			@Override
@@ -434,8 +442,8 @@ public class AuditWorkProg extends Composite {
 						}
 						submittedBy.setVisible(true);
 						submittedBy
-						.setText("Initiated by:" + auditWorks.get(0).getInitiatedBy().getEmployeeName() + "::");
-						
+								.setText("Initiated by:" + auditWorks.get(0).getInitiatedBy().getEmployeeName() + "::");
+
 						auditWorkNewContainer.clear();
 
 					}
@@ -454,17 +462,16 @@ public class AuditWorkProg extends Composite {
 								|| loggedInEmployee.getRollId() == 1)
 								&& (auditWork.getStatus() == InternalAuditConstants.SUBMIT)) {
 							showApprovalView(row);
-						} else if (!(auditWork.getApprovedBy().getRollId() == 1)
-								&& loggedInEmployee.getRollId() == 1
+						} else if (!(auditWork.getApprovedBy().getRollId() == 1) && loggedInEmployee.getRollId() == 1
 								&& (auditWork.getStatus() == InternalAuditConstants.APPROVED
-								|| auditWork.getStatus() == InternalAuditConstants.SUBMIT)) {
+										|| auditWork.getStatus() == InternalAuditConstants.SUBMIT)) {
 							showApprovalView(row);
 						}
 
 						else if (auditWork.getInitiatedBy() != null
 								&& auditWork.getInitiatedBy().getEmployeeId() == loggedInEmployee.getEmployeeId()
 								&& (auditWork.getStatus() == InternalAuditConstants.SAVED
-								|| auditWork.getStatus() == InternalAuditConstants.REJECTED)) {
+										|| auditWork.getStatus() == InternalAuditConstants.REJECTED)) {
 							showInitiationView(row);
 
 						}
@@ -477,13 +484,15 @@ public class AuditWorkProg extends Composite {
 						row.getStep().setText(auditWork.getStepNo());
 						row.getDescription().setText(auditWork.getDescription());
 						row.getAuditWorkId().setText(String.valueOf(auditWork.getAuditWorkId()));
-						//Setting suggested control
+						// Setting suggested control
 						row.getListBoxExistingCtrl().clear();
-						for(int j =0; j< controls.size(); j++){
-							row.getListBoxExistingCtrl().addItem(controls.get(j).getSuggestedReferenceNo(), controls.get(j).getSuggestedControlsId()+"");
-							}
-						for(int i=0; i< row.getListBoxExistingCtrl().getItemCount(); i++){
-							if(Integer.parseInt(row.getListBoxExistingCtrl().getValue(i)) == auditWork.getSuggestedControlsId().getSuggestedControlsId()){
+						for (int j = 0; j < controls.size(); j++) {
+							row.getListBoxExistingCtrl().addItem(controls.get(j).getSuggestedReferenceNo(),
+									controls.get(j).getSuggestedControlsId() + "");
+						}
+						for (int i = 0; i < row.getListBoxExistingCtrl().getItemCount(); i++) {
+							if (Integer.parseInt(row.getListBoxExistingCtrl().getValue(i)) == auditWork
+									.getSuggestedControlsId().getSuggestedControlsId()) {
 								row.getListBoxExistingCtrl().setSelectedIndex(i);
 								break;
 							}
@@ -564,7 +573,8 @@ public class AuditWorkProg extends Composite {
 		});
 	}
 
-	private void getEmployeesForJob(final InternalAuditServiceAsync rpcService, final int selectedJobId, final VerticalPanel auditWorkNewContainer) {
+	private void getEmployeesForJob(final InternalAuditServiceAsync rpcService, final int selectedJobId,
+			final VerticalPanel auditWorkNewContainer) {
 		rpcService.fetchEmployeeJobRelations(selectedJobId, new AsyncCallback<ArrayList<JobEmployeeRelation>>() {
 
 			@Override

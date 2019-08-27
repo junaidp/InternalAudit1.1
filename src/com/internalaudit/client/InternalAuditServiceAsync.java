@@ -331,4 +331,6 @@ public interface InternalAuditServiceAsync {
 
 	void fetchAssesmentGrid(int jobId, AsyncCallback<ArrayList<AssesmentGridDbEntity>> callback);
 
+	void deleteActivityObjective(int jobId, AsyncCallback<String> callback);
+
 }

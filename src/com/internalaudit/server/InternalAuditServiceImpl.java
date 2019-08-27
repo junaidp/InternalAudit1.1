@@ -1722,4 +1722,10 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 
 		return rdbHelper.fetchAssesmentGrid(jobId);
 	}
+
+	@Override
+	public String deleteActivityObjective(int jobId) throws Exception {
+
+		return rdbHelper.deleteActivityObjective(jobId);
+	}
 }

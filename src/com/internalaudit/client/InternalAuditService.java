@@ -321,4 +321,7 @@ public interface InternalAuditService extends RemoteService {
 	String saveAssesmentGrid(ArrayList<AssesmentGridEntity> listAssesment, int jobid);
 
 	ArrayList<AssesmentGridDbEntity> fetchAssesmentGrid(int jobId) throws Exception;
+
+	// 2019 aug
+	String deleteActivityObjective(int jobId) throws Exception;
 }
