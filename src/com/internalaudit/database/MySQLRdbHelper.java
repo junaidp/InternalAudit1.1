@@ -3122,7 +3122,9 @@ public class MySQLRdbHelper {
 		try {
 			Criteria crit = session.createCriteria(RiskObjective.class);
 			crit.createAlias("objectiveId", "objective");
+			// 2019 aug
 			crit.add(Restrictions.eq("objective.objectiveId", objectiveId));
+			crit.add(Restrictions.eq("checked", false));
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				RiskObjective riskObjective = (RiskObjective) it.next();
@@ -3144,6 +3146,8 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(SuggestedControls.class);
 			crit.createAlias("riskId", "risk");
 			crit.add(Restrictions.eq("risk.riskId", riskId));
+			// 2019 aug
+			crit.add(Restrictions.eq("checked", false));
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				SuggestedControls suggestedControls = (SuggestedControls) it.next();
@@ -3678,7 +3682,10 @@ public class MySQLRdbHelper {
 				risk.setApprovedBy((Employee) session.get(Employee.class, risk.getApprovedBy().getEmployeeId()));
 				risk.setDate(new Date());
 			}
-
+			// 2019 aug
+			if (risk.getSuggestedControlsId().getSuggestedControlsId() == 0) {
+				risk.getSuggestedControlsId().setChecked(true);
+			}
 			session.saveOrUpdate(risk.getSuggestedControlsId());
 			session.saveOrUpdate(risk);
 			tr.commit();
@@ -8770,7 +8777,11 @@ public class MySQLRdbHelper {
 				JobCreation jobCreation = (JobCreation) session.get(JobCreation.class, jobId);
 				riskJobRelation.setJobCreationId(jobCreation);
 				riskJobRelation.setRiskjobrelationId(riskObjectives.get(i).getRiskJobRelation());
+
 				session.saveOrUpdate(riskObjectives.get(i).getObjectiveId());
+				if (riskObjectives.get(i).getRiskId() == 0) {
+					riskObjectives.get(i).setChecked(true);
+				}
 				session.saveOrUpdate(riskObjectives.get(i));
 				int riskJobRelationId = fetchExistingRiskJobRelation(jobId, riskObjectives.get(i).getRiskId());
 				riskJobRelation.setRiskjobrelationId(riskJobRelationId);
@@ -8802,6 +8813,11 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			for (int i = 0; i < suggestedControls.size(); i++) {
+				// 2019 aug
+				if (suggestedControls.get(i).getSuggestedControlsId() == 0) {
+					suggestedControls.get(i).setChecked(true);
+				}
+
 				session.saveOrUpdate(suggestedControls.get(i));
 				session.flush();
 			}

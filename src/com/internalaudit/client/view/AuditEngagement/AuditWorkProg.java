@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 //import com.google.gwt.rpc.client.RpcService;
@@ -13,7 +14,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -23,8 +23,10 @@ import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.util.MyUtil;
 import com.internalaudit.client.view.AmendmentPopup;
+import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.data.DataSetter;
+import com.internalaudit.client.widgets.AddIcon;
 import com.internalaudit.client.widgets.AuditWorkRow;
 import com.internalaudit.shared.AuditWork;
 import com.internalaudit.shared.Employee;
@@ -43,20 +45,23 @@ public class AuditWorkProg extends Composite {
 	interface AuditWorkProgUiBinder extends UiBinder<Widget, AuditWorkProg> {
 	}
 
+	// @UiField
+	// Button addMore;
+
 	@UiField
-	Button addMore;
+	HorizontalPanel panelAddIcon;
 
 	@UiField
 	VerticalPanel rows;
-
-	@UiField
-	Button save;
-	@UiField
-	Button submit;
-	@UiField
-	Button reject;
-	@UiField
-	Button approve;
+	//
+	// @UiField
+	// Button save;
+	// @UiField
+	// Button submit;
+	// @UiField
+	// Button reject;
+	// @UiField
+	// Button approve;
 	@UiField
 	HorizontalPanel approvalButtonsPanel;
 	@UiField
@@ -80,6 +85,11 @@ public class AuditWorkProg extends Composite {
 	ArrayList<JobEmployeeRelation> listData;
 	private ArrayList<AuditWork> savedAuditWorks;
 	private int selectedJobId;
+	private AddIcon addMore = new AddIcon();
+	private ButtonRound save = new ButtonRound("Save");
+	private ButtonRound submit = new ButtonRound("Submit");
+	private ButtonRound approve = new ButtonRound("Approve");
+	private ButtonRound reject = new ButtonRound("FeedBack");
 
 	public AuditWorkProg(final InternalAuditServiceAsync rpcService, final int selectedJobId, Employee employee,
 			ArrayList<SuggestedControls> controls, VerticalPanel auditWorkNewContainer) {
@@ -100,6 +110,14 @@ public class AuditWorkProg extends Composite {
 	}
 
 	private void setHandlers(final InternalAuditServiceAsync rpcService, final int selectedJobId) {
+		approvalButtonsPanel.getElement().getStyle().setMarginLeft(870, Unit.PX);
+		initiationButtonsPanel.getElement().getStyle().setMarginLeft(870, Unit.PX);
+		panelAddIcon.add(addMore);
+		initiationButtonsPanel.add(save);
+		initiationButtonsPanel.add(submit);
+		approvalButtonsPanel.add(approve);
+		approvalButtonsPanel.add(reject);
+
 		addMore.addClickHandler(new ClickHandler() {
 
 			@Override

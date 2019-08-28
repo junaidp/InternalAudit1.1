@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -119,14 +117,6 @@ public class KeyRiskViewNew extends VerticalPanel {
 		flex.setWidget(1, 4, btnSelect);
 		flex.setWidget(1, 5, delete);
 		add(flex);
-
-		delete.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-			}
-		});
 
 	}
 

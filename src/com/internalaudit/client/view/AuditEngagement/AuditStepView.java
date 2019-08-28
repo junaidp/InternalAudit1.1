@@ -8,7 +8,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -19,6 +18,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.view.AmendmentPopup;
+import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.data.AuditStepData;
 import com.internalaudit.client.widgets.ExceptionRow;
 import com.internalaudit.shared.AuditStep;
@@ -48,21 +48,23 @@ public class AuditStepView extends Composite {
 	@UiField
 	ListBox conclusion;
 
-	@UiField
-	Button save;
-	@UiField
-	Button submit;
-	@UiField
-	Button reject;
-	@UiField
-	Button approve;
+	// @UiField
+	// Button save;
+	// @UiField
+	// Button submit;
+	// @UiField
+	// Button reject;
+	// @UiField
+	// Button approve;
 	@UiField
 	HorizontalPanel approvalButtonsPanel;
 	@UiField
 	HorizontalPanel initiationButtonsPanel;
 
+	// @UiField
+	// Button addException;
 	@UiField
-	Button addException;
+	HorizontalPanel panelAddException;
 
 	@UiField
 	VerticalPanel exceptions;
@@ -88,6 +90,11 @@ public class AuditStepView extends Composite {
 	private AuditWork auditWork;
 	private SamplingAuditStep auditStepSamplingView;
 	private int selectedJobId;
+	private ButtonRound save = new ButtonRound("Save");
+	private ButtonRound submit = new ButtonRound("Submit");
+	private ButtonRound approve = new ButtonRound("Approve");
+	private ButtonRound reject = new ButtonRound("FeedBack");
+	private ButtonRound addException = new ButtonRound("Add Exception");
 
 	interface AuditViewUiBinder extends UiBinder<Widget, AuditStepView> {
 	}
@@ -96,10 +103,15 @@ public class AuditStepView extends Composite {
 
 		initWidget(uiBinder.createAndBindUi(this));
 		this.loggedInEmployee = loggedInEmployee;
+		addException.setWidth("110px");
 		this.auditWork = auditWork;
 		this.selectedJobId = selectedJobId;
 		performance.addStyleName("messageTextarea");
-
+		panelAddException.add(addException);
+		initiationButtonsPanel.add(save);
+		initiationButtonsPanel.add(submit);
+		approvalButtonsPanel.add(approve);
+		approvalButtonsPanel.add(reject);
 		auditStepSamplingView = new SamplingAuditStep(auditWork.getStepNo());
 		panelSamplingAudit.add(auditStepSamplingView);
 		auditStepSamplingView.getTxtAreaControl().setText(auditWork.getDescription());
@@ -304,19 +316,19 @@ public class AuditStepView extends Composite {
 		this.auditStepId = auditStepId;
 	}
 
-	public Button getReject() {
+	public ButtonRound getReject() {
 		return reject;
 	}
 
-	public void setReject(Button reject) {
+	public void setReject(ButtonRound reject) {
 		this.reject = reject;
 	}
 
-	public Button getApprove() {
+	public ButtonRound getApprove() {
 		return approve;
 	}
 
-	public void setApprove(Button approve) {
+	public void setApprove(ButtonRound approve) {
 		this.approve = approve;
 	}
 
@@ -328,11 +340,11 @@ public class AuditStepView extends Composite {
 		this.approvalButtonsPanel = approvalButtonsPanel;
 	}
 
-	public Button getSave() {
+	public ButtonRound getSave() {
 		return save;
 	}
 
-	public void setSave(Button save) {
+	public void setSave(ButtonRound save) {
 		this.save = save;
 	}
 

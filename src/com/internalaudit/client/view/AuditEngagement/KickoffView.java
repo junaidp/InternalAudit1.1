@@ -14,7 +14,6 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -453,8 +452,11 @@ public class KickoffView extends Composite {
 		panelButtons.addStyleName("w3-display-bottom w3-margin");
 		// final VerticalPanel addPanelExistingControl = new VerticalPanel();
 		// vpExistingControl.add(addPanelExistingControl);
+
 		vpExistingControl.add(userRiskControlContainer);
-		vpExistingControlContainer.add(new Label("---------Library----------"));
+		vpExistingControl.add(new Label("---------Library----------"));
+		// vpExistingControlContainer.add(new
+		// Label("---------Library----------"));
 		vpExistingControl.add(vpExistingControlContainer);
 		vps.add(vpExistingControl);
 
@@ -617,9 +619,12 @@ public class KickoffView extends Composite {
 		HorizontalPanel hpnlButton = new HorizontalPanel();
 		hpnlButton.add(btnSaveKeyRisk);
 		hpnlButton.add(btnSubmitKeyRisk);
+		hpnlButton.getElement().getStyle().setMarginLeft(895, Unit.PX);
+		hpnlButton.getElement().getStyle().setMarginTop(10, Unit.PX);
 		verticalPanelKeyRisks.add(hpnlButton);
+
 		// hpnlButton.getElement().getStyle().setMarginTop(30, Unit.PX);
-		hpnlButton.addStyleName("w3-display-bottom w3-margin");
+		// hpnlButton.addStyleName("w3-display-bottom w3-margin");
 
 		if (record.getEngagementDTO().getRiskObjectiveList().isEmpty()
 				&& record.getEngagementDTO().getSelectedObjectiveRisks().isEmpty()) {
@@ -693,8 +698,9 @@ public class KickoffView extends Composite {
 		final VerticalPanel usersActivityContainer = new VerticalPanel();
 		ButtonRound btnSaveActicityObjective = new ButtonRound("Save");
 		ButtonRound btnSubmitActicityObjective = new ButtonRound("Submit");
-		btnSaveActicityObjective.addStyleName("w3-display-bottom w3-margin");
-		btnSaveActicityObjective.getElement().getStyle().setMarginLeft(600, Unit.PX);
+		// btnSaveActicityObjective.addStyleName("w3-display-bottom w3-margin");
+		// btnSaveActicityObjective.getElement().getStyle().setMarginLeft(600,
+		// Unit.PX);
 		vpnlActicityObjective.setHeight("370px");
 
 		AddIcon btnAddAcitivityObjective = new AddIcon();
@@ -703,6 +709,7 @@ public class KickoffView extends Composite {
 		for (int j = 0; j < record.getEngagementDTO().getSelectedActivityObjectives().size(); j++) {
 			final ActivityObjectiveViewNew activityObjectiveView = new ActivityObjectiveViewNew();
 			activityObjectiveView.getBtnSelectActivity().setVisible(false);
+			activityObjectiveView.getDelete().setVisible(true);
 			activityObjectiveView.setData(record.getEngagementDTO().getSelectedActivityObjectives().get(j));
 			if (record.getEngagementDTO().getSelectedActivityObjectives().get(j)
 					.getStatus() == InternalAuditConstants.SUBMIT) {
@@ -733,13 +740,14 @@ public class KickoffView extends Composite {
 		}
 
 		// Our's LIBRARY
-		Label lblLibHeading = new Label("Library");
+		Label lblLibHeading = new Label("----Library----");
 		lblLibHeading.setVisible(false);
 		if (record.getEngagementDTO().getSelectedActivityObjectives().size() <= 0 || record.getEngagementDTO()
 				.getSelectedActivityObjectives().get(0).getStatus() == InternalAuditConstants.SAVED) {
 			lblLibHeading.setVisible(true);
 			for (int i = 0; i < record.getEngagementDTO().getActivityObjectiveList().size(); i++) {
 				final ActivityObjectiveViewNew activityObjectiveView = new ActivityObjectiveViewNew();
+
 				activityObjectiveView.setData(record.getEngagementDTO().getActivityObjectiveList().get(i));
 				// activityObjectiveView.disable();
 				vpnlActicityObjectiveContainer.add(activityObjectiveView);
@@ -813,10 +821,11 @@ public class KickoffView extends Composite {
 		vpnlActicityObjective.add(lblLibHeading);
 		vpnlActicityObjective.add(vpnlActicityObjectiveContainer);
 		HorizontalPanel hpnlButtons = new HorizontalPanel();
-		hpnlButtons.setWidth("400px");
+		// hpnlButtons.setWidth("900px");
 		hpnlButtons.add(btnSaveActicityObjective);
 		hpnlButtons.add(btnSubmitActicityObjective);
-		hpnlButtons.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		hpnlButtons.getElement().getStyle().setMarginLeft(860, Unit.PX);
+		// hpnlButtons.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		vpnlActicityObjective.add(hpnlButtons);
 		ScrollPanel v = new ScrollPanel();
 		v.setHeight("400px");

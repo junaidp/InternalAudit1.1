@@ -13,54 +13,55 @@ import javax.persistence.Table;
 
 @Entity
 
-@Table(name="riskcontrolmatrix")
+@Table(name = "riskcontrolmatrix")
 public class RiskControlMatrixEntity implements Serializable {
 
 	private static final long serialVersionUID = 8886793627137760454L;
-	
+
 	@Id
-	@Column(name="risk_id")
+	@Column(name = "risk_id")
 	private int riskId;
-	
-//	@Column(name="description")
-//	private String description;
-//	
-//	@Column(name="existing_control")
-//	private String existingControl;
-	
+
+	// @Column(name="description")
+	// private String description;
+	//
+	// @Column(name="existing_control")
+	// private String existingControl;
+
 	@JoinColumn(name = "suggestedControlsId")
 	@ManyToOne(fetch = FetchType.EAGER)
 	private SuggestedControls suggestedControlsId;
-	
-//	@Column(name="audit_engage_id")
-//	private int auditEngageId; // this represents id of AuditEngagement table .
+
+	// @Column(name="audit_engage_id")
+	// private int auditEngageId; // this represents id of AuditEngagement table
+	// .
 	@JoinColumn(name = "audit_engage_id")
 	@ManyToOne(fetch = FetchType.EAGER)
 	private AuditEngagement auditEngageId;
-	
+
 	@Column(name = "year")
 	private int year;
 
 	@Column(name = "companyId")
 	private int companyId;
-	
+
 	@Column(name = "status")
 	private int status;
-	
+
 	@JoinColumn(name = "initiatedBy")
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee initiatedBy;
-	
+
 	@JoinColumn(name = "approvedBy")
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee approvedBy;
-	
+
 	@Column(name = "feedback")
 	private String feedback;
-	
-	@Column(name="date")
+
+	@Column(name = "date")
 	private Date date;
-	
+
 	public int getRiskId() {
 		return riskId;
 	}

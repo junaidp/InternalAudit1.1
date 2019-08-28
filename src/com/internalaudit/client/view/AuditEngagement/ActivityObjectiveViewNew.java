@@ -37,12 +37,12 @@ public class ActivityObjectiveViewNew extends Composite {
 	}
 
 	public ActivityObjectiveViewNew() {
-
+		delete.setVisible(false);
 		initWidget(uiBinder.createAndBindUi(this));
 		lblHeading.setText("Detailed Scope and Process Understanding");
 		// lblHeading.addStyleName("w3-white");
 		lblReferenceNoData.setWidth("180px");
-
+		lblReferenceNoData.getElement().getStyle().setMarginLeft(5, Unit.PX);
 		lblReferenceNo.setText("Reference Number");
 
 		lblActivityObjective.setText("Activity Objective");
@@ -140,6 +140,7 @@ public class ActivityObjectiveViewNew extends Composite {
 		activityObjectiveSelected.getlblReferenceNoData().setText(lblReferenceNoData.getText());
 		activityObjectiveSelected.activityObjectiveId = activityObjectiveId;
 		activityObjectiveSelected.btnSelectActivity.setVisible(false);
+		activityObjectiveSelected.getDelete().setVisible(true);
 	}
 
 	public void disable() {

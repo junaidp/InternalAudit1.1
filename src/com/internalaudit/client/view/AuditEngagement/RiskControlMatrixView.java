@@ -48,7 +48,7 @@ public class RiskControlMatrixView extends VerticalPanel {
 		lblresidualRisk.setText("Control Risk");
 
 		// all the data views are defined here data from db
-		lblriskdata.setHeight("90px");
+		lblriskdata.setHeight("110px");
 		lblriskdata.setWidth("200px");
 
 		txtAreaControl.setWidth("400px");
