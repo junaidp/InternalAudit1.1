@@ -194,10 +194,9 @@ public class AuditStepData {
 							&& (auditStep.getStatus() == InternalAuditConstants.SUBMIT)) {
 						auditStepView.supervisorView();
 
-					} // else if (!(auditStep.getApprovedBy().getRollId() == 1)
-						// && loggedInEmployee.getRollId() == 1) {
-						// auditStepView.supervisorView();
-						// }
+					} else if (!(auditStep.getApprovedBy().getRollId() == 1) && loggedInEmployee.getRollId() == 1) {
+						auditStepView.supervisorView();
+					}
 
 					else if (auditStep.getInitiatedBy() != null
 							&& auditStep.getInitiatedBy().getEmployeeId() == loggedInEmployee.getEmployeeId()
@@ -205,7 +204,8 @@ public class AuditStepData {
 									|| auditStep.getStatus() == InternalAuditConstants.REJECTED)) {
 						auditStepView.enableFields();
 					}
-					if (auditStep.getStatus() == InternalAuditConstants.APPROVED) {
+					if (auditStep.getStatus() == InternalAuditConstants.APPROVED
+							&& auditStep.getApprovedBy().getRollId() == 1) {
 						auditStepView.disableFields(exceptions, auditSamplingView);
 					}
 					///

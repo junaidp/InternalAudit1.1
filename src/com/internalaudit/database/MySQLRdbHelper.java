@@ -4746,7 +4746,7 @@ public class MySQLRdbHelper {
 						(Employee) session.get(Employee.class, auditstep.getApprovedBy().getEmployeeId()));
 				auditstep.setDate(new Date());
 			}
-
+			// 2019 augu
 			session.saveOrUpdate(auditstep);
 			session.flush();
 			for (Exceptions exception : exceptions)
@@ -5673,8 +5673,7 @@ public class MySQLRdbHelper {
 				jobAuditStepApproved = true;
 				AuditStep auditStep = (AuditStep) it.next();
 				int status = auditStep.getStatus();
-				if (status == InternalAuditConstants.APPROVED
-						&& (auditStep.getApprovedBy().getRollId() == 1 || auditStep.getApprovedBy().getRollId() == 2)) {
+				if (status == InternalAuditConstants.APPROVED && auditStep.getApprovedBy().getRollId() == 1) {
 					jobAuditStepApproved = true;
 				} else {
 					jobAuditStepApproved = false;
