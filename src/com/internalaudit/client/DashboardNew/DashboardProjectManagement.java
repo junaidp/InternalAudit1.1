@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.client.view.Scheduling.JobsSchedulingView;
 import com.internalaudit.client.view.Scheduling.TimeLineJobsView;
 import com.internalaudit.client.widgets.AuditScheduling;
@@ -62,15 +63,19 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 		hm.put("Risk", listBoxRisk);
 
 		InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
+		final LoadingPopup loadingpopup = new LoadingPopup();
+		loadingpopup.display();
 		rpcService.fetchDashboard(hm, new AsyncCallback<DashBoardNewDTO>() {
 
 			@Override
 			public void onFailure(Throwable arg0) {
+				loadingpopup.remove();
 				Window.alert("fetchDashboard fail in DashnoardProjectManagement");
 			}
 
 			@Override
 			public void onSuccess(DashBoardNewDTO dashboard) {
+				loadingpopup.remove();
 				clear();
 				// ProjectManagementTimeLine timeLine = new
 				// ProjectManagementTimeLine();

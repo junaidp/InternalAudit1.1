@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.shared.DashBoardNewDTO;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
@@ -55,15 +56,20 @@ public class DashboardAuditWorkStatus extends VerticalLayoutContainer {
 		hm.put("Risk", listBoxRisk);
 
 		InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
+		final LoadingPopup loadingpopup = new LoadingPopup();
+		loadingpopup.display();
+
 		rpcService.fetchDashboard(hm, new AsyncCallback<DashBoardNewDTO>() {
 
 			@Override
 			public void onFailure(Throwable arg0) {
+				loadingpopup.remove();
 				Window.alert("fetchDashboard fail in DashboardAuditWorkStatus");
 			}
 
 			@Override
 			public void onSuccess(DashBoardNewDTO dashboard) {
+				loadingpopup.remove();
 				clear();
 
 				PortalIssue portalIssues = new PortalIssue(dashboard.getExceptions());

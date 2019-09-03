@@ -21,6 +21,7 @@ public class ReportAuditPlanning extends Composite implements IStackWidget {
 	ButtonRound btnSearch = new ButtonRound("Preview");
 
 	private ButtonRound btnExportToExcel = new ButtonRound("Export to Excel");
+	private ButtonRound btnExportToPDF = new ButtonRound("Export to PDF");
 
 	ButtonRound btnPrint = new ButtonRound("Print");
 	ButtonRound btnEmail = new ButtonRound("Email");
@@ -40,6 +41,10 @@ public class ReportAuditPlanning extends Composite implements IStackWidget {
 		btnExportToExcel.setWidth("130px");
 		btnSearch.setWidth("130px");
 		btnExportToExcel.addStyleName("w3-margin");
+
+		btnExportToPDF.setWidth("130px");
+
+		btnExportToPDF.addStyleName("w3-margin");
 		btnSearch.addStyleName("w3-margin");
 		vpnlMain = new VerticalPanel();
 		vpnlTable = new VerticalPanel();
@@ -66,6 +71,7 @@ public class ReportAuditPlanning extends Composite implements IStackWidget {
 		btnLine.add(btnSearch);
 		// btnLine.add(ancDetailed);
 		btnLine.add(btnExportToExcel);
+		btnLine.add(btnExportToPDF);
 		// btnLine.setWidth("600px");
 		// btnLine.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		btnLine.getElement().getStyle().setPaddingLeft(600, Unit.PX);
@@ -259,6 +265,14 @@ public class ReportAuditPlanning extends Composite implements IStackWidget {
 	@Override
 	public String getReportType() {
 		return "Report 1";
+	}
+
+	public ButtonRound getBtnExportToPDF() {
+		return btnExportToPDF;
+	}
+
+	public void setBtnExportToPDF(ButtonRound btnExportToPDF) {
+		this.btnExportToPDF = btnExportToPDF;
 	}
 
 }

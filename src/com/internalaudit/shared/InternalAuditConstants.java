@@ -53,5 +53,6 @@ public class InternalAuditConstants {
 	public static final String PATHTOUNSAVEDATTACHMENTS = "check";
 	public static final String PATHINFORMATIONREQUESTUPLOADS = "InformationRequestUploads";
 	public static final String SELECTALLROLES = "Please select atleast 1 employee from Management and 1 from Audit";
-
+	public static final String PDF = "pdf";
+	public static final String EXCEL = "excel";
 }

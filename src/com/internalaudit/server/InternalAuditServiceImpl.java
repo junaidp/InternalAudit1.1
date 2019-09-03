@@ -1143,9 +1143,9 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	}
 
 	@Override
-	public String exportToExcel(ArrayList<ExcelDataDTO> excelDataList) throws Exception {
+	public String exportAuditPlanningReport(ArrayList<ExcelDataDTO> excelDataList, String btn) throws Exception {
 		String rootDir = getServletContext().getRealPath("/");
-		return rdbHelper.exportToExcel(excelDataList, rootDir);
+		return rdbHelper.exportAuditPlanningReport(excelDataList, rootDir, btn);
 	}
 
 	@Override
@@ -1361,12 +1361,15 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	}
 
 	@Override
-	public String exportJobTimeAllocationReportToExcel(ArrayList<JobTimeAllocationReportDTO> excelDataList)
+	public String exportJobTimeAllocationReport(ArrayList<JobTimeAllocationReportDTO> excelDataList, String btn)
 			throws Exception {
 
 		if (isLoggedIn()) {
 			String rootDir = getServletContext().getRealPath("/");
-			return rdbHelper.exportJobTimeAllocationReportToExcel(excelDataList, rootDir);
+			// return
+			// rdbHelper.exportJobTimeAllocationReportToExcel(excelDataList,
+			// rootDir);
+			return rdbHelper.exportJobTimeAllocationReport(excelDataList, rootDir, btn);
 		} else {
 
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);
@@ -1375,10 +1378,11 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	}
 
 	@Override
-	public String exportExceptionsReportToExcel(ArrayList<ExceptionsReportDTO> excelDataList) throws Exception {
+	public String exportAuditExceptionsReport(ArrayList<ExceptionsReportDTO> excelDataList, String btn)
+			throws Exception {
 		if (isLoggedIn()) {
 			String rootDir = getServletContext().getRealPath("/");
-			return rdbHelper.exportExceptionsReportToExcel(excelDataList, rootDir);
+			return rdbHelper.exportAuditExceptionsReport(excelDataList, rootDir, btn);
 		} else {
 
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);
@@ -1387,11 +1391,11 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	}
 
 	@Override
-	public String exportAuditSchedulingReportToExcel(ArrayList<AuditSchedulingReportDTO> excelDataList)
+	public String exportAuditSchedulingReport(ArrayList<AuditSchedulingReportDTO> excelDataList, String btn)
 			throws Exception {
 		if (isLoggedIn()) {
 			String rootDir = getServletContext().getRealPath("/");
-			return rdbHelper.exportAuditSchedulingReportToExcel(excelDataList, rootDir);
+			return rdbHelper.exportAuditSchedulingReport(excelDataList, btn, rootDir);
 		} else {
 
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);

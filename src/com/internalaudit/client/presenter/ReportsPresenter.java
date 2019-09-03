@@ -45,6 +45,7 @@ import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.ExcelDataDTO;
 import com.internalaudit.shared.Exceptions;
 import com.internalaudit.shared.ExceptionsReportDTO;
+import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.JobTimeAllocationReportDTO;
 import com.internalaudit.shared.Strategic;
@@ -59,6 +60,8 @@ public class ReportsPresenter implements Presenter
 	private ArrayList<Strategic> strategicReportData;
 	private ArrayList<JobCreation> jobTimeAllocationDataList;
 	private ArrayList<Exceptions> exceptionsDataList;
+	private String btnPdf = InternalAuditConstants.PDF;
+	private String btnExcel = InternalAuditConstants.EXCEL;
 
 	private Employee loggedInEmployee;
 	private Logger logger = Logger.getLogger("ReportsPresenter");
@@ -233,156 +236,292 @@ public class ReportsPresenter implements Presenter
 		 * 
 		 * } });
 		 */
-
+		// auditplanningreport
 		display.getReport1().getBtnExportToExcel().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
+
+				ArrayList<ExcelDataDTO> excelDataList = auditPlanningReportData();
 				final LoadingPopup loadingpopup = new LoadingPopup();
 				loadingpopup.display();
-				ArrayList<ExcelDataDTO> excelDataList = new ArrayList<ExcelDataDTO>();
-				for (int i = 0; i < strategicReportData.size(); i++) {
-					ExcelDataDTO excelData = new ExcelDataDTO();
-					excelData.setAuditableUnit(strategicReportData.get(i).getAuditableUnit());
-					excelData.setDivision(strategicReportData.get(i).getDivisionName());
-					excelData.setDomain(strategicReportData.get(i).getDomain());
-					// excelData.setObjective(strategicReportData.get(i).getStrategicObjective());
-					excelData.setObjective(strategicReportData.get(i).getAuditableUnit());
-					excelData.setRiskAssesment(strategicReportData.get(i).getRating());
-					excelDataList.add(excelData);
 
-				}
-				rpcService.exportToExcel(excelDataList, new AsyncCallback<String>() {
-
-					@Override
-					public void onFailure(Throwable arg0) {
-						loadingpopup.remove();
-						Window.alert("excel export failed");
-					}
-
-					@Override
-					public void onSuccess(String arg0) {
-						loadingpopup.remove();
-						Window.open("InternalAuditReport/report.xls", "_blank", "");
-						// Window.open("/report.xls", "_blank", "");
-					}
-				});
+				exportAuditPlanningReport(excelDataList, loadingpopup, btnExcel);
 
 			}
+
 		});
 
+		display.getReport1().getBtnExportToPDF().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+
+				ArrayList<ExcelDataDTO> excelDataList = auditPlanningReportData();
+				final LoadingPopup loadingpopup = new LoadingPopup();
+				loadingpopup.display();
+
+				exportAuditPlanningReport(excelDataList, loadingpopup, btnPdf);
+
+			}
+
+		});
+
+		// auditschedulingreport
 		display.getReport2().getBtnExportToExcel().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
+
+				ArrayList<AuditSchedulingReportDTO> excelDataList = auditSchedulingReportData();
 				final LoadingPopup loadingpopup = new LoadingPopup();
 				loadingpopup.display();
-				ArrayList<AuditSchedulingReportDTO> excelDataList = new ArrayList<AuditSchedulingReportDTO>();
-				for (int i = 0; i < strategicReportData.size(); i++) {
-					AuditSchedulingReportDTO excelData = new AuditSchedulingReportDTO();
-					excelData.setDivision(strategicReportData.get(i).getDivisionName());
-					excelData.setDomain(strategicReportData.get(i).getDomain());
-					excelData.setJob(strategicReportData.get(i).getJobName());
-					String employees = "";
-					for (int j = 0; j < strategicReportData.get(i).getEmployees().size(); j++) {
-						if (employees == "") {
-							employees = employees + strategicReportData.get(i).getEmployees().get(j);
-						} else {
-							employees = employees + ", " + strategicReportData.get(i).getEmployees().get(j);
-						}
-					}
-					excelData.setResources(employees);
-					excelData.setRiskAssesment(strategicReportData.get(i).getRiskFactor().getRiskName());
-					excelData.setTimeAllocated(strategicReportData.get(i).getEstimatedWeeks());
-					excelDataList.add(excelData);
-				}
-				rpcService.exportAuditSchedulingReportToExcel(excelDataList, new AsyncCallback<String>() {
 
-					@Override
-					public void onFailure(Throwable arg0) {
-						loadingpopup.remove();
-						Window.alert("excel export failed");
-					}
-
-					@Override
-					public void onSuccess(String arg0) {
-						loadingpopup.remove();
-						Window.open("InternalAuditReport/report.xls", "_blank", "");
-						// Window.open("/report.xls", "_blank", "");
-					}
-				});
+				exportAuditSchedulingReport(excelDataList, loadingpopup, btnExcel);
 
 			}
+
 		});
 
+		// 2019 sep
+		display.getReport2().getBtnExportToPDF().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+
+				ArrayList<AuditSchedulingReportDTO> excelDataList = auditSchedulingReportData();
+				final LoadingPopup loadingpopup = new LoadingPopup();
+				loadingpopup.display();
+
+				exportAuditSchedulingReport(excelDataList, loadingpopup, btnPdf);
+
+			}
+
+		});
+		// jobtimeestimationreport
 		display.getReport4().getBtnExportToExcel().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
+
+				ArrayList<JobTimeAllocationReportDTO> excelDataList = jobTimeAllocationReportData();
 				final LoadingPopup loadingpopup = new LoadingPopup();
 				loadingpopup.display();
-				ArrayList<JobTimeAllocationReportDTO> excelDataList = new ArrayList<JobTimeAllocationReportDTO>();
-				for (int i = 0; i < jobTimeAllocationDataList.size(); i++) {
-					JobTimeAllocationReportDTO excelData = new JobTimeAllocationReportDTO();
-					excelData.setJob(jobTimeAllocationDataList.get(i).getJobName());
-					excelData.setWeeks(jobTimeAllocationDataList.get(i).getEstimatedWeeks() + "");
 
-					excelDataList.add(excelData);
-				}
-				rpcService.exportJobTimeAllocationReportToExcel(excelDataList, new AsyncCallback<String>() {
-
-					@Override
-					public void onFailure(Throwable arg0) {
-						loadingpopup.remove();
-						Window.alert("excel export failed");
-					}
-
-					@Override
-					public void onSuccess(String arg0) {
-						loadingpopup.remove();
-						Window.open("InternalAuditReport/report.xls", "_blank", "");
-						// Window.open("/report.xls", "_blank", "");
-					}
-				});
+				exportJobTimeAllocationReport(excelDataList, loadingpopup, btnExcel);
 
 			}
+
 		});
 
+		display.getReport4().getBtnExportToPDF().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+
+				ArrayList<JobTimeAllocationReportDTO> excelDataList = jobTimeAllocationReportData();
+
+				final LoadingPopup loadingpopup = new LoadingPopup();
+				loadingpopup.display();
+
+				exportJobTimeAllocationReport(excelDataList, loadingpopup, btnPdf);
+			}
+
+		});
+		// auditexceptionreport
 		display.getReport5().getBtnExportToExcel().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
+
+				ArrayList<ExceptionsReportDTO> excelDataList = exceptionReportData();
 				final LoadingPopup loadingpopup = new LoadingPopup();
 				loadingpopup.display();
-				ArrayList<ExceptionsReportDTO> excelDataList = new ArrayList<ExceptionsReportDTO>();
-				for (int i = 0; i < exceptionsDataList.size(); i++) {
-					ExceptionsReportDTO excelData = new ExceptionsReportDTO();
-					excelData.setExceptionName(exceptionsDataList.get(i).getDetail());
-					excelData.setAuditee(exceptionsDataList.get(i).getResponsiblePerson().getEmployeeName());
-					excelData.setExceptionStatus(exceptionsDataList.get(i).getDisplayStatus());
-					excelData.setJobName(exceptionsDataList.get(i).getJobName());
-
-					excelDataList.add(excelData);
-				}
-				rpcService.exportExceptionsReportToExcel(excelDataList, new AsyncCallback<String>() {
-
-					@Override
-					public void onFailure(Throwable arg0) {
-						loadingpopup.remove();
-						Window.alert("excel export failed");
-					}
-
-					@Override
-					public void onSuccess(String arg0) {
-						loadingpopup.remove();
-						Window.open("InternalAuditReport/report.xls", "_blank", "");
-						// Window.open("/report.xls", "_blank", "");
-					}
-				});
+				exportReportAuditException(excelDataList, loadingpopup, btnExcel);
 
 			}
+
 		});
 
+		display.getReport5().getBtnExportToPDF().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+
+				ArrayList<ExceptionsReportDTO> excelDataList = exceptionReportData();
+				final LoadingPopup loadingpopup = new LoadingPopup();
+				loadingpopup.display();
+				exportReportAuditException(excelDataList, loadingpopup, btnPdf);
+
+			}
+
+		});
+
+	}
+
+	// 2019 sep
+	// rpc calls and methods new are created here
+	private ArrayList<ExcelDataDTO> auditPlanningReportData() {
+		ArrayList<ExcelDataDTO> excelDataList = new ArrayList<ExcelDataDTO>();
+		for (int i = 0; i < strategicReportData.size(); i++) {
+			ExcelDataDTO excelData = new ExcelDataDTO();
+			excelData.setAuditableUnit(strategicReportData.get(i).getAuditableUnit());
+			excelData.setDivision(strategicReportData.get(i).getDivisionName());
+			excelData.setDomain(strategicReportData.get(i).getDomain());
+			// excelData.setObjective(strategicReportData.get(i).getStrategicObjective());
+			excelData.setObjective(strategicReportData.get(i).getAuditableUnit());
+			excelData.setRiskAssesment(strategicReportData.get(i).getRating());
+			excelDataList.add(excelData);
+
+		}
+		return excelDataList;
+	}
+
+	private ArrayList<AuditSchedulingReportDTO> auditSchedulingReportData() {
+		ArrayList<AuditSchedulingReportDTO> excelDataList = new ArrayList<AuditSchedulingReportDTO>();
+		for (int i = 0; i < strategicReportData.size(); i++) {
+			AuditSchedulingReportDTO excelData = new AuditSchedulingReportDTO();
+			excelData.setDivision(strategicReportData.get(i).getDivisionName());
+			excelData.setDomain(strategicReportData.get(i).getDomain());
+			excelData.setJob(strategicReportData.get(i).getJobName());
+			String employees = "";
+			for (int j = 0; j < strategicReportData.get(i).getEmployees().size(); j++) {
+				if (employees == "") {
+					employees = employees + strategicReportData.get(i).getEmployees().get(j);
+				} else {
+					employees = employees + ", " + strategicReportData.get(i).getEmployees().get(j);
+				}
+			}
+			excelData.setResources(employees);
+			excelData.setRiskAssesment(strategicReportData.get(i).getRiskFactor().getRiskName());
+			excelData.setTimeAllocated(strategicReportData.get(i).getEstimatedWeeks());
+			excelDataList.add(excelData);
+		}
+		return excelDataList;
+	}
+
+	private ArrayList<JobTimeAllocationReportDTO> jobTimeAllocationReportData() {
+		ArrayList<JobTimeAllocationReportDTO> excelDataList = new ArrayList<JobTimeAllocationReportDTO>();
+		for (int i = 0; i < jobTimeAllocationDataList.size(); i++) {
+			JobTimeAllocationReportDTO excelData = new JobTimeAllocationReportDTO();
+			excelData.setJob(jobTimeAllocationDataList.get(i).getJobName());
+			excelData.setWeeks(jobTimeAllocationDataList.get(i).getEstimatedWeeks() + "");
+
+			excelDataList.add(excelData);
+
+		}
+		return excelDataList;
+	}
+
+	private ArrayList<ExceptionsReportDTO> exceptionReportData() {
+		ArrayList<ExceptionsReportDTO> excelDataList = new ArrayList<ExceptionsReportDTO>();
+		for (int i = 0; i < exceptionsDataList.size(); i++) {
+			ExceptionsReportDTO excelData = new ExceptionsReportDTO();
+			excelData.setExceptionName(exceptionsDataList.get(i).getDetail());
+			excelData.setAuditee(exceptionsDataList.get(i).getResponsiblePerson().getEmployeeName());
+			excelData.setExceptionStatus(exceptionsDataList.get(i).getDisplayStatus());
+			excelData.setJobName(exceptionsDataList.get(i).getJobName());
+
+			excelDataList.add(excelData);
+		}
+		return excelDataList;
+	}
+
+	private void exportAuditPlanningReport(ArrayList<ExcelDataDTO> excelDataList, final LoadingPopup loadingpopup,
+			String btn) {
+		rpcService.exportAuditPlanningReport(excelDataList, btn, new AsyncCallback<String>() {
+
+			@Override
+			public void onFailure(Throwable arg0) {
+				loadingpopup.remove();
+				Window.alert(" auditplanningreport failed");
+			}
+
+			@Override
+			public void onSuccess(String report) {
+				loadingpopup.remove();
+				if (report.contains(InternalAuditConstants.PDF)) {
+					Window.open("InternalAuditReport/reportauditplanningPDF.pdf", "_blank", "");
+
+				} else {
+
+					Window.open("InternalAuditReport/reportauditplanning.xls", "_blank", "");
+				}
+			}
+		});
+	}
+
+	private void exportAuditSchedulingReport(ArrayList<AuditSchedulingReportDTO> excelDataList,
+			final LoadingPopup loadingpopup, String btn) {
+		rpcService.exportAuditSchedulingReport(excelDataList, btn, new AsyncCallback<String>() {
+
+			@Override
+			public void onFailure(Throwable arg0) {
+				loadingpopup.remove();
+				Window.alert(" auditScheduling failed");
+			}
+
+			@Override
+			public void onSuccess(String report) {
+				loadingpopup.remove();
+
+				if (report.contains(InternalAuditConstants.PDF)) {
+					Window.open("InternalAuditReport/reportauditschedulingPDF.pdf", "_blank", "");
+
+				} else {
+
+					Window.open("InternalAuditReport/reportauditscheduling.xls", "_blank", "");
+				}
+			}
+		});
+	}
+
+	private void exportJobTimeAllocationReport(ArrayList<JobTimeAllocationReportDTO> excelDataList,
+			final LoadingPopup loadingpopup, String btn) {
+		rpcService.exportJobTimeAllocationReport(excelDataList, btn, new AsyncCallback<String>() {
+
+			@Override
+			public void onFailure(Throwable arg0) {
+				loadingpopup.remove();
+				Window.alert("jobtimeallocation export failed");
+			}
+
+			@Override
+			public void onSuccess(String report) {
+				loadingpopup.remove();
+				if (report.contains(InternalAuditConstants.PDF)) {
+					Window.open("InternalAuditReport/reportjobtimePDF.pdf", "_blank", "");
+
+				} else {
+
+					Window.open("InternalAuditReport/reportjobtime.xls", "_blank", "");
+				}
+			}
+		});
+	}
+
+	private void exportReportAuditException(ArrayList<ExceptionsReportDTO> excelDataList,
+			final LoadingPopup loadingpopup, String btn) {
+		rpcService.exportAuditExceptionsReport(excelDataList, btn, new AsyncCallback<String>() {
+
+			@Override
+			public void onFailure(Throwable arg0) {
+				loadingpopup.remove();
+				Window.alert("excel export failed");
+			}
+
+			@Override
+			public void onSuccess(String report) {
+				loadingpopup.remove();
+				if (report.contains(InternalAuditConstants.PDF)) {
+					Window.open("InternalAuditReport/reportauditexceptionPDF.pdf", "_blank", "");
+
+				} else {
+
+					Window.open("InternalAuditReport/reportauditexception.xls", "_blank", "");
+				}
+			}
+		});
 	}
 
 	private void setReport3Handlers() {

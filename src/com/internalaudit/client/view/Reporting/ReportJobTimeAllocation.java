@@ -22,6 +22,8 @@ public class ReportJobTimeAllocation extends Composite implements IStackWidget {
 
 	private ButtonRound btnExportToExcel = new ButtonRound("Export to Excel");
 
+	private ButtonRound btnExportToPDF = new ButtonRound("Export to PDF");
+
 	ButtonRound btnPrint = new ButtonRound("Print");
 	ButtonRound btnEmail = new ButtonRound("Email");
 	// Anchor ancDetailed = new Anchor("Show Detailed View");
@@ -40,6 +42,9 @@ public class ReportJobTimeAllocation extends Composite implements IStackWidget {
 		btnSearch.addStyleName("w3-margin");
 		btnExportToExcel.addStyleName("w3-margin");
 		btnExportToExcel.setWidth("130px");
+		btnExportToPDF.addStyleName("w3-margin");
+		btnExportToPDF.setWidth("130px");
+
 		btnSearch.setWidth("130px");
 		vpnlMain = new VerticalPanel();
 		vpnlTable = new VerticalPanel();
@@ -178,6 +183,7 @@ public class ReportJobTimeAllocation extends Composite implements IStackWidget {
 		btnLine.add(btnSearch);
 		// btnLine.add(ancDetailed);
 		btnLine.add(btnExportToExcel);
+		btnLine.add(btnExportToPDF);
 
 		// btnBelowTable.add(padd);
 		// btnBelowTable.add(btnPrint);
@@ -277,6 +283,14 @@ public class ReportJobTimeAllocation extends Composite implements IStackWidget {
 
 	public void setLstResource(ListBox lstResource) {
 		this.lstResource = lstResource;
+	}
+
+	public ButtonRound getBtnExportToPDF() {
+		return btnExportToPDF;
+	}
+
+	public void setBtnExportToPDF(ButtonRound btnExportToPDF) {
+		this.btnExportToPDF = btnExportToPDF;
 	}
 
 }

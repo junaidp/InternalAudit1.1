@@ -2,6 +2,8 @@ package com.internalaudit.client.presenter;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -34,176 +36,172 @@ import com.internalaudit.client.widgets.AuditScheduling;
 import com.internalaudit.shared.EmployeeJobDTO;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.JobsOfEmployee;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.internalaudit.shared.TimeOutException;
 
-
 public class AuditListingPresenter implements Presenter {
-
 
 	private final InternalAuditServiceAsync rpcService;
 	private final HandlerManager eventBus;
 	private final Display display;
 	private Logger logger = Logger.getLogger("AuditListingPresenter");
-	int count=0;
+	int count = 0;
 	DecoratedPopupPanel popup;
-	public interface Display 
-	{
+
+	public interface Display {
 		Widget asWidget();
+
 		Object getHtmlErrorMessage = null;
+
 		Button getBtnBack();
+
 		Anchor getResourceButton();
+
 		Anchor getJobsButton();
-	}  
+	}
 
-
-	public AuditListingPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, Display view) 
-	{
+	public AuditListingPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, Display view) {
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.display = view;
 		display.getBtnBack().setVisible(false);
 	}
 
-
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();
 
 		container.add(display.asWidget());
-		
-		display.getBtnBack().addClickHandler(new ClickHandler(){
+
+		display.getBtnBack().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				History.newItem("auditScheduling");
-			}});
-		
+			}
+		});
 
-		display.getJobsButton().addClickHandler(new ClickHandler(){
+		display.getJobsButton().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				JobsSchedulingView jobSchedulingView = new JobsSchedulingView();
-				
+
 				fetchJobs(jobSchedulingView);
-			}});
-		
-		display.getResourceButton().addClickHandler(new ClickHandler(){
+			}
+		});
+
+		display.getResourceButton().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				JobsSchedulingView resourceSchedulingView = new JobsSchedulingView();
-				
+
 				fetchEmployees(resourceSchedulingView);
-			}});
-		
-		
-		
+			}
+		});
 
 	}
-	
-	public void fetchEmployees(final JobsSchedulingView resourceSchedulingView){
-		
-		rpcService.fetchEmployeesWithJobs(new AsyncCallback<ArrayList<JobsOfEmployee>>(){
+
+	public void fetchEmployees(final JobsSchedulingView resourceSchedulingView) {
+		final LoadingPopup loadingpopup = new LoadingPopup();
+		loadingpopup.display();
+		rpcService.fetchEmployeesWithJobs(new AsyncCallback<ArrayList<JobsOfEmployee>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				
 
+				loadingpopup.remove();
 				logger.log(Level.INFO, "FAIL: fetchEmployeesWithJobs .Inside Audit AuditAreaspresenter");
-				if(caught instanceof TimeOutException){
+				if (caught instanceof TimeOutException) {
 					History.newItem("login");
-				}else{
+				} else {
 					System.out.println("FAIL: fetchEmployeesWithJobs .Inside AuditAreaspresenter");
-					Window.alert("FAIL: fetchEmployeesWithJobs.");// After FAIL ... write RPC Name  NOT Method Name..
+					Window.alert("FAIL: fetchEmployeesWithJobs.");// After FAIL
+																	// ... write
+																	// RPC Name
+																	// NOT
+																	// Method
+																	// Name..
 				}
-				
-				
+
 			}
 
 			@Override
 			public void onSuccess(ArrayList<JobsOfEmployee> result) {
+				loadingpopup.remove();
 				new PopupsViewWhite(resourceSchedulingView);
-			//popup.setWidth("1100px");
+				// popup.setWidth("1100px");
 				addHeadingResource(resourceSchedulingView);
-//				for ( int i = 1; i< result.size(); i++)
-				
-				for ( int i = 0; i< result.size(); i++)
-				{
+				// for ( int i = 1; i< result.size(); i++)
+
+				for (int i = 0; i < result.size(); i++) {
 					final ResourceSchedilingView auditScheduling = new ResourceSchedilingView();
 					auditScheduling.getResourceName().setText(result.get(i).getEmployee().getEmployeeName());
-					
+
 					auditScheduling.setEmployeeId(result.get(i).getEmployee().getEmployeeId());
 					resourceSchedulingView.getListContainer().add(auditScheduling);
 					auditScheduling.getTimeLineContainer().add(new TimeLineResourceView(result.get(i).getJobs()));
-					
+
 				}
-			
-			}});
+
+			}
+		});
 	}
 
 	private void fetchJobs(final JobsSchedulingView jobSchedulingView) {
-		rpcService.fetchJobs(new AsyncCallback<ArrayList<JobCreation>>(){
+		rpcService.fetchJobs(new AsyncCallback<ArrayList<JobCreation>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 
-
 				logger.log(Level.INFO, "FAIL: fetchJobs .Inside Audit AuditAreaspresenter");
-				if(caught instanceof TimeOutException){
+				if (caught instanceof TimeOutException) {
 					History.newItem("login");
-				}else{
+				} else {
 					System.out.println("FAIL: fetchJobs .Inside AuditAreaspresenter");
-					Window.alert("FAIL: fetchJobs");// After FAIL ... write RPC Name  NOT Method Name..
+					Window.alert("FAIL: fetchJobs");// After FAIL ... write RPC
+													// Name NOT Method Name..
 				}
-				
-				
+
 			}
 
 			@Override
 			public void onSuccess(ArrayList<JobCreation> result) {
 				new PopupsViewWhite(jobSchedulingView);
-				//popup.setWidth("1000px");
-		
+				// popup.setWidth("1000px");
+
 				addHeading(jobSchedulingView);
-				AuditScheduling auditSchedulingTemp=null;
-				for ( int i =0; i< result.size(); i++)
-				{
-					 final AuditScheduling auditScheduling = new AuditScheduling();
+				AuditScheduling auditSchedulingTemp = null;
+				for (int i = 0; i < result.size(); i++) {
+					final AuditScheduling auditScheduling = new AuditScheduling();
 					auditScheduling.getJobName().setText(result.get(i).getJobName());
-					auditScheduling.setEstimatedWeeks(result.get(i).getEstimatedWeeks());	
+					auditScheduling.setEstimatedWeeks(result.get(i).getEstimatedWeeks());
 
 					auditScheduling.setJobId(result.get(i).getJobCreationId());
 					auditScheduling.getEndDate().setText(result.get(i).getEndDate());///
 					auditScheduling.getStartDate().getTextBox().setText(result.get(i).getStartDate());
-					
+
 					jobSchedulingView.getListContainer().add(auditScheduling);
 					auditScheduling.getTimeLineContainer().add(new TimeLineJobsView(result.get(i).getTimeLineDates()));
-//					setHandlers(auditScheduling);
-					if(result.get(i).isApproved()){
+					// setHandlers(auditScheduling);
+					if (result.get(i).isApproved()) {
 						auditScheduling.getStartDate().setEnabled(false);
 					}
-					
+
 					/////////////////////
-					if(auditSchedulingTemp==null || auditSchedulingTemp!=auditScheduling){
-					auditSchedulingTemp = auditScheduling;
-					
-					auditScheduling.getStartDate().addValueChangeHandler(new ValueChangeHandler<Date>() {
+					if (auditSchedulingTemp == null || auditSchedulingTemp != auditScheduling) {
+						auditSchedulingTemp = auditScheduling;
 
+						auditScheduling.getStartDate().addValueChangeHandler(new ValueChangeHandler<Date>() {
 
-						@Override
-						public void onValueChange(ValueChangeEvent<Date> event) {
-							
-							getEndDate(auditScheduling, event);
-						}
+							@Override
+							public void onValueChange(ValueChangeEvent<Date> event) {
 
-						
-					});
-					///////////////////////
+								getEndDate(auditScheduling, event);
+							}
+
+						});
+						///////////////////////
 					}
 				}
 			}
@@ -228,81 +226,75 @@ public class AuditListingPresenter implements Presenter {
 
 		Label endDate = new Label("End Date");
 		headingPanel.add(endDate);
-		endDate.setWidth("90px");		
+		endDate.setWidth("90px");
 
-		String[] names  = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}; 
+		String[] names = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
 		FlexTable flexHeading = new FlexTable();
 		flexHeading.setCellSpacing(0);
 		flexHeading.setCellPadding(0);
 		flexHeading.setBorderWidth(0);
-		for ( int i = 0; i < 12 ; i++)
-		{
+		for (int i = 0; i < 12; i++) {
 			flexHeading.getCellFormatter().setWidth(0, i, "66px");
 			Label month = new Label(names[i]);
 			month.setWordWrap(false);
-			flexHeading.setWidget(0, i , month);
+			flexHeading.setWidget(0, i, month);
 			flexHeading.addStyleName("list-heading");
 
-			//Months with 5 weeks
-			if(month.getText().equals("Mar") || month.getText().equals("May")|| month.getText().equals("Jul") || month.getText().equals("Oct")){
+			// Months with 5 weeks
+			if (month.getText().equals("Mar") || month.getText().equals("May") || month.getText().equals("Jul")
+					|| month.getText().equals("Oct")) {
 				flexHeading.getCellFormatter().setWidth(0, i, "86px");
 			}
-			if(month.getText().equals("Dec")){
+			if (month.getText().equals("Dec")) {
 				flexHeading.getCellFormatter().setWidth(0, i, "90px");
 			}
 		}
 		headingPanel.addStyleName("list-heading");
 		headingPanel.setWidth("428px");
 		jobSchedulingView.getHeadingsPanel().add(headingPanel);
-		jobSchedulingView.getHeadingsPanel().add(flexHeading); 
-
+		jobSchedulingView.getHeadingsPanel().add(flexHeading);
 
 	}
-	
-	
+
 	private void addHeadingResource(JobsSchedulingView jobSchedulingView) {
 		HorizontalPanel headingPanel = new HorizontalPanel();
 		headingPanel.setWidth("1100px");
-		
+
 		Label employeeName = new Label("Employee Name");
 		employeeName.setWidth("160px");
 		headingPanel.add(employeeName);
 
-		String[] names  = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}; 
+		String[] names = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
 		FlexTable flexHeading = new FlexTable();
 		flexHeading.setCellSpacing(0);
 		flexHeading.setCellPadding(0);
 		flexHeading.setBorderWidth(0);
-		for ( int i = 0; i < 12 ; i++)
-		{
+		for (int i = 0; i < 12; i++) {
 			flexHeading.getCellFormatter().setWidth(0, i, "66px");
 			Label month = new Label(names[i]);
 			month.setWordWrap(false);
-			flexHeading.setWidget(0, i , month);
+			flexHeading.setWidget(0, i, month);
 			flexHeading.addStyleName("list-heading");
 
-			//Months with 5 weeks
-			if(month.getText().equals("Mar") || month.getText().equals("May")|| month.getText().equals("Jul") || month.getText().equals("Oct")){
+			// Months with 5 weeks
+			if (month.getText().equals("Mar") || month.getText().equals("May") || month.getText().equals("Jul")
+					|| month.getText().equals("Oct")) {
 				flexHeading.getCellFormatter().setWidth(0, i, "86px");
 			}
-			if(month.getText().equals("Dec")){
+			if (month.getText().equals("Dec")) {
 				flexHeading.getCellFormatter().setWidth(0, i, "110px");
 			}
 		}
 		headingPanel.addStyleName("list-heading");
 		headingPanel.setWidth("300px");
 		jobSchedulingView.getHeadingsPanel().add(headingPanel);
-		jobSchedulingView.getHeadingsPanel().add(flexHeading); 
-
+		jobSchedulingView.getHeadingsPanel().add(flexHeading);
 
 	}
 
-	public void setHandlers(final AuditScheduling auditScheduling){
-		
-		
-
+	public void setHandlers(final AuditScheduling auditScheduling) {
 
 		auditScheduling.getSaveButton().addClickHandler(new ClickHandler() {
 
@@ -310,114 +302,119 @@ public class AuditListingPresenter implements Presenter {
 			public void onClick(ClickEvent event) {
 				System.out.println("in button");
 
-//				saveEndDate(auditScheduling);
+				// saveEndDate(auditScheduling);
 
 			}
 
-			
 		});
-		
-		
 
-
-
-		
 	}
-	
-	private void getEndDate(final AuditScheduling auditScheduling,
-			ValueChangeEvent<Date> event) {
+
+	private void getEndDate(final AuditScheduling auditScheduling, ValueChangeEvent<Date> event) {
 		System.out.println("in value change");
-		
+
 		rpcService.getEndDate(event.getValue(), auditScheduling.getEstimatedWeeks(), new AsyncCallback<String>() {
 
 			@Override
 			public void onSuccess(String result) {
 				auditScheduling.getEndDate().setText(result);
 				saveEndDate(auditScheduling);
-				
+
 			}
 
 			@Override
 			public void onFailure(Throwable caught) {
 				System.out.println("FAIL: rpcService.getEndDate in AuditListing Presenter");
-				
 
 				logger.log(Level.INFO, "FAIL: getEndDate .Inside Audit AuditAreaspresenter");
-				if(caught instanceof TimeOutException){
+				if (caught instanceof TimeOutException) {
 					History.newItem("login");
-				}else{
+				} else {
 					System.out.println("FAIL: getEndDate .Inside AuditAreaspresenter");
-					Window.alert("FAIL: getEndDate");// After FAIL ... write RPC Name  NOT Method Name..
+					Window.alert("FAIL: getEndDate");// After FAIL ... write RPC
+														// Name NOT Method
+														// Name..
 				}
-				
-				
+
 			}
 		});
 	}
-	
+
 	private void saveEndDate(final AuditScheduling auditScheduling) {
-		
+
 		final LoadingPopup loadingPopup = new LoadingPopup();
 		loadingPopup.display();
-		
-		rpcService.updateEndDateForJob( 
-				auditScheduling.getJobId(), 
-				auditScheduling.getStartDate().getTextBox().getText(),
-				auditScheduling.getEndDate().getText(), 
+
+		rpcService.updateEndDateForJob(auditScheduling.getJobId(),
+				auditScheduling.getStartDate().getTextBox().getText(), auditScheduling.getEndDate().getText(),
 
 				new AsyncCallback<JobCreation>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						
+
 						loadingPopup.remove();
 						logger.log(Level.INFO, "FAIL: updateEndDateForJob .Inside Audit AuditAreaspresenter");
-						if(caught instanceof TimeOutException){
+						if (caught instanceof TimeOutException) {
 							History.newItem("login");
-						}else{
+						} else {
 							System.out.println("FAIL: updateEndDateForJob .Inside AuditAreaspresenter");
-							Window.alert("FAIL: updateEndDateForJob");// After FAIL ... write RPC Name  NOT Method Name..
+							Window.alert("FAIL: updateEndDateForJob");// After
+																		// FAIL
+																		// ...
+																		// write
+																		// RPC
+																		// Name
+																		// NOT
+																		// Method
+																		// Name..
 						}
-						
 
 					}
 
 					@Override
 					public void onSuccess(JobCreation result) {
-						//						History.newItem("");
-						//						History.newItem("auditListing");
+						// History.newItem("");
+						// History.newItem("auditListing");
 						auditScheduling.getTimeLineContainer().clear();
 						auditScheduling.getTimeLineContainer().add(new TimeLineJobsView(result.getTimeLineDates()));
 						loadingPopup.remove();
-						
-						if(result.getEmployeeJobDTO()!=null && result.getEmployeeJobDTO().size()>0){
-//						if(count==0){
-//							count=count+1;
+
+						if (result.getEmployeeJobDTO() != null && result.getEmployeeJobDTO().size() > 0) {
+							// if(count==0){
+							// count=count+1;
 							displayJobConflicts(result.getEmployeeJobDTO());
-//							Window.alert(result.getEmployeeJobDTO().getEmployeeName()+"'s " + "Job "+ "'"+result.getEmployeeJobDTO().getJobName()+"'"+" ( "+result.getEmployeeJobDTO().getSatrtDate()+" - "+result.getEmployeeJobDTO().getEndDate()+" ) Collapse with this schedule ");
-//						}
+							// Window.alert(result.getEmployeeJobDTO().getEmployeeName()+"'s
+							// " + "Job "+
+							// "'"+result.getEmployeeJobDTO().getJobName()+"'"+"
+							// ( "+result.getEmployeeJobDTO().getSatrtDate()+" -
+							// "+result.getEmployeeJobDTO().getEndDate()+" )
+							// Collapse with this schedule ");
+							// }
 						}
 						new DisplayAlert("Schedule saved");
 					}
 
 				});
 	}
-	
-	public void displayJobConflicts(ArrayList<EmployeeJobDTO> result){
-		if(popup!=null&& popup.isShowing()){
+
+	public void displayJobConflicts(ArrayList<EmployeeJobDTO> result) {
+		if (popup != null && popup.isShowing()) {
 			popup.removeFromParent();
 		}
 		popup = new DecoratedPopupPanel();
 		VerticalPanel vpnl = new VerticalPanel();
 		vpnl.setSpacing(5);
 		ButtonRound btnClose = new ButtonRound("Ok");
-		for(int i=0; i<result.size(); i++){
+		for (int i = 0; i < result.size(); i++) {
 			HorizontalPanel hpnl = new HorizontalPanel();
 			hpnl.setSpacing(3);
-			Label lbl = new Label(result.get(i).getEmployeeName()+"'s " + "Job "+ "'"+result.get(i).getJobName()+"'"+" ( "+result.get(i).getSatrtDate()+" - "+result.get(i).getEndDate()+" ) Collapse with this schedule");
+			Label lbl = new Label(result.get(i).getEmployeeName() + "'s " + "Job " + "'" + result.get(i).getJobName()
+					+ "'" + " ( " + result.get(i).getSatrtDate() + " - " + result.get(i).getEndDate()
+					+ " ) Collapse with this schedule");
 			hpnl.add(lbl);
 			vpnl.add(hpnl);
-			
+
 		}
 		HorizontalPanel hpnlButton = new HorizontalPanel();
 		vpnl.add(hpnlButton);
@@ -427,15 +424,15 @@ public class AuditListingPresenter implements Presenter {
 		vpnl.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		popup.setWidget(vpnl);
 		popup.center();
-		
+
 		btnClose.addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
 				popup.removeFromParent();
 			}
 		});
-		
+
 	}
 
 }

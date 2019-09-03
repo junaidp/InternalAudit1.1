@@ -24,6 +24,7 @@ public class ReportAuditExceptions extends Composite implements IStackWidget {
 	ButtonRound btnSearch = new ButtonRound("Preview");
 
 	private ButtonRound btnExportToExcel = new ButtonRound("Export to Excel");
+	private ButtonRound btnExportToPDF = new ButtonRound("Export to PDF");
 
 	ButtonRound btnPrint = new ButtonRound("Print");
 	ButtonRound btnEmail = new ButtonRound("Email");
@@ -43,6 +44,9 @@ public class ReportAuditExceptions extends Composite implements IStackWidget {
 		btnExportToExcel.addStyleName("w3-margin");
 		btnSearch.addStyleName("w3-margin");
 		btnExportToExcel.setWidth("130px");
+		btnExportToPDF.addStyleName("w3-margin");
+
+		btnExportToPDF.setWidth("130px");
 		btnSearch.setWidth("130px");
 		vpnlMain = new VerticalPanel();
 		vpnlTable = new VerticalPanel();
@@ -225,6 +229,7 @@ public class ReportAuditExceptions extends Composite implements IStackWidget {
 		btnLine.add(btnSearch);
 		// btnLine.add(ancDetailed);
 		btnLine.add(btnExportToExcel);
+		btnLine.add(btnExportToPDF);
 
 		// btnBelowTable.add(padd);
 		// btnBelowTable.add(btnPrint);
@@ -348,6 +353,14 @@ public class ReportAuditExceptions extends Composite implements IStackWidget {
 
 	public void setLstExceptionStatus(ListBox lstExceptionStatus) {
 		this.lstExceptionStatus = lstExceptionStatus;
+	}
+
+	public ButtonRound getBtnExportToPDF() {
+		return btnExportToPDF;
+	}
+
+	public void setBtnExportToPDF(ButtonRound btnExportToPDF) {
+		this.btnExportToPDF = btnExportToPDF;
 	}
 
 }

@@ -48,6 +48,7 @@ import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
+import com.internalaudit.client.presenter.HeaderAndFooterPdfPageEventHelper;
 import com.internalaudit.client.view.InternalAuditReporting.AssesmentGridEntity;
 import com.internalaudit.shared.ActivityObjective;
 import com.internalaudit.shared.AssesmentGridDbEntity;
@@ -112,6 +113,19 @@ import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.TimeLineDates;
 import com.internalaudit.shared.ToDo;
 import com.internalaudit.shared.ToDoLogsEntity;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 public class MySQLRdbHelper {
 	// private static final Logger LOGGER = Logger.getLogger(
@@ -6584,10 +6598,23 @@ public class MySQLRdbHelper {
 
 	}
 
-	public String exportToExcel(ArrayList<ExcelDataDTO> excelDataList, String rootDir) {
+	// 2019 sep
+
+	public String exportAuditPlanningReport(ArrayList<ExcelDataDTO> excelDataList, String rootDir, String btn)
+			throws DocumentException {
+
+		if (btn.contains(InternalAuditConstants.PDF)) {
+			return reportAuditPlanningReportPDF(excelDataList, rootDir);
+		} else {
+			return reportAuditPlanningExcel(excelDataList, rootDir);
+		}
+
+	}
+
+	private String reportAuditPlanningExcel(ArrayList<ExcelDataDTO> excelDataList, String rootDir) {
 		try {
 
-			FileOutputStream fileOut = new FileOutputStream(rootDir + "/InternalAuditReport/report.xls");// "D:\\POI111.xls"
+			FileOutputStream fileOut = new FileOutputStream(rootDir + "/InternalAuditReport/reportauditplanning.xls");// "D:\\POI111.xls"
 			HSSFWorkbook workbook = new HSSFWorkbook();
 			HSSFSheet worksheet = workbook.createSheet("Orders Worksheet");
 			HSSFRow row = worksheet.createRow((short) 0);
@@ -6619,7 +6646,84 @@ public class MySQLRdbHelper {
 			e.printStackTrace();
 		}
 		System.out.println("excel sheet: downloaded");
-		return "exported";
+		return "excel exported";
+	}
+
+	// 2019 sep
+	private String reportAuditPlanningReportPDF(ArrayList<ExcelDataDTO> excelDataList, String rootDir)
+			throws DocumentException {
+		try {
+
+			Rectangle pagesize = new Rectangle(612, 861);
+			Document document = new Document(PageSize.A4);
+
+			PdfPTable table = new PdfPTable(new float[] { 1, 2, 2, 2, 2, 2 });
+
+			table.setWidthPercentage(100);
+			table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+			table.addCell(new Phrase("Sr#", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Objective", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Auditable Unit", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Domain", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Division", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Risk Assesment", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+
+			table.setHeaderRows(1);
+			PdfPCell[] cells = table.getRow(0).getCells();
+			for (int j = 0; j < cells.length; j++) {
+				cells[j].setBackgroundColor(BaseColor.LIGHT_GRAY);
+
+			}
+			int count = 0;
+			for (int i = 0; i < excelDataList.size(); i++) {
+				/// pdf
+
+				count++;
+				table.addCell(new Phrase(count + "", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(
+						new Phrase(excelDataList.get(i).getObjective(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(new Phrase(excelDataList.get(i).getAuditableUnit(),
+						FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(
+						new Phrase(excelDataList.get(i).getDomain(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(
+						new Phrase(excelDataList.get(i).getDivision(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(new Phrase(excelDataList.get(i).getRiskAssesment(),
+						FontFactory.getFont(FontFactory.HELVETICA, 8)));
+
+			}
+			//
+
+			FileOutputStream pdfFile = new FileOutputStream(
+					rootDir + "/InternalAuditReport/reportauditplanningPDF.pdf");
+			// PdfWriter.getInstance(document, pdfFile);
+			PdfWriter pdfWriter = PdfWriter.getInstance(document, pdfFile);
+			HeaderAndFooterPdfPageEventHelper headerAndFooter = new HeaderAndFooterPdfPageEventHelper();
+			pdfWriter.setPageEvent(headerAndFooter);
+			document.open();
+
+			String title = "Audit Planning Report";
+			Paragraph paragraph = new Paragraph(title,
+					FontFactory.getFont(FontFactory.TIMES_BOLD, 16, Font.BOLD, BaseColor.BLUE));
+
+			Paragraph p = new Paragraph();
+			document.add(paragraph);
+			document.add(new Paragraph(
+					"________________________________________________________________________________________________________________________"));
+			document.add(table);
+			document.close();
+
+			logger.info(String.format("(Inside reportAuditPlanningPDF)exporting reportAuditPlanningPDF for data list"
+					+ excelDataList + "for dir" + rootDir + "" + new Date()));
+
+		} catch (FileNotFoundException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Jobtime Allocation excel sheet: downloaded");
+		return "pdf exported";
 	}
 
 	public ArrayList<Strategic> fetchReportAuditScheduling(ArrayList<String> div, ArrayList<String> domain,
@@ -7639,13 +7743,19 @@ public class MySQLRdbHelper {
 		return exceptionStatus;
 	}
 
-	public String exportJobTimeAllocationReportToExcel(ArrayList<JobTimeAllocationReportDTO> excelDataList,
-			String rootDir) {
+	// public String
+	// exportJobTimeAllocationReportToExcel(ArrayList<JobTimeAllocationReportDTO>
+	// excelDataList,
+	// String rootDir) {
+	// return reportJobTimeAllocationExcel(excelDataList, rootDir);
+	// }
+
+	private String reportJobTimeAllocationExcel(ArrayList<JobTimeAllocationReportDTO> excelDataList, String rootDir) {
 		try {
 
-			FileOutputStream fileOut = new FileOutputStream(rootDir + "/InternalAuditReport/report.xls");// "D:\\POI111.xls"
+			FileOutputStream fileOut = new FileOutputStream(rootDir + "/InternalAuditReport/reportjobtime.xls");// "D:\\POI111.xls"
 			HSSFWorkbook workbook = new HSSFWorkbook();
-			HSSFSheet worksheet = workbook.createSheet("JobTime Allocation Worksheet");
+			HSSFSheet worksheet = workbook.createSheet("JobTime Allocation	 Worksheet");
 			HSSFRow row = worksheet.createRow((short) 0);
 			row.createCell((short) 0).setCellValue("Job");
 			row.createCell((short) 1).setCellValue("Weeks");
@@ -7661,6 +7771,79 @@ public class MySQLRdbHelper {
 			fileOut.close();
 
 			logger.info(String
+					.format("(Inside exportJobTimeAllocationReportToExcel)exportingJobTimeAllocationReportToExcelyear for data list"
+							+ excelDataList + "for dir" + rootDir + "" + new Date()));
+
+		} catch (FileNotFoundException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Jobtime Allocation excel sheet: downloaded");
+		return "excel exported";
+	}
+
+	public String exportJobTimeAllocationReport(ArrayList<JobTimeAllocationReportDTO> excelDataList, String rootDir,
+			String btn) throws DocumentException {
+
+		if (btn.contains(InternalAuditConstants.PDF)) {
+			return reportJobTimeAllocationPDF(excelDataList, rootDir);
+		} else {
+			return reportJobTimeAllocationExcel(excelDataList, rootDir);
+		}
+
+	}
+
+	private String reportJobTimeAllocationPDF(ArrayList<JobTimeAllocationReportDTO> excelDataList, String rootDir)
+			throws DocumentException {
+		try {
+
+			Rectangle pagesize = new Rectangle(612, 861);
+			Document document = new Document(PageSize.A4);
+			PdfPTable table = new PdfPTable(new float[] { 1, 2, 2 });
+			table.setWidthPercentage(100);
+			table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+			table.addCell(new Phrase("Sr#", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Job", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Weeks", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.setHeaderRows(1);
+			PdfPCell[] cells = table.getRow(0).getCells();
+			for (int j = 0; j < cells.length; j++) {
+				cells[j].setBackgroundColor(BaseColor.LIGHT_GRAY);
+
+			}
+			int count = 0;
+			for (int i = 0; i < excelDataList.size(); i++) {
+				/// pdf
+
+				count++;
+				table.addCell(new Phrase(count + "", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(new Phrase(excelDataList.get(i).getJob(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(
+						new Phrase(excelDataList.get(i).getWeeks(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+
+			}
+			//
+
+			FileOutputStream pdfFile = new FileOutputStream(rootDir + "/InternalAuditReport/reportjobtimePDF.pdf");
+			PdfWriter pdfWriter = PdfWriter.getInstance(document, pdfFile);
+			HeaderAndFooterPdfPageEventHelper headerAndFooter = new HeaderAndFooterPdfPageEventHelper();
+			pdfWriter.setPageEvent(headerAndFooter);
+			document.open();
+
+			String title = "JobTimeAllocation Report";
+			Paragraph paragraph = new Paragraph(title,
+					FontFactory.getFont(FontFactory.TIMES_BOLD, 16, Font.BOLD, BaseColor.BLUE));
+
+			Paragraph p = new Paragraph();
+			document.add(paragraph);
+			document.add(new Paragraph(
+					"________________________________________________________________________________________________________________________"));
+			document.add(table);
+			document.close();
+
+			logger.info(String
 					.format("(Inside exportJobTimeAllocationReportToExcel)exporting JobTimeAllocationReportToExcelyear for data list"
 							+ excelDataList + "for dir" + rootDir + "" + new Date()));
 
@@ -7671,13 +7854,22 @@ public class MySQLRdbHelper {
 			e.printStackTrace();
 		}
 		System.out.println("Jobtime Allocation excel sheet: downloaded");
-		return "exported";
+		return "pdf exported";
 	}
 
-	public String exportExceptionsReportToExcel(ArrayList<ExceptionsReportDTO> excelDataList, String rootDir) {
+	public String exportAuditExceptionsReport(ArrayList<ExceptionsReportDTO> excelDataList, String rootDir, String btn)
+			throws DocumentException {
+		if (btn.contains(InternalAuditConstants.PDF)) {
+			return reportAuditExceptionPDF(excelDataList, rootDir);
+		} else {
+			return reportAuditExceptionExcel(excelDataList, rootDir);
+		}
+	}
+
+	private String reportAuditExceptionExcel(ArrayList<ExceptionsReportDTO> excelDataList, String rootDir) {
 		try {
 
-			FileOutputStream fileOut = new FileOutputStream(rootDir + "/InternalAuditReport/report.xls");// "D:\\POI111.xls"
+			FileOutputStream fileOut = new FileOutputStream(rootDir + "/InternalAuditReport/reportauditexception.xls");// "D:\\POI111.xls"
 			HSSFWorkbook workbook = new HSSFWorkbook();
 			HSSFSheet worksheet = workbook.createSheet("Exceptions Worksheet");
 			HSSFRow row = worksheet.createRow((short) 0);
@@ -7711,11 +7903,95 @@ public class MySQLRdbHelper {
 		return "exported";
 	}
 
-	public String exportAuditSchedulingReportToExcel(ArrayList<AuditSchedulingReportDTO> excelDataList,
+	// 2019 sep
+	private String reportAuditExceptionPDF(ArrayList<ExceptionsReportDTO> excelDataList, String rootDir)
+			throws DocumentException {
+		try {
+
+			Rectangle pagesize = new Rectangle(612, 861);
+			Document document = new Document(PageSize.A4);
+
+			PdfPTable table = new PdfPTable(new float[] { 1, 2, 2, 2, 2 });
+
+			table.setWidthPercentage(100);
+			table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+			table.addCell(new Phrase("Sr#", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Exception", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Job", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Exception Status", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Auditee", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+
+			table.setHeaderRows(1);
+			PdfPCell[] cells = table.getRow(0).getCells();
+			for (int j = 0; j < cells.length; j++) {
+				cells[j].setBackgroundColor(BaseColor.LIGHT_GRAY);
+
+			}
+			int count = 0;
+			for (int i = 0; i < excelDataList.size(); i++) {
+				/// pdf
+
+				count++;
+				table.addCell(new Phrase(count + "", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(new Phrase(excelDataList.get(i).getExceptionName(),
+						FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(
+						new Phrase(excelDataList.get(i).getJobName(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(new Phrase(excelDataList.get(i).getExceptionStatus(),
+						FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(
+						new Phrase(excelDataList.get(i).getAuditee(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+
+			}
+			//
+
+			FileOutputStream pdfFile = new FileOutputStream(
+					rootDir + "/InternalAuditReport/reportauditexceptionPDF.pdf");
+			// PdfWriter.getInstance(document, pdfFile);
+			PdfWriter pdfWriter = PdfWriter.getInstance(document, pdfFile);
+			HeaderAndFooterPdfPageEventHelper headerAndFooter = new HeaderAndFooterPdfPageEventHelper();
+			pdfWriter.setPageEvent(headerAndFooter);
+			document.open();
+
+			String title = "Audit Exception Report";
+			Paragraph paragraph = new Paragraph(title,
+					FontFactory.getFont(FontFactory.TIMES_BOLD, 16, Font.BOLD, BaseColor.BLUE));
+
+			Paragraph p = new Paragraph();
+			document.add(paragraph);
+			document.add(new Paragraph(
+					"________________________________________________________________________________________________________________________"));
+			document.add(table);
+			document.close();
+
+			logger.info(
+					String.format("(Inside auditschedulingreportpdf)exporting auditschedulingreportpdf for data list"
+							+ excelDataList + "for dir" + rootDir + "" + new Date()));
+
+		} catch (FileNotFoundException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Jobtime Allocation excel sheet: downloaded");
+		return "pdf exported";
+	}
+
+	public String exportAuditSchedulingReport(ArrayList<AuditSchedulingReportDTO> excelDataList, String btn,
+			String rootDir) throws DocumentException {
+		if (btn.contains(InternalAuditConstants.PDF)) {
+			return reportAuditSchedulingReportPDF(excelDataList, rootDir);
+		} else {
+			return reportAuditSchedulingReportToExcel(excelDataList, rootDir);
+		}
+	}
+
+	private String reportAuditSchedulingReportToExcel(ArrayList<AuditSchedulingReportDTO> excelDataList,
 			String rootDir) {
 		try {
 
-			FileOutputStream fileOut = new FileOutputStream(rootDir + "/InternalAuditReport/report.xls");// "D:\\POI111.xls"
+			FileOutputStream fileOut = new FileOutputStream(rootDir + "/InternalAuditReport/reportauditscheduling.xls");// "D:\\POI111.xls"
 			HSSFWorkbook workbook = new HSSFWorkbook();
 			HSSFSheet worksheet = workbook.createSheet("Audit Scheduling Worksheet");
 			HSSFRow row = worksheet.createRow((short) 0);
@@ -7749,7 +8025,87 @@ public class MySQLRdbHelper {
 			e.printStackTrace();
 		}
 		System.out.println("Audit Scheduling excel sheet: downloaded");
-		return "exported";
+		return "excel exported";
+	}
+
+	// 2019 sep
+	private String reportAuditSchedulingReportPDF(ArrayList<AuditSchedulingReportDTO> excelDataList, String rootDir)
+			throws DocumentException {
+		try {
+
+			Rectangle pagesize = new Rectangle(612, 861);
+			Document document = new Document(PageSize.A4);
+
+			PdfPTable table = new PdfPTable(new float[] { 1, 2, 2, 2, 2, 2, 2 });
+
+			table.setWidthPercentage(100);
+			table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+			table.addCell(new Phrase("Sr#", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Job", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Domain", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Division", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Risk", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Resources", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Rime Allocated", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+
+			table.setHeaderRows(1);
+			PdfPCell[] cells = table.getRow(0).getCells();
+			for (int j = 0; j < cells.length; j++) {
+				cells[j].setBackgroundColor(BaseColor.LIGHT_GRAY);
+
+			}
+			int count = 0;
+			for (int i = 0; i < excelDataList.size(); i++) {
+				/// pdf
+
+				count++;
+				table.addCell(new Phrase(count + "", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(new Phrase(excelDataList.get(i).getJob(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(
+						new Phrase(excelDataList.get(i).getDomain(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(
+						new Phrase(excelDataList.get(i).getDivision(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(new Phrase(excelDataList.get(i).getRiskAssesment(),
+						FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(
+						new Phrase(excelDataList.get(i).getResources(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(new Phrase(excelDataList.get(i).getTimeAllocated() + "weeks",
+						FontFactory.getFont(FontFactory.HELVETICA, 8)));
+
+			}
+			//
+
+			FileOutputStream pdfFile = new FileOutputStream(
+					rootDir + "/InternalAuditReport/reportauditschedulingPDF.pdf");
+			// PdfWriter.getInstance(document, pdfFile);
+			PdfWriter pdfWriter = PdfWriter.getInstance(document, pdfFile);
+			HeaderAndFooterPdfPageEventHelper headerAndFooter = new HeaderAndFooterPdfPageEventHelper();
+			pdfWriter.setPageEvent(headerAndFooter);
+			document.open();
+
+			String title = "Audit Scheduling Report";
+			Paragraph paragraph = new Paragraph(title,
+					FontFactory.getFont(FontFactory.TIMES_BOLD, 16, Font.BOLD, BaseColor.BLUE));
+
+			Paragraph p = new Paragraph();
+			document.add(paragraph);
+			document.add(new Paragraph(
+					"________________________________________________________________________________________________________________________"));
+			document.add(table);
+			document.close();
+
+			logger.info(
+					String.format("(Inside auditschedulingreportpdf)exporting auditschedulingreportpdf for data list"
+							+ excelDataList + "for dir" + rootDir + "" + new Date()));
+
+		} catch (FileNotFoundException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Jobtime Allocation excel sheet: downloaded");
+		return "pdf exported";
 	}
 
 	public ArrayList<String> fetchjobsInExecution(int year, int companyId) throws Exception {

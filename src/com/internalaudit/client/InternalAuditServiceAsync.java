@@ -210,7 +210,7 @@ public interface InternalAuditServiceAsync {
 	void fetchStrategicDepartmentsMultiple(ArrayList<Integer> ids,
 			AsyncCallback<ArrayList<StrategicDepartments>> callback);
 
-	void exportToExcel(ArrayList<ExcelDataDTO> excelDataList, AsyncCallback<String> callback);
+	void exportAuditPlanningReport(ArrayList<ExcelDataDTO> excelDataList, String btn, AsyncCallback<String> callback);
 
 	void fetchReportAuditScheduling(ArrayList<String> dept, ArrayList<String> domain, ArrayList<String> jobStatus,
 			ArrayList<String> responsiblePerson, AsyncCallback<ArrayList<Strategic>> callback);
@@ -253,13 +253,13 @@ public interface InternalAuditServiceAsync {
 			ArrayList<String> resources, ArrayList<String> jobs, ArrayList<String> auditees,
 			ArrayList<String> exceptionStatus, AsyncCallback<ArrayList<Exceptions>> asyncCallback);
 
-	void exportJobTimeAllocationReportToExcel(ArrayList<JobTimeAllocationReportDTO> excelDataList,
+	void exportJobTimeAllocationReport(ArrayList<JobTimeAllocationReportDTO> excelDataList, String btn,
 			AsyncCallback<String> callback);
 
-	void exportExceptionsReportToExcel(ArrayList<ExceptionsReportDTO> excelDataList,
+	void exportAuditExceptionsReport(ArrayList<ExceptionsReportDTO> excelDataList, String btn,
 			AsyncCallback<String> asyncCallback);
 
-	void exportAuditSchedulingReportToExcel(ArrayList<AuditSchedulingReportDTO> excelDataList,
+	void exportAuditSchedulingReport(ArrayList<AuditSchedulingReportDTO> excelDataList, String btn,
 			AsyncCallback<String> asyncCallback);
 
 	void isScheduleApproved(AsyncCallback<Boolean> asyncCallback);

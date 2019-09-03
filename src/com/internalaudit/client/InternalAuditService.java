@@ -206,7 +206,7 @@ public interface InternalAuditService extends RemoteService {
 
 	ArrayList<StrategicDepartments> fetchStrategicDepartmentsMultiple(ArrayList<Integer> ids) throws Exception;
 
-	String exportToExcel(ArrayList<ExcelDataDTO> excelDataList) throws Exception;
+	String exportAuditPlanningReport(ArrayList<ExcelDataDTO> excelDataList, String btn) throws Exception;
 
 	ArrayList<Strategic> fetchReportAuditScheduling(ArrayList<String> dept, ArrayList<String> domain,
 			ArrayList<String> jobStatus, ArrayList<String> responsiblePerson) throws Exception;
@@ -249,11 +249,12 @@ public interface InternalAuditService extends RemoteService {
 			ArrayList<String> resources, ArrayList<String> jobs, ArrayList<String> auditees,
 			ArrayList<String> exceptionStatus) throws Exception;
 
-	String exportJobTimeAllocationReportToExcel(ArrayList<JobTimeAllocationReportDTO> excelDataList) throws Exception;
+	String exportJobTimeAllocationReport(ArrayList<JobTimeAllocationReportDTO> excelDataList, String btn)
+			throws Exception;
 
-	String exportExceptionsReportToExcel(ArrayList<ExceptionsReportDTO> excelDataList) throws Exception;
+	String exportAuditExceptionsReport(ArrayList<ExceptionsReportDTO> excelDataList, String btn) throws Exception;
 
-	String exportAuditSchedulingReportToExcel(ArrayList<AuditSchedulingReportDTO> excelDataList) throws Exception;
+	String exportAuditSchedulingReport(ArrayList<AuditSchedulingReportDTO> excelDataList, String btn) throws Exception;
 
 	Boolean isScheduleApproved() throws Exception;
 
