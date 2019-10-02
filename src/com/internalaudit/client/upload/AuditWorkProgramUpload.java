@@ -14,6 +14,8 @@ import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
+import com.google.gwt.user.client.ui.Frame;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -24,14 +26,16 @@ import com.internalaudit.client.view.ButtonRound;
 
 public class AuditWorkProgramUpload extends VerticalPanel {
 	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
-	FormPanel form;
+	private FormPanel form;
 	HorizontalPanel panelFileDetail = new HorizontalPanel();
 	Anchor lblfilename;
 	String file;
 	ButtonRound btnSubmit;
 	FileUpload upload;
+	HorizontalPanel panelContainer = new HorizontalPanel();
 
 	public AuditWorkProgramUpload(final String auditProcedureId, final String mainFolder) {
+
 		form = new FormPanel();
 		form.setAction(GWT.getModuleBaseURL() + "AuditWorkProgramUpload");
 		form.setEncoding(FormPanel.ENCODING_MULTIPART);
@@ -58,10 +62,6 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 
 			}
 		});
-		uploadPanel.add(btnSubmit);
-		panel.add(uploadPanel);
-		panelScroll.add(panelFileDetail);
-		panel.add(panelScroll);
 
 		fetchProcedureAttachments(auditProcedureId, mainFolder);
 
@@ -88,11 +88,12 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 
 		});
 
-		HorizontalPanel hpnl = new HorizontalPanel();
-		hpnl.add(form);
-		// hpnl.add(download());
-		hpnl.setSpacing(10);
-		add(hpnl);
+		add(form);
+		uploadPanel.add(btnSubmit);
+		panel.add(uploadPanel);
+		panelScroll.add(panelFileDetail);
+		panel.add(panelScroll);
+		add(panelContainer);
 	}
 
 	public void fetchProcedureAttachments(final String auditProcedureId, final String mainFolder) {
@@ -163,8 +164,18 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 
 					@Override
 					public void onClick(ClickEvent event) {
+						HTML htmlPanel = new HTML(
+								"<embed src='http://www.google.com'  width='100%' height='500px'></embed>");
 
+						// Frame frame = new
+						// Frame("/war/NotificationUploads/202/client%20mang.png");
+						Frame frame = new Frame(mainFolder + "/" + auditProcedureId + "/" + upperCasedJobLink);
+						// frame.setWidth("1000px");
+						// frame.setHeight("500px");
+						frame.setPixelSize(800, 300);
+						panelContainer.add(frame);
 						Window.open(mainFolder + "/" + auditProcedureId + "/" + upperCasedJobLink, "name", "");
+
 					}
 
 				});

@@ -8,6 +8,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -26,14 +27,15 @@ import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.event.ReportingEvent;
 import com.internalaudit.client.upload.AuditWorkProgramUpload;
 import com.internalaudit.client.view.ButtonRound;
+import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.client.view.ToDo.ToDoRaiserPortal;
 import com.internalaudit.shared.AssesmentGridDbEntity;
+import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.Exceptions;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.JobStatusDTO;
 import com.internalaudit.shared.ReportDataEntity;
-import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.ToDo;
 
 public class ReportViewMain extends VerticalPanel {
@@ -53,6 +55,8 @@ public class ReportViewMain extends VerticalPanel {
 	private ButtonRound btnSave = new ButtonRound("Save");
 	private ReportDataEntity reportData1 = null;
 	int selectedJobId = 0;
+	private DateBox dateBox = new DateBox();
+	private TextBox txtoperational = new TextBox();
 
 	public ReportViewMain(HandlerManager eventBus) {
 
@@ -64,7 +68,6 @@ public class ReportViewMain extends VerticalPanel {
 		HorizontalPanel panelDate = new HorizontalPanel();
 		panelDate.getElement().getStyle().setMarginRight(100, Unit.PX);
 		Label lblDate = new Label("Date");
-		DateBox dateBox = new DateBox();
 
 		LabelHeading lblExecutiveSummary = new LabelHeading();
 
@@ -141,7 +144,10 @@ public class ReportViewMain extends VerticalPanel {
 				}
 				reportData1.setAnnexure(txtBoxAnnexure.getText());
 				reportData1.setAuditPurpose(txtBoxAuditPurpose.getText());
+				reportData1.setOperationalEffectiveness(txtoperational.getText());
 				reportData1.setExecutiveSummary(txtBoxExecutiveSummary.getText());
+				reportData1.setDate(dateBox.getDatePicker().getValue());
+				// reportData1.se
 
 				saveReportData(reportData1);
 
@@ -194,6 +200,7 @@ public class ReportViewMain extends VerticalPanel {
 		panelAllFindings.setHeight("250px");
 		panelAllFindings.addStyleName("w3-border");
 		lblOverallControl.setText("Overall Control Assesment");
+		dateBox.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd MMMM , yyyy")));
 
 		lblAnnexure.setText("Annexure");
 		btnPrint.addStyleName("w3-margin");
@@ -265,17 +272,16 @@ public class ReportViewMain extends VerticalPanel {
 		//
 
 		//
-		rpcService.fetchControlsForReport(jobId, new AsyncCallback<ArrayList<SuggestedControls>>() {
+		rpcService.fetchAuditEngagement(jobId, new AsyncCallback<AuditEngagement>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("failed fetch suggested controls in report");
+				// TODO Auto-generated method stub
 
 			}
 
 			@Override
-			public void onSuccess(ArrayList<SuggestedControls> result) {
-				// panelControls.clear();
+			public void onSuccess(AuditEngagement result) {
 				FlexTable flexOverallControl = new FlexTable();
 				flexOverallControl.setWidth("1010px");
 				LabelHeading lblControl = new LabelHeading();
@@ -296,24 +302,77 @@ public class ReportViewMain extends VerticalPanel {
 				flexOverallControl.setWidget(0, 1, lblControl);
 				flexOverallControl.setWidget(0, 2, lblOperationalEffectiveness);
 				flexOverallControl.setWidget(0, 3, lblObservationRef);
-				for (int i = 0; i < result.size(); i++) {
+				for (int i = 0; i < result.getEngagementDTO().getSelectedControls().size(); i++) {
 					Label lblControlData = new Label();
-					TextBox txtoperational = new TextBox();
 
-					lblControlData.setText(result.get(i).getSuggestedControlsName());
+					lblControlData
+							.setText(result.getEngagementDTO().getSelectedControls().get(i).getSuggestedControlsName());
 					txtoperational.setWidth("200px");
 					Label lblReferenceData = new Label();
 					lblReferenceData.setWidth("200px");
 					lblControlData.setWidth("500px");
-					lblReferenceData.setText(result.get(i).getSuggestedReferenceNo());
+					lblReferenceData
+							.setText(result.getEngagementDTO().getSelectedControls().get(i).getSuggestedReferenceNo());
 					flexOverallControl.setWidget(i + 1, 1, lblControlData);
 					flexOverallControl.setWidget(i + 1, 2, txtoperational);
 					flexOverallControl.setWidget(i + 1, 3, lblReferenceData);
 				}
 
 				panelControls.add(flexOverallControl);
+
 			}
 		});
+
+		// rpcService.fetchControlsForReport(jobId, new
+		// AsyncCallback<ArrayList<SuggestedControls>>() {
+		//
+		// @Override
+		// public void onFailure(Throwable caught) {
+		// Window.alert("failed fetch suggested controls in report");
+		//
+		// }
+		//
+		// @Override
+		// public void onSuccess(ArrayList<SuggestedControls> result) {
+		// // panelControls.clear();
+		// FlexTable flexOverallControl = new FlexTable();
+		// flexOverallControl.setWidth("1010px");
+		// LabelHeading lblControl = new LabelHeading();
+		// lblControl.setWidth("500px");
+		// LabelHeading lblOperationalEffectiveness = new LabelHeading();
+		// LabelHeading lblObservationRef = new LabelHeading();
+		// flexOverallControl.addStyleName("w3-panel w3-border");
+		// lblControl.setText("Control");
+		// lblOperationalEffectiveness.setText("Operational Effectiveness");
+		// lblOperationalEffectiveness.setWidth("200px");
+		// lblObservationRef.setWidth("200px");
+		// lblObservationRef.setText("Observational Ref");
+		// // flexOverallControl.setHeight("250px");
+		// lblControl.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+		// lblObservationRef.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+		// lblOperationalEffectiveness.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+		//
+		// flexOverallControl.setWidget(0, 1, lblControl);
+		// flexOverallControl.setWidget(0, 2, lblOperationalEffectiveness);
+		// flexOverallControl.setWidget(0, 3, lblObservationRef);
+		// for (int i = 0; i < result.size(); i++) {
+		// Label lblControlData = new Label();
+		// TextBox txtoperational = new TextBox();
+		//
+		// lblControlData.setText(result.get(i).getSuggestedControlsName());
+		// txtoperational.setWidth("200px");
+		// Label lblReferenceData = new Label();
+		// lblReferenceData.setWidth("200px");
+		// lblControlData.setWidth("500px");
+		// lblReferenceData.setText(result.get(i).getSuggestedReferenceNo());
+		// flexOverallControl.setWidget(i + 1, 1, lblControlData);
+		// flexOverallControl.setWidget(i + 1, 2, txtoperational);
+		// flexOverallControl.setWidget(i + 1, 3, lblReferenceData);
+		// }
+		//
+		// panelControls.add(flexOverallControl);
+		// }
+		// });
 
 	}
 
@@ -323,29 +382,11 @@ public class ReportViewMain extends VerticalPanel {
 			@Override
 			public void onChange(Widget sender) {
 
-				panelFileUpload.clear();
 				CalearData();
-				panelExceptionHigh.clear();
-				panelSummaryOfAssesment.clear();
-				panelControls.clear();
-				panelAllFindings.clear();
+
 				selectedJobId = Integer.parseInt(listBoxJobs.getSelectedValue());
 				final int jobId = Integer.parseInt(listBoxJobs.getSelectedValue());
-				rpcService.fetchAssesmentGrid(jobId, new AsyncCallback<ArrayList<AssesmentGridDbEntity>>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert("Failed fetchAssesment");
-
-					}
-
-					@Override
-					public void onSuccess(ArrayList<AssesmentGridDbEntity> result) {
-						AssesmentGrid assesmentGrid = new AssesmentGrid(result, jobId);
-						panelSummaryOfAssesment.add(assesmentGrid);
-
-					}
-				});
+				fetchAssesmentGrid(jobId);
 
 				int ImplicationRating = 2;
 				// fetchControl(jobId, flexOverallControl);
@@ -359,6 +400,24 @@ public class ReportViewMain extends VerticalPanel {
 
 			}
 
+		});
+	}
+
+	private void fetchAssesmentGrid(final int jobId) {
+		rpcService.fetchAssesmentGrid(jobId, new AsyncCallback<ArrayList<AssesmentGridDbEntity>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Failed fetchAssesment");
+
+			}
+
+			@Override
+			public void onSuccess(ArrayList<AssesmentGridDbEntity> result) {
+				AssesmentGrid assesmentGrid = new AssesmentGrid(result, jobId);
+				panelSummaryOfAssesment.add(assesmentGrid);
+
+			}
 		});
 	}
 
@@ -376,7 +435,9 @@ public class ReportViewMain extends VerticalPanel {
 				txtBoxAnnexure.setText(result.getAnnexure());
 				txtBoxAuditPurpose.setText(result.getAuditPurpose());
 				txtBoxExecutiveSummary.setText(result.getExecutiveSummary());
-
+				txtoperational.setText(result.getOperationalEffectiveness());
+				// dateBox.getDatePicker().setValue(result.getDate());
+				dateBox.setValue(result.getDate());
 				reportData1 = result;
 				// result.setReportDataId(result.getReportDataId());
 				// result.setAnnexure(txtBoxAnnexure.getText());
@@ -390,6 +451,7 @@ public class ReportViewMain extends VerticalPanel {
 	}
 
 	private void saveReportData(ReportDataEntity reportData) {
+
 		rpcService.saveReportDataPopup(reportData, new AsyncCallback<String>() {
 
 			@Override
@@ -400,7 +462,7 @@ public class ReportViewMain extends VerticalPanel {
 
 			@Override
 			public void onSuccess(String result) {
-				Window.alert("Saved");
+				new DisplayAlert("Report Data Saved");
 
 			}
 
@@ -411,6 +473,14 @@ public class ReportViewMain extends VerticalPanel {
 		txtBoxAnnexure.setText("");
 		txtBoxAuditPurpose.setText("");
 		txtBoxExecutiveSummary.setText("");
+		panelFileUpload.clear();
+		panelExceptionHigh.clear();
+		panelSummaryOfAssesment.clear();
+		panelControls.clear();
+		panelAllFindings.clear();
+		dateBox.setValue(null);
+		txtoperational.setText("");
+		// dateBox.getDatePicker().get
 
 	}
 

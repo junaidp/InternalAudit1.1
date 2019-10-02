@@ -602,7 +602,7 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(ResourceUse.class);
 			crit.createAlias("skillId", "skill");
 			crit.add(Restrictions.eq("jobId", jobId));
-			crit.setMaxResults(2); // should be equal to num of skills
+			// crit.setMaxResults(2); // should be equal to num of skills
 			// :) new tpo me
 			List rsList = crit.list();
 			// i think its fine ... continue

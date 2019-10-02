@@ -541,11 +541,15 @@ public class JobTimeEstimationPresenter implements Presenter
 								resourceList.get(i).getSkill().getSkillName(),
 								resourceList.get(i).getSkill().getSkillId() + "");
 
+						((SkillsResources) display.getSkillsResourceContainer().getWidget(i)).getSkillsList()
+								.setEnabled(false);
 						((SkillsResources) display.getSkillsResourceContainer().getWidget(i)).getNoOfResources()
 								.setText(String.valueOf(resourceList.get(i).getNoOfResources()));
 
-						((SkillsResources) display.getSkillsResourceContainer().getWidget(i)).getSkillsList()
-								.setSelectedIndex(i);
+						// ((SkillsResources)
+						// display.getSkillsResourceContainer().getWidget(i)).getSkillsList()
+						// .setSelectedIndex(i);
+
 						// july 2019 commented two lines where it was enabling
 						// false
 

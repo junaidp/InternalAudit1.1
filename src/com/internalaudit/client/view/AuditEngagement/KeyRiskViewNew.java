@@ -41,7 +41,7 @@ public class KeyRiskViewNew extends VerticalPanel {
 	Image imgRating = new Image();
 
 	public KeyRiskViewNew() {
-		lblactivityObjective.setText("ActivityObjective");
+		lblactivityObjective.setText("Activity Objective");
 		listObjectives.setVisible(false);
 		delete.setVisible(false);
 
@@ -51,11 +51,11 @@ public class KeyRiskViewNew extends VerticalPanel {
 
 		lblapplicability.setText("Applicability");
 		lblReferenceNo.setText("Reference Number");
-
+		lblactivityObjective.setWidth("220px");
 		lblActivityObjectiveData.setHeight("90px");
 		lblActivityObjectiveData.setWidth("220px");
 
-		txtRisk.setWidth("300px");
+		txtRisk.setWidth("250px");
 		txtRisk.setHeight("90px");
 		txtRisk.setText("");
 
@@ -65,17 +65,18 @@ public class KeyRiskViewNew extends VerticalPanel {
 		listBoxRating.addItem("Medium", "1");
 		listBoxRating.addItem("High", "2");
 
-		lblriskRatings.setWidth("130px");
+		lblriskRatings.setWidth("120px");
 		lblRef.setWidth("160px");
 
-		lblactivityObjective.getElement().getStyle().setMarginLeft(20, Unit.PX);
+		// lblactivityObjective.getElement().getStyle().setMarginLeft(20,
+		// Unit.PX);
 		lblrisks.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		lblriskRatings.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		// lblapplicability.getElement().getStyle().setMarginLeft(20, Unit.PX);
-		lblRef.getElement().getStyle().setMarginLeft(20, Unit.PX);
-		lblActivityObjectiveData.getElement().getStyle().setMarginLeft(10, Unit.PX);
-		txtRisk.getElement().getStyle().setMarginLeft(10, Unit.PX);
-		listBoxRating.getElement().getStyle().setMarginLeft(30, Unit.PX);
+		lblRef.getElement().getStyle().setMarginLeft(50, Unit.PX);
+		lblActivityObjectiveData.getElement().getStyle().setPaddingLeft(5, Unit.PX);
+		txtRisk.getElement().getStyle().setMarginLeft(20, Unit.PX);
+		listBoxRating.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		checkBoxApplicability.getElement().getStyle().setMarginLeft(50, Unit.PX);
 
 		FlexTable flex = new FlexTable();
@@ -188,6 +189,7 @@ public class KeyRiskViewNew extends VerticalPanel {
 	public void disable() {
 		txtRisk.setEnabled(false);
 		delete.setVisible(false);
+		listBoxRating.setEnabled(false); // 2019 oct
 
 	}
 

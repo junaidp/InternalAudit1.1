@@ -6,32 +6,29 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 
 public class SkillsResources extends Composite {
-	
-	
 
 	private HorizontalPanel hpnlMain;
 	private ListBox skillsList;
 	private TextBox noOfResources;
-	
+
 	private int availableHours;
-	
+
 	public SkillsResources() {
-	
+
 		hpnlMain = new HorizontalPanel();
-		
+
 		initWidget(hpnlMain);
-		
+
 		skillsList = new ListBox();
-		
+
 		noOfResources = new TextBox();
-		
+
 		hpnlMain.add(skillsList);
-		
+
 		hpnlMain.add(noOfResources);
-		
+
 	}
-	
-	
+
 	public HorizontalPanel getHpnlMain() {
 		return hpnlMain;
 	}
@@ -56,11 +53,9 @@ public class SkillsResources extends Composite {
 		this.noOfResources = noOfResources;
 	}
 
-
 	public int getAvailableHours() {
 		return availableHours;
 	}
-
 
 	public void setAvailableHours(int availableHours) {
 		this.availableHours = availableHours;
