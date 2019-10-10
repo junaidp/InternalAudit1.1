@@ -44,7 +44,7 @@ public class RiskControlMatrixView extends VerticalPanel {
 		lblrisk.setText("Risks");
 		lblcontrol.setText("Controls");
 		lblriskRatings.setText("Inherent Risk");
-		;
+
 		lblresidualRisk.setText("Control Risk");
 
 		// all the data views are defined here data from db
@@ -77,6 +77,7 @@ public class RiskControlMatrixView extends VerticalPanel {
 		lblriskRatings.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		lblresidualRisk.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		lblriskdata.getElement().getStyle().setMarginLeft(20, Unit.PX);
+		listBoxRisk.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		txtAreaControl.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		listBoxInherintRating.getElement().getStyle().setMarginLeft(40, Unit.PX);
 		listBoxControlRating.getElement().getStyle().setMarginLeft(60, Unit.PX);

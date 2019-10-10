@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -53,10 +54,10 @@ public class AuditNotificationViewNew extends Composite {
 	Anchor lblfilename;
 	private AuditNotificationViewNewData auditNotificationViewNewData = new AuditNotificationViewNewData();
 
-	public AuditNotificationViewNew(AuditEngagement record) {
+	public AuditNotificationViewNew(AuditEngagement record, final AsyncCallback<KickoffView> asyncCallback) {
 		initWidget(uiBinder.createAndBindUi(this));
 
-		setHandlers();
+		setHandlers(asyncCallback);
 
 		txtAreaBody.setText(
 				"We hereby would like to inform you that company Name Internal Audit will be conducting a review of Engagement Name from 14 December, 2017. This is part of the Internal Audit Plan for 2017, discussed with Top Management, Group Internal Audit, and approved by member(s) of BOD/Audit Committee\nThe audit will be performed by Mr. DEF ond M.r GHI , members of Local Internal Audit.\n The scope of the audit includes review of adequacy, effectiveness & efficiency of the controls and processes around Engagement Name, with specific focus on xxxx. \n Please note that IA team may take contact with relevant members of your team in the coming days for a better process understanding relating to this audit and information required. Any resultant scope changes, if required, will be duly communicated. \n The completion and finalization will depend on the availability of information and interviews, yet we aim at delivering a draft report for your review and comments by 8 February, 2018. \n You are requested to forward the information in this notification to those who will be involved in the audit. If you have any questions concerning the audit, please feel free to contact myself or e-mail at xxxxx. \n We look forward to your continued support. ");
@@ -103,13 +104,13 @@ public class AuditNotificationViewNew extends Composite {
 
 	}
 
-	private void setHandlers() {
+	private void setHandlers(final AsyncCallback<KickoffView> asyncCallback) {
 		btnSend.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				int status = 0;
-				auditNotificationViewNewData.sendMessage(btnSend, status);
+				auditNotificationViewNewData.sendMessage(btnSend, status, asyncCallback);
 
 			}
 		});
@@ -118,7 +119,7 @@ public class AuditNotificationViewNew extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				int status = 1;
-				auditNotificationViewNewData.sendMessage(btnSend, status);
+				auditNotificationViewNewData.sendMessage(btnSend, status, asyncCallback);
 				disableFields();
 				fileUploader.setVisible(false);
 

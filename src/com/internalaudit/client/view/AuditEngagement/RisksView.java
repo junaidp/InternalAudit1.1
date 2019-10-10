@@ -96,7 +96,8 @@ public class RisksView extends Composite {
 	}
 
 	public RisksView(final int auditEngId, final InternalAuditServiceAsync rpcService, Employee employee,
-			ArrayList<RiskObjective> listSavedRisks, VerticalPanel vpExistingControlContainer) {
+			ArrayList<RiskObjective> listSavedRisks, VerticalPanel vpExistingControlContainer,
+			final AsyncCallback<KickoffView> asyncCallback) {
 		initWidget(uiBinder.createAndBindUi(this));
 
 		this.rpcService = rpcService;
@@ -105,7 +106,7 @@ public class RisksView extends Composite {
 		this.listRisks = listSavedRisks;
 		getRiskInfo(auditEngId, vpExistingControlContainer);
 
-		setHandlers(auditEngId, rpcService);
+		setHandlers(auditEngId, rpcService, asyncCallback);
 		approvalButtonsPanel.getElement().getStyle().setMarginTop(40, Unit.PX);
 		// initiationButtonsPanel.addStyleName("w3-display-bottom w3-margin");
 		approvalButtonsPanel.getElement().getStyle().setMarginLeft(870, Unit.PX);
@@ -114,7 +115,8 @@ public class RisksView extends Composite {
 		// Unit.PX);
 	}
 
-	private void setHandlers(final int auditEngId, final InternalAuditServiceAsync rpcService) {
+	private void setHandlers(final int auditEngId, final InternalAuditServiceAsync rpcService,
+			final AsyncCallback<KickoffView> asyncCallback) {
 		initiationButtonsPanel.add(saveRisks);
 		initiationButtonsPanel.add(submit);
 		approvalButtonsPanel.add(approve);
@@ -137,7 +139,7 @@ public class RisksView extends Composite {
 				if (riskRows.getWidgetCount() < 1) {
 					Window.alert("please add risks");
 				} else {
-					saveRisks(auditEngId, rpcService, records, InternalAuditConstants.SAVED);
+					saveRisks(auditEngId, rpcService, records, InternalAuditConstants.SAVED, asyncCallback);
 				}
 			}
 		});
@@ -152,7 +154,7 @@ public class RisksView extends Composite {
 				} else {
 					boolean confirmed = Window.confirm("Are you done with key Risks and Existing Controls ?");
 					if (confirmed) {
-						saveRisks(auditEngId, rpcService, records, InternalAuditConstants.SUBMIT);
+						saveRisks(auditEngId, rpcService, records, InternalAuditConstants.SUBMIT, asyncCallback);
 					}
 				}
 			}
@@ -173,7 +175,7 @@ public class RisksView extends Composite {
 						@Override
 						public void onClick(ClickEvent event) {
 							approveRisks(auditEngId, rpcService, records, InternalAuditConstants.REJECTED,
-									amendmentPopup.getComments().getText());
+									amendmentPopup.getComments().getText(), asyncCallback);
 							amendmentPopup.getPopupComments().removeFromParent();
 						}
 					});
@@ -189,7 +191,7 @@ public class RisksView extends Composite {
 				if (riskRows.getWidgetCount() < 1) {
 					Window.alert("please add risks");
 				} else {
-					approveRisks(auditEngId, rpcService, records, InternalAuditConstants.APPROVED, "");
+					approveRisks(auditEngId, rpcService, records, InternalAuditConstants.APPROVED, "", asyncCallback);
 				}
 			}
 		});
@@ -226,7 +228,8 @@ public class RisksView extends Composite {
 	}
 
 	private void saveRiskstoDb(final int auditEngId, final InternalAuditServiceAsync rpcService,
-			ArrayList<RiskControlMatrixEntity> records, final int status) {
+			ArrayList<RiskControlMatrixEntity> records, final int status,
+			final AsyncCallback<KickoffView> asyncCallback) {
 
 		rpcService.saveRisks(records, new AsyncCallback<Boolean>() {
 
@@ -258,14 +261,14 @@ public class RisksView extends Composite {
 				} else if (status == InternalAuditConstants.REJECTED) {
 					new DisplayAlert("Feedback submitted");
 				}
-
+				asyncCallback.onSuccess(null);
 			}
 
 		});
 	}
 
 	private void saveRisks(final int auditEngId, final InternalAuditServiceAsync rpcService,
-			ArrayList<RiskControlMatrixEntity> records, int status) {
+			ArrayList<RiskControlMatrixEntity> records, int status, final AsyncCallback<KickoffView> asyncCallback) {
 		feedbackPanel.setVisible(false);
 
 		for (int i = 0; i < riskRows.getWidgetCount(); i++) {
@@ -305,7 +308,7 @@ public class RisksView extends Composite {
 			riskControlMatrix.setStatus(status);
 			records.add(riskControlMatrix);
 		}
-		saveRiskstoDb(auditEngId, rpcService, records, status);
+		saveRiskstoDb(auditEngId, rpcService, records, status, asyncCallback);
 	}
 
 	private void saveSuggestedControls(RiskRow current, RiskControlMatrixEntity riskControlMatrix) {
@@ -318,7 +321,8 @@ public class RisksView extends Composite {
 	}
 
 	private void approveRisks(final int auditEngId, final InternalAuditServiceAsync rpcService,
-			ArrayList<RiskControlMatrixEntity> records, int status, String feedback) {
+			ArrayList<RiskControlMatrixEntity> records, int status, String feedback,
+			final AsyncCallback<KickoffView> asyncCallback) {
 		for (int i = 0; i < riskRows.getWidgetCount(); i++) {
 			RiskRow current = ((RiskRow) (riskRows.getWidget(i)));
 			if (Integer.parseInt(current.getRiskId().getText()) == 0) {
@@ -374,7 +378,7 @@ public class RisksView extends Composite {
 			}
 
 		}
-		saveRiskstoDb(auditEngId, rpcService, records, status);
+		saveRiskstoDb(auditEngId, rpcService, records, status, asyncCallback);
 	}
 
 	private void saveSuggestedContols(RiskRow current, RiskControlMatrixEntity risk) {

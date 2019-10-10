@@ -92,14 +92,15 @@ public class AuditWorkProg extends Composite {
 	private ButtonRound reject = new ButtonRound("FeedBack");
 
 	public AuditWorkProg(final InternalAuditServiceAsync rpcService, final int selectedJobId, Employee employee,
-			ArrayList<SuggestedControls> controls, VerticalPanel auditWorkNewContainer) {
+			ArrayList<SuggestedControls> controls, VerticalPanel auditWorkNewContainer,
+			final AsyncCallback<KickoffView> asyncCallback) {
 		initWidget(uiBinder.createAndBindUi(this));
 
 		this.controls = controls;
 		// fill listbox with appropriate employees
 		this.selectedJobId = selectedJobId;
 		getEmployeesForJob(rpcService, selectedJobId, auditWorkNewContainer);
-		setHandlers(rpcService, selectedJobId);
+		setHandlers(rpcService, selectedJobId, asyncCallback);
 		this.loggedInEmployee = employee;
 		addMore.setVisible(false);
 		if (rows.getWidgetCount() < 2) {
@@ -109,7 +110,8 @@ public class AuditWorkProg extends Composite {
 
 	}
 
-	private void setHandlers(final InternalAuditServiceAsync rpcService, final int selectedJobId) {
+	private void setHandlers(final InternalAuditServiceAsync rpcService, final int selectedJobId,
+			final AsyncCallback<KickoffView> asyncCallback) {
 		approvalButtonsPanel.getElement().getStyle().setMarginLeft(870, Unit.PX);
 		initiationButtonsPanel.getElement().getStyle().setMarginLeft(870, Unit.PX);
 		panelAddIcon.add(addMore);
@@ -135,7 +137,8 @@ public class AuditWorkProg extends Composite {
 				if (rows.getWidgetCount() < 1) {
 					Window.alert("please add Audit Work");
 				} else {
-					saveAuditWork(rpcService, selectedJobId, InternalAuditConstants.SAVED);
+					saveAuditWork(rpcService, selectedJobId, InternalAuditConstants.SAVED, asyncCallback);
+
 				}
 			}
 		});
@@ -150,7 +153,7 @@ public class AuditWorkProg extends Composite {
 					boolean confirmed = Window.confirm("Are you done with Audit Work Program ?");
 					if (confirmed) {
 						initiationButtonsPanel.setVisible(false);
-						saveAuditWork(rpcService, selectedJobId, InternalAuditConstants.SUBMIT);
+						saveAuditWork(rpcService, selectedJobId, InternalAuditConstants.SUBMIT, asyncCallback);
 					}
 				}
 			}
@@ -164,7 +167,7 @@ public class AuditWorkProg extends Composite {
 					Window.alert("No Audit Work to approve");
 				} else {
 					approvalButtonsPanel.setVisible(false);
-					approveAuditWork(rpcService, selectedJobId, InternalAuditConstants.APPROVED, "");
+					approveAuditWork(rpcService, selectedJobId, InternalAuditConstants.APPROVED, "", asyncCallback);
 				}
 			}
 		});
@@ -185,7 +188,7 @@ public class AuditWorkProg extends Composite {
 						@Override
 						public void onClick(ClickEvent event) {
 							approveAuditWork(rpcService, selectedJobId, InternalAuditConstants.REJECTED,
-									amendmentPopup.getComments().getText());
+									amendmentPopup.getComments().getText(), asyncCallback);
 							amendmentPopup.getPopupComments().removeFromParent();
 
 						}
@@ -254,7 +257,7 @@ public class AuditWorkProg extends Composite {
 	}
 
 	private void approveAuditWork(final InternalAuditServiceAsync rpcService, final int selectedJobId, int status,
-			String feedback) {
+			String feedback, final AsyncCallback<KickoffView> asyncCallback) {
 		ArrayList<AuditWork> auditWorks = new ArrayList<AuditWork>();
 
 		for (int i = 0; i < rows.getWidgetCount(); ++i) {
@@ -330,12 +333,13 @@ public class AuditWorkProg extends Composite {
 			}
 
 		}
-		saveAuditWorkTodb(rpcService, auditWorks, status);
+		saveAuditWorkTodb(rpcService, auditWorks, status, asyncCallback);
 	}
 
 	/////////////
 
-	private void saveAuditWork(final InternalAuditServiceAsync rpcService, final int selectedJobId, int status) {
+	private void saveAuditWork(final InternalAuditServiceAsync rpcService, final int selectedJobId, int status,
+			final AsyncCallback<KickoffView> asyncCallback) {
 
 		ArrayList<AuditWork> auditWorks = new ArrayList<AuditWork>();
 		feedbackPanel.setVisible(false);
@@ -378,11 +382,11 @@ public class AuditWorkProg extends Composite {
 
 		}
 
-		saveAuditWorkTodb(rpcService, auditWorks, status);
+		saveAuditWorkTodb(rpcService, auditWorks, status, asyncCallback);
 	}
 
 	private void saveAuditWorkTodb(final InternalAuditServiceAsync rpcService, ArrayList<AuditWork> records,
-			final int status) {
+			final int status, final AsyncCallback<KickoffView> asyncCallback) {
 		rpcService.saveAuditWork(records, new AsyncCallback<Void>() {
 
 			@Override
@@ -412,7 +416,7 @@ public class AuditWorkProg extends Composite {
 				} else if (status == 4) {
 					new DisplayAlert("Audit Work Submitted");
 				}
-
+				asyncCallback.onSuccess(null);
 			}
 
 		});

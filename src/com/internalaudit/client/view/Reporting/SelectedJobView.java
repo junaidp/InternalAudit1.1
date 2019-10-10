@@ -25,7 +25,7 @@ public class SelectedJobView extends Composite {
 		LabelHeading lblImplication = new LabelHeading();
 		lblImplication.setText("Implication");
 		lblImplication.getElement().getStyle().setMarginLeft(10, Unit.PX);
-		lblObservation.setWidth("130px");
+		lblObservation.setWidth("145px");
 		lblImplication.setWidth("130px");
 		LabelHeading lblImplicationRating = new LabelHeading();
 		lblImplicationRating.setText("Implication Rating");

@@ -349,4 +349,8 @@ public class AuditEngagementPresenter implements Presenter {
 
 	}
 
+	public Display getDisplay() {
+		return display;
+	}
+
 }

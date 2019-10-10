@@ -383,8 +383,8 @@ public class AuditStepView extends Composite {
 		conclusion.setEnabled(true);
 		initiationButtonsPanel.setVisible(true);
 		addException.setVisible(true);
-		// save.setVisible(true);
-		// submit.setVisible(true);
+		save.setVisible(true);
+		submit.setVisible(true);
 		// approvalButtonsPanel.setVisible(false);
 	}
 

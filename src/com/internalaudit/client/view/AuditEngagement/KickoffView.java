@@ -75,7 +75,7 @@ public class KickoffView extends Composite {
 	Label lblJobType;
 
 	private Employee loggedInUser;
-
+	private ContentPanel panel;
 	private InternalAuditServiceAsync rpcService;
 	int selectedJobId = 0;
 	private int auditEngId = 0;
@@ -235,26 +235,31 @@ public class KickoffView extends Composite {
 	}
 
 	private void showOptionsAccordian(final AuditEngagement record) {
-		ContentPanel panel = new ContentPanel();
+		panel = new ContentPanel();
+		panel.setHeaderVisible(false);
 
 		panel.setWidth("1200px");
 
 		// panel.setHeadingText("Audit Planning");
 
 		panel.setBodyBorder(false);
-		AccordionLayoutContainer con = new AccordionLayoutContainer();
+		final AccordionLayoutContainer con = new AccordionLayoutContainer();
 		panel.add(con);
 
-		AccordionLayoutAppearance appearance = GWT.<AccordionLayoutAppearance>create(AccordionLayoutAppearance.class);
+		final AccordionLayoutAppearance appearance = GWT
+				.<AccordionLayoutAppearance>create(AccordionLayoutAppearance.class);
 
 		///////////////////////////////////// AUDIT NOTIFICATION
 		///////////////////////////////////// ///////////////////////////
 		ContentPanel cp = new ContentPanel(appearance);
+
 		cp.setAnimCollapse(false);
 		cp.setHeadingText("Audit Notification");
+
 		VerticalPanel vpnlIdentification = new VerticalPanel();
 		vpnlIdentification.setHeight("400px");
-		AuditNotificationViewNew auditNotificationViewNew = new AuditNotificationViewNew(record);
+
+		AuditNotificationViewNew auditNotificationViewNew = new AuditNotificationViewNew(record, refreshMethod(con));
 		// AuditNotificationView auditNotificationView = new
 		// AuditNotificationView();
 		// vpnlIdentification.add(auditNotificationView);
@@ -291,7 +296,7 @@ public class KickoffView extends Composite {
 
 	}
 
-	private void auditWorkProgram(final AuditEngagement record, ContentPanel panel, AccordionLayoutContainer con,
+	private void auditWorkProgram(final AuditEngagement record, ContentPanel panel, final AccordionLayoutContainer con,
 			AccordionLayoutAppearance appearance) {
 		ContentPanel cp;
 		cp = new ContentPanel(appearance);
@@ -304,7 +309,7 @@ public class KickoffView extends Composite {
 		final VerticalPanel auditWorkNewContainer = new VerticalPanel();
 
 		final AuditWorkProg auditWorkProg = new AuditWorkProg(rpcService, selectedJobId, loggedInUser,
-				record.getEngagementDTO().getSelectedControls(), auditWorkNewContainer);
+				record.getEngagementDTO().getSelectedControls(), auditWorkNewContainer, refreshMethod(con));
 		vpnl.add(auditWorkProg);
 
 		AddIcon btnAddAuditWork = new AddIcon();
@@ -359,7 +364,7 @@ public class KickoffView extends Composite {
 
 					auditWorkProgrammes.add(auditProgramme);
 				}
-				saveAuditWorkProgramme(auditWorkProgrammes);
+				saveAuditWorkProgramme(auditWorkProgrammes, con);
 
 			}
 
@@ -393,7 +398,7 @@ public class KickoffView extends Composite {
 		statusPanel.add(panel);
 	}
 
-	private void objectiveRiskControlMatrix(final AuditEngagement record, AccordionLayoutContainer con,
+	private void objectiveRiskControlMatrix(final AuditEngagement record, final AccordionLayoutContainer con,
 			AccordionLayoutAppearance appearance) {
 		ContentPanel cp;
 		cp = new ContentPanel(appearance);
@@ -410,7 +415,7 @@ public class KickoffView extends Composite {
 
 		// user's
 		final RisksView riskView = new RisksView(auditEngId, rpcService, loggedInUser,
-				record.getEngagementDTO().getSelectedObjectiveRisks(), vpExistingControlContainer);
+				record.getEngagementDTO().getSelectedObjectiveRisks(), vpExistingControlContainer, refreshMethod(con));
 		userRiskControlContainer.add(riskView);
 
 		// library's
@@ -491,7 +496,7 @@ public class KickoffView extends Composite {
 		 */
 	}
 
-	private void keyRisksLayout(final AuditEngagement record, AccordionLayoutContainer con,
+	private void keyRisksLayout(final AuditEngagement record, final AccordionLayoutContainer con,
 			AccordionLayoutAppearance appearance) {
 
 		ContentPanel cp;
@@ -646,7 +651,7 @@ public class KickoffView extends Composite {
 					keyRiskView.getData(riskObjective);
 					riskObjectives.add(riskObjective);
 				}
-				saveRiskObjectives(riskObjectives, InternalAuditConstants.SAVED);
+				saveRiskObjectives(riskObjectives, InternalAuditConstants.SAVED, con);
 
 			}
 		});
@@ -662,7 +667,7 @@ public class KickoffView extends Composite {
 					keyRiskView.getData(riskObjective);
 					riskObjectives.add(riskObjective);
 				}
-				saveRiskObjectives(riskObjectives, InternalAuditConstants.SUBMIT);
+				saveRiskObjectives(riskObjectives, InternalAuditConstants.SUBMIT, con);
 
 			}
 		});
@@ -685,9 +690,10 @@ public class KickoffView extends Composite {
 
 	}
 
-	private void objectivesLayout(final AuditEngagement record, AccordionLayoutContainer con,
-			AccordionLayoutAppearance appearance) {
-		ContentPanel cp;
+	private void objectivesLayout(final AuditEngagement record, final AccordionLayoutContainer con,
+			final AccordionLayoutAppearance appearance) {
+		final ContentPanel cp;
+
 		cp = new ContentPanel(appearance);
 		cp.setAnimCollapse(false);
 		cp.setBodyStyleName("pad-text");
@@ -802,7 +808,9 @@ public class KickoffView extends Composite {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				saveActivityObjective(usersActivityContainer, InternalAuditConstants.SAVED);
+				// con.clear();
+
+				saveActivityObjective(usersActivityContainer, InternalAuditConstants.SAVED, con);
 
 			}
 		});
@@ -811,7 +819,7 @@ public class KickoffView extends Composite {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				saveActivityObjective(usersActivityContainer, InternalAuditConstants.SUBMIT);
+				saveActivityObjective(usersActivityContainer, InternalAuditConstants.SUBMIT, con);
 
 			}
 		});
@@ -835,7 +843,8 @@ public class KickoffView extends Composite {
 
 	}
 
-	private void saveActivityObjective(final VerticalPanel usersActivityContainer, int status) {
+	private void saveActivityObjective(final VerticalPanel usersActivityContainer, int status,
+			AccordionLayoutContainer con) {
 		ArrayList<ActivityObjective> activityObjectives = new ArrayList<ActivityObjective>();
 		for (int i = 0; i < usersActivityContainer.getWidgetCount(); i++) {
 			ActivityObjectiveViewNew activityObjectiveView = (ActivityObjectiveViewNew) usersActivityContainer
@@ -846,10 +855,11 @@ public class KickoffView extends Composite {
 			// activityObjective.setChecked(true);
 			activityObjectives.add(activityObjective);
 		}
-		saveActivityObjectives(activityObjectives, status);
+		saveActivityObjectives(activityObjectives, status, con);
 	}
 
-	private void saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives, int status) {
+	private void saveActivityObjectives(ArrayList<ActivityObjective> activityObjectives, int status,
+			final AccordionLayoutContainer con) {
 
 		rpcService.saveActivityObjectives(activityObjectives, jobid, status, new AsyncCallback<String>() {
 
@@ -861,14 +871,18 @@ public class KickoffView extends Composite {
 
 			@Override
 			public void onSuccess(String result) {
+				// 2019 oct
 				new DisplayAlert(result);
+				refreshAccordionPanel(con);
 
 			}
+
 		});
 
 	}
 
-	private void saveRiskObjectives(ArrayList<RiskObjective> riskObjectives, int status) {
+	private void saveRiskObjectives(ArrayList<RiskObjective> riskObjectives, int status,
+			final AccordionLayoutContainer con) {
 		rpcService.saveRiskObjectives(riskObjectives, jobid, status, new AsyncCallback<String>() {
 
 			@Override
@@ -880,6 +894,7 @@ public class KickoffView extends Composite {
 			@Override
 			public void onSuccess(String result) {
 				new DisplayAlert(result);
+				refreshAccordionPanel(con);
 
 			}
 		});
@@ -921,7 +936,8 @@ public class KickoffView extends Composite {
 
 	}
 
-	private void saveAuditWorkProgramme(ArrayList<AuditProgramme> auditWorkProgrammes) {
+	private void saveAuditWorkProgramme(ArrayList<AuditProgramme> auditWorkProgrammes,
+			final AccordionLayoutContainer con) {
 		rpcService.saveAuditWorkProgram(auditWorkProgrammes, selectedJobId, new AsyncCallback<String>() {
 
 			@Override
@@ -933,10 +949,47 @@ public class KickoffView extends Composite {
 			@Override
 			public void onSuccess(String result) {
 				new DisplayAlert(result);
+				refreshAccordionPanel(con);
 
 			}
 		});
 
 	}
 
+	public void refreshAccordionPanel(final AccordionLayoutContainer con) {
+		rpcService.fetchAuditEngagement(jobid, new AsyncCallback<AuditEngagement>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Failed fetchingAuditEngagement in refreshAccordionPanel:" + caught.getLocalizedMessage());
+
+			}
+
+			@Override
+			public void onSuccess(AuditEngagement result) {
+
+				con.clear();
+				showOptionsAccordian(result);
+
+			}
+		});
+	}
+
+	private AsyncCallback<KickoffView> refreshMethod(final AccordionLayoutContainer con) {
+		return new AsyncCallback<KickoffView>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onSuccess(KickoffView result) {
+				panel.clear();
+				refreshAccordionPanel(con);
+
+			}
+		};
+	}
 }

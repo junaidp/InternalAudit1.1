@@ -55,7 +55,7 @@ public class AuditNotificationViewNewData {
 		auditNotificationViewNew.getDate().setValue(selectedAuditEngagement.getNotificationSentDate());
 	}
 
-	public void sendMessage(final Button btnSend, int status) {
+	public void sendMessage(final Button btnSend, int status, final AsyncCallback<KickoffView> asyncCallback) {
 
 		final LoadingPopup loadingPopup = new LoadingPopup();
 		loadingPopup.display();
@@ -95,6 +95,7 @@ public class AuditNotificationViewNewData {
 						new DisplayAlert("Notification Sent");
 						// btnSend.setEnabled(true);
 						loadingPopup.remove();
+						// asyncCallback.onSuccess(null);
 					}
 				});
 
