@@ -77,8 +77,8 @@
 								onfocus="this.value=''" /> <input name="password" type="password" class="input 
 								password" value="Password" onfocus="this.value=''" /> -->
 								<g:Label styleName="error" visible="false" ui:field="lblError"></g:Label>
-								<g:TextBox ui:field="textUserName" styleName="input username" text="korgenthead@gmail.com" width="220px"></g:TextBox>
-								<g:PasswordTextBox ui:field="textPassword" styleName="input password" text="korgenthead" width="220px"></g:PasswordTextBox>
+								<g:TextBox ui:field="textUserName" styleName="input username"  width="220px"></g:TextBox>
+								<g:PasswordTextBox ui:field="textPassword" styleName="input password"  width="220px"></g:PasswordTextBox>
 
 						</div>
 

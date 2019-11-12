@@ -5852,9 +5852,9 @@ public class MySQLRdbHelper {
 		} finally {
 			session.close();
 		}
-		if (status == 1) {
-			sendAttachmentEmail(message, to, cc, "Audit Notification", filePath, from);
-		}
+		// if (status == 1) {
+		sendAttachmentEmail(message, to, cc, "Audit Notification", filePath, from);
+		// }
 		return "Audit Notification saved";
 	}
 

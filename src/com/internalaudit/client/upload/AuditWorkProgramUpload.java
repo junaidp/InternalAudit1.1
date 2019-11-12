@@ -33,9 +33,11 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 	ButtonRound btnSubmit;
 	FileUpload upload;
 	HorizontalPanel panelContainer = new HorizontalPanel();
+	private VerticalPanel uploadPanel;
+	private Image delete;
 
 	public AuditWorkProgramUpload(final String auditProcedureId, final String mainFolder) {
-
+		// FileUploadField f = new FileUploadField();
 		form = new FormPanel();
 		form.setAction(GWT.getModuleBaseURL() + "AuditWorkProgramUpload");
 		form.setEncoding(FormPanel.ENCODING_MULTIPART);
@@ -44,14 +46,17 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 		form.setWidget(panel);
 		ScrollPanel panelScroll = new ScrollPanel();
 		panelScroll.setHeight("120px");
-		VerticalPanel uploadPanel = new VerticalPanel();
+		uploadPanel = new VerticalPanel();
 		upload = new FileUpload();
 		upload.setName(auditProcedureId + ":" + mainFolder);
 		upload.setTitle("AuditProcedureUploads");
+		// uploadPanel.add(f);
+		// FileUploader fa = new FileUploader();
 		uploadPanel.add(upload);
+		// uploadPanel.add(fa);
 
 		// Add a 'submit' button.
-		btnSubmit = new ButtonRound("Submit");
+		btnSubmit = new ButtonRound("Upload");
 		btnSubmit.getElement().getStyle().setMarginTop(10, Unit.PX);
 		btnSubmit.addClickHandler(new ClickHandler() {
 
@@ -104,6 +109,7 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 			@Override
 			public void onSuccess(ArrayList<String> result) {
 				panelFileDetail.clear();
+
 				if (result.size() >= 1) {
 					btnSubmit.setVisible(false);
 				} else {
@@ -111,7 +117,7 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 				}
 				for (int i = 0; i < result.size(); i++) {
 					lblfilename = new Anchor(result.get(i));
-					Image delete = new Image("images/deleteIcon.png");
+					delete = new Image("images/deleteIcon.png");
 					lblfilename.addStyleName("pointerStyle");
 					lblfilename.getElement().getStyle().setTextDecoration(TextDecoration.NONE);
 					lblfilename.setHeight("25px");
@@ -238,5 +244,29 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 
 	public void setBtnSubmit(ButtonRound btnSubmit) {
 		this.btnSubmit = btnSubmit;
+	}
+
+	public FileUpload getUpload() {
+		return upload;
+	}
+
+	public void setUpload(FileUpload upload) {
+		this.upload = upload;
+	}
+
+	public VerticalPanel getUploadPanel() {
+		return uploadPanel;
+	}
+
+	public void setUploadPanel(VerticalPanel uploadPanel) {
+		this.uploadPanel = uploadPanel;
+	}
+
+	public Image getDelete() {
+		return delete;
+	}
+
+	public void setDelete(Image delete) {
+		this.delete = delete;
 	}
 }

@@ -43,7 +43,7 @@ public class AuditNotificationViewNewData {
 
 	}
 
-	private void displaySavedNotification() {
+	public void displaySavedNotification() {
 		auditNotificationViewNew.getTxtBoxForInfo().setText(selectedAuditEngagement.getCc());
 		auditNotificationViewNew.getTxtBoxForAction().setText(selectedAuditEngagement.getTo());
 		auditNotificationViewNew.getTxtAreaBody().setText(selectedAuditEngagement.getAuditNotification());
@@ -55,7 +55,8 @@ public class AuditNotificationViewNewData {
 		auditNotificationViewNew.getDate().setValue(selectedAuditEngagement.getNotificationSentDate());
 	}
 
-	public void sendMessage(final Button btnSend, int status, final AsyncCallback<KickoffView> asyncCallback) {
+	public void sendMessage(final Button btnSend, int status, final AsyncCallback<KickoffView> asyncCallback,
+			final String filepath, final AsyncCallback<String> notificationCallBack) {
 
 		final LoadingPopup loadingPopup = new LoadingPopup();
 		loadingPopup.display();
@@ -66,7 +67,7 @@ public class AuditNotificationViewNewData {
 				auditNotificationViewNew.getTxtBoxForInfo().getText(),
 				auditNotificationViewNew.getTxtBoxReference().getText(),
 				auditNotificationViewNew.getTxtBoxFrom().getText(),
-				auditNotificationViewNew.getTxtBoxSubject().getText(), auditNotificationViewNew.getFilepath(),
+				auditNotificationViewNew.getTxtBoxSubject().getText(), filepath,
 				auditNotificationViewNew.getTxtBoxMemo().getText(),
 				auditNotificationViewNew.getDate().getTextBox().getText(), status, new AsyncCallback<String>() {
 
@@ -84,7 +85,7 @@ public class AuditNotificationViewNewData {
 							// saveAuditNotification, Please check all the
 							// fields");// After FAIL ... write RPC Name NOT
 							// Method Name..
-							new DisplayAlert("Notification Sent.");
+							new DisplayAlert("Notification not Sent.");
 						}
 
 					}
@@ -95,7 +96,9 @@ public class AuditNotificationViewNewData {
 						new DisplayAlert("Notification Sent");
 						// btnSend.setEnabled(true);
 						loadingPopup.remove();
-						// asyncCallback.onSuccess(null);
+
+						notificationCallBack.onSuccess("notification saved");
+
 					}
 				});
 

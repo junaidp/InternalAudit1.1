@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.upload.AuditWorkProgramUpload;
 import com.internalaudit.client.view.AuditEngagement.AuditStepUploads;
 
 public class ExceptionRow extends Composite {
@@ -15,14 +16,14 @@ public class ExceptionRow extends Composite {
 	private Label exId;
 	HorizontalPanel panelFileDetail = new HorizontalPanel();
 	private TextBox exception;
-	//private FileUpload fileUploadException;
+	// private FileUpload fileUploadException;
 	private HorizontalPanel hpnl;
 	private Image removeRow;
 	private int exceptionId;
 	AuditStepUploads auditStepUpload = null;
+	private AuditWorkProgramUpload upload;
 
-	public ExceptionRow() 
-	{
+	public ExceptionRow() {
 		hpnl = new HorizontalPanel();
 
 		initWidget(hpnl);
@@ -30,28 +31,23 @@ public class ExceptionRow extends Composite {
 		exId = new Label("0");
 		layout();
 
-
 	}
 
-	public ExceptionRow(int exceptionId) 
-	{
+	public ExceptionRow(int exceptionId) {
 		hpnl = new HorizontalPanel();
 		this.exceptionId = exceptionId;
 		initWidget(hpnl);
 
-		exId = new Label(exceptionId+"");
+		exId = new Label(exceptionId + "");
 		layout();
 
-
 	}
-
-
 
 	private void layout() {
 		exId.addStyleName("hidden");
 
 		exception = new TextBox();
-		//fileUploadException = new FileUpload();
+		// fileUploadException = new FileUpload();
 		removeRow = new Image("images/deleteIcon.png");
 		exception.addStyleName("txtExtendedWidth");
 
@@ -59,64 +55,64 @@ public class ExceptionRow extends Composite {
 		hpnl.add(exception);
 
 		hpnl.add(removeRow);
-			if(exceptionId != 0)
-			{
-				auditStepUpload = new AuditStepUploads(exId.getText());
-				hpnl.add(auditStepUpload);
-				hpnl.add(panelFileDetail);
-			}
-		
+		if (exceptionId != 0) {
+			String mainFolder = "AuditExceptions";
+			upload = new AuditWorkProgramUpload(exceptionId + "", mainFolder);
+			// auditStepUpload = new AuditStepUploads(exId.getText());
+			hpnl.add(upload);
+			// hpnl.add(panelFileDetail);
+		}
+
 		exId.setVisible(false);
-	
-}
 
+	}
 
+	public Label getExId() {
+		return exId;
+	}
 
-public Label getExId() {
-	return exId;
-}
+	public void setExId(Label exId) {
+		this.exId = exId;
+	}
 
-public void setExId(Label exId) {
-	this.exId = exId;
-}
+	public TextBox getException() {
+		return exception;
+	}
 
-public TextBox getException() {
-	return exception;
-}
+	public void setException(TextBox exception) {
+		this.exception = exception;
+	}
 
-public void setException(TextBox exception) {
-	this.exception = exception;
-}
+	public Image getRemoveRow() {
+		return removeRow;
+	}
 
-public Image getRemoveRow() {
-	return removeRow;
-}
+	public void setRemoveRow(Image removeRow) {
+		this.removeRow = removeRow;
+	}
 
-public void setRemoveRow(Image removeRow) {
-	this.removeRow = removeRow;
-}
+	public void removeRow() {
+		exception.removeFromParent();
+		exId.removeFromParent();
+		removeRow.removeFromParent();
 
-public void removeRow() {
-	exception.removeFromParent();
-	exId.removeFromParent();
-	removeRow.removeFromParent();
+	}
 
+	public void disableFields() {
+		exception.setEnabled(false);
+		removeRow.setVisible(false);
+		upload.getUploadPanel().setVisible(false);
 
-}
+		// auditStepUpload.getUpload().setVisible(false);
+		// auditStepUpload.getBtnSubmit().setVisible(false);
+	}
 
-public void disableFields() {
-	exception.setEnabled(false);
-	removeRow.setVisible(false);
-	//auditStepUpload.getUpload().setVisible(false);
-	//auditStepUpload.getBtnSubmit().setVisible(false);
-}
+	public AuditStepUploads getAuditStepUpload() {
+		return auditStepUpload;
+	}
 
-public AuditStepUploads getAuditStepUpload() {
-	return auditStepUpload;
-}
-
-public void setAuditStepUpload(AuditStepUploads auditStepUpload) {
-	this.auditStepUpload = auditStepUpload;
-}
+	public void setAuditStepUpload(AuditStepUploads auditStepUpload) {
+		this.auditStepUpload = auditStepUpload;
+	}
 
 }

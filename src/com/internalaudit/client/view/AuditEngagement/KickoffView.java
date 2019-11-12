@@ -238,7 +238,7 @@ public class KickoffView extends Composite {
 		panel = new ContentPanel();
 		panel.setHeaderVisible(false);
 
-		panel.setWidth("1200px");
+		panel.setWidth("1205px");
 
 		// panel.setHeadingText("Audit Planning");
 
@@ -269,7 +269,7 @@ public class KickoffView extends Composite {
 		vpnlIdentification.add(auditNotificationViewNew);
 		// if (!record.getSubject().isEmpty()) {
 		auditNotificationViewNew.getAuditNotificationViewNewData().setData(auditNotificationViewNew, rpcService,
-				selectedAuditEngagement);
+				record);
 		// }
 		cp.add(vpnlIdentification);
 		con.add(cp);
@@ -986,7 +986,7 @@ public class KickoffView extends Composite {
 
 			@Override
 			public void onSuccess(KickoffView result) {
-				panel.clear();
+				// panel.clear();
 				refreshAccordionPanel(con);
 
 			}
