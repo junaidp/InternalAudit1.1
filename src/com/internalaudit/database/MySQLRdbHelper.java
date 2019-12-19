@@ -2257,7 +2257,8 @@ public class MySQLRdbHelper {
 			crit.createAlias("reporting.skillId", "reportingSkill");
 			crit.createAlias("reporting.reportingTo", "reportingTot");
 			crit.add(Restrictions.ne("rollId", 1));
-			// crit.add(Restrictions.ne("roll.rollId", 5));
+			// 2019 dec
+			crit.add(Restrictions.ne("rollId", 5));
 			crit.add(Restrictions.ne("rollId", 4));
 
 			List rsList = crit.list();// .. ?run
@@ -2369,7 +2370,10 @@ public class MySQLRdbHelper {
 			int roleId = fetchEmployeeRoleId(jobEmployeeRelation.getEmployee().getEmployeeId());
 			roles.add(roleId);
 		}
-		if (roles.contains(5) && (roles.contains(1) || roles.contains(2) || roles.contains(3)))
+		// dec 2019
+		// if (roles.contains(5) && (roles.contains(1) || roles.contains(2) ||
+		// roles.contains(3)))
+		if ((roles.contains(1) || roles.contains(2) || roles.contains(3)))
 			return true;
 		else
 			return false;
