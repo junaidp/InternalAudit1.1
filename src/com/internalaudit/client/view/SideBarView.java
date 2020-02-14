@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
@@ -21,25 +22,31 @@ public class SideBarView extends VerticalLayoutContainer {
 	final MainViewNew mv = new MainViewNew();
 
 	VerticalPanel panelbar = new VerticalPanel();
-	Image ImgMenu = new Image("menu.png");
-	Image ImgCloseCircular = new Image("close-circular-button-symbol.png");
-	Image ImgSecuirity = new Image("security.png");
-	Image ImgSpeedoMeter = new Image("speedometer.png");
-	Image ImgTab = new Image("tab.png");
-	Image ImgPlus = new Image("plus.png");
-	Image ImgPie = new Image(
-			"pie-circular-graphic-with-bars-in-the-center-part-thin-symbol-outline-inside-a-circle.png");
+	// included
+	Image ImgMenu = new Image("Information Requestw.png");
+	// included
+	Image ImgSecuirity = new Image("Taskw.png");
+
+	// included
+	Image ImgPie = new Image("IR receiverw.png");
 	Image ImgMenu2 = new Image("menu (2).png");
-	Image ImgHome = new Image("home.png");
+	// included
+	Image ImgHome = new Image("menuw.png");
+	// included
+	Image ImgControls = new Image("Reportsw.png");
+	/// Spaces
 	Image ImgAnalysis = new Image("analysis.png");
 
 	Image ImgCalendar = new Image("calendar.png");
-	Image ImgControls = new Image("controls.png");
+	Image ImgSpeedoMeter = new Image("speedometer.png");
+	Image ImgTab = new Image("tab.png");
+	Image ImgPlus = new Image("plus.png");
+	Image ImgCloseCircular = new Image("close-circular-button-symbol.png");
 
 	public SideBarView(final Employee loggedInUser, final HandlerManager eventBus) {
 
-		panelbar.addStyleName("w3-sidebar w3-cobalt  w3-bar-block ");
-		panelbar.setWidth("64px");
+		panelbar.addStyleName("sidebarNew w3-cobalt  w3-bar-block ");
+		// panelbar.setWidth("64px");
 
 		ImgMenu.addStyleName("w3-bar-item w3-button w3-round w3-hover-blue");
 		ImgCloseCircular.addStyleName("w3-bar-item w3-button w3-hover-blue");
@@ -54,47 +61,53 @@ public class SideBarView extends VerticalLayoutContainer {
 		ImgControls.addStyleName("w3-bar-item w3-button w3-hover-blue");
 		ImgCalendar.addStyleName("w3-bar-item w3-button w3-hover-blue");
 
-		ImgMenu.setWidth("60px");
-		ImgMenu.setHeight("50px");
-		ImgSecuirity.setWidth("60px");
-		ImgSecuirity.setHeight("50px");
-		ImgPie.setWidth("60px");
-		ImgPie.setHeight("50px");
-		ImgPlus.setWidth("60px");
-		ImgPlus.setHeight("50px");
-		ImgCalendar.setWidth("60px");
-		ImgCalendar.setHeight("50px");
-		ImgHome.setWidth("60px");
-		ImgHome.setHeight("50px");
-		ImgAnalysis.setWidth("60px");
-		ImgAnalysis.setHeight("50px");
-		ImgCloseCircular.setWidth("60px");
-		ImgCloseCircular.setHeight("50px");
-		ImgControls.setWidth("60px");
-		ImgControls.setHeight("50px");
-		ImgMenu2.setWidth("60px");
-		ImgMenu2.setHeight("50px");
-		ImgTab.setWidth("60px");
-		ImgTab.setHeight("50px");
-		ImgSpeedoMeter.setWidth("60px");
-		ImgSpeedoMeter.setHeight("50px");
+		ImgMenu.setWidth("45px");
+		ImgMenu.setHeight("32px");
+		ImgSecuirity.setWidth("45px");
+		ImgSecuirity.setHeight("32px");
+		ImgPie.setWidth("45px");
+		ImgPie.setHeight("32px");
+		// ImgPlus.setWidth("60px");
+		// ImgPlus.setHeight("50px");
+		// ImgCalendar.setWidth("60px");
+		// ImgCalendar.setHeight("50px");
+		ImgHome.setWidth("45px");
+		ImgHome.setHeight("32px");
+		// ImgAnalysis.setWidth("60px");
+		// ImgAnalysis.setHeight("50px");
+		// ImgCloseCircular.setWidth("60px");
+		// ImgCloseCircular.setHeight("50px");
+		ImgControls.setWidth("45px");
+		ImgControls.setHeight("32px");
+		// ImgMenu2.setWidth("60px");
+		// ImgMenu2.setHeight("50px");
+		// ImgTab.setWidth("60px");
+		// ImgTab.setHeight("50px");
+		// ImgSpeedoMeter.setWidth("60px");
+		// ImgSpeedoMeter.setHeight("50px");
 
-		// ImgMenu.setSize("50", "50");
 		ImgSecuirity.setSize("40", "40");
 		ImgPie.setSize("30", "30");
 		ImgCalendar.setSize("25", "25");
+		panelbar.setWidth("40");
 
 		panelbar.add(ImgHome);
 		panelbar.add(ImgMenu);
 		panelbar.add(ImgSecuirity);
 		panelbar.add(ImgPie);
-		panelbar.add(ImgCalendar);
-		panelbar.add(ImgCloseCircular);
-		panelbar.add(ImgControls);
 
-		panelbar.add(ImgAnalysis);
-		panelbar.add(ImgPlus);
-		panelbar.add(ImgSpeedoMeter);
+		// panelbar.add(ImgCalendar);
+		// panelbar.add(ImgCloseCircular);
+		HorizontalPanel v = new HorizontalPanel();
+		v.setWidth("35px");
+		v.setHeight("650px");
+		panelbar.add(ImgControls);
+		panelbar.add(v);
+
+		//
+		// panelbar.add(ImgAnalysis);
+		// panelbar.add(ImgPlus);
+		// panelbar.add(ImgSpeedoMeter);
 
 		/*
 		 * panelbar.add(ImgMenu2); panelbar.add(ImgTab);

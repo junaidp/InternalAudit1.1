@@ -2,14 +2,12 @@ package com.internalaudit.client.view;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 public class RiskFactorHeadingView extends Composite {
 
-	public RiskFactorHeadingView(){
+	public RiskFactorHeadingView() {
 
-		
 		HorizontalPanel hpnlMain = new HorizontalPanel();
 		HorizontalPanel hpnlSpacing = new HorizontalPanel();
 		HorizontalPanel hpnlHeading = new HorizontalPanel();
@@ -22,7 +20,7 @@ public class RiskFactorHeadingView extends Composite {
 		Label probabality = new Label("Probability");
 		Label risk = new Label("Rating");
 		Label riskComments = new Label("Comment");
-		
+
 		hpnlHeading.add(riskFactor);
 		hpnlHeading.add(riskComments);
 		hpnlHeading.add(impact);
@@ -32,15 +30,13 @@ public class RiskFactorHeadingView extends Composite {
 		impact.addStyleName("blue");
 		probabality.addStyleName("blue");
 		risk.addStyleName("blue");
-		impact.setWidth("60px");
-		probabality.setWidth("75px");
+		impact.setWidth("75px");
+		probabality.setWidth("85px");
 		riskFactor.addStyleName("blue");
 		riskComments.addStyleName("blue");
 		riskFactor.setWidth("330px");
 		riskComments.setWidth("360px");
 
 	}
-
-
 
 }

@@ -224,6 +224,7 @@ public class RiskAssesmentStrategicViewData {
 					HorizontalPanel hpnlTree = new HorizontalPanel();
 					hpnlTree.setWidth("90%");
 					hpnlTree.add(riskAssesmentStrategicView.getSubmitted());
+					hpnlTree.add(riskAssesmentStrategicView.getLblImg());
 					hpnlTree.add(treeMain);
 
 					////
@@ -488,13 +489,20 @@ public class RiskAssesmentStrategicViewData {
 		riskAssesmentStrategicView.getHpnlButtonsApprovar().setVisible(false);
 		riskAssesmentStrategicView.getHpnlButtonInitiator().setVisible(false);
 		riskAssesmentStrategicView.getRating().setEnabled(false);
+		// riskAssesmentStrategicView.getRating().addStyleName("listboxDisabled");
 		// new work
 		riskAssesmentStrategicView.getListBoxUserOption().setEnabled(false);
 
 		riskFactorsView.getImpact().setEnabled(false);
+		riskFactorsView.getImpact().addStyleName("listboxDisabledRating");
+
 		riskFactorsView.getProbabality().setEnabled(false);
+		riskFactorsView.getProbabality().addStyleName("listboxDisabledRating");
+		riskFactorsView.getRating().addStyleName("listboxDisabledRating");
 		riskFactorsView.getComments().setEnabled(false);
 		riskAssesmentStrategicView.getSubmitted().setVisible(true);
+		riskAssesmentStrategicView.getLblImg().setVisible(false);
+
 		riskAssesmentStrategicView.getSubmitted()
 				.setTitle(strategic.getStatus() + ": In " + PhaseNames.getPhaseNames(strategic.getPhase()));
 
@@ -502,13 +510,18 @@ public class RiskAssesmentStrategicViewData {
 
 	public void enablePanel(RiskAssesmentStrategicView riskAssesmentStrategicView, RiskFactorsView riskFactorsView) {
 		riskFactorsView.getImpact().setEnabled(true);
+		riskFactorsView.getImpact().addStyleName("leftPadding");
+
 		riskFactorsView.getProbabality().setEnabled(true);
+		riskFactorsView.getProbabality().addStyleName("leftPadding");
+		riskFactorsView.getRating().addStyleName("leftPadding listboxDisabledRating");
 		riskFactorsView.getComments().setEnabled(true);
 		riskAssesmentStrategicView.getRating().setEnabled(true);
 		// new work
 		riskAssesmentStrategicView.getListBoxUserOption().setEnabled(true);
 
 		riskAssesmentStrategicView.getSubmitted().setVisible(false);
+		riskAssesmentStrategicView.getLblImg().setVisible(true);
 
 	}
 

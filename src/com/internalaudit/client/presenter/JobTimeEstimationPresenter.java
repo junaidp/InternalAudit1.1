@@ -18,11 +18,11 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.DisplayAlert;
@@ -58,7 +58,7 @@ public class JobTimeEstimationPresenter implements Presenter
 
 		TextBox getTotalWorkingManHours();
 
-		VerticalPanel getSkillsResourceContainer();
+		HorizontalPanel getSkillsResourceContainer();
 
 		Button getSaveJobTimeEst();
 

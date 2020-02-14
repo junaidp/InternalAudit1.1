@@ -5,11 +5,11 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.presenter.JobTimeEstimationPresenter.Display;
 import com.internalaudit.shared.StrategicDTO;
@@ -27,7 +27,7 @@ public class JobTimeEstimationView extends Composite implements Display {
 	@UiField
 	TextBox totalWorkingManHoursTextBox;
 	@UiField
-	VerticalPanel skillResourceContainer;
+	HorizontalPanel skillResourceContainer;
 
 	@UiField
 	Button saveJobTimeEst;
@@ -91,11 +91,11 @@ public class JobTimeEstimationView extends Composite implements Display {
 		return totalWorkingManHoursTextBox;
 	}
 
-	public VerticalPanel getSkillsResourceContainer() {
+	public HorizontalPanel getSkillsResourceContainer() {
 		return skillResourceContainer;
 	}
 
-	public void setSkillsResourceContainer(VerticalPanel skillResourceContainer) {
+	public void setSkillsResourceContainer(HorizontalPanel skillResourceContainer) {
 		this.skillResourceContainer = skillResourceContainer;
 	}
 
@@ -111,7 +111,7 @@ public class JobTimeEstimationView extends Composite implements Display {
 		return totalWorkingManHoursTextBox;
 	}
 
-	public VerticalPanel getSkillResourceContainer() {
+	public HorizontalPanel getSkillResourceContainer() {
 		return skillResourceContainer;
 	}
 

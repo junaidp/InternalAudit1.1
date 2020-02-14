@@ -8,10 +8,10 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.presenter.JobCreationPresenter.Display;
 import com.internalaudit.shared.StrategicDTO;
@@ -31,7 +31,7 @@ public class JobCreationView extends Composite implements Display {
 	@UiField
 	TextBox estimatedWeeks;
 	@UiField
-	VerticalPanel skillResourceContainer;
+	HorizontalPanel skillResourceContainer;
 
 	@UiField
 	TextBox techSkill;
@@ -83,11 +83,11 @@ public class JobCreationView extends Composite implements Display {
 		this.proposedResources = proposedResources;
 	}
 
-	public VerticalPanel getSkillResourceContainer() {
+	public HorizontalPanel getSkillResourceContainer() {
 		return skillResourceContainer;
 	}
 
-	public void setSkillResourceContainer(VerticalPanel skillResourceContainer) {
+	public void setSkillResourceContainer(HorizontalPanel skillResourceContainer) {
 		this.skillResourceContainer = skillResourceContainer;
 	}
 

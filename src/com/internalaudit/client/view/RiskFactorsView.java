@@ -9,68 +9,62 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 
-public class RiskFactorsView extends Composite{
+public class RiskFactorsView extends Composite {
 	private Label riskFactor;
 	private ListBox rating;
 	private ListBox impact;
 	private ListBox probabality;
 	private int riskFactorId;
 	private TextBox comments;
-	private Label lbl; 
+	private Label lbl;
 	private Image riskRating;
-		
-	
-	
+
 	public RiskFactorsView() {
-		
+
 		HorizontalPanel hpnlMain = new HorizontalPanel();
 		initWidget(hpnlMain);
 		hpnlMain.setSize("700px", "100%");
-		
+
 		riskFactor = new Label("");
-		
+
 		riskFactor.setWidth("320px");
-		
+
 		rating = new ListBox();
 		rating.setEnabled(false);
-		
+
 		rating.setVisibleItemCount(1);
-		
+
 		impact = new ListBox();
-		
+
 		impact.setVisibleItemCount(1);
-		
+
 		probabality = new ListBox();
-		
+
 		probabality.setVisibleItemCount(1);
 		lbl = new Label("hello");
 
-		
-		
-		
 		rating.addItem("N/A");
 		rating.addItem("Low");
 		rating.addItem("Medium");
 		rating.addItem("High");
-		
-		probabality.addItem("N/A","0");
-		probabality.addItem("Low","1");
-		probabality.addItem("Medium","2");
-		probabality.addItem("High","3");
-		
-		impact.addItem("N/A","0");
-		impact.addItem("Low","1");
-		impact.addItem("Medium","2");
-		impact.addItem("High","3");
-		
+
+		probabality.addItem("N/A", "0");
+		probabality.addItem("Low", "1");
+		probabality.addItem("Medium", "2");
+		probabality.addItem("High", "3");
+		impact.addItem("N/A", "0");
+		impact.addItem("Low", "1");
+		impact.addItem("Medium", "2");
+		impact.addItem("High", "3");
+		// impact.setWidth("68px");
 		comments = new TextBox();
-		
+
 		comments.setWidth("350px");
 		riskRating = new Image("redcircle.png");
 		riskRating.setVisible(false);
-	
+
 		HorizontalPanel hpnlSpaceRating = new HorizontalPanel();
-		
+
 		hpnlSpaceRating.setWidth("200px");
 		hpnlMain.add(riskFactor);
 		hpnlMain.add(comments);
@@ -80,67 +74,65 @@ public class RiskFactorsView extends Composite{
 		hpnlMain.add(riskRating);
 		hpnlMain.add(hpnlSpaceRating);
 		hpnlMain.setSpacing(2);
-		
+
 		setHandlers();
-		
+
 	}
-	
-	public void setHandlers(){
-		probabality.addChangeHandler(new ChangeHandler(){
+
+	public void setHandlers() {
+		probabality.addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent arg0) {
 				String level = calculateIMpactAndUpdateRating();
-				for(int i=0; i< rating.getItemCount(); i++){
-					if(rating.getValue(i).equalsIgnoreCase(level)){
+				for (int i = 0; i < rating.getItemCount(); i++) {
+					if (rating.getValue(i).equalsIgnoreCase(level)) {
 						rating.setSelectedIndex(i);
 					}
 				}
-				
-			}});
-		
-		impact.addChangeHandler(new ChangeHandler(){
+
+			}
+		});
+
+		impact.addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent arg0) {
 				String level = calculateIMpactAndUpdateRating();
-				for(int i=0; i< rating.getItemCount(); i++){
-					if(rating.getValue(i).equalsIgnoreCase(level)){
+				for (int i = 0; i < rating.getItemCount(); i++) {
+					if (rating.getValue(i).equalsIgnoreCase(level)) {
 						rating.setSelectedIndex(i);
 					}
 				}
-				
-			}});
+
+			}
+		});
 	}
-	
-	public String calculateIMpactAndUpdateRating(){
+
+	public String calculateIMpactAndUpdateRating() {
 		String ratingLevel = "";
-		if(!probabality.getValue(probabality.getSelectedIndex()).equalsIgnoreCase("0")
-				&& !impact.getValue(impact.getSelectedIndex()).equalsIgnoreCase("0")){
-			
+		if (!probabality.getValue(probabality.getSelectedIndex()).equalsIgnoreCase("0")
+				&& !impact.getValue(impact.getSelectedIndex()).equalsIgnoreCase("0")) {
+
 			int prob = Integer.parseInt(probabality.getValue(probabality.getSelectedIndex()));
 			int imp = Integer.parseInt(impact.getValue(impact.getSelectedIndex()));
-			
-			int ratingValue = prob*imp;
-			
-			if(ratingValue>=6){
+
+			int ratingValue = prob * imp;
+
+			if (ratingValue >= 6) {
 				ratingLevel = "High";
-			}
-			else if(ratingValue>=3){
+			} else if (ratingValue >= 3) {
 				ratingLevel = "Medium";
-			}
-			else{
+			} else {
 				ratingLevel = "Low";
 			}
-			
-			
-		}
-		else{
+
+		} else {
 			ratingLevel = "N/A";
 		}
-		
+
 		return ratingLevel;
-		
+
 	}
 
 	public Label getRiskFactor() {
@@ -194,6 +186,7 @@ public class RiskFactorsView extends Composite{
 	public Image getRiskRating() {
 		return riskRating;
 	}
+
 	public void setRiskRating(Image riskRating) {
 		this.riskRating = riskRating;
 	}

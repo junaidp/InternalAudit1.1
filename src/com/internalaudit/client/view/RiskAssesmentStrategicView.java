@@ -1,12 +1,9 @@
 package com.internalaudit.client.view;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -15,30 +12,35 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.view.data.RiskAssesmentStrategicViewData;
-import com.sencha.gxt.widget.core.client.form.TextField;
 
 public class RiskAssesmentStrategicView extends Composite {
 
-	private static RiskAssesmentStrategicViewUiBinder uiBinder = GWT
-			.create(RiskAssesmentStrategicViewUiBinder.class);
+	private static RiskAssesmentStrategicViewUiBinder uiBinder = GWT.create(RiskAssesmentStrategicViewUiBinder.class);
 
-	interface RiskAssesmentStrategicViewUiBinder extends
-			UiBinder<Widget, RiskAssesmentStrategicView> {
-	
+	interface RiskAssesmentStrategicViewUiBinder extends UiBinder<Widget, RiskAssesmentStrategicView> {
+
 	}
-	
+
 	private String strategicObjective;
-	@UiField ListBox rating;
-	@UiField HorizontalPanel userOption;
-	@UiField ListBox listBoxUserOption;
-	@UiField VerticalPanel riskFactors;
-	@UiField VerticalPanel vpnlComments;
-//	@UiField Button save;
-//	@UiField TextField comments;
-//	@UiField Button amend;
-	@UiField HorizontalPanel hpnlButtons;
+	@UiField
+	ListBox rating;
+	@UiField
+	HorizontalPanel userOption;
+	@UiField
+	ListBox listBoxUserOption;
+	@UiField
+	VerticalPanel riskFactors;
+	@UiField
+	VerticalPanel vpnlComments;
+	// @UiField Button save;
+	// @UiField TextField comments;
+	// @UiField Button amend;
+	@UiField
+	HorizontalPanel hpnlButtons;
 	private Label comments = new Label(" Feedback ");
 	private Image submitted = new Image(" images/tick.png ");
+	private Label lblImg = new Label("  ");
+
 	private ButtonRound btnSave = new ButtonRound("Save");
 	private ButtonRound btnSubmit = new ButtonRound("Submit");
 	private ButtonRound btnApprove = new ButtonRound("Approve");
@@ -51,7 +53,6 @@ public class RiskAssesmentStrategicView extends Composite {
 	private int strategicId;
 	private String comment;
 
-	
 	public ListBox getRating() {
 		return rating;
 	}
@@ -61,62 +62,64 @@ public class RiskAssesmentStrategicView extends Composite {
 	}
 
 	private RiskAssesmentStrategicViewData riskAssesmentStrategicViewData = new RiskAssesmentStrategicViewData();
+
 	public RiskAssesmentStrategicView() {
 		initWidget(uiBinder.createAndBindUi(this));
 		hpnlButtons.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-//		comments.setEmptyText("Enter Comments");
-//		amend.setHeight("25px");
-//		comments.setHeight("100px");
+		// comments.setEmptyText("Enter Comments");
+		// amend.setHeight("25px");
+		// comments.setHeight("100px");
 		submitted.addStyleName("pointer");
 		submitted.setTitle("submitted");
-	    submitted.setVisible(true);
+		submitted.setVisible(true);
+
+		lblImg.setVisible(true);
+		lblImg.setWidth("12px");
 		hpnlButtons.add(hpnlButtonInitiator);
 		hpnlButtons.add(hpnlButtonsApprovar);
-		    HorizontalPanel hpnlSpace = new HorizontalPanel();
-		    HorizontalPanel hpnlSpaceApprovar = new HorizontalPanel();
-		    
-			hpnlButtonsApprovar.add(hpnlSpaceApprovar);
-			hpnlButtonsApprovar.add(btnAmend);
-			hpnlButtonsApprovar.add(btnApprove);
-			hpnlButtonsApprovar.setSpacing(2);
-			
-			hpnlButtonsApprovar.setVisible(false);
-			hpnlButtonInitiator.setVisible(false);
-//			
-//			btnDecline.setWidth("70px");
-//			btnAmend.setWidth("70px");
-//			btnApprove.setWidth("70px");
-		    
-			hpnlSpace.setWidth("600px");
-			hpnlSpaceApprovar.setWidth("600px");
-			hpnlButtonInitiator.add(hpnlSpace);
-			 hpnlButtonInitiator.add(btnDeclineInitiator);
-			 btnDeclineInitiator.setVisible(false);
-		    hpnlButtonInitiator.add(btnSave);
-		    hpnlButtonInitiator.add(btnSubmit);
-//		    btnSave.setWidth("70px");
-//		    btnSubmit.setWidth("70px");
-//		    btnDeclineInitiator.setWidth("70px");
-		    hpnlButtonInitiator.setSpacing(2);
-		    HorizontalPanel hpnlComments = new HorizontalPanel();
-		    
-		    hpnlComments.add(comments);
-//		    hpnlComments.add(submitted);  change here
-		    vpnlComments.add(hpnlComments);
-		    hpnlComments.setSpacing(5);
-		    
-//		    vpnlComments.add(comments);
-//		    hpnlStrategic.setWidth("900px");
-		
-		
+		HorizontalPanel hpnlSpace = new HorizontalPanel();
+		HorizontalPanel hpnlSpaceApprovar = new HorizontalPanel();
+
+		hpnlButtonsApprovar.add(hpnlSpaceApprovar);
+		hpnlButtonsApprovar.add(btnAmend);
+		hpnlButtonsApprovar.add(btnApprove);
+		hpnlButtonsApprovar.setSpacing(2);
+
+		hpnlButtonsApprovar.setVisible(false);
+		hpnlButtonInitiator.setVisible(false);
+		//
+		// btnDecline.setWidth("70px");
+		// btnAmend.setWidth("70px");
+		// btnApprove.setWidth("70px");
+
+		hpnlSpace.setWidth("600px");
+		hpnlSpaceApprovar.setWidth("600px");
+		hpnlButtonInitiator.add(hpnlSpace);
+		hpnlButtonInitiator.add(btnDeclineInitiator);
+		btnDeclineInitiator.setVisible(false);
+		hpnlButtonInitiator.add(btnSave);
+		hpnlButtonInitiator.add(btnSubmit);
+		// btnSave.setWidth("70px");
+		// btnSubmit.setWidth("70px");
+		// btnDeclineInitiator.setWidth("70px");
+		hpnlButtonInitiator.setSpacing(2);
+		HorizontalPanel hpnlComments = new HorizontalPanel();
+
+		hpnlComments.add(comments);
+		// hpnlComments.add(submitted); change here
+		vpnlComments.add(hpnlComments);
+		hpnlComments.setSpacing(5);
+
+		// vpnlComments.add(comments);
+		// hpnlStrategic.setWidth("900px");
+
 	}
-	
+
 	public RiskAssesmentStrategicViewData getRiskAssesmentStrategicViewData() {
 		return riskAssesmentStrategicViewData;
 	}
 
-	public void setRiskAssesmentStrategicViewData(
-			RiskAssesmentStrategicViewData riskAssesmentStrategicViewData) {
+	public void setRiskAssesmentStrategicViewData(RiskAssesmentStrategicViewData riskAssesmentStrategicViewData) {
 		this.riskAssesmentStrategicViewData = riskAssesmentStrategicViewData;
 	}
 
@@ -136,13 +139,13 @@ public class RiskAssesmentStrategicView extends Composite {
 		this.riskFactors = riskFactors;
 	}
 
-//	public Button getSave() {
-//		return save;
-//	}
-//
-//	public void setSave(Button save) {
-//		this.save = save;
-//	}
+	// public Button getSave() {
+	// return save;
+	// }
+	//
+	// public void setSave(Button save) {
+	// this.save = save;
+	// }
 
 	public int getIndex() {
 		return index;
@@ -256,23 +259,28 @@ public class RiskAssesmentStrategicView extends Composite {
 		this.listBoxUserOption = listBoxUserOption;
 	}
 
-	
+	public Label getLblImg() {
+		return lblImg;
+	}
 
-//	public TextField getComments() {
-//		return comments;
-//	}
-//
-//	public void setComments(TextField comments) {
-//		this.comments = comments;
-//	}
-//
-//	public Button getAmend() {
-//		return amend;
-//	}
-//
-//	public void setAmend(Button amend) {
-//		this.amend = amend;
-//	}
+	public void setLblImg(Label lblImg) {
+		this.lblImg = lblImg;
+	}
 
-	
+	// public TextField getComments() {
+	// return comments;
+	// }
+	//
+	// public void setComments(TextField comments) {
+	// this.comments = comments;
+	// }
+	//
+	// public Button getAmend() {
+	// return amend;
+	// }
+	//
+	// public void setAmend(Button amend) {
+	// this.amend = amend;
+	// }
+
 }

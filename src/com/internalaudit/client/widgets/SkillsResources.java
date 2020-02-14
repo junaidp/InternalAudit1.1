@@ -1,13 +1,13 @@
 package com.internalaudit.client.widgets;
 
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class SkillsResources extends Composite {
 
-	private HorizontalPanel hpnlMain;
+	private VerticalPanel hpnlMain;
 	private ListBox skillsList;
 	private TextBox noOfResources;
 
@@ -15,25 +15,25 @@ public class SkillsResources extends Composite {
 
 	public SkillsResources() {
 
-		hpnlMain = new HorizontalPanel();
+		hpnlMain = new VerticalPanel();
 
 		initWidget(hpnlMain);
 
 		skillsList = new ListBox();
 
 		noOfResources = new TextBox();
-
+		noOfResources.addStyleName("smallTEXTBOX");
 		hpnlMain.add(skillsList);
 
 		hpnlMain.add(noOfResources);
 
 	}
 
-	public HorizontalPanel getHpnlMain() {
+	public VerticalPanel getHpnlMain() {
 		return hpnlMain;
 	}
 
-	public void setHpnlMain(HorizontalPanel hpnlMain) {
+	public void setHpnlMain(VerticalPanel hpnlMain) {
 		this.hpnlMain = hpnlMain;
 	}
 

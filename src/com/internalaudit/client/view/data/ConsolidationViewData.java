@@ -447,8 +447,15 @@ public class ConsolidationViewData {
 		consolidationView.getHpnlButtonInitiator().setVisible(false);
 		consolidationView.getAuditableUnit().setEnabled(false);
 		consolidationView.getListBoxProcess().setEnabled(false);
+		consolidationView.getListBoxProcess().addStyleName("listboxDisabled");
+		consolidationView.getListBoxProcess().setWidth("151px");
 		consolidationView.getListBoxSubProcess().setEnabled(false);
+		consolidationView.getListBoxSubProcess().addStyleName("listboxDisabled");
+		consolidationView.getListBoxSubProcess().setWidth("176px");
+
 		consolidationView.getListBoxJobType().setEnabled(false);
+		consolidationView.getListBoxJobType().addStyleName("listboxDisabled");
+
 		consolidationView.getSubmitted().setVisible(true);
 		consolidationView.getSubmitted()
 				.setTitle(strategic.getStatus() + ": In " + PhaseNames.getPhaseNames(strategic.getPhase()));

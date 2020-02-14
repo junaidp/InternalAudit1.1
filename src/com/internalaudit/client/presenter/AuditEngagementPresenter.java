@@ -25,7 +25,6 @@ import com.internalaudit.client.portal.JobStatusPortaLayout;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.JobData;
 import com.internalaudit.client.view.AuditEngagement.KickoffView;
-import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.JobStatusDTO;
@@ -172,8 +171,9 @@ public class AuditEngagementPresenter implements Presenter {
 
 			for (int i = 0; i < headings.length; i++) {
 
-				LabelHeading heading = new LabelHeading();
+				Label heading = new Label();
 				heading.setText(headings[i]);
+				heading.addStyleName("labelDesignNormalSize");
 
 				// heading.addStyleName("jobStatusHeading");
 
@@ -248,11 +248,12 @@ public class AuditEngagementPresenter implements Presenter {
 
 					}
 				});
-				records.setWidget(i + 1, 3, kick);
+				/// records.setWidget(i + 1, 4, kick);
 
 				if ("Not Started".equals(allJobsAndStatus.get(i).getJobStatus())) {
 					jobName.removeStyleName("point");
 					kick.setVisible(true);
+					records.setWidget(i + 1, 4, kick);
 					kick.addStyleName("statusCell");
 				}
 
@@ -317,10 +318,10 @@ public class AuditEngagementPresenter implements Presenter {
 		progressFieldWork.setWidth(105);
 		progressReporting.setWidth(75);
 
-		records.setWidget(i + 1, 4, progressPlanning);
-		records.setWidget(i + 1, 5, progressFieldWork);
-		records.setWidget(i + 1, 6, progressReporting);
-		records.setWidget(i + 1, 7, AnchorJobStatus);
+		records.setWidget(i + 1, 5, progressPlanning);
+		records.setWidget(i + 1, 6, progressFieldWork);
+		records.setWidget(i + 1, 7, progressReporting);
+		records.setWidget(i + 1, 8, AnchorJobStatus);
 	}
 
 	private void fetchJobStatus(int jobId) {

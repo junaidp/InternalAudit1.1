@@ -12,10 +12,10 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.DisplayAlert;
@@ -51,7 +51,7 @@ public class JobCreationPresenter implements Presenter {
 
 		TextBox getEstimatedWeeks();
 
-		VerticalPanel getSkillResourceContainer();
+		HorizontalPanel getSkillResourceContainer();
 
 		ListBox getProposedResources();
 

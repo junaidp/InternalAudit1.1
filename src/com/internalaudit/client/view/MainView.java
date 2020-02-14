@@ -62,7 +62,7 @@ public class MainView extends Composite implements Display {
 		// new code
 		logger.setLevel(Level.DEBUG);
 		logger.info("Signed In on from logmain view" + new Date());
-		panel.getElement().getStyle().setMarginLeft(50, Unit.PX);
+		panel.getElement().getStyle().setMarginLeft(2, Unit.PX);
 		panelImages.setWidth("110px");
 		panelImages.setHeight("200px");
 		// panelImages.getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
@@ -137,7 +137,7 @@ public class MainView extends Composite implements Display {
 
 		HorizontalPanel hpnlMain = new HorizontalPanel();
 		Image imgHeader = new Image("images/trans.png");
-		imgHeader.getElement().getStyle().setPaddingLeft(50, Unit.PX);
+		// imgHeader.getElement().getStyle().setPaddingLeft(50, Unit.PX);
 		// imgHeader.addStyleName("w3-margin");
 		imgHeader.getElement().getStyle().setMarginBottom(10, Unit.PX);
 		VerticalPanel vp = new VerticalPanel();
@@ -220,7 +220,7 @@ public class MainView extends Composite implements Display {
 		checkpanel.add(panel);
 
 		panelBar.addStyleName("w3-bar-block w3-border w3-light-blue");
-		vpnlTabPanel.getElement().getStyle().setPaddingLeft(12, Unit.PX);
+		// vpnlTabPanel.getElement().getStyle().setPaddingLeft(12, Unit.PX);
 		hpnl.setWidth("0%");
 		vpnlTabPanel.add(checkpanel);
 		// vpnlTabPanel.add(panelImages);

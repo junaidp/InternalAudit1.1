@@ -3,7 +3,6 @@ package com.internalaudit.client.view;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -19,312 +18,315 @@ import com.sencha.gxt.widget.core.client.form.TextField;
 
 public class AuditUniverseStrategicView extends Composite {
 
-    private static AuditUniverseStrategicViewUiBinder uiBinder = GWT.create(AuditUniverseStrategicViewUiBinder.class);
+	private static AuditUniverseStrategicViewUiBinder uiBinder = GWT.create(AuditUniverseStrategicViewUiBinder.class);
 
-    interface AuditUniverseStrategicViewUiBinder extends UiBinder<Widget, AuditUniverseStrategicView> {
-    }
+	interface AuditUniverseStrategicViewUiBinder extends UiBinder<Widget, AuditUniverseStrategicView> {
+	}
 
-    @UiField
-    VerticalPanel mainPanel;
-    IconButton btnAdd = new IconButton("+..");
-    private AuditUniverseStrategicViewData auditUniverseStrategicViewData = new AuditUniverseStrategicViewData();
-    private ListBox lstObjectiveOwner = new ListBox();
-    private ListBox relevantDepartment = new ListBox();
-    private DateField objectiveAchievementDate = new DateField();
-    private TextField strategicObjective = new TextField();
-    private Label comments = new Label(" Feedback ");
-    private Image submitted = new Image(" images/tick.png ");
+	@UiField
+	VerticalPanel mainPanel;
+	IconButton btnAdd = new IconButton("+..");
 
-    private int strategicId;
-    private ButtonRound btnSave = new ButtonRound("Save");
-    private ButtonRound btnSubmit = new ButtonRound("Submit");
-    private ButtonRound btnApprove = new ButtonRound("Approve");
-    private ButtonRound btnDecline = new ButtonRound("Delete");
-    private ButtonRound btnDeclineInitiator = new ButtonRound("Delete");
-    private ButtonRound btnAmend = new ButtonRound("Feedback");
-    private HorizontalPanel hpnlButtonInitiator = new HorizontalPanel();
-    private HorizontalPanel hpnlButtonsApprovar = new HorizontalPanel();
-    private String comment;
-    private Label lblStrategicId = new Label();
-    private ScrollPanel relevantDepartmentPanel = new ScrollPanel();
-    private VerticalPanel vpnlRelevantDepartmentPanel = new VerticalPanel();
+	private AuditUniverseStrategicViewData auditUniverseStrategicViewData = new AuditUniverseStrategicViewData();
+	private ListBox lstObjectiveOwner = new ListBox();
+	private ListBox relevantDepartment = new ListBox();
+	private DateField objectiveAchievementDate = new DateField();
+	private TextField strategicObjective = new TextField();
+	private Label comments = new Label(" Feedback ");
+	private Image submitted = new Image(" images/tick.png ");
 
-    public AuditUniverseStrategicView() {
-	initWidget(uiBinder.createAndBindUi(this));
-	relevantDepartmentPanel.setVisible(false);
-	bind();
-	submitted.setVisible(false);
-	comments.setVisible(false);
-    }
+	private int strategicId;
+	private ButtonRound btnSave = new ButtonRound("Save");
+	private ButtonRound btnSubmit = new ButtonRound("Submit");
+	private ButtonRound btnApprove = new ButtonRound("Approve");
+	private ButtonRound btnDecline = new ButtonRound("Delete");
+	private ButtonRound btnDeclineInitiator = new ButtonRound("Delete");
+	private ButtonRound btnAmend = new ButtonRound("Feedback");
+	private HorizontalPanel hpnlButtonInitiator = new HorizontalPanel();
+	private HorizontalPanel hpnlButtonsApprovar = new HorizontalPanel();
+	private String comment;
+	private Label lblStrategicId = new Label();
+	private ScrollPanel relevantDepartmentPanel = new ScrollPanel();
+	private VerticalPanel vpnlRelevantDepartmentPanel = new VerticalPanel();
 
-    private void bind() {
-	mainPanelLayout();
-    }
+	public AuditUniverseStrategicView() {
+		initWidget(uiBinder.createAndBindUi(this));
+		relevantDepartmentPanel.setVisible(false);
+		bind();
+		submitted.setVisible(false);
+		comments.setVisible(false);
 
-    private void mainPanelLayout() {
-	strategicObjective.setEmptyText("Enter Objective");
-	// lstObjectiveOwner.setWidth("150px");
-	relevantDepartment.setWidth("150px");
-	strategicObjective.setWidth("790px");
-	VerticalPanel vpnlStrategicId = new VerticalPanel();
-	VerticalPanel vpnlStrategicObjective = new VerticalPanel();
-	vpnlStrategicObjective.setWidth("920px");
-	VerticalPanel vpnlLstObjectiveOwner = new VerticalPanel();
-	VerticalPanel vpnlRelevantDepartment = new VerticalPanel();
-	VerticalPanel vpnlObjectiveAchievementDate = new VerticalPanel();
-	Label lblStrategicObjective = new Label(AuditConstants.STRATEGICOBJECTIVE);
-	Label lblOwner = new Label(AuditConstants.OBJECTIVEOWNER);
-	Label lblDepartment = new Label(AuditConstants.OBJECTIVEDEPT);
-	Label lblDate = new Label(AuditConstants.OBJECTIVEDATE);
+	}
 
-	lblStrategicObjective.setWidth("600px");
-	lblStrategicObjective.addStyleName("navybluebold");
-	lblOwner.addStyleName("blue");
-	lblDepartment.addStyleName("blue");
-	lblDate.addStyleName("blue");
-	submitted.addStyleName("pointer");
-	submitted.setTitle("submitted");
+	private void bind() {
+		mainPanelLayout();
+	}
 
-	// vpnlStrategicObjective.add(lblStrategicObjective);
-	// vpnlLstObjectiveOwner.add(lblOwner);
-	// vpnlRelevantDepartment.add(lblDepartment);
-	// vpnlObjectiveAchievementDate.add(lblDate);
+	private void mainPanelLayout() {
+		strategicObjective.setEmptyText("Enter Objective");
+		// lstObjectiveOwner.setWidth("150px");
+		relevantDepartment.setWidth("150px");
+		strategicObjective.setWidth("790px");
+		VerticalPanel vpnlStrategicId = new VerticalPanel();
+		VerticalPanel vpnlStrategicObjective = new VerticalPanel();
+		vpnlStrategicObjective.setWidth("805px");
+		VerticalPanel vpnlLstObjectiveOwner = new VerticalPanel();
+		VerticalPanel vpnlRelevantDepartment = new VerticalPanel();
+		VerticalPanel vpnlObjectiveAchievementDate = new VerticalPanel();
+		Label lblStrategicObjective = new Label(AuditConstants.STRATEGICOBJECTIVE);
+		Label lblOwner = new Label(AuditConstants.OBJECTIVEOWNER);
+		Label lblDepartment = new Label(AuditConstants.OBJECTIVEDEPT);
+		Label lblDate = new Label(AuditConstants.OBJECTIVEDATE);
 
-	vpnlStrategicObjective.add(strategicObjective);
-	vpnlLstObjectiveOwner.add(lstObjectiveOwner);
-	vpnlStrategicId.add(lblStrategicId);
-	relevantDepartment.setMultipleSelect(true);
-	vpnlRelevantDepartment.add(relevantDepartment);
-	vpnlRelevantDepartment.add(relevantDepartmentPanel);
-	relevantDepartmentPanel.add(vpnlRelevantDepartmentPanel);
-	relevantDepartmentPanel.setHeight("30px");
-	vpnlRelevantDepartment.setSpacing(1);
-	vpnlObjectiveAchievementDate.add(objectiveAchievementDate);
+		lblStrategicObjective.setWidth("600px");
+		lblStrategicObjective.addStyleName("navybluebold");
+		lblOwner.addStyleName("blue");
+		lblDepartment.addStyleName("blue");
+		lblDate.addStyleName("blue");
+		submitted.addStyleName("pointer");
+		submitted.setTitle("submitted");
 
-	HorizontalPanel hpnlStrategic = new HorizontalPanel();
-	// hpnlStrategic.add(strategicObjective);
-	// hpnlStrategic.add(lstObjectiveOwner);
-	// hpnlStrategic.add(relevantDepartment);
-	// hpnlStrategic.add(objectiveAchievementDate);
-	lblStrategicId.addStyleName("blue");
-	lblStrategicId.setWidth("45px");
-	hpnlStrategic.add(vpnlStrategicId);
-	hpnlStrategic.add(vpnlStrategicObjective);
-	// hpnlStrategic.setSpacing(3);
-	// hpnlStrategic.add(vpnlLstObjectiveOwner);
-	hpnlStrategic.add(vpnlRelevantDepartment);
-	// hpnlStrategic.add(vpnlObjectiveAchievementDate);
-	HorizontalPanel hpnlComments = new HorizontalPanel();
+		// vpnlStrategicObjective.add(lblStrategicObjective);
+		// vpnlLstObjectiveOwner.add(lblOwner);
+		// vpnlRelevantDepartment.add(lblDepartment);
+		// vpnlObjectiveAchievementDate.add(lblDate);
 
-	hpnlComments.setWidth("100px");
-	hpnlComments.add(comments);
-	hpnlComments.add(submitted);
-	hpnlStrategic.add(hpnlComments);
-	// hpnlStrategic.add(comments);
-	// hpnlStrategic.add(submitted);
-	// comments.addStyleName("white");
-	mainPanel.add(hpnlStrategic);
-	mainPanel.add(hpnlButtonInitiator);
-	mainPanel.add(hpnlButtonsApprovar);
-	HorizontalPanel hpnlSpace = new HorizontalPanel();
-	HorizontalPanel hpnlSpaceApprovar = new HorizontalPanel();
+		vpnlStrategicObjective.add(strategicObjective);
+		vpnlLstObjectiveOwner.add(lstObjectiveOwner);
+		vpnlStrategicId.add(lblStrategicId);
+		relevantDepartment.setMultipleSelect(true);
+		vpnlRelevantDepartment.add(relevantDepartment);
+		vpnlRelevantDepartment.add(relevantDepartmentPanel);
+		relevantDepartmentPanel.add(vpnlRelevantDepartmentPanel);
+		relevantDepartmentPanel.setHeight("30px");
+		vpnlRelevantDepartment.setSpacing(1);
+		vpnlObjectiveAchievementDate.add(objectiveAchievementDate);
 
-	hpnlButtonsApprovar.add(hpnlSpaceApprovar);
-	hpnlButtonsApprovar.add(btnDecline);
-	hpnlButtonsApprovar.add(btnAmend);
-	hpnlButtonsApprovar.add(btnApprove);
-	hpnlButtonsApprovar.setSpacing(2);
+		HorizontalPanel hpnlStrategic = new HorizontalPanel();
+		// hpnlStrategic.add(strategicObjective);
+		// hpnlStrategic.add(lstObjectiveOwner);
+		// hpnlStrategic.add(relevantDepartment);
+		// hpnlStrategic.add(objectiveAchievementDate);
+		lblStrategicId.addStyleName("blue");
+		lblStrategicId.setWidth("45px");
+		hpnlStrategic.add(vpnlStrategicId);
+		hpnlStrategic.add(vpnlStrategicObjective);
+		// hpnlStrategic.setSpacing(3);
+		// hpnlStrategic.add(vpnlLstObjectiveOwner);
+		HorizontalPanel hpnlComments = new HorizontalPanel();
 
-	hpnlButtonsApprovar.setVisible(false);
-	hpnlButtonInitiator.setVisible(false);
+		hpnlComments.setWidth("115px");
+		hpnlComments.add(comments);
+		hpnlComments.add(submitted);
+		hpnlStrategic.add(hpnlComments);
+		hpnlStrategic.add(vpnlRelevantDepartment);
+		// hpnlStrategic.add(vpnlObjectiveAchievementDate);
 
-//	btnDecline.setWidth("70px");
-//	btnAmend.setWidth("70px");
-//	btnApprove.setWidth("70px");
+		// hpnlStrategic.add(comments);
+		// hpnlStrategic.add(submitted);
+		// comments.addStyleName("white");
+		mainPanel.add(hpnlStrategic);
+		mainPanel.add(hpnlButtonInitiator);
+		mainPanel.add(hpnlButtonsApprovar);
+		HorizontalPanel hpnlSpace = new HorizontalPanel();
+		HorizontalPanel hpnlSpaceApprovar = new HorizontalPanel();
 
-	hpnlSpace.setWidth("650px");
-	hpnlSpaceApprovar.setWidth("650px");
-	hpnlButtonInitiator.add(hpnlSpace);
-	hpnlButtonInitiator.add(btnDeclineInitiator);
-	btnDeclineInitiator.setVisible(false);
-	hpnlButtonInitiator.add(btnSave);
-	hpnlButtonInitiator.add(btnSubmit);
-	btnSave.setWidth("70px");
-	btnSubmit.setWidth("70px");
-	btnDeclineInitiator.setWidth("70px");
-	hpnlButtonInitiator.setSpacing(2);
-	hpnlStrategic.setWidth("900px");
+		hpnlButtonsApprovar.add(hpnlSpaceApprovar);
+		hpnlButtonsApprovar.add(btnDecline);
+		hpnlButtonsApprovar.add(btnAmend);
+		hpnlButtonsApprovar.add(btnApprove);
+		hpnlButtonsApprovar.setSpacing(2);
 
-	mainPanel.addStyleName("form-row");
+		hpnlButtonsApprovar.setVisible(false);
+		hpnlButtonInitiator.setVisible(false);
 
-    }
+		// btnDecline.setWidth("70px");
+		// btnAmend.setWidth("70px");
+		// btnApprove.setWidth("70px");
 
-    public IconButton getBtnAdd() {
-	return btnAdd;
-    }
+		hpnlSpace.setWidth("850px");
+		hpnlSpaceApprovar.setWidth("850px");
+		hpnlButtonInitiator.add(hpnlSpace);
+		hpnlButtonInitiator.add(btnDeclineInitiator);
+		btnDeclineInitiator.setVisible(false);
+		hpnlButtonInitiator.add(btnSave);
+		hpnlButtonInitiator.add(btnSubmit);
+		btnSave.setWidth("70px");
+		btnSubmit.setWidth("70px");
+		btnDeclineInitiator.setWidth("70px");
+		hpnlButtonInitiator.setSpacing(2);
+		hpnlStrategic.setWidth("900px");
 
-    public void setBtnAdd(IconButton btnAdd) {
-	this.btnAdd = btnAdd;
-    }
+		mainPanel.addStyleName("form-row");
 
-    public AuditUniverseStrategicViewData getAuditUniverseStrategicViewData() {
-	return auditUniverseStrategicViewData;
-    }
+	}
 
-    public void setAuditUniverseStrategicViewData(AuditUniverseStrategicViewData auditUniverseStrategicViewData) {
-	this.auditUniverseStrategicViewData = auditUniverseStrategicViewData;
-    }
+	public IconButton getBtnAdd() {
+		return btnAdd;
+	}
 
-    public ListBox getLstObjectiveOwner() {
-	return lstObjectiveOwner;
-    }
+	public void setBtnAdd(IconButton btnAdd) {
+		this.btnAdd = btnAdd;
+	}
 
-    public void setLstObjectiveOwner(ListBox lstObjectiveOwner) {
-	this.lstObjectiveOwner = lstObjectiveOwner;
-    }
+	public AuditUniverseStrategicViewData getAuditUniverseStrategicViewData() {
+		return auditUniverseStrategicViewData;
+	}
 
-    public ListBox getRelevantDepartment() {
-	return relevantDepartment;
-    }
+	public void setAuditUniverseStrategicViewData(AuditUniverseStrategicViewData auditUniverseStrategicViewData) {
+		this.auditUniverseStrategicViewData = auditUniverseStrategicViewData;
+	}
 
-    public void setRelevantDepartment(ListBox relevantDepartment) {
-	this.relevantDepartment = relevantDepartment;
-    }
+	public ListBox getLstObjectiveOwner() {
+		return lstObjectiveOwner;
+	}
 
-    public DateField getObjectiveAchievementDate() {
-	return objectiveAchievementDate;
-    }
+	public void setLstObjectiveOwner(ListBox lstObjectiveOwner) {
+		this.lstObjectiveOwner = lstObjectiveOwner;
+	}
 
-    public void setObjectiveAchievementDate(DateField objectiveAchievementDate) {
-	this.objectiveAchievementDate = objectiveAchievementDate;
-    }
+	public ListBox getRelevantDepartment() {
+		return relevantDepartment;
+	}
 
-    public TextField getStrategicObjective() {
-	return strategicObjective;
-    }
+	public void setRelevantDepartment(ListBox relevantDepartment) {
+		this.relevantDepartment = relevantDepartment;
+	}
 
-    public void setStrategicObjective(TextField strategicObjective) {
-	this.strategicObjective = strategicObjective;
-    }
+	public DateField getObjectiveAchievementDate() {
+		return objectiveAchievementDate;
+	}
 
-    public int getStrategicId() {
-	return strategicId;
-    }
+	public void setObjectiveAchievementDate(DateField objectiveAchievementDate) {
+		this.objectiveAchievementDate = objectiveAchievementDate;
+	}
 
-    public void setStrategicId(int strategicId) {
-	this.strategicId = strategicId;
-    }
+	public TextField getStrategicObjective() {
+		return strategicObjective;
+	}
 
-    public Label getComments() {
-	return comments;
-    }
+	public void setStrategicObjective(TextField strategicObjective) {
+		this.strategicObjective = strategicObjective;
+	}
 
-    public void setComments(Label comments) {
-	this.comments = comments;
-    }
+	public int getStrategicId() {
+		return strategicId;
+	}
 
-    public ButtonRound getBtnSave() {
-	return btnSave;
-    }
+	public void setStrategicId(int strategicId) {
+		this.strategicId = strategicId;
+	}
 
-    public void setBtnSave(ButtonRound btnSave) {
-	this.btnSave = btnSave;
-    }
+	public Label getComments() {
+		return comments;
+	}
 
-    public ButtonRound getBtnSubmit() {
-	return btnSubmit;
-    }
+	public void setComments(Label comments) {
+		this.comments = comments;
+	}
 
-    public void setBtnSubmit(ButtonRound btnSubmit) {
-	this.btnSubmit = btnSubmit;
-    }
+	public ButtonRound getBtnSave() {
+		return btnSave;
+	}
 
-    public HorizontalPanel getHpnlButtonInitiator() {
-	return hpnlButtonInitiator;
-    }
+	public void setBtnSave(ButtonRound btnSave) {
+		this.btnSave = btnSave;
+	}
 
-    public void setHpnlButtonInitiator(HorizontalPanel hpnlButtonInitiator) {
-	this.hpnlButtonInitiator = hpnlButtonInitiator;
-    }
+	public ButtonRound getBtnSubmit() {
+		return btnSubmit;
+	}
 
-    public ButtonRound getBtnApprove() {
-	return btnApprove;
-    }
+	public void setBtnSubmit(ButtonRound btnSubmit) {
+		this.btnSubmit = btnSubmit;
+	}
 
-    public void setBtnApprove(ButtonRound btnApprove) {
-	this.btnApprove = btnApprove;
-    }
+	public HorizontalPanel getHpnlButtonInitiator() {
+		return hpnlButtonInitiator;
+	}
 
-    public ButtonRound getBtnDecline() {
-	return btnDecline;
-    }
+	public void setHpnlButtonInitiator(HorizontalPanel hpnlButtonInitiator) {
+		this.hpnlButtonInitiator = hpnlButtonInitiator;
+	}
 
-    public void setBtnDecline(ButtonRound btnDecline) {
-	this.btnDecline = btnDecline;
-    }
+	public ButtonRound getBtnApprove() {
+		return btnApprove;
+	}
 
-    public ButtonRound getBtnAmend() {
-	return btnAmend;
-    }
+	public void setBtnApprove(ButtonRound btnApprove) {
+		this.btnApprove = btnApprove;
+	}
 
-    public void setBtnAmend(ButtonRound btnAmend) {
-	this.btnAmend = btnAmend;
-    }
+	public ButtonRound getBtnDecline() {
+		return btnDecline;
+	}
 
-    public HorizontalPanel getHpnlButtonsApprovar() {
-	return hpnlButtonsApprovar;
-    }
+	public void setBtnDecline(ButtonRound btnDecline) {
+		this.btnDecline = btnDecline;
+	}
 
-    public void setHpnlButtonsApprovar(HorizontalPanel hpnlButtonsApprovar) {
-	this.hpnlButtonsApprovar = hpnlButtonsApprovar;
-    }
+	public ButtonRound getBtnAmend() {
+		return btnAmend;
+	}
 
-    public ButtonRound getBtnDeclineInitiator() {
-	return btnDeclineInitiator;
-    }
+	public void setBtnAmend(ButtonRound btnAmend) {
+		this.btnAmend = btnAmend;
+	}
 
-    public void setBtnDeclineInitiator(ButtonRound btnDeclineInitiator) {
-	this.btnDeclineInitiator = btnDeclineInitiator;
-    }
+	public HorizontalPanel getHpnlButtonsApprovar() {
+		return hpnlButtonsApprovar;
+	}
 
-    public String getComment() {
-	return comment;
-    }
+	public void setHpnlButtonsApprovar(HorizontalPanel hpnlButtonsApprovar) {
+		this.hpnlButtonsApprovar = hpnlButtonsApprovar;
+	}
 
-    public void setComment(String comment) {
-	this.comment = comment;
-    }
+	public ButtonRound getBtnDeclineInitiator() {
+		return btnDeclineInitiator;
+	}
 
-    public Label getLblStrategicId() {
-	return lblStrategicId;
-    }
+	public void setBtnDeclineInitiator(ButtonRound btnDeclineInitiator) {
+		this.btnDeclineInitiator = btnDeclineInitiator;
+	}
 
-    public void setLblStrategicId(Label lblStrategicId) {
-	this.lblStrategicId = lblStrategicId;
-    }
+	public String getComment() {
+		return comment;
+	}
 
-    public VerticalPanel getVpnlRelevantDepartmentPanel() {
-	return vpnlRelevantDepartmentPanel;
-    }
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 
-    public void setVpnlRelevantDepartmentPanel(VerticalPanel vpnlRelevantDepartmentPanel) {
-	this.vpnlRelevantDepartmentPanel = vpnlRelevantDepartmentPanel;
-    }
+	public Label getLblStrategicId() {
+		return lblStrategicId;
+	}
 
-    public ScrollPanel getRelevantDepartmentPanel() {
-	return relevantDepartmentPanel;
-    }
+	public void setLblStrategicId(Label lblStrategicId) {
+		this.lblStrategicId = lblStrategicId;
+	}
 
-    public void setRelevantDepartmentPanel(ScrollPanel relevantDepartmentPanel) {
-	this.relevantDepartmentPanel = relevantDepartmentPanel;
-    }
+	public VerticalPanel getVpnlRelevantDepartmentPanel() {
+		return vpnlRelevantDepartmentPanel;
+	}
 
-    public Image getSubmitted() {
-	return submitted;
-    }
+	public void setVpnlRelevantDepartmentPanel(VerticalPanel vpnlRelevantDepartmentPanel) {
+		this.vpnlRelevantDepartmentPanel = vpnlRelevantDepartmentPanel;
+	}
 
-    public void setSubmitted(Image submitted) {
-	this.submitted = submitted;
-    }
+	public ScrollPanel getRelevantDepartmentPanel() {
+		return relevantDepartmentPanel;
+	}
+
+	public void setRelevantDepartmentPanel(ScrollPanel relevantDepartmentPanel) {
+		this.relevantDepartmentPanel = relevantDepartmentPanel;
+	}
+
+	public Image getSubmitted() {
+		return submitted;
+	}
+
+	public void setSubmitted(Image submitted) {
+		this.submitted = submitted;
+	}
 
 }

@@ -24,7 +24,7 @@
 				</div>
 				
 				<div class="field-div">
-					<g:TextBox ui:field="domainText" styleName="bigbox" enabled="false"></g:TextBox>
+					<g:TextBox ui:field="domainText" styleName="smallTEXTBOX" enabled="false"></g:TextBox>
 				</div>
 			
 			</div>
@@ -54,15 +54,15 @@
 			
 			</div>
 			
-			
-			<div class="form-row">
+			<div	class="containerHorizontal">
+			<div class="form-rowSmall">
 			
 				<div class="label-div">
 					<g:Label text="Risk Rating" wordWrap="false"></g:Label>
 				</div>
 				
 				<div class="field-div">
-					<g:TextBox ui:field="riskRating"  enabled="false" styleName="bigbox"></g:TextBox>
+					<g:TextBox ui:field="riskRating"  enabled="false" styleName="smallTEXTBOX"></g:TextBox>
 				</div>
 			
 			</div>
@@ -74,11 +74,11 @@
 				</div>
 				
 				<div class="field-div">
-					<g:TextBox ui:field="estimatedWeeks" enabled="false" styleName="bigbox"></g:TextBox>
+					<g:TextBox ui:field="estimatedWeeks" enabled="false" styleName="smallTEXTBOX"></g:TextBox>
 				</div>
 			
 			</div>
-						
+					</div>	
 			
 			<div class="form-row">	
 				<div class="label-div">
@@ -86,15 +86,16 @@
 				</div>
 				
 				<div class="field-div">
-					<g:VerticalPanel ui:field="skillResourceContainer">
+					<g:HorizontalPanel ui:field="skillResourceContainer">
 			
-					</g:VerticalPanel>
+					</g:HorizontalPanel>
 				</div>
 			</div>
 
 			<g:Label styleName="blue"> Required Skills</g:Label>
 			
-			<div class="form-row">
+			<div	class="containerHorizontal">
+			<div class="form-rowSmall">
 			
 				<div class="label-div">
 					<g:Label text="Technical" wordWrap="false"></g:Label>
@@ -121,7 +122,7 @@
 				</div>
 			
 			</div>
-			
+			</div>
 
 			<div class="form-row">
 			
@@ -164,8 +165,8 @@
 				</div>
 				
 				<div class="field-div">
-					<g:Button text="Save" ui:field="saveJobCreation"></g:Button>
-					<g:Button text="Back" ui:field="backButton"></g:Button>
+					<g:Button text="Save" ui:field="saveJobCreation" styleName="buttonDesign"></g:Button>
+					<g:Button text="Back" ui:field="backButton" styleName="buttonDesign"></g:Button>
 				</div>
 			
 			</div>						
