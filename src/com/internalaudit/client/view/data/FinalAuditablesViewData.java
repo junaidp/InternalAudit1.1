@@ -94,7 +94,7 @@ public class FinalAuditablesViewData {
 				hpnlHeading.add(lblStatus);
 				// hpnlHeading.addStyleName("statusRowConsolidation");
 
-				lblUnitHeading.addStyleName("labelHeading");
+				// lblUnitHeading.addStyleName("labelHeading");
 				lblObjHeading.addStyleName("labelHeading");
 				finalAuditablesView.getAreas().add(hpnlHeading);
 				// for(int i=0; i< result.size(); i++){

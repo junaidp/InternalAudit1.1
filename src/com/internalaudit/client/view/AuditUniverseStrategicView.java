@@ -26,7 +26,6 @@ public class AuditUniverseStrategicView extends Composite {
 	@UiField
 	VerticalPanel mainPanel;
 	IconButton btnAdd = new IconButton("+..");
-
 	private AuditUniverseStrategicViewData auditUniverseStrategicViewData = new AuditUniverseStrategicViewData();
 	private ListBox lstObjectiveOwner = new ListBox();
 	private ListBox relevantDepartment = new ListBox();
