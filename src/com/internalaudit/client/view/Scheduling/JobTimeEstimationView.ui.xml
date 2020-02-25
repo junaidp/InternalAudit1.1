@@ -91,7 +91,7 @@
 			<div class="form-rowSmall">
 			
 				<div class="label-div">
-					<g:Label text="Management Hours" wordWrap="false"></g:Label>
+					<g:Label text="Internal Audit Management Hours" wordWrap="false"></g:Label>
 				</div>
 				
 				<div class="field-div">

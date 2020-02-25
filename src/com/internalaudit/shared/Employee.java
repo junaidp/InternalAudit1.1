@@ -70,6 +70,12 @@ public class Employee implements Serializable {
 	@Column(name = "password")
 	private String password;
 
+	@Column(name = "fiscalYear")
+	private Date fiscalYear;
+
+	@Column(name = "otherskill")
+	private String otherskill;
+
 	@Transient
 	private ArrayList<ToDo> todos;
 
@@ -236,4 +242,21 @@ public class Employee implements Serializable {
 	public void setInformationRequests(ArrayList<InformationRequestEntity> informationRequests) {
 		this.informationRequests = informationRequests;
 	}
+
+	public Date getFiscalYear() {
+		return fiscalYear;
+	}
+
+	public void setFiscalYear(Date fiscalYear) {
+		this.fiscalYear = fiscalYear;
+	}
+
+	public String getOtherskill() {
+		return otherskill;
+	}
+
+	public void setOtherskill(String otherskill) {
+		this.otherskill = otherskill;
+	}
+
 }

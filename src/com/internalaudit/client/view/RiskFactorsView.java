@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TextBox;
+import com.sencha.gxt.widget.core.client.form.TextArea;
 
 public class RiskFactorsView extends Composite {
 	private Label riskFactor;
@@ -15,7 +15,7 @@ public class RiskFactorsView extends Composite {
 	private ListBox impact;
 	private ListBox probabality;
 	private int riskFactorId;
-	private TextBox comments;
+	private TextArea comments;
 	private Label lbl;
 	private Image riskRating;
 
@@ -27,7 +27,7 @@ public class RiskFactorsView extends Composite {
 
 		riskFactor = new Label("");
 
-		riskFactor.setWidth("320px");
+		riskFactor.setWidth("300px");
 
 		rating = new ListBox();
 		rating.setEnabled(false);
@@ -52,14 +52,17 @@ public class RiskFactorsView extends Composite {
 		probabality.addItem("Low", "1");
 		probabality.addItem("Medium", "2");
 		probabality.addItem("High", "3");
+
 		impact.addItem("N/A", "0");
 		impact.addItem("Low", "1");
 		impact.addItem("Medium", "2");
 		impact.addItem("High", "3");
-		// impact.setWidth("68px");
-		comments = new TextBox();
 
-		comments.setWidth("350px");
+		comments = new TextArea();
+
+		comments.setWidth("580px");
+		comments.setHeight("30px");
+
 		riskRating = new Image("redcircle.png");
 		riskRating.setVisible(false);
 
@@ -88,6 +91,7 @@ public class RiskFactorsView extends Composite {
 				for (int i = 0; i < rating.getItemCount(); i++) {
 					if (rating.getValue(i).equalsIgnoreCase(level)) {
 						rating.setSelectedIndex(i);
+
 					}
 				}
 
@@ -102,11 +106,13 @@ public class RiskFactorsView extends Composite {
 				for (int i = 0; i < rating.getItemCount(); i++) {
 					if (rating.getValue(i).equalsIgnoreCase(level)) {
 						rating.setSelectedIndex(i);
+
 					}
 				}
 
 			}
 		});
+
 	}
 
 	public String calculateIMpactAndUpdateRating() {
@@ -159,11 +165,11 @@ public class RiskFactorsView extends Composite {
 		this.riskFactorId = riskFactorId;
 	}
 
-	public TextBox getComments() {
+	public TextArea getComments() {
 		return comments;
 	}
 
-	public void setComments(TextBox comments) {
+	public void setComments(TextArea comments) {
 		this.comments = comments;
 	}
 

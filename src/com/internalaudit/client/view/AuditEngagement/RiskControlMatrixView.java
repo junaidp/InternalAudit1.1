@@ -43,7 +43,7 @@ public class RiskControlMatrixView extends VerticalPanel {
 		lblReferenceNo.setText("Reference Number");
 		lblrisk.setText("Risks");
 		lblcontrol.setText("Controls");
-		lblriskRatings.setText("Inherent Risk");
+		lblriskRatings.setText("Risk Rating");
 
 		lblresidualRisk.setText("Control Risk");
 

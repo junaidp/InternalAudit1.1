@@ -59,8 +59,8 @@ public class ActivityObjectiveViewNew extends Composite {
 		checkBoxApplicability.getElement().getStyle().setMarginLeft(70, Unit.PX);
 
 		FlexTable flex = new FlexTable();
-		flex.setWidget(1, 0, lblReferenceNo);
-		flex.setWidget(2, 0, lblReferenceNoData);
+		// flex.setWidget(1, 0, lblReferenceNo);
+		// flex.setWidget(2, 0, lblReferenceNoData);
 		// flex.setWidget(0,1,actv);
 
 		flex.setWidget(1, 1, lblActivityObjective);

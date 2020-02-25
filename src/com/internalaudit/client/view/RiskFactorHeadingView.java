@@ -22,20 +22,23 @@ public class RiskFactorHeadingView extends Composite {
 		Label riskComments = new Label("Comment");
 
 		hpnlHeading.add(riskFactor);
+
 		hpnlHeading.add(riskComments);
 		hpnlHeading.add(impact);
 		hpnlHeading.add(probabality);
 		hpnlHeading.add(risk);
 		hpnlHeading.setWidth("700px");
 		impact.addStyleName("blue");
+
 		probabality.addStyleName("blue");
 		risk.addStyleName("blue");
-		impact.setWidth("75px");
-		probabality.setWidth("85px");
+
+		impact.setWidth("70px");
+		probabality.setWidth("75px");
 		riskFactor.addStyleName("blue");
 		riskComments.addStyleName("blue");
-		riskFactor.setWidth("330px");
-		riskComments.setWidth("360px");
+		riskFactor.setWidth("310px");
+		riskComments.setWidth("580px");
 
 	}
 

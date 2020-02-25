@@ -333,4 +333,6 @@ public interface InternalAuditServiceAsync {
 
 	void deleteActivityObjective(int jobId, AsyncCallback<String> callback);
 
+	void getNextYear(Date value, AsyncCallback<Date> asyncCallback);
+
 }

@@ -22,10 +22,11 @@ public class SelectedJobView extends Composite {
 		// hpnnlHeadings.add(new Label("Observations"));
 		LabelHeading lblObservation = new LabelHeading();
 		lblObservation.setText("Observations");
+
 		LabelHeading lblImplication = new LabelHeading();
 		lblImplication.setText("Implication");
 		lblImplication.getElement().getStyle().setMarginLeft(10, Unit.PX);
-		lblObservation.setWidth("145px");
+		lblObservation.setWidth("140px");
 		lblImplication.setWidth("130px");
 		LabelHeading lblImplicationRating = new LabelHeading();
 		lblImplicationRating.setText("Implication Rating");

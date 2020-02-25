@@ -8,6 +8,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.History;
@@ -50,6 +52,14 @@ public class UserInductionFormPresenter implements Presenter
 
 		TextBox getTxtDesignation();
 
+		Label getLblfiscalYear();
+
+		TextBox getTextareaOthers();
+
+		DateBox getDatefiscalYearfrom();
+
+		DateBox getDatefiscalYearto();
+
 		ListBox getListuserProfile();
 
 		DateBox getDateOfJoining();
@@ -57,6 +67,8 @@ public class UserInductionFormPresenter implements Presenter
 		DateBox getDateAvailabilityForm();
 
 		DateBox getDateAvailabalityTo();
+
+		Label getSkillSet();
 
 		ListBox getListSkills();
 
@@ -151,6 +163,8 @@ public class UserInductionFormPresenter implements Presenter
 				display.getDateAvailabilityForm().setValue(result.get(0));
 				display.getDateAvailabalityTo().setValue(result.get(1));
 				display.getDateOfJoining().setValue(result.get(2));
+				display.getDatefiscalYearfrom().setValue(result.get(2));
+
 			}
 		});
 	}
@@ -168,8 +182,11 @@ public class UserInductionFormPresenter implements Presenter
 
 				for (int i = 0; i < skills.size(); i++) {
 					display.getListSkills().addItem(skills.get(i).getSkillName(), skills.get(i).getSkillId() + "");
+
 				}
+
 			}
+
 		});
 	}
 
@@ -186,6 +203,27 @@ public class UserInductionFormPresenter implements Presenter
 		// display.getListuserProfile().addItem(InternalAuditConstants.TEAMLEAD);
 		// display.getListuserProfile().addItem(InternalAuditConstants.AUDITOR);
 		// display.getListuserProfile().addItem(InternalAuditConstants.ADMIN);
+		display.getDatefiscalYearfrom().addValueChangeHandler(new ValueChangeHandler<Date>() {
+			public void onValueChange(ValueChangeEvent<Date> event) {
+
+				rpcService.getNextYear(display.getDatefiscalYearfrom().getValue(),
+
+						new AsyncCallback<Date>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								Window.alert("fail fetchNumberOfDaysBetweenTwoDates");
+							}
+
+							@Override
+							public void onSuccess(Date result1) {
+
+								display.getDatefiscalYearto().setValue(result1);
+
+							}
+						});
+			}
+		});
 
 		display.getListuserProfile().addChangeHandler(new ChangeHandler() {
 
@@ -194,14 +232,24 @@ public class UserInductionFormPresenter implements Presenter
 				if (Integer.parseInt(
 						display.getListuserProfile().getValue(display.getListuserProfile().getSelectedIndex())) == 4
 						|| Integer.parseInt(display.getListuserProfile()
-								.getValue(display.getListuserProfile().getSelectedIndex())) == 1
-						|| Integer.parseInt(display.getListuserProfile()
-								.getValue(display.getListuserProfile().getSelectedIndex())) == 5) {
+								.getValue(display.getListuserProfile().getSelectedIndex())) == 1) {
 					display.getLblReportingTo().setVisible(false);
 					display.getListReportingTo().setVisible(false);
+					display.getListSkills().setVisible(true);
+					display.getSkillSet().setVisible(true);
+
+				} else if (Integer.parseInt(
+						display.getListuserProfile().getValue(display.getListuserProfile().getSelectedIndex())) == 5) {
+					display.getLblReportingTo().setVisible(false);
+					display.getListReportingTo().setVisible(false);
+					display.getListSkills().setVisible(false);
+					display.getSkillSet().setVisible(false);
+
 				} else {
 					display.getLblReportingTo().setVisible(true);
 					display.getListReportingTo().setVisible(true);
+					display.getListSkills().setVisible(true);
+					display.getSkillSet().setVisible(true);
 				}
 
 			}
@@ -219,6 +267,22 @@ public class UserInductionFormPresenter implements Presenter
 			}
 		});
 
+		display.getListSkills().addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+
+				if (Integer
+						.parseInt(display.getListSkills().getValue(display.getListSkills().getSelectedIndex())) == 6) {
+
+					display.getTextareaOthers().setVisible(true);
+				} else {
+					display.getTextareaOthers().setVisible(false);
+
+				}
+			}
+
+		});
 		display.getBtnSubmit().addClickHandler(new ClickHandler() {
 
 			@Override
@@ -246,6 +310,7 @@ public class UserInductionFormPresenter implements Presenter
 				}
 
 			}
+
 		});
 
 	}
@@ -266,6 +331,9 @@ public class UserInductionFormPresenter implements Presenter
 		employee.setPassword(display.getTxtPassword().getText());
 		employee.setEmail(display.getTxtUserName().getText());
 		employee.setEmployeeName(display.getTxtName().getText());
+		employee.setFiscalYear(display.getDatefiscalYearfrom().getValue());
+
+		////
 		if (Integer.parseInt(
 				display.getListuserProfile().getValue(display.getListuserProfile().getSelectedIndex())) == 5) {
 			employee.setFromInternalAuditDept("no");
@@ -285,11 +353,10 @@ public class UserInductionFormPresenter implements Presenter
 		skill.setSkillId(
 				Integer.parseInt(display.getListSkills().getValue(display.getListSkills().getSelectedIndex())));
 		employee.setSkillId(skill);
+		employee.setOtherskill(display.getTextareaOthers().getText());
 		employee.setDateOfJoining(display.getDateOfJoining().getValue());
 		employee.setDesignation(display.getTxtDesignation().getText());
-
 		employee.setRollId(Integer.parseInt(display.getListuserProfile().getSelectedValue()));
-
 		// Company company =new Company();
 		if (display.getListCompany().isVisible()) {
 			// company.setCompanyId(Integer.parseInt(display.getListCompany().getValue(display.getListCompany().getSelectedIndex())));

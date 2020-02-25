@@ -48,9 +48,13 @@ public class PrioritizationView extends Composite {
 		verticalPanel.add(horizontalPanel);
 		horizontalPanel.setSize("1000px", "6px");
 
-		area = new Label("");
+		area = new Label("  ");
+		HorizontalPanel hpnlSPaceArea = new HorizontalPanel();
+		hpnlSPaceArea.setWidth("10px");
+		horizontalPanel.add(hpnlSPaceArea);
 		horizontalPanel.add(area);
-		area.setWidth("200px");
+		area.setWidth("210px");
+
 		// area.setWordWrap(false);
 
 		objective = new Label();

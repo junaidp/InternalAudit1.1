@@ -526,7 +526,7 @@ public class JobTimeEstimationPresenter implements Presenter
 
 					});
 
-					skillsResources.getSkillsList().setSelectedIndex(i);
+					skillsResources.getSkillsList().setSelectedIndex(0);
 
 					display.getSkillsResourceContainer().add(skillsResources);
 					display.getSkillsResourceContainer().addStyleName("spacer");

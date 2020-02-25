@@ -149,12 +149,13 @@ public class FinalAuditablesViewData {
 
 						// hpnlMain.add(vpnlObjectiveContainer);
 						// if(loggedInUser.getEmployeeId().isAuditHead()) {
-						if (loggedInUser.getRollId() == 1) {
+						if (loggedInUser.getRollId() == 1 || loggedInUser.getRollId() == 2
+								|| loggedInUser.getRollId() == 3) {
 							if (strategic.get(i).isApprovedByAuditHead()) {
 								Label lblApproved = new Label("Approved");
 								lblApproved.addStyleName("blue");
 								hpnlMain.add(lblApproved);
-							} else {
+							} else if (loggedInUser.getRollId() == 1) {
 								VerticalPanel vpnlCommentsAndButton = new VerticalPanel();
 								vpnlCommentsAndButton.add(txtComments);
 								vpnlCommentsAndButton.add(hpnlButtonContainer);

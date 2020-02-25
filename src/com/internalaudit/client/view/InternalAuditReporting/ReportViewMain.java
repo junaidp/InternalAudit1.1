@@ -301,7 +301,7 @@ public class ReportViewMain extends VerticalPanel {
 
 				flexOverallControl.setWidget(0, 1, lblControl);
 				flexOverallControl.setWidget(0, 2, lblOperationalEffectiveness);
-				flexOverallControl.setWidget(0, 3, lblObservationRef);
+				// flexOverallControl.setWidget(0, 3, lblObservationRef);
 				for (int i = 0; i < result.getEngagementDTO().getSelectedControls().size(); i++) {
 					Label lblControlData = new Label();
 
@@ -315,7 +315,7 @@ public class ReportViewMain extends VerticalPanel {
 							.setText(result.getEngagementDTO().getSelectedControls().get(i).getSuggestedReferenceNo());
 					flexOverallControl.setWidget(i + 1, 1, lblControlData);
 					flexOverallControl.setWidget(i + 1, 2, txtoperational);
-					flexOverallControl.setWidget(i + 1, 3, lblReferenceData);
+					// flexOverallControl.setWidget(i + 1, 3, lblReferenceData);
 				}
 
 				panelControls.add(flexOverallControl);

@@ -1732,4 +1732,15 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 
 		return rdbHelper.deleteActivityObjective(jobId);
 	}
+
+	@Override
+	public Date getNextYear(Date value) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(value);
+
+		// manipulate date
+		c.add(Calendar.YEAR, 1);
+		Date currentDatePlusOne = c.getTime();
+		return currentDatePlusOne;
+	}
 }

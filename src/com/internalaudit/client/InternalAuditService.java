@@ -325,4 +325,6 @@ public interface InternalAuditService extends RemoteService {
 
 	// 2019 aug
 	String deleteActivityObjective(int jobId) throws Exception;
+
+	Date getNextYear(Date value);
 }

@@ -57,9 +57,12 @@ public class ConsolidationView extends Composite {
 		verticalPanel.add(horizontalPanel);
 		horizontalPanel.setSize("900px", "100%");
 
-		area = new Label("");
+		area = new Label("  ");
+		HorizontalPanel hpnlSPaceArea = new HorizontalPanel();
+		hpnlSPaceArea.setWidth("10px");
+		horizontalPanel.add(hpnlSPaceArea);
 		horizontalPanel.add(area);
-		area.setWidth("240px");
+		area.setWidth("225px");
 		// area.setWordWrap(false);
 
 		riskRating = new Image();
