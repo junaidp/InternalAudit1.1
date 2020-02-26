@@ -13,17 +13,24 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.presenter.JobTimeEstimationPresenter.Display;
 import com.internalaudit.shared.StrategicDTO;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.form.NumberField;
+import com.sencha.gxt.widget.core.client.form.NumberPropertyEditor;
 
 public class JobTimeEstimationView extends Composite implements Display {
 
 	// @UiField ListBox skillSetListBox;
 
 	@UiField
-	ListBox estimatedWeeksListBox;
+	VerticalLayoutContainer estimatedWeeksContainer;
+	@UiField
+	VerticalLayoutContainer managementHoursContainer;
+	@UiField
+	VerticalLayoutContainer travelingDaysContainer;
+
 	@UiField
 	TextBox fieldWorkManHoursTextBox;
-	@UiField
-	TextBox managementHoursTextBox;
+
 	@UiField
 	TextBox totalWorkingManHoursTextBox;
 	@UiField
@@ -35,8 +42,7 @@ public class JobTimeEstimationView extends Composite implements Display {
 	TextArea highLevelScopeOfWork;
 	@UiField
 	ListBox placeofWorkListBox;
-	@UiField
-	ListBox travelingDaysListBox;
+
 	@UiField
 	TextBox hoursInclusiveOfTravel;
 
@@ -52,6 +58,15 @@ public class JobTimeEstimationView extends Composite implements Display {
 	@UiField
 	Button backButton;
 
+	@UiField
+	Label travelingDayslbl;
+
+	private NumberField<Integer> estimatedWeeksTextBox;
+
+	private NumberField<Integer> travelingDaysListBox;
+
+	private NumberField<Integer> managementHoursTextBox;
+
 	private StrategicDTO strategicDTO;
 
 	private boolean listCreated = false;
@@ -66,14 +81,29 @@ public class JobTimeEstimationView extends Composite implements Display {
 	public JobTimeEstimationView(StrategicDTO dto) {
 
 		initWidget(uiBinder.createAndBindUi(this));
-
 		this.setStrategicDTO(dto);
+		initializeTextFields();
+
+	}
+
+	private void initializeTextFields() {
+		estimatedWeeksTextBox = new NumberField<Integer>(new NumberPropertyEditor.IntegerPropertyEditor());
+		estimatedWeeksContainer.add(estimatedWeeksTextBox);
+		travelingDaysListBox = new NumberField<Integer>(new NumberPropertyEditor.IntegerPropertyEditor());
+		travelingDaysContainer.add(travelingDaysListBox);
+		managementHoursTextBox = new NumberField<Integer>(new NumberPropertyEditor.IntegerPropertyEditor());
+		managementHoursContainer.add(managementHoursTextBox);
+		managementHoursTextBox.setText("0");
+		estimatedWeeksTextBox.setText("0");
+		travelingDaysListBox.setText("0");
+		totalWorkingManHoursTextBox.setText("0");
+		hoursInclusiveOfTravel.setText("0");
 	}
 
 	@Override
-	public ListBox getEstWeeksListBox() {
+	public NumberField<Integer> getEstWeeksTextBox() {
 
-		return estimatedWeeksListBox;
+		return estimatedWeeksTextBox;
 	}
 
 	@Override
@@ -82,7 +112,7 @@ public class JobTimeEstimationView extends Composite implements Display {
 	}
 
 	@Override
-	public TextBox getMgmtHours() {
+	public NumberField<Integer> getMgmtHours() {
 		return managementHoursTextBox;
 	}
 
@@ -123,7 +153,7 @@ public class JobTimeEstimationView extends Composite implements Display {
 		return placeofWorkListBox;
 	}
 
-	public ListBox getTravelingDaysListBox() {
+	public NumberField<Integer> getTravelingDaysTextBox() {
 		return travelingDaysListBox;
 	}
 
@@ -191,7 +221,7 @@ public class JobTimeEstimationView extends Composite implements Display {
 	}
 
 	public void disableFields() {
-		estimatedWeeksListBox.setEnabled(false);
+		estimatedWeeksTextBox.setEnabled(false);
 		fieldWorkManHoursTextBox.setEnabled(false);
 		managementHoursTextBox.setEnabled(false);
 		totalWorkingManHoursTextBox.setEnabled(false);
@@ -201,6 +231,14 @@ public class JobTimeEstimationView extends Composite implements Display {
 		placeofWorkListBox.setEnabled(false);
 		travelingDaysListBox.setEnabled(false);
 		hoursInclusiveOfTravel.setEnabled(false);
+	}
+
+	public Label getTravelingDayslbl() {
+		return travelingDayslbl;
+	}
+
+	public void setTravelingDayslbl(Label travelingDayslbl) {
+		this.travelingDayslbl = travelingDayslbl;
 	}
 
 }

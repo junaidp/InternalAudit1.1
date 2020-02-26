@@ -344,11 +344,11 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				AuditSchedulingTabView auditSchedulingView = new AuditSchedulingTabView(rpcService, eventBus);
 				presenter = new AuditSchedulingPresenter(rpcService, eventBus, auditSchedulingView, loggedInUser);
 
-				if (presenter != null) {
-					setContainer(centerPanel);
-					// this.container = mainContainer;
-					presenter.go(container);
-				}
+				// if (presenter != null) {
+				// setContainer(centerPanel);
+				// // this.container = mainContainer;
+				// presenter.go(container);
+				// }
 				setContainer(centerPanel);
 
 				if (presenter != null) {

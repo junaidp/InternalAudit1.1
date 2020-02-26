@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -35,6 +35,7 @@ import com.internalaudit.shared.SkillUpdateData;
 import com.internalaudit.shared.Skills;
 import com.internalaudit.shared.StrategicDTO;
 import com.internalaudit.shared.TimeOutException;
+import com.sencha.gxt.widget.core.client.form.NumberField;
 
 public class JobTimeEstimationPresenter implements Presenter
 
@@ -50,11 +51,11 @@ public class JobTimeEstimationPresenter implements Presenter
 
 		Object getHtmlErrorMessage = null;
 
-		ListBox getEstWeeksListBox();
+		NumberField getEstWeeksTextBox();
 
 		TextBox getFieldWorkManHours();
 
-		TextBox getMgmtHours();
+		NumberField getMgmtHours();
 
 		TextBox getTotalWorkingManHours();
 
@@ -70,7 +71,7 @@ public class JobTimeEstimationPresenter implements Presenter
 
 		ListBox getPlaceofWorkListBox();
 
-		ListBox getTravelingDaysListBox();
+		NumberField getTravelingDaysTextBox();
 
 		TextBox getHoursInclusiveOfTravel();
 
@@ -81,6 +82,8 @@ public class JobTimeEstimationPresenter implements Presenter
 		Button getBackButton();
 
 		Label getAreaOfExpertise();
+
+		Label getTravelingDayslbl();
 
 		Label getJobTimeEstId();
 
@@ -125,20 +128,22 @@ public class JobTimeEstimationPresenter implements Presenter
 					}
 					display.setJobEstimationId(result.getJobTimeEstimation().getJobTimeEstimationId());
 
-					for (int i = 0; i < display.getEstWeeksListBox().getItemCount(); i++) {
-						if (display.getEstWeeksListBox().getItemText(i)
-								.equals(String.valueOf(result.getJobTimeEstimation().getEstimatedWeeks()))) {
-							display.getEstWeeksListBox().setSelectedIndex(i);
-							break;
-						}
+					// for (int i = 0; i <
+					// display.getEstWeeksListBox().getItemCount(); i++) {
+					// if (display.getEstWeeksListBox().getItemText(i)
+					// .equals(String.valueOf(result.getJobTimeEstimation().getEstimatedWeeks())))
+					// {
+					// display.getEstWeeksListBox().setSelectedIndex(i);
+					// break;
+					// }
 
-					}
+					// }
+
+					display.getEstWeeksTextBox()
+							.setText(String.valueOf(result.getJobTimeEstimation().getEstimatedWeeks()));
 
 					display.getJobTimeEstId()
 							.setText(String.valueOf(result.getJobTimeEstimation().getJobTimeEstimationId()));
-
-					display.getEstWeeksListBox()
-							.addItem(String.valueOf(result.getJobTimeEstimation().getEstimatedWeeks()));
 
 					// display.getFieldWorkManHours().setText(
 					// String.valueOf(result.getJobTimeEstimation().getManagementHours()
@@ -168,11 +173,14 @@ public class JobTimeEstimationPresenter implements Presenter
 
 					display.getHighLevelScopeOfWork().setText(result.getJobTimeEstimation().getScopeOfWork());
 
-					for (int i = 0; i < display.getTravelingDaysListBox().getItemCount(); i++) {
-						if (display.getTravelingDaysListBox().getItemText(i)
-								.equals(String.valueOf(result.getJobTimeEstimation().getTravelDays())))
-							display.getTravelingDaysListBox().setSelectedIndex(i);
-					}
+					// for (int i = 0; i <
+					// display.getTravelingDaysListBox().getItemCount(); i++) {
+					// if (display.getTravelingDaysListBox().getItemText(i)
+					// .equals(String.valueOf(result.getJobTimeEstimation().getTravelDays())))
+					// display.getTravelingDaysListBox().setSelectedIndex(i);
+					// }
+					display.getTravelingDaysTextBox()
+							.setText(String.valueOf(result.getJobTimeEstimation().getTravelDays()));
 
 					display.getTotalWorkingManHoursTextBox()
 							.setText(String.valueOf(result.getJobTimeEstimation().getTotalWorkingManHours()));
@@ -262,8 +270,7 @@ public class JobTimeEstimationPresenter implements Presenter
 
 					jobTimeEstEntity.setJobId(display.getStrategicDTO().getStrategicId());
 
-					jobTimeEstEntity.setEstimatedWeeks(Integer.parseInt(
-							display.getEstWeeksListBox().getItemText(display.getEstWeeksListBox().getSelectedIndex())));
+					jobTimeEstEntity.setEstimatedWeeks(Integer.parseInt(display.getEstWeeksTextBox().getText()));
 
 					jobTimeEstEntity.setFieldWorkManHours(
 							Integer.parseInt(display.getFieldWorkManHours().getText().toString()));
@@ -281,8 +288,11 @@ public class JobTimeEstimationPresenter implements Presenter
 
 					jobTimeEstEntity.setScopeOfWork(display.getHighLevelScopeOfWork().getText().toString());
 
-					jobTimeEstEntity.setTravelDays(Integer.parseInt(display.getTravelingDaysListBox()
-							.getItemText(display.getTravelingDaysListBox().getSelectedIndex())));
+					// 2019 dec
+					// jobTimeEstEntity.setTravelDays(Integer.parseInt(display.getTravelingDaysListBox()
+					// .getItemText(display.getTravelingDaysListBox().getSelectedIndex())));
+
+					jobTimeEstEntity.setTravelDays(Integer.parseInt(display.getTravelingDaysTextBox().getText()));
 
 					jobTimeEstEntity.setHoursInclTravel(
 							jobTimeEstEntity.getTotalWorkingManHours() + jobTimeEstEntity.getTravelDays() * 8);
@@ -397,12 +407,29 @@ public class JobTimeEstimationPresenter implements Presenter
 			}
 		});
 
-		display.getEstWeeksListBox().addChangeHandler(new ChangeHandler() {
+		display.getEstWeeksTextBox().addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
-				calculateManHours();
+				if (display.getEstWeeksTextBox().getText().isEmpty()) {
+					display.getEstWeeksTextBox().setText(display.getEstWeeksTextBox().getEmptyText());
+					display.getHoursInclusiveOfTravel().setText(display.getEstWeeksTextBox().getEmptyText());
+					display.getTotalWorkingManHoursTextBox().setText(display.getEstWeeksTextBox().getEmptyText());
 
+				}
+				try {
+					if (Integer.parseInt(display.getEstWeeksTextBox().getText()) >= 0
+							&& Integer.parseInt(display.getEstWeeksTextBox().getText()) <= 52) {
+
+						calculateManHours();
+
+					} else {
+						Window.alert("Invalid number for Estimated Weeks");
+						display.getEstWeeksTextBox().setText("");
+					}
+				} catch (Exception ex) {
+
+				}
 			}
 		});
 
@@ -416,27 +443,27 @@ public class JobTimeEstimationPresenter implements Presenter
 				String place = display.getPlaceofWorkListBox().getItemText(index);
 
 				if (place.equals("Outstation") || place.equals("Inhouse and Outstation")) {
-					display.getTravelingDaysListBox().setEnabled(true);
-					display.getTravelingDaysListBox().setSelectedIndex(0);
+					display.getTravelingDaysTextBox().setVisible(true);
+					display.getTravelingDayslbl().setVisible(true);
+					// display.getTravelingDaysTextBox().setSelectedIndex(0);
 				}
 
 				if (place.equals("Inhouse")) {
 					// as we have inhouse work, we dont need to go wandering
-					display.getTravelingDaysListBox().setEnabled(false);
-
+					display.getTravelingDaysTextBox().setVisible(false);
+					display.getTravelingDayslbl().setVisible(false);
 					// if the user previously selected outstation, this will
 					// recalculate the traveling hours and
 					// hours incl travel
 
-					int hoursToSubt = Integer.parseInt(display.getTravelingDaysListBox()
-							.getItemText(display.getTravelingDaysListBox().getSelectedIndex()));
+					int hoursToSubt = Integer.parseInt(display.getTravelingDaysTextBox().getText());
 
 					int currentHoursForTravel = Integer.parseInt(display.getHoursInclusiveOfTravel().getText());
 
 					display.getHoursInclusiveOfTravel()
 							.setText(String.valueOf(currentHoursForTravel - hoursToSubt * 8));
 
-					display.getTravelingDaysListBox().setSelectedIndex(0);
+					// display.getTravelingDaysTextBox().setSelectedIndex(0);
 
 				}
 
@@ -447,20 +474,27 @@ public class JobTimeEstimationPresenter implements Presenter
 
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
-				try {
-					calculateHoursInclTravel();
+				if (display.getMgmtHours().getText().isEmpty())
+					display.getMgmtHours().setText(display.getMgmtHours().getEmptyText());
+				if (Integer.parseInt(display.getMgmtHours().getText()) <= 8760) {
+					try {
+						calculateHoursInclTravel();
 
-				} catch (Exception e) {
+					} catch (Exception e) {
+						display.getMgmtHours().setText("");
+						display.getTotalWorkingManHours().setText("");
+						display.getTotalWorkingManHours().setText("Please enter a correct value");
+						event.preventDefault();
+					}
+				} else {
+					Window.alert("Invalid number for Internal Audit Management Hours ");
 					display.getMgmtHours().setText("");
-					display.getTotalWorkingManHours().setText("");
-					display.getTotalWorkingManHours().setText("Please enter a correct value");
-					event.preventDefault();
 				}
 
 			}
 		});
 
-		display.getTravelingDaysListBox().addChangeHandler(new ChangeHandler() {
+		display.getTravelingDaysTextBox().addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
@@ -504,12 +538,12 @@ public class JobTimeEstimationPresenter implements Presenter
 						skillsResources
 								.setAvailableHours(skillsList.get(i).getCompanySkillRelation().getAvailableHours());
 					}
-					skillsResources.getNoOfResources().setText("0");
 
-					skillsResources.getNoOfResources().addBlurHandler(new BlurHandler() {
+					skillsResources.getNoOfResources().setText("0");
+					skillsResources.getNoOfResources().addKeyPressHandler(new KeyPressHandler() {
 
 						@Override
-						public void onBlur(BlurEvent event) {
+						public void onKeyPress(KeyPressEvent event) {
 							int skillId = Integer.parseInt(skillsResources.getSkillsList()
 									.getValue(skillsResources.getSkillsList().getSelectedIndex()));
 							try {
@@ -518,14 +552,36 @@ public class JobTimeEstimationPresenter implements Presenter
 								calculateManHours();
 								checkNoOfResourcesForSelectedSkill(noOfResources, skillId);
 							} catch (Exception ex) {
-								Window.alert("Please select a valid numeric value");
+								// Window.alert("Please select a valid numeric
+								// value");
 							}
 
-							// fetch
 						}
-
 					});
-
+					// skillsResources.getNoOfResources().addBlurHandler(new
+					// BlurHandler() {
+					//
+					// @Override
+					// public void onBlur(BlurEvent event) {
+					// int skillId =
+					// Integer.parseInt(skillsResources.getSkillsList()
+					// .getValue(skillsResources.getSkillsList().getSelectedIndex()));
+					// try {
+					//
+					// int noOfResources =
+					// Integer.parseInt(skillsResources.getNoOfResources().getText());
+					// calculateManHours();
+					// checkNoOfResourcesForSelectedSkill(noOfResources,
+					// skillId);
+					// } catch (Exception ex) {
+					// Window.alert("Please select a valid numeric value");
+					// }
+					//
+					// // fetch
+					// }
+					//
+					// });
+					// resourses
 					skillsResources.getSkillsList().setSelectedIndex(0);
 
 					display.getSkillsResourceContainer().add(skillsResources);
@@ -564,8 +620,13 @@ public class JobTimeEstimationPresenter implements Presenter
 				}
 
 				///////////////////////////// Getting old hours//////junaid
-				int estimatedWeeks = Integer.parseInt(
-						display.getEstWeeksListBox().getItemText(display.getEstWeeksListBox().getSelectedIndex()));
+				int estimatedWeeks = 0;
+				try {
+					estimatedWeeks = Integer.parseInt(display.getEstWeeksTextBox().getText());
+				} catch (Exception ex) {
+
+					System.out.println(ex + "is not integer");
+				}
 				int listSize = /* ((SkillsResources) */display.getSkillsResourceContainer().getWidgetCount();// (0)).getSkillsList().getItemCount();
 
 				// loop through all the list boxes and get the selected index
@@ -646,20 +707,21 @@ public class JobTimeEstimationPresenter implements Presenter
 	}
 
 	private void calculateManHours() {
+
+		int totalResources = 0;
+
 		try {
-			int indexSelected = display.getEstWeeksListBox().getSelectedIndex();
 
 			// if user hasn't yet touched the listbox
 			// we set first item as selected by default
-			if (indexSelected == -1)
-				display.getEstWeeksListBox().setSelectedIndex(0);
 
-			int weeks = Integer.parseInt(display.getEstWeeksListBox().getItemText(indexSelected));
+			// commented this line because it was emptying the field 2020 jan
+			// display.getEstWeeksTextBox().setText("0");
 
 			int listSize = /* ((SkillsResources) */display.getSkillsResourceContainer().getWidgetCount(); // 0)).getSkillsList().getItemCount();
-
-			int totalResources = 0;
-
+			if (display.getEstWeeksTextBox().getText().isEmpty())
+				display.getEstWeeksTextBox().setText(display.getEstWeeksTextBox().getEmptyText());
+			int weeks = Integer.parseInt(display.getEstWeeksTextBox().getText());
 			for (int i = 0; i < listSize; ++i)
 				totalResources += Integer.parseInt(((SkillsResources) display.getSkillsResourceContainer().getWidget(i))
 						.getNoOfResources().getText());
@@ -667,27 +729,43 @@ public class JobTimeEstimationPresenter implements Presenter
 			// Field Work Man Hours = NoOfResources * EstimatedWeeks*40
 
 			display.getFieldWorkManHours().setText(String.valueOf(weeks * 40 * totalResources));
-
-			calculateAndUpdateValues();
-
 		} catch (Exception e) {
-			display.getMgmtHours().setText("");
-			display.getTotalWorkingManHours().setText("");
-			display.getTotalWorkingManHours().setText("Please enter a correct value");
+			Window.alert("Please enter numeric values");
+			calculateAndUpdateValues();
 
 		}
 	}
 
 	private void calculateAndUpdateValues() {
-		int mgmtHours = Integer.parseInt(display.getMgmtHours().getText().toString());
+		int mgmtHours = 0;
+		int travelDays = 0;
+		int workManHours = 0;
 
-		int workManHours = Integer.parseInt(display.getFieldWorkManHours().getText().toString());
+		try {
+			mgmtHours = Integer.parseInt(display.getMgmtHours().getText().toString());
+		} catch (Exception ex) {
+			// new WarningMessageBox("Audit Scheduling", "Enter numeric value
+			// for management hours");
+		}
+
+		try {
+			workManHours = Integer.parseInt(display.getFieldWorkManHours().getText().toString());
+		} catch (Exception ex) {
+			// new WarningMessageBox("Audit Scheduling", "Enter numeric value
+			// for Working man hours");
+		}
 
 		// Total Working Man Hours = Field Work Man Hours + mgmt hrs
 		display.getTotalWorkingManHours().setText(String.valueOf((mgmtHours + workManHours)));
-		int travelDays = Integer.parseInt(
-				display.getTravelingDaysListBox().getItemText(display.getTravelingDaysListBox().getSelectedIndex()));
-
+		try {
+			travelDays = Integer.parseInt(display.getTravelingDaysTextBox().getText());
+		} catch (Exception ex) {
+			// new WarningMessageBox("Audit Scheduling", "Enter numeric value
+			// for Total Working Man hours");
+		}
+		;
+		// 2019 dec
+		// display.getTravelingDaysTextBox().getText(display.getTravelingDaysTextBox().getText()));
 		// Hours inclusive of travel = Total working man hours + travelling
 		// days*8
 
