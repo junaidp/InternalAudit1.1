@@ -20,58 +20,62 @@
 	<g:VerticalPanel addStyleNames="{style.panel}">
 		<g:HorizontalPanel>
 		 	<g:VerticalPanel>
-		    <g:Label styleName="labelTitle" width="200px" addStyleNames=" w3-light-blue" >Planned Start Date</g:Label> 
+		    <g:Label addStyleNames=" auditengLabel" >Planned Start Date</g:Label> 
 			</g:VerticalPanel>
 		 	<g:VerticalPanel>
-		 	<g:Label  styleName="labelValue" width="250px"  ui:field="startDate"  > Loading..</g:Label>
+		 	<g:Label  styleName="labelValue" width="200px"  ui:field="startDate"  > Loading..</g:Label>
 		 	</g:VerticalPanel>
 		 	<g:VerticalPanel>
-			<g:Label styleName="labelTitle" width="200px"  addStyleNames=" w3-light-blue {style.lbl}"  >Planned End Dates</g:Label>
-			</g:VerticalPanel>
-			<g:VerticalPanel>
-			 <g:Label  styleName="labelValue" width="200px"  ui:field="endDate"> Loading..</g:Label>
-			</g:VerticalPanel>
-		</g:HorizontalPanel>	
-		<g:HorizontalPanel addStyleNames="{style.panel}">
-			
-		</g:HorizontalPanel>
-		
-		<g:HorizontalPanel addStyleNames="{style.panel}">
-			<g:VerticalPanel>
-				<g:Label styleName="labelTitle" width="200px"  addStyleNames=" w3-light-blue" >Auditable Unit</g:Label> 
+				<g:Label addStyleNames=" auditengLabel" >Auditable Unit</g:Label> 
 		    </g:VerticalPanel>
 			<g:VerticalPanel>
 			    <g:Label text="Loading.."  width="200px" ui:field="lblAuditableUnit" addStyleNames="{style.lbl}" ></g:Label>
 			</g:VerticalPanel>
-		</g:HorizontalPanel>
-			
-		<g:HorizontalPanel addStyleNames="{style.panel}"  >
 			<g:VerticalPanel>
-				 <g:Label styleName="labelTitle" width="200px"  addStyleNames=" w3-light-blue">Process</g:Label> 
+				 <g:Label  addStyleNames=" auditengLabel">Process</g:Label> 
 			</g:VerticalPanel>
 			<g:VerticalPanel>
  				 <g:Label text="Loading.."  width="200px" ui:field="lblProcess" addStyleNames="{style.lbl}"></g:Label>
 			</g:VerticalPanel>
+		 </g:HorizontalPanel>
+		 	<g:HorizontalPanel addStyleNames="{style.panel}">
+		
+	        </g:HorizontalPanel>
+	        
+		 <g:HorizontalPanel>
+		 	<g:VerticalPanel>
+			<g:Label    addStyleNames=" auditengLabel"  >Planned End Dates</g:Label>
+			</g:VerticalPanel>
+			<g:VerticalPanel>
+			 <g:Label  styleName="labelValue" width="200px"  ui:field="endDate"> Loading..</g:Label>
+			</g:VerticalPanel>
 				<g:VerticalPanel>
-				<g:Label styleName="labelTitle" width="200px"  addStyleNames=" w3-light-blue {style.lbl}" >SubProcess</g:Label>
+				<g:Label   addStyleNames=" auditengLabel" >Job Type</g:Label> 
+			</g:VerticalPanel>
+			<g:VerticalPanel>
+			     <g:Label ui:field="lblJobType" width="200px"  text="Assurance" addStyleNames="{style.lbl}"></g:Label> 
+			</g:VerticalPanel>
+				<g:VerticalPanel>
+				<g:Label   addStyleNames=" auditengLabel" >SubProcess</g:Label>
 			</g:VerticalPanel>
 			<g:VerticalPanel>
 			    <g:Label text="Loading.." width="200px"  ui:field="lblSubProcess" addStyleNames="{style.lbl}"></g:Label>
 			</g:VerticalPanel>
+		   </g:HorizontalPanel>	
+		<g:HorizontalPanel addStyleNames="{style.panel}">
 		</g:HorizontalPanel>
+		
+		<g:HorizontalPanel addStyleNames="{style.panel}">
+			
+		</g:HorizontalPanel>
+			
+		
 			
 		<g:HorizontalPanel addStyleNames="{style.panel}" >
 		
 		</g:HorizontalPanel>
 			
-		<g:HorizontalPanel addStyleNames="{style.panel}" >
-			<g:VerticalPanel>
-				<g:Label styleName="labelTitle" width="200px"  addStyleNames=" w3-light-blue" >Job Type</g:Label> 
-			</g:VerticalPanel>
-			<g:VerticalPanel>
-			     <g:Label ui:field="lblJobType" width="200px"  text="Assurance" addStyleNames="{style.lbl}"></g:Label> 
-			</g:VerticalPanel>
-		</g:HorizontalPanel>
+		
 		
 			
 				

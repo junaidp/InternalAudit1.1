@@ -1,6 +1,7 @@
 
 package com.internalaudit.client.view.AuditEngagement;
 
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -61,15 +62,24 @@ public class AuditNotificationViewNewData {
 		final LoadingPopup loadingPopup = new LoadingPopup();
 		loadingPopup.display();
 
+		/*
+		 * rpcService.saveAuditNotification(selectedAuditEngagement.
+		 * getAuditEngId(), auditNotificationViewNew.getTxtAreaBody().getText(),
+		 * auditNotificationViewNew.getTxtBoxForAction().getText(),
+		 * auditNotificationViewNew.getTxtBoxForInfo().getText(),
+		 * auditNotificationViewNew.getTxtBoxReference().getText(),
+		 * auditNotificationViewNew.getTxtBoxFrom().getText(),
+		 * auditNotificationViewNew.getTxtBoxSubject().getText(), filepath,
+		 * auditNotificationViewNew.getTxtBoxMemo().getText(),
+		 * auditNotificationViewNew.getDate().getTextBox().getText(), status,
+		 * new AsyncCallback<String>() {
+		 */ Date d = new Date();
 		rpcService.saveAuditNotification(selectedAuditEngagement.getAuditEngId(),
 				auditNotificationViewNew.getTxtAreaBody().getText(),
 				auditNotificationViewNew.getTxtBoxForAction().getText(),
-				auditNotificationViewNew.getTxtBoxForInfo().getText(),
-				auditNotificationViewNew.getTxtBoxReference().getText(),
-				auditNotificationViewNew.getTxtBoxFrom().getText(),
-				auditNotificationViewNew.getTxtBoxSubject().getText(), filepath,
-				auditNotificationViewNew.getTxtBoxMemo().getText(),
-				auditNotificationViewNew.getDate().getTextBox().getText(), status, new AsyncCallback<String>() {
+				auditNotificationViewNew.getTxtBoxForInfo().getText(), "ReferenceNo", "From",
+				auditNotificationViewNew.getTxtBoxSubject().getText(), filepath, "memo", "date", status,
+				new AsyncCallback<String>() {
 
 					@Override
 					public void onFailure(Throwable caught) {

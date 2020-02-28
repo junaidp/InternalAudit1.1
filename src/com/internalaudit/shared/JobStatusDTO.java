@@ -3,15 +3,15 @@ package com.internalaudit.shared;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class JobStatusDTO implements Serializable{
+public class JobStatusDTO implements Serializable {
 	private ArrayList<FieldWorkStatusDTO> listFieldWorkStatus = new ArrayList<FieldWorkStatusDTO>();
 	private ArrayList<PlanningStatusDTO> listPlanningStatus = new ArrayList<PlanningStatusDTO>();
 	private String reportingStatus;
-	
-	public JobStatusDTO(){
-		
+
+	public JobStatusDTO() {
+
 	}
-	
+
 	public ArrayList<FieldWorkStatusDTO> getListFieldWorkStatus() {
 		return listFieldWorkStatus;
 	}
@@ -36,7 +36,4 @@ public class JobStatusDTO implements Serializable{
 		this.reportingStatus = reportingStatus;
 	}
 
-	
-
-	
 }

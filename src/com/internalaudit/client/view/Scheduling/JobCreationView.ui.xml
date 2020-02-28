@@ -1,8 +1,10 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<ui:style>
-		/* Add CSS here. See the GWT docs on UI Binder for more details */
+<ui:style>
+		.marginLeft{
+	margin-left: 20px;
+}
 	</ui:style>
 	<g:HTMLPanel>
 	
@@ -24,7 +26,7 @@
 				</div>
 				
 				<div class="field-div">
-					<g:TextBox ui:field="domainText" styleName="smallTEXTBOX" enabled="false"></g:TextBox>
+					<g:TextBox ui:field="domainText" styleName="bigbox" enabled="false"></g:TextBox>
 				</div>
 			
 			</div>
@@ -53,32 +55,31 @@
 				</div>
 			
 			</div>
-			
-			<div	class="containerHorizontal">
-			<div class="form-rowSmall">
-			
-				<div class="label-div">
+				
+		    <div class="containercheck">
+		<div class="form-rowSmall">
+		
+			<div class="label-div">
 					<g:Label text="Risk Rating" wordWrap="false"></g:Label>
 				</div>
 				
 				<div class="field-div">
-					<g:TextBox ui:field="riskRating"  enabled="false" styleName="smallTEXTBOX"></g:TextBox>
-				</div>
-			
-			</div>
-			
-			<div class="form-row">
-			
-				<div class="label-div">
+					<g:TextBox ui:field="riskRating"  enabled="false"  styleName="checkTEXTBOX"></g:TextBox>
+		     	</div>
+		   			</div>
+		     	
+		     	<div class="form-row">	
+		     	<div class="label-div">
 					<g:Label wordWrap="false" text="Estimated Weeks"></g:Label>
-				</div>
-				
-				<div class="field-div">
-					<g:TextBox ui:field="estimatedWeeks" enabled="false" styleName="smallTEXTBOX"></g:TextBox>
-				</div>
-			
+					</div>
+				 <div class="field-div">
+					<g:TextBox ui:field="estimatedWeeks" enabled="false"  styleName="checkTEXTBOX"></g:TextBox>
+					</div>
+			     </div>
 			</div>
-					</div>	
+			
+			
+			
 			
 			<div class="form-row">	
 				<div class="label-div">
@@ -91,18 +92,18 @@
 					</g:HorizontalPanel>
 				</div>
 			</div>
-
+			<div class="marginLeft">
 			<g:Label styleName="blue"> Required Skills</g:Label>
-			
-			<div	class="containerHorizontal">
-			<div class="form-rowSmall">
-			
+			</div>
+			 <div class="containercheck">
+		<div class="form-rowSmall">
+
 				<div class="label-div">
-					<g:Label text="Technical" wordWrap="false"></g:Label>
+					<g:Label text="Technical" wordWrap="false" ></g:Label>
 				</div>
 				
 				<div class="field-div">
-					<g:TextBox ui:field="techSkill" styleName="lstEstForm" />
+					<g:TextBox ui:field="techSkill" styleName="checkTEXTBOX" />
 				</div>
 			
 			</div>	
@@ -124,8 +125,9 @@
 			</div>
 			</div>
 
-			<div class="form-row">
-			
+	
+			<div class="form-rowSmall">
+
 				<div class="label-div">
 					<g:Label text="Proposed Resources" wordWrap="false"></g:Label>
 				</div>
@@ -137,10 +139,7 @@
 				</div>
 			
 			</div>
-			
-			
-			
-			
+
 			<div class="form-row">
 			
 				<div class="label-div">
@@ -153,13 +152,19 @@
 					</g:ListBox>
 				</div>
 			
-			</div>
 			
+			</div>
 			
 			
 			
 			<div class="form-row">
 			
+				<div class="label-div">
+					<g:Label text="" wordWrap="false"></g:Label>
+				</div>
+				<div class="label-div">
+					<g:Label text="" wordWrap="false"></g:Label>
+				</div>
 				<div class="label-div">
 					<g:Label text="" wordWrap="false"></g:Label>
 				</div>

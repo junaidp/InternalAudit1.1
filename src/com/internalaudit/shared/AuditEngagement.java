@@ -101,6 +101,9 @@ public class AuditEngagement implements Serializable {
 	@Transient
 	private EngagementDTO engagementDTO;
 
+	@Transient
+	private JobStatusDTO jobStatusDTO;
+
 	public int getAuditEngId() {
 		return auditEngId;
 	}
@@ -275,6 +278,14 @@ public class AuditEngagement implements Serializable {
 
 	public void setEmailStatus(int emailStatus) {
 		this.emailStatus = emailStatus;
+	}
+
+	public JobStatusDTO getJobStatusDTO() {
+		return jobStatusDTO;
+	}
+
+	public void setJobStatusDTO(JobStatusDTO jobStatusDTO) {
+		this.jobStatusDTO = jobStatusDTO;
 	}
 
 	// public DateTime getDateTime() {

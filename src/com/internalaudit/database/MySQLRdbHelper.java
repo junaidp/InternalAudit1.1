@@ -3091,6 +3091,16 @@ public class MySQLRdbHelper {
 				HibernateDetachUtility.nullOutUninitializedFields(auditEngagement.getApprovedBy(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
+				try {
+					auditEngagement.setJobStatusDTO(
+							fetchJobStatus(auditEngagement.getJobCreation().getJobCreationId(), year, companyId));
+				} catch (Exception ex) {
+					logger.warn(String
+							.format("(Inside fetchAllAuditEngagement) fetchin JobSTATUSDTO FAILED  for loggedinemploye : "
+									+ loggedInEmployee + "for company" + companyId + "for job" + jobIds + " "
+									+ new Date()));
+				}
+
 				records.add(auditEngagement);
 
 			}

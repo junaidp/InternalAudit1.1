@@ -27,7 +27,10 @@ import com.internalaudit.client.view.JobData;
 import com.internalaudit.client.view.AuditEngagement.KickoffView;
 import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.Employee;
+import com.internalaudit.shared.FieldWorkStatusDTO;
+import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.JobStatusDTO;
+import com.internalaudit.shared.PlanningStatusDTO;
 import com.internalaudit.shared.TimeOutException;
 import com.sencha.gxt.widget.core.client.ProgressBar;
 
@@ -174,7 +177,6 @@ public class AuditEngagementPresenter implements Presenter {
 				Label heading = new Label();
 				heading.setText(headings[i]);
 				heading.addStyleName("labelDesignNormalSize");
-
 				// heading.addStyleName("jobStatusHeading");
 
 				records.setWidget(0, i, heading);
@@ -229,7 +231,7 @@ public class AuditEngagementPresenter implements Presenter {
 				records.setWidget(i + 1, 3, endDate);// Added
 				records.setWidget(i + 1, 4, status);
 
-				displayingProgress(records, i, jobData.getJobId());
+				displayingProgress(records, i, jobData.getJobId(), allJobsAndStatus.get(i).getJobStatusDTO());
 
 				// only 'not started' jobs can be kicked off
 
@@ -248,7 +250,7 @@ public class AuditEngagementPresenter implements Presenter {
 
 					}
 				});
-				/// records.setWidget(i + 1, 4, kick);
+				// records.setWidget(i + 1, 3, kick); movin to 255
 
 				if ("Not Started".equals(allJobsAndStatus.get(i).getJobStatus())) {
 					jobName.removeStyleName("point");
@@ -286,16 +288,21 @@ public class AuditEngagementPresenter implements Presenter {
 		}
 	}
 
-	private void displayingProgress(FlexTable records, int i, final int jobId) {
+	// Here we are showing the progress, For now we jut show fix progress for
+	// every one like 20%, 40% you can see below
+	private void displayingProgress(FlexTable records, int i, final int jobId, JobStatusDTO jobStatusDTO) {
+
 		ProgressBar progressPlanning = new ProgressBar();
 		// progressPlanning.setValue((double) 5);
-		progressPlanning.updateProgress(.20, "20%");
+
+		// progressPlanning.updateProgress(.20, "20%");
+
 		ProgressBar progressFieldWork = new ProgressBar();
-		progressFieldWork.updateProgress(.4, "40%");
+		// progressFieldWork.updateProgress(.3, "40%");
 		// progressFieldWork.setValue((double) 25);
 		ProgressBar progressReporting = new ProgressBar();
 		// progressFieldWork.addStyleName("w3-border w3-red");
-		progressReporting.updateProgress(.7, "70%");
+		// progressReporting.updateProgress(.7, "70%");
 
 		// progressFieldWork.getElement().getStyle().setBackgroundColor("yellow");
 		// progressReporting.getElement().getStyle().setText("green");
@@ -303,8 +310,7 @@ public class AuditEngagementPresenter implements Presenter {
 		// progressReporting.getElement().getStyle().setColor("green");
 		// progressPlanning.getElement().getStyle().setBackgroundColor("red");
 		// //progressReporting.setValue((double) 75);
-		Anchor AnchorJobStatus = new Anchor("Job Stauts");
-
+		Anchor AnchorJobStatus = new Anchor("Job Status");
 		AnchorJobStatus.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -314,14 +320,88 @@ public class AuditEngagementPresenter implements Presenter {
 			}
 		});
 
-		progressPlanning.setWidth(75);
-		progressFieldWork.setWidth(105);
-		progressReporting.setWidth(75);
+		updateProgressBarsPercent(i, jobStatusDTO, progressPlanning, progressFieldWork, progressReporting);
 
 		records.setWidget(i + 1, 5, progressPlanning);
 		records.setWidget(i + 1, 6, progressFieldWork);
 		records.setWidget(i + 1, 7, progressReporting);
 		records.setWidget(i + 1, 8, AnchorJobStatus);
+	}
+
+	private void updateProgressBarsPercent(int i, JobStatusDTO jobStatusDTO, ProgressBar progressPlanning,
+			ProgressBar progressFieldWork, ProgressBar progressReporting) {
+		// boolean fieldWorkStatusCompleted = false;
+
+		ArrayList<Boolean> fieldWorkStatusCompleted = new ArrayList<Boolean>();
+
+		for (FieldWorkStatusDTO fieldWorkStatus : jobStatusDTO.getListFieldWorkStatus()) {
+			// Window.alert(fieldWorkStatus.getAuditStepName());
+			if (fieldWorkStatus.getStatus().equalsIgnoreCase(InternalAuditConstants.COMPLETED)) {
+				fieldWorkStatusCompleted.add(true);
+
+			}
+		}
+
+		double percentage;
+		double percentage1;
+		double listFieldWorkStatus = (jobStatusDTO.getListFieldWorkStatus().size());
+		if (listFieldWorkStatus == 0) {
+			percentage = 0;
+			progressFieldWork.updateProgress(0, "0%");
+		} else {
+			double listCompleted = (fieldWorkStatusCompleted.size());
+			percentage1 = (double) ((listCompleted / listFieldWorkStatus) * 100);
+			double progress1 = percentage1;
+			double progress = Math.round(progress1);
+			percentage = Math.round(progress1);
+			progressFieldWork.updateProgress(percentage / 100, percentage + "%");
+
+		}
+
+		// PLANNING
+		ArrayList<Boolean> progressPlanningCompleted = new ArrayList<Boolean>();
+		for (PlanningStatusDTO planningStatus : jobStatusDTO.getListPlanningStatus()) {
+			if (planningStatus.getStatus().equalsIgnoreCase(InternalAuditConstants.COMPLETED)) {
+				progressPlanningCompleted.add(true);
+			}
+
+			double percentage_planning;
+			double percentage1_planning;
+			double listPlanningStatus = (jobStatusDTO.getListPlanningStatus().size());
+			if (listPlanningStatus == 0) {
+				percentage_planning = 0;
+				progressPlanning.updateProgress(0, "0%");
+			} else {
+				double listCompleted_planning = (progressPlanningCompleted.size());
+				percentage1_planning = (double) ((listCompleted_planning / listPlanningStatus) * 100);
+				double progress1_planning = percentage1_planning;
+				double progress_planning = Math.round(progress1_planning);
+				percentage_planning = Math.round(progress1_planning);
+				progressPlanning.updateProgress(percentage_planning / 100, percentage_planning + "%");
+
+			}
+
+			/////// reporting
+
+			String reportStatus = jobStatusDTO.getReportingStatus();
+
+			if (reportStatus.equals(InternalAuditConstants.EXCEPTIONSTOSENT)) {
+				progressReporting.updateProgress(.2, "20%");
+			} else if (reportStatus.equals(InternalAuditConstants.AWAITINGCOMMENTS)) {
+				progressReporting.updateProgress(.4, "40%");
+			} else if (reportStatus.equals(InternalAuditConstants.COMMENTSRECEIVED)) {
+				progressReporting.updateProgress(.6, "60%");
+			} else if (reportStatus.equals(InternalAuditConstants.REPORTISSUED)) {
+				progressReporting.updateProgress(.8, "80%");
+			} else if (reportStatus.equals(InternalAuditConstants.FINALREPORTISSUED)) {
+				progressReporting.updateProgress(1, "100%");
+			} else
+				progressReporting.updateProgress(0, "0%");
+
+			progressPlanning.setWidth(105);
+			progressFieldWork.setWidth(105);
+			progressReporting.setWidth(105);
+		}
 	}
 
 	private void fetchJobStatus(int jobId) {
@@ -339,6 +419,11 @@ public class AuditEngagementPresenter implements Presenter {
 				sp.add(jobStatusPortal);
 				windowPortal.add(sp);
 				windowPortal.show();
+				// Trying
+
+				// Window.alert(jobStatus.getListFieldWorkStatus() + "");
+
+				// Trying
 			}
 
 			@Override

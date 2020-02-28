@@ -9,6 +9,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
@@ -70,6 +71,7 @@ public class AuditNotificationViewNew extends Composite {
 		date.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd MMMM , yyyy")));
 
 		fileUploader = new AuditWorkProgramUpload(notificationId, mainFolder);
+
 		// Window.alert(uploada.getFile());
 		fileUploader.fetchProcedureAttachments(notificationId, mainFolder);
 		panelUpload.add(fileUploader);
@@ -105,6 +107,7 @@ public class AuditNotificationViewNew extends Composite {
 			}
 
 		});
+
 	}
 
 	private void setHandlers(final AsyncCallback<KickoffView> asyncCallback, final String notificationId,
@@ -113,6 +116,10 @@ public class AuditNotificationViewNew extends Composite {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				if (txtBoxForAction != null && (!(txtBoxForAction.getValue().contains("@")))) {
+					Window.alert("Enter valid Email");
+
+				}
 
 				int status = 0;
 				auditNotificationViewNewData.sendMessage(btnSend, status, asyncCallback, filepath,

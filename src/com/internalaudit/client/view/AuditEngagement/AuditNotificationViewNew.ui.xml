@@ -21,31 +21,38 @@
 	</ui:style>
 	<g:HTMLPanel>
 	
-	<A:LabelHeading addStyleNames="{style.heading}" > Audit Notification </A:LabelHeading>
-	<g:VerticalPanel width="800px" height="300px">
-		<g:HorizontalPanel>
+<!--  	<A:LabelHeading addStyleNames="{style.heading}" > Audit Notification </A:LabelHeading> -->
+	<g:VerticalPanel width="800px" height="0px">
+		 <g:HorizontalPanel visible = "false">
+		<!-- 
 		<g:VerticalPanel>
 		<A:LabelHeading text="Memo No:"  addStyleNames=" w3-light-blue {style.margin}"></A:LabelHeading>
-		</g:VerticalPanel>
+		</g:VerticalPanel> 
+		-->
+		 
 		<g:VerticalPanel>
-		<g:TextBox text="Enter Memo" ui:field="txtBoxMemo" addStyleNames="w3-panel  {style.margin}"></g:TextBox>
-		</g:VerticalPanel>
+		<g:TextBox text="Enter Memo" ui:field="txtBoxMemo"  addStyleNames="w3-panel  {style.margin}"></g:TextBox>
+		</g:VerticalPanel> 
+		
 			<g:VerticalPanel >
-			<A:LabelHeading text="Date" addStyleNames=" w3-light-blue {style.margin}" ></A:LabelHeading>
+			<A:LabelHeading text="Date"  addStyleNames=" w3-light-blue {style.margin}" ></A:LabelHeading>
 			</g:VerticalPanel>
-				<g:VerticalPanel >
 			
-			<d:DateBox ui:field="date" addStyleNames=" w3-panel w3-light-blue {style.margin}"></d:DateBox> 
+			  	<g:VerticalPanel >
+			
+			<d:DateBox ui:field="date"  addStyleNames=" w3-panel w3-light-blue {style.margin}"></d:DateBox> 
 			</g:VerticalPanel>
+			
 			<g:VerticalPanel>
 			<d:DateBox></d:DateBox>
 			</g:VerticalPanel>
-		</g:HorizontalPanel>
+			
+		</g:HorizontalPanel> 
 		
 		
-		<g:HorizontalPanel>
+	 	<g:HorizontalPanel visible = "false">
 			<g:VerticalPanel>
-			<A:LabelHeading text="From" width="180px" addStyleNames=" w3-light-blue {style.margin}" ></A:LabelHeading>
+			<A:LabelHeading text="From"  width="180px" addStyleNames=" w3-light-blue {style.margin}" ></A:LabelHeading>
 			</g:VerticalPanel>
 			<g:VerticalPanel>
 			<g:TextBox text="MR XYZ,Head of internal Audit" addStyleNames=" w3-panel {style.margin}" ui:field="txtBoxFrom" width="200px"></g:TextBox>
@@ -57,26 +64,25 @@
 			<g:TextBox text="Company name Internal Audit" addStyleNames=" w3-panel {style.margin}"  ui:field="txtBoxReference" width="200px"></g:TextBox>
 			
 			</g:VerticalPanel>
-		</g:HorizontalPanel>
+		</g:HorizontalPanel> 
 			
 			<g:HorizontalPanel>
 			<g:VerticalPanel>
 			<g:HorizontalPanel>
-			<A:LabelHeading text="For Action(T0)" width="180px" addStyleNames=" w3-light-blue {style.margin}"></A:LabelHeading>
-			<g:TextBox text="MR XYZ,Director XXX" ui:field="txtBoxForAction" width="200px" addStyleNames=" w3-panel"></g:TextBox>
+			<A:LabelHeading text="To.."  addStyleNames=" auditengTocc"></A:LabelHeading>
+			<g:TextBox text="MR XYZ,Director XXX"  ui:field="txtBoxForAction" width="200px" addStyleNames=" marginLeft50 auditengToccText"></g:TextBox>
 			</g:HorizontalPanel>
 			</g:VerticalPanel>
 			
 			</g:HorizontalPanel>
-		
 			
 			
 		
 			<g:VerticalPanel>
 				<g:HorizontalPanel>
-			<A:LabelHeading text="For Information(CC)" width="180px" addStyleNames=" w3-light-blue {style.margin}" ></A:LabelHeading>
+			<A:LabelHeading text="Cc.."  addStyleNames=" auditengTocc" ></A:LabelHeading>
 		    
-			<g:TextBox text="CXO Detail" width="200px"  addStyleNames=" w3-panel" ui:field="txtBoxForInfo"></g:TextBox>
+			<g:TextBox text="CXO Detail" width="200px"  addStyleNames=" marginLeft50 auditengToccText" ui:field="txtBoxForInfo"></g:TextBox>
 			</g:HorizontalPanel>
 			</g:VerticalPanel>
 			
@@ -85,20 +91,26 @@
 	
 			
 			<g:VerticalPanel>
-			<g:HorizontalPanel>
-			<A:LabelHeading text="Subject" width="180px" addStyleNames=" w3-light-blue {style.margin}"></A:LabelHeading>
-			<g:TextBox width="200px" text="Engegement Name" ui:field="txtBoxSubject" addStyleNames=" w3-panel"></g:TextBox>
-			</g:HorizontalPanel>
-			</g:VerticalPanel>
 		
 			
 			<g:HorizontalPanel>
-			<g:TextArea width="850px"  height="350px"  ui:field="txtAreaBody" text="bla bla blab blablaba"> </g:TextArea>
+			<A:LabelHeading width="50px" text="Subject"  addStyleNames ="auditengLabel"></A:LabelHeading>
+			<g:TextBox width="200px" text="Engegement Name" ui:field="txtBoxSubject" addStyleNames =" marginLeft50 auditengToccText"></g:TextBox>
 			</g:HorizontalPanel>
-				<g:VerticalPanel ui:field="panelUpload"></g:VerticalPanel>
+			</g:VerticalPanel>
+		
+			<g:HorizontalPanel height="20px" >
+			
+			</g:HorizontalPanel>
+			
+			<g:HorizontalPanel>
+			<g:TextArea width="1000px" height="250px"  addStyleNames ="marginLeft textareaAudEng" ui:field="txtAreaBody" text="bla bla blab blablaba"> </g:TextArea>
+			</g:HorizontalPanel>
+				<g:VerticalPanel height="50px" ui:field="panelUpload"></g:VerticalPanel>
 	</g:VerticalPanel>
-	<g:Button text="Save" ui:field="btnSend" styleName="w3-button w3-round-xxlarge w3-hover-blue" ></g:Button>
-	<g:Button text="Submit" ui:field="btnSubmit" styleName="w3-button w3-round-xxlarge w3-hover-blue" ></g:Button>
+	
+	<g:Button text="Save" ui:field="btnSend" styleName="buttonDesign" ></g:Button>
+	<g:Button text="Submit" ui:field="btnSubmit" styleName="buttonDesign" ></g:Button>
 	
 	</g:HTMLPanel>
 </ui:UiBinder> 
