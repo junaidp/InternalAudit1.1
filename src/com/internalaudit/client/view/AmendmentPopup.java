@@ -2,24 +2,22 @@ package com.internalaudit.client.view;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.form.TextArea;
 
 public class AmendmentPopup {
-	
+
 	ButtonRound btnSubmit;
 	DecoratedPopupPanel popupComments;
 	TextArea comments;
-	
+
 	public void popupAmendment() {
-		
+
 		popupComments = new DecoratedPopupPanel();
 		VerticalPanel vpnlComments = new VerticalPanel();
 		popupComments.setWidget(vpnlComments);
@@ -39,42 +37,35 @@ public class AmendmentPopup {
 		vpnlComments.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		vpnlComments.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		popupComments.center();
-		
-		
 
-			btnCancel.addClickHandler(new ClickHandler(){
+		btnCancel.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				popupComments.removeFromParent();
-			}});
+			}
+		});
 	}
-
 
 	public ButtonRound getBtnSubmit() {
 		return btnSubmit;
 	}
 
-
 	public void setBtnSubmit(ButtonRound btnSubmit) {
 		this.btnSubmit = btnSubmit;
 	}
-
 
 	public DecoratedPopupPanel getPopupComments() {
 		return popupComments;
 	}
 
-
 	public void setPopupComments(DecoratedPopupPanel popupComments) {
 		this.popupComments = popupComments;
 	}
 
-
 	public TextArea getComments() {
 		return comments;
 	}
-
 
 	public void setComments(TextArea comments) {
 		this.comments = comments;

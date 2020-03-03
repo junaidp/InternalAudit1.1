@@ -54,7 +54,7 @@ public class ConsolidationHeadingView extends Composite {
 		// lblArea.setWordWrap(false);
 		// lblArea.addStyleName("labelHeading");
 		horizontalPanel.add(lblArea);
-		lblArea.setWidth("200px");
+		lblArea.setWidth("225px");
 
 		LabelHeading lblRiskUnit = new LabelHeading();
 		lblRiskUnit.setText("Risk Rating");
