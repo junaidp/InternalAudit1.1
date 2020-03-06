@@ -4,6 +4,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -124,6 +125,7 @@ public class AuditUniverseStrategicView extends Composite {
 		// hpnlStrategic.add(comments);
 		// hpnlStrategic.add(submitted);
 		// comments.addStyleName("white");
+		hpnlButtonInitiator.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		mainPanel.add(hpnlStrategic);
 		mainPanel.add(hpnlButtonInitiator);
 		mainPanel.add(hpnlButtonsApprovar);
@@ -143,11 +145,14 @@ public class AuditUniverseStrategicView extends Composite {
 		// btnAmend.setWidth("70px");
 		// btnApprove.setWidth("70px");
 
-		hpnlSpace.setWidth("850px");
-		hpnlSpaceApprovar.setWidth("850px");
+		hpnlSpace.setWidth("870px");
+		hpnlSpaceApprovar.setWidth("870px");
 		hpnlButtonInitiator.add(hpnlSpace);
 		hpnlButtonInitiator.add(btnDeclineInitiator);
 		btnDeclineInitiator.setVisible(false);
+		// if (comments.isVisible()) {
+		// btnSave.getElement().getStyle().setMarginLeft(90, Unit.PX);
+		// }
 		hpnlButtonInitiator.add(btnSave);
 		hpnlButtonInitiator.add(btnSubmit);
 		btnSave.setWidth("70px");

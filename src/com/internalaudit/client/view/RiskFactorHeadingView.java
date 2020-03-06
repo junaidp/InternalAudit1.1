@@ -33,8 +33,8 @@ public class RiskFactorHeadingView extends Composite {
 		probabality.addStyleName("blue");
 		risk.addStyleName("blue");
 
-		impact.setWidth("70px");
-		probabality.setWidth("75px");
+		impact.setWidth("64px");
+		probabality.setWidth("70px");
 		riskFactor.addStyleName("blue");
 		riskComments.addStyleName("blue");
 		riskFactor.setWidth("310px");

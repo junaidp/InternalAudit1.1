@@ -1,5 +1,6 @@
 package com.internalaudit.client.view;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -62,7 +63,9 @@ public class ConsolidationView extends Composite {
 		hpnlSPaceArea.setWidth("10px");
 		horizontalPanel.add(hpnlSPaceArea);
 		horizontalPanel.add(area);
-		area.setWidth("225px");
+		area.setWidth("220px");
+		area.getElement().getStyle().setMarginRight(20, Unit.PX);
+
 		// area.setWordWrap(false);
 
 		riskRating = new Image();
@@ -80,6 +83,7 @@ public class ConsolidationView extends Composite {
 		horizontalPanel.add(listBoxProcess);
 
 		listBoxProcess.setWidth("155px");
+		listBoxProcess.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		HorizontalPanel ProcessSpaceRating = new HorizontalPanel();
 		horizontalPanel.add(ProcessSpaceRating);
 		ProcessSpaceRating.setWidth("15px");
@@ -116,7 +120,7 @@ public class ConsolidationView extends Composite {
 		// btnAmend.setWidth("70px");
 		// btnApprove.setWidth("70px");
 
-		hpnlSpace.setWidth("600px");
+		hpnlSpace.setWidth("850px");
 		hpnlSpaceApprovar.setWidth("600px");
 		hpnlButtonInitiator.add(hpnlSpace);
 		hpnlButtonInitiator.add(btnDeclineInitiator);

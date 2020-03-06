@@ -1,5 +1,6 @@
 package com.internalaudit.client.view;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
@@ -27,7 +28,9 @@ public class AmendmentPopup {
 		HorizontalPanel hpnlButtons = new HorizontalPanel();
 		hpnlButtons.setSpacing(2);
 		btnSubmit = new ButtonRound("Submit");
+
 		ButtonRound btnCancel = new ButtonRound("Cancel");
+		hpnlButtons.getElement().getStyle().setPaddingLeft(235, Unit.PX);
 		hpnlButtons.add(btnCancel);
 		hpnlButtons.add(btnSubmit);
 		vpnlComments.add(lbl);

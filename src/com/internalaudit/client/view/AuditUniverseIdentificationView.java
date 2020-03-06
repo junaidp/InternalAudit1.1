@@ -3,6 +3,7 @@ package com.internalaudit.client.view;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -79,6 +80,8 @@ public class AuditUniverseIdentificationView extends Composite {
 		hpnlButtonsApprovar.setSpacing(2);
 		hpnlButtonsApprovar.setVisible(false);
 		final VerticalPanel vpnlStrategicData = new VerticalPanel();
+		btnAdd.getElement().getStyle().setPaddingLeft(1154, Unit.PX);
+		btnAdd.getElement().getStyle().setPaddingTop(5, Unit.PX);
 		vpnlStrategic.add(btnAdd);
 		vpnlStrategic.add(vpnlStrategicData);
 		vpnlStrategic.add(hpnlButtonsInitiator);

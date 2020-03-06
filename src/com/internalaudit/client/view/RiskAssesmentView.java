@@ -70,7 +70,7 @@ public class RiskAssesmentView extends Composite {
 		final VerticalPanel vpnlReporting = new VerticalPanel();
 		final VerticalPanel vpnlCompliance = new VerticalPanel();
 
-		panel.add(vpnlStrategic, "Strategic1");
+		panel.add(vpnlStrategic, "Strategic");
 		panel.add(vpnlOperation, "Operations");
 		panel.add(vpnlReporting, "Reporting");
 		panel.add(vpnlCompliance, "Compliance");

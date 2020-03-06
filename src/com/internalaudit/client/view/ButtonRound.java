@@ -10,7 +10,6 @@ public class ButtonRound extends Button {
 	public ButtonRound(String name) {
 		// Label l = new Label();
 		l.setText(name);
-
 		// add(l);
 		setButtonText(name);
 		setStyleName("buttonDesign w3-hover-blue");

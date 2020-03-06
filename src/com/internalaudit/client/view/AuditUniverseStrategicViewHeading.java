@@ -13,6 +13,9 @@ public class AuditUniverseStrategicViewHeading extends Composite {
 
 		final HorizontalPanel hpnlStrategic = new HorizontalPanel();
 		initWidget(hpnlStrategic);
+		// hpnlStrategic.setHeight("40px");
+		hpnlStrategic.setSize("1000px", "100%");
+		// hpnl.setSpacing(5);
 		LabelHeading lblStrategicObjective = new LabelHeading();
 		lblStrategicObjective.setText(InternalAuditConstants.STRATEGICOBJECTIVE);
 		// lblStrategicObjective.getElement().getStyle().setFontSize(16,

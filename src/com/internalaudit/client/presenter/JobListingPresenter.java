@@ -12,11 +12,8 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
@@ -29,142 +26,130 @@ public class JobListingPresenter implements Presenter {
 
 	private final InternalAuditServiceAsync rpcService;
 	private final HandlerManager eventBus;
-	private final Display display;	
+	private final Display display;
 	private Logger logger = Logger.getLogger("JobListingPresenter");
-	
-	public interface Display 
-	{
+
+	public interface Display {
 		Widget asWidget();
+
 		Object getHtmlErrorMessage = null;
+
 		VerticalPanel getJobListContainer();
+
 		String getCallingFrom();
-		
+
 	}
-	
-	public JobListingPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, Display view) 
-	{
+
+	public JobListingPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, Display view) {
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.display = view;
-		
-		fetchTextForJobLinks();
-		
-		
-		/*display.getBackButton().addClickHandler(new ClickHandler(){
 
-			@Override
-			public void onClick(ClickEvent event) {
-				History.newItem("auditScheduling");
-			}});
-			*/
+		fetchTextForJobLinks();
+
+		/*
+		 * display.getBackButton().addClickHandler(new ClickHandler(){
+		 * 
+		 * @Override public void onClick(ClickEvent event) {
+		 * History.newItem("auditScheduling"); }});
+		 */
 	}
 
-
-
 	private void fetchTextForJobLinks() {
-		
-		HashMap<String,String> hm = new HashMap<String,String>();
-		
+
+		HashMap<String, String> hm = new HashMap<String, String>();
+
 		final String caller = display.getCallingFrom();
-		
+
 		rpcService.fetchSchedulingStrategic(hm, new AsyncCallback<ArrayList<StrategicDTO>>() {
-			
+
 			@Override
 			public void onSuccess(final ArrayList<StrategicDTO> result) {
-				
-				//now we have links. gotta add to view
+
+				// now we have links. gotta add to view
 				Anchor jobLink;
 				FlexTable records = new FlexTable();
 				records.setWidth("100%");
-				for( int i = 0; i < result.size(); ++i )
-				{
+				for (int i = 0; i < result.size(); ++i) {
 					final StrategicDTO dto = result.get(i);
-					
+
 					jobLink = new Anchor();
 					jobLink.addStyleName("pointerStyle");
 					jobLink.setHeight("25px");
-					//jobLink.addStyleName("jobListingText");
-//					jobLink.setText(result.get(i).getStrategicObjective());
+					// jobLink.addStyleName("jobListingText");
+					// jobLink.setText(result.get(i).getStrategicObjective());
 					jobLink.setText(result.get(i).getAuditableUnit());
-					
+
 					records.setWidget(i, 0, jobLink);
-					
+
 					if (i % 2 != 0) {
 						records.getRowFormatter().addStyleName(i, "jobStatusRow");
 					}
-										
+
 					jobLink.addClickHandler(new ClickHandler() {
-						
+
 						@Override
 						public void onClick(ClickEvent event) {
-							
-							if ( caller == "jobTimeEst" )
-							{ 
-								
-								eventBus.fireEvent( new JobTimeEstimationEvent(dto));
+
+							if (caller == "jobTimeEst") {
+
+								eventBus.fireEvent(new JobTimeEstimationEvent(dto));
 							}
-							
-							if ( caller == "jobCreation" )
-							{
-								eventBus.fireEvent( new JobCreationEvent(dto));
+
+							if (caller == "jobCreation") {
+								eventBus.fireEvent(new JobCreationEvent(dto));
 							}
 						}
 					});
-					//HorizontalPanel jobsContainer = new HorizontalPanel();
-					//jobsContainer.add(jobLink);
-//					jobsContainer.addStyleName("statusRowConsolidation");
-//					jobLink.addStyleName("labelTitle"); 
+					// HorizontalPanel jobsContainer = new HorizontalPanel();
+					// jobsContainer.add(jobLink);
+					// jobsContainer.addStyleName("statusRowConsolidation");
+					// jobLink.addStyleName("labelTitle");
 					jobLink.setWordWrap(false);
-					//jobLink.addStyleName("smallBlack");
-					//jobLink.addStyleName("pointerStyle");
-					//jobsContainer.setWidth("100%");
-					
+					// jobLink.addStyleName("smallBlack");
+					// jobLink.addStyleName("pointerStyle");
+					// jobsContainer.setWidth("100%");
+
 					display.getJobListContainer().setWidth("100%");
-				//	display.getJobListContainer().add(records);
-//					String upperCasedJobLink = jobLink.getText().toUpperCase();
+					// display.getJobListContainer().add(records);
+					// String upperCasedJobLink =
+					// jobLink.getText().toUpperCase();
 					String upperCasedJobLink = jobLink.getText();
 					jobLink.setText(upperCasedJobLink);
-					
-					
+
 					display.getJobListContainer().setSpacing(5);
-					//jobsContainer.setSpacing(5);
+					// jobsContainer.setSpacing(5);
 				}
 				display.getJobListContainer().add(records);
 			}
-			
+
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-				
 
 				logger.log(Level.INFO, "FAIL: declineStrategic .Inside Audit AuditAreaspresenter");
-				if(caught instanceof TimeOutException){
+				if (caught instanceof TimeOutException) {
 					History.newItem("login");
-				}else{
+				} else {
 					System.out.println("FAIL: declineStrategic .Inside AuditAreaspresenter");
-					Window.alert("FAIL: declineStrategic");// After FAIL ... write RPC Name  NOT Method Name..
+					Window.alert("FAIL: declineStrategic");// After FAIL ...
+															// write RPC Name
+															// NOT Method Name..
 				}
-				
-				
+
 			}
 		});
-		
+
 	}
-		
 
-
-
-	public void go(HasWidgets container) 
-	{
+	public void go(HasWidgets container) {
 		container.clear();
 		container.add(display.asWidget());
 		bind();
 	}
 
-
-
 	private void bind() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
