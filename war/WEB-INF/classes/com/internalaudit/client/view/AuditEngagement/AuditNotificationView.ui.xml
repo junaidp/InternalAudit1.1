@@ -26,6 +26,6 @@
 			
 			</g:TextArea>
 			<t:AuditNotificationUpload></t:AuditNotificationUpload>
-		<g:Button styleName="" ui:field="send" text="Send"  />
+		<g:Button styleName="" ui:field="send" text="Save" styleName="w3-button w3-round-xxlarge w3-hover-blue"  />
 	</g:VerticalPanel>
 </ui:UiBinder> 

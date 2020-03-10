@@ -32,7 +32,7 @@ public class RiskAssesmentStrategicView extends Composite {
 	VerticalPanel riskFactors;
 	@UiField
 	VerticalPanel vpnlComments;
-	// @UiField Button save;
+	// @UiField Button save;ssss
 	// @UiField TextField comments;
 	// @UiField Button amend;
 	@UiField
@@ -92,8 +92,8 @@ public class RiskAssesmentStrategicView extends Composite {
 		// btnAmend.setWidth("70px");
 		// btnApprove.setWidth("70px");
 
-		hpnlSpace.setWidth("600px");
-		hpnlSpaceApprovar.setWidth("600px");
+		hpnlSpace.setWidth("850px");
+		hpnlSpaceApprovar.setWidth("850px");
 		hpnlButtonInitiator.add(hpnlSpace);
 		hpnlButtonInitiator.add(btnDeclineInitiator);
 		btnDeclineInitiator.setVisible(false);

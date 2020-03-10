@@ -32,10 +32,10 @@
 	<g:Label ui:field="feedback" styleName="blue"></g:Label>
 	</g:HorizontalPanel>
 	
-	<g:VerticalPanel>
+	<g:VerticalPanel ui:field="panelSamplingAudit">
 	<!-- 	Container for HAMZA's new page (sampling page) 
 	<g:Label  styleName="labelTitle">place for hamza's new panel</g:Label> -->
-	<A:SamplingAuditStep></A:SamplingAuditStep>
+	
 	</g:VerticalPanel>
 	
 	<g:HorizontalPanel verticalAlignment="middle" visible="false">
@@ -68,11 +68,11 @@
 	<g:TextArea ui:field="performance" visible="false"></g:TextArea>
 	
 	<A:LabelHeading width="100px">Exceptions</A:LabelHeading>
+		<g:HorizontalPanel ui:field="panelAddException"></g:HorizontalPanel>
+		<!--  
+		<g:Button ui:field="addException" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Add Exception1</g:Button>
 		
-		
-		<g:Button ui:field="addException">Add Exception</g:Button>
-		
-		
+		-->
 	<g:VerticalPanel ui:field="exceptions">
 	
 	</g:VerticalPanel>
@@ -93,12 +93,16 @@
 
 	
 	<g:HorizontalPanel ui:field="initiationButtonsPanel" visible="false">
-	<g:Button ui:field="save">Save</g:Button>
-	<g:Button ui:field="submit">Submit</g:Button>
+	<!--  
+	<g:Button ui:field="save"  styleName="w3-button w3-round-xxlarge w3-hover-blue" >Save1</g:Button>
+	<g:Button ui:field="submit" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Submit</g:Button>
+	-->
 	</g:HorizontalPanel>
 	<g:HorizontalPanel ui:field="approvalButtonsPanel" visible="false">
-	<g:Button ui:field="approve" >Approve</g:Button>
-	<g:Button ui:field="reject" >Feedback</g:Button>
+	<!--  
+	<g:Button ui:field="approve" styleName="w3-button w3-round-xxlarge w3-hover-blue"  >Approve</g:Button>
+	<g:Button ui:field="reject" styleName="w3-button w3-round-xxlarge w3-hover-blue"  >Feedback</g:Button>
+	-->
 	</g:HorizontalPanel>
 	
 <!-- 	<g:Button>Submit</g:Button> -->

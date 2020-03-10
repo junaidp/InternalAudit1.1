@@ -8,6 +8,8 @@
 	border-radius: 4px;
 }
 
+
+
 .labelRisk {
 	background-color: #CAE1FF;
 	padding: 4px 20px 5px 4px;
@@ -397,6 +399,32 @@ LOGIN FORM UIIIII   -->::selection {
 	margin-top: 6px;
 	max-width: 180px;
 }
+.labelDesign {
+x: 183px;
+y: 294px;
+height: 32px;
+color: #003056;
+padding-left: 2px;
+font-family: 'Source Sans Pro';
+font-size: 13px;
+font-weight: bold;
+font-style: normal;
+text-decoration: none;
+text-align: left;
+}
+
+.labelDesignNormalSize {
+x: 183px;
+y: 294px;
+height: 32px;
+color: #003056;
+font-family: 'Source Sans Pro';
+font-size: 15px;
+font-weight: bold;
+font-style: normal;
+text-decoration: none;
+text-align: left;
+}
 
 .footer-distributed .footer-right a {
 	display: inline-block;
@@ -456,25 +484,244 @@ DASHBOARD UIII    -->ol, ul {
 .boxshadow{
 	box-shadow: 5px 5px;
 }
+.horizontalDiv{
+	
+	display:inline-block;
+}
 /* GXT NEPTUNE THEME EDITS */
 
 .com-sencha-gxt-theme-neptune-client-base-tabs-Css3PlainTabPanelAppearance-Css3PlainTabPanelStyle-tabStripText{
 	font: normal 12px helvetica, arial, verdana, sans-serif !important;
 	
 }
+
 .com-sencha-gxt-theme-neptune-client-base-panel-Css3HeaderAppearance-Css3HeaderStyle-headerText{
 	font-weight:normal !important;
 	
 }
 
+.x-auto-1-label.com-sencha-gxt-theme-neptune-client-base-container-Css3AccordionLayoutAppearance-Css3AccordionHeaderStyle-headerText {
+	font-weight:normal !important;
+	color: #FFFFFF !important;
+}
+
 .com-sencha-gxt-theme-neptune-client-base-container-Css3AccordionLayoutAppearance-Css3AccordionHeaderStyle-headerText {
 	font-weight:normal !important;
+	color: #FFFFFF;
 }
-.com-sencha-gxt-theme-neptune-client-base-grid-Css3ColumnHeaderAppearance-Styles-headInner{
-	height:  24px !important;
-}
+
 .com-google-gwt-user-cellview-client-CellTable-Style-cellTableHeader{
 	color:white !important;
 	font-weight: normal !important;
 }
+/* Designer CSS */
+.buttonDesign{
+x: 836px;
+y: 458px;
+width: 80px;
+height: 20px;
+color: #FFFFFF;
+font-family: 'Source Sans Pro';
+font-size: 12px;
+font-weight: normal;
+font-style: normal;
+text-decoration: none;
+text-align: center;
+background: #13B01A;
+border: none;
+border-radius: 5px;
 
+}
+.sidebarNew{
+x: 82px;
+y: 43px;
+width: 44px;
+height: 704px;
+background: #104b67;
+border: 0px solid #ffffff;
+border-radius: 0px;
+}
+.sidebarNew:hover{
+	background: #2196F3;
+}
+
+
+.com-sencha-gxt-theme-neptune-client-base-panel-Css3ContentPanelAppearance-Css3ContentPanelStyle-header {
+	x: 131px;
+y: 179px;
+width: 1200px;
+height: 33px;
+color: #FFFFFF;
+font-family: 'Source Sans Pro';
+font-size: 14px;
+font-weight: normal;
+font-style: normal;
+text-decoration: none;
+text-align: left;
+padding: 10px;
+background: #2196F3 !important;
+border-radius: 0px;
+	
+}
+
+.designerImage {
+x: 1083px;
+y: 589px;
+width: 21px;
+height: 23px;
+border: 1px solid #000000;
+}
+.designeruserLabel {
+x: 923px;
+y: 59px;
+width: 140px;
+height: 25px;
+color: #0064B4;
+font-family: 'Source Sans Pro';
+font-size: 14px;
+font-weight: normal;
+font-style: normal;
+text-decoration: underline;
+text-align: left;
+}
+.com-sencha-gxt-theme-neptune-client-base-tabs-Css3PlainTabPanelAppearance-Css3PlainTabPanelStyle-tabStripActive.com-sencha-gxt-theme-neptune-client-base-tabs-Css3PlainTabPanelAppearance-Css3PlainTabPanelStyle-tabItem
+{ 
+background: #74C2FF !important;
+color: #FFFFFF;
+}
+.com-sencha-gxt-theme-neptune-client-base-tabs-Css3PlainTabPanelAppearance-Css3PlainTabPanelStyle-tabItem{
+	background: #087BD6!important;
+	color: #FFFFFF;
+}
+.com-sencha-gxt-theme-neptune-client-base-tabs-Css3PlainTabPanelAppearance-Css3PlainTabPanelStyle-tabStripText{
+	color: #FFFFFF !important;
+}
+
+.containercheck {
+	width:0;
+    display: flex;
+}
+.form-rowSmall {
+/* 	border: 1px solid green; */
+	min-height: 40px;
+	max-width: 400px;
+	margin: 6px 0 0 5px;
+	padding: 5px  0 3px 0;
+	border-bottom: 1px solid #ddd !important;
+}
+
+.designerTextbox{
+x: 337px;
+y: 420px;
+width: 222px;
+height: 20px;
+background: #FFFFFF;
+border: 1px solid #BDBDBD;
+border-radius: 0px;
+}
+.checkTEXTBOX
+{
+	height: 24px;
+	width: 148px;
+	
+	display: block;
+ 	padding: 0;
+ 	border: 1px solid #C0C0C0;
+}
+.marginLeft{
+	margin-left: 15px;
+}
+.auditengLabel {
+x: 130px;
+y: 265px;
+width: 146px;
+height: 27px;
+color: #003056;
+font-family: 'Source Sans Pro';
+font-size: 13px;
+font-weight: bold;
+font-style: normal;
+text-decoration: none;
+text-align: left;
+}
+
+.auditengTocc{
+	x: 137px;
+	y: 368px;
+	width: 44px;
+	height: 10px !important;
+	color: #616161;
+	font-family: Arimo;
+	font-size: 13px;
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: none;
+	text-align: center;
+	background: #E0E0E0
+	;border: 1px solid #E0E0E0;
+	border-radius: 10px;}
+.auditengToccText
+{
+	height: 45px !important;
+	width: 1100px  !important;
+    border: 0px solid #E0E0E0;
+    border-bottom-width: 2px;
+    background-color: transparent;
+    border-radius: 0px;
+}
+.marginLeft50{
+	margin-left: 50px;
+}
+
+.buttonDesignLogin{
+x: 836px;
+y: 458px;
+width: 230px;
+height: 30px;
+color: #FFFFFF;
+font-family: 'Source Sans Pro';
+font-size: 14px;
+font-weight: normal;
+font-style: normal;
+text-decoration: none;
+text-align: center;
+background: #13B01A;
+border: none;
+border-radius: 32px;
+
+}
+.textareaAudEng {
+ width: 300px;
+ height: 100px;
+ font-size: 1em;
+ font-weight: normal;
+ font-family: 'Source Sans Pro';
+ border: 1px solid black;
+}
+.iconMargin{
+	margin: auto;
+}
+.field-divShort{
+/* 	border: 1px solid yellow; */
+	margin: 2px 0 0 220px;
+	width: 300px;
+	min-height: 30px;
+	padding: 0 0 0 10px;
+}
+
+select {
+  /* for Firefox list box arrow disable */
+  -moz-appearance: none;
+  /* for Chrome list box arrow disable*/
+  -webkit-appearance: none;
+}
+
+/* For IE10 list box arrow disable*/
+select::-ms-expand {
+  display: none;
+}
+
+.com-sencha-gxt-theme-neptune-client-base-container-Css3AccordionLayoutAppearance-Css3AccordionHeaderStyle-headerText
+{
+	
+}

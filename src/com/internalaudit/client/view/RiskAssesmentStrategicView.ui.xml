@@ -13,7 +13,7 @@
 	<g:VerticalPanel ui:field="vpnlComments"></g:VerticalPanel>
 	</g:HorizontalPanel>
 	<g:HorizontalPanel>
-	<g:Label width="900px" styleName="boldText">Overall Rating</g:Label>
+	<g:Label width="860px" styleName="boldText">Overall Rating</g:Label>
 	<g:ListBox ui:field="rating">
 	<g:item>N/A</g:item>
 	<g:item>High</g:item>
@@ -22,7 +22,7 @@
 	</g:ListBox>
 	</g:HorizontalPanel>
 	<g:HorizontalPanel ui:field="userOption">
-	<g:Label width="900px" addStyleNames="{style.lbluser}" styleName="boldText">UserDefined Rating</g:Label>
+	<g:Label width="860px" addStyleNames="{style.lbluser}" styleName="boldText">UserDefined Rating</g:Label>
 	<g:ListBox ui:field="listBoxUserOption" addStyleNames="{style.lbluser}">
 	<g:item>N/A</g:item>
 	<g:item>High</g:item>

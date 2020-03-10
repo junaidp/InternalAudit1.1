@@ -77,15 +77,15 @@
 								onfocus="this.value=''" /> <input name="password" type="password" class="input 
 								password" value="Password" onfocus="this.value=''" /> -->
 								<g:Label styleName="error" visible="false" ui:field="lblError"></g:Label>
-								<g:TextBox ui:field="textUserName" styleName="input username" text="korgenthead@gmail.com" width="220px"></g:TextBox>
-								<g:PasswordTextBox ui:field="textPassword" styleName="input password" text="korgenthead" width="220px"></g:PasswordTextBox>
+								<g:TextBox ui:field="textUserName" styleName="input username"  width="220px"></g:TextBox>
+								<g:PasswordTextBox ui:field="textPassword" styleName="input password"  width="220px"></g:PasswordTextBox>
 
 						</div>
 
 						<div class="footer">
 							
 							<g:HorizontalPanel>
-							<g:Button ui:field="btnSubmit" width="230px"  styleName="w3-button  w3-border w3-border-blue w3-round-xxlarge w3-hover-blue ">Submit</g:Button>
+							<g:Button ui:field="btnSubmit" width="230px" height="37px" styleName="w3-button  w3-border w3-border-blue w3-round-xxlarge w3-hover-blue ">Submit</g:Button>
 							</g:HorizontalPanel>
 							<g:HorizontalPanel>
 							<g:Anchor ui:field="requestUserName" styleName="register">Request username</g:Anchor>

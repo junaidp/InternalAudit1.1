@@ -1,7 +1,13 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
-<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+ xmlns:f="urn:import:com.sencha.gxt.widget.core.client.form" xmlns:c="urn:import:com.sencha.gxt.widget.core.client.container">
+<ui:style>
+		.marginLeft{
+	margin-left: 20px;
+}
+	</ui:style>
 <g:HTMLPanel>
+
 		<div>
 			<g:Label ui:field="heading" styleName="heading"></g:Label>
 		</div>
@@ -44,59 +50,50 @@
 				</div>
 				
 				<div class="field-div">
-					<g:VerticalPanel ui:field="skillResourceContainer">
-			
-					</g:VerticalPanel>
+					<g:HorizontalPanel ui:field="skillResourceContainer">
+			           
+					</g:HorizontalPanel>
 				</div>
 			</div>
-			
-			<div class="form-row">
-			
+				
+			<div class="containercheck">
+		<div class="form-rowSmall">
 				<div class="label-div">
 					<g:Label text="Estimated Weeks" wordWrap="false"></g:Label>
 				</div>
 				
 				<div class="field-div">
-					<g:ListBox ui:field="estimatedWeeksListBox" styleName="lstEstForm">
-						<g:item>1</g:item>
-						<g:item>2</g:item>
-						<g:item>3</g:item>
-						<g:item>4</g:item>
-						<g:item>5</g:item>
-						<g:item>6</g:item>
-						<g:item>7</g:item>
-						<g:item>8</g:item>
-						<g:item>9</g:item>
-						<g:item>10</g:item>
-					</g:ListBox>
+				<c:VerticalLayoutContainer ui:field="estimatedWeeksContainer">
+				</c:VerticalLayoutContainer>
+					
 				</div>
-			
 			</div>	
-			
-			
-			<div class="form-row">
-			
+				<div class="form-row">		
 				<div class="label-div">
 					<g:Label text="Field Work Man Hours" wordWrap="false"></g:Label>
 				</div>
 				
 				<div class="field-div">
-					<g:TextBox ui:field="fieldWorkManHoursTextBox" enabled="false"  styleName="bigbox"></g:TextBox>
+					<g:TextBox ui:field="fieldWorkManHoursTextBox" enabled="false"  styleName="checkTEXTBOX"></g:TextBox>
 				</div>
 			
-			</div>
+			
+			</div>	
+			</div>	
 			
 			
-			<div class="form-row">
 			
+			<div class="containercheck">
+		<div class="form-rowSmall">
 				<div class="label-div">
-					<g:Label text="Management Hours" wordWrap="false"></g:Label>
+					<g:Label text="Internal Audit Management Hours" wordWrap="false"></g:Label>
 				</div>
 				
+				
 				<div class="field-div">
-					<g:TextBox ui:field="managementHoursTextBox"  styleName="bigbox"></g:TextBox>
-				</div>
-			
+				<c:VerticalLayoutContainer ui:field="managementHoursContainer">
+				</c:VerticalLayoutContainer>
+			</div>
 			</div>
 			
 			
@@ -108,12 +105,12 @@
 				</div>
 				
 				<div class="field-div">
-					<g:TextBox ui:field="totalWorkingManHoursTextBox" enabled="false"  styleName="bigbox"></g:TextBox>
+					<g:TextBox ui:field="totalWorkingManHoursTextBox" enabled="false"  styleName="checkTEXTBOX"></g:TextBox>
 				</div>
 			
 			</div>
 			
-			
+			</div>	
 			<div class="form-row">
 			
 				<div class="label-div">
@@ -132,26 +129,18 @@
 			
 			</div>	
 			
-			
-			<div class="form-row">
+			<div class="containercheck">
+		<div class="form-rowSmall">
 			
 				<div class="label-div">
-					<g:Label text="Traveling Days" wordWrap="false"></g:Label>
+					<g:Label ui:field="travelingDayslbl" text="Traveling Days" wordWrap="false"></g:Label>
 				</div>
 				
+			
 				<div class="field-div">
-					<g:ListBox ui:field="travelingDaysListBox" styleName="lstEstForm">
-						<g:item>0</g:item>
-						<g:item>1</g:item>
-						<g:item>2</g:item>
-						<g:item>3</g:item>
-						<g:item>4</g:item>
-						<g:item>5</g:item>
-						<g:item>6</g:item>
-						<g:item>7</g:item>
-						<g:item>8</g:item>
-					</g:ListBox>
-				</div>
+				<c:VerticalLayoutContainer ui:field="travelingDaysContainer">
+				</c:VerticalLayoutContainer>
+							</div>
 			
 			</div>
 			
@@ -162,20 +151,29 @@
 				</div>
 				
 				<div class="field-div">
-					<g:TextBox ui:field="hoursInclusiveOfTravel" enabled="false" styleName="bigbox"></g:TextBox>
+					<g:TextBox ui:field="hoursInclusiveOfTravel" enabled="false" styleName="checkTEXTBOX"></g:TextBox>
 				</div>
 			
 			</div>
-			
+			</div>
 			<div class="form-row">
 			
 				<div class="label-div">
 					<g:Label text="" wordWrap="false"></g:Label>
 				</div>
+				<div class="label-div">
+					<g:Label text="" wordWrap="false"></g:Label>
+				</div>
+				<div class="label-div">
+					<g:Label text="" wordWrap="false"></g:Label>
+				</div>
 				
+				
+				
+
 				<div class="field-div">
-					<g:Button text="Save" ui:field="saveJobTimeEst"></g:Button>
-					<g:Button text="Back" ui:field="backButton"></g:Button>
+					<g:Button text="Save" ui:field="saveJobTimeEst" styleName="buttonDesign"></g:Button>
+					<g:Button text="Back" ui:field="backButton" styleName="buttonDesign"></g:Button>
 				</div>
 			
 			</div>		

@@ -215,11 +215,11 @@ public class RiskAssesmentStrategicViewData {
 						}
 					}
 
-					TreeItem tree = new TreeItem();
-					tree.setHTML(riskAssesmentStrategicView.getStrategicObjective());
+					TreeItem treeItem = new TreeItem();
+					treeItem.setHTML(riskAssesmentStrategicView.getStrategicObjective());
 
 					Tree treeMain = new Tree();
-					treeMain.addItem(tree);
+					treeMain.addItem(treeItem);
 					//// Change
 					HorizontalPanel hpnlTree = new HorizontalPanel();
 					hpnlTree.setWidth("90%");
@@ -234,7 +234,7 @@ public class RiskAssesmentStrategicViewData {
 					treeMain.addStyleName("form-row");
 					treeMain.addStyleName("statusRowStrategic");
 					/////
-					tree.addItem(riskAssesmentStrategicView);
+					treeItem.addItem(riskAssesmentStrategicView);
 
 					final ArrayList<RiskFactorsView> riskFactorsUpdated = new ArrayList<RiskFactorsView>();
 					riskAssesmentStrategicView.getRiskFactors().add(new RiskFactorHeadingView());

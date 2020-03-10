@@ -1,13 +1,13 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:A="urn:import:com.internalaudit.client.view.AuditEngagement">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:A="urn:import:com.internalaudit.client.view.AuditEngagement" xmlns:v="urn:import:com.internalaudit.client.view">
 	<ui:style>
 	}
 	.heading{
 	font-size: 18px;
 }
 	</ui:style>
-	<g:ScrollPanel height="390px" width="1197px">
+	<g:ScrollPanel height="440px" width="1193px">
 	<g:HTMLPanel>
 	
 	<A:LabelHeading addStyleNames="{style.heading}"> Risks </A:LabelHeading>
@@ -26,9 +26,10 @@
 	<g:Label> Feedback: </g:Label>
 	<g:Label ui:field="feedback" styleName="blue"></g:Label>
 	</g:HorizontalPanel>
-	
-	<g:Button ui:field="addMore">Add More</g:Button>
-	
+	<g:HorizontalPanel ui:field="addIconPanel"></g:HorizontalPanel> 
+	<!--  
+	<g:Button ui:field="addMore" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Add More</g:Button>
+	-->
 	<g:HorizontalPanel styleName="risksRow" width="424px">
 	
 	<!-- 	<g:Label styleName="txtNormal">Description</g:Label>
@@ -63,12 +64,16 @@
 	
 	
 	<g:HorizontalPanel ui:field="initiationButtonsPanel" visible="false" >
-	<g:Button ui:field="saveRisks">Save</g:Button>
-	<g:Button ui:field="submit">Submit</g:Button>
+	<!--  
+	<g:Button  ui:field="saveRisks" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Save1</g:Button>
+	<g:Button ui:field="submit" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Submit1</g:Button>
+	-->
 	</g:HorizontalPanel>
 	<g:HorizontalPanel ui:field="approvalButtonsPanel" visible="false">
-	<g:Button ui:field="approve" >Approve</g:Button>
-	<g:Button ui:field="reject" >Feedback</g:Button>
+	<!--  
+	<g:Button ui:field="approve" styleName="w3-button w3-round-xxlarge w3-hover-blue"  >Approve</g:Button>
+	<g:Button ui:field="reject" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Feedback</g:Button>
+	-->
 	</g:HorizontalPanel>
 	
 	</g:HTMLPanel>

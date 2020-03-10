@@ -1,5 +1,6 @@
 package com.internalaudit.client.view;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Composite;
@@ -27,7 +28,7 @@ public class RiskFactorsView extends Composite {
 
 		riskFactor = new Label("");
 
-		riskFactor.setWidth("300px");
+		riskFactor.setWidth("245px");
 
 		rating = new ListBox();
 		rating.setEnabled(false);
@@ -59,23 +60,27 @@ public class RiskFactorsView extends Composite {
 		impact.addItem("High", "3");
 
 		comments = new TextArea();
-
-		comments.setWidth("580px");
+		comments.setWidth("600px");
 		comments.setHeight("30px");
 
 		riskRating = new Image("redcircle.png");
 		riskRating.setVisible(false);
 
-		HorizontalPanel hpnlSpaceRating = new HorizontalPanel();
+		probabality.setWidth("70px");
+		impact.setWidth("70px");
+		rating.setWidth("70px");
 
-		hpnlSpaceRating.setWidth("200px");
+		impact.getElement().getStyle().setMarginLeft(10, Unit.PX);
+		// HorizontalPanel hpnlSpaceRating = new HorizontalPanel();
+
+		// hpnlSpaceRating.setWidth("200px");
 		hpnlMain.add(riskFactor);
 		hpnlMain.add(comments);
 		hpnlMain.add(impact);
 		hpnlMain.add(probabality);
 		hpnlMain.add(rating);
 		hpnlMain.add(riskRating);
-		hpnlMain.add(hpnlSpaceRating);
+		// hpnlMain.add(hpnlSpaceRating);
 		hpnlMain.setSpacing(2);
 
 		setHandlers();

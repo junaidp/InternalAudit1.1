@@ -8,17 +8,34 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 
 	<!-- Datasource for LOCAL database connection -->
       
-      
+       
   	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost/abiliteclean" />
+	  <!--	<property name="url" value="jdbc:mysql://localhost/abiliteclean" /> --> 
+		<property name="url" value="jdbc:mysql://localhost/abilite2020" />  
 		<property name="username" value="root" />
 		<property name="password" value="0502" />
 
 
 	</bean>
 	
+	
+	 
+	   <!-- 
+	   Data Source for mocha connection
+	  -->
+		   <!-- 
+	   
+	   	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://mysql3000.mochahost.com/rms2019_abiliteclean" />
+		<property name="username" value="rms2019_root" />
+		<property name="password" value="Password1" />
+
+	</bean> 
+	--> 
   <!-- 
 		<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -35,7 +52,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 		<property name="dataSource" ref="dataSource" />
 		<property name="annotatedClasses">
 			<list>
-				<value>com.internalaudit.shared.User</value>
 				<value>com.internalaudit.shared.City</value>
 				<value>com.internalaudit.shared.Country</value>
 				<value>com.internalaudit.shared.Department</value>
@@ -59,7 +75,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 				<value>com.internalaudit.shared.AuditWork</value>
 				<value>com.internalaudit.shared.StrategicDepartments</value>
 				<value>com.internalaudit.shared.Company</value>
-				<value>com.internalaudit.shared.Rolls</value>
 				<value>com.internalaudit.shared.CompanySkillRelation</value>
 				<value>com.internalaudit.shared.Feedback</value>
 				<value>com.internalaudit.shared.Process</value>
@@ -73,7 +88,10 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 				<value>com.internalaudit.shared.RiskJobRelation</value>
 				<value>com.internalaudit.shared.ToDo</value>
 				<value>com.internalaudit.shared.InformationRequestEntity</value>
-				
+				<value>com.internalaudit.shared.ToDoLogsEntity</value>
+				<value>com.internalaudit.shared.InformationRequestLogEntity</value>
+				<value>com.internalaudit.shared.ReportDataEntity</value>
+				<value>com.internalaudit.shared.AssesmentGridDbEntity</value>
 				
 			</list>
 		</property>

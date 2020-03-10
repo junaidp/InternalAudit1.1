@@ -7,13 +7,11 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-//import com.google.gwt.user.client.ui.TextBox;
-import com.sencha.gxt.widget.core.client.form.TextField;
 
 public class ConsolidationView extends Composite {
 	private Label area;
 	private Image riskRating;
-	private TextField auditableUnit;
+	private Label auditableUnit;
 	private Label tab;
 	private Label comments = new Label(" Feedback ");
 	private Image submitted = new Image(" images/tick.png ");
@@ -74,9 +72,9 @@ public class ConsolidationView extends Composite {
 		horizontalPanel.add(hpnlSpaceRating);
 		hpnlSpaceRating.setWidth("60px");
 
-		auditableUnit = new TextField();
+		auditableUnit = new Label();
 		horizontalPanel.add(auditableUnit);
-		auditableUnit.setWidth("185px");
+		auditableUnit.setSize("185px", "100%");
 
 		// listboox process added in view panel
 		listBoxProcess = new ListBox();
@@ -150,11 +148,11 @@ public class ConsolidationView extends Composite {
 		this.area = area;
 	}
 
-	public TextField getAuditableUnit() {
+	public Label getAuditableUnit() {
 		return auditableUnit;
 	}
 
-	public void setAuditableUnit(TextField auditableUnit) {
+	public void setAuditableUnit(Label auditableUnit) {
 		this.auditableUnit = auditableUnit;
 	}
 
