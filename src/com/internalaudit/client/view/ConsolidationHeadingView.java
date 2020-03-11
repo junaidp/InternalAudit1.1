@@ -31,6 +31,7 @@ public class ConsolidationHeadingView extends Composite {
 		VerticalPanel verticalPanel = new VerticalPanel();
 		initWidget(verticalPanel);
 		verticalPanel.setHeight("35px");
+		verticalPanel.setWidth("1100px");
 
 		submit = new Button("Submit");
 		submit.setWidth("100px");
@@ -60,13 +61,13 @@ public class ConsolidationHeadingView extends Composite {
 		lblRiskUnit.setText("Risk Rating");
 		// lblRiskUnit.addStyleName("labelHeading");
 		horizontalPanel.add(lblRiskUnit);
-		lblRiskUnit.setWidth("100px");
+		lblRiskUnit.setWidth("80px");
 
 		LabelHeading lblAuditaleRating = new LabelHeading();
 		lblAuditaleRating.setText("Auditable Unit");
 		// lblAuditaleRating.addStyleName("labelHeading");
 		horizontalPanel.add(lblAuditaleRating);
-		lblAuditaleRating.setWidth("180px");
+		lblAuditaleRating.setWidth("200px");
 
 		// horizontalPanel.addStyleName("statusRowConsolidation");
 

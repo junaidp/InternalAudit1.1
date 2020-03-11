@@ -445,13 +445,13 @@ public class ConsolidationViewData {
 	public void disablePanel(ConsolidationView consolidationView, Strategic strategic) {
 		consolidationView.getHpnlButtonsApprovar().setVisible(false);
 		consolidationView.getHpnlButtonInitiator().setVisible(false);
-		// consolidationView.getAuditableUnit().setEnabled(false);
+		consolidationView.getAuditableUnit().setEnabled(false);
 		consolidationView.getListBoxProcess().setEnabled(false);
 		consolidationView.getListBoxProcess().addStyleName("listboxDisabled");
-		consolidationView.getListBoxProcess().setWidth("151px");
+		// consolidationView.getListBoxProcess().setWidth("151px");
 		consolidationView.getListBoxSubProcess().setEnabled(false);
 		consolidationView.getListBoxSubProcess().addStyleName("listboxDisabled");
-		consolidationView.getListBoxSubProcess().setWidth("176px");
+		// consolidationView.getListBoxSubProcess().setWidth("176px");
 
 		consolidationView.getListBoxJobType().setEnabled(false);
 		consolidationView.getListBoxJobType().addStyleName("listboxDisabled");
@@ -463,7 +463,7 @@ public class ConsolidationViewData {
 	}
 
 	public void enablePanel(ConsolidationView consolidationView) {
-		// consolidationView.getAuditableUnit().setEnabled(true);
+		consolidationView.getAuditableUnit().setEnabled(true);
 		consolidationView.getListBoxProcess().setEnabled(true);
 		consolidationView.getListBoxSubProcess().setEnabled(true);
 		consolidationView.getListBoxJobType().setEnabled(true);

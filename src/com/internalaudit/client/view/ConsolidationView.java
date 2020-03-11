@@ -7,11 +7,12 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.sencha.gxt.widget.core.client.form.TextArea;
 
 public class ConsolidationView extends Composite {
 	private Label area;
 	private Image riskRating;
-	private Label auditableUnit;
+	private TextArea auditableUnit;
 	private Label tab;
 	private Label comments = new Label(" Feedback ");
 	private Image submitted = new Image(" images/tick.png ");
@@ -67,29 +68,31 @@ public class ConsolidationView extends Composite {
 		// area.setWordWrap(false);
 
 		riskRating = new Image();
-		horizontalPanel.add(riskRating);
+		// horizontalPanel.add(riskRating);
 		HorizontalPanel hpnlSpaceRating = new HorizontalPanel();
 		horizontalPanel.add(hpnlSpaceRating);
-		hpnlSpaceRating.setWidth("60px");
+		hpnlSpaceRating.add(riskRating);
+		hpnlSpaceRating.setWidth("80px");
+		riskRating.getElement().getStyle().setPaddingLeft(15, Unit.PX);
 
-		auditableUnit = new Label();
+		auditableUnit = new TextArea();
 		horizontalPanel.add(auditableUnit);
-		auditableUnit.setSize("185px", "100%");
+		auditableUnit.setSize("205px", "100%");
 
 		// listboox process added in view panel
 		listBoxProcess = new ListBox();
 		horizontalPanel.add(listBoxProcess);
 
 		listBoxProcess.setWidth("155px");
-		listBoxProcess.getElement().getStyle().setMarginLeft(20, Unit.PX);
+		// listBoxProcess.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		HorizontalPanel ProcessSpaceRating = new HorizontalPanel();
 		horizontalPanel.add(ProcessSpaceRating);
-		ProcessSpaceRating.setWidth("15px");
+		ProcessSpaceRating.setWidth("20px");
 
 		// listbox subricess added in panel
 		listBoxSubProcess = new ListBox();
 		horizontalPanel.add(listBoxSubProcess);
-		listBoxSubProcess.setWidth("180px");
+		listBoxSubProcess.setWidth("171px");
 
 		// listbox jobtype added in panel
 		listBoxJobType = new ListBox();
@@ -97,7 +100,7 @@ public class ConsolidationView extends Composite {
 		listBoxJobType.setWidth("180px");
 
 		tab = new Label();
-		horizontalPanel.add(tab);
+		// horizontalPanel.add(tab);
 		tab.setWidth("50px");
 
 		verticalPanel.add(hpnlButtonInitiator);
@@ -134,7 +137,7 @@ public class ConsolidationView extends Composite {
 		hpnlComments.add(comments);
 		hpnlComments.add(submitted);
 		hpnlComments.setWidth("150px");
-		horizontalPanel.add(hpnlComments);
+		// horizontalPanel.add(hpnlComments);
 
 		verticalPanel.addStyleName("form-row");
 
@@ -148,11 +151,11 @@ public class ConsolidationView extends Composite {
 		this.area = area;
 	}
 
-	public Label getAuditableUnit() {
+	public TextArea getAuditableUnit() {
 		return auditableUnit;
 	}
 
-	public void setAuditableUnit(Label auditableUnit) {
+	public void setAuditableUnit(TextArea auditableUnit) {
 		this.auditableUnit = auditableUnit;
 	}
 

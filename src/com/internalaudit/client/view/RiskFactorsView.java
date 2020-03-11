@@ -61,7 +61,7 @@ public class RiskFactorsView extends Composite {
 
 		comments = new TextArea();
 		comments.setWidth("600px");
-		comments.setHeight("30px");
+		comments.setHeight("40px");
 
 		riskRating = new Image("redcircle.png");
 		riskRating.setVisible(false);
