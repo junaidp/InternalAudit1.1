@@ -708,8 +708,7 @@ border-radius: 32px;
 	min-height: 30px;
 	padding: 0 0 0 10px;
 }
-
-listboxDisabled {
+select {
   /* for Firefox list box arrow disable */
   -moz-appearance: none;
   /* for Chrome list box arrow disable*/
@@ -717,10 +716,9 @@ listboxDisabled {
 }
 
 /* For IE10 list box arrow disable*/
-listboxDisabled::-ms-expand {
+select::-ms-expand {
   display: none;
 }
-
 .com-sencha-gxt-theme-neptune-client-base-container-Css3AccordionLayoutAppearance-Css3AccordionHeaderStyle-headerText
 {
 	
