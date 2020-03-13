@@ -25,6 +25,7 @@ import com.internalaudit.client.portal.JobStatusPortaLayout;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.JobData;
 import com.internalaudit.client.view.AuditEngagement.KickoffView;
+import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.FieldWorkStatusDTO;
@@ -169,18 +170,59 @@ public class AuditEngagementPresenter implements Presenter {
 
 			// set headings
 
-			String headings[] = { "Sr#", " Job Name", "Planned Start Date", "Planned End Date", "status", "Planning ",
-					"Field Work", "Reporting" };
+			// String headings[] = { "Sr#", " Job Name", "Planned Start Date",
+			// "Planned End Date", "Status", "Planning ",
+			// "Field Work", "Reporting" };
+			//
+			// for (int i = 0; i < headings.length; i++) {
+			//
+			// Label heading = new Label();
+			// heading.setText(headings[i]);
+			// heading.addStyleName("gwt-Label labelDesign form-row");
+			// // heading.addStyleName("jobStatusHeading");
+			//
+			// records.setWidget(0, i, heading);
+			// }
+			LabelHeading lblSr = new LabelHeading();
+			lblSr.setText("Sr#");
+			lblSr.setWidth("40px");
+			records.setWidget(0, 0, lblSr);
 
-			for (int i = 0; i < headings.length; i++) {
+			LabelHeading lblJobName = new LabelHeading();
+			lblJobName.setText("Job Name");
+			lblJobName.setWidth("250px");
+			records.setWidget(0, 1, lblJobName);
 
-				Label heading = new Label();
-				heading.setText(headings[i]);
-				heading.addStyleName("labelDesignNormalSize");
-				// heading.addStyleName("jobStatusHeading");
+			LabelHeading lblPlanStartDate = new LabelHeading();
+			lblPlanStartDate.setText("Planned Start Date");
+			lblPlanStartDate.setWidth("190px");
+			records.setWidget(0, 2, lblPlanStartDate);
 
-				records.setWidget(0, i, heading);
-			}
+			LabelHeading lblPlanEndDate = new LabelHeading();
+			lblPlanEndDate.setText("Planned End Date");
+			lblPlanEndDate.setWidth("190px");
+			records.setWidget(0, 3, lblPlanEndDate);
+
+			LabelHeading lblStatus = new LabelHeading();
+			lblStatus.setText("Status");
+			lblStatus.setWidth("75px");
+			records.setWidget(0, 4, lblStatus);
+
+			LabelHeading lblPlanning = new LabelHeading();
+			lblPlanning.setText("Planning");
+			lblPlanning.setWidth("105px");
+
+			records.setWidget(0, 5, lblPlanning);
+
+			LabelHeading lblFieldWork = new LabelHeading();
+			lblFieldWork.setText("Field Work");
+			lblFieldWork.setWidth("105px");
+			records.setWidget(0, 6, lblFieldWork);
+
+			LabelHeading lblReporting = new LabelHeading();
+			lblReporting.setText("Reporting");
+			lblReporting.setWidth("105px");
+			records.setWidget(0, 7, lblReporting);
 
 			// set data in cells
 			for (int i = 0; i < allJobsAndStatus.size(); i++) {
@@ -198,12 +240,14 @@ public class AuditEngagementPresenter implements Presenter {
 				HorizontalPanel p = new HorizontalPanel();
 				lblJobNo.getElement().getStyle().setPaddingLeft(10, Unit.PX);
 				// p.add(lblJobNo);
-
+				HorizontalPanel hpnlSpace = new HorizontalPanel();
+				hpnlSpace.setWidth("10px");
+				p.add(hpnlSpace);
 				p.add(jobName);
 
 				records.setWidget(i + 1, 0, lblJobNo);
 				records.setWidget(i + 1, 1, p);
-				jobName.setWidth("300px");
+				jobName.setWidth("250px");
 				jobId = allJobsAndStatus.get(i).getJobCreation().getJobCreationId(); // this
 
 				auditEngId = allJobsAndStatus.get(i).getAuditEngId();
@@ -215,16 +259,20 @@ public class AuditEngagementPresenter implements Presenter {
 				startDate.addStyleName("statusJobDate");
 				startDate.addStyleName("statusCell");
 				startDate.setWidth("190px");
+				startDate.getElement().getStyle().setPaddingLeft(8, Unit.PX);
 				///// ADDED////
 				Label endDate = new Label(allJobsAndStatus.get(i).getJobCreation().getEndDate());
 				endDate.addStyleName("statusJobDate");
 				endDate.addStyleName("statusCell");
 				endDate.setWidth("190px");
+				endDate.getElement().getStyle().setPaddingLeft(8, Unit.PX);
 				////////////
 
 				records.setWidget(i + 1, 2, startDate);
 
 				Label status = new Label(allJobsAndStatus.get(i).getJobStatus());
+				status.setWidth("76px");
+				status.getElement().getStyle().setPaddingLeft(6, Unit.PX);
 				startDate.addStyleName("statusJobStatus");
 				startDate.addStyleName("statusCell");
 
@@ -322,8 +370,14 @@ public class AuditEngagementPresenter implements Presenter {
 
 		updateProgressBarsPercent(i, jobStatusDTO, progressPlanning, progressFieldWork, progressReporting);
 
+		progressPlanning.setWidth("105px");
+		progressPlanning.getElement().getStyle().setPaddingLeft(5, Unit.PX);
 		records.setWidget(i + 1, 5, progressPlanning);
+		progressFieldWork.setWidth("105px");
+		progressFieldWork.getElement().getStyle().setPaddingLeft(6, Unit.PX);
 		records.setWidget(i + 1, 6, progressFieldWork);
+		progressReporting.setWidth("105px");
+		progressReporting.getElement().getStyle().setPaddingLeft(5, Unit.PX);
 		records.setWidget(i + 1, 7, progressReporting);
 		records.setWidget(i + 1, 8, AnchorJobStatus);
 	}

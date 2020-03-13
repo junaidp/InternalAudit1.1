@@ -511,6 +511,7 @@ public class AuditWorkProg extends Composite {
 						for (int j = 0; j < controls.size(); j++) {
 							row.getListBoxExistingCtrl().addItem(controls.get(j).getSuggestedReferenceNo(),
 									controls.get(j).getSuggestedControlsId() + "");
+							row.getListBoxExistingCtrl().setTitle(controls.get(j).getSuggestedControlsName());
 						}
 						for (int i = 0; i < row.getListBoxExistingCtrl().getItemCount(); i++) {
 							if (Integer.parseInt(row.getListBoxExistingCtrl().getValue(i)) == auditWork

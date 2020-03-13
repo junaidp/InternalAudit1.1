@@ -132,10 +132,10 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 
 		final Grid<InformationRequestRaiseEntity> grid = new Grid<InformationRequestRaiseEntity>(store, cm);
 		// grid.setWidth(600);
-		grid.getView().setAutoExpandColumn(informationId);
-		grid.getView().setForceFit(true);
-		grid.getView().setStripeRows(true);
-		grid.getView().setColumnLines(true);
+		// grid.getView().setAutoExpandColumn(informationId);
+		// grid.getView().setForceFit(true);
+		// grid.getView().setStripeRows(true);
+		// grid.getView().setColumnLines(true);
 		ScrollPanel p = new ScrollPanel();
 		p.setHeight("220px");
 
@@ -178,13 +178,13 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 		});
 
 		con.add(p, new VerticalLayoutData(1, 1));
-
-		panel = new ContentPanel();
-		panel.setHeight(230);
-		panel.setWidth(850);
-		panel.setHeadingText("InformationRequestRaise");
-		panel.add(con);
-		return panel;
+		return con;
+		// panel = new ContentPanel();
+		// panel.setHeight(230);
+		// panel.setWidth(850);
+		// panel.setHeadingText("InformationRequestRaise");
+		// panel.add(con);
+		// return panel;
 
 	}
 }

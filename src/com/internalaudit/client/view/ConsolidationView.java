@@ -92,7 +92,7 @@ public class ConsolidationView extends Composite {
 		// listbox subricess added in panel
 		listBoxSubProcess = new ListBox();
 		horizontalPanel.add(listBoxSubProcess);
-		listBoxSubProcess.setWidth("171px");
+		listBoxSubProcess.setWidth("166px");
 
 		// listbox jobtype added in panel
 		listBoxJobType = new ListBox();

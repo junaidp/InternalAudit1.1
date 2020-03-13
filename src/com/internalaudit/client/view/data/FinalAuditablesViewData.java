@@ -128,7 +128,7 @@ public class FinalAuditablesViewData {
 					VerticalPanel vpnlObjectiveContainer = new VerticalPanel();
 					Label lblUnit = new Label(strategic.get(i).getAuditableUnit());
 
-					lblUnit.setWidth("600px");
+					lblUnit.setWidth("605px");
 					if (!auditableUnits.contains(strategic.get(i).getAuditableUnit())) {
 						count++;
 						HorizontalPanel hpnlMain = new HorizontalPanel();
@@ -137,7 +137,7 @@ public class FinalAuditablesViewData {
 						JobCreation jb = new JobCreation();
 
 						Label lblCount = new Label("");
-						lblCount.setWidth("50px");
+						lblCount.setWidth("55px");
 						lblCount.addStyleName("blue");
 						// lblCount.setText(count + ")" );
 
@@ -154,6 +154,7 @@ public class FinalAuditablesViewData {
 							if (strategic.get(i).isApprovedByAuditHead()) {
 								Label lblApproved = new Label("Approved");
 								lblApproved.addStyleName("blue");
+								lblApproved.setWidth("90px");
 								hpnlMain.add(lblApproved);
 							} else if (loggedInUser.getRollId() == 1) {
 								VerticalPanel vpnlCommentsAndButton = new VerticalPanel();

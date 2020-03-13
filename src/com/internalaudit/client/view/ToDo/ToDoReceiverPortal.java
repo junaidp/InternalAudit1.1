@@ -125,12 +125,13 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 
 		con.add(p, new VerticalLayoutData(1, 1));
 
-		panel = new ContentPanel();
-		panel.setHeight(230);
-		panel.setWidth(850);
-		panel.setHeadingText("ToDoReceiver");
-		panel.add(con);
-		return panel;
+		// panel = new ContentPanel();
+		// panel.setHeight(230);
+		// panel.setWidth(850);
+		// panel.setHeadingText("ToDoReceiver");
+		// panel.add(con);
+		// return panel;
+		return con;
 	}
 
 }

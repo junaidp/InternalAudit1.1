@@ -77,6 +77,12 @@ public class RiskAssesmentStrategicViewData {
 					previousStrategicsEntity.get(i).getStrategic()
 							.setUserDefinedRating(updatedStrategics.get(i).getListBoxUserOption()
 									.getValue(updatedStrategics.get(i).getListBoxUserOption().getSelectedIndex()));
+					// if
+					// (!updatedStrategics.get(i).getRating().getSelectedValue()
+					// .equals(updatedStrategics.get(i).getListBoxUserOption().getSelectedValue()))
+					// {
+					// updatedStrategics.get(i).getPanelRatingComment().setVisible(true);
+					// }
 
 				}
 				saveStrategics();
@@ -519,7 +525,10 @@ public class RiskAssesmentStrategicViewData {
 		riskAssesmentStrategicView.getRating().setEnabled(true);
 		// new work
 		riskAssesmentStrategicView.getListBoxUserOption().setEnabled(true);
-
+		if (riskAssesmentStrategicView.getListBoxUserOption().getSelectedValue() != riskAssesmentStrategicView
+				.getRating().getSelectedValue()) {
+			riskAssesmentStrategicView.getPanelRatingComment().setVisible(true);
+		}
 		riskAssesmentStrategicView.getSubmitted().setVisible(false);
 		riskAssesmentStrategicView.getLblImg().setVisible(true);
 
@@ -530,16 +539,27 @@ public class RiskAssesmentStrategicViewData {
 		if (riskAssesmentDTOs.get(i).getStrategic().getStatus().equals("submitted")) {
 			riskAssesmentStrategicView.getHpnlButtonsApprovar().setVisible(true);
 			riskAssesmentStrategicView.getHpnlButtonInitiator().setVisible(false);
+			if (!riskAssesmentStrategicView.getRating().getSelectedValue()
+					.equals(riskAssesmentStrategicView.getListBoxUserOption().getSelectedValue())) {
+				riskAssesmentStrategicView.getPanelRatingComment().setVisible(true);
+			}
 
 		} else if (riskAssesmentDTOs.get(i).getStrategic().getStatus().equals("amend")) {
 			riskAssesmentStrategicView.getBtnDeclineInitiator().setVisible(false);
 			riskAssesmentStrategicView.getHpnlButtonsApprovar().setVisible(false);
 			riskAssesmentStrategicView.getHpnlButtonInitiator().setVisible(true);
-
+			if (!riskAssesmentStrategicView.getRating().getSelectedValue()
+					.equals(riskAssesmentStrategicView.getListBoxUserOption().getSelectedValue())) {
+				riskAssesmentStrategicView.getPanelRatingComment().setVisible(true);
+			}
 		} else {
 			riskAssesmentStrategicView.getBtnDeclineInitiator().setVisible(true);
 			riskAssesmentStrategicView.getHpnlButtonsApprovar().setVisible(false);
 			riskAssesmentStrategicView.getHpnlButtonInitiator().setVisible(true);
+			if (!riskAssesmentStrategicView.getRating().getSelectedValue()
+					.equals(riskAssesmentStrategicView.getListBoxUserOption().getSelectedValue())) {
+				riskAssesmentStrategicView.getPanelRatingComment().setVisible(true);
+			}
 		}
 	}
 

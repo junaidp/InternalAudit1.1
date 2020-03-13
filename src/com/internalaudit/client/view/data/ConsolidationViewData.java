@@ -265,7 +265,8 @@ public class ConsolidationViewData {
 							.setText(strategics.get(consolidationView.getIndex()).getStrategicObjective());
 					consolidationView.getArea()
 							.setTitle(strategics.get(consolidationView.getIndex()).getStrategicObjective());
-
+					// consolidationView.getArea().getElement().setAttribute("style",
+					// "display:none");
 					consolidationView.getAuditableUnit()
 							.setText(strategics.get(consolidationView.getIndex()).getAuditableUnit());
 					consolidationView.getAuditableUnit()

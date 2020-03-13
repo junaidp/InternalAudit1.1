@@ -2,6 +2,7 @@ package com.internalaudit.client.view;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -61,6 +62,13 @@ public class UserInductionFormView extends FlexTable implements Display {
 	}
 
 	private void layout() {
+		// datefiscalYearfrom.setFormat(new
+		// DateBox.DefaultFormat(DateTimeFormat.getFormat("dd MMMM , yyyy")));
+		// datefiscalYearto.setFormat(new
+		// DateBox.DefaultFormat(DateTimeFormat.getFormat("dd MMMM , yyyy")));
+		datefiscalYearfrom.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getShortDateFormat()));
+		datefiscalYearto.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getShortDateFormat()));
+
 		Label lblHeading = new Label("User Induction Form");
 		lblHeading.addStyleName("blue");
 

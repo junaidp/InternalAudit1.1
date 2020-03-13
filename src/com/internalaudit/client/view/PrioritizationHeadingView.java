@@ -78,7 +78,7 @@ public class PrioritizationHeadingView extends Composite {
 		// lblAuditablYear.getElement().getStyle().setMarginLeft(65, Unit.PX);
 		// lblAuditablYear.addStyleName("labelHeading");
 		horizontalPanel.add(lblAuditablYear);
-		lblAuditaleRating.setWidth("150px");
+		lblAuditaleRating.setWidth("160px");
 
 		Label lblTab = new Label("");
 		lblTab.addStyleName("blue");

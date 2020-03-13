@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.view.data.RiskAssesmentStrategicViewData;
+import com.sencha.gxt.widget.core.client.form.TextArea;
 
 public class RiskAssesmentStrategicView extends Composite {
 
@@ -37,6 +38,8 @@ public class RiskAssesmentStrategicView extends Composite {
 	// @UiField Button amend;
 	@UiField
 	HorizontalPanel hpnlButtons;
+	@UiField
+	HorizontalPanel panelRatingComment;
 	private Label comments = new Label(" Feedback ");
 	private Image submitted = new Image(" images/tick.png ");
 	private Label lblImg = new Label("  ");
@@ -52,6 +55,8 @@ public class RiskAssesmentStrategicView extends Composite {
 	private int index;
 	private int strategicId;
 	private String comment;
+	private Label lblComment;
+	private TextArea txtAreaComment;
 
 	public ListBox getRating() {
 		return rating;
@@ -65,6 +70,14 @@ public class RiskAssesmentStrategicView extends Composite {
 
 	public RiskAssesmentStrategicView() {
 		initWidget(uiBinder.createAndBindUi(this));
+		lblComment = new Label("Comment");
+		lblComment.setWidth("250px");
+		lblComment.addStyleName("boldText");
+		panelRatingComment.add(lblComment);
+		txtAreaComment = new TextArea();
+		txtAreaComment.setSize("600px", "40px");
+		panelRatingComment.add(txtAreaComment);
+		panelRatingComment.setVisible(false);
 		hpnlButtons.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		// comments.setEmptyText("Enter Comments");
 		// amend.setHeight("25px");
@@ -265,6 +278,30 @@ public class RiskAssesmentStrategicView extends Composite {
 
 	public void setLblImg(Label lblImg) {
 		this.lblImg = lblImg;
+	}
+
+	public HorizontalPanel getPanelRatingComment() {
+		return panelRatingComment;
+	}
+
+	public void setPanelRatingComment(HorizontalPanel panelRatingComment) {
+		this.panelRatingComment = panelRatingComment;
+	}
+
+	public Label getLblComment() {
+		return lblComment;
+	}
+
+	public void setLblComment(Label lblComment) {
+		this.lblComment = lblComment;
+	}
+
+	public TextArea getTxtAreaComment() {
+		return txtAreaComment;
+	}
+
+	public void setTxtAreaComment(TextArea txtAreaComment) {
+		this.txtAreaComment = txtAreaComment;
 	}
 
 	// public TextField getComments() {

@@ -30,6 +30,9 @@
 	<g:item>Low</g:item>
 	</g:ListBox>
 	</g:HorizontalPanel>
+	
+	<g:HorizontalPanel ui:field="panelRatingComment">
+	</g:HorizontalPanel>
 
 	<g:HorizontalPanel ui:field="hpnlButtons">
 	<!-- <g:Button ui:field="save" width="100px"> Submit </g:Button>

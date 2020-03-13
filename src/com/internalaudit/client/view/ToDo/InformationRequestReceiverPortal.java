@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -143,16 +144,18 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 
 		VerticalLayoutContainer con = new VerticalLayoutContainer();
 		Anchor anchorView = new Anchor("view");
+		anchorView.getElement().getStyle().setPaddingLeft(820, Unit.PX);
 		con.add(anchorView);
 
 		con.add(p, new VerticalLayoutData(1, 1));
 
-		panel = new ContentPanel();
-		panel.setHeight(230);
-		panel.setWidth(850);
-		panel.setHeadingText("InformationRequestReceiver");
-		panel.add(con);
-		return panel;
+		// panel = new ContentPanel();
+		// panel.setHeight(230);
+		// panel.setWidth(850);
+		// panel.setHeadingText("InformationRequestReceiver");
+		// panel.add(con);
+		// return panel;
+		return con;
 	}
 
 }
