@@ -71,9 +71,9 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 	public Widget createGridFieldWork() {
 
 		ColumnConfig<InformationRequestReceiverEntity, Integer> informationId = new ColumnConfig<InformationRequestReceiverEntity, Integer>(
-				properties.id(), 50, "Ir#");
+				properties.id(), 70, "IR#");
 		ColumnConfig<InformationRequestReceiverEntity, String> requestedItem = new ColumnConfig<InformationRequestReceiverEntity, String>(
-				properties.requestedItem(), 180, "RequestedItem");
+				properties.requestedItem(), 180, "Requested Item");
 		ColumnConfig<InformationRequestReceiverEntity, String> informationRaisedBy = new ColumnConfig<InformationRequestReceiverEntity, String>(
 				properties.raisedBy(), 130, "Requested By");
 		ColumnConfig<InformationRequestReceiverEntity, String> relatedJob = new ColumnConfig<InformationRequestReceiverEntity, String>(
@@ -81,7 +81,7 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 		ColumnConfig<InformationRequestReceiverEntity, Date> informationOverDue = new ColumnConfig<InformationRequestReceiverEntity, Date>(
 				properties.overDueDays(), 160, "Due Date");
 		ColumnConfig<InformationRequestReceiverEntity, String> informationStatus = new ColumnConfig<InformationRequestReceiverEntity, String>(
-				properties.status(), 110, "status");
+				properties.status(), 110, "Status");
 		ColumnConfig<InformationRequestReceiverEntity, String> viewButton = new ColumnConfig<InformationRequestReceiverEntity, String>(
 				properties.viewButton(), 100, "");
 
@@ -94,8 +94,9 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 				int row = c.getIndex();
 				InformationRequestReceiverEntity informationRequest = store.get(row);
 				InformationRequestReceiveView infoReceiver = new InformationRequestReceiveView(informationRequest);
-				final PopupsView pp = new PopupsView(infoReceiver, "");
-				pp.getLabelheading().setText("InformationRequest Receiver");
+				final PopupsView pp = new PopupsView(infoReceiver, "InformationRequest Receiver");
+				// pp.getLabelheading().setText("InformationRequest Receiver");
+				// pp.getPopup().setHeadingText("InformationRequest Receiver");
 				pp.getVpnlMain().setTitle("Todos");
 				pp.getVpnlMain().setWidth("600px");
 				pp.getHpnlSPace().setWidth("600px");

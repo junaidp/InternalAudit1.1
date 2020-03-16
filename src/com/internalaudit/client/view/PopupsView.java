@@ -1,21 +1,19 @@
 package com.internalaudit.client.view;
 
-import org.apache.poi.hssf.util.HSSFColor.BLUE;
-
 import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.sencha.gxt.widget.core.client.Dialog;
 
 public class PopupsView {
 
-	DecoratedPopupPanel popup;
+	Dialog popup;
 	VerticalPanel vpnlMain;
 	private HorizontalPanel hpnlSPace;
 
@@ -30,21 +28,20 @@ public class PopupsView {
 	Image close = new Image("close.jpg");
 	Label labelheading = new Label();
 
-
 	public PopupsView(Widget widget, String heading) {
 
-		//labelheading.getElement().getStyle().setBackgroundColor("BLUE");
+		// labelheading.getElement().getStyle().setBackgroundColor("BLUE");
 		labelheading.getElement().getStyle().setFontSize(18, Unit.PX);
 		labelheading.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 		labelheading.addStyleName(" w3-container ");
 
-		HorizontalPanel hpnlClose = new HorizontalPanel ();
+		HorizontalPanel hpnlClose = new HorizontalPanel();
 		hpnlSPace = new HorizontalPanel();
-	    hpnlSPace.setWidth("800px");
-		hpnlClose.add(hpnlSPace);
-		hpnlClose.add(close);
+		hpnlSPace.setWidth("800px");
+		// hpnlClose.add(hpnlSPace);
+		// hpnlClose.add(close);
 		close.addStyleName("pointerStyle");
-		popup = new DecoratedPopupPanel();
+		popup = new Dialog();
 		vpnlMain = new VerticalPanel();
 		vpnlMain.add(hpnlClose);
 		vpnlMain.add(labelheading);
@@ -52,9 +49,12 @@ public class PopupsView {
 		popup.setWidget(vpnlMain);
 		hpnlSPace.addStyleName("w3-panel w3-white ");
 		vpnlMain.addStyleName("w3-panel w3-white");
-
-		popup.setGlassEnabled(true);
+		popup.setHeadingText(heading);
+		// popup.setGlassEnabled(true);
+		popup.show();
 		popup.center();
+
+		popup.getPredefinedButtons().clear();
 
 		close.addClickHandler(new ClickHandler() {
 
@@ -63,16 +63,16 @@ public class PopupsView {
 				popup.removeFromParent();
 				vpnlMain.removeFromParent();
 				hpnlSPace.removeFromParent();
-				
+
 			}
 		});
 	}
 
-	public DecoratedPopupPanel getPopup() {
+	public Dialog getPopup() {
 		return popup;
 	}
 
-	public void setPopup(DecoratedPopupPanel popup) {
+	public void setPopup(Dialog popup) {
 		this.popup = popup;
 	}
 

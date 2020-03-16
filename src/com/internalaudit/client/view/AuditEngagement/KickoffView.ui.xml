@@ -15,7 +15,7 @@
 	</ui:style>
 	<g:HTMLPanel>
 
-		<A:LabelHeading ui:field="jobName" addStyleNames="{style.heading}"> Loading.. </A:LabelHeading>
+		<A:LabelHeading width="1205px" ui:field="jobName"> Loading.. </A:LabelHeading>
 		
 	<g:VerticalPanel addStyleNames="{style.panel}">
 		<g:HorizontalPanel>
@@ -44,7 +44,7 @@
 	        
 		 <g:HorizontalPanel>
 		 	<g:VerticalPanel>
-			<g:Label    addStyleNames=" auditengLabel"  >Planned End Dates</g:Label>
+			<g:Label    addStyleNames=" auditengLabel"  >Planned End Date</g:Label>
 			</g:VerticalPanel>
 			<g:VerticalPanel>
 			 <g:Label  styleName="labelValue" width="200px"  ui:field="endDate"> Loading..</g:Label>

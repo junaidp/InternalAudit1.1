@@ -48,7 +48,7 @@ public class PortalTaskList extends VerticalLayoutContainer {
 
 	public Widget createGridFieldWork() {
 
-		ColumnConfig<TaskRiskEntity, Integer> idHeading= new ColumnConfig<TaskRiskEntity, Integer>(properties.id(), 50, "Id");
+		ColumnConfig<TaskRiskEntity, Integer> idHeading= new ColumnConfig<TaskRiskEntity, Integer>(properties.id(), 70, "ID");
 		ColumnConfig<TaskRiskEntity, String> taskHeading = new ColumnConfig<TaskRiskEntity, String>(properties.task(), 190,
 				"Task");
 		ColumnConfig<TaskRiskEntity, String> jobHeading = new ColumnConfig<TaskRiskEntity, String>(properties.job(), 130, "Job");

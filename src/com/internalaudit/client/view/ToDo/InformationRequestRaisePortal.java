@@ -70,9 +70,9 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 	public Widget createGridFieldWork() {
 
 		ColumnConfig<InformationRequestRaiseEntity, Integer> informationId = new ColumnConfig<InformationRequestRaiseEntity, Integer>(
-				properties.id(), 50, "Ir#");
+				properties.id(), 70, "IR#");
 		ColumnConfig<InformationRequestRaiseEntity, String> requestedItem = new ColumnConfig<InformationRequestRaiseEntity, String>(
-				properties.requestedItem(), 190, "RequestedItem");
+				properties.requestedItem(), 190, "Requested Item");
 		ColumnConfig<InformationRequestRaiseEntity, String> informationRaisedTo = new ColumnConfig<InformationRequestRaiseEntity, String>(
 				properties.raisedTo(), 130, "Requested To");
 		ColumnConfig<InformationRequestRaiseEntity, String> relatedJob = new ColumnConfig<InformationRequestRaiseEntity, String>(
@@ -80,7 +80,7 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 		ColumnConfig<InformationRequestRaiseEntity, Date> informationOverDue = new ColumnConfig<InformationRequestRaiseEntity, Date>(
 				properties.overDueDays(), 160, "Due Date");
 		ColumnConfig<InformationRequestRaiseEntity, String> informationStatus = new ColumnConfig<InformationRequestRaiseEntity, String>(
-				properties.status(), 100, "status");
+				properties.status(), 100, "Status");
 		ColumnConfig<InformationRequestRaiseEntity, String> viewButton = new ColumnConfig<InformationRequestRaiseEntity, String>(
 				properties.viewButton(), 100, "");
 
@@ -94,8 +94,8 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 				InformationRequestRaiseEntity informationRequest = store.get(row);
 				InformationRequestRaiserFinalView infoReceiver = new InformationRequestRaiserFinalView(
 						informationRequest);
-				final PopupsView pp = new PopupsView(infoReceiver, "");
-				pp.getLabelheading().setText("InformationRequest Receiver");
+				final PopupsView pp = new PopupsView(infoReceiver, "InformationRequest Receiver");
+				// pp.getLabelheading().setText("InformationRequest Receiver");
 				pp.getVpnlMain().setTitle("Todos");
 				pp.getVpnlMain().setWidth("600px");
 				pp.getHpnlSPace().setWidth("600px");
@@ -137,8 +137,8 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 		// grid.getView().setStripeRows(true);
 		// grid.getView().setColumnLines(true);
 		ScrollPanel p = new ScrollPanel();
-		p.setHeight("220px");
-
+		// p.setHeight("220px");
+		p.setHeight("400px");
 		p.add(grid);
 
 		VerticalLayoutContainer con = new VerticalLayoutContainer();
@@ -151,8 +151,9 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 			@Override
 			public void onClick(ClickEvent event) {
 				final InformationRequestRaiserView informationrequestRaiser = new InformationRequestRaiserView();
-				final PopupsView pp = new PopupsView(informationrequestRaiser, "");
-				pp.getLabelheading().setText("Information Request");
+				final PopupsView pp = new PopupsView(informationrequestRaiser, "Information Reques");
+				// pp.getLabelheading().setText("Information Request");
+				// pp.getPopup().setHeadingText("Information Request");
 				pp.getVpnlMain().setTitle("Information Request");
 				pp.getVpnlMain().setWidth("650px");
 				pp.getHpnlSPace().setWidth("600px");

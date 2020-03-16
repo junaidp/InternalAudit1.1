@@ -1145,7 +1145,7 @@ text-decoration: underline; */
 .form-row {
 /* 	border: 1px solid green; */
 	min-height: 40px;
-	max-width: 900px;
+	/*max-width: 900px;*/
 	margin: 6px 0 0 5px;
 	padding: 5px  0 3px 5px;
 	border-bottom: 1px solid #ddd !important;

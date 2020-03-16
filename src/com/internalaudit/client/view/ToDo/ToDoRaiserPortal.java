@@ -69,7 +69,7 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 	public Widget createGridFieldWork() {
 
 		ColumnConfig<ToDoRaiserEntity, Integer> informationId = new ColumnConfig<ToDoRaiserEntity, Integer>(
-				properties.id(), 50, "Sr#");
+				properties.id(), 70, "SR#");
 		ColumnConfig<ToDoRaiserEntity, String> requestedItem = new ColumnConfig<ToDoRaiserEntity, String>(
 				properties.requestedItem(), 180, "Task");
 		ColumnConfig<ToDoRaiserEntity, String> informationRaisedBy = new ColumnConfig<ToDoRaiserEntity, String>(
@@ -79,7 +79,7 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 		ColumnConfig<ToDoRaiserEntity, Date> informationOverDue = new ColumnConfig<ToDoRaiserEntity, Date>(
 				properties.overDueDays(), 150, "Due Date");
 		ColumnConfig<ToDoRaiserEntity, String> informationStatus = new ColumnConfig<ToDoRaiserEntity, String>(
-				properties.status(), 100, "status");
+				properties.status(), 100, "Status");
 		ColumnConfig<ToDoRaiserEntity, String> viewButton = new ColumnConfig<ToDoRaiserEntity, String>(
 				properties.viewButton(), 100, "");
 
@@ -92,8 +92,9 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 				int row = c.getIndex();
 				ToDoRaiserEntity toDo = store.get(row);
 				ToDoRaiserFinalView toDoReceiver = new ToDoRaiserFinalView(toDo);
-				final PopupsView pp = new PopupsView(toDoReceiver, "");
-				pp.getLabelheading().setText("ToDo Receiver Receiver");
+				final PopupsView pp = new PopupsView(toDoReceiver, "ToDo Receiver");
+				// pp.getLabelheading().setText("ToDo Receiver Receiver");
+				// pp.getPopup().setHeadingText("ToDo Receiver");
 				pp.getVpnlMain().setTitle("Todos");
 				pp.getVpnlMain().setWidth("600px");
 				pp.getHpnlSPace().setWidth("600px");
@@ -148,8 +149,9 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 			@Override
 			public void onClick(ClickEvent event) {
 				final ToDoView todoview = new ToDoView();
-				final PopupsView pp = new PopupsView(todoview, "");
-				pp.getLabelheading().setText("To Do");
+				final PopupsView pp = new PopupsView(todoview, "To Do");
+				// pp.getLabelheading().setText("To Do");
+				// pp.getPopup().setHeadingText("To Do");
 				pp.getVpnlMain().setWidth("400px");
 				pp.getHpnlSPace().setWidth("400px");
 				pp.getVpnlMain().setHeight("320px");
@@ -179,12 +181,13 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 
 		con.add(p, new VerticalLayoutData(1, 1));
 
-		panel = new ContentPanel();
-		panel.setHeight(230);
-		panel.setWidth(850);
-		panel.setHeadingText("ToDoRaise");
-		panel.add(con);
-		return panel;
+		// panel = new ContentPanel();
+		// panel.setHeight(230);
+		// panel.setWidth(850);
+		// panel.setHeadingText("ToDoRaise");
+		// panel.add(con);
+		// return panel;
+		return con;
 	}
 
 }

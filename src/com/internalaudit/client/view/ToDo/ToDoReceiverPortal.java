@@ -60,7 +60,7 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 	public Widget createGridFieldWork() {
 
 		ColumnConfig<ToDoReceiverEntity, Integer> informationId = new ColumnConfig<ToDoReceiverEntity, Integer>(
-				properties.id(), 50, "Sr#");
+				properties.id(), 70, "Sr#");
 		ColumnConfig<ToDoReceiverEntity, String> requestedItem = new ColumnConfig<ToDoReceiverEntity, String>(
 				properties.requestedItem(), 170, "Task");
 		ColumnConfig<ToDoReceiverEntity, String> informationRaisedBy = new ColumnConfig<ToDoReceiverEntity, String>(
@@ -84,8 +84,9 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 				int row = c.getIndex();
 				ToDoReceiverEntity toDo = store.get(row);
 				ToDoRaiserView toDoReceiverView = new ToDoRaiserView(toDo);
-				PopupsView pp = new PopupsView(toDoReceiverView, "");
-				pp.getLabelheading().setText("ToDo Receiver");
+				PopupsView pp = new PopupsView(toDoReceiverView, "ToDo Receiver");
+				// pp.getLabelheading().setText("ToDo Receiver");
+				// pp.getPopup().setHeadingText("ToDo Receiver");
 				pp.getVpnlMain().setTitle("Todos");
 				pp.getVpnlMain().setWidth("600px");
 				pp.getHpnlSPace().setWidth("600px");
