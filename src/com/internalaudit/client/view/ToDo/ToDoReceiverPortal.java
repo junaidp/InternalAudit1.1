@@ -71,7 +71,7 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 		ColumnConfig<ToDoReceiverEntity, Date> informationOverDue = new ColumnConfig<ToDoReceiverEntity, Date>(
 				properties.overDueDays(), 160, "Due Date");
 		ColumnConfig<ToDoReceiverEntity, String> informationStatus = new ColumnConfig<ToDoReceiverEntity, String>(
-				properties.status(), 110, "status");
+				properties.status(), 110, "Status");
 		ColumnConfig<ToDoReceiverEntity, String> viewButton = new ColumnConfig<ToDoReceiverEntity, String>(
 				properties.viewButton(), 100, "");
 

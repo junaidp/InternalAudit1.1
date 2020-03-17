@@ -571,7 +571,6 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 			int companyId = (Integer) session.getAttribute("companyId");
 			return rdbHelper.fetchAllAuditEngagement(loggedInEmployee, year, companyId);
 		} else {
-
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);
 
 		}

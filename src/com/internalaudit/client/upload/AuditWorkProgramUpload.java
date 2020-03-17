@@ -45,7 +45,7 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 		HorizontalPanel panel = new HorizontalPanel();
 		form.setWidget(panel);
 		ScrollPanel panelScroll = new ScrollPanel();
-		panelScroll.setHeight("120px");
+		// panelScroll.setHeight("120px");
 		uploadPanel = new VerticalPanel();
 		upload = new FileUpload();
 		upload.setName(auditProcedureId + ":" + mainFolder);
@@ -57,7 +57,7 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 
 		// Add a 'submit' button.
 		btnSubmit = new ButtonRound("Upload");
-		btnSubmit.getElement().getStyle().setMarginTop(10, Unit.PX);
+		btnSubmit.getElement().getStyle().setMarginTop(3, Unit.PX);
 		btnSubmit.addClickHandler(new ClickHandler() {
 
 			@Override

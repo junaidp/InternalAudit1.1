@@ -5,39 +5,49 @@
 	.padding{
 	padding-top: 15px;
 }
-.button{
+/*.button{
 	margin-left: 50px;
-}
+}*/
 	</ui:style>
 	<g:HTMLPanel>
-	<g:VerticalPanel addStyleNames="w3-panel w3-pale-green">
+	<!--<g:VerticalPanel addStyleNames="w3-panel w3-pale-green"> -->
+	<g:VerticalPanel>
+	
 	<g:HorizontalPanel>
-	<g:Label text="Task"></g:Label>
+	<g:Label styleName="gwt-Label auditengLabel" width="85px" text="Task:"></g:Label>
 	<g:TextBox text="some text"></g:TextBox>
-	<g:Label  >Due Date</g:Label>
+	</g:HorizontalPanel>
+	
+	<g:HorizontalPanel>
+	<g:Label styleName="gwt-Label auditengLabel" width="85px">Due Date:</g:Label>
 	<d:DateBox ui:field="dueDate"></d:DateBox>
 	</g:HorizontalPanel>
 	
-	<g:Label addStyleNames="{style.padding}">Assigned To</g:Label>
-	<g:ListBox ui:field="listBoxAssignedTo" >
-
-	</g:ListBox>
-	<g:Label addStyleNames="{style.padding}">Jobs</g:Label>
-	<g:ListBox ui:field="listBoxJobs" >
-
-	</g:ListBox>
-	<g:Label addStyleNames="{style.padding}">Description</g:Label>
-	<g:TextBox ui:field="txtBoxDescription"  width="300px" height="100px"></g:TextBox>
+	<g:HorizontalPanel>
+	<g:Label styleName="gwt-Label auditengLabel" width="85px">Assigned To: </g:Label>
+	<g:ListBox ui:field="listBoxAssignedTo" ></g:ListBox>
+	</g:HorizontalPanel>
 	
-	<g:VerticalPanel  styleName="w3-border" ui:field="panelAttachment">
+	<g:HorizontalPanel>
+	<g:Label styleName="gwt-Label auditengLabel" width="85px">Jobs:</g:Label>
+	<g:ListBox ui:field="listBoxJobs" >	</g:ListBox>
+	</g:HorizontalPanel>
+	
+	
+	<g:Label styleName="gwt-Label auditengLabel" width="85px">Description:</g:Label>
+	<g:HorizontalPanel>
+	<g:TextArea ui:field="txtBoxDescription"  width="350px" height="100px">Enter Text here</g:TextArea>
+	</g:HorizontalPanel>
+	
+	<g:VerticalPanel width="100%" styleName="w3-border" ui:field="panelAttachment">
 	
 	</g:VerticalPanel>
-	<g:HorizontalPanel addStyleNames="{style.button}">
+	<g:HorizontalPanel>
 	<g:VerticalPanel>
-	<g:Button ui:field="btnSave" addStyleNames="w3-button w3-round-large w3-margin">Save</g:Button>
+	<g:Button ui:field="btnSave" addStyleNames="buttonDesign w3-hover-blue">Save</g:Button>
 	</g:VerticalPanel>
 	<g:VerticalPanel>
-	<g:Button ui:field="btnCancel" addStyleNames="w3-button w3-round-large w3-margin">Cancel</g:Button>
+	<g:Button ui:field="btnCancel" addStyleNames="buttonDesign w3-hover-blue">Cancel</g:Button>
 	</g:VerticalPanel>
 	</g:HorizontalPanel>
 	</g:VerticalPanel>

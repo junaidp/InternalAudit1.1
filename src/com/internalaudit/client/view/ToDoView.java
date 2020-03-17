@@ -3,6 +3,7 @@ package com.internalaudit.client.view;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -13,7 +14,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
@@ -28,7 +29,7 @@ import com.internalaudit.shared.ToDo;
 public class ToDoView extends Composite {
 
 	@UiField
-	TextBox txtBoxDescription;
+	TextArea txtBoxDescription;
 	@UiField
 	ListBox listBoxAssignedTo;
 	@UiField
@@ -61,6 +62,7 @@ public class ToDoView extends Composite {
 		AuditWorkProgramUpload toDoAttachmentUploqad = new AuditWorkProgramUpload(toDoId, mainFolder);
 		panelAttachment.add(toDoAttachmentUploqad);
 		dueDate.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd MMMM , yyyy")));
+
 	}
 
 	public void deleteUnSavedAttachments() {
@@ -81,7 +83,7 @@ public class ToDoView extends Composite {
 	}
 
 	private void setHandlers() {
-
+		btnCancel.getElement().getStyle().setMarginTop(3, Unit.PX);
 		btnCancel.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -92,7 +94,8 @@ public class ToDoView extends Composite {
 			}
 
 		});
-
+		btnSave.getElement().getStyle().setMarginLeft(185, Unit.PX);
+		btnSave.getElement().getStyle().setMarginTop(3, Unit.PX);
 		btnSave.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -191,11 +194,11 @@ public class ToDoView extends Composite {
 
 	}
 
-	public TextBox getTxtBoxDescription() {
+	public TextArea getTxtBoxDescription() {
 		return txtBoxDescription;
 	}
 
-	public void setTxtBoxDescription(TextBox txtBoxDescription) {
+	public void setTxtBoxDescription(TextArea txtBoxDescription) {
 		this.txtBoxDescription = txtBoxDescription;
 	}
 
