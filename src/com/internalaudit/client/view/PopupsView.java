@@ -54,8 +54,6 @@ public class PopupsView {
 		popup.show();
 		popup.center();
 
-		popup.getPredefinedButtons().clear();
-
 		close.addClickHandler(new ClickHandler() {
 
 			@Override

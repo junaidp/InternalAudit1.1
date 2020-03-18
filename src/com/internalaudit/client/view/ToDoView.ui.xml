@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui"  xmlns:m="urn:import:com.sencha.gxt.widget.core.client.menu" xmlns:d="urn:import:com.google.gwt.user.datepicker.client" xmlns:b="urn:import:com.sun.javafx.scene.control.behavior">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"  xmlns:m="urn:import:com.sencha.gxt.widget.core.client.menu" xmlns:d="urn:import:com.google.gwt.user.datepicker.client" xmlns:c="urn:import:com.sencha.gxt.widget.core.client">
 	<ui:style>
 	.padding{
 	padding-top: 15px;
@@ -20,7 +20,7 @@
 	
 	<g:HorizontalPanel>
 	<g:Label styleName="gwt-Label auditengLabel" width="85px">Due Date:</g:Label>
-	<d:DateBox ui:field="dueDate"></d:DateBox>
+	<c:DatePicker ui:field="dueDate"></c:DatePicker>
 	</g:HorizontalPanel>
 	
 	<g:HorizontalPanel>
@@ -36,7 +36,7 @@
 	
 	<g:Label styleName="gwt-Label auditengLabel" width="85px">Description:</g:Label>
 	<g:HorizontalPanel>
-	<g:TextArea ui:field="txtBoxDescription"  width="350px" height="100px">Enter Text here</g:TextArea>
+	<g:TextArea ui:field="txtBoxDescription"  width="350px" height="100px"></g:TextArea>
 	</g:HorizontalPanel>
 	
 	<g:VerticalPanel width="100%" styleName="w3-border" ui:field="panelAttachment">

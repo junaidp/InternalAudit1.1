@@ -6,6 +6,8 @@ import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 //import com.google.gwt.rpc.client.RpcService;
@@ -216,9 +218,31 @@ public class AuditWorkProg extends Composite {
 		}
 		r.getListBoxExistingCtrl().clear();
 		for (int j = 0; j < controls.size(); j++) {
+			r.getTxtBoxExistingControls().setText(controls.get(0).getSuggestedControlsName());
 			r.getListBoxExistingCtrl().addItem(controls.get(j).getSuggestedReferenceNo(),
 					controls.get(j).getSuggestedControlsId() + "");
 		}
+		r.getListBoxExistingCtrl().addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				String name = fetchObjectiveNameAgaintObjectiveId(controls,
+						Integer.parseInt(r.getListBoxExistingCtrl().getSelectedValue()));
+				r.getTxtBoxExistingControls().setText(name);
+			}
+
+			private String fetchObjectiveNameAgaintObjectiveId(ArrayList<SuggestedControls> controls, int value) {
+				String name = "";
+				for (int i = 0; i < controls.size(); i++) {
+					if (controls.get(i).getSuggestedControlsId() == value) {
+						// activityObjective = objectives.get(i);
+						name = controls.get(i).getSuggestedControlsName();
+					}
+
+				}
+				return name;
+			}
+		});
 		rows.add(r);
 
 		r.getRemoveRow().addClickHandler(new ClickHandler() {
@@ -242,6 +266,7 @@ public class AuditWorkProg extends Composite {
 		// FROM LIBRARY
 		if (auditWorkProgramNew != null) {
 			r.getDescription().setText(auditWorkProgramNew.getTxtAreaAuditProg().getText());
+			r.getTxtBoxExistingControls().setText(auditWorkProgramNew.getLblReferenceData().getText());
 			r.getStep().setText(auditWorkProgramNew.getLblReferenceData().getText());
 
 			for (int i = 0; i < r.getListBoxExistingCtrl().getItemCount(); i++) {
@@ -517,6 +542,8 @@ public class AuditWorkProg extends Composite {
 							if (Integer.parseInt(row.getListBoxExistingCtrl().getValue(i)) == auditWork
 									.getSuggestedControlsId().getSuggestedControlsId()) {
 								row.getListBoxExistingCtrl().setSelectedIndex(i);
+								row.getTxtBoxExistingControls()
+										.setText(auditWork.getSuggestedControlsId().getSuggestedControlsName());
 								break;
 							}
 						}

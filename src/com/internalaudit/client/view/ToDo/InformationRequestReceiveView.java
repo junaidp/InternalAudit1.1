@@ -158,7 +158,7 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		panelReply.addStyleName("w3-border");
 		panelMail.addStyleName("w3-border");
 
-		lblRequestetBy.setText("RequestedBy");
+		lblRequestetBy.setText("Requested By");
 		HorizontalPanel panelMailReq = new HorizontalPanel();
 		panelMailReq.add(lblRequestetBy);
 		lblRequestedData.addStyleName("w3-panel");

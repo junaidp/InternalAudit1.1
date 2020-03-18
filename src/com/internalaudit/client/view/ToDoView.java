@@ -6,7 +6,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
@@ -17,7 +16,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.datepicker.client.DateBox;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.upload.AuditWorkProgramUpload;
@@ -25,6 +23,7 @@ import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.ToDo;
+import com.sencha.gxt.widget.core.client.DatePicker;
 
 public class ToDoView extends Composite {
 
@@ -33,7 +32,7 @@ public class ToDoView extends Composite {
 	@UiField
 	ListBox listBoxAssignedTo;
 	@UiField
-	DateBox dueDate;
+	DatePicker dueDate;
 	@UiField
 	Button btnSave;
 	@UiField
@@ -59,10 +58,12 @@ public class ToDoView extends Composite {
 		setHandlers();
 		String toDoId = "check";
 		String mainFolder = "ToDoUploads";
+		txtBoxDescription.getElement().setPropertyString("placeholder", "Enter text here");
 		AuditWorkProgramUpload toDoAttachmentUploqad = new AuditWorkProgramUpload(toDoId, mainFolder);
 		panelAttachment.add(toDoAttachmentUploqad);
-		dueDate.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd MMMM , yyyy")));
-
+		dueDate.getElement().setPropertyString("placeholder", " dd/mm/yyyy");
+		// dueDate.setFormat(new
+		// DateBox.DefaultFormat(DateTimeFormat.getFormat("dd MMMM , yyyy")));
 	}
 
 	public void deleteUnSavedAttachments() {
@@ -121,6 +122,7 @@ public class ToDoView extends Composite {
 		todo.setAssignedTo(assignedTo);
 		todo.setRead(false);
 
+		// todo.setDueDate(dueDate.getDatePicker().getValue());
 		todo.setDueDate(dueDate.getValue());
 
 		rpcService.savetoDo(todo, new AsyncCallback<String>() {
@@ -210,11 +212,11 @@ public class ToDoView extends Composite {
 		this.listBoxAssignedTo = listBoxAssignedTo;
 	}
 
-	public DateBox getDueDate() {
+	public DatePicker getDueDate() {
 		return dueDate;
 	}
 
-	public void setDueDate(DateBox dueDate) {
+	public void setDueDate(DatePicker dueDate) {
 		this.dueDate = dueDate;
 	}
 

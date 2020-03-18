@@ -181,7 +181,7 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 		panelReply.addStyleName("w3-border");
 		panelMail.addStyleName("w3-border");
 		HorizontalPanel panelRequestedBy = new HorizontalPanel();
-		lblRequestetBy.setText("RequestedBy");
+		lblRequestetBy.setText("Requested By");
 		panelRequestedBy.add(lblRequestetBy);
 		lblRequestedData.addStyleName("w3-panel");
 		panelRequestedBy.add(lblRequestedData);

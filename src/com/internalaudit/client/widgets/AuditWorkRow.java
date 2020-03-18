@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.sencha.gxt.widget.core.client.form.TextArea;
@@ -19,6 +20,8 @@ public class AuditWorkRow extends Composite {
 	private Label auditWorkId;
 
 	private TextArea description;
+
+	private TextArea txtBoxExistingControls;
 
 	private ListBox lstReviewer;
 
@@ -44,6 +47,9 @@ public class AuditWorkRow extends Composite {
 		lstReviewer = new ListBox();
 		listBoxRisk = new ListBox();
 		listBoxExistingCtrl = new ListBox();
+		txtBoxExistingControls = new TextArea();
+		txtBoxExistingControls.setWidth("300px");
+		txtBoxExistingControls.setHeight("90px");
 
 		removeRow = new Image("images/deleteIcon.png");
 		auditWorkId = new Label("0");
@@ -53,7 +59,8 @@ public class AuditWorkRow extends Composite {
 		initWidget(rowContainer);
 		lstReviewer.setWidth("170px");
 		listBoxExistingCtrl.setWidth("165px");
-		listBoxExistingCtrl.getElement().getStyle().setMarginLeft(80, Unit.PX);
+		// listBoxExistingCtrl.getElement().getStyle().setMarginLeft(80,
+		// Unit.PX);
 
 		rowContainer.addStyleName("risksRow");
 		description.addStyleName("txtExtendedWidth");
@@ -62,11 +69,17 @@ public class AuditWorkRow extends Composite {
 		listBoxRisk.addStyleName("txtShrikedWidth");
 		listBoxExistingCtrl.addStyleName("txtShrikedWidth");
 
+		VerticalPanel containerExistingControls = new VerticalPanel();
+
+		containerExistingControls.add(listBoxExistingCtrl);
+		containerExistingControls.add(txtBoxExistingControls);
+		containerExistingControls.setWidth("300px");
+
 		// rowContainer.add(step);
+		rowContainer.add(containerExistingControls);
 		rowContainer.add(description);
 		// rowContainer.add(lstReviewer);
 		// rowContainer.add(listBoxRisk);
-		rowContainer.add(listBoxExistingCtrl);
 
 		rowContainer.add(removeRow);
 		lstReviewer.setEnabled(false);
@@ -120,7 +133,10 @@ public class AuditWorkRow extends Composite {
 	public void disableFields() {
 		step.setEnabled(false);
 		description.setEnabled(false);
+		// mar 2020visibilty false of listbox
+		listBoxExistingCtrl.setVisible(false);
 		lstReviewer.setEnabled(false);
+		txtBoxExistingControls.setEnabled(false);
 		listBoxRisk.setEnabled(false);
 		listBoxExistingCtrl.setEnabled(false);
 		removeRow.setVisible(false);
@@ -130,6 +146,7 @@ public class AuditWorkRow extends Composite {
 		step.setEnabled(true);
 		description.setEnabled(true);
 		lstReviewer.setEnabled(true);
+		txtBoxExistingControls.setEnabled(true);
 		removeRow.setVisible(true);
 		listBoxRisk.setEnabled(true);
 		listBoxExistingCtrl.setEnabled(true);
@@ -150,6 +167,7 @@ public class AuditWorkRow extends Composite {
 	public void removeRow() {
 		description.removeFromParent();
 		lstReviewer.removeFromParent();
+		txtBoxExistingControls.removeFromParent();
 		removeRow.removeFromParent();
 		listBoxRisk.removeFromParent();
 		listBoxExistingCtrl.removeFromParent();
@@ -178,6 +196,14 @@ public class AuditWorkRow extends Composite {
 
 	public void setListBoxExistingCtrl(ListBox listBoxExistingCtrl) {
 		this.listBoxExistingCtrl = listBoxExistingCtrl;
+	}
+
+	public TextArea getTxtBoxExistingControls() {
+		return txtBoxExistingControls;
+	}
+
+	public void setTxtBoxExistingControls(TextArea txtBoxExistingControls) {
+		this.txtBoxExistingControls = txtBoxExistingControls;
 	}
 
 }

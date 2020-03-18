@@ -155,8 +155,8 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 				// pp.getLabelheading().setText("Information Request");
 				// pp.getPopup().setHeadingText("Information Request");
 				pp.getVpnlMain().setTitle("Information Request");
-				pp.getVpnlMain().setWidth("650px");
-				pp.getHpnlSPace().setWidth("600px");
+				pp.getVpnlMain().setWidth("380px");
+				pp.getHpnlSPace().setWidth("380px");
 				pp.getVpnlMain().setHeight("530px");
 				pp.getClose().addClickHandler(new ClickHandler() {
 

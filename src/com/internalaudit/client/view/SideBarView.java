@@ -125,7 +125,7 @@ public class SideBarView extends VerticalLayoutContainer {
 				// pp.getLabelheading().setText("To Do Raiser Grid");
 				// pp.getPopup().setHeadingText("To Do Raiser Grid");
 				pp.getVpnlMain().setTitle("TaskList");
-				pp.getVpnlMain().setWidth("800px");
+				pp.getVpnlMain().setWidth("900px");
 				pp.getVpnlMain().setHeight("530px");
 
 			}

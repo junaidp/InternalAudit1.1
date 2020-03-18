@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -29,7 +30,7 @@ import com.internalaudit.shared.JobCreation;
 
 public class InformationRequestRaiserView extends Composite {
 	@UiField
-	TextBox txtBoxRequestItem;
+	TextArea txtBoxRequestItem;
 	@UiField
 	ListBox listBoxContact;
 	@UiField
@@ -65,6 +66,7 @@ public class InformationRequestRaiserView extends Composite {
 		fetchEmployees();
 		clickHandlers();
 		fetchJobs();
+		txtBoxRequestItem.getElement().setPropertyString("placeholder", "Enter text here");
 		String mainFolder = InternalAuditConstants.PATHINFORMATIONREQUESTUPLOADS;
 		String informationRequestId = InternalAuditConstants.PATHTOUNSAVEDATTACHMENTS;
 		AuditWorkProgramUpload informationUploadAttachments = new AuditWorkProgramUpload(informationRequestId,
@@ -76,6 +78,7 @@ public class InformationRequestRaiserView extends Composite {
 		// dueDate.setFormat(new
 		// DateBox.DefaultFormat(DateTimeFormat.getFormat("EEEE, MMMM dd,
 		// yyyy")));
+		dueDate.getElement().setPropertyString("placeholder", " dd/mm/yyyy");
 		dueDate.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd MMMM , yyyy")));
 	}
 

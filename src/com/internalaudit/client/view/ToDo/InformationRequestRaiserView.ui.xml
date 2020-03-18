@@ -7,43 +7,63 @@
 	
 }
 .button{
-	margin-left: 120px;
+	margin-left: 190px;
+}
+}
+.topMargin{
+	margin-top: 5px;
 }
 	</ui:style>
 	<g:HTMLPanel>
-	<g:VerticalPanel addStyleNames="w3-panel w3-pale-green">
+	<g:VerticalPanel>
 	<g:HorizontalPanel>
-	<g:Label >Contact Responsible</g:Label>
+	<g:Label width="150px" styleName="labelDesign" >Contact Responsible: </g:Label>
 	<g:ListBox ui:field="listBoxContact" width="150px"></g:ListBox>
-	<g:Label >Due Date</g:Label>
+	</g:HorizontalPanel>
+	
+	<g:HorizontalPanel>
+	<g:Label width="150px" styleName="labelDesign" >Due Date: </g:Label>
 	<d:DateBox ui:field="dueDate" ></d:DateBox>
 	</g:HorizontalPanel>
-	<g:Label addStyleNames="{style.padding}">Jobs</g:Label>
-	<g:ListBox ui:field="listBoxJobs" width="250px"></g:ListBox>
 	
-	<g:Label addStyleNames="{style.padding}">Contact Email (optional)</g:Label>
-	<g:TextBox ui:field="txtBoxEmail" width="250px"></g:TextBox>
-<g:CheckBox ui:field="checkBoxNotification"  text="send notification now"></g:CheckBox>
-<g:CheckBox ui:field="checkBoxReminder" text="send recurring reminders[currently considered to once a week]"></g:CheckBox>
-	<g:Label>Request Item</g:Label>
-	<g:TextBox ui:field="txtBoxRequestItem" width="300px" height="100px"></g:TextBox>
-	<g:VerticalPanel styleName="w3-border" ui:field="panelInformationUploadAttachments">
+	<g:HorizontalPanel>
+	<g:Label width="150px" styleName="labelDesign" >Jobs: </g:Label>
+	<g:ListBox ui:field="listBoxJobs" width="200px"></g:ListBox>
+	</g:HorizontalPanel>
+	
+	<g:HorizontalPanel width="150px">
+	<g:Label width="150px" styleName="labelDesign">Contact Email: (optional) </g:Label>
+	
+	<g:VerticalPanel>
+	<g:TextBox ui:field="txtBoxEmail" width="200px"></g:TextBox>
+	<g:CheckBox ui:field="checkBoxNotification"  text="send notification now"></g:CheckBox>
+	<g:CheckBox ui:field="checkBoxReminder" text="send recurring reminders[currently considered to once a week]"></g:CheckBox>
 	</g:VerticalPanel>
-	<g:Label addStyleNames="{style.padding}">Status</g:Label>
+	
+	</g:HorizontalPanel>
+	
+	<g:Label width="150px" styleName="labelDesign">Request Item: </g:Label>
+	<g:HorizontalPanel>	
+	<g:TextArea ui:field="txtBoxRequestItem" width="350px" height="100px"></g:TextArea>
+	</g:HorizontalPanel>
+	
+	<g:VerticalPanel styleName="w3-border" width="100%" ui:field="panelInformationUploadAttachments">
+	</g:VerticalPanel>
+	
+	<g:HorizontalPanel addStyleNames="{style.topMargin}">
+	<g:Label width="150px" height="25px" styleName="labelDesign" >Status: </g:Label>
 	<g:ListBox ui:field="listBoxStatus">
-	 <g:item>
-    Complete
-  </g:item>
-  <g:item value='2'>
-    Incomplete
-  </g:item>
+	 <g:item>Complete</g:item>
+  	 <g:item value='2'>Incomplete</g:item>
 	</g:ListBox>
+	</g:HorizontalPanel>
+	
 	<g:HorizontalPanel addStyleNames="{style.button}">
 	<g:VerticalPanel>
-	<g:Button  ui:field="btnSave" addStyleNames="w3-button w3-round-large w3-margin">Save</g:Button>
+	<g:Button  ui:field="btnSave" addStyleNames="buttonDesign">Save</g:Button>
 	</g:VerticalPanel>
 	<g:VerticalPanel>
-	<g:Button ui:field="btnCancel" addStyleNames="w3-button w3-round-large w3-margin">Cancel</g:Button>
+	<g:Button ui:field="btnCancel" addStyleNames="buttonDesign">Cancel</g:Button>
 	</g:VerticalPanel>
 	</g:HorizontalPanel>
 	</g:VerticalPanel>
