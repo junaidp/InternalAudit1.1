@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui"  xmlns:m="urn:import:com.sencha.gxt.widget.core.client.menu" xmlns:d="urn:import:com.google.gwt.user.datepicker.client" xmlns:c="urn:import:com.sencha.gxt.widget.core.client">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"  xmlns:m="urn:import:com.sencha.gxt.widget.core.client.menu" xmlns:d="urn:import:com.google.gwt.user.datepicker.client" xmlns:c="urn:import:com.sencha.gxt.widget.core.client" xmlns:f="urn:import:com.sencha.gxt.widget.core.client.form">
 	<ui:style>
 	.padding{
 	padding-top: 15px;
@@ -20,7 +20,7 @@
 	
 	<g:HorizontalPanel>
 	<g:Label styleName="gwt-Label auditengLabel" width="85px">Due Date:</g:Label>
-	<c:DatePicker ui:field="dueDate"></c:DatePicker>
+	<f:DateField ui:field="dueDate"></f:DateField>
 	</g:HorizontalPanel>
 	
 	<g:HorizontalPanel>

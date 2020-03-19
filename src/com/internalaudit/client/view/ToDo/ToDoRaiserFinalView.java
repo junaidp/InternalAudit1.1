@@ -160,7 +160,7 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 		lblIrData.setText(toDo.getId().toString());
 		// lblReplyOldData.setText(toDo.getReply());
 		setWidth("600px");
-		setHeight("600px");
+		// setHeight("600px");
 		panelMain.addStyleName("w3-border");
 		panelLabel.setWidth("100%");
 		lblSpace.getElement().getStyle().setPaddingLeft(300, Unit.PX);

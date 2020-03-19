@@ -5,8 +5,10 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
@@ -14,9 +16,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.upload.AuditWorkProgramUpload;
-import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
-import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.ToDo;
@@ -26,25 +26,25 @@ public class ToDoRaiserView extends VerticalPanel {
 	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
 	VerticalPanel panelMain = new VerticalPanel();
 	HorizontalPanel PanelUpButton = new HorizontalPanel();
-	ButtonRound btnEmial = new ButtonRound("Email");
-	ButtonRound btnPrint = new ButtonRound("Print");
+	Button btnEmial = new Button("Email");
+	Button btnPrint = new Button("Print");
 	HorizontalPanel panelLabel = new HorizontalPanel();
-	LabelHeading lblIr = new LabelHeading();
+	Label lblIr = new Label();
 	Label lblIrData = new Label(":123");
-	LabelHeading lblDate = new LabelHeading();
+	Label lblDate = new Label();
 	Label lblDateData = new Label("");
 	Label lblSpace = new Label();
-	LabelHeading lblJob = new LabelHeading();
-	LabelHeading lblAssignedTo = new LabelHeading();
+	Label lblJob = new Label();
+	Label lblAssignedTo = new Label();
 	Label lblAssignedToData = new Label("Hamza");
 	Label lblJobData = new Label();
 	Label lblMesssage = new Label("Message:");
 	Label lblEmailData = new Label("Dear XYZ plz provide the detail about");
 
-	Label lblReply = new Label("Reply");
+	Label lblReply = new Label("Reply: ");
 	TextArea txtAreaReply = new TextArea();
 
-	ButtonRound btnSubmit = new ButtonRound("Submit");
+	Button btnSubmit = new Button("Submit");
 
 	VerticalPanel panelMailRep = new VerticalPanel();
 	VerticalPanel panelMail = new VerticalPanel();
@@ -72,24 +72,27 @@ public class ToDoRaiserView extends VerticalPanel {
 		// e.printStackTrace();
 		// }
 		lblMesssage.setText("Message From ::" + toDo.getRaisedBy());
-		lblDateData.setText(toDo.getOverDueDays() + "");
+		String formattedDate = DateTimeFormat.getShortDateFormat().format(toDo.getOverDueDays());
+		lblDateData.setText(formattedDate);
 
 		lblEmailData.setText(toDo.getRequestedItem());
-		setWidth("600px");
-		setHeight("700px");
+		// setWidth("600px");
+		// setHeight("500px");
 		panelMain.addStyleName("w3-border");
 		panelLabel.setWidth("100%");
-		lblSpace.getElement().getStyle().setPaddingLeft(300, Unit.PX);
+		lblSpace.getElement().getStyle().setPaddingLeft(250, Unit.PX);
 
-		PanelUpButton.addStyleName(" w3-right");
+		PanelUpButton.addStyleName("w3-right");
 		PanelUpButton.add(btnEmial);
 		PanelUpButton.add(btnPrint);
 		lblDateData.addStyleName("w3-panel");
 		lblIrData.addStyleName("w3-panel");
 		lblIr.setText("Task#");
-		lblDate.setText("Date");
+		lblDate.setText("Date: ");
 
 		panelLabel.addStyleName("w3-border");
+		lblIr.addStyleName("labelDesign w3-panel");
+		lblDate.addStyleName("labelDesign w3-panel");
 		panelLabel.add(lblIr);
 		panelLabel.add(lblIrData);
 		panelLabel.add(lblSpace);
@@ -102,12 +105,14 @@ public class ToDoRaiserView extends VerticalPanel {
 
 		// lblJob.setText("Job");
 		HorizontalPanel panelMailReq = new HorizontalPanel();
-		lblJob.setText("Job");
+		lblJob.setText("Job: ");
+		lblJob.addStyleName("labelDesign w3-panel");
 		panelMailReq.add(lblJob);
 		lblJobData.addStyleName("w3-panel");
 		panelMailReq.add(lblJobData);
 		HorizontalPanel panelAssign = new HorizontalPanel();
-		lblAssignedTo.setText("Assigned To");
+		lblAssignedTo.setText("Assigned To: ");
+		lblAssignedTo.addStyleName("labelDesign w3-panel");
 		lblAssignedToData.addStyleName("w3-panel");
 		panelAssign.add(lblAssignedTo);
 		panelAssign.add(lblAssignedToData);
@@ -117,11 +122,13 @@ public class ToDoRaiserView extends VerticalPanel {
 		panelMail.add(lblEmailData);
 
 		panelReply.add(lblReply);
+		lblReply.addStyleName("labelDesign w3-panel");
 
 		panelReply.add(txtAreaReply);
 
 		panelMailRep.add(panelMail);
 		panelMailRep.add(panelReply);
+		btnSubmit.addStyleName(" w3-right");
 		panelMailRep.add(btnSubmit);
 		String mainFolder = "ToDoUploads";
 		String toDoId = toDo.getId() + "";

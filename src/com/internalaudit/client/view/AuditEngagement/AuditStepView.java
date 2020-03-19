@@ -94,7 +94,7 @@ public class AuditStepView extends Composite {
 	private ButtonRound submit = new ButtonRound("Submit");
 	private ButtonRound approve = new ButtonRound("Approve");
 	private ButtonRound reject = new ButtonRound("FeedBack");
-	private ButtonRound addException = new ButtonRound("Add Exception");
+	private ButtonRound addException = new ButtonRound("Add Observation");
 
 	interface AuditViewUiBinder extends UiBinder<Widget, AuditStepView> {
 	}

@@ -62,12 +62,15 @@ public class ReportViewMain extends VerticalPanel {
 
 		fetchJobs();
 		getElement().getStyle().setMarginLeft(20, Unit.PX);
-		setWidth("850px");
+		setWidth("1100px");
 		// setHeight("700px");
 		LabelHeading lblMain = new LabelHeading();
 		HorizontalPanel panelDate = new HorizontalPanel();
-		panelDate.getElement().getStyle().setMarginRight(100, Unit.PX);
-		Label lblDate = new Label("Date");
+		lblMain.getElement().getStyle().setPaddingLeft(480, Unit.PX);
+
+		Label lblDate = new Label("Date:");
+		lblDate.getElement().getStyle().setMarginLeft(500, Unit.PX);
+		lblDate.addStyleName("labelDesign");
 
 		LabelHeading lblExecutiveSummary = new LabelHeading();
 
@@ -99,11 +102,14 @@ public class ReportViewMain extends VerticalPanel {
 		panelButton.add(btnSave);
 		panelButton.add(btnPrint);
 		panelButton.addStyleName("w3-right");
+		panelDate.add(listBoxJobs);
 		panelDate.add(lblDate);
 		panelDate.add(dateBox);
 
+		listBoxJobs.getElement().getStyle().setMarginLeft(7, Unit.PX);
+
 		add(lblMain);
-		add(listBoxJobs);
+		// add(listBoxJobs);
 		add(panelDate);
 		add(lblExecutiveSummary);
 		add(txtBoxExecutiveSummary);
@@ -164,7 +170,7 @@ public class ReportViewMain extends VerticalPanel {
 			ButtonRound btnPrint, TextArea txtBoxAnnexure) {
 		lblMain.setText("Internal Audit Report");
 		lblMain.addStyleName("heading");
-		panelDate.addStyleName("w3-right");
+		// panelDate.addStyleName("w3-right");
 		lblExecutiveSummary.setText("Executive Summary");
 		lblAuditPurpose.setText("Audit Purpose");
 		lblExecutiveSummary.getElement().getStyle().setFontWeight(FontWeight.BOLD);
@@ -173,20 +179,20 @@ public class ReportViewMain extends VerticalPanel {
 		lblAllFinding.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 		lblKeyFinding.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 		lblAnnexure.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		txtBoxExecutiveSummary.setWidth("800px");
+		txtBoxExecutiveSummary.setWidth("1100px");
 		txtBoxExecutiveSummary.setHeight("50px");
 		txtBoxExecutiveSummary.getElement().setPropertyString("placeholder", "Executive Summary");
 		txtBoxAuditPurpose.getElement().setPropertyString("placeholder", "Audit Purpose");
 		txtBoxAnnexure.getElement().setPropertyString("placeholder", "Annexure");
-		txtBoxAnnexure.setWidth("800px");
+		txtBoxAnnexure.setWidth("1100px");
 		txtBoxAnnexure.setHeight("50px");
-		txtBoxAuditPurpose.setWidth("800px");
+		txtBoxAuditPurpose.setWidth("1100px");
 		txtBoxAuditPurpose.setHeight("50px");
 		// txtBoxAuditPurpose.addStyleName("w3-pale-green");
 		// txtBoxAuditPurpose.setText("text of audit purpose");
 		lblSummaryOfAssesment.setText("Summary of overall assessment");
 		panelSummaryOfAssesment.setHeight("350px");
-		panelSummaryOfAssesment.setWidth("1000px");
+		panelSummaryOfAssesment.setWidth("1100px");
 		panelControls.setWidth("1010px");
 		panelExceptionHigh.setWidth("800px");
 		panelSummaryOfAssesment.addStyleName("w3-border");

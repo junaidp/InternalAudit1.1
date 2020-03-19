@@ -30,6 +30,7 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 	protected static final int PREFERRED_HEIGHT = 1;
 	protected static final int PREFERRED_WIDTH = 1;
 	private ContentPanel panel;
+	private String formattedDate;
 	private static final InformationRequestRaiseProperties properties = GWT
 			.create(InformationRequestRaiseProperties.class);
 	TextButtonCell button = new TextButtonCell();
@@ -94,7 +95,7 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 				InformationRequestRaiseEntity informationRequest = store.get(row);
 				InformationRequestRaiserFinalView infoReceiver = new InformationRequestRaiserFinalView(
 						informationRequest);
-				final PopupsView pp = new PopupsView(infoReceiver, "InformationRequest Receiver");
+				final PopupsView pp = new PopupsView(infoReceiver, "Information Request Receiver");
 				// pp.getLabelheading().setText("InformationRequest Receiver");
 				pp.getVpnlMain().setTitle("Todos");
 				pp.getVpnlMain().setWidth("600px");
@@ -151,7 +152,7 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 			@Override
 			public void onClick(ClickEvent event) {
 				final InformationRequestRaiserView informationrequestRaiser = new InformationRequestRaiserView();
-				final PopupsView pp = new PopupsView(informationrequestRaiser, "Information Reques");
+				final PopupsView pp = new PopupsView(informationrequestRaiser, "Information Request");
 				// pp.getLabelheading().setText("Information Request");
 				// pp.getPopup().setHeadingText("Information Request");
 				pp.getVpnlMain().setTitle("Information Request");

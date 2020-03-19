@@ -92,7 +92,7 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 				int row = c.getIndex();
 				ToDoRaiserEntity toDo = store.get(row);
 				ToDoRaiserFinalView toDoReceiver = new ToDoRaiserFinalView(toDo);
-				final PopupsView pp = new PopupsView(toDoReceiver, "ToDo Receiver");
+				final PopupsView pp = new PopupsView(toDoReceiver, "To Do Receiver");
 				// pp.getLabelheading().setText("ToDo Receiver Receiver");
 				// pp.getPopup().setHeadingText("ToDo Receiver");
 				pp.getVpnlMain().setTitle("Todos");

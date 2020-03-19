@@ -37,7 +37,7 @@ public class PopupsView {
 
 		HorizontalPanel hpnlClose = new HorizontalPanel();
 		hpnlSPace = new HorizontalPanel();
-		hpnlSPace.setWidth("800px");
+		// hpnlSPace.setWidth("800px");
 		// hpnlClose.add(hpnlSPace);
 		// hpnlClose.add(close);
 		close.addStyleName("pointerStyle");

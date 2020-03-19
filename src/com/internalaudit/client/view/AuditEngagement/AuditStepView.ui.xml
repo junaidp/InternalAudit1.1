@@ -67,7 +67,7 @@
 	
 	<g:TextArea ui:field="performance" visible="false"></g:TextArea>
 	
-	<A:LabelHeading width="100px">Exceptions</A:LabelHeading>
+	<A:LabelHeading width="100px">Observations</A:LabelHeading>
 		<g:HorizontalPanel ui:field="panelAddException"></g:HorizontalPanel>
 		<!--  
 		<g:Button ui:field="addException" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Add Exception1</g:Button>

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
@@ -18,7 +17,6 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.datepicker.client.DateBox;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.upload.AuditWorkProgramUpload;
@@ -27,6 +25,7 @@ import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.InformationRequestEntity;
 import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.JobCreation;
+import com.sencha.gxt.widget.core.client.form.DateField;
 
 public class InformationRequestRaiserView extends Composite {
 	@UiField
@@ -40,7 +39,7 @@ public class InformationRequestRaiserView extends Composite {
 	@UiField
 	CheckBox checkBoxReminder;
 	@UiField
-	DateBox dueDate;
+	DateField dueDate;
 	@UiField
 	ListBox listBoxJobs;
 
@@ -78,8 +77,9 @@ public class InformationRequestRaiserView extends Composite {
 		// dueDate.setFormat(new
 		// DateBox.DefaultFormat(DateTimeFormat.getFormat("EEEE, MMMM dd,
 		// yyyy")));
-		dueDate.getElement().setPropertyString("placeholder", " dd/mm/yyyy");
-		dueDate.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd MMMM , yyyy")));
+		// dueDate.getElement().setPropertyString("placeholder", " dd/mm/yyyy");
+		// dueDate.setFormat(new
+		// DateBox.DefaultFormat(DateTimeFormat.getFormat("dd MMMM , yyyy")));
 	}
 
 	public void deleteUnssavedAttachments() {
@@ -142,6 +142,7 @@ public class InformationRequestRaiserView extends Composite {
 			@Override
 			public void onSuccess(String result) {
 				new DisplayAlert(result);
+				Window.alert(result + "success");
 
 			}
 

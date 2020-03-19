@@ -53,7 +53,7 @@
 		<A:LabelHeading addStyleNames="{style.txtExtendedWidths}">Audit Program</A:LabelHeading>
 		<A:LabelHeading addStyleNames="{style.txtShrikedWidths}">Reviewer</A:LabelHeading>
 		<A:LabelHeading addStyleNames="{style.txtShrikedWidths}">Reference(Existing Controls)</A:LabelHeading> -->
-		<A:LabelHeading addStyleNames="{style.txtShrikedWidths}">Reference(Existing Controls)</A:LabelHeading>
+		<A:LabelHeading addStyleNames="{style.txtExtendedWidths}">Reference(Existing Controls)</A:LabelHeading>
 		<A:LabelHeading addStyleNames="{style.txtExtendedWidths}">Audit Program</A:LabelHeading>
 		
 		<!--  <A:LabelHeading styleName="txtShrikedWidth">Planned Status</A:LabelHeading> -->

@@ -21,7 +21,7 @@ public class AuditWorkRow extends Composite {
 
 	private TextArea description;
 
-	private TextArea txtBoxExistingControls;
+	private Label txtBoxExistingControls;
 
 	private ListBox lstReviewer;
 
@@ -47,9 +47,12 @@ public class AuditWorkRow extends Composite {
 		lstReviewer = new ListBox();
 		listBoxRisk = new ListBox();
 		listBoxExistingCtrl = new ListBox();
-		txtBoxExistingControls = new TextArea();
-		txtBoxExistingControls.setWidth("300px");
-		txtBoxExistingControls.setHeight("90px");
+		// txtBoxExistingControls = new TextArea();
+		// txtBoxExistingControls.setWidth("300px");
+		// txtBoxExistingControls.setHeight("90px");
+		txtBoxExistingControls = new Label();
+		txtBoxExistingControls.setWidth("290px");
+		// txtBoxExistingControls.setHeight("90px");
 
 		removeRow = new Image("images/deleteIcon.png");
 		auditWorkId = new Label("0");
@@ -59,6 +62,7 @@ public class AuditWorkRow extends Composite {
 		initWidget(rowContainer);
 		lstReviewer.setWidth("170px");
 		listBoxExistingCtrl.setWidth("165px");
+		removeRow.getElement().getStyle().setMarginLeft(30, Unit.PX);
 		// listBoxExistingCtrl.getElement().getStyle().setMarginLeft(80,
 		// Unit.PX);
 
@@ -136,7 +140,7 @@ public class AuditWorkRow extends Composite {
 		// mar 2020visibilty false of listbox
 		listBoxExistingCtrl.setVisible(false);
 		lstReviewer.setEnabled(false);
-		txtBoxExistingControls.setEnabled(false);
+		// txtBoxExistingControls.setEnabled(false);
 		listBoxRisk.setEnabled(false);
 		listBoxExistingCtrl.setEnabled(false);
 		removeRow.setVisible(false);
@@ -146,7 +150,7 @@ public class AuditWorkRow extends Composite {
 		step.setEnabled(true);
 		description.setEnabled(true);
 		lstReviewer.setEnabled(true);
-		txtBoxExistingControls.setEnabled(true);
+		// txtBoxExistingControls.setEnabled(true);
 		removeRow.setVisible(true);
 		listBoxRisk.setEnabled(true);
 		listBoxExistingCtrl.setEnabled(true);
@@ -198,11 +202,11 @@ public class AuditWorkRow extends Composite {
 		this.listBoxExistingCtrl = listBoxExistingCtrl;
 	}
 
-	public TextArea getTxtBoxExistingControls() {
+	public Label getTxtBoxExistingControls() {
 		return txtBoxExistingControls;
 	}
 
-	public void setTxtBoxExistingControls(TextArea txtBoxExistingControls) {
+	public void setTxtBoxExistingControls(Label txtBoxExistingControls) {
 		this.txtBoxExistingControls = txtBoxExistingControls;
 	}
 

@@ -84,13 +84,13 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 				int row = c.getIndex();
 				ToDoReceiverEntity toDo = store.get(row);
 				ToDoRaiserView toDoReceiverView = new ToDoRaiserView(toDo);
-				PopupsView pp = new PopupsView(toDoReceiverView, "ToDo Receiver");
+				PopupsView pp = new PopupsView(toDoReceiverView, "To Do Receiver");
 				// pp.getLabelheading().setText("ToDo Receiver");
 				// pp.getPopup().setHeadingText("ToDo Receiver");
 				pp.getVpnlMain().setTitle("Todos");
 				pp.getVpnlMain().setWidth("600px");
 				pp.getHpnlSPace().setWidth("600px");
-				pp.getVpnlMain().setHeight("530px");
+				pp.getVpnlMain().setHeight("500px");
 
 			}
 		});

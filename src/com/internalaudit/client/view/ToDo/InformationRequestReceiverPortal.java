@@ -6,8 +6,6 @@ import java.util.List;
 
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.view.PopupsView;
@@ -94,13 +92,13 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 				int row = c.getIndex();
 				InformationRequestReceiverEntity informationRequest = store.get(row);
 				InformationRequestReceiveView infoReceiver = new InformationRequestReceiveView(informationRequest);
-				final PopupsView pp = new PopupsView(infoReceiver, "InformationRequest Receiver");
+				final PopupsView pp = new PopupsView(infoReceiver, "Information Request Receiver");
 				// pp.getLabelheading().setText("InformationRequest Receiver");
 				// pp.getPopup().setHeadingText("InformationRequest Receiver");
 				pp.getVpnlMain().setTitle("Todos");
 				pp.getVpnlMain().setWidth("600px");
 				pp.getHpnlSPace().setWidth("600px");
-				pp.getVpnlMain().setHeight("530px");
+				pp.getVpnlMain().setHeight("500px");
 				// infoReceiver.getBtnCancel().addClickHandler(new
 				// ClickHandler() {
 				//
@@ -108,8 +106,6 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 				// public void onClick(ClickEvent event) {
 				// pp.getVpnlMain().removeFromParent();
 				// pp.getPopup().removeFromParent();
-				//
-				//
 				// }
 				// });
 				// Info.display("Event", "The " + p.getRequestedItem() + " was
@@ -144,9 +140,9 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 		p.add(grid);
 
 		VerticalLayoutContainer con = new VerticalLayoutContainer();
-		Anchor anchorView = new Anchor("view");
-		anchorView.getElement().getStyle().setPaddingLeft(820, Unit.PX);
-		con.add(anchorView);
+		// Anchor anchorView = new Anchor("view");
+		// anchorView.getElement().getStyle().setPaddingLeft(820, Unit.PX);
+		// con.add(anchorView);
 
 		con.add(p, new VerticalLayoutData(1, 1));
 

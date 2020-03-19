@@ -23,7 +23,7 @@ import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.ToDo;
-import com.sencha.gxt.widget.core.client.DatePicker;
+import com.sencha.gxt.widget.core.client.form.DateField;
 
 public class ToDoView extends Composite {
 
@@ -32,7 +32,7 @@ public class ToDoView extends Composite {
 	@UiField
 	ListBox listBoxAssignedTo;
 	@UiField
-	DatePicker dueDate;
+	DateField dueDate;
 	@UiField
 	Button btnSave;
 	@UiField
@@ -61,8 +61,7 @@ public class ToDoView extends Composite {
 		txtBoxDescription.getElement().setPropertyString("placeholder", "Enter text here");
 		AuditWorkProgramUpload toDoAttachmentUploqad = new AuditWorkProgramUpload(toDoId, mainFolder);
 		panelAttachment.add(toDoAttachmentUploqad);
-		dueDate.getElement().setPropertyString("placeholder", " dd/mm/yyyy");
-		// dueDate.setFormat(new
+		// dueDate.getElement().setPropertyString("placeholder", " dd/mm/yyyy");
 		// DateBox.DefaultFormat(DateTimeFormat.getFormat("dd MMMM , yyyy")));
 	}
 
@@ -212,11 +211,11 @@ public class ToDoView extends Composite {
 		this.listBoxAssignedTo = listBoxAssignedTo;
 	}
 
-	public DatePicker getDueDate() {
+	public DateField getDueDate() {
 		return dueDate;
 	}
 
-	public void setDueDate(DatePicker dueDate) {
+	public void setDueDate(DateField dueDate) {
 		this.dueDate = dueDate;
 	}
 

@@ -4,8 +4,10 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
@@ -13,9 +15,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.upload.AuditWorkProgramUpload;
-import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
-import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.InformationRequestEntity;
 import com.internalaudit.shared.InformationRequestLogEntity;
@@ -25,23 +25,23 @@ public class InformationRequestReceiveView extends VerticalPanel {
 	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
 	VerticalPanel panelMain = new VerticalPanel();
 	HorizontalPanel PanelUpButton = new HorizontalPanel();
-	ButtonRound btnEmial = new ButtonRound("Email");
-	ButtonRound btnPrint = new ButtonRound("Print");
+	Button btnEmial = new Button("Email");
+	Button btnPrint = new Button("Print");
 	HorizontalPanel panelLabel = new HorizontalPanel();
-	LabelHeading lblIr = new LabelHeading();
+	Label lblIr = new Label();
 	Label lblIrData = new Label(":123");
-	LabelHeading lblDate = new LabelHeading();
+	Label lblDate = new Label();
 	Label lblDateData = new Label("28-sep-2018");
 	Label lblSpace = new Label();
-	LabelHeading lblRequestetBy = new LabelHeading();
+	Label lblRequestetBy = new Label();
 	Label lblRequestedData = new Label("Hamza");
 	Label lblMesssage = new Label("Message:");
 	Label lblEmailData = new Label("Dear XYZ plz provide the detail about");
 
-	Label lblReply = new Label("Reply");
+	Label lblReply = new Label("Reply: ");
 	TextArea txtAreaReply = new TextArea();
 
-	ButtonRound btnSubmit = new ButtonRound("Submit");
+	Button btnSubmit = new Button("Submit");
 
 	VerticalPanel panelMailRep = new VerticalPanel();
 	VerticalPanel panelMail = new VerticalPanel();
@@ -131,13 +131,15 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		lblMesssage.setText("Message From ::" + informationRequest.getRaisedBy());
 		lblIrData.setText(informationRequest.getId() + "");
 		lblRequestedData.setText(informationRequest.getRaisedBy());
-		lblDateData.setText(informationRequest.getOverDueDays().toString());
+		// lblDateData.setText(informationRequest.getOverDueDays().toString());
+		String formattedDate = DateTimeFormat.getShortDateFormat().format(informationRequest.getOverDueDays());
+		lblDateData.setText(formattedDate);
 		lblEmailData.setText(informationRequest.getRequestedItem());
-		setWidth("600px");
-		setHeight("700px");
+		// setWidth("600px");
+		// setHeight("700px");
 		panelMain.addStyleName("w3-border");
 		panelLabel.setWidth("100%");
-		lblSpace.getElement().getStyle().setPaddingLeft(300, Unit.PX);
+		lblSpace.getElement().getStyle().setPaddingLeft(250, Unit.PX);
 
 		PanelUpButton.addStyleName(" w3-right");
 		PanelUpButton.add(btnEmial);
@@ -145,7 +147,12 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		lblDateData.addStyleName("w3-panel");
 		lblIrData.addStyleName("w3-panel");
 		lblIr.setText("Ir#");
-		lblDate.setText("Date");
+		lblDate.setText("Date: ");
+
+		lblIr.addStyleName("labelDesign w3-panel");
+		lblDate.addStyleName("labelDesign w3-panel");
+		lblIrData.addStyleName("labelDesign w3-panel");
+		lblDateData.addStyleName("labelDesign w3-panel");
 
 		panelLabel.addStyleName("w3-border");
 		panelLabel.add(lblIr);
@@ -158,7 +165,8 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		panelReply.addStyleName("w3-border");
 		panelMail.addStyleName("w3-border");
 
-		lblRequestetBy.setText("Requested By");
+		lblRequestetBy.setText("Requested By: ");
+		lblRequestetBy.addStyleName("labelDesign w3-panel");
 		HorizontalPanel panelMailReq = new HorizontalPanel();
 		panelMailReq.add(lblRequestetBy);
 		lblRequestedData.addStyleName("w3-panel");
@@ -169,12 +177,16 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		// panelMail.addStyleName("w3-gray");
 
 		panelReply.add(lblReply);
+		lblReply.addStyleName("labelDesign w3-panel");
 
 		panelReply.add(txtAreaReply);
 
 		panelMailRep.add(panelMail);
 		panelMailRep.add(panelReply);
 		panelMailRep.add(btnSubmit);
+
+		btnSubmit.addStyleName("w3-right");
+
 		String mainFolder = "InformationRequestUploads";
 		String informationRequestId = informationRequest.getId() + "";
 		AuditWorkProgramUpload informationRequestUploadAttachment = new AuditWorkProgramUpload(informationRequestId,
