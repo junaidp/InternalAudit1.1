@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.Cell.Context;
+import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -73,11 +76,13 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 		ColumnConfig<ToDoRaiserEntity, String> requestedItem = new ColumnConfig<ToDoRaiserEntity, String>(
 				properties.requestedItem(), 180, "Task");
 		ColumnConfig<ToDoRaiserEntity, String> informationRaisedBy = new ColumnConfig<ToDoRaiserEntity, String>(
-				properties.raisedTo(), 120, "Asigned To");
+				properties.raisedTo(), 140, "Asigned To");
 		ColumnConfig<ToDoRaiserEntity, String> relatedJob = new ColumnConfig<ToDoRaiserEntity, String>(
-				properties.relatedJob(), 120, " Job");
+				properties.relatedJob(), 140, " Job");
 		ColumnConfig<ToDoRaiserEntity, Date> informationOverDue = new ColumnConfig<ToDoRaiserEntity, Date>(
-				properties.overDueDays(), 150, "Due Date");
+				properties.overDueDays(), 110, "Due Date");
+		Cell cellDueDate = new DateCell(DateTimeFormat.getFormat("MM/dd/yy"));
+		informationOverDue.setCell(cellDueDate);
 		ColumnConfig<ToDoRaiserEntity, String> informationStatus = new ColumnConfig<ToDoRaiserEntity, String>(
 				properties.status(), 100, "Status");
 		ColumnConfig<ToDoRaiserEntity, String> viewButton = new ColumnConfig<ToDoRaiserEntity, String>(

@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.Cell.Context;
+import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.view.PopupsView;
@@ -73,11 +76,13 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 		ColumnConfig<InformationRequestReceiverEntity, String> requestedItem = new ColumnConfig<InformationRequestReceiverEntity, String>(
 				properties.requestedItem(), 180, "Requested Item");
 		ColumnConfig<InformationRequestReceiverEntity, String> informationRaisedBy = new ColumnConfig<InformationRequestReceiverEntity, String>(
-				properties.raisedBy(), 130, "Requested By");
+				properties.raisedBy(), 150, "Requested By");
 		ColumnConfig<InformationRequestReceiverEntity, String> relatedJob = new ColumnConfig<InformationRequestReceiverEntity, String>(
-				properties.relatedJob(), 130, "Related Job");
+				properties.relatedJob(), 150, "Related Job");
 		ColumnConfig<InformationRequestReceiverEntity, Date> informationOverDue = new ColumnConfig<InformationRequestReceiverEntity, Date>(
-				properties.overDueDays(), 160, "Due Date");
+				properties.overDueDays(), 120, "Due Date");
+		Cell cellDueDate = new DateCell(DateTimeFormat.getFormat("MM/dd/yy"));
+		informationOverDue.setCell(cellDueDate);
 		ColumnConfig<InformationRequestReceiverEntity, String> informationStatus = new ColumnConfig<InformationRequestReceiverEntity, String>(
 				properties.status(), 110, "Status");
 		ColumnConfig<InformationRequestReceiverEntity, String> viewButton = new ColumnConfig<InformationRequestReceiverEntity, String>(

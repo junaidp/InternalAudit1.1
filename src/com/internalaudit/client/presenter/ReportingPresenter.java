@@ -754,28 +754,35 @@ public class ReportingPresenter implements Presenter
 				display.getVpnlJobs().add(allJobsView);
 				final JobData jobData = new JobData();
 				jobData.setSelectedId(result.get(i).getJobCreationId());
+				SelectedJobView selectedJobView = new SelectedJobView();
+				selectedJobView.getLblJob().setText(jobReportView.getJobAnchor().getText());
+				display.getVpnlSelectedJob().add(selectedJobView);
+				fetchAuditHeadExceptions(jobData.getSelectedId());
 
-				jobReportView.getJobAnchor().addClickHandler(new ClickHandler() {
-
-					@Override
-					public void onClick(ClickEvent event) {
-						display.getVpnlSelectedJob().clear();
-						SelectedJobView selectedJobView = new SelectedJobView();
-						selectedJobView.getLblJob().setText(jobReportView.getJobAnchor().getText());
-						display.getVpnlSelectedJob().add(selectedJobView);
-						fetchExceptionsforSelectedJob(jobData.getSelectedId(), selectedJobView);
-
-						///////// Displaying Audit head View..///////
-						if (loggedInEmployee.getFromInternalAuditDept().equals("yes")) {
-							fetchAuditHeadExceptions(jobData.getSelectedId());
-
-						} else {
-							fetchUserExceptions(jobData.getSelectedId());
-
-						}
-					}
-
-				});
+				// jobReportView.getJobAnchor().addClickHandler(new
+				// ClickHandler() {
+				//
+				// @Override
+				// public void onClick(ClickEvent event) {
+				// display.getVpnlSelectedJob().clear();
+				// SelectedJobView selectedJobView = new SelectedJobView();
+				// selectedJobView.getLblJob().setText(jobReportView.getJobAnchor().getText());
+				// display.getVpnlSelectedJob().add(selectedJobView);
+				// fetchExceptionsforSelectedJob(jobData.getSelectedId(),
+				// selectedJobView);
+				//
+				// ///////// Displaying Audit head View..///////
+				// if
+				// (loggedInEmployee.getFromInternalAuditDept().equals("yes")) {
+				// fetchAuditHeadExceptions(jobData.getSelectedId());
+				//
+				// } else {
+				// fetchUserExceptions(jobData.getSelectedId());
+				//
+				// }
+				// }
+				//
+				// });
 			}
 		}
 	}

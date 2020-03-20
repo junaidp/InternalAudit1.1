@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.Cell.Context;
+import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -75,11 +78,13 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 		ColumnConfig<InformationRequestRaiseEntity, String> requestedItem = new ColumnConfig<InformationRequestRaiseEntity, String>(
 				properties.requestedItem(), 190, "Requested Item");
 		ColumnConfig<InformationRequestRaiseEntity, String> informationRaisedTo = new ColumnConfig<InformationRequestRaiseEntity, String>(
-				properties.raisedTo(), 130, "Requested To");
+				properties.raisedTo(), 150, "Requested To");
 		ColumnConfig<InformationRequestRaiseEntity, String> relatedJob = new ColumnConfig<InformationRequestRaiseEntity, String>(
-				properties.relatedJob(), 100, "Related Job");
+				properties.relatedJob(), 130, "Related Job");
 		ColumnConfig<InformationRequestRaiseEntity, Date> informationOverDue = new ColumnConfig<InformationRequestRaiseEntity, Date>(
-				properties.overDueDays(), 160, "Due Date");
+				properties.overDueDays(), 110, "Due Date");
+		Cell cellDueDate = new DateCell(DateTimeFormat.getFormat("MM/dd/yy"));
+		informationOverDue.setCell(cellDueDate);
 		ColumnConfig<InformationRequestRaiseEntity, String> informationStatus = new ColumnConfig<InformationRequestRaiseEntity, String>(
 				properties.status(), 100, "Status");
 		ColumnConfig<InformationRequestRaiseEntity, String> viewButton = new ColumnConfig<InformationRequestRaiseEntity, String>(

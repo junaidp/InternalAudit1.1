@@ -18,7 +18,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
@@ -26,7 +25,6 @@ import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.event.ReportingEvent;
 import com.internalaudit.client.upload.AuditWorkProgramUpload;
-import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.client.view.ToDo.ToDoRaiserPortal;
@@ -52,24 +50,24 @@ public class ReportViewMain extends VerticalPanel {
 	private TextArea txtBoxAuditPurpose = new TextArea();
 	private TextArea txtBoxAnnexure = new TextArea();
 	private VerticalPanel panelFileUpload = new VerticalPanel();
-	private ButtonRound btnSave = new ButtonRound("Save");
+	private Button btnSave = new Button("Save");
 	private ReportDataEntity reportData1 = null;
 	int selectedJobId = 0;
 	private DateBox dateBox = new DateBox();
-	private TextBox txtoperational = new TextBox();
+	private TextArea txtoperational = new TextArea();
 
 	public ReportViewMain(HandlerManager eventBus) {
 
 		fetchJobs();
 		getElement().getStyle().setMarginLeft(20, Unit.PX);
-		setWidth("1100px");
+		setWidth("1200px");
 		// setHeight("700px");
 		LabelHeading lblMain = new LabelHeading();
 		HorizontalPanel panelDate = new HorizontalPanel();
-		lblMain.getElement().getStyle().setPaddingLeft(480, Unit.PX);
+		lblMain.getElement().getStyle().setPaddingLeft(520, Unit.PX);
 
 		Label lblDate = new Label("Date:");
-		lblDate.getElement().getStyle().setMarginLeft(500, Unit.PX);
+		lblDate.getElement().getStyle().setMarginLeft(600, Unit.PX);
 		lblDate.addStyleName("labelDesign");
 
 		LabelHeading lblExecutiveSummary = new LabelHeading();
@@ -85,7 +83,7 @@ public class ReportViewMain extends VerticalPanel {
 
 		LabelHeading lblAnnexure = new LabelHeading();
 
-		ButtonRound btnPrint = new ButtonRound("Print");
+		Button btnPrint = new Button("Print");
 		HorizontalPanel panelButton = new HorizontalPanel();
 
 		ArrayList<ToDo> a = new ArrayList<ToDo>();
@@ -166,8 +164,8 @@ public class ReportViewMain extends VerticalPanel {
 			LabelHeading lblExecutiveSummary, TextArea txtBoxExecutiveSummary, LabelHeading lblAuditPurpose,
 			TextArea txtBoxAuditPurpose, LabelHeading lblSummaryOfAssesment, LabelHeading lblKeyFinding,
 			LabelHeading lblKeyFinding1, TextArea txtBoxKeFinding1, LabelHeading lblAllFinding,
-			LabelHeading lblOverallControl, LabelHeading lblControl, LabelHeading lblAnnexure, ButtonRound btnSave,
-			ButtonRound btnPrint, TextArea txtBoxAnnexure) {
+			LabelHeading lblOverallControl, LabelHeading lblControl, LabelHeading lblAnnexure, Button btnSave,
+			Button btnPrint, TextArea txtBoxAnnexure) {
 		lblMain.setText("Internal Audit Report");
 		lblMain.addStyleName("heading");
 		// panelDate.addStyleName("w3-right");
@@ -179,20 +177,20 @@ public class ReportViewMain extends VerticalPanel {
 		lblAllFinding.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 		lblKeyFinding.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 		lblAnnexure.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		txtBoxExecutiveSummary.setWidth("1100px");
+		txtBoxExecutiveSummary.setWidth("1200px");
 		txtBoxExecutiveSummary.setHeight("50px");
 		txtBoxExecutiveSummary.getElement().setPropertyString("placeholder", "Executive Summary");
 		txtBoxAuditPurpose.getElement().setPropertyString("placeholder", "Audit Purpose");
 		txtBoxAnnexure.getElement().setPropertyString("placeholder", "Annexure");
-		txtBoxAnnexure.setWidth("1100px");
+		txtBoxAnnexure.setWidth("1200px");
 		txtBoxAnnexure.setHeight("50px");
-		txtBoxAuditPurpose.setWidth("1100px");
+		txtBoxAuditPurpose.setWidth("1200px");
 		txtBoxAuditPurpose.setHeight("50px");
 		// txtBoxAuditPurpose.addStyleName("w3-pale-green");
 		// txtBoxAuditPurpose.setText("text of audit purpose");
 		lblSummaryOfAssesment.setText("Summary of overall assessment");
 		panelSummaryOfAssesment.setHeight("350px");
-		panelSummaryOfAssesment.setWidth("1100px");
+		panelSummaryOfAssesment.setWidth("1000px");
 		panelControls.setWidth("1010px");
 		panelExceptionHigh.setWidth("800px");
 		panelSummaryOfAssesment.addStyleName("w3-border");
@@ -209,8 +207,8 @@ public class ReportViewMain extends VerticalPanel {
 		dateBox.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd MMMM , yyyy")));
 
 		lblAnnexure.setText("Annexure");
-		btnPrint.addStyleName("w3-margin");
-		btnSave.addStyleName("w3-margin");
+		// btnPrint.addStyleName("w3-margin");
+		// btnSave.addStyleName("w3-margin");
 
 		btnPrint.addClickHandler(new ClickHandler() {
 
@@ -289,15 +287,15 @@ public class ReportViewMain extends VerticalPanel {
 			@Override
 			public void onSuccess(AuditEngagement result) {
 				FlexTable flexOverallControl = new FlexTable();
-				flexOverallControl.setWidth("1010px");
+				flexOverallControl.setWidth("1200px");
 				LabelHeading lblControl = new LabelHeading();
-				lblControl.setWidth("500px");
+				lblControl.setWidth("600px");
 				LabelHeading lblOperationalEffectiveness = new LabelHeading();
 				LabelHeading lblObservationRef = new LabelHeading();
 				flexOverallControl.addStyleName("w3-panel w3-border");
 				lblControl.setText("Control");
 				lblOperationalEffectiveness.setText("Operational Effectiveness");
-				lblOperationalEffectiveness.setWidth("200px");
+				lblOperationalEffectiveness.setWidth("600px");
 				lblObservationRef.setWidth("200px");
 				lblObservationRef.setText("Observational Ref");
 				// flexOverallControl.setHeight("250px");
@@ -313,10 +311,11 @@ public class ReportViewMain extends VerticalPanel {
 
 					lblControlData
 							.setText(result.getEngagementDTO().getSelectedControls().get(i).getSuggestedControlsName());
-					txtoperational.setWidth("200px");
+					txtoperational.setWidth("600px");
+					txtoperational.getElement().setPropertyString("placeholder", "Enter text here");
 					Label lblReferenceData = new Label();
 					lblReferenceData.setWidth("200px");
-					lblControlData.setWidth("500px");
+					lblControlData.setWidth("600px");
 					lblReferenceData
 							.setText(result.getEngagementDTO().getSelectedControls().get(i).getSuggestedReferenceNo());
 					flexOverallControl.setWidget(i + 1, 1, lblControlData);

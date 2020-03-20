@@ -7,9 +7,11 @@ import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -20,9 +22,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.upload.EmailAttachmentUpload;
-import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
-import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.InformationRequestEntity;
 import com.internalaudit.shared.InformationRequestLogEntity;
@@ -32,26 +32,26 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
 	VerticalPanel panelMain = new VerticalPanel();
 	HorizontalPanel PanelUpButton = new HorizontalPanel();
-	ButtonRound btnEmial = new ButtonRound("Email");
-	ButtonRound btnPrint = new ButtonRound("Print");
+	Button btnEmial = new Button("Email");
+	Button btnPrint = new Button("Print");
 	HorizontalPanel panelLabel = new HorizontalPanel();
-	LabelHeading lblIr = new LabelHeading();
+	Label lblIr = new Label();
 	Label lblIrData = new Label(":123");
-	LabelHeading lblDate = new LabelHeading();
+	Label lblDate = new Label();
 	Label lblDateData = new Label("28-sep-2018");
 	Label lblSpace = new Label();
-	LabelHeading lblRequestetBy = new LabelHeading();
+	Label lblRequestetBy = new Label();
 	Label lblRequestedData = new Label("Hamza");
 	Label lblMesssageData;
 	Label lblMesssage;
 	TextArea lblEmailData;
 	Label lblReplyOld;
 	TextArea lblReplyOldData;
-	Label lblReply = new Label("Reply");
+	Label lblReply = new Label("Reply: ");
 	TextArea txtAreaReply = new TextArea();
-	ButtonRound btnSubmit = new ButtonRound("Submit/Close");
-	ButtonRound btnCancel = new ButtonRound("Cancel");
-	ButtonRound btnReply = new ButtonRound("Reply");
+	Button btnSubmit = new Button("Submit/Close");
+	Button btnCancel = new Button("Cancel");
+	Button btnReply = new Button("Reply");
 	VerticalPanel panelMailRep = new VerticalPanel();
 	VerticalPanel panelMail = new VerticalPanel();
 	VerticalPanel panelReply = new VerticalPanel();
@@ -157,10 +157,12 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 		}
 
 		lblRequestedData.setText(informationRequest.getRaisedTo());
-		lblDateData.setText(informationRequest.getOverDueDays().toString());
+		String formattedDate = DateTimeFormat.getShortDateFormat().format(informationRequest.getOverDueDays());
+		lblDateData.setText(formattedDate);
+		// lblDateData.setText(informationRequest.getOverDueDays().toString());
 		lblIrData.setText(informationRequest.getId() + "");
 		setWidth("600px");
-		setHeight("600px");
+		setHeight("500px");
 		panelMain.addStyleName("w3-border");
 		panelLabel.setWidth("100%");
 		lblSpace.getElement().getStyle().setPaddingLeft(300, Unit.PX);
@@ -170,7 +172,9 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 		lblDateData.addStyleName("w3-panel");
 		lblIrData.addStyleName("w3-panel");
 		lblIr.setText("Ir#");
-		lblDate.setText("Date");
+		lblDate.setText("Date: ");
+		lblIr.addStyleName("labelDesign w3-panel");
+		lblDate.addStyleName("labelDesign w3-panel");
 		panelLabel.addStyleName("w3-border");
 		panelLabel.add(lblIr);
 		panelLabel.add(lblIrData);
@@ -181,8 +185,9 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 		panelReply.addStyleName("w3-border");
 		panelMail.addStyleName("w3-border");
 		HorizontalPanel panelRequestedBy = new HorizontalPanel();
-		lblRequestetBy.setText("Requested By");
+		lblRequestetBy.setText("Requested By: ");
 		panelRequestedBy.add(lblRequestetBy);
+		lblRequestetBy.addStyleName("labelDesign w3-panel");
 		lblRequestedData.addStyleName("w3-panel");
 		panelRequestedBy.add(lblRequestedData);
 		HorizontalPanel panelMailReq = new HorizontalPanel();
@@ -192,12 +197,14 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 		panelMessageScroll.setHeight("200px");
 		panelMessageScroll.add(panelMail);
 		panelReply.add(lblReply);
+		lblReply.addStyleName("labelDesign");
 		panelReply.add(txtAreaReply);
 		panelMailRep.add(panelRequestedBy);
 		panelMailRep.add(panelMessageScroll);
 		panelMailRep.add(panelReply);
 		HorizontalPanel panelPriority = new HorizontalPanel();
-		Label lblPriority = new Label("Priority ::");
+		Label lblPriority = new Label("Priority: ");
+		lblPriority.addStyleName("labelDesign");
 		ListBox listBoxPriority = new ListBox();
 		listBoxPriority.addItem("High");
 		listBoxPriority.addItem("Medium");
@@ -207,11 +214,12 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 		panelMailRep.add(panelPriority);
 		panelPriority.setHeight("30px");
 		panelPriority.addStyleName("w3-right");
-		btnReply.getElement().getStyle().setMarginLeft(300, Unit.PX);
+		btnReply.getElement().getStyle().setMarginLeft(360, Unit.PX);
 		HorizontalPanel panelb = new HorizontalPanel();
 		panelb.add(btnSubmit);
 		panelb.add(btnReply);
 		panelb.add(btnCancel);
+		btnSubmit.setWidth("85px");
 		panelMailRep.add(panelb);
 
 		EmailAttachmentUpload a = new EmailAttachmentUpload();
@@ -279,11 +287,11 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 		});
 	}
 
-	public ButtonRound getBtnCancel() {
+	public Button getBtnCancel() {
 		return btnCancel;
 	}
 
-	public void setBtnCancel(ButtonRound btnCancel) {
+	public void setBtnCancel(Button btnCancel) {
 		this.btnCancel = btnCancel;
 	}
 

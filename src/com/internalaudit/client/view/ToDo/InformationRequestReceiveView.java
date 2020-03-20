@@ -151,8 +151,8 @@ public class InformationRequestReceiveView extends VerticalPanel {
 
 		lblIr.addStyleName("labelDesign w3-panel");
 		lblDate.addStyleName("labelDesign w3-panel");
-		lblIrData.addStyleName("labelDesign w3-panel");
-		lblDateData.addStyleName("labelDesign w3-panel");
+		lblIrData.addStyleName("w3-panel");
+		lblDateData.addStyleName("w3-panel");
 
 		panelLabel.addStyleName("w3-border");
 		panelLabel.add(lblIr);
@@ -177,7 +177,7 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		// panelMail.addStyleName("w3-gray");
 
 		panelReply.add(lblReply);
-		lblReply.addStyleName("labelDesign w3-panel");
+		lblReply.addStyleName("labelDesign");
 
 		panelReply.add(txtAreaReply);
 

@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.WhiteSpace;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
@@ -223,7 +224,7 @@ public class RiskAssesmentStrategicViewData {
 
 					TreeItem treeItem = new TreeItem();
 					treeItem.setHTML(riskAssesmentStrategicView.getStrategicObjective());
-
+					treeItem.getElement().getStyle().setWhiteSpace(WhiteSpace.NORMAL);
 					Tree treeMain = new Tree();
 					treeMain.addItem(treeItem);
 					//// Change

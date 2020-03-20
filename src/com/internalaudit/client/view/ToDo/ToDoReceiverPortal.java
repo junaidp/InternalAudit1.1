@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.Cell.Context;
+import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.view.PopupsView;
@@ -64,12 +67,13 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 		ColumnConfig<ToDoReceiverEntity, String> requestedItem = new ColumnConfig<ToDoReceiverEntity, String>(
 				properties.requestedItem(), 170, "Task");
 		ColumnConfig<ToDoReceiverEntity, String> informationRaisedBy = new ColumnConfig<ToDoReceiverEntity, String>(
-				properties.raisedBy(), 120, "Asigned By");
+				properties.raisedBy(), 140, "Asigned By");
 		ColumnConfig<ToDoReceiverEntity, String> relatedJob = new ColumnConfig<ToDoReceiverEntity, String>(
-				properties.relatedJob(), 110, " Job");
-
+				properties.relatedJob(), 140, " Job");
 		ColumnConfig<ToDoReceiverEntity, Date> informationOverDue = new ColumnConfig<ToDoReceiverEntity, Date>(
-				properties.overDueDays(), 160, "Due Date");
+				properties.overDueDays(), 110, "Due Date");
+		Cell cellDueDate = new DateCell(DateTimeFormat.getFormat("MM/dd/yy"));
+		informationOverDue.setCell(cellDueDate);
 		ColumnConfig<ToDoReceiverEntity, String> informationStatus = new ColumnConfig<ToDoReceiverEntity, String>(
 				properties.status(), 110, "Status");
 		ColumnConfig<ToDoReceiverEntity, String> viewButton = new ColumnConfig<ToDoReceiverEntity, String>(

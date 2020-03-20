@@ -204,7 +204,7 @@ public class AssesmentGrid extends VerticalLayoutContainer {
 		panel = new ContentPanel();
 		panel.add(con);
 		panel.setHeight(350);
-		panel.setWidth(1000);
+		panel.setWidth(1100);
 		panel.setHeadingText("Assesment Grid");
 		panel.addButton(removeButton);
 		panel.addButton(new TextButton("Reset", new SelectHandler() {

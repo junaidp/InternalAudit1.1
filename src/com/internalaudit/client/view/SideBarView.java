@@ -141,7 +141,7 @@ public class SideBarView extends VerticalLayoutContainer {
 				// pp.getLabelheading().setText("Information Request Raiser");
 				// pp.getPopup().setHeadingText("Information Request Raiser");
 				pp.getVpnlMain().setTitle("TaskList");
-				pp.getVpnlMain().setWidth("800px");
+				pp.getVpnlMain().setWidth("900px");
 				pp.getVpnlMain().setHeight("530px");
 
 			}

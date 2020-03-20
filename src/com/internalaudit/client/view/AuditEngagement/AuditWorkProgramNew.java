@@ -14,7 +14,7 @@ import com.internalaudit.shared.SuggestedControls;
 
 public class AuditWorkProgramNew extends VerticalPanel {
 	Label lblSerialNo = new Label("Serial No.");
-	Label lblReference = new Label("Reference");
+	Label lblReference = new Label("Controls");
 	Label lblAuditProg = new Label("Audit Program");
 	// Label lblReviewer = new Label("Reviewer");
 	TextArea txtAreaAuditProg = new TextArea();
@@ -73,7 +73,7 @@ public class AuditWorkProgramNew extends VerticalPanel {
 
 		flex.setWidget(0, 2, lblReference);
 		VerticalPanel panelReference = new VerticalPanel();
-		panelReference.setWidth("180px");
+		panelReference.setWidth("300px");
 		panelReference.add(lblReferenceData);
 		flex.setWidget(1, 2, panelReference);
 

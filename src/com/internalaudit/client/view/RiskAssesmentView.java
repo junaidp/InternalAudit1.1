@@ -134,7 +134,7 @@ public class RiskAssesmentView extends Composite {
 
 		ScrollPanel scrollPanel = new ScrollPanel();
 		scrollPanel.setHeight("400px");
-		scrollPanel.setWidth("1200px");
+		scrollPanel.setWidth("1070px");
 		scrollPanel.setWidget(strategicPanel);
 		riskAssesmentStrategicViewData.setData(strategicPanel, this, tab);
 
