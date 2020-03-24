@@ -149,7 +149,7 @@ public interface InternalAuditServiceAsync {
 
 	void fetchEmployeeExceptions(int employeeId, int jobId, AsyncCallback<ArrayList<Exceptions>> asyncCallbac);
 
-	void sendException(Exceptions exception, AsyncCallback<String> asyncCallbac);
+	void sendException(Exceptions exception, Boolean sendMail, AsyncCallback<String> asyncCallbac);
 
 	void saveAuditStepAndExceptions(AuditStep step, ArrayList<Exceptions> exs, AsyncCallback<Void> asyncCallback);
 
@@ -297,7 +297,8 @@ public interface InternalAuditServiceAsync {
 
 	void savetoDo(ToDo todo, AsyncCallback<String> callback);
 
-	void saveinformationRequest(InformationRequestEntity informationrequest, AsyncCallback<String> callback);
+	void saveinformationRequest(InformationRequestEntity informationrequest, String filepath,
+			AsyncCallback<String> callback);
 
 	void fetchEmailAttachments(AsyncCallback<ArrayList<String>> callback);
 

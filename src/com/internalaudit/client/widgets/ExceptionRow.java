@@ -49,7 +49,8 @@ public class ExceptionRow extends Composite {
 		exception = new TextBox();
 		// fileUploadException = new FileUpload();
 		removeRow = new Image("images/deleteIcon.png");
-		exception.addStyleName("txtExtendedWidth");
+		// exception.addStyleName("txtExtendedWidth");
+		exception.setWidth("1170px");
 
 		hpnl.add(exId);
 		hpnl.add(exception);

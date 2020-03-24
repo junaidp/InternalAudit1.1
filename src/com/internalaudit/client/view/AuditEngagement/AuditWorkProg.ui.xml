@@ -5,8 +5,13 @@
 		.heading{
 	font-size: 18px;
 }
-.txtExtendedWidths {
+.txtExtendedControlWidth {
 	width : 300px;
+	padding: 5px;
+	margin: 5px;	
+}
+.txtExtendedAuditProgramWidth {
+	width : 800px;
 	padding: 5px;
 	margin: 5px;
 	
@@ -47,14 +52,14 @@
 	<!-- 
 	<g:Button ui:field="addMore" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Add Audit Work</g:Button>
 	 -->
-	<g:HorizontalPanel ui:field="heading" styleName="risksRow" width="611px" verticalAlignment="middle">
+	<g:HorizontalPanel ui:field="heading" styleName="risksRow" verticalAlignment="middle">
 	
 <!-- 		<A:LabelHeading wordWrap="false"   addStyleNames="{style.risksRow}" >Serial No.</A:LabelHeading>
 		<A:LabelHeading addStyleNames="{style.txtExtendedWidths}">Audit Program</A:LabelHeading>
 		<A:LabelHeading addStyleNames="{style.txtShrikedWidths}">Reviewer</A:LabelHeading>
 		<A:LabelHeading addStyleNames="{style.txtShrikedWidths}">Reference(Existing Controls)</A:LabelHeading> -->
-		<A:LabelHeading addStyleNames="{style.txtExtendedWidths}">Controls</A:LabelHeading>
-		<A:LabelHeading addStyleNames="{style.txtExtendedWidths}">Audit Program</A:LabelHeading>
+		<A:LabelHeading addStyleNames="{style.txtExtendedControlWidth}">Controls</A:LabelHeading>
+		<A:LabelHeading addStyleNames="{style.txtExtendedAuditProgramWidth}">Audit Program</A:LabelHeading>
 		
 		<!--  <A:LabelHeading styleName="txtShrikedWidth">Planned Status</A:LabelHeading> -->
 	

@@ -167,7 +167,7 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 		PanelUpButton.addStyleName("w3-right");
 		btnEmial.addStyleName("gwt-Button buttonDesign w3-hover-blue");
 		btnCancel.addStyleName("gwt-Button buttonDesign w3-hover-blue");
-		PanelUpButton.add(btnEmial);
+		// PanelUpButton.add(btnEmial);
 		PanelUpButton.add(btnPrint);
 		// lblDateData.addStyleName("w3-panel");
 		// lblIrData.addStyleName("w3-panel");

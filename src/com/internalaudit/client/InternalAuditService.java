@@ -147,7 +147,7 @@ public interface InternalAuditService extends RemoteService {
 
 	ArrayList<Exceptions> fetchEmployeeExceptions(int employeeId, int jobId) throws Exception;
 
-	String sendException(Exceptions exception) throws Exception;
+	String sendException(Exceptions exception, Boolean sendMail) throws Exception;
 
 	void saveAuditStepAndExceptions(AuditStep step, ArrayList<Exceptions> exs) throws Exception;
 
@@ -294,7 +294,7 @@ public interface InternalAuditService extends RemoteService {
 
 	String saveInformationRequestLogs(InformationRequestLogEntity informationRequestLogEntity) throws Exception;
 
-	String saveinformationRequest(InformationRequestEntity informationrequest);
+	String saveinformationRequest(InformationRequestEntity informationrequest, String filepath);
 
 	ArrayList<String> fetchEmailAttachments();
 

@@ -107,7 +107,7 @@ public class InformationRequestReceiveView extends VerticalPanel {
 					@Override
 					public void onSuccess(String result) {
 						new DisplayAlert(result);
-						rpcService.saveinformationRequest(infoReq, new AsyncCallback<String>() {
+						rpcService.saveinformationRequest(infoReq, "", new AsyncCallback<String>() {
 
 							@Override
 							public void onFailure(Throwable caught) {
@@ -142,7 +142,7 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		lblSpace.getElement().getStyle().setPaddingLeft(250, Unit.PX);
 
 		PanelUpButton.addStyleName(" w3-right");
-		PanelUpButton.add(btnEmial);
+		// PanelUpButton.add(btnEmial);
 		PanelUpButton.add(btnPrint);
 		lblDateData.addStyleName("w3-panel");
 		lblIrData.addStyleName("w3-panel");

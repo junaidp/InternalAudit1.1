@@ -519,7 +519,7 @@ DASHBOARD UIII    -->ol, ul {
 x: 836px;
 y: 458px;
 width: 80px;
-height: 20px;
+height: 25px;
 color: #FFFFFF;
 font-family: 'Source Sans Pro';
 font-size: 12px;
@@ -527,9 +527,10 @@ font-weight: normal;
 font-style: normal;
 text-decoration: none;
 text-align: center;
-background: #13B01A;
+background: #13B01A !important;
 border: none;
 border-radius: 5px;
+cursor: pointer;
 
 }
 .sidebarNew{
@@ -549,7 +550,7 @@ border-radius: 0px;
 .com-sencha-gxt-theme-neptune-client-base-panel-Css3ContentPanelAppearance-Css3ContentPanelStyle-header {
 	x: 131px;
 y: 179px;
-width: 1200px;
+width: 1300px;
 height: 33px;
 color: #FFFFFF;
 font-family: 'Source Sans Pro';
@@ -726,4 +727,7 @@ select::-ms-expand {
 .com-sencha-gxt-theme-neptune-client-base-grid-Css3ColumnHeaderAppearance-Styles-headInner
 {
 	height:25px !important;
+}
+.gwt-Tree .gwt-TreeItem {
+    white-space: normal !important;
 }

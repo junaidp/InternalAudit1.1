@@ -37,13 +37,6 @@
 .gwt-DialogBox {
   width: 400px;
 }
-.gwt-TextBox {
-	background-color : #CAE1FF;
-	width: 130px;
-	padding: 4px;
-	border-radius: 4px;
-}
-
 .gwt-PasswordTextBox {
 	background-color : #CAE1FF;
 	width: 130px;
@@ -129,11 +122,10 @@
 }
 .heading{
 	font-size: 18px;
-	text-align: left;
+	text-align: center;
 	padding : 3px;
-		background-color : #B0CFDF !important;
-	color : white !important;
-	
+	background: #104b67;
+	color : white !important;	
 }
 
 .heading_2 {
@@ -836,7 +828,8 @@ button {
   width: 400px;
 }
 .gwt-TextBox {
-	background-color : #CAE1FF;
+	/*background-color : #CAE1FF;*/
+	border: 1px dotted;
 	width: 130px;
 	padding: 4px;
 	border-radius: 4px;
@@ -927,11 +920,11 @@ button {
 }
 .heading{
 	font-size: 18px;
-	text-align: left;
+	text-align: center;
 	padding : 3px;
-		background-color : #87ceeb !important;
-	color : #69e !important;
-	
+	background: #104b67;
+	width: 1200px;
+	color : white !important;	
 }
 
 .heading_2 {
@@ -1294,7 +1287,7 @@ button
 x: 836px;
 y: 458px;
 width: 80px;
-height: 20px;
+height: 25px;
 color: #FFFFFF;
 font-family: 'Source Sans Pro';
 font-size: 12px;
@@ -1302,7 +1295,7 @@ font-weight: normal;
 font-style: normal;
 text-decoration: none;
 text-align: center;
-background: #13B01A;
+background: #13B01A !important;
 border: none;
 border-radius: 5px;
 

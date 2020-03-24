@@ -214,6 +214,7 @@ public class ReportingPresenter implements Presenter
 
 									@Override
 									public void onClick(ClickEvent event) {
+										Boolean sendMail = true;
 										if (result.get(jobData.getSelectedId()).getImplementaionComments() != null
 												&& !result.get(jobData.getSelectedId()).getImplementaionComments()
 														.equals("")
@@ -231,7 +232,7 @@ public class ReportingPresenter implements Presenter
 										// responsiblePersonRowView.getBtnReject().setEnabled(false);
 										exceptionApproved(responsiblePersonRowView, "Approved");
 										new DisplayAlert("Exception Approved");
-										sendException(result.get(jobData.getSelectedId()));
+										sendException(result.get(jobData.getSelectedId()), sendMail);
 
 									}
 
@@ -241,6 +242,7 @@ public class ReportingPresenter implements Presenter
 
 									@Override
 									public void onClick(ClickEvent event) {
+										Boolean sendMail = false;
 										if (result.get(jobData.getSelectedId()).getImplementaionComments() != null
 												&& !result.get(jobData.getSelectedId()).getImplementaionComments()
 														.equals("")) {
@@ -256,7 +258,7 @@ public class ReportingPresenter implements Presenter
 										// responsiblePersonRowView.getBtnReject().setEnabled(false);
 										exceptionApproved(responsiblePersonRowView, "Rejected");
 
-										sendException(result.get(jobData.getSelectedId()));
+										sendException(result.get(jobData.getSelectedId()), sendMail);
 										new DisplayAlert("Exception Rejected");
 
 									}
@@ -588,8 +590,8 @@ public class ReportingPresenter implements Presenter
 		} else {
 			result.get(jobData.getSelectedId()).setStatus("Sent");
 		}
-
-		sendException(result.get(jobData.getSelectedId()));
+		Boolean sendMail = false;
+		sendException(result.get(jobData.getSelectedId()), sendMail);
 		responsiblePersonRowView.disableFields();
 		// responsiblePersonRowView.getBtnSend().setText("Sent.");
 		// responsiblePersonRowView.getStatus().setText("");
@@ -606,6 +608,7 @@ public class ReportingPresenter implements Presenter
 
 			@Override
 			public void onValueChange(ValueChangeEvent<Date> event) {
+				Boolean sendMail = false;
 				boolean confirmed = Window
 						.confirm("New Implementation date will be Sent to Audit Department for Approval");
 				if (confirmed) {
@@ -620,7 +623,7 @@ public class ReportingPresenter implements Presenter
 					responsiblePersonRowView.getImplementaionComments().setEnabled(false);
 					responsiblePersonRowView.getManagementComments().setEnabled(false);
 					responsiblePersonRowView.getBtnSend().setVisible(false);
-					rpcService.sendException(exception, new AsyncCallback<String>() {
+					rpcService.sendException(exception, sendMail, new AsyncCallback<String>() {
 
 						@Override
 						public void onFailure(Throwable caught) {
@@ -754,35 +757,28 @@ public class ReportingPresenter implements Presenter
 				display.getVpnlJobs().add(allJobsView);
 				final JobData jobData = new JobData();
 				jobData.setSelectedId(result.get(i).getJobCreationId());
-				SelectedJobView selectedJobView = new SelectedJobView();
-				selectedJobView.getLblJob().setText(jobReportView.getJobAnchor().getText());
-				display.getVpnlSelectedJob().add(selectedJobView);
-				fetchAuditHeadExceptions(jobData.getSelectedId());
 
-				// jobReportView.getJobAnchor().addClickHandler(new
-				// ClickHandler() {
-				//
-				// @Override
-				// public void onClick(ClickEvent event) {
-				// display.getVpnlSelectedJob().clear();
-				// SelectedJobView selectedJobView = new SelectedJobView();
-				// selectedJobView.getLblJob().setText(jobReportView.getJobAnchor().getText());
-				// display.getVpnlSelectedJob().add(selectedJobView);
-				// fetchExceptionsforSelectedJob(jobData.getSelectedId(),
-				// selectedJobView);
-				//
-				// ///////// Displaying Audit head View..///////
-				// if
-				// (loggedInEmployee.getFromInternalAuditDept().equals("yes")) {
-				// fetchAuditHeadExceptions(jobData.getSelectedId());
-				//
-				// } else {
-				// fetchUserExceptions(jobData.getSelectedId());
-				//
-				// }
-				// }
-				//
-				// });
+				jobReportView.getJobAnchor().addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						display.getVpnlSelectedJob().clear();
+						SelectedJobView selectedJobView = new SelectedJobView();
+						selectedJobView.getLblJob().setText(jobReportView.getJobAnchor().getText());
+						display.getVpnlSelectedJob().add(selectedJobView);
+						fetchExceptionsforSelectedJob(jobData.getSelectedId(), selectedJobView);
+
+						///////// Displaying Audit head View..///////
+						if (loggedInEmployee.getFromInternalAuditDept().equals("yes")) {
+							fetchAuditHeadExceptions(jobData.getSelectedId());
+
+						} else {
+							fetchUserExceptions(jobData.getSelectedId());
+
+						}
+					}
+
+				});
 			}
 		}
 	}
@@ -911,8 +907,8 @@ public class ReportingPresenter implements Presenter
 										jobExceptionsView, exceptionData);
 								exceptions.get(exceptionData.getSelectedId()).setInitialStatus("");
 								// 2019 aug
-
-								sendException(exceptions.get(exceptionData.getSelectedId()));
+								Boolean sendMail = false;
+								sendException(exceptions.get(exceptionData.getSelectedId()), sendMail);
 								// jobExceptionsView.getBtnSave().setText("Exception
 								// Sent.");
 								jobExceptionsView.getHpnlButtons().setVisible(false);
@@ -928,13 +924,14 @@ public class ReportingPresenter implements Presenter
 
 						@Override
 						public void onClick(ClickEvent event) {
+							Boolean sendMail = true;
 							// setResponsibleForandDvisionHead(exceptions,
 							// jobExceptionsView, exceptionData);
 							exceptions.get(exceptionData.getSelectedId()).setInitialStatus("Approved");
 							exceptions.get(exceptionData.getSelectedId())
 									.setComments(jobExceptionsView.getTxtComments().getText());
 
-							sendException(exceptions.get(exceptionData.getSelectedId()));
+							sendException(exceptions.get(exceptionData.getSelectedId()), sendMail);
 							// jobExceptionsView.getBtnSave().setText("Exception
 							// Sent.");
 							// jobExceptionsView.getBtnSave().setEnabled(false);
@@ -951,12 +948,13 @@ public class ReportingPresenter implements Presenter
 
 						@Override
 						public void onClick(ClickEvent event) {
+							Boolean sendMail = false;
 							// setResponsibleForandDvisionHead(exceptions,
 							// jobExceptionsView, exceptionData);
 							exceptions.get(exceptionData.getSelectedId()).setInitialStatus("Rejected");
 							exceptions.get(exceptionData.getSelectedId())
 									.setComments(jobExceptionsView.getTxtComments().getText());
-							sendException(exceptions.get(exceptionData.getSelectedId()));
+							sendException(exceptions.get(exceptionData.getSelectedId()), sendMail);
 							// jobExceptionsView.getBtnSave().setText("Exception
 							// Sent.");
 							// jobExceptionsView.getBtnSave().setEnabled(false);
@@ -1022,8 +1020,8 @@ public class ReportingPresenter implements Presenter
 				.setImplicationRating(jobExceptionsView.getListBoxImplicationRating().getSelectedValue().toString());
 	}
 
-	private void sendException(Exceptions exception) {
-		rpcService.sendException(exception, new AsyncCallback<String>() {
+	private void sendException(Exceptions exception, Boolean sendMail) {
+		rpcService.sendException(exception, sendMail, new AsyncCallback<String>() {
 
 			@Override
 			public void onFailure(Throwable caught) {

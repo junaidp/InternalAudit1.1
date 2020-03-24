@@ -30,7 +30,9 @@ public class AuditStepContainer extends Composite {
 		initWidget(vpnlMain);
 		this.loggedInEmployee = loggedInEmployee;
 		fetchAuditWorksForSelectedJob(rpcService, selectedJobId);
-		Label lblHeading = new Label("Audit Steps");
+		// Label lblHeading = new Label("Audit Steps");
+		Label lblHeading = new Label("");
+		lblHeading.setHeight("35px");
 		vpnlMain.add(lblHeading);
 		lblHeading.addStyleName("heading");
 
@@ -75,6 +77,7 @@ public class AuditStepContainer extends Composite {
 				for (int i = 0; i < result.size(); i++) {
 					createAuditStepPanels(result.get(i), selectedJobId, con, appearance, panel);
 				}
+				panel.setHeaderVisible(false);
 				vpnlMain.add(panel);
 			}
 

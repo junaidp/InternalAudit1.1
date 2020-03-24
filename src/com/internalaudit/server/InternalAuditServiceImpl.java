@@ -722,12 +722,12 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	}
 
 	@Override
-	public String sendException(Exceptions exception) throws Exception {
+	public String sendException(Exceptions exception, Boolean sendMail) throws Exception {
 		if (isLoggedIn()) {
 			session = getThreadLocalRequest().getSession(true);
 			int year = (Integer) session.getAttribute("year");
 			int companyId = (Integer) session.getAttribute("companyId");
-			return rdbHelper.sendException(exception, year, companyId);
+			return rdbHelper.sendException(exception, year, companyId, sendMail);
 		} else {
 
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);
@@ -1553,7 +1553,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	}
 
 	@Override
-	public String saveinformationRequest(InformationRequestEntity informationrequest) {
+	public String saveinformationRequest(InformationRequestEntity informationrequest, String filePath) {
 
 		String realPath = getServletContext().getRealPath("/");
 		Employee loggedInUser = (Employee) session.getAttribute("user");
@@ -1563,7 +1563,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		}
 		// informationrequest.setAssignedFrom(loggedInUser.getEmployeeId());
 		informationrequest.setCompanyId(companyId);
-		return rdbHelper.saveInformationRequest(informationrequest, realPath);
+		return rdbHelper.saveInformationRequest(informationrequest, realPath, filePath);
 	}
 
 	@Override

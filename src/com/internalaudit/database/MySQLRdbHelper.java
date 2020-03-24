@@ -4582,7 +4582,7 @@ public class MySQLRdbHelper {
 
 	}
 
-	public String sendException(Exceptions exception, int year, int companyId) {
+	public String sendException(Exceptions exception, int year, int companyId, Boolean sendMail) {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
@@ -4599,6 +4599,27 @@ public class MySQLRdbHelper {
 			session.update(exception);
 			session.flush();
 
+			Employee employeeAssignedDetail = fetchEmployeeById(exception.getResponsiblePerson().getEmployeeId());
+			/*
+			 * String message = "Dear " +
+			 * exception.getResponsiblePerson().getEmployeeName() +
+			 * " <br></br> <br></br>" +
+			 * " Your have received an Exception update from Abilite: <br></br> <br></br>"
+			 * + "  please click on the link below.<br></br> <br></br>" +
+			 * " <a href= http://127.0.0.1:8888/InternalAudit.html#Reporting/employeeId="
+			 * + exception.getJobCreationId() + "/year=" + year + "/companyId="
+			 * + companyId + "/employeeId=" + responsiblePerson.getEmployeeId()
+			 * + "View Exception</a>";
+			 */
+			if (sendMail == true) {
+
+				String message = "Dear " + employeeAssignedDetail.getEmployeeName() + " <br></br> <br></br>"
+						+ " Your have received an Exception update from Abilite: <br></br> <br></br>"
+						+ exception.getDetail();
+				// sendEmail(message, "hamzariaz1994@gmail.com", "", "Abilite:
+				// Exception Received");
+				sendEmail(message, employeeAssignedDetail.getEmail(), "", "Abilite: Exception Received");
+			}
 			logger.info(String.format("(Inside sendException)  sending Exception for year: " + year + "for company"
 					+ companyId + " " + new Date()));
 
@@ -9579,11 +9600,28 @@ public class MySQLRdbHelper {
 			File mainFolder = new File(realPath + "/" + InternalAuditConstants.PATHTODOUPLOADS);
 			File deleteFolder = new File(mainFolder + "/" + InternalAuditConstants.PATHTOUNSAVEDATTACHMENTS);
 			updateFolder(todo.getToDoId(), mainFolder, deleteFolder);
-			// logger.info(String.format("(Inside saveAuditNotification) saving
-			// AuditNotification for message to: " + to
-			// + "for message" + message + "for year" + year + "for company" +
-			// companyId + "" + new Date()));
+			Employee employeeAssignedDetail = fetchEmployeeById(todo.getAssignedTo().getEmployeeId());
 
+			// if (informationrequest.getSendNotication() == true) {
+
+			/*
+			 * String toDoMessage = "Dear " +
+			 * employeeAssignedDetail.getEmployeeName() + " " +
+			 * " <br></br> <br></br>" + " You have received ToDo request from "
+			 * + todo.getAssignedFrom().getEmployeeName() +
+			 * " <br></br> <br></br>" + todo.getDescription() +
+			 * "<br></br> <br></br>";
+			 */
+			String toDoMessage = "Dear " + employeeAssignedDetail.getEmployeeName() + " <br></br> <br></br>"
+					+ " You have received ToDo request from ::" + todo.getAssignedFrom().getEmployeeName()
+					+ " <br></br> <br></br>" + todo.getDescription();
+
+			sendAttachmentEmail(toDoMessage, employeeAssignedDetail.getEmail(), "", "ToDO Request", null,
+					todo.getAssignedFrom().getEmail());
+
+			// sendAttachmentEmail(toDoMessage,
+			// employeeAssignedDetail.getEmail(), "", "ToDO Request", realPath,
+			// todo.getAssignedFrom().getEmail());
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in savetoDo", ex.getMessage()), ex);
 
@@ -9592,7 +9630,8 @@ public class MySQLRdbHelper {
 		return "saved";
 	}
 
-	public String saveInformationRequest(InformationRequestEntity informationrequest, String realPath) {
+	public String saveInformationRequest(InformationRequestEntity informationrequest, String realPath,
+			String filePath) {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
@@ -9607,6 +9646,33 @@ public class MySQLRdbHelper {
 			// AuditNotification for message to: " + to
 			// + "for message" + message + "for year" + year + "for company" +
 			// companyId + "" + new Date()));
+			Employee employeeAssignedDetail = fetchEmployeeById(
+					informationrequest.getContactResponsible().getEmployeeId());
+
+			if (informationrequest.getSendNotication() == true) {
+
+				/*
+				 * String informationRequestMessage = "Dear " +
+				 * employeeAssignedDetail.getEmployeeName() + " " +
+				 * " <br></br> <br></br>" +
+				 * " You have received information request from " +
+				 * informationrequest.getAssignedFrom().getEmployeeName() +
+				 * " <br></br> <br></br>" + informationrequest.getRequestItem()
+				 * + "<br></br> <br></br>";
+				 */
+
+				String informationRequestMessage = "Dear " + employeeAssignedDetail.getEmployeeName()
+						+ " <br></br> <br></br>" + " You have received Information request from ::"
+						+ informationrequest.getAssignedFrom().getEmployeeName() + " <br></br> <br></br>"
+						+ informationrequest.getRequestItem();
+
+				sendAttachmentEmail(informationRequestMessage, employeeAssignedDetail.getEmail(), "",
+						"Information Request Request", null, informationrequest.getAssignedFrom().getEmail());
+
+			}
+			// sendEmail(informationRequestMessage,
+			// informationrequest.getContactResponsible().getEmail(), "",
+			// "Information Request Received");
 
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in saveInformationRequest", ex.getMessage()), ex);

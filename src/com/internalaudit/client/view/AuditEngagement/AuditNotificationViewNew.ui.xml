@@ -104,7 +104,7 @@
 			</g:HorizontalPanel>
 			
 			<g:HorizontalPanel>
-			<g:TextArea width="1000px" height="250px"  addStyleNames ="marginLeft textareaAudEng" ui:field="txtAreaBody" text="bla bla blab blablaba"> </g:TextArea>
+			<g:TextArea width="1170px" height="330px"  addStyleNames ="marginLeft textareaAudEng" ui:field="txtAreaBody" text="bla bla blab blablaba"> </g:TextArea>
 			</g:HorizontalPanel>
 				<g:VerticalPanel height="50px" ui:field="panelUpload"></g:VerticalPanel>
 	</g:VerticalPanel>

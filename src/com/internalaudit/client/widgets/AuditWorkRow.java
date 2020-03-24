@@ -38,7 +38,7 @@ public class AuditWorkRow extends Composite {
 	public AuditWorkRow() {
 		rowContainer = new HorizontalPanel();
 		description = new TextArea();
-		description.setWidth("300px");
+		description.setWidth("800px");
 		description.setHeight("90px");
 		description.setText("");
 		description.getElement().getStyle().setMarginLeft(2, Unit.PX);
@@ -51,6 +51,7 @@ public class AuditWorkRow extends Composite {
 		// txtBoxExistingControls.setWidth("300px");
 		// txtBoxExistingControls.setHeight("90px");
 		txtBoxExistingControls = new Label();
+		txtBoxExistingControls.getElement().getStyle().setMarginTop(13, Unit.PX);
 		txtBoxExistingControls.setWidth("290px");
 		// txtBoxExistingControls.setHeight("90px");
 

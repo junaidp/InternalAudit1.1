@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
@@ -17,13 +18,13 @@ import com.internalaudit.client.upload.AuditWorkProgramUpload;
 
 public class SamplingAuditStep extends VerticalPanel {
 	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
-	LabelHeading lblControl = new LabelHeading();
-	LabelHeading lblControlList = new LabelHeading();
-	LabelHeading lblFrequency = new LabelHeading();
-	LabelHeading lblSampleSize = new LabelHeading();
-	LabelHeading lblSamplingMethod = new LabelHeading();
-	LabelHeading lblPopulationSize = new LabelHeading();
-	LabelHeading lblAuditProcedure = new LabelHeading();
+	Label lblControl = new Label();
+	Label lblControlRisk = new Label();
+	Label lblFrequency = new Label();
+	Label lblSampleSize = new Label();
+	Label lblSamplingMethod = new Label();
+	Label lblPopulationSize = new Label();
+	Label lblAuditProcedure = new Label();
 
 	TextArea txtAreaControl = new TextArea();
 	ListBox listBoxControlList = new ListBox();
@@ -45,12 +46,23 @@ public class SamplingAuditStep extends VerticalPanel {
 		panelFileDetailScroll.setWidth("100px");
 		panelFileDetail.add(panelFileDetailScroll);
 		lblControl.setText("Control");
-		lblControlList.setText("Control List");
+		lblControl.addStyleName("labelDesign");
+		lblControlRisk.setText("Control Risk");
+		lblControlRisk.getElement().getStyle().setMarginTop(7, Unit.PX);
+		lblControlRisk.addStyleName("labelDesign");
 		lblFrequency.setText("Frequency");
+		lblFrequency.getElement().getStyle().setMarginTop(7, Unit.PX);
+		lblFrequency.addStyleName("labelDesign");
 		lblSampleSize.setText("Sample Size");
+		lblSampleSize.addStyleName("labelDesign");
+		lblSampleSize.getElement().getStyle().setMarginTop(7, Unit.PX);
 		lblSamplingMethod.setText("Sampling Method");
+		lblSamplingMethod.addStyleName("labelDesign");
+		lblSamplingMethod.getElement().getStyle().setMarginTop(7, Unit.PX);
 		lblPopulationSize.setText("Population Size");
+		lblPopulationSize.addStyleName("labelDesign");
 		lblAuditProcedure.setText("Audit Procedure Performed");
+		lblAuditProcedure.addStyleName("labelDesign");
 		String mainFolder = "SamplingAuditUploads";
 		// Styling of all the labels
 		fileUpload = new AuditWorkProgramUpload(auditStep, mainFolder);
@@ -113,30 +125,41 @@ public class SamplingAuditStep extends VerticalPanel {
 
 		FlexTable flex = new FlexTable();
 
-		flex.setWidget(0, 0, lblControl);
-		flex.setWidget(0, 1, txtAreaControl);
+		// flex.setWidget(0, 0, lblControl);
+		// flex.setWidget(0, 1, txtAreaControl);
 
-		flex.setWidget(1, 0, lblControlList);
-		flex.setWidget(1, 1, listBoxControlList);
+		flex.setWidget(0, 0, lblControlRisk);
+		flex.setWidget(0, 1, listBoxControlList);
 
-		flex.setWidget(2, 0, lblFrequency);
-		flex.setWidget(2, 1, listBoxFrequency);
+		flex.setWidget(0, 2, lblSamplingMethod);
+		flex.setWidget(0, 3, listBoxSamplingMethod);
 
-		flex.setWidget(3, 2, lblSampleSize);
-		flex.setWidget(3, 3, lblSampleSizeData);
+		flex.setWidget(0, 4, lblFrequency);
+		flex.setWidget(0, 5, listBoxFrequency);
 
-		flex.setWidget(1, 2, lblSamplingMethod);
-		flex.setWidget(1, 3, listBoxSamplingMethod);
+		flex.setWidget(1, 0, lblPopulationSize);
+		flex.setWidget(1, 1, lblPopulationData);
 
-		flex.setWidget(2, 2, lblPopulationSize);
-		flex.setWidget(2, 3, lblPopulationData);
+		flex.setWidget(1, 2, lblSampleSize);
+		flex.setWidget(1, 3, lblSampleSizeData);
 
-		flex.setWidget(4, 0, lblAuditProcedure);
-		flex.setWidget(4, 1, txtAreaAuditProcedure);
-		flex.setWidget(4, 2, fileUpload);
+		// flex.setWidget(2, 0, lblAuditProcedure);
+		// flex.setWidget(2, 1, txtAreaAuditProcedure);
+		// flex.setWidget(2, 2, fileUpload);
+
+		VerticalPanel vpnlAuditProcedure = new VerticalPanel();
+		HorizontalPanel hpnlAuditProcedure = new HorizontalPanel();
+		vpnlAuditProcedure.add(hpnlAuditProcedure);
+		hpnlAuditProcedure.add(lblAuditProcedure);
+		lblAuditProcedure.getElement().getStyle().setMarginTop(30, Unit.PX);
+		hpnlAuditProcedure.add(txtAreaAuditProcedure);
+		txtAreaAuditProcedure.setWidth("950px");
+		vpnlAuditProcedure.add(fileUpload);
+		fileUpload.addStyleName("w3-right");
 		// flex.setWidget(4,3,panelFileDetail);
 
 		add(flex);
+		add(vpnlAuditProcedure);
 
 		// rpcService.fetchAuditStepsProcerdure(new
 		// AsyncCallback<ArrayList<String>>() {

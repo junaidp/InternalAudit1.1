@@ -49,7 +49,7 @@ public class AuditSchedulingTabView extends Composite implements Display {
 
 		ContentPanel panel = new ContentPanel();
 		panel.setWidth("1200px");
-		panel.setHeadingText("Scheduling");
+		// panel.setHeadingText("Scheduling");
 		panel.setBodyBorder(false);
 		AccordionLayoutContainer con = new AccordionLayoutContainer();
 		panel.add(con);

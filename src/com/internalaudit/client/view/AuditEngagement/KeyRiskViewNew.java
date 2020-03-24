@@ -51,11 +51,11 @@ public class KeyRiskViewNew extends VerticalPanel {
 
 		lblapplicability.setText("Applicability");
 		lblReferenceNo.setText("Reference Number");
-		lblactivityObjective.setWidth("220px");
+		lblactivityObjective.setWidth("480px");
 		lblActivityObjectiveData.setHeight("90px");
-		lblActivityObjectiveData.setWidth("220px");
+		lblActivityObjectiveData.setWidth("480px");
 
-		txtRisk.setWidth("250px");
+		txtRisk.setWidth("480px");
 		txtRisk.setHeight("90px");
 		txtRisk.setText("");
 
@@ -92,13 +92,13 @@ public class KeyRiskViewNew extends VerticalPanel {
 		flex.setWidget(0, 0, lblactivityObjective);
 		containerActivityObjective.add(listObjectives);
 		containerActivityObjective.add(lblActivityObjectiveData);
-		containerActivityObjective.setWidth("240px");
+		containerActivityObjective.setWidth("430px");
 		flex.setWidget(1, 0, containerActivityObjective);
 
 		flex.setWidget(0, 2, lblrisks);
 		VerticalPanel vpLblrisk = new VerticalPanel();
 		vpLblrisk.add(txtRisk);
-		vpLblrisk.setWidth("240px");
+		vpLblrisk.setWidth("480px");
 		flex.setWidget(1, 2, vpLblrisk);
 		// flex.setWidget(2,2,btnAddKeyRisk);
 

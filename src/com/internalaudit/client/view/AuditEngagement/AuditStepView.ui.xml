@@ -67,7 +67,7 @@
 	
 	<g:TextArea ui:field="performance" visible="false"></g:TextArea>
 	
-	<A:LabelHeading width="100px">Observations</A:LabelHeading>
+	<g:Label width="100px" styleName="labelDesign">Observations</g:Label>
 		<g:HorizontalPanel ui:field="panelAddException"></g:HorizontalPanel>
 		<!--  
 		<g:Button ui:field="addException" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Add Exception1</g:Button>
@@ -82,9 +82,9 @@
 	
 	<g:HorizontalPanel spacing="5">
 		
-		<A:LabelHeading  >Conclusion</A:LabelHeading>
+		<g:Label styleName="labelDesign" width="100px">Conclusion</g:Label>
 		
-		<g:ListBox ui:field="conclusion" addStyleNames="w3-panel">
+		<g:ListBox ui:field="conclusion">
 			<g:item>Satisfactory</g:item>
 			<g:item>Non-Satisfactory</g:item>
 		</g:ListBox>

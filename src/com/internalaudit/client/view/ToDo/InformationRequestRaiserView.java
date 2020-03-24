@@ -3,12 +3,14 @@ package com.internalaudit.client.view.ToDo;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
@@ -52,6 +54,9 @@ public class InformationRequestRaiserView extends Composite {
 	Button btnCancel;
 	@UiField
 	VerticalPanel panelInformationUploadAttachments;
+
+	String filepath;
+	Anchor lblfilename;
 	private InternalAuditServiceAsync rpcService;
 
 	private static InformationRequestViewUiBinder uiBinder = GWT.create(InformationRequestViewUiBinder.class);
@@ -63,13 +68,13 @@ public class InformationRequestRaiserView extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		rpcService = GWT.create(InternalAuditService.class);
 		fetchEmployees();
-		clickHandlers();
 		fetchJobs();
 		txtBoxRequestItem.getElement().setPropertyString("placeholder", "Enter text here");
 		String mainFolder = InternalAuditConstants.PATHINFORMATIONREQUESTUPLOADS;
 		String informationRequestId = InternalAuditConstants.PATHTOUNSAVEDATTACHMENTS;
 		AuditWorkProgramUpload informationUploadAttachments = new AuditWorkProgramUpload(informationRequestId,
 				mainFolder);
+		clickHandlers(informationRequestId, mainFolder);
 		panelInformationUploadAttachments.add(informationUploadAttachments);
 		// String dateString =
 		// DateTimeFormat.getFormat("MM/dd/yyyy").format(date);
@@ -100,12 +105,13 @@ public class InformationRequestRaiserView extends Composite {
 				});
 	}
 
-	private void clickHandlers() {
+	private void clickHandlers(final String informationRequestId, final String mainFolder) {
 		btnSave.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				saveInformationRequest();
+				refreshFile(informationRequestId, mainFolder);
+				saveInformationRequest(filepath);
 			}
 
 		});
@@ -121,7 +127,7 @@ public class InformationRequestRaiserView extends Composite {
 		});
 	}
 
-	private void saveInformationRequest() {
+	private void saveInformationRequest(String filepath) {
 		InformationRequestEntity informationrequest = new InformationRequestEntity();
 		informationrequest.setRequestItem(txtBoxRequestItem.getText());
 		Employee responsibleContact = new Employee();
@@ -137,7 +143,7 @@ public class InformationRequestRaiserView extends Composite {
 		informationrequest.setDueDate(dueDate.getValue());
 		informationrequest.setStatus(listBoxStatus.getSelectedIndex());
 		informationrequest.setRead(false);
-		rpcService.saveinformationRequest(informationrequest, new AsyncCallback<String>() {
+		rpcService.saveinformationRequest(informationrequest, filepath, new AsyncCallback<String>() {
 
 			@Override
 			public void onSuccess(String result) {
@@ -152,6 +158,38 @@ public class InformationRequestRaiserView extends Composite {
 
 			}
 		});
+	}
+
+	private void refreshFile(final String informationRequestId, final String mainFolder) {
+		rpcService.fetchAuditStepsProcerdure(informationRequestId, mainFolder, new AsyncCallback<ArrayList<String>>() {
+
+			@Override
+			public void onSuccess(ArrayList<String> result) {
+
+				for (int i = 0; i < result.size(); i++) {
+					lblfilename = new Anchor(result.get(i));
+
+					lblfilename.addStyleName("pointerStyle");
+					lblfilename.getElement().getStyle().setTextDecoration(TextDecoration.NONE);
+					lblfilename.setHeight("25px");
+
+					lblfilename.setWordWrap(false);
+					String upperCasedJobLink = lblfilename.getText();
+					lblfilename.setText(upperCasedJobLink);
+
+				}
+				filepath = mainFolder + "/" + informationRequestId + "/" + lblfilename.getText();
+
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+
+				System.out.println("fetchAuditProcedure Failed");
+			}
+
+		});
+
 	}
 
 	private void fetchEmployees() {

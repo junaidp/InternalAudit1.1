@@ -50,8 +50,8 @@ public class ActivityObjectiveViewNew extends Composite {
 		Button buttonAdd = new Button();
 		buttonAdd.addStyleName("w3-button w3-circle w3-teal");
 
-		txtAreaActivityObj.setWidth("650px");
-		txtAreaActivityObj.setHeight("80px");
+		txtAreaActivityObj.setWidth("1170px");
+		txtAreaActivityObj.setHeight("145px");
 
 		lblActivityObjective.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		lblapplicability.getElement().getStyle().setMarginLeft(20, Unit.PX);

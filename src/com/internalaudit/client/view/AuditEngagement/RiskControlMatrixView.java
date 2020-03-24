@@ -49,7 +49,7 @@ public class RiskControlMatrixView extends VerticalPanel {
 
 		// all the data views are defined here data from db
 		lblriskdata.setHeight("110px");
-		lblriskdata.setWidth("200px");
+		lblriskdata.setWidth("330px");
 
 		txtAreaControl.setWidth("400px");
 		txtAreaControl.setHeight("90px");
@@ -98,7 +98,7 @@ public class RiskControlMatrixView extends VerticalPanel {
 
 		flex.setWidget(0, 0, lblrisk);
 		VerticalPanel vpLblRisk = new VerticalPanel();
-		vpLblRisk.setWidth("220px");
+		vpLblRisk.setWidth("350px");
 		vpLblRisk.add(listBoxRisk);
 		vpLblRisk.add(lblriskdata);
 		flex.setWidget(1, 0, vpLblRisk);
@@ -112,7 +112,7 @@ public class RiskControlMatrixView extends VerticalPanel {
 
 		flex.setWidget(0, 1, lblriskRatings);
 		HorizontalPanel vpLblRiskRating = new HorizontalPanel();
-		vpLblRiskRating.setWidth("230px");
+		vpLblRiskRating.setWidth("180px");
 		vpLblRiskRating.add(listBoxInherintRating);
 		vpLblRiskRating.add(imgRating);
 		flex.setWidget(1, 1, vpLblRiskRating);

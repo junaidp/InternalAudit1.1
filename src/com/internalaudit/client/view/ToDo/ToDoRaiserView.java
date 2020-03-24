@@ -83,7 +83,7 @@ public class ToDoRaiserView extends VerticalPanel {
 		lblSpace.getElement().getStyle().setPaddingLeft(250, Unit.PX);
 
 		PanelUpButton.addStyleName("w3-right");
-		PanelUpButton.add(btnEmial);
+		// PanelUpButton.add(btnEmial);
 		PanelUpButton.add(btnPrint);
 		lblDateData.addStyleName("w3-panel");
 		lblIrData.addStyleName("w3-panel");
