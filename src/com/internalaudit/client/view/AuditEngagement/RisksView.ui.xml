@@ -7,7 +7,7 @@
 	font-size: 18px;
 }
 	</ui:style>
-	<g:ScrollPanel height="440px" width="1193px">
+	<g:ScrollPanel height="440px" width="1185px">
 	<g:HTMLPanel>
 	
 	<A:LabelHeading addStyleNames="{style.heading}"> Risks </A:LabelHeading>

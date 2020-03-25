@@ -39,12 +39,12 @@
 	<g:TextArea ui:field="txtBoxDescription"  width="350px" height="100px"></g:TextArea>
 	</g:HorizontalPanel>
 	
-	<g:VerticalPanel width="100%" styleName="w3-border" ui:field="panelAttachment">
+	<g:VerticalPanel width="350px" styleName="w3-border" ui:field="panelAttachment">
 	
 	</g:VerticalPanel>
 	<g:HorizontalPanel>
 	<g:VerticalPanel>
-	<g:Button ui:field="btnSave" addStyleNames="buttonDesign w3-hover-blue">Save</g:Button>
+	<g:Button ui:field="btnSave" addStyleNames="buttonDesign w3-hover-blue">Send</g:Button>
 	</g:VerticalPanel>
 	<g:VerticalPanel>
 	<g:Button ui:field="btnCancel" addStyleNames="buttonDesign w3-hover-blue">Cancel</g:Button>

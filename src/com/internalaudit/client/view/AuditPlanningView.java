@@ -69,7 +69,7 @@ public class AuditPlanningView extends Composite {
 			cp = new ContentPanel(appearance);
 			cp.setAnimCollapse(false);
 			cp.setBodyStyleName("pad-text");
-			cp.setHeadingText("Consolidation into Audtitable Units");
+			cp.setHeadingText("Consolidation into Auditable Units");
 			VerticalPanel vpnl = new VerticalPanel();
 			vpnl.setHeight("400px");
 			vpnl.add(new ConsolidationHeadingView(cp));

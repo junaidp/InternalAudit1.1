@@ -1,6 +1,7 @@
 package com.internalaudit.client.view.ToDo;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -128,7 +129,8 @@ public class InformationRequestReceiveView extends VerticalPanel {
 	}
 
 	private void setLayout(InformationRequestReceiverEntity informationRequest) {
-		lblMesssage.setText("Message From ::" + informationRequest.getRaisedBy());
+		lblMesssage.setText("Message From: " + informationRequest.getRaisedBy());
+		lblMesssage.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 		lblIrData.setText(informationRequest.getId() + "");
 		lblRequestedData.setText(informationRequest.getRaisedBy());
 		// lblDateData.setText(informationRequest.getOverDueDays().toString());
@@ -143,16 +145,16 @@ public class InformationRequestReceiveView extends VerticalPanel {
 
 		PanelUpButton.addStyleName(" w3-right");
 		// PanelUpButton.add(btnEmial);
-		PanelUpButton.add(btnPrint);
-		lblDateData.addStyleName("w3-panel");
-		lblIrData.addStyleName("w3-panel");
+		// PanelUpButton.add(btnPrint);
+		lblDateData.addStyleName("labelHeadingToDo");
+		lblIrData.addStyleName("labelHeadingToDo");
 		lblIr.setText("Ir#");
 		lblDate.setText("Date: ");
 
-		lblIr.addStyleName("labelDesign w3-panel");
-		lblDate.addStyleName("labelDesign w3-panel");
-		lblIrData.addStyleName("w3-panel");
-		lblDateData.addStyleName("w3-panel");
+		lblIr.addStyleName("labelDesign labelHeadingToDo");
+		lblDate.addStyleName("labelDesign labelHeadingToDo");
+		lblIrData.addStyleName("labelHeadingToDo");
+		lblDateData.addStyleName("labelHeadingToDo");
 
 		panelLabel.addStyleName("w3-border");
 		panelLabel.add(lblIr);
@@ -166,10 +168,11 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		panelMail.addStyleName("w3-border");
 
 		lblRequestetBy.setText("Requested By: ");
-		lblRequestetBy.addStyleName("labelDesign w3-panel");
+		lblRequestetBy.setWidth("110px");
+		lblRequestetBy.addStyleName("labelDesign labelHeadingToDo");
 		HorizontalPanel panelMailReq = new HorizontalPanel();
 		panelMailReq.add(lblRequestetBy);
-		lblRequestedData.addStyleName("w3-panel");
+		lblRequestedData.addStyleName("labelHeadingToDo");
 		panelMailReq.add(lblRequestedData);
 		panelMail.add(panelMailReq);
 		panelMail.add(lblMesssage);
@@ -177,7 +180,7 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		// panelMail.addStyleName("w3-gray");
 
 		panelReply.add(lblReply);
-		lblReply.addStyleName("labelDesign");
+		lblReply.addStyleName("labelDesign labelHeadingToDo");
 
 		panelReply.add(txtAreaReply);
 
@@ -206,7 +209,7 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		panelFileUpload.setWidth("590px");
 		txtAreaReply.setWidth("590px");
 
-		add(PanelUpButton);
+		// add(PanelUpButton);
 		add(panelLabel);
 		add(panelMailRep);
 		add(panelFileUpload);

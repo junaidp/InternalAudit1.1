@@ -157,8 +157,8 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 				final PopupsView pp = new PopupsView(todoview, "To Do");
 				// pp.getLabelheading().setText("To Do");
 				// pp.getPopup().setHeadingText("To Do");
-				pp.getVpnlMain().setWidth("400px");
-				pp.getHpnlSPace().setWidth("400px");
+				pp.getVpnlMain().setWidth("370px");
+				pp.getHpnlSPace().setWidth("370px");
 				pp.getVpnlMain().setHeight("320px");
 
 				pp.getClose().addClickHandler(new ClickHandler() {

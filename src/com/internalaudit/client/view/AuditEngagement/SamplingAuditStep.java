@@ -5,6 +5,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -48,33 +49,34 @@ public class SamplingAuditStep extends VerticalPanel {
 		lblControl.setText("Control");
 		lblControl.addStyleName("labelDesign");
 		lblControlRisk.setText("Control Risk");
-		lblControlRisk.getElement().getStyle().setMarginTop(7, Unit.PX);
+		lblControlRisk.getElement().getStyle().setMarginTop(12, Unit.PX);
 		lblControlRisk.addStyleName("labelDesign");
 		lblFrequency.setText("Frequency");
-		lblFrequency.getElement().getStyle().setMarginTop(7, Unit.PX);
+		lblFrequency.getElement().getStyle().setMarginTop(12, Unit.PX);
 		lblFrequency.addStyleName("labelDesign");
 		lblSampleSize.setText("Sample Size");
 		lblSampleSize.addStyleName("labelDesign");
-		lblSampleSize.getElement().getStyle().setMarginTop(7, Unit.PX);
+		lblSampleSize.getElement().getStyle().setMarginTop(12, Unit.PX);
 		lblSamplingMethod.setText("Sampling Method");
 		lblSamplingMethod.addStyleName("labelDesign");
-		lblSamplingMethod.getElement().getStyle().setMarginTop(7, Unit.PX);
+		lblSamplingMethod.getElement().getStyle().setMarginTop(12, Unit.PX);
 		lblPopulationSize.setText("Population Size");
 		lblPopulationSize.addStyleName("labelDesign");
+		lblPopulationSize.getElement().getStyle().setMarginTop(12, Unit.PX);
 		lblAuditProcedure.setText("Audit Procedure Performed");
 		lblAuditProcedure.addStyleName("labelDesign");
 		String mainFolder = "SamplingAuditUploads";
 		// Styling of all the labels
 		fileUpload = new AuditWorkProgramUpload(auditStep, mainFolder);
 		// Styling of all the labels data
-		txtAreaControl.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		txtAreaAuditProcedure.getElement().getStyle().setMarginLeft(50, Unit.PX);
+		txtAreaControl.getElement().getStyle().setMarginLeft(10, Unit.PX);
+		txtAreaAuditProcedure.getElement().getStyle().setMarginLeft(10, Unit.PX);
 		txtAreaAuditProcedure.addStyleName("w3-border");
-		listBoxControlList.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		listBoxFrequency.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		lblSampleSizeData.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		listBoxSamplingMethod.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		lblPopulationData.getElement().getStyle().setMarginLeft(50, Unit.PX);
+		listBoxControlList.getElement().getStyle().setMarginLeft(10, Unit.PX);
+		listBoxFrequency.getElement().getStyle().setMarginLeft(10, Unit.PX);
+		lblSampleSizeData.getElement().getStyle().setMarginLeft(10, Unit.PX);
+		listBoxSamplingMethod.getElement().getStyle().setMarginLeft(10, Unit.PX);
+		lblPopulationData.getElement().getStyle().setMarginLeft(10, Unit.PX);
 
 		// lblSampleSizeData.setText("3");
 		lblSampleSizeData.setEnabled(false);
@@ -130,18 +132,18 @@ public class SamplingAuditStep extends VerticalPanel {
 
 		flex.setWidget(0, 0, lblControlRisk);
 		flex.setWidget(0, 1, listBoxControlList);
-
-		flex.setWidget(0, 2, lblSamplingMethod);
-		flex.setWidget(0, 3, listBoxSamplingMethod);
-
-		flex.setWidget(0, 4, lblFrequency);
-		flex.setWidget(0, 5, listBoxFrequency);
+		flex.setWidget(0, 2, new HTML("&nbsp; &nbsp; &nbsp;"));
+		flex.setWidget(0, 3, lblSamplingMethod);
+		flex.setWidget(0, 4, listBoxSamplingMethod);
+		flex.setWidget(0, 5, new HTML("&nbsp; &nbsp; &nbsp;"));
+		flex.setWidget(0, 6, lblFrequency);
+		flex.setWidget(0, 7, listBoxFrequency);
 
 		flex.setWidget(1, 0, lblPopulationSize);
 		flex.setWidget(1, 1, lblPopulationData);
-
-		flex.setWidget(1, 2, lblSampleSize);
-		flex.setWidget(1, 3, lblSampleSizeData);
+		flex.setWidget(1, 2, new HTML("&nbsp; &nbsp; &nbsp;"));
+		flex.setWidget(1, 3, lblSampleSize);
+		flex.setWidget(1, 4, lblSampleSizeData);
 
 		// flex.setWidget(2, 0, lblAuditProcedure);
 		// flex.setWidget(2, 1, txtAreaAuditProcedure);
@@ -153,7 +155,7 @@ public class SamplingAuditStep extends VerticalPanel {
 		hpnlAuditProcedure.add(lblAuditProcedure);
 		lblAuditProcedure.getElement().getStyle().setMarginTop(30, Unit.PX);
 		hpnlAuditProcedure.add(txtAreaAuditProcedure);
-		txtAreaAuditProcedure.setWidth("950px");
+		txtAreaAuditProcedure.setWidth("1000px");
 		vpnlAuditProcedure.add(fileUpload);
 		fileUpload.addStyleName("w3-right");
 		// flex.setWidget(4,3,panelFileDetail);

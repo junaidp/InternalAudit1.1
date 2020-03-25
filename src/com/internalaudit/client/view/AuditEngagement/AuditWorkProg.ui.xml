@@ -28,7 +28,7 @@
 	margin : 5px;
 }
 	</ui:style>
-	<g:ScrollPanel height="390px" width="1197px">
+	<g:ScrollPanel height="390px" width="1185px">
 	
 	<g:HTMLPanel>
 	

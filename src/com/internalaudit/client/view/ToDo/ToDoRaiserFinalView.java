@@ -3,6 +3,7 @@ package com.internalaudit.client.view.ToDo;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -139,16 +140,18 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 		lblMesssage = new Label();
 		for (int i = 0; i < toDo.getTodoLogList().size(); i++) {
 			if (i == 0) {
-				lblMesssage.setText("Message By ::" + toDo.getRaisedBy());
+				lblMesssage.setText("Message By: " + toDo.getRaisedBy());
 				lblMesssageData.setText(toDo.getTodoLogList().get(i).getDescription());
+				lblMesssage.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 				panelMail.add(lblMesssage);
 				panelMail.add(lblMesssageData);
 			}
 			lblReplyOld = new Label();
 			lblReplyOldData = new Label();
 			// lblReplyOld.setText("Message By ::" + toDo.getRaisedTo());
-			lblReplyOld.setText("Message By ::" + toDo.getTodoLogList().get(i).getAssignedFrom().getEmployeeName());
+			lblReplyOld.setText("Message By: " + toDo.getTodoLogList().get(i).getAssignedFrom().getEmployeeName());
 			lblReplyOldData.setText(toDo.getTodoLogList().get(i).getRespond());
+			lblReplyOld.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 			panelMail.add(lblReplyOld);
 			panelMail.add(lblReplyOldData);
 		}
@@ -168,22 +171,24 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 		btnEmial.addStyleName("gwt-Button buttonDesign w3-hover-blue");
 		btnCancel.addStyleName("gwt-Button buttonDesign w3-hover-blue");
 		// PanelUpButton.add(btnEmial);
-		PanelUpButton.add(btnPrint);
+		// PanelUpButton.add(btnPrint);
 		// lblDateData.addStyleName("w3-panel");
 		// lblIrData.addStyleName("w3-panel");
-		lblIr.addStyleName("labelDesign");
-		lblIr.getElement().getStyle().setMarginTop(10, Unit.PX);
+		lblIr.addStyleName("labelDesign labelHeadingToDo");
+		// lblIr.getElement().getStyle().setMarginTop(10, Unit.PX);
 		lblIr.setText("Ir#");
-		lblDate.addStyleName("labelDesign");
-		lblDate.getElement().getStyle().setMarginTop(10, Unit.PX);
+		lblDate.addStyleName("labelDesign labelHeadingToDo");
+		// lblDate.getElement().getStyle().setMarginTop(10, Unit.PX);
 		lblDate.setText("Date: ");
 		panelLabel.addStyleName("w3-border");
 		panelLabel.add(lblIr);
-		lblIrData.getElement().getStyle().setMarginTop(10, Unit.PX);
+		// lblIrData.getElement().getStyle().setMarginTop(10, Unit.PX);
+		lblIrData.addStyleName("labelHeadingToDo");
 		panelLabel.add(lblIrData);
 		panelLabel.add(lblSpace);
 		panelLabel.add(lblDate);
-		lblDateData.getElement().getStyle().setMarginTop(10, Unit.PX);
+		// lblDateData.getElement().getStyle().setMarginTop(10, Unit.PX);
+		lblDateData.addStyleName("labelHeadingToDo");
 
 		panelLabel.add(lblDateData);
 		panelMailRep.addStyleName("w3-border");
@@ -191,20 +196,21 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 		panelMail.addStyleName("w3-border");
 		HorizontalPanel panelRequestedBy = new HorizontalPanel();
 		lblRequestetBy.setText("Requested By: ");
-		lblRequestetBy.getElement().getStyle().setMarginTop(10, Unit.PX);
-		lblRequestedData.getElement().getStyle().setMarginTop(10, Unit.PX);
+		// lblRequestetBy.getElement().getStyle().setMarginTop(10, Unit.PX);
+		// lblRequestedData.getElement().getStyle().setMarginTop(10, Unit.PX);
 		lblRequestetBy.setWidth("105px");
-		lblRequestetBy.addStyleName("labelDesign");
+		lblRequestetBy.addStyleName("labelDesign labelHeadingToDo");
+		lblRequestedData.addStyleName("labelHeadingToDo");
 		panelRequestedBy.add(lblRequestetBy);
 		// lblRequestedData.addStyleName("w3-panel");
 		panelRequestedBy.add(lblRequestedData);
 		HorizontalPanel panelMailReq = new HorizontalPanel();
 		panelMail.add(panelMailReq);
-		panelMail.addStyleName("w3-gray");
+		panelMail.addStyleName("w3-sand");
 		ScrollPanel panelMessageScroll = new ScrollPanel();
 		panelMessageScroll.setHeight("200px");
 		panelMessageScroll.add(panelMail);
-		lblReply.addStyleName("labelDesign");
+		lblReply.addStyleName("labelDesign labelHeadingToDo");
 		panelReply.add(lblReply);
 		panelReply.add(txtAreaReply);
 		panelMailRep.add(panelRequestedBy);
@@ -246,7 +252,7 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 		panelMail.setWidth("590px");
 		txtAreaReply.setWidth("590px");
 
-		add(PanelUpButton);
+		// add(PanelUpButton);
 		add(panelLabel);
 		add(panelMailRep);
 
