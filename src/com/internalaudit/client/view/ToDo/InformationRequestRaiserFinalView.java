@@ -50,8 +50,8 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 	TextArea lblReplyOldData;
 	Label lblReply = new Label("Reply: ");
 	TextArea txtAreaReply = new TextArea();
-	Button btnSubmit = new Button("Submit/Close");
-	Button btnCancel = new Button("Cancel");
+	// Button btnSubmit = new Button("Submit/Close");
+	Button btnCancel = new Button("Close");
 	Button btnReply = new Button("Reply");
 	VerticalPanel panelMailRep = new VerticalPanel();
 	VerticalPanel panelMail = new VerticalPanel();
@@ -218,12 +218,12 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 		panelMailRep.add(panelPriority);
 		panelPriority.setHeight("30px");
 		panelPriority.addStyleName("w3-right");
-		btnReply.getElement().getStyle().setMarginLeft(360, Unit.PX);
+		btnReply.getElement().getStyle().setMarginLeft(440, Unit.PX);
 		HorizontalPanel panelb = new HorizontalPanel();
-		panelb.add(btnSubmit);
+		// panelb.add(btnSubmit);
 		panelb.add(btnReply);
 		panelb.add(btnCancel);
-		btnSubmit.setWidth("85px");
+		// btnSubmit.setWidth("85px");
 		panelMailRep.add(panelb);
 
 		EmailAttachmentUpload a = new EmailAttachmentUpload();
@@ -298,5 +298,13 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 	public void setBtnCancel(Button btnCancel) {
 		this.btnCancel = btnCancel;
 	}
+
+	// public Button getBtnSubmit() {
+	// return btnSubmit;
+	// }
+	//
+	// public void setBtnSubmit(Button btnSubmit) {
+	// this.btnSubmit = btnSubmit;
+	// }
 
 }

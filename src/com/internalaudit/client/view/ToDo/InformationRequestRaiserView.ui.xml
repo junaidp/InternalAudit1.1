@@ -51,7 +51,7 @@
 	</g:VerticalPanel>
 	
 	<g:HorizontalPanel addStyleNames="{style.topMargin}">
-	<g:Label width="150px" height="25px" styleName="labelDesign" >Status: </g:Label>
+	<g:Label width="70px" height="25px" styleName="labelDesign" >Status: </g:Label>
 	<g:ListBox ui:field="listBoxStatus">
 	 <g:item>Complete</g:item>
   	 <g:item value='2'>Incomplete</g:item>

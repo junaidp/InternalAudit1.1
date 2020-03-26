@@ -8,6 +8,8 @@ import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -88,13 +90,20 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 				int row = c.getIndex();
 				ToDoReceiverEntity toDo = store.get(row);
 				ToDoRaiserView toDoReceiverView = new ToDoRaiserView(toDo);
-				PopupsView pp = new PopupsView(toDoReceiverView, "To Do Receiver");
+				final PopupsView pp = new PopupsView(toDoReceiverView, "To Do Receiver");
 				// pp.getLabelheading().setText("ToDo Receiver");
 				// pp.getPopup().setHeadingText("ToDo Receiver");
 				pp.getVpnlMain().setTitle("Todos");
 				pp.getVpnlMain().setWidth("600px");
 				pp.getHpnlSPace().setWidth("600px");
 				pp.getVpnlMain().setHeight("500px");
+				toDoReceiverView.getBtnClose().addClickHandler(new ClickHandler() {
+					@Override
+					public void onClick(ClickEvent event) {
+						pp.getVpnlMain().removeFromParent();
+						pp.getPopup().removeFromParent();
+					}
+				});
 
 			}
 		});

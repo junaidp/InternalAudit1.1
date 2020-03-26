@@ -94,23 +94,19 @@
 		
 			
 			<g:HorizontalPanel>
-			<A:LabelHeading width="50px" text="Subject"  addStyleNames ="auditengLabel"></A:LabelHeading>
-			<g:TextBox width="200px" text="Engegement Name" ui:field="txtBoxSubject" addStyleNames =" marginLeft50 auditengToccText"></g:TextBox>
+			<g:Label width="100px" text="Subject"  addStyleNames ="labelDesign w3-panel"></g:Label>
+			<g:TextBox width="200px" text="Engegement Name" ui:field="txtBoxSubject" addStyleNames =" auditengToccText"></g:TextBox>
 			</g:HorizontalPanel>
 			</g:VerticalPanel>
-		
-			<g:HorizontalPanel height="20px" >
-			
-			</g:HorizontalPanel>
-			
+
 			<g:HorizontalPanel>
 			<g:TextArea width="1170px" height="330px"  addStyleNames ="marginLeft textareaAudEng" ui:field="txtAreaBody" text="bla bla blab blablaba"> </g:TextArea>
 			</g:HorizontalPanel>
 				<g:VerticalPanel height="50px" ui:field="panelUpload"></g:VerticalPanel>
 	</g:VerticalPanel>
 	
-	<g:Button text="Save" ui:field="btnSend" styleName="buttonDesign" ></g:Button>
-	<g:Button text="Submit" ui:field="btnSubmit" styleName="buttonDesign" ></g:Button>
+	<g:Button text="Save" ui:field="btnSend" styleName="buttonDesign w3-right" ></g:Button>
+	<g:Button text="Submit" ui:field="btnSubmit" styleName="buttonDesign w3-right" ></g:Button>
 	
 	</g:HTMLPanel>
 </ui:UiBinder> 

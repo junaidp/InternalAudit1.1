@@ -50,8 +50,8 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 
 	Label lblReply = new Label("Reply: ");
 	TextArea txtAreaReply = new TextArea();
-	ButtonRound btnSubmit = new ButtonRound("Submit/Close");
-	ButtonRound btnCancel = new ButtonRound("Cancel");
+	// ButtonRound btnSubmit = new ButtonRound("Submit/Close");
+	ButtonRound btnCancel = new ButtonRound("Close");
 	ButtonRound btnRep = new ButtonRound("Reply");
 	VerticalPanel panelMailRep = new VerticalPanel();
 	VerticalPanel panelMail = new VerticalPanel();
@@ -228,13 +228,13 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 		panelMailRep.add(panelPriority);
 		panelPriority.setHeight("30px");
 		panelPriority.addStyleName("w3-right");
-		btnRep.getElement().getStyle().setMarginLeft(360, Unit.PX);
+		btnRep.getElement().getStyle().setMarginLeft(440, Unit.PX);
 		HorizontalPanel panelbuttons = new HorizontalPanel();
-		btnSubmit.addStyleName("gwt-Button buttonDesign w3-hover-blue");
-		btnSubmit.setWidth("85px");
+		// btnSubmit.addStyleName("gwt-Button buttonDesign w3-hover-blue");
+		// btnSubmit.setWidth("85px");
 		btnRep.addStyleName("gwt-Button buttonDesign w3-hover-blue");
 		btnCancel.addStyleName("buttonDesign");
-		panelbuttons.add(btnSubmit);
+		// panelbuttons.add(btnSubmit);
 		panelbuttons.add(btnRep);
 		panelbuttons.add(btnCancel);
 		panelMailRep.add(panelbuttons);
@@ -310,5 +310,13 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 	public void setBtnCancel(ButtonRound btnCancel) {
 		this.btnCancel = btnCancel;
 	}
+
+	// public ButtonRound getBtnSubmit() {
+	// return btnSubmit;
+	// }
+	//
+	// public void setBtnSubmit(ButtonRound btnSubmit) {
+	// this.btnSubmit = btnSubmit;
+	// }
 
 }

@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.widget.core.client.Dialog;
+import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
 
 public class PopupsView {
 
@@ -42,6 +43,8 @@ public class PopupsView {
 		// hpnlClose.add(close);
 		close.addStyleName("pointerStyle");
 		popup = new Dialog();
+		popup.getButton(PredefinedButton.OK).setVisible(false);
+
 		vpnlMain = new VerticalPanel();
 		vpnlMain.add(hpnlClose);
 		vpnlMain.add(labelheading);

@@ -8,6 +8,8 @@ import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -104,15 +106,13 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 				pp.getVpnlMain().setWidth("600px");
 				pp.getHpnlSPace().setWidth("600px");
 				pp.getVpnlMain().setHeight("500px");
-				// infoReceiver.getBtnCancel().addClickHandler(new
-				// ClickHandler() {
-				//
-				// @Override
-				// public void onClick(ClickEvent event) {
-				// pp.getVpnlMain().removeFromParent();
-				// pp.getPopup().removeFromParent();
-				// }
-				// });
+				infoReceiver.getBtnClose().addClickHandler(new ClickHandler() {
+					@Override
+					public void onClick(ClickEvent event) {
+						pp.getVpnlMain().removeFromParent();
+						pp.getPopup().removeFromParent();
+					}
+				});
 				// Info.display("Event", "The " + p.getRequestedItem() + " was
 				// clicked.");
 			}

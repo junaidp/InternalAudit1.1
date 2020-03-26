@@ -40,6 +40,8 @@ public class ToDoView extends Composite {
 	@UiField
 	Button btnCancel;
 	@UiField
+	TextArea txtAreaTask;
+	@UiField
 	VerticalPanel panelAttachment;
 	private InternalAuditServiceAsync rpcService;
 
@@ -63,6 +65,7 @@ public class ToDoView extends Composite {
 		panelAttachment.add(toDoAttachmentUploqad);
 		// dueDate.getElement().setPropertyString("placeholder", " dd/mm/yyyy");
 		// DateBox.DefaultFormat(DateTimeFormat.getFormat("dd MMMM , yyyy")));
+		txtAreaTask.getElement().setPropertyString("placeholder", "Enter text here");
 	}
 
 	public void deleteUnSavedAttachments() {

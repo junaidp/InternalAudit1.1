@@ -104,6 +104,7 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 				pp.getVpnlMain().setWidth("600px");
 				pp.getHpnlSPace().setWidth("600px");
 				pp.getVpnlMain().setHeight("500px");
+
 				toDoReceiver.getBtnCancel().addClickHandler(new ClickHandler() {
 
 					@Override

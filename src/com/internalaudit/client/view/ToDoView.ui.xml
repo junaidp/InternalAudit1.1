@@ -9,13 +9,13 @@
 	margin-left: 50px;
 }*/
 	</ui:style>
-	<g:HTMLPanel>
+	<g:HTMLPanel width="370px">
 	<!--<g:VerticalPanel addStyleNames="w3-panel w3-pale-green"> -->
-	<g:VerticalPanel>
+	<g:VerticalPanel width="370px">
 	
 	<g:HorizontalPanel>
 	<g:Label styleName="gwt-Label auditengLabel" width="85px" text="Task:"></g:Label>
-	<g:TextBox text="some text"></g:TextBox>
+	<g:TextArea width="260px" ui:field="txtAreaTask"></g:TextArea>
 	</g:HorizontalPanel>
 	
 	<g:HorizontalPanel>
@@ -25,12 +25,12 @@
 	
 	<g:HorizontalPanel>
 	<g:Label styleName="gwt-Label auditengLabel" width="85px">Assigned To: </g:Label>
-	<g:ListBox ui:field="listBoxAssignedTo" ></g:ListBox>
+	<g:ListBox ui:field="listBoxAssignedTo"></g:ListBox>
 	</g:HorizontalPanel>
 	
 	<g:HorizontalPanel>
 	<g:Label styleName="gwt-Label auditengLabel" width="85px">Jobs:</g:Label>
-	<g:ListBox ui:field="listBoxJobs" >	</g:ListBox>
+	<g:ListBox ui:field="listBoxJobs"></g:ListBox>
 	</g:HorizontalPanel>
 	
 	
