@@ -13,7 +13,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.client.view.ToDoView;
@@ -140,12 +140,12 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 		grid.getView().setForceFit(true);
 		grid.getView().setStripeRows(true);
 		grid.getView().setColumnLines(true);
-		ScrollPanel p = new ScrollPanel();
-		p.setHeight("220px");
+		// VerticalPanel p = new VerticalPanel();
+		// p.setHeight("220px");
+		// p.add(grid);
 
-		p.add(grid);
-
-		VerticalLayoutContainer con = new VerticalLayoutContainer();
+		// VerticalLayoutContainer con = new VerticalLayoutContainer();
+		VerticalPanel con = new VerticalPanel();
 		Anchor addTask = new Anchor("Add New Task");
 		addTask.addStyleName("w3-right");
 		con.add(addTask);
@@ -185,7 +185,7 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 			}
 		});
 
-		con.add(p, new VerticalLayoutData(1, 1));
+		// con.add(p, new VerticalLayoutData(1, 1));
 
 		// panel = new ContentPanel();
 		// panel.setHeight(230);
@@ -193,6 +193,8 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 		// panel.setHeadingText("ToDoRaise");
 		// panel.add(con);
 		// return panel;
+		grid.setHeight("220px");
+		con.add(grid);
 		return con;
 	}
 

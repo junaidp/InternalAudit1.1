@@ -109,8 +109,8 @@ public class RisksView extends Composite {
 		setHandlers(auditEngId, rpcService, asyncCallback);
 		approvalButtonsPanel.getElement().getStyle().setMarginTop(40, Unit.PX);
 		// initiationButtonsPanel.addStyleName("w3-display-bottom w3-margin");
-		approvalButtonsPanel.getElement().getStyle().setMarginLeft(870, Unit.PX);
-		initiationButtonsPanel.getElement().getStyle().setMarginLeft(870, Unit.PX);
+		approvalButtonsPanel.getElement().getStyle().setMarginLeft(1020, Unit.PX);
+		initiationButtonsPanel.getElement().getStyle().setMarginLeft(1020, Unit.PX);
 		// approvalButtonsPanel.getElement().getStyle().setPaddingLeft(400,
 		// Unit.PX);
 	}

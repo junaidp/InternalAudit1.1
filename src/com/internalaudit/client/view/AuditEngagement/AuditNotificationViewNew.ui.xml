@@ -105,8 +105,8 @@
 				<g:VerticalPanel height="50px" ui:field="panelUpload"></g:VerticalPanel>
 	</g:VerticalPanel>
 	
-	<g:Button text="Save" ui:field="btnSend" styleName="buttonDesign w3-right" ></g:Button>
-	<g:Button text="Submit" ui:field="btnSubmit" styleName="buttonDesign w3-right" ></g:Button>
+	<g:Button text="Save" ui:field="btnSend" styleName="buttonDesign"></g:Button>
+	<g:Button text="Submit" ui:field="btnSubmit" styleName="buttonDesign" ></g:Button>
 	
 	</g:HTMLPanel>
 </ui:UiBinder> 

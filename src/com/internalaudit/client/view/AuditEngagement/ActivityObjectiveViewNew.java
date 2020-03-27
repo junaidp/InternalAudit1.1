@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.shared.ActivityObjective;
 
 public class ActivityObjectiveViewNew extends Composite {
@@ -26,7 +25,7 @@ public class ActivityObjectiveViewNew extends Composite {
 	private int activityObjectiveId = 0;
 	Label lblReferenceNoData = new Label("");
 	Image delete = new Image("images/deleteIcon.png");
-	private ButtonRound btnSelectActivity = new ButtonRound("Select");
+	private Button btnSelectActivity = new Button("Select");
 
 	@UiField
 	VerticalPanel panelActivityObjective;
@@ -50,8 +49,8 @@ public class ActivityObjectiveViewNew extends Composite {
 		Button buttonAdd = new Button();
 		buttonAdd.addStyleName("w3-button w3-circle w3-teal");
 
-		txtAreaActivityObj.setWidth("1170px");
-		txtAreaActivityObj.setHeight("145px");
+		txtAreaActivityObj.setWidth("400px");
+		txtAreaActivityObj.setHeight("120px");
 
 		lblActivityObjective.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		lblapplicability.getElement().getStyle().setMarginLeft(20, Unit.PX);
@@ -127,11 +126,11 @@ public class ActivityObjectiveViewNew extends Composite {
 
 	}
 
-	public ButtonRound getBtnSelectActivity() {
+	public Button getBtnSelectActivity() {
 		return btnSelectActivity;
 	}
 
-	public void setBtnSelectActivity(ButtonRound btnSelectActivity) {
+	public void setBtnSelectActivity(Button btnSelectActivity) {
 		this.btnSelectActivity = btnSelectActivity;
 	}
 

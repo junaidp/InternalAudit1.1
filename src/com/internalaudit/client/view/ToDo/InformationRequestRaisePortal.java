@@ -12,7 +12,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.shared.InformationRequestEntity;
@@ -143,15 +143,15 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 		// grid.getView().setForceFit(true);
 		// grid.getView().setStripeRows(true);
 		// grid.getView().setColumnLines(true);
-		ScrollPanel p = new ScrollPanel();
-		// p.setHeight("220px");
-		p.setHeight("400px");
-		p.add(grid);
+		VerticalPanel p = new VerticalPanel();
+		grid.setHeight("220px");
+		// p.setHeight("400px");
 
-		VerticalLayoutContainer con = new VerticalLayoutContainer();
+		// VerticalLayoutContainer con = new VerticalLayoutContainer();
 		Anchor addInformationRequest = new Anchor("Raise Information Request");
 		addInformationRequest.addStyleName("w3-right");
-		con.add(addInformationRequest);
+		p.add(addInformationRequest);
+		p.add(grid);
 
 		addInformationRequest.addClickHandler(new ClickHandler() {
 
@@ -185,14 +185,14 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 			}
 		});
 
-		con.add(p, new VerticalLayoutData(1, 1));
-		return con;
+		// con.add(p, new VerticalLayoutData(1, 1));
+		// return con;
 		// panel = new ContentPanel();
 		// panel.setHeight(230);
 		// panel.setWidth(850);
 		// panel.setHeadingText("InformationRequestRaise");
 		// panel.add(con);
 		// return panel;
-
+		return p;
 	}
 }

@@ -32,7 +32,6 @@ public class AuditNotificationView extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		setHandlers();
 		message.addStyleName("fonts");
-
 	}
 
 	private void setHandlers() {

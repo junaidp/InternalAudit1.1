@@ -2,8 +2,8 @@ package com.internalaudit.shared;
 
 public class InternalAuditConstants {
 
-	public static final String STRATEGICOBJECTIVE = "Business objective";
-	public static final String STRATEGICOBJECTIVEOWNER = "Objective owner";
+	public static final String STRATEGICOBJECTIVE = "Business Objective";
+	public static final String STRATEGICOBJECTIVEOWNER = "Objective Owner";
 	public static final String STRATEGICDEPT = "Division";
 	public static final String STRATEGICDATE = "Objective Acheivement Date";
 	public static final String RISKFACTORS = "Risk Factors";

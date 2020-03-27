@@ -13,8 +13,10 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -22,9 +24,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.util.DataStorage;
 import com.internalaudit.client.util.MyUtil;
-import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
-import com.internalaudit.client.widgets.AddIcon;
+import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.shared.ActivityObjective;
 import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.AuditProgramme;
@@ -312,9 +313,11 @@ public class KickoffView extends Composite {
 				record.getEngagementDTO().getSelectedControls(), auditWorkNewContainer, refreshMethod(con));
 		vpnl.add(auditWorkProg);
 
-		AddIcon btnAddAuditWork = new AddIcon();
-		ButtonRound btnSaveAuditWork = new ButtonRound("Save");
-		ButtonRound btnApproveAuditWork = new ButtonRound("Approve");
+		// AddIcon btnAddAuditWork = new AddIcon();
+		final Image btnAddAuditWork = new Image("images/add.png");
+		btnAddAuditWork.addStyleName("w3-right");
+		Button btnSaveAuditWork = new Button("Save");
+		Button btnApproveAuditWork = new Button("Approve");
 		btnSaveAuditWork.addStyleName("w3-margin");
 		btnApproveAuditWork.addStyleName("w3-margin");
 
@@ -459,7 +462,9 @@ public class KickoffView extends Composite {
 		// vpExistingControl.add(addPanelExistingControl);
 
 		vpExistingControl.add(userRiskControlContainer);
-		vpExistingControl.add(new Label("---------Library----------"));
+		Label library = new Label("---------Library----------");
+		library.addStyleName("libraryText");
+		vpExistingControl.add(library);
 		// vpExistingControlContainer.add(new
 		// Label("---------Library----------"));
 		vpExistingControl.add(vpExistingControlContainer);
@@ -510,9 +515,11 @@ public class KickoffView extends Composite {
 		VerticalPanel verticalPanelKeyRisks = new VerticalPanel();
 		final VerticalPanel verticalPanelKeyRisksContainer = new VerticalPanel();
 		final VerticalPanel usersRisksContainer = new VerticalPanel();
-		ButtonRound btnSaveKeyRisk = new ButtonRound("Save");
-		ButtonRound btnSubmitKeyRisk = new ButtonRound("Submit");
-		AddIcon btnAdd = new AddIcon();
+		Button btnSaveKeyRisk = new Button("Save");
+		Button btnSubmitKeyRisk = new Button("Submit");
+		// AddIcon btnAdd = new AddIcon();
+		final Image btnAdd = new Image("images/add.png");
+		btnAdd.addStyleName("w3-right");
 
 		verticalPanelKeyRisks.add(btnAdd);
 
@@ -624,7 +631,7 @@ public class KickoffView extends Composite {
 		HorizontalPanel hpnlButton = new HorizontalPanel();
 		hpnlButton.add(btnSaveKeyRisk);
 		hpnlButton.add(btnSubmitKeyRisk);
-		hpnlButton.getElement().getStyle().setMarginLeft(895, Unit.PX);
+		hpnlButton.getElement().getStyle().setMarginLeft(1030, Unit.PX);
 		hpnlButton.getElement().getStyle().setMarginTop(10, Unit.PX);
 		verticalPanelKeyRisks.add(hpnlButton);
 
@@ -702,14 +709,22 @@ public class KickoffView extends Composite {
 		final VerticalPanel vpnlActicityObjective = new VerticalPanel();
 		final VerticalPanel vpnlActicityObjectiveContainer = new VerticalPanel();
 		final VerticalPanel usersActivityContainer = new VerticalPanel();
-		ButtonRound btnSaveActicityObjective = new ButtonRound("Save");
-		ButtonRound btnSubmitActicityObjective = new ButtonRound("Submit");
+		Button btnSaveActicityObjective = new Button("Save");
+		Button btnSubmitActicityObjective = new Button("Submit");
 		// btnSaveActicityObjective.addStyleName("w3-display-bottom w3-margin");
 		// btnSaveActicityObjective.getElement().getStyle().setMarginLeft(600,
 		// Unit.PX);
 		vpnlActicityObjective.setHeight("370px");
 
-		AddIcon btnAddAcitivityObjective = new AddIcon();
+		final Image btnAddAcitivityObjective = new Image("images/add.png");
+		btnAddAcitivityObjective.getElement().getStyle().setMarginLeft(1065, Unit.PX);
+		// btnAddAcitivityObjective.getElement().getStyle().setMarginLeft(1230,Unit.PX);
+
+		final HorizontalPanel hpnlButtons = new HorizontalPanel();
+		hpnlButtons.add(btnSaveActicityObjective);
+		hpnlButtons.add(btnSubmitActicityObjective);
+		hpnlButtons.getElement().getStyle().setMarginLeft(1030, Unit.PX);
+		hpnlButtons.setVisible(false);
 
 		// User's LIBRARY
 		for (int j = 0; j < record.getEngagementDTO().getSelectedActivityObjectives().size(); j++) {
@@ -746,11 +761,14 @@ public class KickoffView extends Composite {
 		}
 
 		// Our's LIBRARY
-		Label lblLibHeading = new Label("----Library----");
-		lblLibHeading.setVisible(false);
+		// Label lblLibHeading = new Label("----Library----");
+		Button btnLibrary = new Button("Library");
+		btnLibrary.setWidth("100px");
+		// lblLibHeading.addStyleName("libraryText");
+		btnLibrary.setVisible(false);
 		if (record.getEngagementDTO().getSelectedActivityObjectives().size() <= 0 || record.getEngagementDTO()
 				.getSelectedActivityObjectives().get(0).getStatus() == InternalAuditConstants.SAVED) {
-			lblLibHeading.setVisible(true);
+			btnLibrary.setVisible(true);
 			for (int i = 0; i < record.getEngagementDTO().getActivityObjectiveList().size(); i++) {
 				final ActivityObjectiveViewNew activityObjectiveView = new ActivityObjectiveViewNew();
 
@@ -765,13 +783,20 @@ public class KickoffView extends Composite {
 						final ActivityObjectiveViewNew activityObjectiveSelected = new ActivityObjectiveViewNew();
 						activityObjectiveView.getData(activityObjectiveSelected);
 						usersActivityContainer.add(activityObjectiveSelected);
+						activityObjectiveSelected.getTxtAreaActivityObj().setSize("1130px", "60px");
+						activityObjectiveSelected.getTxtAreaActivityObj().addStyleName("w3-sand");
+						activityObjectiveView.getTxtAreaActivityObj().addStyleName("w3-sand");
+						activityObjectiveView.getBtnSelectActivity().setVisible(false);
+						hpnlButtons.setVisible(true);
 
 						activityObjectiveSelected.getDelete().addClickHandler(new ClickHandler() {
 
 							@Override
 							public void onClick(ClickEvent event) {
 								activityObjectiveSelected.removeFromParent();
-
+								activityObjectiveView.getBtnSelectActivity().setVisible(true);
+								hpnlButtons.setVisible(false);
+								activityObjectiveSelected.getTxtAreaActivityObj().addStyleName("w3-sand");
 							}
 						});
 
@@ -790,13 +815,17 @@ public class KickoffView extends Composite {
 				final ActivityObjectiveViewNew act = new ActivityObjectiveViewNew();
 				act.getlblReferenceNoData().setText(MyUtil.getRandom());
 				act.getBtnSelectActivity().setVisible(false);
+				hpnlButtons.setVisible(true);
+				act.getData(act);// to add DeleteButton
 				usersActivityContainer.add(act);
+				act.getTxtAreaActivityObj().setSize("1130px", "60px");
 				act.getDelete().addClickHandler(new ClickHandler() {
 
 					@Override
 					public void onClick(ClickEvent event) {
 						// TODO Auto-generated method stub
 						act.removeFromParent();
+						hpnlButtons.setVisible(false);
 						// usersActivityContainer.clear();
 					}
 				});
@@ -823,16 +852,36 @@ public class KickoffView extends Composite {
 
 			}
 		});
+		HorizontalPanel hpnlBtnHeader = new HorizontalPanel();
+		hpnlBtnHeader.getElement().getStyle().setMarginTop(5, Unit.PX);
+		hpnlBtnHeader.add(btnLibrary);
+		hpnlBtnHeader.add(btnAddAcitivityObjective);
+		hpnlBtnHeader.setHeight("40px");
+		vpnlActicityObjective.add(hpnlBtnHeader);
+		btnLibrary.addClickHandler(new ClickHandler() {
 
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				final PopupsView p = new PopupsView(vpnlActicityObjectiveContainer, "Library");
+				p.getVpnlMain().setSize("500px", "300px");
+				Button btnClose = new Button("Close");
+				p.getVpnlMain().add(btnClose);
+				btnClose.getElement().getStyle().setMarginLeft(420, Unit.PX);
+				btnClose.addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						// TODO Auto-generated method stub
+						p.getVpnlMain().removeFromParent();
+						p.getPopup().removeFromParent();
+					}
+				});
+			}
+		});
 		vpnlActicityObjective.add(usersActivityContainer);
-		vpnlActicityObjective.add(btnAddAcitivityObjective);
-		vpnlActicityObjective.add(lblLibHeading);
-		vpnlActicityObjective.add(vpnlActicityObjectiveContainer);
-		HorizontalPanel hpnlButtons = new HorizontalPanel();
-		// hpnlButtons.setWidth("900px");
-		hpnlButtons.add(btnSaveActicityObjective);
-		hpnlButtons.add(btnSubmitActicityObjective);
-		hpnlButtons.getElement().getStyle().setMarginLeft(860, Unit.PX);
+		// vpnlActicityObjective.add(vpnlActicityObjectiveContainer);
+
 		// hpnlButtons.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		vpnlActicityObjective.add(hpnlButtons);
 		ScrollPanel v = new ScrollPanel();

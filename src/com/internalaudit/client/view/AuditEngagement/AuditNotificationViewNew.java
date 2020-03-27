@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.TextDecoration;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -71,7 +72,7 @@ public class AuditNotificationViewNew extends Composite {
 		date.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd MMMM , yyyy")));
 
 		fileUploader = new AuditWorkProgramUpload(notificationId, mainFolder);
-
+		btnSend.getElement().getStyle().setMarginLeft(1020, Unit.PX);
 		// Window.alert(uploada.getFile());
 		fileUploader.fetchProcedureAttachments(notificationId, mainFolder);
 		panelUpload.add(fileUploader);

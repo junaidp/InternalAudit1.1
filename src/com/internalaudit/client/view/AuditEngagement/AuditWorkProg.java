@@ -114,8 +114,8 @@ public class AuditWorkProg extends Composite {
 
 	private void setHandlers(final InternalAuditServiceAsync rpcService, final int selectedJobId,
 			final AsyncCallback<KickoffView> asyncCallback) {
-		approvalButtonsPanel.getElement().getStyle().setMarginLeft(870, Unit.PX);
-		initiationButtonsPanel.getElement().getStyle().setMarginLeft(870, Unit.PX);
+		approvalButtonsPanel.getElement().getStyle().setMarginLeft(1020, Unit.PX);
+		initiationButtonsPanel.getElement().getStyle().setMarginLeft(1020, Unit.PX);
 		panelAddIcon.add(addMore);
 		initiationButtonsPanel.add(save);
 		initiationButtonsPanel.add(submit);

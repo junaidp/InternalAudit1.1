@@ -11,7 +11,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.shared.InformationRequestEntity;
@@ -139,17 +139,16 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 		grid.getView().setForceFit(true);
 		grid.getView().setStripeRows(true);
 		grid.getView().setColumnLines(true);
-		ScrollPanel p = new ScrollPanel();
-		p.setHeight("220px");
-
+		VerticalPanel p = new VerticalPanel();
+		grid.setHeight("220px");
 		p.add(grid);
 
-		VerticalLayoutContainer con = new VerticalLayoutContainer();
+		// VerticalLayoutContainer con = new VerticalLayoutContainer();
 		// Anchor anchorView = new Anchor("view");
 		// anchorView.getElement().getStyle().setPaddingLeft(820, Unit.PX);
 		// con.add(anchorView);
 
-		con.add(p, new VerticalLayoutData(1, 1));
+		// con.add(p, new VerticalLayoutData(1, 1));
 
 		// panel = new ContentPanel();
 		// panel.setHeight(230);
@@ -157,7 +156,8 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 		// panel.setHeadingText("InformationRequestReceiver");
 		// panel.add(con);
 		// return panel;
-		return con;
+		// return con;
+		return p;
 	}
 
 }
