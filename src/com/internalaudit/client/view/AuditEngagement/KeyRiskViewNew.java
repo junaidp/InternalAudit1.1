@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -13,7 +14,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.shared.ActivityObjective;
 import com.internalaudit.shared.RiskObjective;
 
@@ -21,7 +21,6 @@ public class KeyRiskViewNew extends VerticalPanel {
 
 	private Label lblActivityObjectiveData = new Label("");
 	LabelHeading lblactivityObjective = new LabelHeading();
-
 	LabelHeading lblrisks = new LabelHeading();
 	LabelHeading lblriskRatings = new LabelHeading();
 	LabelHeading lblapplicability = new LabelHeading();
@@ -32,12 +31,14 @@ public class KeyRiskViewNew extends VerticalPanel {
 	ListBox listBoxRating = new ListBox();
 	private int riskId = 0;
 	CheckBox checkBoxApplicability = new CheckBox("");
-	private ButtonRound btnSave = new ButtonRound("Save");
+	private Button btnSave = new Button("Save");
 	Image delete = new Image("images/deleteIcon.png");
 	LabelHeading lblReferenceNo = new LabelHeading();
-	private ButtonRound btnSelect = new ButtonRound("Select");
+	private Button btnSelect = new Button("Select");
 	private ListBox listObjectives = new ListBox();
-
+	VerticalPanel containerActivityObjective = new VerticalPanel();
+	VerticalPanel vpLblrisk = new VerticalPanel();
+	HorizontalPanel vpLblriskRating = new HorizontalPanel();
 	Image imgRating = new Image();
 
 	public KeyRiskViewNew() {
@@ -51,11 +52,11 @@ public class KeyRiskViewNew extends VerticalPanel {
 
 		lblapplicability.setText("Applicability");
 		lblReferenceNo.setText("Reference Number");
-		lblactivityObjective.setWidth("480px");
-		lblActivityObjectiveData.setHeight("90px");
-		lblActivityObjectiveData.setWidth("480px");
+		lblactivityObjective.setWidth("450px");
+		// lblActivityObjectiveData.setHeight("90px");
+		lblActivityObjectiveData.setWidth("450px");
 
-		txtRisk.setWidth("480px");
+		txtRisk.setWidth("450px");
 		txtRisk.setHeight("90px");
 		txtRisk.setText("");
 
@@ -76,7 +77,7 @@ public class KeyRiskViewNew extends VerticalPanel {
 		lblRef.getElement().getStyle().setMarginLeft(50, Unit.PX);
 		lblActivityObjectiveData.getElement().getStyle().setPaddingLeft(5, Unit.PX);
 		txtRisk.getElement().getStyle().setMarginLeft(20, Unit.PX);
-		listBoxRating.getElement().getStyle().setMarginLeft(20, Unit.PX);
+		listBoxRating.getElement().getStyle().setMarginLeft(10, Unit.PX);
 		checkBoxApplicability.getElement().getStyle().setMarginLeft(50, Unit.PX);
 
 		FlexTable flex = new FlexTable();
@@ -87,8 +88,6 @@ public class KeyRiskViewNew extends VerticalPanel {
 		// flex.setWidget(1, 1, vpLblblRef);
 		// flex.setWidget(0,1,actv);
 
-		VerticalPanel containerActivityObjective = new VerticalPanel();
-
 		flex.setWidget(0, 0, lblactivityObjective);
 		containerActivityObjective.add(listObjectives);
 		containerActivityObjective.add(lblActivityObjectiveData);
@@ -96,14 +95,12 @@ public class KeyRiskViewNew extends VerticalPanel {
 		flex.setWidget(1, 0, containerActivityObjective);
 
 		flex.setWidget(0, 2, lblrisks);
-		VerticalPanel vpLblrisk = new VerticalPanel();
 		vpLblrisk.add(txtRisk);
-		vpLblrisk.setWidth("480px");
+		vpLblrisk.setWidth("450px");
 		flex.setWidget(1, 2, vpLblrisk);
 		// flex.setWidget(2,2,btnAddKeyRisk);
 
 		flex.setWidget(0, 3, lblriskRatings);
-		HorizontalPanel vpLblriskRating = new HorizontalPanel();
 
 		vpLblriskRating.setWidth("180px");
 		vpLblriskRating.add(listBoxRating);
@@ -161,6 +158,21 @@ public class KeyRiskViewNew extends VerticalPanel {
 		 */
 	}
 
+	public void setPopupView() {
+		containerActivityObjective.setWidth("200px");
+		lblactivityObjective.setWidth("200px");
+		lblActivityObjectiveData.setWidth("200px");
+
+		vpLblrisk.setWidth("200px");
+		lblrisks.setWidth("200px");
+		txtRisk.setWidth("200px");
+
+		vpLblriskRating.setWidth("150px");
+		lblriskRatings.setWidth("100px");
+		listBoxRating.setWidth("100px");
+		imgRating.setWidth("50px");
+	}
+
 	private String getImgRelatedToRating(String value) {
 		if (value.equals("2")) {
 
@@ -209,15 +221,15 @@ public class KeyRiskViewNew extends VerticalPanel {
 		this.riskId = riskId;
 	}
 
-	public ButtonRound getBtnSave() {
+	public Button getBtnSave() {
 		return btnSave;
 	}
 
-	public void setBtnSave(ButtonRound btnSave) {
+	public void setBtnSave(Button btnSave) {
 		this.btnSave = btnSave;
 	}
 
-	public ButtonRound getBtnSelect() {
+	public Button getBtnSelect() {
 		return btnSelect;
 	}
 
@@ -248,6 +260,7 @@ public class KeyRiskViewNew extends VerticalPanel {
 
 	protected void populateObjectives(final ArrayList<ActivityObjective> objectives) {
 		listObjectives.setVisible(true);
+		listObjectives.addStyleName("listObjectiveReference");
 		for (int i = 0; i < objectives.size(); i++) {
 			listObjectives.addItem(objectives.get(i).getReferenceNo(), objectives.get(i).getObjectiveId() + "");
 

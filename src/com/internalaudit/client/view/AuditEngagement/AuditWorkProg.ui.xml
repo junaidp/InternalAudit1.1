@@ -48,7 +48,7 @@
 	<g:Label> Feedback: </g:Label>
 	<g:Label ui:field="feedback" styleName="blue"></g:Label>
 	</g:HorizontalPanel>
-	<g:HorizontalPanel ui:field="panelAddIcon" ></g:HorizontalPanel>
+	<g:HorizontalPanel ui:field="panelAddIcon" styleName="w3-right"></g:HorizontalPanel>
 	<!-- 
 	<g:Button ui:field="addMore" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Add Audit Work</g:Button>
 	 -->

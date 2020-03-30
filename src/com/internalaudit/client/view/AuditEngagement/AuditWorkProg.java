@@ -16,6 +16,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -25,10 +26,9 @@ import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.util.MyUtil;
 import com.internalaudit.client.view.AmendmentPopup;
-import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.data.DataSetter;
-import com.internalaudit.client.widgets.AddIcon;
+import com.internalaudit.client.widgets.AddImage;
 import com.internalaudit.client.widgets.AuditWorkRow;
 import com.internalaudit.shared.AuditWork;
 import com.internalaudit.shared.Employee;
@@ -87,11 +87,11 @@ public class AuditWorkProg extends Composite {
 	ArrayList<JobEmployeeRelation> listData;
 	private ArrayList<AuditWork> savedAuditWorks;
 	private int selectedJobId;
-	private AddIcon addMore = new AddIcon();
-	private ButtonRound save = new ButtonRound("Save");
-	private ButtonRound submit = new ButtonRound("Submit");
-	private ButtonRound approve = new ButtonRound("Approve");
-	private ButtonRound reject = new ButtonRound("FeedBack");
+	AddImage addMore = new AddImage();
+	private Button save = new Button("Save");
+	private Button submit = new Button("Submit");
+	private Button approve = new Button("Approve");
+	private Button reject = new Button("FeedBack");
 
 	public AuditWorkProg(final InternalAuditServiceAsync rpcService, final int selectedJobId, Employee employee,
 			ArrayList<SuggestedControls> controls, VerticalPanel auditWorkNewContainer,
@@ -115,6 +115,7 @@ public class AuditWorkProg extends Composite {
 	private void setHandlers(final InternalAuditServiceAsync rpcService, final int selectedJobId,
 			final AsyncCallback<KickoffView> asyncCallback) {
 		approvalButtonsPanel.getElement().getStyle().setMarginLeft(1020, Unit.PX);
+		initiationButtonsPanel.getElement().getStyle().setMarginTop(25, Unit.PX);
 		initiationButtonsPanel.getElement().getStyle().setMarginLeft(1020, Unit.PX);
 		panelAddIcon.add(addMore);
 		initiationButtonsPanel.add(save);

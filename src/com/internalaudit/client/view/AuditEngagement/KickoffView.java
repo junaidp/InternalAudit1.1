@@ -16,7 +16,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -26,6 +25,7 @@ import com.internalaudit.client.util.DataStorage;
 import com.internalaudit.client.util.MyUtil;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.PopupsView;
+import com.internalaudit.client.widgets.AddImage;
 import com.internalaudit.shared.ActivityObjective;
 import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.AuditProgramme;
@@ -314,7 +314,7 @@ public class KickoffView extends Composite {
 		vpnl.add(auditWorkProg);
 
 		// AddIcon btnAddAuditWork = new AddIcon();
-		final Image btnAddAuditWork = new Image("images/add.png");
+		AddImage btnAddAuditWork = new AddImage();
 		btnAddAuditWork.addStyleName("w3-right");
 		Button btnSaveAuditWork = new Button("Save");
 		Button btnApproveAuditWork = new Button("Approve");
@@ -462,9 +462,11 @@ public class KickoffView extends Composite {
 		// vpExistingControl.add(addPanelExistingControl);
 
 		vpExistingControl.add(userRiskControlContainer);
-		Label library = new Label("---------Library----------");
-		library.addStyleName("libraryText");
-		vpExistingControl.add(library);
+		// Label library = new Label("---------Library----------");
+		// library.addStyleName("libraryText");
+		Button btnLibrary = new Button("Library");
+		btnLibrary.setWidth("100px");
+		vpExistingControl.add(btnLibrary);
 		// vpExistingControlContainer.add(new
 		// Label("---------Library----------"));
 		vpExistingControl.add(vpExistingControlContainer);
@@ -517,11 +519,13 @@ public class KickoffView extends Composite {
 		final VerticalPanel usersRisksContainer = new VerticalPanel();
 		Button btnSaveKeyRisk = new Button("Save");
 		Button btnSubmitKeyRisk = new Button("Submit");
+		Button btnLibrary = new Button("Library");
+		btnLibrary.setWidth("100px");
 		// AddIcon btnAdd = new AddIcon();
-		final Image btnAdd = new Image("images/add.png");
-		btnAdd.addStyleName("w3-right");
+		AddImage btnAdd = new AddImage();
 
-		verticalPanelKeyRisks.add(btnAdd);
+		HorizontalPanel hpnlTopAdd = new HorizontalPanel();
+		verticalPanelKeyRisks.add(hpnlTopAdd);
 
 		// User's LIBRARY
 		for (int j = 0; j < record.getEngagementDTO().getSelectedObjectiveRisks().size(); j++) {
@@ -560,10 +564,11 @@ public class KickoffView extends Composite {
 
 		if (record.getEngagementDTO().getSelectedObjectiveRisks().size() <= 0 || record.getEngagementDTO()
 				.getSelectedObjectiveRisks().get(0).getStatus() == InternalAuditConstants.SAVED) {
-			verticalPanelKeyRisksContainer.add(new Label("-------Library------"));
+			hpnlTopAdd.add(btnLibrary);
 
 			for (int i = 0; i < record.getEngagementDTO().getRiskObjectiveList().size(); i++) {
 				final KeyRiskViewNew keyRiskView = new KeyRiskViewNew();
+				keyRiskView.setPopupView();
 				verticalPanelKeyRisksContainer.add(keyRiskView);
 				final RiskObjective riskObjective = record.getEngagementDTO().getRiskObjectiveList().get(i);
 				keyRiskView.setData(riskObjective);
@@ -587,16 +592,19 @@ public class KickoffView extends Composite {
 
 					@Override
 					public void onClick(ClickEvent event) {
+
+						keyRiskView.getBtnSelect().setVisible(false);
 						final KeyRiskViewNew keyRiskSelectedView = new KeyRiskViewNew();
 						keyRiskSelectedView.usersView();
 						keyRiskView.getData(keyRiskSelectedView);
+						keyRiskSelectedView.addStyleName("w3-sand");
 						usersRisksContainer.add(keyRiskSelectedView);
-
 						keyRiskSelectedView.getDelete().addClickHandler(new ClickHandler() {
 
 							@Override
 							public void onClick(ClickEvent event) {
 								keyRiskSelectedView.removeFromParent();
+								keyRiskView.getBtnSelect().setVisible(true);
 							}
 						});
 
@@ -613,6 +621,7 @@ public class KickoffView extends Composite {
 				keyRiskViewNew.usersView();
 				keyRiskViewNew.getLblRef().setText(MyUtil.getRandom());
 				keyRiskViewNew.populateObjectives(record.getEngagementDTO().getSelectedActivityObjectives());
+				keyRiskViewNew.addStyleName("w3-sand");
 				usersRisksContainer.add(keyRiskViewNew);
 
 				keyRiskViewNew.getDelete().addClickHandler(new ClickHandler() {
@@ -625,13 +634,34 @@ public class KickoffView extends Composite {
 
 			}
 		});
-
+		hpnlTopAdd.add(btnAdd);
+		btnAdd.getElement().getStyle().setMarginLeft(1050, Unit.PX);
 		verticalPanelKeyRisks.add(usersRisksContainer);
-		verticalPanelKeyRisks.add(verticalPanelKeyRisksContainer);
+		btnLibrary.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				final PopupsView popUp = new PopupsView(verticalPanelKeyRisksContainer, "Key Risk Library");
+				Button btnClose = new Button("Close");
+				popUp.getVpnlMain().add(btnClose);
+				btnClose.getElement().getStyle().setMarginLeft(590, Unit.PX);
+				btnClose.addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						// TODO Auto-generated method stub
+						popUp.getVpnlMain().removeFromParent();
+						popUp.getPopup().removeFromParent();
+					}
+				});
+			}
+		});
+		// verticalPanelKeyRisks.add(verticalPanelKeyRisksContainer);
 		HorizontalPanel hpnlButton = new HorizontalPanel();
 		hpnlButton.add(btnSaveKeyRisk);
 		hpnlButton.add(btnSubmitKeyRisk);
-		hpnlButton.getElement().getStyle().setMarginLeft(1030, Unit.PX);
+		hpnlButton.getElement().getStyle().setMarginLeft(1010, Unit.PX);
 		hpnlButton.getElement().getStyle().setMarginTop(10, Unit.PX);
 		verticalPanelKeyRisks.add(hpnlButton);
 
@@ -716,14 +746,13 @@ public class KickoffView extends Composite {
 		// Unit.PX);
 		vpnlActicityObjective.setHeight("370px");
 
-		final Image btnAddAcitivityObjective = new Image("images/add.png");
-		btnAddAcitivityObjective.getElement().getStyle().setMarginLeft(1065, Unit.PX);
-		// btnAddAcitivityObjective.getElement().getStyle().setMarginLeft(1230,Unit.PX);
+		AddImage btnAddAcitivityObjective = new AddImage();
+		btnAddAcitivityObjective.getElement().getStyle().setMarginLeft(1050, Unit.PX);
 
 		final HorizontalPanel hpnlButtons = new HorizontalPanel();
 		hpnlButtons.add(btnSaveActicityObjective);
 		hpnlButtons.add(btnSubmitActicityObjective);
-		hpnlButtons.getElement().getStyle().setMarginLeft(1030, Unit.PX);
+		hpnlButtons.getElement().getStyle().setMarginLeft(1010, Unit.PX);
 		hpnlButtons.setVisible(false);
 
 		// User's LIBRARY
@@ -774,6 +803,7 @@ public class KickoffView extends Composite {
 
 				activityObjectiveView.setData(record.getEngagementDTO().getActivityObjectiveList().get(i));
 				// activityObjectiveView.disable();
+				activityObjectiveView.getTxtAreaActivityObj().setSize("400px", "120px");
 				vpnlActicityObjectiveContainer.add(activityObjectiveView);
 
 				activityObjectiveView.getBtnSelectActivity().addClickHandler(new ClickHandler() {
@@ -783,7 +813,6 @@ public class KickoffView extends Composite {
 						final ActivityObjectiveViewNew activityObjectiveSelected = new ActivityObjectiveViewNew();
 						activityObjectiveView.getData(activityObjectiveSelected);
 						usersActivityContainer.add(activityObjectiveSelected);
-						activityObjectiveSelected.getTxtAreaActivityObj().setSize("1130px", "60px");
 						activityObjectiveSelected.getTxtAreaActivityObj().addStyleName("w3-sand");
 						activityObjectiveView.getTxtAreaActivityObj().addStyleName("w3-sand");
 						activityObjectiveView.getBtnSelectActivity().setVisible(false);
@@ -818,7 +847,6 @@ public class KickoffView extends Composite {
 				hpnlButtons.setVisible(true);
 				act.getData(act);// to add DeleteButton
 				usersActivityContainer.add(act);
-				act.getTxtAreaActivityObj().setSize("1130px", "60px");
 				act.getDelete().addClickHandler(new ClickHandler() {
 
 					@Override

@@ -14,6 +14,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -23,10 +24,9 @@ import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.util.MyUtil;
 import com.internalaudit.client.view.AmendmentPopup;
-import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.data.DataSetter;
-import com.internalaudit.client.widgets.AddIcon;
+import com.internalaudit.client.widgets.AddImage;
 import com.internalaudit.client.widgets.RiskRow;
 import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.Employee;
@@ -86,11 +86,12 @@ public class RisksView extends Composite {
 	private Employee loggedInEmployee;
 	private ArrayList<RiskControlMatrixEntity> savedRisks;
 	private ArrayList<RiskObjective> listRisks;
-	private ButtonRound saveRisks = new ButtonRound("Save");
-	private ButtonRound submit = new ButtonRound("Submit");
-	private ButtonRound approve = new ButtonRound("Approve");
-	private ButtonRound reject = new ButtonRound("FeedBack");
-	private AddIcon addMore = new AddIcon();
+	private Button saveRisks = new Button("Save");
+	private Button submit = new Button("Submit");
+	private Button approve = new Button("Approve");
+	private Button reject = new Button("FeedBack");
+	// private AddIcon addMore = new AddIcon();
+	AddImage addMore = new AddImage();
 
 	interface RisksViewUiBinder extends UiBinder<Widget, RisksView> {
 	}
@@ -108,7 +109,7 @@ public class RisksView extends Composite {
 
 		setHandlers(auditEngId, rpcService, asyncCallback);
 		approvalButtonsPanel.getElement().getStyle().setMarginTop(40, Unit.PX);
-		// initiationButtonsPanel.addStyleName("w3-display-bottom w3-margin");
+		initiationButtonsPanel.getElement().getStyle().setMarginTop(10, Unit.PX);
 		approvalButtonsPanel.getElement().getStyle().setMarginLeft(1020, Unit.PX);
 		initiationButtonsPanel.getElement().getStyle().setMarginLeft(1020, Unit.PX);
 		// approvalButtonsPanel.getElement().getStyle().setPaddingLeft(400,
