@@ -56,6 +56,7 @@ public class KeyRiskViewNew extends VerticalPanel {
 		// lblActivityObjectiveData.setHeight("90px");
 		lblActivityObjectiveData.setWidth("450px");
 
+		lblActivityObjectiveData.getOffsetHeight();
 		txtRisk.setWidth("450px");
 		txtRisk.setHeight("90px");
 		txtRisk.setText("");

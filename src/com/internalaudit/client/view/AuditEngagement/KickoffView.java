@@ -410,8 +410,8 @@ public class KickoffView extends Composite {
 		cp.setBodyStyleName("pad-text");
 		cp.setHeadingText("Objective Risk Control Matrix");
 
-		ScrollPanel vps = new ScrollPanel();
-		vps.setHeight("400px");
+		// ScrollPanel vps = new ScrollPanel();
+		// vps.setHeight("400px");
 		VerticalPanel vpExistingControl = new VerticalPanel();
 		final VerticalPanel vpExistingControlContainer = new VerticalPanel();
 		final VerticalPanel userRiskControlContainer = new VerticalPanel();
@@ -422,9 +422,13 @@ public class KickoffView extends Composite {
 		userRiskControlContainer.add(riskView);
 
 		// library's
+		Button btnLibrary = new Button("Library");
+		btnLibrary.setWidth("100px");
+		vpExistingControl.add(btnLibrary);
 		ArrayList<Integer> riskIds = new ArrayList<Integer>();
 		for (int i = 0; i < record.getEngagementDTO().getSuggestedControlsList().size(); i++) {
 			final RiskControlMatrixView riskControlMatrixView = new RiskControlMatrixView();
+			riskControlMatrixView.setPopupView();
 			vpExistingControlContainer.add(riskControlMatrixView);
 			final RiskObjective riskObjective = record.getEngagementDTO().getSuggestedControlsList().get(i).getRiskId();
 			boolean riskAdded = riskIds.contains(riskObjective.getRiskId());
@@ -448,8 +452,8 @@ public class KickoffView extends Composite {
 
 				@Override
 				public void onClick(ClickEvent event) {
+					riskControlMatrixView.getBtnSelect().setVisible(false);
 					riskView.addRow(riskControlMatrixView, riskObjective);
-
 				}
 			});
 		}
@@ -460,17 +464,34 @@ public class KickoffView extends Composite {
 		panelButtons.addStyleName("w3-display-bottom w3-margin");
 		// final VerticalPanel addPanelExistingControl = new VerticalPanel();
 		// vpExistingControl.add(addPanelExistingControl);
-
 		vpExistingControl.add(userRiskControlContainer);
 		// Label library = new Label("---------Library----------");
 		// library.addStyleName("libraryText");
-		Button btnLibrary = new Button("Library");
-		btnLibrary.setWidth("100px");
-		vpExistingControl.add(btnLibrary);
 		// vpExistingControlContainer.add(new
 		// Label("---------Library----------"));
-		vpExistingControl.add(vpExistingControlContainer);
-		vps.add(vpExistingControl);
+		btnLibrary.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				final PopupsView popUp = new PopupsView(vpExistingControlContainer, "User Risk Library");
+				Button btnClose = new Button("Close");
+				popUp.getVpnlMain().add(btnClose);
+				btnClose.getElement().getStyle().setMarginLeft(755, Unit.PX);
+				btnClose.addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						// TODO Auto-generated method stub
+						popUp.getVpnlMain().removeFromParent();
+						popUp.getPopup().removeFromParent();
+					}
+				});
+			}
+		});
+		// vpExistingControl.add(vpExistingControlContainer);
+		// vps.add(vpExistingControl);
+		vpExistingControl.setHeight("400px");
 
 		if (record.getEngagementDTO().getSuggestedControlsList().isEmpty()
 				&& record.getEngagementDTO().getSelectedObjectiveRisks().isEmpty()) {
@@ -478,7 +499,7 @@ public class KickoffView extends Composite {
 		}
 
 		// cp.add(panelAdd);
-		cp.add(vps);
+		cp.add(vpExistingControl);
 
 		con.add(cp);
 

@@ -31,7 +31,7 @@ public class RiskRow extends Composite {
 		riskId = new Label("0");
 		removeRow = new Image("images/deleteIcon.png");
 		removeRow.addStyleName("pointerStyle");
-		removeRow.getElement().getStyle().setMarginTop(18, Unit.PX);
+		removeRow.getElement().getStyle().setMarginTop(97, Unit.PX);
 		riskId.addStyleName("hidden");
 
 		initWidget(rowContainer);

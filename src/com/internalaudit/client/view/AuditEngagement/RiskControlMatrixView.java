@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -13,7 +14,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.util.MyUtil;
-import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.shared.RiskObjective;
 import com.internalaudit.shared.SuggestedControls;
 
@@ -35,11 +35,13 @@ public class RiskControlMatrixView extends VerticalPanel {
 	private ListBox listBoxRisk = new ListBox();
 	ListBox listBoxControlRating = new ListBox();
 	private int suggestedControlsId = 0;
-	private ButtonRound btnSelect = new ButtonRound("Select");
+	private Button btnSelect = new Button("Select");
+	VerticalPanel vpLblRisk = new VerticalPanel();
 
 	public RiskControlMatrixView() {
 		listBoxInherintRating.setEnabled(false);
 		listBoxRisk.setVisible(false);
+		listBoxRisk.addStyleName("listObjectiveReference");
 		lblReferenceNo.setText("Reference Number");
 		lblrisk.setText("Risks");
 		lblcontrol.setText("Controls");
@@ -66,9 +68,9 @@ public class RiskControlMatrixView extends VerticalPanel {
 
 		// all the styling defined here
 
-		lblriskRatings.setWidth("150px");
+		lblriskRatings.setWidth("120px");
 
-		lblresidualRisk.setWidth("140px");
+		lblresidualRisk.setWidth("120px");
 
 		lblrisk.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		lblRefData.getElement().getStyle().setMarginLeft(20, Unit.PX);
@@ -79,8 +81,8 @@ public class RiskControlMatrixView extends VerticalPanel {
 		lblriskdata.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		listBoxRisk.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		txtAreaControl.getElement().getStyle().setMarginLeft(20, Unit.PX);
-		listBoxInherintRating.getElement().getStyle().setMarginLeft(40, Unit.PX);
-		listBoxControlRating.getElement().getStyle().setMarginLeft(60, Unit.PX);
+		listBoxInherintRating.getElement().getStyle().setMarginLeft(25, Unit.PX);
+		listBoxControlRating.getElement().getStyle().setMarginLeft(25, Unit.PX);
 
 		// making flexwidget and adding labels in flex widget
 
@@ -97,7 +99,7 @@ public class RiskControlMatrixView extends VerticalPanel {
 		// flex.setWidget(1,0,vpLblactivitydata);
 
 		flex.setWidget(0, 0, lblrisk);
-		VerticalPanel vpLblRisk = new VerticalPanel();
+
 		vpLblRisk.setWidth("350px");
 		vpLblRisk.add(listBoxRisk);
 		vpLblRisk.add(lblriskdata);
@@ -112,7 +114,8 @@ public class RiskControlMatrixView extends VerticalPanel {
 
 		flex.setWidget(0, 1, lblriskRatings);
 		HorizontalPanel vpLblRiskRating = new HorizontalPanel();
-		vpLblRiskRating.setWidth("180px");
+		vpLblRiskRating.setWidth("150px");
+		listBoxInherintRating.setWidth("80px");
 		vpLblRiskRating.add(listBoxInherintRating);
 		vpLblRiskRating.add(imgRating);
 		flex.setWidget(1, 1, vpLblRiskRating);
@@ -125,7 +128,8 @@ public class RiskControlMatrixView extends VerticalPanel {
 
 		flex.setWidget(0, 4, lblresidualRisk);
 		HorizontalPanel panelResidualRating = new HorizontalPanel();
-		panelResidualRating.setWidth("180px");
+		panelResidualRating.setWidth("150px");
+		listBoxControlRating.setWidth("80px");
 		panelResidualRating.add(listBoxControlRating);
 		panelResidualRating.add(imgRatingControl);
 		flex.setWidget(1, 4, panelResidualRating);
@@ -155,6 +159,15 @@ public class RiskControlMatrixView extends VerticalPanel {
 			}
 		});
 
+	}
+
+	public void setPopupView() {
+		lblrisk.setWidth("200px");
+		lblriskdata.setWidth("200px");
+		vpLblRisk.setWidth("220px");
+
+		lblcontrol.setWidth("200px");
+		txtAreaControl.setWidth("210px");
 	}
 
 	public void hideElemetns() {
@@ -336,11 +349,11 @@ public class RiskControlMatrixView extends VerticalPanel {
 		this.riskObjective = riskObjective;
 	}
 
-	public ButtonRound getBtnSelect() {
+	public Button getBtnSelect() {
 		return btnSelect;
 	}
 
-	public void setBtnSelect(ButtonRound btnSelect) {
+	public void setBtnSelect(Button btnSelect) {
 		this.btnSelect = btnSelect;
 	}
 

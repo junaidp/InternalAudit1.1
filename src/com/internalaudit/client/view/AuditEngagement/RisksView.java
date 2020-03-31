@@ -64,7 +64,8 @@ public class RisksView extends Composite {
 
 	@UiField
 	Label submittedBy;
-
+	@UiField
+	Label seperator;
 	@UiField
 	Label approvedBy;
 	@UiField
@@ -201,7 +202,6 @@ public class RisksView extends Composite {
 	public void addRow(final RiskControlMatrixView controlView, RiskObjective riskObjective) {
 		final RiskRow riskRow = new RiskRow();
 		riskRows.add(riskRow);
-
 		riskRow.getRemoveRow().addClickHandler(new ClickHandler() {
 
 			@Override
@@ -213,16 +213,15 @@ public class RisksView extends Composite {
 						riskRows.remove(i);
 					}
 				}
-
+				controlView.getBtnSelect().setVisible(true);
 			}
 		});
-
 		riskRow.getExistingControlView().populateRisks(listRisks, riskObjective);
 
 		// Setting new control matrix from selected control matrix
 		if (controlView != null) {
-
 			riskRow.getExistingControlView().setData(controlView);
+			riskRow.addStyleName("w3-sand");
 		} else {
 			riskRow.getExistingControlView().getLblRefData().setText(MyUtil.getRandom());
 		}
@@ -473,6 +472,7 @@ public class RisksView extends Composite {
 							&& r.get(0).getStatus() == InternalAuditConstants.APPROVED) {
 						approvedBy.setVisible(true);
 						approvedBy.setText("Approved by:" + r.get(0).getApprovedBy().getEmployeeName());
+						seperator.setVisible(true);
 						imgApproved.setVisible(true);
 						submittedBy.setVisible(true);
 						submittedBy.setText("Initiated by:" + r.get(0).getInitiatedBy().getEmployeeName());
@@ -497,6 +497,7 @@ public class RisksView extends Composite {
 						enableFields();
 						enableRiskRows();
 						addMore.setVisible(false);
+						seperator.setVisible(true);
 						submittedBy.setVisible(true);
 						submittedBy.setText("Initiated by:" + r.get(0).getInitiatedBy().getEmployeeName());
 					}
