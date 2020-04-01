@@ -8,7 +8,9 @@
 	border-radius: 4px;
 }
 
-
+.labelHeadingToDo{
+	margin-top: 10px;
+}
 
 .labelRisk {
 	background-color: #CAE1FF;
@@ -730,4 +732,12 @@ select::-ms-expand {
 }
 .gwt-Tree .gwt-TreeItem {
     white-space: normal !important;
+}
+.libraryText{
+	text-shadow:1px 1px 0 #444;
+	margin-left: 20px;
+}
+.listTextBold{
+	font-weight: bold;
+	margin-left: 5px;
 }
