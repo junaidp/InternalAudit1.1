@@ -41,7 +41,7 @@ public class RiskControlMatrixView extends VerticalPanel {
 	public RiskControlMatrixView() {
 		listBoxInherintRating.setEnabled(false);
 		listBoxRisk.setVisible(false);
-		listBoxRisk.addStyleName("listObjectiveReference");
+		listBoxRisk.addStyleName("listTextBold");
 		lblReferenceNo.setText("Reference Number");
 		lblrisk.setText("Risks");
 		lblcontrol.setText("Controls");
@@ -50,7 +50,7 @@ public class RiskControlMatrixView extends VerticalPanel {
 		lblresidualRisk.setText("Control Risk");
 
 		// all the data views are defined here data from db
-		lblriskdata.setHeight("110px");
+		// lblriskdata.setHeight("110px");
 		lblriskdata.setWidth("330px");
 
 		txtAreaControl.setWidth("400px");

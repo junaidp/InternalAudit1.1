@@ -203,7 +203,7 @@ public class AuditWorkProg extends Composite {
 
 	//////////////
 
-	public void addRow(AuditWorkProgramNew auditWorkProgramNew) {
+	public void addRow(final AuditWorkProgramNew auditWorkProgramNew) {
 		rows.setSpacing(0);
 		if (!heading.isVisible()) {
 			heading.setVisible(true);
@@ -251,6 +251,7 @@ public class AuditWorkProg extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				r.removeRow();
+				auditWorkProgramNew.getBtnSelect().setVisible(true);
 				for (int i = 0; i < rows.getWidgetCount(); i++) {
 					if (rows.getWidget(i) == r) {
 						rows.remove(i);
@@ -269,6 +270,7 @@ public class AuditWorkProg extends Composite {
 			r.getDescription().setText(auditWorkProgramNew.getTxtAreaAuditProg().getText());
 			r.getTxtBoxExistingControls().setText(auditWorkProgramNew.getLblReferenceData().getText());
 			r.getStep().setText(auditWorkProgramNew.getLblReferenceData().getText());
+			r.addStyleName("w3-sand");
 
 			for (int i = 0; i < r.getListBoxExistingCtrl().getItemCount(); i++) {
 				if (r.getListBoxExistingCtrl().getItemText(i)

@@ -2,20 +2,20 @@ package com.internalaudit.client.view.AuditEngagement;
 
 import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.shared.AuditProgramme;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.SuggestedControls;
 
 public class AuditWorkProgramNew extends VerticalPanel {
 	Label lblSerialNo = new Label("Serial No.");
-	Label lblReference = new Label("Controls");
-	Label lblAuditProg = new Label("Audit Program");
+	LabelHeading lblReference = new LabelHeading();
+	LabelHeading lblAuditProg = new LabelHeading();
 	// Label lblReviewer = new Label("Reviewer");
 	TextArea txtAreaAuditProg = new TextArea();
 	// ListBox listBoxReviewerData = new ListBox();
@@ -23,30 +23,34 @@ public class AuditWorkProgramNew extends VerticalPanel {
 	Image delete = new Image("images/deleteIcon.png");
 	Label lblReferenceData = new Label("");
 	private int auditWorkProgrammeId = 0;
-	private ButtonRound btnSelect = new ButtonRound("Select");
+	private Button btnSelect = new Button("Select");
 	private SuggestedControls control = new SuggestedControls();
+	VerticalPanel panelReference = new VerticalPanel();
+	VerticalPanel panelAuditProg = new VerticalPanel();
 
 	public AuditWorkProgramNew() {
 		// TODO Auto-generated method stub
 		VerticalPanel vpn = new VerticalPanel();
 		// TODO Auto-generated method stub
 
+		lblReference.setText("Controls");
+		lblAuditProg.setText("Audit Program");
 		lblSerialNo.addStyleName("w3-panel w3-light-blue");
 
-		lblReference.addStyleName("w3-panel w3-light-blue");
+		lblReference.addStyleName("w3-panel");
 
-		lblAuditProg.addStyleName("w3-panel w3-light-blue");
+		lblAuditProg.addStyleName("w3-panel");
 
 		// lblReviewer.addStyleName("w3-panel w3-light-blue");
 
-		txtAreaAuditProg.setWidth("300px");
-		txtAreaAuditProg.setHeight("90px");
+		txtAreaAuditProg.setWidth("550px");
+		// txtAreaAuditProg.setHeight("90px");
 		txtAreaAuditProg.setText("");
 
 		lblSerialNo.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		lblAuditProg.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+		// lblAuditProg.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 		// lblReviewer.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		lblReference.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+		// lblReference.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 
 		lblAuditProg.getElement().getStyle().setMarginLeft(1, Unit.PX);
 		lblReference.getElement().getStyle().setMarginLeft(10, Unit.PX);
@@ -58,8 +62,8 @@ public class AuditWorkProgramNew extends VerticalPanel {
 		// listBoxReviewerData.addStyleName("w3-panel");
 		// listBoxReviewerData.addItem("korgenthead");
 
-		lblReferenceData.getElement().getStyle().setMarginLeft(20, Unit.PX);
-		txtAreaAuditProg.getElement().getStyle().setMarginLeft(20, Unit.PX);
+		lblReferenceData.getElement().getStyle().setMarginLeft(10, Unit.PX);
+		txtAreaAuditProg.getElement().getStyle().setMarginLeft(10, Unit.PX);
 		// listBoxReviewerData.getElement().getStyle().setMarginLeft(20,
 		// Unit.PX);
 
@@ -72,14 +76,12 @@ public class AuditWorkProgramNew extends VerticalPanel {
 		// flex.setWidget(1,1,panelSerial);
 
 		flex.setWidget(0, 2, lblReference);
-		VerticalPanel panelReference = new VerticalPanel();
-		panelReference.setWidth("300px");
+		panelReference.setWidth("500px");
 		panelReference.add(lblReferenceData);
 		flex.setWidget(1, 2, panelReference);
 
 		flex.setWidget(0, 3, lblAuditProg);
-		VerticalPanel panelAuditProg = new VerticalPanel();
-		panelAuditProg.setWidth("240px");
+		panelAuditProg.setWidth("550px");
 		panelAuditProg.add(txtAreaAuditProg);
 		flex.setWidget(1, 3, panelAuditProg);
 
@@ -88,6 +90,13 @@ public class AuditWorkProgramNew extends VerticalPanel {
 		flex.setWidget(1, 5, btnSelect);
 
 		add(flex);
+	}
+
+	public void setPopupView() {
+		panelAuditProg.setWidth("250px");
+		panelReference.setWidth("250px");
+		// txtAreaAuditProg.setWidth("250px");
+		txtAreaAuditProg.setSize("250px", "90px");
 	}
 
 	public void hideElemetns() {
@@ -157,11 +166,11 @@ public class AuditWorkProgramNew extends VerticalPanel {
 		this.auditWorkProgrammeId = auditWorkProgrammeId;
 	}
 
-	public ButtonRound getBtnSelect() {
+	public Button getBtnSelect() {
 		return btnSelect;
 	}
 
-	public void setBtnSelect(ButtonRound btnSelect) {
+	public void setBtnSelect(Button btnSelect) {
 		this.btnSelect = btnSelect;
 	}
 }

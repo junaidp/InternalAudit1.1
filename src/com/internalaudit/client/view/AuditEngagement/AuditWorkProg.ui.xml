@@ -11,7 +11,7 @@
 	margin: 5px;	
 }
 .txtExtendedAuditProgramWidth {
-	width : 800px;
+	width : 750px;
 	padding: 5px;
 	margin: 5px;
 	
@@ -28,11 +28,8 @@
 	margin : 5px;
 }
 	</ui:style>
-	<g:ScrollPanel height="390px" width="1185px">
 	
 	<g:HTMLPanel>
-	
-	<A:LabelHeading addStyleNames="{style.heading}"> Audit Work Program </A:LabelHeading>
 	
 	<div>
 	
@@ -111,5 +108,5 @@
 	</g:HorizontalPanel>
 
 	</g:HTMLPanel>
-		</g:ScrollPanel>
+	
 </ui:UiBinder> 

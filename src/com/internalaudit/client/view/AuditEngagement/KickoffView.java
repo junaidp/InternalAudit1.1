@@ -305,7 +305,34 @@ public class KickoffView extends Composite {
 		cp.setBodyStyleName("pad-text");
 		cp.setHeadingText("Audit Work Programme");
 		VerticalPanel vpnl = new VerticalPanel();
-		vpnl.setHeight("600px");
+		// vpnl.setHeight("400px");
+		Button btnLibrary = new Button("Library");
+		vpnl.add(btnLibrary);
+		final VerticalPanel vpnlPopup = new VerticalPanel();
+		final ScrollPanel scrollPopup = new ScrollPanel();
+		scrollPopup.add(vpnlPopup);
+		scrollPopup.setHeight("400px");
+		vpnlPopup.setHeight("400px");
+		btnLibrary.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				final PopupsView popUp = new PopupsView(scrollPopup, "Audit Work Program Library");
+				Button btnClose = new Button("Close");
+				popUp.getVpnlMain().add(btnClose);
+				btnClose.getElement().getStyle().setMarginLeft(530, Unit.PX);
+				btnClose.addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						// TODO Auto-generated method stub
+						popUp.getVpnlMain().removeFromParent();
+						popUp.getPopup().removeFromParent();
+					}
+				});
+			}
+		});
 
 		final VerticalPanel auditWorkNewContainer = new VerticalPanel();
 
@@ -314,8 +341,8 @@ public class KickoffView extends Composite {
 		vpnl.add(auditWorkProg);
 
 		// AddIcon btnAddAuditWork = new AddIcon();
-		AddImage btnAddAuditWork = new AddImage();
-		btnAddAuditWork.addStyleName("w3-right");
+		// AddImage btnAddAuditWork = new AddImage();
+		// btnAddAuditWork.addStyleName("w3-right");
 		Button btnSaveAuditWork = new Button("Save");
 		Button btnApproveAuditWork = new Button("Approve");
 		btnSaveAuditWork.addStyleName("w3-margin");
@@ -328,7 +355,8 @@ public class KickoffView extends Composite {
 		// library
 		for (int i = 0; i < record.getEngagementDTO().getAuditProgrammeList().size(); i++) {
 			final AuditWorkProgramNew auditWorkProgramNew = new AuditWorkProgramNew();
-			auditWorkNewContainer.add(auditWorkProgramNew);
+			auditWorkProgramNew.setPopupView();
+			vpnlPopup.add(auditWorkProgramNew);
 			vpnl.add(auditWorkNewContainer);
 			auditWorkProgramNew.setData(record.getEngagementDTO().getAuditProgrammeList().get(i));
 
@@ -337,23 +365,23 @@ public class KickoffView extends Composite {
 				@Override
 				public void onClick(ClickEvent event) {
 					auditWorkProg.addRow(auditWorkProgramNew);
-
+					auditWorkProgramNew.getBtnSelect().setVisible(false);
 				}
 			});
 		}
 
 		// addclickhandler of button risk
-		btnAddAuditWork.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				AuditWorkProgramNew auditWork = new AuditWorkProgramNew();
-				auditWork.getLblReferenceData().setText(MyUtil.getRandom());
-				auditWork.hideElemetns();
-				auditWorkNewContainer.add(auditWork);
-
-			}
-		});
+		// btnAddAuditWork.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// AuditWorkProgramNew auditWork = new AuditWorkProgramNew();
+		// auditWork.getLblReferenceData().setText(MyUtil.getRandom());
+		// auditWork.hideElemetns();
+		// auditWorkNewContainer.add(auditWork);
+		//
+		// }
+		// });
 
 		btnSaveAuditWork.addClickHandler(new ClickHandler() {
 
@@ -854,8 +882,6 @@ public class KickoffView extends Composite {
 				});
 
 			}
-		} else {
-
 		}
 
 		btnAddAcitivityObjective.addClickHandler(new ClickHandler() {
@@ -898,7 +924,6 @@ public class KickoffView extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				saveActivityObjective(usersActivityContainer, InternalAuditConstants.SUBMIT, con);
-
 			}
 		});
 		HorizontalPanel hpnlBtnHeader = new HorizontalPanel();
@@ -948,6 +973,8 @@ public class KickoffView extends Composite {
 			ActivityObjectiveViewNew activityObjectiveView = (ActivityObjectiveViewNew) usersActivityContainer
 					.getWidget(i);
 			ActivityObjective activityObjective = new ActivityObjective();
+			activityObjectiveView.getTxtAreaActivityObj().setEnabled(false);
+			activityObjectiveView.getDelete().setVisible(false);
 			activityObjectiveView.getData(activityObjective);
 			activityObjective.setSubProcessId(subProcess);
 			// activityObjective.setChecked(true);

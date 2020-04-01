@@ -261,7 +261,7 @@ public class KeyRiskViewNew extends VerticalPanel {
 
 	protected void populateObjectives(final ArrayList<ActivityObjective> objectives) {
 		listObjectives.setVisible(true);
-		listObjectives.addStyleName("listObjectiveReference");
+		listObjectives.addStyleName("listTextBold");
 		for (int i = 0; i < objectives.size(); i++) {
 			listObjectives.addItem(objectives.get(i).getReferenceNo(), objectives.get(i).getObjectiveId() + "");
 

@@ -7,11 +7,11 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
-import com.sencha.gxt.widget.core.client.form.TextArea;
 
 public class AuditWorkRow extends Composite {
 
@@ -38,10 +38,10 @@ public class AuditWorkRow extends Composite {
 	public AuditWorkRow() {
 		rowContainer = new HorizontalPanel();
 		description = new TextArea();
-		description.setWidth("800px");
+		description.setWidth("750px");
 		description.setHeight("90px");
 		description.setText("");
-		description.getElement().getStyle().setMarginLeft(2, Unit.PX);
+		description.getElement().getStyle().setMarginLeft(20, Unit.PX);
 		step = new TextBox();
 		step.setWidth("75px");
 		lstReviewer = new ListBox();
@@ -51,7 +51,7 @@ public class AuditWorkRow extends Composite {
 		// txtBoxExistingControls.setWidth("300px");
 		// txtBoxExistingControls.setHeight("90px");
 		txtBoxExistingControls = new Label();
-		txtBoxExistingControls.getElement().getStyle().setMarginTop(13, Unit.PX);
+		txtBoxExistingControls.getElement().getStyle().setMarginLeft(8, Unit.PX);
 		txtBoxExistingControls.setWidth("290px");
 		// txtBoxExistingControls.setHeight("90px");
 
@@ -72,7 +72,8 @@ public class AuditWorkRow extends Composite {
 		step.addStyleName("txtShort");
 		lstReviewer.addStyleName("txtShrikedWidth");
 		listBoxRisk.addStyleName("txtShrikedWidth");
-		listBoxExistingCtrl.addStyleName("txtShrikedWidth");
+		listBoxExistingCtrl.addStyleName("listTextBold");
+		listBoxExistingCtrl.getElement().getStyle().setMarginLeft(8, Unit.PX);
 
 		VerticalPanel containerExistingControls = new VerticalPanel();
 
