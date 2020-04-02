@@ -35,6 +35,7 @@ public class AuditStepContainer extends Composite {
 		lblHeading.setHeight("35px");
 		vpnlMain.add(lblHeading);
 		lblHeading.addStyleName("heading");
+		lblHeading.setWidth("1180px");
 
 	}
 
@@ -66,9 +67,8 @@ public class AuditStepContainer extends Composite {
 
 			@Override
 			public void onSuccess(ArrayList<AuditWork> result) {
-
 				ContentPanel panel = new ContentPanel();
-				panel.setWidth("1190px");
+				panel.setWidth("1180px");
 				panel.setBodyBorder(false);
 				AccordionLayoutContainer con = new AccordionLayoutContainer();
 				panel.add(con);
@@ -90,13 +90,9 @@ public class AuditStepContainer extends Composite {
 		ContentPanel cp = new ContentPanel(appearance);
 		cp.setAnimCollapse(false);
 		cp.setHeadingText(auditWork.getStepNo() + "." + auditWork.getDescription());
-		VerticalPanel vpnlIdentification = new VerticalPanel();
-		vpnlIdentification.setHeight("350px");
 		ScrollPanel sp = new ScrollPanel();
-		vpnlIdentification.add(new AuditStepView(auditWork, selectedJobId, loggedInEmployee));
-		sp.add(vpnlIdentification);
-		sp.setHeight("350px");
-		sp.setWidth("1197px");
+		sp.add(new AuditStepView(auditWork, selectedJobId, loggedInEmployee));
+		sp.setSize("1180px", "350px");
 		cp.add(sp);
 		con.add(cp);
 

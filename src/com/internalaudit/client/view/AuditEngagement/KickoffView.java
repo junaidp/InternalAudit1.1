@@ -423,7 +423,7 @@ public class KickoffView extends Composite {
 		cp.setHeadingText("Audit Step");
 		ScrollPanel sp = new ScrollPanel();
 		sp.add(new AuditStepContainer(selectedJobId, rpcService, loggedInUser));
-		sp.setHeight("450px");
+		sp.setHeight("500px");
 		cp.add(sp);
 		con.add(cp);
 		statusPanel.add(panel);

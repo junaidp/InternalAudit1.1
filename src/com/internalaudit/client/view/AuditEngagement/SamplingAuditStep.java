@@ -9,7 +9,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -34,18 +33,18 @@ public class SamplingAuditStep extends VerticalPanel {
 	ListBox listBoxSamplingMethod = new ListBox();
 	TextBox lblPopulationData = new TextBox();
 	TextArea txtAreaAuditProcedure = new TextArea();
-	HorizontalPanel panelFileDetail = new HorizontalPanel();
-	ScrollPanel panelFileDetailScroll = new ScrollPanel();
+	// HorizontalPanel panelFileDetail = new HorizontalPanel();
+	// ScrollPanel panelFileDetailScroll = new ScrollPanel();
 	AuditWorkProgramUpload fileUpload;
 
 	public SamplingAuditStep(String auditStep) {
 		// TODO Auto-generated method stub
 
-		panelFileDetail.setHeight("100px");
-		panelFileDetail.setWidth("120px");
-		panelFileDetailScroll.setHeight("90px");
-		panelFileDetailScroll.setWidth("100px");
-		panelFileDetail.add(panelFileDetailScroll);
+		// panelFileDetail.setHeight("100px");
+		// panelFileDetail.setWidth("120px");
+		// panelFileDetailScroll.setHeight("90px");
+		// panelFileDetailScroll.setWidth("100px");
+		// panelFileDetail.add(panelFileDetailScroll);
 		lblControl.setText("Control");
 		lblControl.addStyleName("labelDesign");
 		lblControlRisk.setText("Control Risk");
@@ -155,9 +154,9 @@ public class SamplingAuditStep extends VerticalPanel {
 		hpnlAuditProcedure.add(lblAuditProcedure);
 		lblAuditProcedure.getElement().getStyle().setMarginTop(30, Unit.PX);
 		hpnlAuditProcedure.add(txtAreaAuditProcedure);
-		txtAreaAuditProcedure.setWidth("1000px");
+		txtAreaAuditProcedure.setWidth("950px");
 		vpnlAuditProcedure.add(fileUpload);
-		fileUpload.addStyleName("w3-right");
+		fileUpload.getElement().getStyle().setMarginLeft(190, Unit.PX);
 		// flex.setWidget(4,3,panelFileDetail);
 
 		add(flex);
