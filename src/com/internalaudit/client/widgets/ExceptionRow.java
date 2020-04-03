@@ -105,10 +105,13 @@ public class ExceptionRow extends Composite {
 	}
 
 	public void disableFields() {
-		exception.setEnabled(false);
-		removeRow.setVisible(false);
-		upload.getUploadPanel().setVisible(false);
-
+		try {
+			exception.setEnabled(false);
+			removeRow.setVisible(false);
+			upload.getUploadPanel().setVisible(false);
+		} catch (Exception ex) {
+			GWT.log("Error in disabling exception row " + ex);
+		}
 		// auditStepUpload.getUpload().setVisible(false);
 		// auditStepUpload.getBtnSubmit().setVisible(false);
 	}

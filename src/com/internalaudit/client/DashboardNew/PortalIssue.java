@@ -1,6 +1,8 @@
 package com.internalaudit.client.DashboardNew;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -18,7 +20,7 @@ public class PortalIssue extends VerticalLayoutContainer {
 	protected static final int MIN_WIDTH = 1280;
 	protected static final int PREFERRED_HEIGHT = 1;
 	protected static final int PREFERRED_WIDTH = 1;
-	  private ContentPanel panel;
+	private ContentPanel panel;
 	private static final IssuesProperties properties = GWT.create(IssuesProperties.class);
 
 	private List<Issues> issues = new ArrayList<Issues>();
@@ -33,7 +35,7 @@ public class PortalIssue extends VerticalLayoutContainer {
 	private void setData(ArrayList<Exceptions> exceptions) {
 		for (int i = 0; i < exceptions.size(); i++) {
 			Issues issue = new Issues();
-			//issue.setId(exceptions.get(i).getExceptionId());
+			// issue.setId(exceptions.get(i).getExceptionId());
 			issue.setId(exceptions.get(i).getExceptionId());
 			issue.setIssueTitle(exceptions.get(i).getDetail());
 			issue.setManagementResponce(exceptions.get(i).getManagementComments());
@@ -69,23 +71,19 @@ public class PortalIssue extends VerticalLayoutContainer {
 		grid.getView().setForceFit(true);
 		grid.getView().setStripeRows(true);
 		grid.getView().setColumnLines(true);
-		 ScrollPanel p = new ScrollPanel();
-		 p.setHeight("180px");
-		
-	   p.add(grid);
+		ScrollPanel p = new ScrollPanel();
+		p.setHeight("180px");
+		p.add(grid);
+		VerticalLayoutContainer con = new VerticalLayoutContainer();
 
-	
-		 VerticalLayoutContainer con = new VerticalLayoutContainer();
-		
-	   
-	      con.add(p, new VerticalLayoutData(1, 1));
+		con.add(p, new VerticalLayoutData(1, 1));
 
-	      panel = new ContentPanel();
-	      panel.setHeadingText("Issues");
-	      panel.setWidth(700);
-	      panel.setHeight(220);
-	      panel.add(con);
-	      return panel;
+		panel = new ContentPanel();
+		panel.setHeadingText("Issues");
+		panel.setWidth(700);
+		panel.setHeight(220);
+		panel.add(con);
+		return panel;
 	}
 
 }

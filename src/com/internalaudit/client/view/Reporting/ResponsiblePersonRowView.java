@@ -1,5 +1,6 @@
 package com.internalaudit.client.view.Reporting;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -38,6 +39,7 @@ public class ResponsiblePersonRowView extends VerticalPanel {
 		// status.setVisible(false);
 
 		createLayout();
+		this.getElement().getStyle().setMarginTop(10, Unit.PX);
 	}
 
 	private void createLayout() {
@@ -95,18 +97,22 @@ public class ResponsiblePersonRowView extends VerticalPanel {
 		//
 		// btnApprove.setWidth("60px");
 		// btnReject.setWidth("60px");
-		implicationRating.setWidth("140px");
+		implicationRating.setWidth("145px");
 		exception.setWidth("150px");
+		exception.getElement().getStyle().setPaddingLeft(7, Unit.PX);
 		recommendations.setWidth("150px");
-		managementComments.setWidth("150px");
-		implication.setWidth("150px");
+		recommendations.getElement().getStyle().setPaddingLeft(5, Unit.PX);
+		managementComments.setWidth("152px");
+		managementComments.getElement().getStyle().setPaddingLeft(5, Unit.PX);
+		implication.setWidth("145px");
+		implication.getElement().getStyle().setPaddingLeft(5, Unit.PX);
 		status.setWidth("120px");
 		isAgreed.setWidth("100px");
 		// for(int i=0; i< getWidgetCount()-3; i++){
 		// getWidget(i).setWidth("300px");
 		// }
-		implementaionDate.setWidth("100px");
-		responsiblePerson.setWidth("140px");
+		implementaionDate.setWidth("127px");
+		responsiblePerson.setWidth("121px");
 
 		auditJob.setEnabled(false);
 		implicationRating.setEnabled(false);

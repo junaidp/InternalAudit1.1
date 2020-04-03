@@ -1,6 +1,8 @@
 package com.internalaudit.client.view.Reporting;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -8,7 +10,6 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DateBox.DefaultFormat;
-import com.internalaudit.client.view.ButtonRound;
 import com.sencha.gxt.widget.core.client.form.TextField;
 
 public class JobExceptionsView extends HorizontalPanel {
@@ -20,18 +21,17 @@ public class JobExceptionsView extends HorizontalPanel {
 	private ListBox responsiblePerson = new ListBox();
 	private ListBox divisionHead = new ListBox();
 	private DateBox dueDate = new DateBox();
-	private ButtonRound btnSave = new ButtonRound("Send");
+	private Button btnSave = new Button("Send");
 	private VerticalPanel vpnlButtons = new VerticalPanel();
-	private ButtonRound btnApprove = new ButtonRound("Approve");
-	private ButtonRound btnReject = new ButtonRound("Feedback");
+	private Button btnApprove = new Button("Approve");
+	private Button btnReject = new Button("Feedback");
 	private Label status = new Label("");
 	private TextField txtComments = new TextField();
 
 	public JobExceptionsView() {
-		setWidth("900px");
-
+		// setWidth("900px");
 		createLayout();
-
+		this.getElement().getStyle().setMarginTop(10, Unit.PX);
 	}
 
 	private void createLayout() {
@@ -51,28 +51,37 @@ public class JobExceptionsView extends HorizontalPanel {
 		txtComments.setEmptyText("Enter Comments");
 		vpnlButtons.setVisible(false);
 		add(exception);
+		exception.setWidth("150px");
+		exception.getElement().getStyle().setPaddingLeft(7, Unit.PX);
 		add(txtAreaImplication);
+		txtAreaImplication.setWidth("145px");
+		txtAreaImplication.getElement().getStyle().setPaddingLeft(7, Unit.PX);
 		add(listBoxImplicationRating);
+		listBoxImplicationRating.setWidth("146px");
 
 		// add(divisionHead);
 		dueDate.setFormat(new DefaultFormat(DateTimeFormat.getShortDateFormat()));
 		add(dueDate);
+		dueDate.setWidth("100px");
 		add(recommendations);
+		recommendations.setWidth("137px");
 		add(responsiblePerson);
+		responsiblePerson.setWidth("123px");
+		status.setWidth("60px");
 
 		add(btnSave);
 		// if(status.getText().length()>1){
 		add(status);
 		// }
 		add(vpnlButtons);
-		btnSave.setWidth("120px");
-		for (int i = 0; i < getWidgetCount() - 1; i++) {
-			getWidget(i).setWidth("150px");
-		}
+		// btnSave.setWidth("120px");
+		// for (int i = 0; i < getWidgetCount() - 1; i++) {
+		// getWidget(i).setWidth("150px");
+		// }
 		setSpacing(2);
 		// vpnlButtons.setWidth("100px");
 		status.setWidth("100px");
-		dueDate.setWidth("90px");
+		dueDate.setWidth("100px");
 		txtAreaImplication.setHeight("300px");
 		// listBoxImplicationRating.getElement().getStyle().setMarginLeft(10,
 		// Unit.PX);
@@ -85,11 +94,11 @@ public class JobExceptionsView extends HorizontalPanel {
 
 	}
 
-	public ButtonRound getBtnSave() {
+	public Button getBtnSave() {
 		return btnSave;
 	}
 
-	public void setBtnSave(ButtonRound btnSave) {
+	public void setBtnSave(Button btnSave) {
 		this.btnSave = btnSave;
 	}
 
@@ -154,19 +163,19 @@ public class JobExceptionsView extends HorizontalPanel {
 		this.vpnlButtons = hpnlButtons;
 	}
 
-	public ButtonRound getBtnApprove() {
+	public Button getBtnApprove() {
 		return btnApprove;
 	}
 
-	public void setBtnApprove(ButtonRound btnApprove) {
+	public void setBtnApprove(Button btnApprove) {
 		this.btnApprove = btnApprove;
 	}
 
-	public ButtonRound getBtnReject() {
+	public Button getBtnReject() {
 		return btnReject;
 	}
 
-	public void setBtnReject(ButtonRound btnReject) {
+	public void setBtnReject(Button btnReject) {
 		this.btnReject = btnReject;
 	}
 
