@@ -47,7 +47,7 @@ public class ResponsiblePersonRowHeadingView extends VerticalPanel {
 		managementComments.setWidth("140px");
 		responsiblePerson.setWidth("110px");
 		implementaionDate.setWidth("120px");
-		isAgree.setWidth("60px");
+		isAgree.setWidth("40px");
 		// Label heading = new Label("Management Comments");
 		// Label auditJob = new Label("Audit Job");
 		// Label exception = new Label("Observations");

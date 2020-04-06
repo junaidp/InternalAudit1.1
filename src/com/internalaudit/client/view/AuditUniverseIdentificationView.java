@@ -61,14 +61,22 @@ public class AuditUniverseIdentificationView extends Composite {
 
 	private Widget flexPanelLayoutStrategic(final int tab) {
 		ScrollPanel strategicPanel = new ScrollPanel();
+		final VerticalPanel vpnlMain = new VerticalPanel();
 		final VerticalPanel vpnlStrategic = new VerticalPanel();
 		strategicPanel.add(vpnlStrategic);
 		strategicPanel.setSize("1200px", "300px");
 
-		final HorizontalPanel hpnlStrategic = new HorizontalPanel();
-		hpnlStrategic.setWidth("700px");
+		// final HorizontalPanel hpnlStrategic = new HorizontalPanel();
+		// hpnlStrategic.setWidth("700px");
+		HorizontalPanel hpnlStrategicHeader = new HorizontalPanel();
+		hpnlStrategicHeader.add(new AuditUniverseStrategicViewHeading());
+
 		final Image btnAdd = new Image("images/add.png");
 		btnAdd.addStyleName("pointerStyle");
+		hpnlStrategicHeader.add(btnAdd);
+
+		vpnlMain.add(hpnlStrategicHeader);
+		vpnlMain.add(strategicPanel);
 		final HorizontalPanel hpnlButtonsInitiator = new HorizontalPanel();
 		final HorizontalPanel hpnlButtonsApprovar = new HorizontalPanel();
 		HorizontalPanel hpnlSpace = new HorizontalPanel();
@@ -80,13 +88,14 @@ public class AuditUniverseIdentificationView extends Composite {
 		hpnlButtonsApprovar.setSpacing(2);
 		hpnlButtonsApprovar.setVisible(false);
 		final VerticalPanel vpnlStrategicData = new VerticalPanel();
-		btnAdd.getElement().getStyle().setPaddingLeft(1154, Unit.PX);
-		btnAdd.getElement().getStyle().setPaddingTop(5, Unit.PX);
-		vpnlStrategic.add(btnAdd);
+		// btnAdd.getElement().getStyle().setPaddingLeft(1154, Unit.PX);
+		btnAdd.getElement().getStyle().setMarginTop(10, Unit.PX);
+		// vpnlStrategic.add(btnAdd);
+
 		vpnlStrategic.add(vpnlStrategicData);
 		vpnlStrategic.add(hpnlButtonsInitiator);
 		vpnlStrategic.add(hpnlButtonsApprovar);
-		vpnlStrategicData.add(hpnlStrategic);
+		// vpnlStrategicData.add(hpnlStrategic);
 		auditUniverseStrategicView = new AuditUniverseStrategicView();
 		auditUniverseStrategicView.getAuditUniverseStrategicViewData().fetchDepartments();
 		auditUniverseStrategicView.getAuditUniverseStrategicViewData().fetchObjectiveOwners();
@@ -142,7 +151,8 @@ public class AuditUniverseIdentificationView extends Composite {
 				});
 			}
 		});
-		return strategicPanel;
+
+		return vpnlMain;
 	}
 
 	public void auditUniverseIdentificationTabs() {
@@ -158,9 +168,10 @@ public class AuditUniverseIdentificationView extends Composite {
 
 		panel.add(vpnlStrategic, "Strategic");
 		panel.add(vpnlOperation, "Operations");
-		vpnlStrategic.add(flexPanelLayoutStrategic(0));
 		panel.add(vpnlReporting, "Reporting");
 		panel.add(vpnlCompliance, "Compliance");
+
+		vpnlStrategic.add(flexPanelLayoutStrategic(0));
 
 		panel.addSelectionHandler(new SelectionHandler<Widget>() {
 

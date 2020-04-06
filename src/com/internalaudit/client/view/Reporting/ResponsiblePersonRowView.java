@@ -2,6 +2,8 @@ package com.internalaudit.client.view.Reporting;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -10,8 +12,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DateBox.DefaultFormat;
-import com.internalaudit.client.view.ButtonRound;
-import com.sencha.gxt.widget.core.client.form.TextField;
 
 public class ResponsiblePersonRowView extends VerticalPanel {
 
@@ -26,13 +26,13 @@ public class ResponsiblePersonRowView extends VerticalPanel {
 	private ListBox implicationRating = new ListBox();
 	private ListBox responsiblePerson = new ListBox();
 	private DateBox implementaionDate = new DateBox();
-	private ButtonRound btnSend = new ButtonRound("Send");
+	private Button btnSend = new Button("Send");
 	private Label status = new Label("");
-	private ButtonRound btnApprove = new ButtonRound("Approve");
-	private ButtonRound btnReject = new ButtonRound("Feedback");
+	private Button btnApprove = new Button("Approve");
+	private Button btnReject = new Button("Feedback");
 	private VerticalPanel vpnlApprovalButton = new VerticalPanel();
 	private HorizontalPanel hpnl2 = new HorizontalPanel();
-	private TextField txtComments = new TextField();
+	private TextArea txtComments = new TextArea();
 	// private TextBox txt
 
 	public ResponsiblePersonRowView() {
@@ -60,8 +60,10 @@ public class ResponsiblePersonRowView extends VerticalPanel {
 		hpnlApprovalButtons.add(btnApprove);
 		hpnlApprovalButtons.add(btnReject);
 		vpnlApprovalButton.add(txtComments);
-		txtComments.setEmptyText("Enter Comments");
-		txtComments.getElement().getStyle().setBackgroundColor("red");
+		txtComments.setSize("160px", "270px");
+		// txtComments.setEmptyText("Enter Comments");
+		txtComments.getElement().setPropertyString("placeholder", "Enter text here");
+		// txtComments.getElement().getStyle().setBackgroundColor("red");
 		vpnlApprovalButton.add(hpnlApprovalButtons);
 		hpnl1.add(auditJob);
 		hpnl1.add(exception);
@@ -76,20 +78,36 @@ public class ResponsiblePersonRowView extends VerticalPanel {
 		hpnl1.add(isAgreed);
 		hpnl1.add(btnSend);
 		hpnl1.add(vpnlApprovalButton);
+		isAgreed.setWidth("30px");
 		hpnl1.add(status);
 		// 2nd row
-		VerticalPanel vpnlisAgreed = new VerticalPanel();
-		VerticalPanel vpnlisImplemented = new VerticalPanel();
-		VerticalPanel vpnlimplementationComments = new VerticalPanel();
-		vpnlisImplemented.add(new Label("Implemented - "));
-		vpnlisAgreed.add(new Label("Agree"));
+		// VerticalPanel vpnlisAgreed = new VerticalPanel();
+		FlexTable flex = new FlexTable();
+		hpnl2.add(flex);
+		// HorizontalPanel vpnlisImplemented = new HorizontalPanel();
+		// HorizontalPanel vpnlimplementationComments = new HorizontalPanel();
+		Label lblImplemented = new Label("Implemented: ");
+		lblImplemented.getElement().getStyle().setPaddingTop(6, Unit.PX);
+		lblImplemented.addStyleName("labelDesign");
+		// vpnlisImplemented.add(new Label("Implemented - "));
+		flex.setWidget(0, 0, lblImplemented);
+		// Label lblAgree = new Label("Agree: ");
+		// lblAgree.addStyleName("labelDesign");
+		// // vpnlisAgreed.add(new Label("Agree"));
+		// vpnlisAgreed.add(lblAgree);
 		// vpnlisAgreed.add(isAgreed);
-		vpnlisImplemented.add(isImplemented);
-		vpnlimplementationComments.add(new Label("Final Comments"));
-		vpnlimplementationComments.add(implementaionComments);
+		// vpnlisImplemented.add(isImplemented);
+		flex.setWidget(0, 1, isImplemented);
+		Label lblFnlComment = new Label("Final Comments: ");
+		lblFnlComment.addStyleName("labelDesign");
+		// vpnlimplementationComments.add(new Label("Final Comments"));
+		// vpnlimplementationComments.add(lblFnlComment);
+		// vpnlimplementationComments.add(implementaionComments);
+		flex.setWidget(1, 0, lblFnlComment);
+		flex.setWidget(1, 1, implementaionComments);
 		// hpnl2.add(vpnlisAgreed);
-		hpnl2.add(vpnlisImplemented);
-		hpnl2.add(vpnlimplementationComments);
+		// hpnl2.add(vpnlisImplemented);
+		// hpnl2.add(vpnlimplementationComments);
 		isImplemented.addItem("No", "0");
 		isImplemented.addItem("Yes", "1");
 		isAgreed.addItem("No", "0");
@@ -107,7 +125,7 @@ public class ResponsiblePersonRowView extends VerticalPanel {
 		implication.setWidth("145px");
 		implication.getElement().getStyle().setPaddingLeft(5, Unit.PX);
 		status.setWidth("120px");
-		isAgreed.setWidth("100px");
+		// isAgreed.setWidth("100px");
 		// for(int i=0; i< getWidgetCount()-3; i++){
 		// getWidget(i).setWidth("300px");
 		// }
@@ -169,11 +187,11 @@ public class ResponsiblePersonRowView extends VerticalPanel {
 		this.implementaionDate = implementaionDate;
 	}
 
-	public ButtonRound getBtnSend() {
+	public Button getBtnSend() {
 		return btnSend;
 	}
 
-	public void setBtnSend(ButtonRound btnSend) {
+	public void setBtnSend(Button btnSend) {
 		this.btnSend = btnSend;
 	}
 
@@ -194,19 +212,19 @@ public class ResponsiblePersonRowView extends VerticalPanel {
 		this.status = status;
 	}
 
-	public ButtonRound getBtnApprove() {
+	public Button getBtnApprove() {
 		return btnApprove;
 	}
 
-	public void setBtnApprove(ButtonRound btnApprove) {
+	public void setBtnApprove(Button btnApprove) {
 		this.btnApprove = btnApprove;
 	}
 
-	public ButtonRound getBtnReject() {
+	public Button getBtnReject() {
 		return btnReject;
 	}
 
-	public void setBtnReject(ButtonRound btnReject) {
+	public void setBtnReject(Button btnReject) {
 		this.btnReject = btnReject;
 	}
 
@@ -242,11 +260,11 @@ public class ResponsiblePersonRowView extends VerticalPanel {
 		this.implementaionComments = implementaionComments;
 	}
 
-	public TextField getTxtComments() {
+	public TextArea getTxtComments() {
 		return txtComments;
 	}
 
-	public void setTxtComments(TextField txtComments) {
+	public void setTxtComments(TextArea txtComments) {
 		this.txtComments = txtComments;
 	}
 

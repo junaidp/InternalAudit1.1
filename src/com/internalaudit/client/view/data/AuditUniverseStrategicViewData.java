@@ -24,7 +24,6 @@ import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.AmendmentPopup;
 import com.internalaudit.client.view.AuditUniverseStrategicView;
-import com.internalaudit.client.view.AuditUniverseStrategicViewHeading;
 import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.client.view.PhaseNames;
@@ -408,7 +407,7 @@ public class AuditUniverseStrategicViewData {
 
 				btnAdd.setVisible(true);
 				// btnAdd.setEnabled(true);
-				vpnlStrategic.add(new AuditUniverseStrategicViewHeading());
+				// vpnlStrategic.add(new AuditUniverseStrategicViewHeading());
 				for (int i = 0; i < result.size(); i++) {
 
 					AuditUniverseStrategicView auditUniverseStrategicView = new AuditUniverseStrategicView();

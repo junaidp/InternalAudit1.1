@@ -18,7 +18,6 @@ import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.FinalAuditablesView;
-import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.Strategic;
@@ -74,29 +73,29 @@ public class FinalAuditablesViewData {
 			@Override
 			public void onSuccess(final ArrayList<Strategic> strategic) {
 				finalAuditablesView.getAreas().clear();
-				HorizontalPanel hpnlHeading = new HorizontalPanel();
-				hpnlHeading.setSpacing(5);
-				LabelHeading lblSerialNo = new LabelHeading();
-				lblSerialNo.setWidth("50px");
-				// lblSerialNo.getElement().getStyle().setMarginRight(40,
-				// Unit.PX);
-				lblSerialNo.setText("Sr#");
-				LabelHeading lblStatus = new LabelHeading();
-				lblStatus.setWidth("100px");
-				lblStatus.setText("Status");
-				LabelHeading lblUnitHeading = new LabelHeading();
-				lblUnitHeading.setText("Auditable Unit");
-				Label lblObjHeading = new Label("Objective");
-				lblUnitHeading.setWidth("600px");
-				lblObjHeading.setWidth("250px");
-				hpnlHeading.add(lblSerialNo);
-				hpnlHeading.add(lblUnitHeading);
-				hpnlHeading.add(lblStatus);
-				// hpnlHeading.addStyleName("statusRowConsolidation");
-
-				// lblUnitHeading.addStyleName("labelHeading");
-				lblObjHeading.addStyleName("labelHeading");
-				finalAuditablesView.getAreas().add(hpnlHeading);
+				// HorizontalPanel hpnlHeading = new HorizontalPanel();
+				// hpnlHeading.setSpacing(5);
+				// LabelHeading lblSerialNo = new LabelHeading();
+				// lblSerialNo.setWidth("50px");
+				// // lblSerialNo.getElement().getStyle().setMarginRight(40,
+				// // Unit.PX);
+				// lblSerialNo.setText("Sr#");
+				// LabelHeading lblStatus = new LabelHeading();
+				// lblStatus.setWidth("100px");
+				// lblStatus.setText("Status");
+				// LabelHeading lblUnitHeading = new LabelHeading();
+				// lblUnitHeading.setText("Auditable Unit");
+				// Label lblObjHeading = new Label("Objective");
+				// lblUnitHeading.setWidth("600px");
+				// lblObjHeading.setWidth("250px");
+				// hpnlHeading.add(lblSerialNo);
+				// hpnlHeading.add(lblUnitHeading);
+				// hpnlHeading.add(lblStatus);
+				// // hpnlHeading.addStyleName("statusRowConsolidation");
+				//
+				// // lblUnitHeading.addStyleName("labelHeading");
+				// lblObjHeading.addStyleName("labelHeading");
+				// finalAuditablesView.getAreas().add(hpnlHeading);
 				// for(int i=0; i< result.size(); i++){
 				// Label lblObjective = new
 				// Label(result.get(i).getStrategicObjective());

@@ -229,7 +229,7 @@ public class RiskAssesmentStrategicViewData {
 					treeMain.addItem(treeItem);
 					//// Change
 					HorizontalPanel hpnlTree = new HorizontalPanel();
-					hpnlTree.setWidth("90%");
+					hpnlTree.setWidth("100%");
 					hpnlTree.add(riskAssesmentStrategicView.getSubmitted());
 					hpnlTree.add(riskAssesmentStrategicView.getLblImg());
 					hpnlTree.add(treeMain);
