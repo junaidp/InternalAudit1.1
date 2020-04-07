@@ -52,7 +52,6 @@ public class ReportingPresenter implements Presenter
 		VerticalPanel getVpnlJobs();
 
 		VerticalPanel getVpnlSelectedJob();
-
 	}
 
 	public ReportingPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, Employee employee,
@@ -145,7 +144,6 @@ public class ReportingPresenter implements Presenter
 							display.getVpnlSelectedJob().add(lblHeading);
 							// display.getVpnlReporting().clear();
 							ResponsiblePersonRowHeadingView responsiblePersonView = new ResponsiblePersonRowHeadingView();
-
 							// display.getVpnlReporting().add(responsiblePersonView);
 							display.getVpnlSelectedJob().add(responsiblePersonView);
 
@@ -183,7 +181,7 @@ public class ReportingPresenter implements Presenter
 									showManagementPanel(result, i, responsiblePersonRowView);
 									showImplementationPanel(result, i, responsiblePersonRowView);
 								}
-								responsiblePersonView.add(responsiblePersonRowView);
+								responsiblePersonView.getVpnlData().add(responsiblePersonRowView);
 								final JobData jobData = new JobData();
 								jobData.setSelectedId(i);
 								if (!(result.get(i).getManagementComments() == null)
@@ -390,7 +388,7 @@ public class ReportingPresenter implements Presenter
 									responsiblePersonRowView.getStatus().setText("Closed");
 									responsiblePersonRowView.getStatus().addStyleName("blue");
 								}
-								responsiblePersonView.add(responsiblePersonRowView);
+								responsiblePersonView.getVpnlData().add(responsiblePersonRowView);
 								final JobData jobData = new JobData();
 								jobData.setSelectedId(i);
 

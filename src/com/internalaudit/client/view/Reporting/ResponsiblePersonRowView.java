@@ -44,7 +44,7 @@ public class ResponsiblePersonRowView extends VerticalPanel {
 
 	private void createLayout() {
 		implementaionComments.setSize("900px", "50px");
-		implementaionComments.getElement().getStyle().setBackgroundColor("#e8e8e8");
+		// implementaionComments.getElement().getStyle().setBackgroundColor("#e8e8e8");
 		// implementaionComments.addStyleName("w3-light-blue");
 		HorizontalPanel hpnl1 = new HorizontalPanel();
 
@@ -63,6 +63,8 @@ public class ResponsiblePersonRowView extends VerticalPanel {
 		txtComments.setSize("160px", "270px");
 		// txtComments.setEmptyText("Enter Comments");
 		txtComments.getElement().setPropertyString("placeholder", "Enter text here");
+		managementComments.getElement().setPropertyString("placeholder", "Enter text here");
+		implementaionComments.getElement().setPropertyString("placeholder", "Enter text here");
 		// txtComments.getElement().getStyle().setBackgroundColor("red");
 		vpnlApprovalButton.add(hpnlApprovalButtons);
 		hpnl1.add(auditJob);
@@ -74,6 +76,7 @@ public class ResponsiblePersonRowView extends VerticalPanel {
 		hpnl1.add(responsiblePerson);
 
 		implementaionDate.setFormat(new DefaultFormat(DateTimeFormat.getShortDateFormat()));
+		implementaionDate.getElement().setPropertyString("placeholder", "yyyy-mm-dd");
 		hpnl1.add(implementaionDate);
 		hpnl1.add(isAgreed);
 		hpnl1.add(btnSend);

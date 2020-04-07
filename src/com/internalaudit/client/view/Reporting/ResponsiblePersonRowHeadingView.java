@@ -2,18 +2,21 @@ package com.internalaudit.client.view.Reporting;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.view.AuditEngagement.LabelHeading;
+import com.sencha.gxt.core.client.dom.ScrollSupport.ScrollMode;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
 public class ResponsiblePersonRowHeadingView extends VerticalPanel {
+	private VerticalLayoutContainer vpnlData = new VerticalLayoutContainer();
 
 	public ResponsiblePersonRowHeadingView() {
-
 		createLayout();
 	}
 
 	private void createLayout() {
-
+		ScrollPanel scrollData = new ScrollPanel();
 		HorizontalPanel hpnlHeading = new HorizontalPanel();
 		LabelHeading heading = new LabelHeading();
 		heading.setText("Management Comments");
@@ -79,6 +82,12 @@ public class ResponsiblePersonRowHeadingView extends VerticalPanel {
 		hpnlHeading.add(isAgree);
 
 		add(hpnlHeading);
+		scrollData.setHeight("420px");
+		vpnlData.setWidth("95%");
+		vpnlData.setHeight(500);
+		vpnlData.setScrollMode(ScrollMode.AUTOY);
+		add(vpnlData);
+		// scrollData.add(vpnlData);
 		// for (int i = 0; i < hpnlHeading.getWidgetCount() - 1; i++) {
 		// hpnlHeading.getWidget(i).setWidth("150px");
 		// }
@@ -99,4 +108,11 @@ public class ResponsiblePersonRowHeadingView extends VerticalPanel {
 		auditJob.setVisible(false);
 	}
 
+	public VerticalLayoutContainer getVpnlData() {
+		return vpnlData;
+	}
+
+	public void setVpnlData(VerticalLayoutContainer vpnlData) {
+		this.vpnlData = vpnlData;
+	}
 }

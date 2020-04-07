@@ -1,6 +1,7 @@
 package com.internalaudit.client.view.Reporting;
 
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.presenter.ReportingPresenter.Display;
 
@@ -10,12 +11,14 @@ public class ReportingView extends Composite implements Display {
 	private VerticalPanel vpnlReportingView = new VerticalPanel();
 	private VerticalPanel vpnlJobs = new VerticalPanel();
 	private VerticalPanel vpnlSelectedJob = new VerticalPanel();
+	private ScrollPanel scrollReporting = new ScrollPanel();
 
 	public ReportingView(String fromInternalAudit) {
 
 		VerticalPanel vpnlMain = new VerticalPanel();
 		// if(fromInternalAudit.equals("yes")){
-		vpnlMain.add(vpnlReporting);
+		vpnlMain.add(scrollReporting);
+		scrollReporting.add(vpnlReporting);
 		vpnlReporting.add(vpnlJobs);
 		vpnlReporting.add(vpnlSelectedJob);
 		// }else{
@@ -24,7 +27,8 @@ public class ReportingView extends Composite implements Display {
 		// }
 		initWidget(vpnlMain);
 		bind();
-		vpnlMain.setHeight("600px");
+		scrollReporting.setHeight("850px");
+		vpnlMain.setHeight("850px");
 	}
 
 	private void bind() {

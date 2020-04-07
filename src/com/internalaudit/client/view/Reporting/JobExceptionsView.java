@@ -51,9 +51,11 @@ public class JobExceptionsView extends HorizontalPanel {
 		txtComments.setEmptyText("Enter Comments");
 		vpnlButtons.setVisible(false);
 		add(exception);
+		exception.getElement().setPropertyString("placeholder", "Enter text here");
 		exception.setWidth("150px");
 		exception.getElement().getStyle().setPaddingLeft(7, Unit.PX);
 		add(txtAreaImplication);
+		txtAreaImplication.getElement().setPropertyString("placeholder", "Enter text here");
 		txtAreaImplication.setWidth("145px");
 		txtAreaImplication.getElement().getStyle().setPaddingLeft(7, Unit.PX);
 		add(listBoxImplicationRating);
@@ -62,8 +64,10 @@ public class JobExceptionsView extends HorizontalPanel {
 		// add(divisionHead);
 		dueDate.setFormat(new DefaultFormat(DateTimeFormat.getShortDateFormat()));
 		add(dueDate);
+		dueDate.getElement().setPropertyString("placeholder", "yyyy-mm-dd");
 		dueDate.setWidth("100px");
 		add(recommendations);
+		recommendations.getElement().setPropertyString("placeholder", "Enter text here");
 		recommendations.setWidth("137px");
 		add(responsiblePerson);
 		responsiblePerson.setWidth("123px");
