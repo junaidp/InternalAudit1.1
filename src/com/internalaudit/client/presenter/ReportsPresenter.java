@@ -33,6 +33,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.LoadingPopup;
+import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.client.view.Reporting.ReportAuditEngagement;
 import com.internalaudit.client.view.Reporting.ReportAuditExceptions;
 import com.internalaudit.client.view.Reporting.ReportAuditPlanning;
@@ -65,11 +66,11 @@ public class ReportsPresenter implements Presenter
 
 	private Employee loggedInEmployee;
 	private Logger logger = Logger.getLogger("ReportsPresenter");
-	private int report1RiskChartWidth = 365;
+	private int report1RiskChartWidth = 390;
 	private int report1RiskChartHeight = 300;
-	private int report1DomainChartWidth = 380;
+	private int report1DomainChartWidth = 390;
 	private int report1DomainChartHeight = 300;
-	private int report1DivsionChartWidth = 480;
+	private int report1DivsionChartWidth = 400;
 	private int report1DivisionChartHeight = 300;
 
 	HorizontalPanel chartHpnl = new HorizontalPanel();
@@ -559,7 +560,7 @@ public class ReportsPresenter implements Presenter
 							public void onSuccess(ArrayList<Strategic> strategicList) {
 								loadingpopup.remove();
 								strategicReportData = strategicList;
-								display.getReport2().getTablePanel().clear();
+								display.getReport2().getVpnlPerviewData().clear();
 								chartHpnl.clear();
 								if (strategicList.size() > 0) {
 
@@ -573,19 +574,52 @@ public class ReportsPresenter implements Presenter
 
 									// set up table headings
 
-									resultsTable.setWidget(0, 0, new Label("Job"));
-									resultsTable.setWidget(0, 1, new Label("Domain"));
-									resultsTable.setWidget(0, 2, new Label("Division"));
-									resultsTable.setWidget(0, 3, new Label("Risk Assessment"));
-									resultsTable.setWidget(0, 4, new Label("Resources"));
-									resultsTable.setWidget(0, 5, new Label("Time Allocated"));
+									LabelHeading lblAuditableUnit = new LabelHeading();
+									LabelHeading lblDomain = new LabelHeading();
+									LabelHeading lblDivision = new LabelHeading();
+									LabelHeading lblRiskAssessment = new LabelHeading();
+									LabelHeading lblResources = new LabelHeading();
+									LabelHeading lblTimeAllocated = new LabelHeading();
 
-									resultsTable.getCellFormatter().addStyleName(0, 0, "labelHeading");
-									resultsTable.getCellFormatter().addStyleName(0, 1, "labelHeading");
-									resultsTable.getCellFormatter().addStyleName(0, 2, "labelHeading");
-									resultsTable.getCellFormatter().addStyleName(0, 3, "labelHeading");
-									resultsTable.getCellFormatter().addStyleName(0, 4, "labelHeading");
-									resultsTable.getCellFormatter().addStyleName(0, 5, "labelHeading");
+									lblAuditableUnit.setText("Job");
+									lblDomain.setText("Domain");
+									lblDivision.setText("Division");
+									lblRiskAssessment.setText("Risk Assessment");
+									lblResources.setText("Resources");
+									lblTimeAllocated.setText("Time Allocated");
+
+									resultsTable.setWidget(0, 0, lblAuditableUnit);
+									resultsTable.setWidget(0, 1, lblDomain);
+									resultsTable.setWidget(0, 2, lblDivision);
+									resultsTable.setWidget(0, 3, lblRiskAssessment);
+									resultsTable.setWidget(0, 4, lblResources);
+									resultsTable.setWidget(0, 5, lblTimeAllocated);
+
+									// resultsTable.setWidget(0, 0, new
+									// Label("Job"));
+									// resultsTable.setWidget(0, 1, new
+									// Label("Domain"));
+									// resultsTable.setWidget(0, 2, new
+									// Label("Division"));
+									// resultsTable.setWidget(0, 3, new
+									// Label("Risk Assessment"));
+									// resultsTable.setWidget(0, 4, new
+									// Label("Resources"));
+									// resultsTable.setWidget(0, 5, new
+									// Label("Time Allocated"));
+									//
+									// resultsTable.getCellFormatter().addStyleName(0,
+									// 0, "labelHeading");
+									// resultsTable.getCellFormatter().addStyleName(0,
+									// 1, "labelHeading");
+									// resultsTable.getCellFormatter().addStyleName(0,
+									// 2, "labelHeading");
+									// resultsTable.getCellFormatter().addStyleName(0,
+									// 3, "labelHeading");
+									// resultsTable.getCellFormatter().addStyleName(0,
+									// 4, "labelHeading");
+									// resultsTable.getCellFormatter().addStyleName(0,
+									// 5, "labelHeading");
 
 									resultsTable.addStyleName("alignCenter");
 
@@ -626,8 +660,8 @@ public class ReportsPresenter implements Presenter
 										resultsTable.setWidget(i + 1, j++,
 												new Label(strategicList.get(i).getEstimatedWeeks() + " weeks"));
 									}
-
-									display.getReport2().getTablePanel().add(resultsTable);
+									resultsTable.setWidth("99%");
+									display.getReport2().getVpnlPerviewData().add(resultsTable);
 
 									display.getReport2().showButtonBelow();
 
@@ -642,13 +676,15 @@ public class ReportsPresenter implements Presenter
 
 									// ---createDivisionChart(ids, false, view);
 
-									display.getReport2().getTablePanel().add(chartHpnl);
+									display.getReport2().getVpnlPerviewData().add(chartHpnl);
 
 									display.getReport2().getDetailedChartsView().add(createChart(strategicList, true));
 
 									display.getReport2().getDetailedChartsView()
 											.add(createDomainChart(strategicList, true));
 
+									display.getReport2().btnExportToExcel.setVisible(true);
+									display.getReport2().btnExportToPDF.setVisible(true);
 									// ----createDivisionChart(ids, true,
 									// display.getReport2());
 
@@ -701,7 +737,8 @@ public class ReportsPresenter implements Presenter
 					public void onSuccess(ArrayList<Strategic> strategicList) {
 						loadingpopup.remove();
 						strategicReportData = strategicList;
-						display.getReport1().getTablePanel().clear();
+						// display.getReport1().getTablePanel().clear();
+						display.getReport1().getVpnlPerviewData().clear();
 						chartHpnl.clear();
 						if (strategicList != null && strategicList.size() > 0) {
 
@@ -716,15 +753,38 @@ public class ReportsPresenter implements Presenter
 
 							// resultsTable.setWidget(0, 0, new
 							// Label("Objective"));
-							resultsTable.setWidget(0, 0, new Label("Auditable Unit"));
-							resultsTable.setWidget(0, 1, new Label("Domain"));
-							resultsTable.setWidget(0, 2, new Label("Division"));
-							resultsTable.setWidget(0, 3, new Label("Risk Assessment"));
+							LabelHeading lblAuditableUnit = new LabelHeading();
+							LabelHeading lblDomain = new LabelHeading();
+							LabelHeading lblDivision = new LabelHeading();
+							LabelHeading lblRiskAssessment = new LabelHeading();
 
-							resultsTable.getCellFormatter().addStyleName(0, 0, "labelHeading");
-							resultsTable.getCellFormatter().addStyleName(0, 1, "labelHeading");
-							resultsTable.getCellFormatter().addStyleName(0, 2, "labelHeading");
-							resultsTable.getCellFormatter().addStyleName(0, 3, "labelHeading");
+							lblAuditableUnit.setText("Auditable Unit");
+							lblDomain.setText("Domain");
+							lblDivision.setText("Division");
+							lblRiskAssessment.setText("Risk Assessment");
+
+							resultsTable.setWidget(0, 0, lblAuditableUnit);
+							resultsTable.setWidget(0, 1, lblDomain);
+							resultsTable.setWidget(0, 2, lblDivision);
+							resultsTable.setWidget(0, 3, lblRiskAssessment);
+
+							// resultsTable.setWidget(0, 0, new Label("Auditable
+							// Unit"));
+							// resultsTable.setWidget(0, 1, new
+							// Label("Domain"));
+							// resultsTable.setWidget(0, 2, new
+							// Label("Division"));
+							// resultsTable.setWidget(0, 3, new Label("Risk
+							// Assessment"));
+
+							// resultsTable.getCellFormatter().addStyleName(0,
+							// 0, "labelHeading");
+							// resultsTable.getCellFormatter().addStyleName(0,
+							// 1, "labelHeading");
+							// resultsTable.getCellFormatter().addStyleName(0,
+							// 2, "labelHeading");
+							// resultsTable.getCellFormatter().addStyleName(0,
+							// 3, "labelHeading");
 							// resultsTable.getCellFormatter().addStyleName(0,
 							// 4, "labelHeading");
 
@@ -760,8 +820,8 @@ public class ReportsPresenter implements Presenter
 								// resultsTable.getCellFormatter().addStyleName(i+1,
 								// j++, "form-row");
 							}
-
-							display.getReport1().getTablePanel().add(resultsTable);
+							resultsTable.setWidth("99%");
+							display.getReport1().getVpnlPerviewData().add(resultsTable);
 
 							display.getReport1().showButtonBelow();
 
@@ -778,7 +838,7 @@ public class ReportsPresenter implements Presenter
 
 							createDivisionChart(ids, false, view);
 
-							display.getReport1().getTablePanel().add(chartHpnl);
+							display.getReport1().getVpnlPerviewData().add(chartHpnl);
 
 							display.getReport1().getDetailedChartsView().add(createChart(strategicList, true));
 
@@ -789,6 +849,9 @@ public class ReportsPresenter implements Presenter
 							// display.getReportsContainer().add(view);
 
 							// display.getStackReports().add(view, selected);
+
+							display.getReport1().btnExportToPDF.setVisible(true);
+							display.getReport1().btnExportToExcel.setVisible(true);
 
 						}
 						// else Window.alert("no record matching");

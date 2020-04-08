@@ -2,15 +2,16 @@ package com.internalaudit.client.view.Reporting;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.PopupsView;
-import com.internalaudit.client.view.AuditEngagement.LabelHeading;
+import com.internalaudit.client.view.AuditEngagement.LabelBold;
 
 public class ReportAuditScheduling extends Composite implements IStackWidget {
 
@@ -29,14 +30,14 @@ public class ReportAuditScheduling extends Composite implements IStackWidget {
 	}
 
 	//
-	ButtonRound btnSearch = new ButtonRound("Preview");
+	Button btnSearch = new Button("Preview");
 
-	private ButtonRound btnExportToExcel = new ButtonRound("Export to Excel");
+	public Button btnExportToExcel = new Button("Export to Excel");
 
-	private ButtonRound btnExportToPDF = new ButtonRound("Export to PDF");
+	public Button btnExportToPDF = new Button("Export to PDF");
 
-	ButtonRound btnPrint = new ButtonRound("Print");
-	ButtonRound btnEmail = new ButtonRound("Email");
+	Button btnPrint = new Button("Print");
+	Button btnEmail = new Button("Email");
 	Anchor ancDetailed = new Anchor("Show Detailed View");
 
 	VerticalPanel vpnlMain;
@@ -49,10 +50,12 @@ public class ReportAuditScheduling extends Composite implements IStackWidget {
 
 	VerticalPanel chartPanel = new VerticalPanel();
 
+	VerticalPanel vpnlPerviewData = new VerticalPanel();
+
 	public ReportAuditScheduling(String fromInternalAudit) {
 		btnExportToExcel.setWidth("130px");
 		btnExportToPDF.setWidth("130px");
-		btnSearch.setWidth("130px");
+		// btnSearch.setWidth("130px");
 		vpnlMain = new VerticalPanel();
 		vpnlTable = new VerticalPanel();
 
@@ -64,62 +67,32 @@ public class ReportAuditScheduling extends Composite implements IStackWidget {
 
 		// vpnlMain.add(createChart());
 		///
+		VerticalPanel vpnlTop = new VerticalPanel();
+		HorizontalPanel hpnlRow1 = new HorizontalPanel();
+		HorizontalPanel hpnlRow2BtnExport = new HorizontalPanel();
+		vpnlTop.add(hpnlRow1);
+		vpnlTop.add(vpnlPerviewData);
+		vpnlTop.add(hpnlRow2BtnExport);
 
-		HorizontalPanel mainRowContainer = new HorizontalPanel();
-		mainRowContainer.setWidth("900px");
-
-		mainRowContainer.setHeight("100px");
-
-		VerticalPanel btnLine = new VerticalPanel();
+		// VerticalPanel btnLine = new VerticalPanel();
 		// btnLine.setWidth("600px");
 		// btnLine.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		btnLine.addStyleName("w3-right");
-		btnLine.getElement().getStyle().setMarginLeft(430, Unit.PX);
-		btnSearch.addStyleName("w3-margin");
-		btnExportToExcel.addStyleName("w3-margin");
-		btnExportToPDF.addStyleName("w3-margin");
+		// btnLine.addStyleName("w3-right");
+		// btnLine.getElement().getStyle().setMarginLeft(430, Unit.PX);
+		// btnSearch.addStyleName("w3-margin");
+		// btnExportToExcel.addStyleName("w3-margin");
+		// btnExportToPDF.addStyleName("w3-margin");
 		btnBelowTable.setVisible(false);
 		// btnBelowTable.setWidth("600px");
 		btnBelowTable.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-
-		VerticalPanel vpDomain = new VerticalPanel();
-		VerticalPanel vpDiv = new VerticalPanel();
-		VerticalPanel vpJobStatus = new VerticalPanel();
-		VerticalPanel vpResponsiblePerson = new VerticalPanel();
-
-		LabelHeading lbl1 = new LabelHeading();
-		lbl1.setText("Domain");
-
-		// lbl1.addStyleName("labelHeading");
-
-		LabelHeading lbl2 = new LabelHeading();
-		lbl2.setText("Division");
-
-		// lbl2.addStyleName("labelHeading");
-
-		LabelHeading lbl3 = new LabelHeading();
-		lbl3.setText("Job Status");
-
-		// lbl3.addStyleName("labelHeading");
-
-		LabelHeading lbl4 = new LabelHeading();
-		lbl4.setText("Responsible Person");
-		// lbl4.addStyleName("labelHeading");
-		vpDiv.setWidth("130px");
-		vpDomain.setWidth("130px");
-		vpJobStatus.setWidth("130px");
-		vpResponsiblePerson.setWidth("150px");
-		// vpDiv.getElement().getStyle().setMarginLeft(20, Unit.PX);
-		vpJobStatus.getElement().getStyle().setMarginLeft(20, Unit.PX);
-		vpResponsiblePerson.getElement().getStyle().setMarginLeft(20, Unit.PX);
-		vpDomain.getElement().getStyle().setMarginLeft(20, Unit.PX);
-		vpDomain.add(lbl1);
-
-		vpDiv.add(lbl2);
-
-		vpJobStatus.add(lbl3);
-
-		vpResponsiblePerson.add(lbl4);
+		LabelBold lbl1 = new LabelBold("Domain:");
+		LabelBold lbl2 = new LabelBold("Division:");
+		LabelBold lbl3 = new LabelBold("Job Status:");
+		LabelBold lbl4 = new LabelBold("Responsible Person:");
+		lbl1.setWidth("65px");
+		lbl2.setWidth("70px");
+		lbl3.setWidth("85px");
+		lbl4.setWidth("145px");
 
 		lstDomain = new ListBox(); // lstDomain.setMultipleSelect(true);
 									// lstDomain.addStyleName("listboxStyle");
@@ -129,15 +102,14 @@ public class ReportAuditScheduling extends Composite implements IStackWidget {
 									// lstRisk.addStyleName("listboxStyle");
 		lstEmp = new ListBox(); // lstEmp.setMultipleSelect(true);
 								// lstEmp.addStyleName("listboxStyle");
-
 		lstJobStatus = new ListBox(); // lstJobStatus.setMultipleSelect(true);
 										// lstJobStatus.addStyleName("listboxStyle");
-		lstDomain.setWidth("130px");
-		lstRisk.setWidth("130px");
+		lstDomain.setWidth("150px");
+		lstRisk.setWidth("150px");
 
 		lstEmp.setWidth("150px");
-		lstJobStatus.setWidth("130px");
-		lstDiv.setWidth("130px");
+		lstJobStatus.setWidth("150px");
+		lstDiv.setWidth("150px");
 		lstDomain.addStyleName(" w3-border");
 		lstDiv.addStyleName(" w3-border");
 		lstRisk.addStyleName(" w3-border");
@@ -171,18 +143,24 @@ public class ReportAuditScheduling extends Composite implements IStackWidget {
 		lstDiv.addItem("Business", "3");
 		initWidget(vpnlMain);
 
-		vpDomain.add(lstDomain);
-		vpDiv.add(lstDiv);
-		vpJobStatus.add(lstJobStatus);
-		vpResponsiblePerson.add(lstEmp);
+		hpnlRow1.getElement().getStyle().setPaddingTop(5, Unit.PX);
+		hpnlRow1.add(lbl1);
+		hpnlRow1.add(lstDomain);
+		hpnlRow1.add(new HTML("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
 
-		mainRowContainer.add(vpDiv);
-		mainRowContainer.add(vpDomain);
-		mainRowContainer.add(vpResponsiblePerson);
-		mainRowContainer.add(vpJobStatus);
-		mainRowContainer.add(btnLine);
+		hpnlRow1.add(lbl2);
+		hpnlRow1.add(lstDiv);
+		hpnlRow1.add(new HTML("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
 
-		vpnlMain.add(mainRowContainer);
+		hpnlRow1.add(lbl3);
+		hpnlRow1.add(lstJobStatus);
+		hpnlRow1.add(new HTML("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
+
+		hpnlRow1.add(lbl4);
+		hpnlRow1.add(lstEmp);
+		hpnlRow1.add(new HTML("&nbsp; &nbsp; &nbsp;"));
+
+		vpnlMain.add(vpnlTop);
 
 		// ancDetailed.addClickHandler(new ClickHandler() {
 		//
@@ -199,10 +177,14 @@ public class ReportAuditScheduling extends Composite implements IStackWidget {
 		//
 		//
 		// btnLine.add(padd);
-		btnLine.add(btnSearch);
+		hpnlRow1.add(btnSearch);
 		// btnLine.add(ancDetailed);
-		btnLine.add(btnExportToExcel);
-		btnLine.add(btnExportToPDF);
+		btnExportToExcel.getElement().getStyle().setMarginLeft(920, Unit.PX);
+		hpnlRow2BtnExport.add(btnExportToExcel);
+		hpnlRow2BtnExport.add(btnExportToPDF);
+
+		btnExportToExcel.setVisible(false);
+		btnExportToPDF.setVisible(false);
 
 		// btnBelowTable.add(padd);
 		// btnBelowTable.add(btnPrint);
@@ -242,7 +224,7 @@ public class ReportAuditScheduling extends Composite implements IStackWidget {
 		return lstDiv;
 	}
 
-	public ButtonRound getBtnSearch() {
+	public Button getBtnSearch() {
 		return btnSearch;
 	}
 
@@ -279,11 +261,11 @@ public class ReportAuditScheduling extends Composite implements IStackWidget {
 	// this.btnSearch = btnSearch;
 	// }
 
-	public ButtonRound getBtnExportToExcel() {
+	public Button getBtnExportToExcel() {
 		return btnExportToExcel;
 	}
 
-	public void setBtnExportToExcel(ButtonRound btnExportToExcel) {
+	public void setBtnExportToExcel(Button btnExportToExcel) {
 		this.btnExportToExcel = btnExportToExcel;
 	}
 
@@ -297,12 +279,20 @@ public class ReportAuditScheduling extends Composite implements IStackWidget {
 		return "Report 2";
 	}
 
-	public ButtonRound getBtnExportToPDF() {
+	public Button getBtnExportToPDF() {
 		return btnExportToPDF;
 	}
 
-	public void setBtnExportToPDF(ButtonRound btnExportToPDF) {
+	public void setBtnExportToPDF(Button btnExportToPDF) {
 		this.btnExportToPDF = btnExportToPDF;
+	}
+
+	public VerticalPanel getVpnlPerviewData() {
+		return vpnlPerviewData;
+	}
+
+	public void setVpnlPerviewData(VerticalPanel vpnlPerviewData) {
+		this.vpnlPerviewData = vpnlPerviewData;
 	}
 
 }
