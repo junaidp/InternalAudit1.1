@@ -10,4 +10,9 @@ public class LabelHeading extends Label {
 		addStyleName("labelDesign form-row");
 
 	}
+
+	public LabelHeading(String text) {
+		setText(text);
+		addStyleName("labelDesign form-row");
+	}
 }

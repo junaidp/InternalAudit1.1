@@ -899,7 +899,7 @@ public class ReportsPresenter implements Presenter
 								jobTimeAllocationDataList = jobsList;
 								// strategicReportData = jobsList;
 								chartHpnl.clear();
-								display.getReport4().getTablePanel().clear();
+								display.getReport4().getVpnlPerviewData().clear();
 								if (jobsList.size() > 0) {
 
 									// create a flextable based on results .
@@ -911,22 +911,8 @@ public class ReportsPresenter implements Presenter
 
 									// set up table headings
 
-									// resultsTable.setWidget(0, 0, new
-									// Label("Objective"));
-									resultsTable.setWidget(0, 0, new Label("Job"));
-									resultsTable.setWidget(0, 1, new Label("Weeks"));
-									// resultsTable.setWidget(0, 2, new
-									// Label("Division"));
-									// resultsTable.setWidget(0, 3, new
-									// Label("Risk Assessment"));
-
-									resultsTable.getCellFormatter().addStyleName(0, 0, "labelHeading");
-									resultsTable.getCellFormatter().addStyleName(0, 1, "labelHeading");
-
-									// resultsTable.getCellFormatter().addStyleName(0,
-									// 3, "labelHeading");
-									// resultsTable.getCellFormatter().addStyleName(0,
-									// 4, "labelHeading");
+									resultsTable.setWidget(0, 0, new LabelHeading("Job"));
+									resultsTable.setWidget(0, 1, new LabelHeading("Weeks"));
 
 									resultsTable.addStyleName("alignCenter");
 									resultsTable.addStyleName("form-row");
@@ -967,8 +953,8 @@ public class ReportsPresenter implements Presenter
 										// resultsTable.getCellFormatter().addStyleName(i+1,
 										// j++, "form-row");
 									}
-
-									display.getReport4().getTablePanel().add(resultsTable);
+									resultsTable.setWidth("99%");
+									display.getReport4().getVpnlPerviewData().add(resultsTable);
 
 									display.getReport4().showButtonBelow();
 
@@ -991,7 +977,8 @@ public class ReportsPresenter implements Presenter
 									// display.getReport4().getTablePanel().add(
 									// chartHpnl);
 
-									display.getReport4().getTablePanel().add(createJobTimeAllocationChart(jobsList));
+									display.getReport4().getVpnlPerviewData()
+											.add(createJobTimeAllocationChart(jobsList));
 									//
 									// display.getReport1().getDetailedChartsView().add(
 									// createDomainChart(jobsList, true));
@@ -1003,6 +990,8 @@ public class ReportsPresenter implements Presenter
 
 									// display.getStackReports().add(view,
 									// selected);
+									display.getReport4().getBtnExportToExcel().setVisible(true);
+									display.getReport4().getBtnExportToPDF().setVisible(true);
 
 								}
 								// else Window.alert("no record matching");
@@ -1052,7 +1041,7 @@ public class ReportsPresenter implements Presenter
 								loadingpopup.remove();
 								exceptionsDataList = exceptionsList;
 								chartHpnl.clear();
-								display.getReport5().getTablePanel().clear();
+								display.getReport5().getVpnlPerview().clear();
 								if (exceptionsList != null && exceptionsList.size() > 0) {
 
 									// create a flextable based on results .
@@ -1066,23 +1055,27 @@ public class ReportsPresenter implements Presenter
 
 									// resultsTable.setWidget(0, 0, new
 									// Label("Objective"));
-									resultsTable.setWidget(0, 0, new Label("Exception"));
-									resultsTable.setWidget(0, 1, new Label("Job"));
+									resultsTable.setWidget(0, 0, new LabelHeading("Exception"));
+									resultsTable.setWidget(0, 1, new LabelHeading("Job"));
 									// resultsTable.setWidget(0, 2, new
 									// Label("Division"));
 									// resultsTable.setWidget(0, 3, new
 									// Label("Domain"));
-									resultsTable.setWidget(0, 2, new Label("Status"));
+									resultsTable.setWidget(0, 2, new LabelHeading("Status"));
 									// resultsTable.setWidget(0, 5, new
 									// Label("Resource"));
-									resultsTable.setWidget(0, 3, new Label("Auditee"));
+									resultsTable.setWidget(0, 3, new LabelHeading("Auditee"));
 									// resultsTable.setWidget(0, 7, new
 									// Label("Risk"));
 
-									resultsTable.getCellFormatter().addStyleName(0, 0, "labelHeading");
-									resultsTable.getCellFormatter().addStyleName(0, 1, "labelHeading");
-									resultsTable.getCellFormatter().addStyleName(0, 2, "labelHeading");
-									resultsTable.getCellFormatter().addStyleName(0, 3, "labelHeading");
+									// resultsTable.getCellFormatter().addStyleName(0,
+									// 0, "labelHeading");
+									// resultsTable.getCellFormatter().addStyleName(0,
+									// 1, "labelHeading");
+									// resultsTable.getCellFormatter().addStyleName(0,
+									// 2, "labelHeading");
+									// resultsTable.getCellFormatter().addStyleName(0,
+									// 3, "labelHeading");
 									// resultsTable.getCellFormatter().addStyleName(0,
 									// 4, "labelHeading");
 									// resultsTable.getCellFormatter().addStyleName(0,
@@ -1125,12 +1118,14 @@ public class ReportsPresenter implements Presenter
 										resultsTable.getRowFormatter().addStyleName(i, "form-row");
 										resultsTable.getCellFormatter().addStyleName(i + 1, j++, "form-row");
 									}
-
-									display.getReport5().getTablePanel().add(resultsTable);
+									resultsTable.setWidth("99%");
+									display.getReport5().getVpnlPerview().add(resultsTable);
 									display.getReport5().showButtonBelow();
 									chartHpnl.setWidth("100%");
 									chartHpnl.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-									display.getReport5().getTablePanel().add(createExceptionsChart(exceptionsList));
+									display.getReport5().getVpnlPerview().add(createExceptionsChart(exceptionsList));
+									display.getReport5().btnExportToExcel.setVisible(true);
+									display.getReport5().btnExportToPDF.setVisible(true);
 								}
 							}
 
@@ -1366,20 +1361,7 @@ public class ReportsPresenter implements Presenter
 			// 100*cout.risk.hi / total
 			points[i] = p;
 		}
-
-		chart.addSeries(chart.createSeries().setName("Browser share").setPoints(points)
-
-		// new Point("Firefox", 45.0),
-		// new Point("IE", 26.8),
-		// new Point("Chrome", 12.8)
-		// .setSliced(true)
-		// .setSelected(true),
-		// new Point("Safari", 8.5),
-		// new Point("Opera", 6.2),
-		// new Point("Others", 0.7)
-		// })
-		);
-
+		chart.addSeries(chart.createSeries().setName("Browser share").setPoints(points));
 		return chart;
 
 	}
