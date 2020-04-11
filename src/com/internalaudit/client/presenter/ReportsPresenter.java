@@ -1361,7 +1361,7 @@ public class ReportsPresenter implements Presenter
 			// 100*cout.risk.hi / total
 			points[i] = p;
 		}
-		chart.addSeries(chart.createSeries().setName("Browser share").setPoints(points));
+		chart.addSeries(chart.createSeries().setName("Browsershare").setPoints(points));
 		return chart;
 
 	}

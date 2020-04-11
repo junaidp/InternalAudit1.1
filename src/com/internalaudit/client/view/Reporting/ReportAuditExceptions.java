@@ -186,7 +186,7 @@ public class ReportAuditExceptions extends Composite implements IStackWidget {
 
 		mainRow2.add(lbl7);
 		mainRow2.add(lstResponsibleAuditee);
-		btnSearch.getElement().getStyle().setMarginLeft(240, Unit.PX);
+		btnSearch.getElement().getStyle().setMarginLeft(250, Unit.PX);
 		mainRow2.add(btnSearch);
 
 		mainRow1.getElement().getStyle().setPaddingTop(5, Unit.PX);

@@ -47,11 +47,11 @@ public class PortalIssue extends VerticalLayoutContainer {
 
 	public Widget createGridFieldWork() {
 
-		ColumnConfig<Issues, Integer> issueId = new ColumnConfig<Issues, Integer>(properties.id(), 50, "Id");
-		ColumnConfig<Issues, String> issueTitle = new ColumnConfig<Issues, String>(properties.issueTitle(), 170,
+		ColumnConfig<Issues, Integer> issueId = new ColumnConfig<Issues, Integer>(properties.id(), 70, "Id");
+		ColumnConfig<Issues, String> issueTitle = new ColumnConfig<Issues, String>(properties.issueTitle(), 400,
 				"Issue Title");
 		ColumnConfig<Issues, String> issueManagement = new ColumnConfig<Issues, String>(properties.managementResponce(),
-				200, "Management Response");
+				350, "Management Response");
 		ColumnConfig<Issues, String> issueStatus = new ColumnConfig<Issues, String>(properties.status(), 350, "Status");
 
 		List<ColumnConfig<Issues, ?>> columns = new ArrayList<ColumnConfig<Issues, ?>>();
@@ -66,13 +66,13 @@ public class PortalIssue extends VerticalLayoutContainer {
 		store.addAll(issues);
 
 		final Grid<Issues> grid = new Grid<Issues>(store, cm);
-		grid.setWidth(700);
+		// grid.setWidth(1180);
 		grid.getView().setAutoExpandColumn(issueId);
 		grid.getView().setForceFit(true);
 		grid.getView().setStripeRows(true);
 		grid.getView().setColumnLines(true);
 		ScrollPanel p = new ScrollPanel();
-		p.setHeight("180px");
+		// p.setHeight("180px");
 		p.add(grid);
 		VerticalLayoutContainer con = new VerticalLayoutContainer();
 
@@ -80,8 +80,9 @@ public class PortalIssue extends VerticalLayoutContainer {
 
 		panel = new ContentPanel();
 		panel.setHeadingText("Issues");
-		panel.setWidth(700);
-		panel.setHeight(220);
+		// panel.setWidth(700);
+		// panel.setHeight(220);
+		panel.setSize("1190px", "350px");
 		panel.add(con);
 		return panel;
 	}

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
@@ -14,7 +13,6 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.LoadingPopup;
@@ -98,32 +96,35 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 				// add(actualHours);
 
 				DashboardListBoxes dashboardlistBox = new DashboardListBoxes();
-				HorizontalPanel paneljoblist = new HorizontalPanel();
-				HorizontalPanel mainPanel = new HorizontalPanel();
-				HorizontalPanel upperPanel = new HorizontalPanel();
-				mainPanel.setWidth("1200px");
-				VerticalPanel panelLeft = new VerticalPanel();
-				panelLeft.setWidth("500px");
-				VerticalPanel panelRight = new VerticalPanel();
-				panelRight.setWidth("650%");
-				VerticalPanel panelDate = new VerticalPanel();
-				panelDate.add(pmDate);
-				panelDate.getElement().getStyle().setPaddingLeft(40, Unit.PX);
-				panelDate.getElement().getStyle().setPaddingTop(20, Unit.PX);
+				// HorizontalPanel paneljoblist = new HorizontalPanel();
+				// HorizontalPanel mainPanel = new HorizontalPanel();
+				// HorizontalPanel upperPanel = new HorizontalPanel();
+				// mainPanel.setWidth("1200px");
+				// VerticalPanel panelLeft = new VerticalPanel();
+				// panelLeft.setWidth("500px");
+				// VerticalPanel panelRight = new VerticalPanel();
+				// panelRight.setWidth("650%");
+				// VerticalPanel panelDate = new VerticalPanel();
+				// panelDate.add(pmDate);
+				dashboardlistBox.getHpnlDates().add(pmDate);
+				// panelDate.getElement().getStyle().setPaddingLeft(30,
+				// Unit.PX);
+				// panelDate.getElement().getStyle().setPaddingTop(20, Unit.PX);
 				//
-				panelLeft.add(dashboardlistBox);
-				// panelLeft.add(paneljobviewscroll);
-				panelLeft.add(actualHours);
-				upperPanel.add(dashboardlistBox);
-				upperPanel.add(panelDate);
-				panelRight.add(portalInformation);
-				panelRight.add(portalOutstanding);
-				paneljoblist.add(paneljobviewscroll);
-				mainPanel.add(panelLeft);
-				mainPanel.add(panelRight);
-				add(upperPanel);
+				add(dashboardlistBox);
+
 				add(paneljobviewscroll);
-				add(mainPanel);
+				// panelLeft.add(paneljobviewscroll);
+				add(actualHours);
+				// upperPanel.add(dashboardlistBox);
+				// upperPanel.add(panelDate);
+				add(portalInformation);
+				add(portalOutstanding);
+				// mainPanel.add(panelLeft);
+				// mainPanel.add(panelRight);
+				// add(upperPanel);
+				// add(paneljobviewscroll);
+				// add(mainPanel);
 
 			}
 		});

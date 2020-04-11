@@ -1,4 +1,7 @@
 package com.internalaudit.client.DashboardNew;
+
+import java.util.Date;
+
 import com.google.gwt.editor.client.Editor.Path;
 import com.sencha.gxt.core.client.ValueProvider;
 import com.sencha.gxt.data.shared.ModelKeyProvider;
@@ -13,8 +16,8 @@ public interface InformationRequestProperties extends PropertyAccess<Information
 	ValueProvider<InformationRequest, String> raisedTo();
 
 	ValueProvider<InformationRequest, String> raisedBy();
-	
-	ValueProvider<InformationRequest, String> overDueDays();
+
+	ValueProvider<InformationRequest, Date> overDueDays();
 
 	ValueProvider<InformationRequest, Integer> id();
 

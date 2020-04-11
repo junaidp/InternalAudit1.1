@@ -6,9 +6,10 @@ import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 public class DashboardNew extends VerticalLayoutContainer {
 
 	public DashboardNew() {
-		
-		layout();
 
+		layout();
+		// setHeight(Window.getClientHeight() - 30);
+		// setScrollMode(ScrollMode.AUTOY);
 	}
 
 	private void layout() {

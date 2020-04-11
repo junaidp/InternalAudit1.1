@@ -81,23 +81,23 @@ public class DashboardAuditWorkStatus extends VerticalLayoutContainer {
 				CompletedAndInprogressExceptions auditPie = new CompletedAndInprogressExceptions(
 						dashboard.getCompletedAndInprogressExceptions());
 
-				HorizontalPanel mainPanel = new HorizontalPanel();
-				VerticalPanel panelLeft = new VerticalPanel();
+				VerticalPanel mainPanel = new VerticalPanel();
+				HorizontalPanel hpnlChartRow1 = new HorizontalPanel();
 
-				panelLeft.setWidth("700px");
-				VerticalPanel panelRight = new VerticalPanel();
-				panelRight.setWidth("30%");
-				panelLeft.add(dashboardlistBox);
-				panelLeft.add(auditWorkChart);
-				panelLeft.add(portalIssues);
+				// panelLeft.setWidth("700px");
+				HorizontalPanel hpnlChartRow2 = new HorizontalPanel();
+				// panelRight.setWidth("490px");
+				add(dashboardlistBox);
+				hpnlChartRow1.add(auditWorkChart);
+				hpnlChartRow1.add(auditPie);
 
-				panelRight.add(auditPie);
-				panelRight.add(auditImplementation);
-				panelRight.add(exceptionReporting);
+				hpnlChartRow2.add(auditImplementation);
+				hpnlChartRow2.add(exceptionReporting);
 
-				mainPanel.add(panelLeft);
-				mainPanel.add(panelRight);
+				mainPanel.add(hpnlChartRow1);
+				mainPanel.add(hpnlChartRow2);
 				add(mainPanel);
+				add(portalIssues);
 			}
 		});
 	}

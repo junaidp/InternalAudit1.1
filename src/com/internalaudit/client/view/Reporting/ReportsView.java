@@ -6,14 +6,15 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.presenter.ReportsPresenter.Display;
+import com.sencha.gxt.core.client.dom.ScrollSupport.ScrollMode;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer.AccordionLayoutAppearance;
 import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer.ExpandMode;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
 public class ReportsView extends Composite implements Display {
 
@@ -53,30 +54,34 @@ public class ReportsView extends Composite implements Display {
 		ContentPanel cp1 = new ContentPanel(appearance);
 		cp1.setAnimCollapse(false);
 		cp1.setHeadingText("Audit Planning Report");
-		ScrollPanel p1 = new ScrollPanel();
+		VerticalLayoutContainer p1 = new VerticalLayoutContainer();
 		p1.setHeight("400px");
+		p1.setScrollMode(ScrollMode.AUTOY);
 		p1.add(report1);
 		cp1.add(p1);
 
 		ContentPanel cp2 = new ContentPanel(appearance);
 		cp2.setAnimCollapse(false);
 		cp2.setHeadingText("Audit Scheduling Report");
-		ScrollPanel p2 = new ScrollPanel();
+		VerticalLayoutContainer p2 = new VerticalLayoutContainer();
 		p2.setHeight("400px");
+		p2.setScrollMode(ScrollMode.AUTOY);
 		p2.add(report2);
 		cp2.add(p2);
 
 		ContentPanel cp3 = new ContentPanel(appearance);
 		cp3.setAnimCollapse(false);
-		ScrollPanel p3 = new ScrollPanel();
+		VerticalLayoutContainer p3 = new VerticalLayoutContainer();
 		p3.setHeight("400px");
+		p3.setScrollMode(ScrollMode.AUTOY);
 		p3.add(report4);
 		cp3.setHeadingText("Job Time Allocation Report ");
 		cp3.add(p3);
 
 		ContentPanel cp4 = new ContentPanel(appearance);
-		ScrollPanel p4 = new ScrollPanel();
+		VerticalLayoutContainer p4 = new VerticalLayoutContainer();
 		p4.setHeight("400px");
+		p4.setScrollMode(ScrollMode.AUTOY);
 		p4.add(report5);
 		cp4.setAnimCollapse(false);
 		cp4.setHeadingText("Audit Exceptions Report");

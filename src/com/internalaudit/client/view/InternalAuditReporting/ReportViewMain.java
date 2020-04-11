@@ -67,7 +67,7 @@ public class ReportViewMain extends VerticalPanel {
 		lblMain.getElement().getStyle().setPaddingLeft(520, Unit.PX);
 
 		Label lblDate = new Label("Date:");
-		lblDate.getElement().getStyle().setMarginLeft(600, Unit.PX);
+		// lblDate.getElement().getStyle().setMarginLeft(600, Unit.PX);
 		lblDate.addStyleName("labelDesign");
 
 		LabelHeading lblExecutiveSummary = new LabelHeading();

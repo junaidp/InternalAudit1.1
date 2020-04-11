@@ -138,7 +138,7 @@ public class ReportJobTimeAllocation extends Composite implements IStackWidget {
 
 		mainRowContainer.add(lbl4);
 		mainRowContainer.add(lstResource);
-		mainRowContainer.add(new HTML("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
+		mainRowContainer.add(new HTML("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
 
 		vpnlMain.add(vpnlRowsData);
 

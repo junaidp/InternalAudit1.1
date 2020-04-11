@@ -25,7 +25,8 @@ public class AuditWorkChart extends VerticalLayoutContainer {
 
 	public Chart createChart(ArrayList<AuditWorkStatusDTO> auditWorkStatusDTO) {
 
-		final Chart chart = new Chart().setWidth(700).setHeight(270).setType(Series.Type.BAR).setChartTitleText("Audit Work Status")
+		final Chart chart = new Chart().setWidth(800).setHeight(350).setType(Series.Type.BAR)
+				.setChartTitleText("Audit Work Status")
 				.setSeriesPlotOptions(new SeriesPlotOptions().setStacking(PlotOptions.Stacking.NORMAL))
 				.setLegend(new Legend().setBackgroundColor("#FFFFFF").setReversed(true))
 				.setToolTip(new ToolTip().setFormatter(new ToolTipFormatter() {
@@ -34,10 +35,10 @@ public class AuditWorkChart extends VerticalLayoutContainer {
 								+ toolTipData.getXAsString();
 					}
 				}));
-	 
+
 		chart.getYAxis().setMin(0).setAxisTitleText(null);
 		chart.setCredits(new Credits().setText(""));
-		
+
 		chart.getYAxis().setTickInterval(1);
 
 		String[] listCat = new String[auditWorkStatusDTO.size()];
@@ -67,9 +68,7 @@ public class AuditWorkChart extends VerticalLayoutContainer {
 			Point pCompleted = new Point("completed", auditWorkStatusDTO.get(i).getCompleted()).setColor("#32CD32");
 			pointsCompleted[i] = pCompleted;
 
-			
 		}
-	
 
 		seriesUnderReview.setPoints(pointsUnderReview);
 		seriesOpen.setPoints(pointsOpen);

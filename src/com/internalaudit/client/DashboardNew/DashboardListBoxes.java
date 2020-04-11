@@ -8,30 +8,32 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.ButtonRound;
-import com.internalaudit.client.view.AuditEngagement.LabelHeading;
+import com.internalaudit.client.view.AuditEngagement.LabelBold;
 import com.internalaudit.shared.DashboardListBoxDTO;
 import com.internalaudit.shared.SubProcess;
 
-public class DashboardListBoxes extends VerticalPanel {
+public class DashboardListBoxes extends HorizontalPanel {
 
 	private InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
 
 	private ArrayList<DashboardListBoxDTO> dashBoardListBoxDTO;
 	private ArrayList<SubProcess> subProcess;
+	HorizontalPanel hpnlDates = new HorizontalPanel();
 
-	private LabelHeading lblDomain = new LabelHeading();
+	LabelBold lblDomain = new LabelBold();
 	Button btnSearch = new Button("search");
-	LabelHeading lblProcess = new LabelHeading();
-	LabelHeading lblAudit = new LabelHeading();
-	LabelHeading lblUnit = new LabelHeading();
-	LabelHeading lblDivision = new LabelHeading();
-	LabelHeading lblResource = new LabelHeading();
-	LabelHeading lblRiskLabel = new LabelHeading();
+	LabelBold lblProcess = new LabelBold();
+	LabelBold lblAudit = new LabelBold();
+	LabelBold lblUnit = new LabelBold();
+	LabelBold lblDivision = new LabelBold();
+	LabelBold lblResource = new LabelBold();
+	LabelBold lblRiskLabel = new LabelBold();
 
 	ListBox listBoxDomain = new ListBox();
 	ListBox listBoxProcess = new ListBox();
@@ -42,19 +44,19 @@ public class DashboardListBoxes extends VerticalPanel {
 	ListBox listBoxRiskLevel = new ListBox();
 
 	public DashboardListBoxes() {
-		lblDomain.addStyleName("w3-panel  w3-center");
-		lblProcess.addStyleName("w3-panel  w3-center");
-		lblAudit.addStyleName("w3-panel  w3-center");
-		lblUnit.addStyleName("w3-panel  w3-center");
-		lblDivision.addStyleName("w3-panel  w3-center");
-		lblResource.addStyleName("w3-panel  w3-center");
-		lblRiskLabel.addStyleName("w3-panel  w3-center");
+		// lblDomain.addStyleName("w3-panel w3-center");
+		// lblProcess.addStyleName("w3-panel w3-center");
+		// lblAudit.addStyleName("w3-panel w3-center");
+		// lblUnit.addStyleName("w3-panel w3-center");
+		// lblDivision.addStyleName("w3-panel w3-center");
+		// lblResource.addStyleName("w3-panel w3-center");
+		// lblRiskLabel.addStyleName("w3-panel w3-center");
+		// lblUnit.addStyleName("w3-panel w3-center");
 
 		lblDomain.setText("Domain");
 		lblProcess.setText("Process");
 		lblAudit.setText("Audit");
 		lblUnit.setText("Unit");
-		lblUnit.addStyleName("w3-panel  w3-center");
 		lblDivision.setText("Division");
 		lblResource.setText("Resource");
 		lblRiskLabel.setText("Risk Level");
@@ -89,6 +91,7 @@ public class DashboardListBoxes extends VerticalPanel {
 		lblResource.getElement().getStyle().setMarginLeft(5, Unit.PX);
 		lblRiskLabel.getElement().getStyle().setMarginLeft(5, Unit.PX);
 
+		listBoxDomain.getElement().getStyle().setMarginLeft(5, Unit.PX);
 		listBoxProcess.getElement().getStyle().setMarginLeft(5, Unit.PX);
 		listBoxAudit.getElement().getStyle().setMarginLeft(5, Unit.PX);
 		listBoxDivision.getElement().getStyle().setMarginLeft(5, Unit.PX);
@@ -137,6 +140,7 @@ public class DashboardListBoxes extends VerticalPanel {
 		listBoxProcess.setWidth("100px");
 		listBoxResource.setWidth("100px");
 		listBoxUnit.setWidth("100px");
+		listBoxRiskLevel.setWidth("100px");
 
 		FlexTable flex = new FlexTable();
 
@@ -161,10 +165,12 @@ public class DashboardListBoxes extends VerticalPanel {
 		flex.setWidget(0, 6, lblRiskLabel);
 		flex.setWidget(1, 6, listBoxRiskLevel);
 
-		flex.setWidget(0, 7, btnSearch);
-
 		add(flex);
-
+		add(hpnlDates);
+		add(new HTML("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
+		add(btnSearch);
+		btnSearch.getElement().getStyle().setMarginTop(30, Unit.PX);
+		setHeight("65px");
 	}
 
 	private void fetchDashBoardDTOs() {
@@ -265,5 +271,13 @@ public class DashboardListBoxes extends VerticalPanel {
 
 	public void setListBoxRiskLevel(ListBox listBoxRiskLevel) {
 		this.listBoxRiskLevel = listBoxRiskLevel;
+	}
+
+	public HorizontalPanel getHpnlDates() {
+		return hpnlDates;
+	}
+
+	public void setHpnlDates(HorizontalPanel hpnlDates) {
+		this.hpnlDates = hpnlDates;
 	}
 }
