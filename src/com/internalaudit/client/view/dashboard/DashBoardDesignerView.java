@@ -13,23 +13,27 @@ import com.internalaudit.client.presenter.DashBoardNewPresenter.Display;
 
 public class DashBoardDesignerView extends Composite implements Display {
 
-	private static DashBoardDesignerViewUiBinder uiBinder = GWT
-			.create(DashBoardDesignerViewUiBinder.class);
+	private static DashBoardDesignerViewUiBinder uiBinder = GWT.create(DashBoardDesignerViewUiBinder.class);
 
-	interface DashBoardDesignerViewUiBinder extends
-			UiBinder<Widget, DashBoardDesignerView> {
+	interface DashBoardDesignerViewUiBinder extends UiBinder<Widget, DashBoardDesignerView> {
 	}
 
-	
-	@UiField VerticalPanel vpnlLabels;
-	@UiField Button btnContinue;
-	@UiField VerticalPanel vpnlBar;
-	@UiField VerticalPanel vpnlPie1;
-	@UiField VerticalPanel vpnlPie2;
-	@UiField VerticalPanel vpnlPie3;
-	@UiField VerticalPanel vpnlPie4;
-	@UiField Image imgLogo;
-
+	@UiField
+	VerticalPanel vpnlLabels;
+	@UiField
+	Button btnContinue;
+	@UiField
+	VerticalPanel vpnlBar;
+	@UiField
+	VerticalPanel vpnlPie1;
+	@UiField
+	VerticalPanel vpnlPie2;
+	@UiField
+	VerticalPanel vpnlPie3;
+	@UiField
+	VerticalPanel vpnlPie4;
+	@UiField
+	Image imgLogo;
 
 	FlexTable flex = new FlexTable();
 	JobsExecutionPanel jobsInExecutionPanel = new JobsExecutionPanel();
@@ -42,36 +46,31 @@ public class DashBoardDesignerView extends Composite implements Display {
 	AuditJobsByRisk auditJobsByRisk = new AuditJobsByRisk();
 	JobsByPhases jobsByPhases = new JobsByPhases();
 	ExceptionsImplementationChart exceptionsImplementationChart = new ExceptionsImplementationChart();
-	
-	
-	public DashBoardDesignerView(boolean startup){
+
+	public DashBoardDesignerView(boolean startup) {
 		initWidget(uiBinder.createAndBindUi(this));
-//		VerticalPanel vpnl1 = new VerticalPanel();
-//		VerticalPanel vpnl2 = new VerticalPanel();
-//		VerticalPanel vpnl3 = new VerticalPanel();
-		
-//		HorizontalPanel hpnlMain = new HorizontalPanel();
-		if(! startup){
-				btnContinue.setVisible(false);
-				imgLogo.setVisible(false);
+		// VerticalPanel vpnl1 = new VerticalPanel();
+		// VerticalPanel vpnl2 = new VerticalPanel();
+		// VerticalPanel vpnl3 = new VerticalPanel();
+
+		// HorizontalPanel hpnlMain = new HorizontalPanel();
+		if (!startup) {
+			btnContinue.setVisible(false);
+			imgLogo.setVisible(false);
 		}
 		vpnlBar.add(jobsByPhases);
 		vpnlPie1.add(auditJobsByObjective);
 		vpnlPie2.add(auditJobsByFunction);
 		vpnlPie3.add(auditJobsByRisk);
 		vpnlPie4.add(exceptionsImplementationChart);
-		
-		
-	
+
 		vpnlLabels.add(jobsInExecutionPanel);
 		vpnlLabels.add(jobsDueForKickOffWithinWeek);
-		vpnlLabels.add( managementCommentsOverDue);
+		vpnlLabels.add(managementCommentsOverDue);
 		vpnlLabels.add(exceptionImplementaionOverDue);
 		vpnlLabels.add(jobsDueForCompletionWithinWeek);
 
-		
 	}
-
 
 	public JobsExecutionPanel getJobsInExecutionPanel() {
 		return jobsInExecutionPanel;
@@ -85,8 +84,7 @@ public class DashBoardDesignerView extends Composite implements Display {
 		return jobsDueForKickOffWithinWeek;
 	}
 
-	public void setJobsDueForKickOffWithinWeek(
-			JobsDueForKickOffWithinWeek jobsDueForKickOffWithinWeek) {
+	public void setJobsDueForKickOffWithinWeek(JobsDueForKickOffWithinWeek jobsDueForKickOffWithinWeek) {
 		this.jobsDueForKickOffWithinWeek = jobsDueForKickOffWithinWeek;
 	}
 
@@ -94,8 +92,7 @@ public class DashBoardDesignerView extends Composite implements Display {
 		return managementCommentsOverDue;
 	}
 
-	public void setManagementCommentsOverDue(
-			ManagementCommentsOverDue managementCommentsOverDue) {
+	public void setManagementCommentsOverDue(ManagementCommentsOverDue managementCommentsOverDue) {
 		this.managementCommentsOverDue = managementCommentsOverDue;
 	}
 
@@ -103,8 +100,7 @@ public class DashBoardDesignerView extends Composite implements Display {
 		return jobsDueForCompletionWithinWeek;
 	}
 
-	public void setJobsDueForCompletionWithinWeek(
-			JobsDueForCompletionWithinWeek jobsDueForCompletionWithinWeek) {
+	public void setJobsDueForCompletionWithinWeek(JobsDueForCompletionWithinWeek jobsDueForCompletionWithinWeek) {
 		this.jobsDueForCompletionWithinWeek = jobsDueForCompletionWithinWeek;
 	}
 
@@ -112,8 +108,7 @@ public class DashBoardDesignerView extends Composite implements Display {
 		return exceptionImplementaionOverDue;
 	}
 
-	public void setExceptionImplementaionOverDue(
-			ExceptionImplementaionOverDue exceptionImplementaionOverDue) {
+	public void setExceptionImplementaionOverDue(ExceptionImplementaionOverDue exceptionImplementaionOverDue) {
 		this.exceptionImplementaionOverDue = exceptionImplementaionOverDue;
 	}
 
@@ -153,8 +148,7 @@ public class DashBoardDesignerView extends Composite implements Display {
 		return exceptionsImplementationChart;
 	}
 
-	public void setExceptionsImplementationChart(
-			ExceptionsImplementationChart exceptionsImplementationChart) {
+	public void setExceptionsImplementationChart(ExceptionsImplementationChart exceptionsImplementationChart) {
 		this.exceptionsImplementationChart = exceptionsImplementationChart;
 	}
 

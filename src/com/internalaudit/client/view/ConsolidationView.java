@@ -82,6 +82,7 @@ public class ConsolidationView extends Composite {
 		// listboox process added in view panel
 		listBoxProcess = new ListBox();
 		horizontalPanel.add(listBoxProcess);
+		listBoxProcess.getElement().getStyle().setPaddingLeft(10, Unit.PX);
 
 		listBoxProcess.setWidth("155px");
 		// listBoxProcess.getElement().getStyle().setMarginLeft(20, Unit.PX);
@@ -93,6 +94,7 @@ public class ConsolidationView extends Composite {
 		listBoxSubProcess = new ListBox();
 		horizontalPanel.add(listBoxSubProcess);
 		listBoxSubProcess.setWidth("166px");
+		listBoxSubProcess.setMultipleSelect(true);
 
 		// listbox jobtype added in panel
 		listBoxJobType = new ListBox();

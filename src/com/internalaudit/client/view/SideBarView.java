@@ -95,13 +95,13 @@ public class SideBarView extends VerticalLayoutContainer {
 		panelbar.add(ImgMenu);
 		panelbar.add(ImgSecuirity);
 		panelbar.add(ImgPie);
+		panelbar.add(ImgControls);
 
 		// panelbar.add(ImgCalendar);
 		// panelbar.add(ImgCloseCircular);
 		HorizontalPanel v = new HorizontalPanel();
 		v.setWidth("35px");
 		v.setHeight("650px");
-		panelbar.add(ImgControls);
 		panelbar.add(v);
 
 		//

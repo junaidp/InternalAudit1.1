@@ -8,10 +8,9 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.presenter.DashBoardNewPresenter.Display;
-import com.internalaudit.client.view.ButtonRound;
 
 public class DashboardNewView extends VerticalPanel implements Display {
-	
+
 	FlexTable flex = new FlexTable();
 	JobsExecutionPanel jobsInExecutionPanel = new JobsExecutionPanel();
 	JobsDueForKickOffWithinWeek jobsDueForKickOffWithinWeek = new JobsDueForKickOffWithinWeek();
@@ -24,23 +23,23 @@ public class DashboardNewView extends VerticalPanel implements Display {
 	JobsByPhases jobsByPhases = new JobsByPhases();
 	ExceptionsImplementationChart exceptionsImplementationChart = new ExceptionsImplementationChart();
 	Button btnContinue = new Button("Continue");
-	
-	public DashboardNewView(boolean startup){
+
+	public DashboardNewView(boolean startup) {
 		VerticalPanel vpnl1 = new VerticalPanel();
 		VerticalPanel vpnl2 = new VerticalPanel();
 		VerticalPanel vpnl3 = new VerticalPanel();
 		setSpacing(0);
-		
+
 		HorizontalPanel hpnlMain = new HorizontalPanel();
 		vpnl1.add(layout());
-		if( startup){
+		if (startup) {
 			add(createheader());
 			add(btnContinue);
-			}
+		}
 		add(hpnlMain);
-		hpnlMain.add (vpnl1);
-		hpnlMain.add (vpnl2);
-		hpnlMain.add (vpnl3);
+		hpnlMain.add(vpnl1);
+		hpnlMain.add(vpnl2);
+		hpnlMain.add(vpnl3);
 		vpnl2.add(jobsByPhases);
 		vpnl2.add(exceptionsImplementationChart);
 		vpnl3.add(auditJobsByFunction);
@@ -52,28 +51,27 @@ public class DashboardNewView extends VerticalPanel implements Display {
 		vpnl1.addStyleName("dottedborder");
 		vpnl2.addStyleName("dottedborder");
 		vpnl3.addStyleName("dottedborder");
-		vpnl1.setHeight(Window.getClientHeight()-10+"px");
-		vpnl2.setHeight(Window.getClientHeight()-10+"px");
-		vpnl3.setHeight(Window.getClientHeight()-10+"px");
-		
-		
+		vpnl1.setHeight(Window.getClientHeight() - 10 + "px");
+		vpnl2.setHeight(Window.getClientHeight() - 10 + "px");
+		vpnl3.setHeight(Window.getClientHeight() - 10 + "px");
+
 	}
-	
-	public Widget createheader(){
+
+	public Widget createheader() {
 		Image imgHeader = new Image("images/logo.png");
 		VerticalPanel hpnlHeader = new VerticalPanel();
 		HorizontalPanel hpnlMain = new HorizontalPanel();
 		hpnlMain.add(imgHeader);
 		hpnlMain.add(hpnlHeader);
-//		hpnlHeader.addStyleName("blueBackground");
-//		hpnlMain.addStyleName("blueBackground");
-//		hpnlMain.setWidth(Window.getClientWidth()-10+"px");
-//		hpnlHeader.setWidth(Window.getClientWidth()-imgHeader.getWidth()+"px");
+		// hpnlHeader.addStyleName("blueBackground");
+		// hpnlMain.addStyleName("blueBackground");
+		// hpnlMain.setWidth(Window.getClientWidth()-10+"px");
+		// hpnlHeader.setWidth(Window.getClientWidth()-imgHeader.getWidth()+"px");
 		hpnlHeader.setHeight("91px");
 		return hpnlMain;
-	} 
-	
-	public FlexTable layout(){
+	}
+
+	public FlexTable layout() {
 		flex.setCellPadding(5);
 		flex.setWidget(0, 0, jobsInExecutionPanel);
 		flex.setWidget(1, 0, jobsDueForKickOffWithinWeek);
@@ -83,7 +81,6 @@ public class DashboardNewView extends VerticalPanel implements Display {
 
 		return flex;
 	}
-
 
 	public JobsExecutionPanel getJobsInExecutionPanel() {
 		return jobsInExecutionPanel;
@@ -97,8 +94,7 @@ public class DashboardNewView extends VerticalPanel implements Display {
 		return jobsDueForKickOffWithinWeek;
 	}
 
-	public void setJobsDueForKickOffWithinWeek(
-			JobsDueForKickOffWithinWeek jobsDueForKickOffWithinWeek) {
+	public void setJobsDueForKickOffWithinWeek(JobsDueForKickOffWithinWeek jobsDueForKickOffWithinWeek) {
 		this.jobsDueForKickOffWithinWeek = jobsDueForKickOffWithinWeek;
 	}
 
@@ -106,8 +102,7 @@ public class DashboardNewView extends VerticalPanel implements Display {
 		return managementCommentsOverDue;
 	}
 
-	public void setManagementCommentsOverDue(
-			ManagementCommentsOverDue managementCommentsOverDue) {
+	public void setManagementCommentsOverDue(ManagementCommentsOverDue managementCommentsOverDue) {
 		this.managementCommentsOverDue = managementCommentsOverDue;
 	}
 
@@ -115,8 +110,7 @@ public class DashboardNewView extends VerticalPanel implements Display {
 		return jobsDueForCompletionWithinWeek;
 	}
 
-	public void setJobsDueForCompletionWithinWeek(
-			JobsDueForCompletionWithinWeek jobsDueForCompletionWithinWeek) {
+	public void setJobsDueForCompletionWithinWeek(JobsDueForCompletionWithinWeek jobsDueForCompletionWithinWeek) {
 		this.jobsDueForCompletionWithinWeek = jobsDueForCompletionWithinWeek;
 	}
 
@@ -124,8 +118,7 @@ public class DashboardNewView extends VerticalPanel implements Display {
 		return exceptionImplementaionOverDue;
 	}
 
-	public void setExceptionImplementaionOverDue(
-			ExceptionImplementaionOverDue exceptionImplementaionOverDue) {
+	public void setExceptionImplementaionOverDue(ExceptionImplementaionOverDue exceptionImplementaionOverDue) {
 		this.exceptionImplementaionOverDue = exceptionImplementaionOverDue;
 	}
 
@@ -165,8 +158,7 @@ public class DashboardNewView extends VerticalPanel implements Display {
 		return exceptionsImplementationChart;
 	}
 
-	public void setExceptionsImplementationChart(
-			ExceptionsImplementationChart exceptionsImplementationChart) {
+	public void setExceptionsImplementationChart(ExceptionsImplementationChart exceptionsImplementationChart) {
 		this.exceptionsImplementationChart = exceptionsImplementationChart;
 	}
 

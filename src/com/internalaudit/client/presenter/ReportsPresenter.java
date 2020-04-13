@@ -570,7 +570,7 @@ public class ReportsPresenter implements Presenter
 
 									resultsTable.setCellPadding(8);
 									resultsTable.setCellSpacing(5);
-									resultsTable.setWidth("1000");
+									// resultsTable.setWidth("1000");
 
 									// set up table headings
 
@@ -641,8 +641,14 @@ public class ReportsPresenter implements Presenter
 										resultsTable.getCellFormatter().addStyleName(i + 1, j + 4, "form-row");
 										resultsTable.getCellFormatter().addStyleName(i + 1, j + 5, "form-row");
 
-										resultsTable.setWidget(i + 1, j++,
-												new Label(strategicList.get(i).getJobName()));
+										Label lblJobName = new Label();
+										lblJobName.setWidth("650px");
+										lblJobName.setText(strategicList.get(i).getJobName());
+										resultsTable.setWidget(i + 1, j++, lblJobName);
+
+										// resultsTable.setWidget(i + 1, j++,
+										// new
+										// Label(strategicList.get(i).getJobName()));
 										resultsTable.setWidget(i + 1, j++, new Label(strategicList.get(i).getDomain()));
 										resultsTable.setWidget(i + 1, j++,
 												new Label(strategicList.get(i).getDivisionName()));
@@ -660,13 +666,13 @@ public class ReportsPresenter implements Presenter
 										resultsTable.setWidget(i + 1, j++,
 												new Label(strategicList.get(i).getEstimatedWeeks() + " weeks"));
 									}
-									resultsTable.setWidth("99%");
+									resultsTable.setWidth("100%");
 									display.getReport2().getVpnlPerviewData().add(resultsTable);
 
 									display.getReport2().showButtonBelow();
 
 									chartHpnl.addStyleName("chartpadding");
-									chartHpnl.setWidth("1000px");
+									chartHpnl.setWidth("100%");
 
 									chartHpnl.add(createChart(strategicList, false));
 
@@ -812,7 +818,12 @@ public class ReportsPresenter implements Presenter
 								// strategicList.get(i).getStrategicObjective()
 								// ));
 
-								resultsTable.setWidget(i + 1, j++, new Label(strategicList.get(i).getAuditableUnit()));
+								Label lblAuditableUnitData = new Label();
+								lblAuditableUnitData.setWidth("915px");
+								lblAuditableUnitData.setText(strategicList.get(i).getAuditableUnit());
+								resultsTable.setWidget(i + 1, j++, lblAuditableUnitData);
+								// resultsTable.setWidget(i + 1, j++, new
+								// Label(strategicList.get(i).getAuditableUnit()));
 								resultsTable.setWidget(i + 1, j++, new Label(strategicList.get(i).getDomain()));
 								resultsTable.setWidget(i + 1, j++, new Label(strategicList.get(i).getDivisionName()));
 								resultsTable.setWidget(i + 1, j++, new Label(strategicList.get(i).getRating()));
@@ -820,7 +831,7 @@ public class ReportsPresenter implements Presenter
 								// resultsTable.getCellFormatter().addStyleName(i+1,
 								// j++, "form-row");
 							}
-							resultsTable.setWidth("99%");
+							resultsTable.setWidth("100%");
 							display.getReport1().getVpnlPerviewData().add(resultsTable);
 
 							display.getReport1().showButtonBelow();
@@ -937,8 +948,10 @@ public class ReportsPresenter implements Presenter
 										// Label(
 										// strategicList.get(i).getStrategicObjective()
 										// ));
-
-										resultsTable.setWidget(i + 1, j++, new Label(jobsList.get(i).getJobName()));
+										Label lblJobName = new Label();
+										lblJobName.setWidth("1000px");
+										lblJobName.setText(jobsList.get(i).getJobName());
+										resultsTable.setWidget(i + 1, j++, lblJobName);
 										resultsTable.setWidget(i + 1, j++,
 												new Label(jobsList.get(i).getEstimatedWeeks() + "("
 														+ jobsList.get(i).getStartDate() + " - "
@@ -953,7 +966,7 @@ public class ReportsPresenter implements Presenter
 										// resultsTable.getCellFormatter().addStyleName(i+1,
 										// j++, "form-row");
 									}
-									resultsTable.setWidth("99%");
+									resultsTable.setWidth("100%");
 									display.getReport4().getVpnlPerviewData().add(resultsTable);
 
 									display.getReport4().showButtonBelow();
@@ -990,9 +1003,10 @@ public class ReportsPresenter implements Presenter
 
 									// display.getStackReports().add(view,
 									// selected);
-									display.getReport4().getBtnExportToExcel().setVisible(true);
-									display.getReport4().getBtnExportToPDF().setVisible(true);
-
+									if (jobsList.size() > 0) {
+										display.getReport4().getBtnExportToExcel().setVisible(true);
+										display.getReport4().getBtnExportToPDF().setVisible(true);
+									}
 								}
 								// else Window.alert("no record matching");
 							}
@@ -1107,8 +1121,14 @@ public class ReportsPresenter implements Presenter
 										resultsTable.getCellFormatter().addStyleName(i + 1, j + 2, "form-row");
 										resultsTable.getCellFormatter().addStyleName(i + 1, j + 3, "form-row");
 
-										resultsTable.setWidget(i + 1, j++,
-												new Label(exceptionsList.get(i).getDetail()));
+										Label lblJobName = new Label();
+										lblJobName.setWidth("800px");
+										lblJobName.setText(exceptionsList.get(i).getJobName());
+										resultsTable.setWidget(i + 1, j++, lblJobName);
+
+										// resultsTable.setWidget(i + 1, j++,
+										// new
+										// Label(exceptionsList.get(i).getDetail()));
 										resultsTable.setWidget(i + 1, j++,
 												new Label(exceptionsList.get(i).getJobName()));
 										resultsTable.setWidget(i + 1, j++,
@@ -1118,7 +1138,7 @@ public class ReportsPresenter implements Presenter
 										resultsTable.getRowFormatter().addStyleName(i, "form-row");
 										resultsTable.getCellFormatter().addStyleName(i + 1, j++, "form-row");
 									}
-									resultsTable.setWidth("99%");
+									resultsTable.setWidth("100%");
 									display.getReport5().getVpnlPerview().add(resultsTable);
 									display.getReport5().showButtonBelow();
 									chartHpnl.setWidth("100%");

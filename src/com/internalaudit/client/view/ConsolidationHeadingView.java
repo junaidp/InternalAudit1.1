@@ -1,5 +1,6 @@
 package com.internalaudit.client.view;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -76,6 +77,7 @@ public class ConsolidationHeadingView extends Composite {
 		lblAuditaleProcess.setText("Process");
 		// lblAuditaleProcess.addStyleName("labelHeading");
 		horizontalPanel.add(lblAuditaleProcess);
+		lblAuditaleProcess.getElement().getStyle().setPaddingLeft(10, Unit.PX);
 		lblAuditaleProcess.setWidth("160px");
 
 		// heading labelof sub process
