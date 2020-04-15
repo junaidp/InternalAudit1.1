@@ -10,11 +10,12 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DateBox.DefaultFormat;
+import com.internalaudit.client.widgets.AddImage;
 import com.sencha.gxt.widget.core.client.form.TextField;
 
 public class JobExceptionsView extends HorizontalPanel {
 
-	private TextArea exception = new TextArea();
+	private TextArea txtAreaObservations = new TextArea();
 	private TextArea recommendations = new TextArea();
 	private TextArea txtAreaImplication = new TextArea();
 	private ListBox listBoxImplicationRating = new ListBox();
@@ -27,6 +28,7 @@ public class JobExceptionsView extends HorizontalPanel {
 	private Button btnReject = new Button("Feedback");
 	private Label status = new Label("");
 	private TextField txtComments = new TextField();
+	private AddImage addIcon = new AddImage();
 
 	public JobExceptionsView() {
 		// setWidth("900px");
@@ -50,10 +52,10 @@ public class JobExceptionsView extends HorizontalPanel {
 		vpnlButtons.add(hpnlApprovalButtons);
 		txtComments.setEmptyText("Enter Comments");
 		vpnlButtons.setVisible(false);
-		add(exception);
-		exception.getElement().setPropertyString("placeholder", "Enter text here");
-		exception.setWidth("150px");
-		exception.getElement().getStyle().setPaddingLeft(7, Unit.PX);
+		add(txtAreaObservations);
+		txtAreaObservations.getElement().setPropertyString("placeholder", "Enter text here");
+		txtAreaObservations.setWidth("150px");
+		txtAreaObservations.getElement().getStyle().setPaddingLeft(7, Unit.PX);
 		add(txtAreaImplication);
 		txtAreaImplication.getElement().setPropertyString("placeholder", "Enter text here");
 		txtAreaImplication.setWidth("145px");
@@ -71,8 +73,10 @@ public class JobExceptionsView extends HorizontalPanel {
 		recommendations.setWidth("137px");
 		add(responsiblePerson);
 		responsiblePerson.setWidth("123px");
+		responsiblePerson.setMultipleSelect(true);
 		status.setWidth("60px");
 
+		add(addIcon);
 		add(btnSave);
 		// if(status.getText().length()>1){
 		add(status);
@@ -90,10 +94,10 @@ public class JobExceptionsView extends HorizontalPanel {
 		// listBoxImplicationRating.getElement().getStyle().setMarginLeft(10,
 		// Unit.PX);
 		listBoxImplicationRating.addStyleName("noresize");
-		exception.setHeight("300px");
+		txtAreaObservations.setHeight("300px");
 		recommendations.setHeight("300px");
 		txtAreaImplication.addStyleName("noresize ");
-		exception.addStyleName("noresize");
+		txtAreaObservations.addStyleName("noresize");
 		recommendations.addStyleName("noresize");
 
 	}
@@ -107,11 +111,11 @@ public class JobExceptionsView extends HorizontalPanel {
 	}
 
 	public TextArea getException() {
-		return exception;
+		return txtAreaObservations;
 	}
 
 	public void setException(TextArea exception) {
-		this.exception = exception;
+		this.txtAreaObservations = exception;
 	}
 
 	public ListBox getResponsiblePerson() {
@@ -139,7 +143,7 @@ public class JobExceptionsView extends HorizontalPanel {
 	}
 
 	public void disableFields() {
-		exception.setEnabled(false);
+		txtAreaObservations.setEnabled(false);
 		responsiblePerson.setEnabled(false);
 		divisionHead.setEnabled(false);
 		dueDate.setEnabled(false);
@@ -221,6 +225,14 @@ public class JobExceptionsView extends HorizontalPanel {
 
 	public void setListBoxImplicationRating(ListBox listBoxImplicationRating) {
 		this.listBoxImplicationRating = listBoxImplicationRating;
+	}
+
+	public AddImage getAddIcon() {
+		return addIcon;
+	}
+
+	public void setAddIcon(AddImage addIcon) {
+		this.addIcon = addIcon;
 	}
 
 }

@@ -164,7 +164,7 @@ public class ConsolidationViewData {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("processDTO faled");
+				Window.alert("processDTO failed");
 
 			}
 
@@ -172,7 +172,6 @@ public class ConsolidationViewData {
 			public void onSuccess(ArrayList<ProcessDTO> result) {
 				processDTO = result;
 				fetchSubProcess(result.get(0).getProcessList().get(0).getProcessId(), null, 0);
-
 			}
 		});
 
@@ -194,6 +193,7 @@ public class ConsolidationViewData {
 				subProcess = result;
 				if (listBox != null) {
 					listBox.clear();
+					listBox.addItem("N/A", "0");
 					for (int i = 0; i < result.size(); i++) {
 						listBox.addItem(result.get(i).getSubProcessName(), result.get(i).getSubProcessId() + "");
 					}
@@ -313,6 +313,8 @@ public class ConsolidationViewData {
 						consolidationView.getListBoxSubProcess().addItem(subProcess.get(i).getSubProcessName(),
 								subProcess.get(i).getSubProcessId() + "");
 					}
+					// consolidationView.getListBoxSubProcess().insertItem("N/A",
+					// "0", 0);
 
 					// setting process subprocess and jobtype after populating
 					// them from above
@@ -348,6 +350,12 @@ public class ConsolidationViewData {
 						public void onChange(ChangeEvent event) {
 							// Window.alert("changing:" +
 							// consolidationView.getListBoxProcess().getValue(consolidationView.getListBoxProcess().getSelectedIndex()));
+							/*
+							 * if (consolidationView.getListBoxProcess().
+							 * getSelectedValue().equals("0")) {
+							 * consolidationView.getListBoxSubProcess().
+							 * setSelectedIndex(index); return; }
+							 */
 							fetchSubProcess(
 									Integer.parseInt(consolidationView.getListBoxProcess()
 											.getValue(consolidationView.getListBoxProcess().getSelectedIndex())),

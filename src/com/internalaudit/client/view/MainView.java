@@ -183,7 +183,8 @@ public class MainView extends Composite implements Display {
 			TabItemConfig config = new TabItemConfig("");
 			config.setEnabled(false);
 
-			panel.add(new EmployeeDashBoardView(), "WorkItems");
+			// panel.add(new EmployeeDashBoardView(), "WorkItems");
+			// removed by Moqeet as it's not required yet
 			panel.add(reportsView, "Reports");
 
 			// 2018 new
