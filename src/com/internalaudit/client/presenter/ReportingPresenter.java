@@ -13,12 +13,15 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.view.AuditStepsRecommendationData;
+import com.internalaudit.client.view.AuditStepsRecommendationHeading;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.JobData;
 import com.internalaudit.client.view.Reporting.AllJobsView;
@@ -31,6 +34,8 @@ import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.Exceptions;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.TimeOutException;
+import com.sencha.gxt.core.client.dom.ScrollSupport.ScrollMode;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
 public class ReportingPresenter implements Presenter
 
@@ -822,6 +827,7 @@ public class ReportingPresenter implements Presenter
 					// addeed now
 					// jobExceptionsView.getResponsiblePerson().addItem(exceptions.get(i).getResponsiblePerson().getEmployeeName());
 					////// CHanged above line here
+
 					jobExceptionsView.getResponsiblePerson().addItem(
 							exceptions.get(i).getResponsiblePerson().getEmployeeName(),
 							exceptions.get(i).getResponsiblePerson().getEmployeeId() + "");
@@ -880,7 +886,62 @@ public class ReportingPresenter implements Presenter
 								employeesList.get(j).getEmployeeId() + "");
 
 					}
+					jobExceptionsView.getAddIcon().addClickHandler(new ClickHandler() {
 
+						@Override
+						public void onClick(ClickEvent event) {
+							VerticalPanel vpnlPopUp = new VerticalPanel();
+							final VerticalLayoutContainer vpnlPopUpData = new VerticalLayoutContainer();
+							vpnlPopUpData.setHeight(370);
+							vpnlPopUpData.setScrollMode(ScrollMode.AUTOY);
+							AuditStepsRecommendationHeading auditStepsHeading = new AuditStepsRecommendationHeading();
+							vpnlPopUp.add(auditStepsHeading);
+							final PopupsView popUp = new PopupsView(vpnlPopUp.asWidget(), "Recommended Action Steps");
+							popUp.getVpnlMain().add(vpnlPopUpData);
+							final AuditStepsRecommendationData auditStepsData = new AuditStepsRecommendationData();
+							vpnlPopUpData.add(auditStepsData);
+							Button btnClose = new Button("Close");
+							btnClose.addStyleName("w3-right");
+							popUp.getVpnlMain().add(btnClose);
+							btnClose.addClickHandler(new ClickHandler() {
+
+								@Override
+								public void onClick(ClickEvent event) {
+									popUp.getPopup().removeFromParent();
+									popUp.getVpnlMain().removeFromParent();
+									popUp.getHpnlSPace().removeFromParent();
+								}
+							});
+
+							auditStepsHeading.getAddMore().addClickHandler(new ClickHandler() {
+
+								@Override
+								public void onClick(ClickEvent event) {
+									final AuditStepsRecommendationData auditStepsData = new AuditStepsRecommendationData();
+									vpnlPopUpData.add(auditStepsData);
+
+									auditStepsData.getDeleteIcon().addClickHandler(new ClickHandler() {
+
+										@Override
+										public void onClick(ClickEvent event) {
+											auditStepsData.removeFromParent();
+										}
+									});
+								}
+							});
+
+							auditStepsData.getDeleteIcon().addClickHandler(new ClickHandler() {
+
+								@Override
+								public void onClick(ClickEvent event) {
+									auditStepsData.removeFromParent();
+									popUp.getPopup().removeFromParent();
+									popUp.getVpnlMain().removeFromParent();
+									popUp.getHpnlSPace().removeFromParent();
+								}
+							});
+						}
+					});
 					jobExceptionsView.getBtnSave().addClickHandler(new ClickHandler() {
 
 						@Override
@@ -893,19 +954,13 @@ public class ReportingPresenter implements Presenter
 							} else {
 
 								// commenting this lise 2018
-								setResponsibleForandDvisionHead(exceptions, // This
-																			// line
-																			// also
-																			// setting
-																			// responsible
-																			// person
-																			// and
-																			// other
-																			// details.
-										jobExceptionsView, exceptionData);
+								// This line also setting responsible person and
+								// other details.
+								setResponsibleForandDvisionHead(exceptions, jobExceptionsView, exceptionData);
 								exceptions.get(exceptionData.getSelectedId()).setInitialStatus("");
 								// 2019 aug
-								Boolean sendMail = false;
+								Boolean sendMail = true; // set true by Abdul
+															// Moqeet
 								sendException(exceptions.get(exceptionData.getSelectedId()), sendMail);
 								// jobExceptionsView.getBtnSave().setText("Exception
 								// Sent.");
