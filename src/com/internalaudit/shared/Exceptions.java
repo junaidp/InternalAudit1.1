@@ -1,6 +1,7 @@
 package com.internalaudit.shared;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -96,15 +97,18 @@ public class Exceptions implements Serializable {
 
 	@Column(name = "recommendations")
 	private String recommendations;
-	
+
 	@Column(name = "implication")
 	private String implication;
 
 	@Column(name = "implicationRating")
 	private String implicationRating;
-	
+
 	@Transient
 	private String displayStatus;
+
+	@Transient
+	private ArrayList<Recommendation> recommendation;
 
 	public int getExceptionId() {
 		return exceptionId;
@@ -304,6 +308,14 @@ public class Exceptions implements Serializable {
 
 	public void setImplicationRating(String implicationRating) {
 		this.implicationRating = implicationRating;
+	}
+
+	public ArrayList<Recommendation> getRecommendation() {
+		return recommendation;
+	}
+
+	public void setRecommendation(ArrayList<Recommendation> recommendation) {
+		this.recommendation = recommendation;
 	}
 
 }

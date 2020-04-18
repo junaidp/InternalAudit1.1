@@ -15,7 +15,7 @@ public class AuditStepsRecommendationHeading extends HorizontalPanel {
 	private void createLayout() {
 		LabelHeading lblDueDate = new LabelHeading("Due Date");
 		add(lblDueDate);
-		lblDueDate.setWidth("105px");
+		lblDueDate.setWidth("100px");
 
 		LabelHeading lblRecommendedAction = new LabelHeading("Recommended Action Steps");
 		add(lblRecommendedAction);

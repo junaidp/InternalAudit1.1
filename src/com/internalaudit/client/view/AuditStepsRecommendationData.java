@@ -22,7 +22,7 @@ public class AuditStepsRecommendationData extends HorizontalPanel {
 		dueDate.setFormat(new DefaultFormat(DateTimeFormat.getShortDateFormat()));
 		add(dueDate);
 		dueDate.getElement().setPropertyString("placeholder", "yyyy-mm-dd");
-		dueDate.setWidth("100px");
+		dueDate.setWidth("105px");
 		add(recommendations);
 
 		recommendations.getElement().setPropertyString("placeholder", "Enter text here");

@@ -73,7 +73,7 @@ public class JobExceptionsView extends HorizontalPanel {
 		recommendations.setWidth("137px");
 		add(responsiblePerson);
 		responsiblePerson.setWidth("123px");
-		responsiblePerson.setMultipleSelect(true);
+		// responsiblePerson.setMultipleSelect(true);
 		status.setWidth("60px");
 
 		add(addIcon);

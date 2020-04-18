@@ -93,6 +93,7 @@ import com.internalaudit.shared.ObjectiveJobRelation;
 import com.internalaudit.shared.PlanningStatusDTO;
 import com.internalaudit.shared.Process;
 import com.internalaudit.shared.ProcessDTO;
+import com.internalaudit.shared.Recommendation;
 import com.internalaudit.shared.ReportDataEntity;
 import com.internalaudit.shared.ReportsDTO;
 import com.internalaudit.shared.ResourceUse;
@@ -477,13 +478,7 @@ public class MySQLRdbHelper {
 		return employees;// Return BEFORE catch Statement..
 	}
 
-	public Employee fetchEmployeeById(int employeeId) throws Exception {// Add
-		// this
-		// Throw
-		// Exception
-		// in
-		// all
-		// methods
+	public Employee fetchEmployeeById(int employeeId) throws Exception {
 
 		Session session = null;
 		Employee employee = null;
@@ -4582,10 +4577,29 @@ public class MySQLRdbHelper {
 
 	}
 
+	public void saveRecommendation(ArrayList<Recommendation> recommendation) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+
+			for (int i = 0; i < recommendation.size(); i++) {
+				session.save(recommendation.get(i));
+			}
+			session.flush();
+			logger.info(String.format("(Inside saveRecommendation) saving Multiple Exceptions"));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in saveRecommendation", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+	}
+
 	public String sendException(Exceptions exception, int year, int companyId, Boolean sendMail) {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
+
 			String jobName = fetchJobName(exception.getJobCreationId().getJobCreationId(), session);
 			int auditHead = fetchAuditHead(exception.getJobCreationId().getJobCreationId(), session);
 			// Transaction tr = session.beginTransaction();
@@ -4596,6 +4610,8 @@ public class MySQLRdbHelper {
 			}
 			exception.setYear(year);
 			exception.setCompanyId(companyId);
+
+			saveRecommendation(exception.getRecommendation());
 			session.update(exception);
 			session.flush();
 

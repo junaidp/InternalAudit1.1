@@ -24,6 +24,7 @@ import com.internalaudit.client.view.AuditStepsRecommendationData;
 import com.internalaudit.client.view.AuditStepsRecommendationHeading;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.JobData;
+import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.client.view.Reporting.AllJobsView;
 import com.internalaudit.client.view.Reporting.JobExceptionsView;
 import com.internalaudit.client.view.Reporting.JobReportView;
@@ -33,6 +34,7 @@ import com.internalaudit.client.view.Reporting.SelectedJobView;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.Exceptions;
 import com.internalaudit.shared.JobCreation;
+import com.internalaudit.shared.Recommendation;
 import com.internalaudit.shared.TimeOutException;
 import com.sencha.gxt.core.client.dom.ScrollSupport.ScrollMode;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
@@ -48,6 +50,7 @@ public class ReportingPresenter implements Presenter
 	private Employee loggedInEmployee;
 	private Logger logger = Logger.getLogger("ReportingPresenter");
 	private String reportingTab;
+	private ArrayList<AuditStepsRecommendationData> auditStepsDatas;
 
 	public interface Display {
 		Widget asWidget();
@@ -786,6 +789,79 @@ public class ReportingPresenter implements Presenter
 		}
 	}
 
+	public void addAuditeerecommendation(AuditStepsRecommendationData auditStepsData) {
+		for (int j = 0; j < employeesList.size(); j++) {
+			auditStepsData.getListAuditee().addItem(employeesList.get(j).getEmployeeName(),
+					employeesList.get(j).getEmployeeId() + "");
+		}
+	}
+
+	private void multipleRecommendations(ArrayList<Employee> employeesListRecommendation) {
+		VerticalPanel vpnlPopUp = new VerticalPanel();
+		final VerticalLayoutContainer vpnlPopUpData = new VerticalLayoutContainer();
+		vpnlPopUpData.setHeight(370);
+		vpnlPopUpData.setScrollMode(ScrollMode.AUTOY);
+		AuditStepsRecommendationHeading auditStepsHeading = new AuditStepsRecommendationHeading();
+		vpnlPopUp.add(auditStepsHeading);
+		final PopupsView popUp = new PopupsView(vpnlPopUp.asWidget(), "Recommended Action Steps");
+		popUp.getVpnlMain().add(vpnlPopUpData);
+		final AuditStepsRecommendationData auditStepsData = new AuditStepsRecommendationData();
+		addAuditeerecommendation(auditStepsData);
+		vpnlPopUpData.add(auditStepsData);
+		Button btnSave = new Button("Save");
+		btnSave.addStyleName("w3-right");
+		popUp.getVpnlMain().add(btnSave);
+
+		btnSave.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+
+				popUp.getPopup().removeFromParent();
+				popUp.getVpnlMain().removeFromParent();
+				popUp.getHpnlSPace().removeFromParent();
+				auditStepsDatas = new ArrayList<AuditStepsRecommendationData>();
+				for (int i = 0; i < vpnlPopUpData.getWidgetCount(); i++) {
+					AuditStepsRecommendationData auditStepsData = (AuditStepsRecommendationData) vpnlPopUpData
+							.getWidget(i);
+					// auditStepsData.getListAuditee().addItem(item, value);
+					auditStepsDatas.add(auditStepsData);
+					// looop over auditStepsDatas
+					// entiry.setDueDate(auditStepsData.getDueDate().getValue();
+				}
+			}
+		});
+
+		auditStepsHeading.getAddMore().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				final AuditStepsRecommendationData auditStepsData = new AuditStepsRecommendationData();
+				addAuditeerecommendation(auditStepsData);
+				vpnlPopUpData.add(auditStepsData);
+
+				auditStepsData.getDeleteIcon().addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						auditStepsData.removeFromParent();
+					}
+				});
+			}
+		});
+
+		auditStepsData.getDeleteIcon().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				auditStepsData.removeFromParent();
+				popUp.getPopup().removeFromParent();
+				popUp.getVpnlMain().removeFromParent();
+				popUp.getHpnlSPace().removeFromParent();
+			}
+		});
+	}
+
 	private void fetchExceptionsforSelectedJob(int jobId, final SelectedJobView selectedJobView) {
 		rpcService.fetchJobExceptions(jobId, new AsyncCallback<ArrayList<Exceptions>>() {
 
@@ -890,58 +966,10 @@ public class ReportingPresenter implements Presenter
 
 						@Override
 						public void onClick(ClickEvent event) {
-							VerticalPanel vpnlPopUp = new VerticalPanel();
-							final VerticalLayoutContainer vpnlPopUpData = new VerticalLayoutContainer();
-							vpnlPopUpData.setHeight(370);
-							vpnlPopUpData.setScrollMode(ScrollMode.AUTOY);
-							AuditStepsRecommendationHeading auditStepsHeading = new AuditStepsRecommendationHeading();
-							vpnlPopUp.add(auditStepsHeading);
-							final PopupsView popUp = new PopupsView(vpnlPopUp.asWidget(), "Recommended Action Steps");
-							popUp.getVpnlMain().add(vpnlPopUpData);
-							final AuditStepsRecommendationData auditStepsData = new AuditStepsRecommendationData();
-							vpnlPopUpData.add(auditStepsData);
-							Button btnClose = new Button("Close");
-							btnClose.addStyleName("w3-right");
-							popUp.getVpnlMain().add(btnClose);
-							btnClose.addClickHandler(new ClickHandler() {
-
-								@Override
-								public void onClick(ClickEvent event) {
-									popUp.getPopup().removeFromParent();
-									popUp.getVpnlMain().removeFromParent();
-									popUp.getHpnlSPace().removeFromParent();
-								}
-							});
-
-							auditStepsHeading.getAddMore().addClickHandler(new ClickHandler() {
-
-								@Override
-								public void onClick(ClickEvent event) {
-									final AuditStepsRecommendationData auditStepsData = new AuditStepsRecommendationData();
-									vpnlPopUpData.add(auditStepsData);
-
-									auditStepsData.getDeleteIcon().addClickHandler(new ClickHandler() {
-
-										@Override
-										public void onClick(ClickEvent event) {
-											auditStepsData.removeFromParent();
-										}
-									});
-								}
-							});
-
-							auditStepsData.getDeleteIcon().addClickHandler(new ClickHandler() {
-
-								@Override
-								public void onClick(ClickEvent event) {
-									auditStepsData.removeFromParent();
-									popUp.getPopup().removeFromParent();
-									popUp.getVpnlMain().removeFromParent();
-									popUp.getHpnlSPace().removeFromParent();
-								}
-							});
+							multipleRecommendations(employeesList);
 						}
 					});
+
 					jobExceptionsView.getBtnSave().addClickHandler(new ClickHandler() {
 
 						@Override
@@ -1071,6 +1099,31 @@ public class ReportingPresenter implements Presenter
 				.setImplication(jobExceptionsView.getTxtAreaImplication().getText());
 		exceptions.get(exceptionData.getSelectedId())
 				.setImplicationRating(jobExceptionsView.getListBoxImplicationRating().getSelectedValue().toString());
+
+		addRecommendations(exceptions, exceptionData.getSelectedId());
+	}
+
+	private void addRecommendations(final ArrayList<Exceptions> exceptions, int exceptionDataId) {
+		try {
+			ArrayList<Recommendation> recommendations = new ArrayList<Recommendation>();
+			for (AuditStepsRecommendationData auditStepRecommendationData : auditStepsDatas) {
+				Recommendation recommendation = new Recommendation();
+				// JobCreation j = new JobCreation();
+				// j.setJobCreationId(exceptionDataId);
+				recommendation.setJobCreationId(exceptions.get(0).getJobCreationId());
+				recommendation.setDueDate(auditStepRecommendationData.getDueDate().getDatePicker().getValue());
+				recommendation.setRecommendation(auditStepRecommendationData.getRecommendations().getValue());
+				// Employee e = new Employee();
+				// e.setEmployeeId(Integer.parseInt(auditStepRecommendationData.getListAuditee().getSelectedValue()));
+				// recommendation.setEmployee(e);
+				// recommendation.getEmployeeId().setE(Integer.parseInt(auditStepRecommendationData.getListAuditee().getSelectedValue()));
+				recommendations.add(recommendation);
+			}
+			exceptions.get(exceptionDataId).setRecommendation(recommendations);
+		} catch (Exception ex) {
+			System.out.println("addRecommendations Failed:" + ex.getLocalizedMessage());
+		}
+
 	}
 
 	private void sendException(Exceptions exception, Boolean sendMail) {
