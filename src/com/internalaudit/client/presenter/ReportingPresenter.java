@@ -51,6 +51,7 @@ public class ReportingPresenter implements Presenter
 	private Logger logger = Logger.getLogger("ReportingPresenter");
 	private String reportingTab;
 	private ArrayList<AuditStepsRecommendationData> auditStepsDatas;
+	int countAuditSteps = 1;
 
 	public interface Display {
 		Widget asWidget();
@@ -796,7 +797,17 @@ public class ReportingPresenter implements Presenter
 		}
 	}
 
-	private void multipleRecommendations(ArrayList<Employee> employeesListRecommendation) {
+	private void IncrementBtnSendCount(Button btnSend) {
+		countAuditSteps++;
+		btnSend.setText("Send [" + countAuditSteps + "]");
+	}
+
+	private void DecrementBtnSendCount(Button btnSend) {
+		countAuditSteps--;
+		btnSend.setText("Send [" + countAuditSteps + "]");
+	}
+
+	private void multipleRecommendations(ArrayList<Employee> employeesListRecommendation, final Button btnSend) {
 		VerticalPanel vpnlPopUp = new VerticalPanel();
 		final VerticalLayoutContainer vpnlPopUpData = new VerticalLayoutContainer();
 		vpnlPopUpData.setHeight(370);
@@ -808,26 +819,39 @@ public class ReportingPresenter implements Presenter
 		final AuditStepsRecommendationData auditStepsData = new AuditStepsRecommendationData();
 		addAuditeerecommendation(auditStepsData);
 		vpnlPopUpData.add(auditStepsData);
+		IncrementBtnSendCount(btnSend);
 		Button btnSave = new Button("Save");
 		btnSave.addStyleName("w3-right");
+
 		popUp.getVpnlMain().add(btnSave);
 
 		btnSave.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-
-				popUp.getPopup().removeFromParent();
-				popUp.getVpnlMain().removeFromParent();
-				popUp.getHpnlSPace().removeFromParent();
-				auditStepsDatas = new ArrayList<AuditStepsRecommendationData>();
+				// Date Must be Selected check
+				boolean selectDate = true;
 				for (int i = 0; i < vpnlPopUpData.getWidgetCount(); i++) {
-					AuditStepsRecommendationData auditStepsData = (AuditStepsRecommendationData) vpnlPopUpData
-							.getWidget(i);
-					// auditStepsData.getListAuditee().addItem(item, value);
-					auditStepsDatas.add(auditStepsData);
-					// looop over auditStepsDatas
-					// entiry.setDueDate(auditStepsData.getDueDate().getValue();
+					if (((AuditStepsRecommendationData) vpnlPopUpData.getWidget(i)).getDueDate().getValue() == null) {
+						selectDate = false;
+					}
+				}
+				if (selectDate == false)
+					Window.alert("Please Select Due Date");
+				// End
+				else {
+					auditStepsDatas = new ArrayList<AuditStepsRecommendationData>();
+					for (int i = 0; i < vpnlPopUpData.getWidgetCount(); i++) {
+						AuditStepsRecommendationData auditStepsData = (AuditStepsRecommendationData) vpnlPopUpData
+								.getWidget(i);
+						// auditStepsData.getListAuditee().addItem(item, value);
+						auditStepsDatas.add(auditStepsData);
+						// looop over auditStepsDatas
+						// entiry.setDueDate(auditStepsData.getDueDate().getValue();
+					}
+					popUp.getPopup().removeFromParent();
+					popUp.getVpnlMain().removeFromParent();
+					popUp.getHpnlSPace().removeFromParent();
 				}
 			}
 		});
@@ -839,12 +863,18 @@ public class ReportingPresenter implements Presenter
 				final AuditStepsRecommendationData auditStepsData = new AuditStepsRecommendationData();
 				addAuditeerecommendation(auditStepsData);
 				vpnlPopUpData.add(auditStepsData);
-
+				IncrementBtnSendCount(btnSend);
 				auditStepsData.getDeleteIcon().addClickHandler(new ClickHandler() {
 
 					@Override
 					public void onClick(ClickEvent event) {
 						auditStepsData.removeFromParent();
+						if (vpnlPopUpData.getWidgetCount() < 1) {
+							popUp.getPopup().removeFromParent();
+							popUp.getVpnlMain().removeFromParent();
+							popUp.getHpnlSPace().removeFromParent();
+						}
+						DecrementBtnSendCount(btnSend);
 					}
 				});
 			}
@@ -855,9 +885,12 @@ public class ReportingPresenter implements Presenter
 			@Override
 			public void onClick(ClickEvent event) {
 				auditStepsData.removeFromParent();
-				popUp.getPopup().removeFromParent();
-				popUp.getVpnlMain().removeFromParent();
-				popUp.getHpnlSPace().removeFromParent();
+				if (vpnlPopUpData.getWidgetCount() < 1) {
+					popUp.getPopup().removeFromParent();
+					popUp.getVpnlMain().removeFromParent();
+					popUp.getHpnlSPace().removeFromParent();
+				}
+				DecrementBtnSendCount(btnSend);
 			}
 		});
 	}
@@ -962,11 +995,11 @@ public class ReportingPresenter implements Presenter
 								employeesList.get(j).getEmployeeId() + "");
 
 					}
-					jobExceptionsView.getAddIcon().addClickHandler(new ClickHandler() {
+					jobExceptionsView.getAnchorAddRecommendations().addClickHandler(new ClickHandler() {
 
 						@Override
 						public void onClick(ClickEvent event) {
-							multipleRecommendations(employeesList);
+							multipleRecommendations(employeesList, jobExceptionsView.getBtnSave());
 						}
 					});
 

@@ -1,5 +1,8 @@
 package com.internalaudit.client.view;
 
+import java.util.ArrayList;
+
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -19,6 +22,8 @@ public class RiskFactorsView extends Composite {
 	private TextArea comments;
 	private Label lbl;
 	private Image riskRating;
+	private ListBox listBoxOverAllRating;
+	private ArrayList<RiskFactorsView> riskFactorsUpdated;
 
 	public RiskFactorsView() {
 
@@ -96,10 +101,13 @@ public class RiskFactorsView extends Composite {
 				for (int i = 0; i < rating.getItemCount(); i++) {
 					if (rating.getValue(i).equalsIgnoreCase(level)) {
 						rating.setSelectedIndex(i);
-
 					}
 				}
-
+				try {
+					setOverAllRating();
+				} catch (Exception ex) {
+					GWT.log("Inside RiskFactor:" + ex);
+				}
 			}
 		});
 
@@ -114,9 +122,47 @@ public class RiskFactorsView extends Composite {
 
 					}
 				}
-
+				try {
+					setOverAllRating();
+				} catch (Exception ex) {
+					GWT.log("Inside RiskFactor:" + ex);
+				}
 			}
 		});
+
+	}
+
+	public void overAllRatingHander(final ArrayList<RiskFactorsView> riskFactorsUpdated,
+			final ListBox listBoxOverAllRating) {
+		this.listBoxOverAllRating = listBoxOverAllRating;
+		this.riskFactorsUpdated = riskFactorsUpdated;
+	}
+
+	private void setOverAllRating() {
+		String overallRating = null;
+		int countHigh = 0;
+		int countMedium = 0;
+		int countLow = 0;
+		for (int i = 0; i < riskFactorsUpdated.size(); i++) {
+			if (riskFactorsUpdated.get(i).getRating().getSelectedValue().equalsIgnoreCase("High"))
+				countHigh++;
+			else if (riskFactorsUpdated.get(i).getRating().getSelectedValue().equalsIgnoreCase("Medium"))
+				countMedium++;
+			else if (riskFactorsUpdated.get(i).getRating().getSelectedValue().equalsIgnoreCase("Low"))
+				countLow++;
+		}
+		if (countHigh >= countMedium && countHigh >= countLow)
+			overallRating = "High";
+		else if (countMedium > countHigh && countMedium >= countLow)
+			overallRating = "Medium";
+		else if (countLow > countMedium && countLow > countHigh)
+			overallRating = "Low";
+		for (int i = 0; i < listBoxOverAllRating.getItemCount(); i++) {
+			if (overallRating.equals(listBoxOverAllRating.getValue(i))) {
+				listBoxOverAllRating.setSelectedIndex(i);
+				break;
+			}
+		}
 
 	}
 
@@ -141,9 +187,12 @@ public class RiskFactorsView extends Composite {
 		} else {
 			ratingLevel = "N/A";
 		}
-
+		// try {
+		// setOverAllRating();
+		// } catch (Exception ex) {
+		// GWT.log("Inside RiskFactor:" + ex);
+		// }
 		return ratingLevel;
-
 	}
 
 	public Label getRiskFactor() {

@@ -20,11 +20,10 @@ public class AuditStepsRecommendationData extends HorizontalPanel {
 
 	private void createLayout() {
 		dueDate.setFormat(new DefaultFormat(DateTimeFormat.getShortDateFormat()));
-		add(dueDate);
 		dueDate.getElement().setPropertyString("placeholder", "yyyy-mm-dd");
 		dueDate.setWidth("105px");
 		add(recommendations);
-
+		add(dueDate);
 		recommendations.getElement().setPropertyString("placeholder", "Enter text here");
 		recommendations.setWidth("137px");
 		recommendations.setHeight("300px");
@@ -32,7 +31,7 @@ public class AuditStepsRecommendationData extends HorizontalPanel {
 
 		add(listAuditee);
 		listAuditee.setWidth("123px");
-		listAuditee.setMultipleSelect(true);
+		// listAuditee.setMultipleSelect(true);
 		addStyleName("w3 border");
 
 		add(deleteIcon);

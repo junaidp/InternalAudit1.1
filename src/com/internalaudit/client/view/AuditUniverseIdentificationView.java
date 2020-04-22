@@ -128,8 +128,9 @@ public class AuditUniverseIdentificationView extends Composite {
 						.fetchDepartmentsForNewRecord(auditUniverseStrategicView);
 				// auditUniverseStrategicView.getAuditUniverseStrategicViewData().fetchObjectiveOwnersForNewRecord(auditUniverseStrategicView);
 
-				// vpnlStrategicData.add(auditUniverseStrategicView);
-				vpnlStrategicData.insert(auditUniverseStrategicView, 1);
+				vpnlStrategicData.add(auditUniverseStrategicView);
+				// vpnlStrategicData.insert(auditUniverseStrategicView, 1);
+				// Plus icon was not working in Reoprting and Compliance
 				auditUniverseStrategicView.getBtnSave().addClickHandler(new ClickHandler() {
 
 					@Override

@@ -46,8 +46,8 @@ public class SelectedJobView extends Composite {
 		hpnnlHeadings.add(lblObservation);
 		hpnnlHeadings.add(lblImplication);
 		hpnnlHeadings.add(lblImplicationRating);
-		hpnnlHeadings.add(lblDueDate);
 		hpnnlHeadings.add(lblRecommendedAction);
+		hpnnlHeadings.add(lblDueDate);
 		hpnnlHeadings.add(lblAuditee);
 		// hpnnlHeadings.add(new Label("Implication"));
 		// hpnnlHeadings.add(new Label("Implication Rating"));

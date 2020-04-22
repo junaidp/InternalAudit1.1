@@ -13,13 +13,14 @@ public class AuditStepsRecommendationHeading extends HorizontalPanel {
 	}
 
 	private void createLayout() {
-		LabelHeading lblDueDate = new LabelHeading("Due Date");
-		add(lblDueDate);
-		lblDueDate.setWidth("100px");
 
 		LabelHeading lblRecommendedAction = new LabelHeading("Recommended Action Steps");
 		add(lblRecommendedAction);
 		lblRecommendedAction.setWidth("137px");
+
+		LabelHeading lblDueDate = new LabelHeading("Due Date");
+		add(lblDueDate);
+		lblDueDate.setWidth("100px");
 
 		LabelHeading lbllistAuditee = new LabelHeading("Auditee");
 		add(lbllistAuditee);

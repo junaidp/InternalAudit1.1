@@ -2,6 +2,7 @@ package com.internalaudit.client.view.Reporting;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -10,7 +11,6 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DateBox.DefaultFormat;
-import com.internalaudit.client.widgets.AddImage;
 import com.sencha.gxt.widget.core.client.form.TextField;
 
 public class JobExceptionsView extends HorizontalPanel {
@@ -28,7 +28,8 @@ public class JobExceptionsView extends HorizontalPanel {
 	private Button btnReject = new Button("Feedback");
 	private Label status = new Label("");
 	private TextField txtComments = new TextField();
-	private AddImage addIcon = new AddImage();
+	// private AddImage addIcon = new AddImage();
+	private Anchor anchorAddRecommendations = new Anchor("Add More Action Steps");
 
 	public JobExceptionsView() {
 		// setWidth("900px");
@@ -64,11 +65,12 @@ public class JobExceptionsView extends HorizontalPanel {
 		listBoxImplicationRating.setWidth("146px");
 
 		// add(divisionHead);
+		add(recommendations);
 		dueDate.setFormat(new DefaultFormat(DateTimeFormat.getShortDateFormat()));
 		add(dueDate);
 		dueDate.getElement().setPropertyString("placeholder", "yyyy-mm-dd");
 		dueDate.setWidth("100px");
-		add(recommendations);
+
 		recommendations.getElement().setPropertyString("placeholder", "Enter text here");
 		recommendations.setWidth("137px");
 		add(responsiblePerson);
@@ -76,7 +78,10 @@ public class JobExceptionsView extends HorizontalPanel {
 		// responsiblePerson.setMultipleSelect(true);
 		status.setWidth("60px");
 
-		add(addIcon);
+		HorizontalPanel hpnlAnchor = new HorizontalPanel();
+		hpnlAnchor.setWidth("75px");
+		hpnlAnchor.add(anchorAddRecommendations);
+		add(hpnlAnchor);
 		add(btnSave);
 		// if(status.getText().length()>1){
 		add(status);
@@ -227,12 +232,12 @@ public class JobExceptionsView extends HorizontalPanel {
 		this.listBoxImplicationRating = listBoxImplicationRating;
 	}
 
-	public AddImage getAddIcon() {
-		return addIcon;
+	public Anchor getAnchorAddRecommendations() {
+		return anchorAddRecommendations;
 	}
 
-	public void setAddIcon(AddImage addIcon) {
-		this.addIcon = addIcon;
+	public void setAnchorAddRecommendations(Anchor anchorAddRecommendations) {
+		this.anchorAddRecommendations = anchorAddRecommendations;
 	}
 
 }

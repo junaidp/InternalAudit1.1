@@ -258,6 +258,7 @@ public class RiskAssesmentStrategicViewData {
 
 						riskFactorsView.setRiskFactorId(riskFactors.get(j).getRiskId());
 						riskFactorsView.getRiskFactor().setText(riskFactors.get(j).getRiskName());
+
 						try {
 							if (riskAssesmentDTOs.get(index).getStrategicRisks().size() > 0) {
 								riskFactorsView.getComments()
@@ -303,17 +304,41 @@ public class RiskAssesmentStrategicViewData {
 						} catch (Exception ex) {
 							GWT.log("Error at line 296 RiskAssesmentStrategicViewData : " + ex);
 						}
+
 						riskAssesmentStrategicView.getRiskFactors().add(riskFactorsView);
 						riskFactorsUpdated.add(riskFactorsView);
+						riskFactorsView.overAllRatingHander(riskFactorsUpdated, riskAssesmentStrategicView.getRating());
+
+						//// TEST CODE
+						// riskFactorsUpdated.get(j).getRating().addChangeHandler(new
+						// ChangeHandler() {
+						// @Override
+						// public void onChange(ChangeEvent event) {
+						// // return value = call Method (value , high,
+						// // low, medium) calculateOverallRating
+						// Window.alert(riskFactorsUpdated.size() + "");
+						// String listOverAllRatingValue = setOverAllRating();
+						// for (int i = 0; i <
+						// riskAssesmentStrategicView.getRating().getVisibleItemCount();
+						// i++) {
+						// if (listOverAllRatingValue
+						// .equals(riskAssesmentStrategicView.getRating().getValue(i)))
+						// {
+						// riskAssesmentStrategicView.getRating().setSelectedIndex(i);
+						// // break;
+						// }
+						//
+						// }
+						//
+						// }
+						// });
 					}
 					selectedTab = tab;
 					setHandlers(riskAssesmentView, riskAssesmentDTOs, riskAssesmentStrategicView, riskFactorsUpdated);
-
 					updatedStrategics.add(riskAssesmentStrategicView);
 				}
 				loadingPopup.remove();
 			}
-
 		});
 	}
 
