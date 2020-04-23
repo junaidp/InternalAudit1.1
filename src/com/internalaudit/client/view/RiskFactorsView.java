@@ -65,8 +65,8 @@ public class RiskFactorsView extends Composite {
 		impact.addItem("High", "3");
 
 		comments = new TextArea();
-		comments.setWidth("600px");
-		comments.setHeight("40px");
+		comments.setSize("600px", "40px");
+		comments.getElement().setPropertyString("placeholder", "Enter your Comment here");
 
 		riskRating = new Image("redcircle.png");
 		riskRating.setVisible(false);
@@ -136,6 +136,7 @@ public class RiskFactorsView extends Composite {
 			final ListBox listBoxOverAllRating) {
 		this.listBoxOverAllRating = listBoxOverAllRating;
 		this.riskFactorsUpdated = riskFactorsUpdated;
+		listBoxOverAllRating.setEnabled(false);
 	}
 
 	private void setOverAllRating() {
@@ -151,12 +152,14 @@ public class RiskFactorsView extends Composite {
 			else if (riskFactorsUpdated.get(i).getRating().getSelectedValue().equalsIgnoreCase("Low"))
 				countLow++;
 		}
-		if (countHigh >= countMedium && countHigh >= countLow)
+		if (countHigh >= countMedium && countHigh >= countLow && countHigh > 0)
 			overallRating = "High";
 		else if (countMedium > countHigh && countMedium >= countLow)
 			overallRating = "Medium";
 		else if (countLow > countMedium && countLow > countHigh)
 			overallRating = "Low";
+		else
+			overallRating = "N/A";
 		for (int i = 0; i < listBoxOverAllRating.getItemCount(); i++) {
 			if (overallRating.equals(listBoxOverAllRating.getValue(i))) {
 				listBoxOverAllRating.setSelectedIndex(i);

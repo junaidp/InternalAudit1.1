@@ -23,7 +23,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.AmendmentPopup;
-import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.client.view.PhaseNames;
 import com.internalaudit.client.view.RiskAssesmentStrategicView;
@@ -207,10 +206,13 @@ public class RiskAssesmentStrategicViewData {
 							.setTitle(riskAssesmentDTOs.get(index).getStrategic().getComments());
 
 					for (int k = 0; k < riskAssesmentStrategicView.getRating().getItemCount(); k++) {
-						if (riskAssesmentDTOs.get(index).getStrategic().getRating()
-								.equals(riskAssesmentStrategicView.getRating().getValue(k))) {
-							riskAssesmentStrategicView.getRating().setSelectedIndex(k);
-						}
+						// commented by moqeet as rating value is dependent
+						// if
+						// (riskAssesmentDTOs.get(index).getStrategic().getRating()
+						// .equals(riskAssesmentStrategicView.getRating().getValue(k)))
+						// {
+						// riskAssesmentStrategicView.getRating().setSelectedIndex(k);
+						// }
 
 						// new work
 
@@ -427,10 +429,9 @@ public class RiskAssesmentStrategicViewData {
 		});
 	}
 
-	public void declineStrategic(int strategicId, final RiskAssesmentView riskAssesmentView,
-			final ButtonRound buttonRound) {
+	public void declineStrategic(int strategicId, final RiskAssesmentView riskAssesmentView, final Button button) {
 
-		buttonRound.setEnabled(false);
+		button.setEnabled(false);
 		rpcService.declineStrategic(strategicId, new AsyncCallback<String>() {
 
 			@Override
@@ -446,13 +447,13 @@ public class RiskAssesmentStrategicViewData {
 					// Method Name..
 				}
 
-				buttonRound.setEnabled(true);
+				button.setEnabled(true);
 				Window.alert("decline strategic failed");
 			}
 
 			@Override
 			public void onSuccess(String result) {
-				buttonRound.setEnabled(true);
+				button.setEnabled(true);
 				// vpnlStrategic.clear();
 				final DecoratedPopupPanel popup = new DecoratedPopupPanel();
 				popup.setWidget(new Label("strategic declined ! "));
@@ -474,7 +475,7 @@ public class RiskAssesmentStrategicViewData {
 	private void saveAssesment(final RiskAssesmentView riskAssesmentView,
 			final ArrayList<RiskAssesmentDTO> riskAssesmentDTOs,
 			final RiskAssesmentStrategicView riskAssesmentStrategicView,
-			final ArrayList<RiskFactorsView> riskFactorsUpdated, String todo, ButtonRound buttonRound) {
+			final ArrayList<RiskFactorsView> riskFactorsUpdated, String todo, Button button) {
 		ArrayList<StrategicRisk> strategicRisks = new ArrayList<StrategicRisk>();
 
 		// riskAssesmentDTOs.get(riskAssesmentStrategicView.getIndex()).getStrategic().setPhase("RiskAssesment1");
@@ -513,7 +514,7 @@ public class RiskAssesmentStrategicViewData {
 
 		}
 
-		saveRiskAssesment(strategicRisks, riskAssesmentView, todo, buttonRound);
+		saveRiskAssesment(strategicRisks, riskAssesmentView, todo, button);
 	}
 
 	public void disablePanel(RiskAssesmentStrategicView riskAssesmentStrategicView, RiskFactorsView riskFactorsView,
@@ -551,10 +552,12 @@ public class RiskAssesmentStrategicViewData {
 		riskAssesmentStrategicView.getRating().setEnabled(true);
 		// new work
 		riskAssesmentStrategicView.getListBoxUserOption().setEnabled(true);
-		if (riskAssesmentStrategicView.getListBoxUserOption().getSelectedValue() != riskAssesmentStrategicView
-				.getRating().getSelectedValue()) {
-			riskAssesmentStrategicView.getPanelRatingComment().setVisible(true);
-		}
+		// if
+		// (riskAssesmentStrategicView.getListBoxUserOption().getSelectedValue()
+		// != riskAssesmentStrategicView
+		// .getRating().getSelectedValue()) {
+		// riskAssesmentStrategicView.getPanelRatingComment().setVisible(true);
+		// }
 		riskAssesmentStrategicView.getSubmitted().setVisible(false);
 		riskAssesmentStrategicView.getLblImg().setVisible(true);
 
@@ -565,10 +568,11 @@ public class RiskAssesmentStrategicViewData {
 		if (riskAssesmentDTOs.get(i).getStrategic().getStatus().equals("submitted")) {
 			riskAssesmentStrategicView.getHpnlButtonsApprovar().setVisible(true);
 			riskAssesmentStrategicView.getHpnlButtonInitiator().setVisible(false);
-			if (!riskAssesmentStrategicView.getRating().getSelectedValue()
-					.equals(riskAssesmentStrategicView.getListBoxUserOption().getSelectedValue())) {
-				riskAssesmentStrategicView.getPanelRatingComment().setVisible(true);
-			}
+			// if (!riskAssesmentStrategicView.getRating().getSelectedValue()
+			// .equals(riskAssesmentStrategicView.getListBoxUserOption().getSelectedValue()))
+			// {
+			// riskAssesmentStrategicView.getPanelRatingComment().setVisible(true);
+			// }
 
 		} else if (riskAssesmentDTOs.get(i).getStrategic().getStatus().equals("amend")) {
 			riskAssesmentStrategicView.getBtnDeclineInitiator().setVisible(false);
@@ -590,9 +594,9 @@ public class RiskAssesmentStrategicViewData {
 	}
 
 	public void saveRiskAssesment(ArrayList<StrategicRisk> strategicRisks, final RiskAssesmentView riskAssesmentView,
-			String todo, final ButtonRound buttonRound) {
+			String todo, final Button button) {
 
-		buttonRound.setEnabled(false);
+		button.setEnabled(false);
 		actionPerformed = todo;
 		HashMap<String, String> hm = new HashMap<String, String>();
 		if (todo.equalsIgnoreCase("approve")) {
@@ -615,13 +619,13 @@ public class RiskAssesmentStrategicViewData {
 					// NOT Method Name..
 				}
 
-				buttonRound.setEnabled(true);
+				button.setEnabled(true);
 				Window.alert("saving risk assesment failed");
 			}
 
 			@Override
 			public void onSuccess(String result) {
-				buttonRound.setEnabled(true);
+				button.setEnabled(true);
 				final DecoratedPopupPanel popup = new DecoratedPopupPanel();
 				if (actionPerformed.equalsIgnoreCase("save")) {
 					popup.setWidget(new Label("Risk Assesment Saved  "));

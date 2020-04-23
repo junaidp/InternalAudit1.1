@@ -1,8 +1,12 @@
 package com.internalaudit.client.view;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -44,12 +48,12 @@ public class RiskAssesmentStrategicView extends Composite {
 	private Image submitted = new Image(" images/tick.png ");
 	private Label lblImg = new Label("  ");
 
-	private ButtonRound btnSave = new ButtonRound("Save");
-	private ButtonRound btnSubmit = new ButtonRound("Submit");
-	private ButtonRound btnApprove = new ButtonRound("Approve");
-	private ButtonRound btnDecline = new ButtonRound("Delete");
-	private ButtonRound btnDeclineInitiator = new ButtonRound("Delete");
-	private ButtonRound btnAmend = new ButtonRound("Feedback");
+	private Button btnSave = new Button("Save");
+	private Button btnSubmit = new Button("Submit");
+	private Button btnApprove = new Button("Approve");
+	private Button btnDecline = new Button("Delete");
+	private Button btnDeclineInitiator = new Button("Delete");
+	private Button btnAmend = new Button("Feedback");
 	private HorizontalPanel hpnlButtonInitiator = new HorizontalPanel();
 	private HorizontalPanel hpnlButtonsApprovar = new HorizontalPanel();
 	private int index;
@@ -73,9 +77,11 @@ public class RiskAssesmentStrategicView extends Composite {
 		lblComment = new Label("Comment");
 		lblComment.setWidth("250px");
 		lblComment.addStyleName("boldText");
+		lblComment.getElement().getStyle().setPaddingTop(10, Unit.PX);
 		panelRatingComment.add(lblComment);
 		txtAreaComment = new TextArea();
-		txtAreaComment.setSize("600px", "40px");
+		txtAreaComment.setSize("600px", "35px");
+		txtAreaComment.getElement().setPropertyString("placeholder", "Enter your Comment here");
 		panelRatingComment.add(txtAreaComment);
 		panelRatingComment.setVisible(false);
 		hpnlButtons.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
@@ -100,7 +106,6 @@ public class RiskAssesmentStrategicView extends Composite {
 
 		hpnlButtonsApprovar.setVisible(false);
 		hpnlButtonInitiator.setVisible(false);
-		//
 		// btnDecline.setWidth("70px");
 		// btnAmend.setWidth("70px");
 		// btnApprove.setWidth("70px");
@@ -125,7 +130,17 @@ public class RiskAssesmentStrategicView extends Composite {
 
 		// vpnlComments.add(comments);
 		// hpnlStrategic.setWidth("900px");
-
+		listBoxUserOption.addChangeHandler(new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				if (!rating.getSelectedValue().equalsIgnoreCase(listBoxUserOption.getSelectedValue())) {
+					panelRatingComment.setVisible(true);
+					txtAreaComment.getElement().setPropertyString("placeholder", "Enter your Comment here");
+				} else {
+					panelRatingComment.setVisible(false);
+				}
+			}
+		});
 	}
 
 	public RiskAssesmentStrategicViewData getRiskAssesmentStrategicViewData() {
@@ -168,51 +183,51 @@ public class RiskAssesmentStrategicView extends Composite {
 		this.index = index;
 	}
 
-	public ButtonRound getBtnSave() {
+	public Button getBtnSave() {
 		return btnSave;
 	}
 
-	public void setBtnSave(ButtonRound btnSave) {
+	public void setBtnSave(Button btnSave) {
 		this.btnSave = btnSave;
 	}
 
-	public ButtonRound getBtnSubmit() {
+	public Button getBtnSubmit() {
 		return btnSubmit;
 	}
 
-	public void setBtnSubmit(ButtonRound btnSubmit) {
+	public void setBtnSubmit(Button btnSubmit) {
 		this.btnSubmit = btnSubmit;
 	}
 
-	public ButtonRound getBtnApprove() {
+	public Button getBtnApprove() {
 		return btnApprove;
 	}
 
-	public void setBtnApprove(ButtonRound btnApprove) {
+	public void setBtnApprove(Button btnApprove) {
 		this.btnApprove = btnApprove;
 	}
 
-	public ButtonRound getBtnDecline() {
+	public Button getBtnDecline() {
 		return btnDecline;
 	}
 
-	public void setBtnDecline(ButtonRound btnDecline) {
+	public void setBtnDecline(Button btnDecline) {
 		this.btnDecline = btnDecline;
 	}
 
-	public ButtonRound getBtnDeclineInitiator() {
+	public Button getBtnDeclineInitiator() {
 		return btnDeclineInitiator;
 	}
 
-	public void setBtnDeclineInitiator(ButtonRound btnDeclineInitiator) {
+	public void setBtnDeclineInitiator(Button btnDeclineInitiator) {
 		this.btnDeclineInitiator = btnDeclineInitiator;
 	}
 
-	public ButtonRound getBtnAmend() {
+	public Button getBtnAmend() {
 		return btnAmend;
 	}
 
-	public void setBtnAmend(ButtonRound btnAmend) {
+	public void setBtnAmend(Button btnAmend) {
 		this.btnAmend = btnAmend;
 	}
 
