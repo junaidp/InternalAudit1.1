@@ -169,6 +169,7 @@ public class AuditUniverseStrategicViewData {
 		strategic.setNextPhase(2);
 		// strategic.setNextPhase("RiskAssesment");
 		strategic.setComments(strategicView.getComment());
+		// strategic.setRatingComments();
 		// strategics.add(strategic);
 
 		actionperformed = todo;

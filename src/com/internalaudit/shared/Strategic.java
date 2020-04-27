@@ -84,6 +84,9 @@ public class Strategic implements Serializable {
 	@Column(name = "tab")
 	private int tab;
 
+	@Column(name = "ratingComments")
+	private String ratingComments;
+
 	@JoinColumn(name = "initiatedBy", nullable = true)
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee initiatedBy;
@@ -419,6 +422,14 @@ public class Strategic implements Serializable {
 
 	public void setJobCreationId(int jobCreationId) {
 		this.jobCreationId = jobCreationId;
+	}
+
+	public String getRatingComments() {
+		return ratingComments;
+	}
+
+	public void setRatingComments(String ratingComments) {
+		this.ratingComments = ratingComments;
 	}
 
 }

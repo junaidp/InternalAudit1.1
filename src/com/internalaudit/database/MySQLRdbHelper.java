@@ -760,6 +760,8 @@ public class MySQLRdbHelper {
 				}
 			}
 
+			strategic.setRatingComments(clientSideStrategic.getRatingComments());
+			// added by Moqeet
 			strategic.setRating(clientSideStrategic.getRating());
 			strategic.setUserDefinedRating(clientSideStrategic.getUserDefinedRating());
 			strategic.setComments(clientSideStrategic.getComments());
@@ -1230,6 +1232,7 @@ public class MySQLRdbHelper {
 				strategicDTO.setAuditableUnit(strategic.getAuditableUnit());
 				strategicDTO.setStrategicObjective(strategic.getStrategicObjective());
 				strategicDTO.setRiskRating(strategic.getRating());
+
 				// strategicDTO.setDepartmentName(strategic.getRelevantDepartment().getDepartmentName());
 				strategicDTO.setTab(strategic.getTab());
 				// strategicDTO.setDeptId(strategic.getRelevantDepartment().getDepartmentId());

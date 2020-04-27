@@ -66,7 +66,9 @@ public class RiskFactorsView extends Composite {
 
 		comments = new TextArea();
 		comments.setSize("600px", "40px");
-		comments.getElement().setPropertyString("placeholder", "Enter your Comment here");
+		// placeholder not working
+		// comments.getElement().setPropertyString("placeholder", "Enter your
+		// Comment here");
 
 		riskRating = new Image("redcircle.png");
 		riskRating.setVisible(false);
@@ -141,24 +143,32 @@ public class RiskFactorsView extends Composite {
 
 	private void setOverAllRating() {
 		String overallRating = null;
-		int countHigh = 0;
-		int countMedium = 0;
-		int countLow = 0;
+		int avg = 0;
+		int countHigh = 3;
+		int countMedium = 2;
+		int countLow = 1;
 		for (int i = 0; i < riskFactorsUpdated.size(); i++) {
 			if (riskFactorsUpdated.get(i).getRating().getSelectedValue().equalsIgnoreCase("High"))
-				countHigh++;
+				avg += countHigh;
 			else if (riskFactorsUpdated.get(i).getRating().getSelectedValue().equalsIgnoreCase("Medium"))
-				countMedium++;
+				avg += countMedium;
 			else if (riskFactorsUpdated.get(i).getRating().getSelectedValue().equalsIgnoreCase("Low"))
-				countLow++;
+				avg += countLow;
 		}
-		if (countHigh >= countMedium && countHigh >= countLow && countHigh > 0)
+		// if (countHigh >= countMedium && countHigh >= countLow && countHigh >
+		// 0)
+		// overallRating = "High";
+		// else if (countMedium > countHigh && countMedium >= countLow)
+		// overallRating = "Medium";
+		// else if (countLow > countMedium && countLow > countHigh)
+		// overallRating = "Low";
+		if (avg > 13 && avg <= 18) {
 			overallRating = "High";
-		else if (countMedium > countHigh && countMedium >= countLow)
+		} else if (avg > 6 && avg <= 12) {
 			overallRating = "Medium";
-		else if (countLow > countMedium && countLow > countHigh)
+		} else if (avg > 0 && avg <= 6) {
 			overallRating = "Low";
-		else
+		} else
 			overallRating = "N/A";
 		for (int i = 0; i < listBoxOverAllRating.getItemCount(); i++) {
 			if (overallRating.equals(listBoxOverAllRating.getValue(i))) {

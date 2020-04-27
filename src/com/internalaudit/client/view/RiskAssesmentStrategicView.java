@@ -35,8 +35,8 @@ public class RiskAssesmentStrategicView extends Composite {
 	ListBox listBoxUserOption;
 	@UiField
 	VerticalPanel riskFactors;
-	@UiField
-	VerticalPanel vpnlComments;
+	// @UiField
+	// VerticalPanel vpnlComments; //commented by moqeet
 	// @UiField Button save;ssss
 	// @UiField TextField comments;
 	// @UiField Button amend;
@@ -44,7 +44,7 @@ public class RiskAssesmentStrategicView extends Composite {
 	HorizontalPanel hpnlButtons;
 	@UiField
 	HorizontalPanel panelRatingComment;
-	private Label comments = new Label(" Feedback ");
+	private Label feedback = new Label(" Feedback ");
 	private Image submitted = new Image(" images/tick.png ");
 	private Label lblImg = new Label("  ");
 
@@ -60,7 +60,7 @@ public class RiskAssesmentStrategicView extends Composite {
 	private int strategicId;
 	private String comment;
 	private Label lblComment;
-	private TextArea txtAreaComment;
+	private TextArea ratingComment;
 
 	public ListBox getRating() {
 		return rating;
@@ -79,10 +79,12 @@ public class RiskAssesmentStrategicView extends Composite {
 		lblComment.addStyleName("boldText");
 		lblComment.getElement().getStyle().setPaddingTop(10, Unit.PX);
 		panelRatingComment.add(lblComment);
-		txtAreaComment = new TextArea();
-		txtAreaComment.setSize("600px", "35px");
-		txtAreaComment.getElement().setPropertyString("placeholder", "Enter your Comment here");
-		panelRatingComment.add(txtAreaComment);
+		ratingComment = new TextArea();
+		ratingComment.setSize("600px", "40px");
+		// placeholder not working
+		// txtAreaComment.getElement().setPropertyString("placeholder", "Enter
+		// your Comment here");
+		panelRatingComment.add(ratingComment);
 		panelRatingComment.setVisible(false);
 		hpnlButtons.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		// comments.setEmptyText("Enter Comments");
@@ -113,6 +115,7 @@ public class RiskAssesmentStrategicView extends Composite {
 		hpnlSpace.setWidth("850px");
 		hpnlSpaceApprovar.setWidth("850px");
 		hpnlButtonInitiator.add(hpnlSpace);
+		hpnlButtonInitiator.add(feedback);// added by moqeet
 		hpnlButtonInitiator.add(btnDeclineInitiator);
 		btnDeclineInitiator.setVisible(false);
 		hpnlButtonInitiator.add(btnSave);
@@ -121,12 +124,12 @@ public class RiskAssesmentStrategicView extends Composite {
 		// btnSubmit.setWidth("70px");
 		// btnDeclineInitiator.setWidth("70px");
 		hpnlButtonInitiator.setSpacing(2);
-		HorizontalPanel hpnlComments = new HorizontalPanel();
+		// HorizontalPanel hpnlComments = new HorizontalPanel();
 
-		hpnlComments.add(comments);
+		// hpnlComments.add(feedback);
 		// hpnlComments.add(submitted); change here
-		vpnlComments.add(hpnlComments);
-		hpnlComments.setSpacing(5);
+		// vpnlComments.add(hpnlComments);
+		// hpnlComments.setSpacing(5);
 
 		// vpnlComments.add(comments);
 		// hpnlStrategic.setWidth("900px");
@@ -135,7 +138,6 @@ public class RiskAssesmentStrategicView extends Composite {
 			public void onChange(ChangeEvent event) {
 				if (!rating.getSelectedValue().equalsIgnoreCase(listBoxUserOption.getSelectedValue())) {
 					panelRatingComment.setVisible(true);
-					txtAreaComment.getElement().setPropertyString("placeholder", "Enter your Comment here");
 				} else {
 					panelRatingComment.setVisible(false);
 				}
@@ -264,11 +266,11 @@ public class RiskAssesmentStrategicView extends Composite {
 	}
 
 	public Label getComments() {
-		return comments;
+		return feedback;
 	}
 
 	public void setComments(Label comments) {
-		this.comments = comments;
+		this.feedback = comments;
 	}
 
 	public Image getSubmitted() {
@@ -311,12 +313,12 @@ public class RiskAssesmentStrategicView extends Composite {
 		this.lblComment = lblComment;
 	}
 
-	public TextArea getTxtAreaComment() {
-		return txtAreaComment;
+	public TextArea getRatingComment() {
+		return ratingComment;
 	}
 
-	public void setTxtAreaComment(TextArea txtAreaComment) {
-		this.txtAreaComment = txtAreaComment;
+	public void setRatingComment(TextArea ratingComment) {
+		this.ratingComment = ratingComment;
 	}
 
 	// public TextField getComments() {

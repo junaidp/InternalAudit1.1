@@ -15,6 +15,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Tree;
@@ -25,6 +26,7 @@ import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.AmendmentPopup;
 import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.client.view.PhaseNames;
+import com.internalaudit.client.view.PopupViewGXT;
 import com.internalaudit.client.view.RiskAssesmentStrategicView;
 import com.internalaudit.client.view.RiskAssesmentView;
 import com.internalaudit.client.view.RiskFactorHeadingView;
@@ -42,7 +44,6 @@ public class RiskAssesmentStrategicViewData {
 	private ArrayList<RiskFactor> riskFactors = new ArrayList<RiskFactor>();
 	private ArrayList<RiskAssesmentStrategicView> updatedStrategics = new ArrayList<RiskAssesmentStrategicView>();
 	private ArrayList<RiskAssesmentDTO> previousStrategicsEntity;
-	private int index;
 	private String actionPerformed;
 	private int selectedTab = 0;
 	private Logger logger = Logger.getLogger("RiskAssesmentStrategicViewData");
@@ -179,7 +180,10 @@ public class RiskAssesmentStrategicViewData {
 				// loadingPopup.remove();
 				previousStrategicsEntity = riskAssesmentDTOs;
 
-				for (index = 0; index < riskAssesmentDTOs.size(); index++) {
+				for (int index = 0; index < riskAssesmentDTOs.size(); index++) {
+					final DataSetter dataSetter = new DataSetter();
+					dataSetter.setComment(riskAssesmentDTOs.get(index).getStrategic().getComments());
+
 					final RiskAssesmentStrategicView riskAssesmentStrategicView = new RiskAssesmentStrategicView();
 					setButtonsVisibility(riskAssesmentDTOs, index, riskAssesmentStrategicView);
 					// if(riskAssesmentDTOs.get(index).getStrategic().getPhase()!=
@@ -202,18 +206,30 @@ public class RiskAssesmentStrategicViewData {
 						riskAssesmentStrategicView.getComments().setVisible(false);
 
 					}
-					riskAssesmentStrategicView.getComments()
-							.setTitle(riskAssesmentDTOs.get(index).getStrategic().getComments());
+					riskAssesmentStrategicView.getComments().addClickHandler(new ClickHandler() {
+						@Override
+						public void onClick(ClickEvent event) {
+							PopupViewGXT feedbackpopup = new PopupViewGXT(new HTML(dataSetter.getComment()),
+									"Feedback");
+						}
+					});
+
+					riskAssesmentStrategicView.getRatingComment()
+							.setText(riskAssesmentDTOs.get(index).getStrategic().getRatingComments());
+					if (!riskAssesmentStrategicView.getRatingComment().getText().isEmpty()) {
+						riskAssesmentStrategicView.getPanelRatingComment().setVisible(true);
+					}
+					// riskAssesmentStrategicView.getComments()
+					// .setTitle(riskAssesmentDTOs.get(index).getStrategic().getComments());
 
 					for (int k = 0; k < riskAssesmentStrategicView.getRating().getItemCount(); k++) {
 						// commented by moqeet as rating value is dependent
-						// if
-						// (riskAssesmentDTOs.get(index).getStrategic().getRating()
-						// .equals(riskAssesmentStrategicView.getRating().getValue(k)))
-						// {
-						// riskAssesmentStrategicView.getRating().setSelectedIndex(k);
-						// }
-
+						if (riskAssesmentDTOs.get(index).getStrategic().getRating()
+								.equals(riskAssesmentStrategicView.getRating().getValue(k))) {
+							riskAssesmentStrategicView.getRating().setSelectedIndex(k);
+						}
+						riskAssesmentStrategicView.getRatingComment()
+								.setText(riskAssesmentDTOs.get(index).getStrategic().getRatingComments());
 						// new work
 
 						for (int l = 0; l < riskAssesmentStrategicView.getListBoxUserOption().getItemCount(); l++) {
@@ -486,6 +502,9 @@ public class RiskAssesmentStrategicViewData {
 		riskAssesmentDTOs.get(riskAssesmentStrategicView.getIndex()).getStrategic().setRating(riskAssesmentStrategicView
 				.getRating().getValue(riskAssesmentStrategicView.getRating().getSelectedIndex()));
 
+		// added by moqeet
+		riskAssesmentDTOs.get(riskAssesmentStrategicView.getIndex()).getStrategic()
+				.setRatingComments(riskAssesmentStrategicView.getRatingComment().getText());
 		// new work
 
 		riskAssesmentDTOs.get(riskAssesmentStrategicView.getIndex()).getStrategic()
@@ -525,6 +544,7 @@ public class RiskAssesmentStrategicViewData {
 		// riskAssesmentStrategicView.getRating().addStyleName("listboxDisabled");
 		// new work
 		riskAssesmentStrategicView.getListBoxUserOption().setEnabled(false);
+		riskAssesmentStrategicView.getRatingComment().setEnabled(false);
 
 		riskFactorsView.getImpact().setEnabled(false);
 		riskFactorsView.getImpact().addStyleName("listboxDisabledRating");
