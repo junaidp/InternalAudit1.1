@@ -70,8 +70,8 @@ public class RiskAssesmentStrategicViewData {
 			@Override
 			public void onClick(ClickEvent arg0) {
 				for (int i = 0; i < updatedStrategics.size(); i++) {
-					previousStrategicsEntity.get(i).getStrategic().setRating(updatedStrategics.get(i).getRating()
-							.getValue(updatedStrategics.get(i).getRating().getSelectedIndex()));
+					previousStrategicsEntity.get(i).getStrategic().setRating(updatedStrategics.get(i).getOverallRating()
+							.getValue(updatedStrategics.get(i).getOverallRating().getSelectedIndex()));
 					// previousStrategicsEntity.get(i).setStrategicObjective(updatedStrategics.get(i).getStrategicObjective().getText());
 
 					// new work
@@ -221,12 +221,10 @@ public class RiskAssesmentStrategicViewData {
 					}
 					// riskAssesmentStrategicView.getComments()
 					// .setTitle(riskAssesmentDTOs.get(index).getStrategic().getComments());
-
-					for (int k = 0; k < riskAssesmentStrategicView.getRating().getItemCount(); k++) {
-						// commented by moqeet as rating value is dependent
+					for (int k = 0; k < riskAssesmentStrategicView.getOverallRating().getItemCount(); k++) {
 						if (riskAssesmentDTOs.get(index).getStrategic().getRating()
-								.equals(riskAssesmentStrategicView.getRating().getValue(k))) {
-							riskAssesmentStrategicView.getRating().setSelectedIndex(k);
+								.equals(riskAssesmentStrategicView.getOverallRating().getValue(k))) {
+							riskAssesmentStrategicView.getOverallRating().setSelectedIndex(k);
 						}
 						riskAssesmentStrategicView.getRatingComment()
 								.setText(riskAssesmentDTOs.get(index).getStrategic().getRatingComments());
@@ -325,7 +323,8 @@ public class RiskAssesmentStrategicViewData {
 
 						riskAssesmentStrategicView.getRiskFactors().add(riskFactorsView);
 						riskFactorsUpdated.add(riskFactorsView);
-						riskFactorsView.overAllRatingHander(riskFactorsUpdated, riskAssesmentStrategicView.getRating());
+						riskFactorsView.overAllRatingHander(riskFactorsUpdated,
+								riskAssesmentStrategicView.getOverallRating());
 
 						//// TEST CODE
 						// riskFactorsUpdated.get(j).getRating().addChangeHandler(new
@@ -500,7 +499,7 @@ public class RiskAssesmentStrategicViewData {
 
 		// riskAssesmentDTOs.get(riskAssesmentStrategicView.getIndex()).getStrategic().setNextPhase("Consolidation");
 		riskAssesmentDTOs.get(riskAssesmentStrategicView.getIndex()).getStrategic().setRating(riskAssesmentStrategicView
-				.getRating().getValue(riskAssesmentStrategicView.getRating().getSelectedIndex()));
+				.getOverallRating().getValue(riskAssesmentStrategicView.getOverallRating().getSelectedIndex()));
 
 		// added by moqeet
 		riskAssesmentDTOs.get(riskAssesmentStrategicView.getIndex()).getStrategic()
@@ -540,8 +539,8 @@ public class RiskAssesmentStrategicViewData {
 			Strategic strategic) {
 		riskAssesmentStrategicView.getHpnlButtonsApprovar().setVisible(false);
 		riskAssesmentStrategicView.getHpnlButtonInitiator().setVisible(false);
-		riskAssesmentStrategicView.getRating().setEnabled(false);
-		// riskAssesmentStrategicView.getRating().addStyleName("listboxDisabled");
+		riskAssesmentStrategicView.getOverallRating().setEnabled(false);
+		// riskAssesmentStrategicView.getOverallRating().addStyleName("listboxDisabled");
 		// new work
 		riskAssesmentStrategicView.getListBoxUserOption().setEnabled(false);
 		riskAssesmentStrategicView.getRatingComment().setEnabled(false);
@@ -569,7 +568,7 @@ public class RiskAssesmentStrategicViewData {
 		riskFactorsView.getProbabality().addStyleName("leftPadding");
 		riskFactorsView.getRating().addStyleName("leftPadding listboxDisabledRating");
 		riskFactorsView.getComments().setEnabled(true);
-		riskAssesmentStrategicView.getRating().setEnabled(true);
+		riskAssesmentStrategicView.getOverallRating().setEnabled(true);
 		// new work
 		riskAssesmentStrategicView.getListBoxUserOption().setEnabled(true);
 		// if
@@ -598,7 +597,7 @@ public class RiskAssesmentStrategicViewData {
 			riskAssesmentStrategicView.getBtnDeclineInitiator().setVisible(false);
 			riskAssesmentStrategicView.getHpnlButtonsApprovar().setVisible(false);
 			riskAssesmentStrategicView.getHpnlButtonInitiator().setVisible(true);
-			if (!riskAssesmentStrategicView.getRating().getSelectedValue()
+			if (!riskAssesmentStrategicView.getOverallRating().getSelectedValue()
 					.equals(riskAssesmentStrategicView.getListBoxUserOption().getSelectedValue())) {
 				riskAssesmentStrategicView.getPanelRatingComment().setVisible(true);
 			}
@@ -606,7 +605,7 @@ public class RiskAssesmentStrategicViewData {
 			riskAssesmentStrategicView.getBtnDeclineInitiator().setVisible(true);
 			riskAssesmentStrategicView.getHpnlButtonsApprovar().setVisible(false);
 			riskAssesmentStrategicView.getHpnlButtonInitiator().setVisible(true);
-			if (!riskAssesmentStrategicView.getRating().getSelectedValue()
+			if (!riskAssesmentStrategicView.getOverallRating().getSelectedValue()
 					.equals(riskAssesmentStrategicView.getListBoxUserOption().getSelectedValue())) {
 				riskAssesmentStrategicView.getPanelRatingComment().setVisible(true);
 			}

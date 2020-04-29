@@ -37,6 +37,7 @@ public class RiskFactorsView extends Composite {
 
 		rating = new ListBox();
 		rating.setEnabled(false);
+		rating.addItem("N/A");
 
 		rating.setVisibleItemCount(1);
 
@@ -143,30 +144,30 @@ public class RiskFactorsView extends Composite {
 
 	private void setOverAllRating() {
 		String overallRating = null;
-		int avg = 0;
+		float avg = 0;
 		int countHigh = 3;
 		int countMedium = 2;
 		int countLow = 1;
+		float sum = 0;
+		int count = 0;
 		for (int i = 0; i < riskFactorsUpdated.size(); i++) {
-			if (riskFactorsUpdated.get(i).getRating().getSelectedValue().equalsIgnoreCase("High"))
-				avg += countHigh;
-			else if (riskFactorsUpdated.get(i).getRating().getSelectedValue().equalsIgnoreCase("Medium"))
-				avg += countMedium;
-			else if (riskFactorsUpdated.get(i).getRating().getSelectedValue().equalsIgnoreCase("Low"))
-				avg += countLow;
+			if (riskFactorsUpdated.get(i).getRating().getSelectedValue().equalsIgnoreCase("High")) {
+				sum += countHigh;
+				count++;
+			} else if (riskFactorsUpdated.get(i).getRating().getSelectedValue().equalsIgnoreCase("Medium")) {
+				sum += countMedium;
+				count++;
+			} else if (riskFactorsUpdated.get(i).getRating().getSelectedValue().equalsIgnoreCase("Low")) {
+				sum += countLow;
+				count++;
+			}
 		}
-		// if (countHigh >= countMedium && countHigh >= countLow && countHigh >
-		// 0)
-		// overallRating = "High";
-		// else if (countMedium > countHigh && countMedium >= countLow)
-		// overallRating = "Medium";
-		// else if (countLow > countMedium && countLow > countHigh)
-		// overallRating = "Low";
-		if (avg > 13 && avg <= 18) {
+		avg = sum / count;
+		if (avg >= 2.5 && avg <= 3) {
 			overallRating = "High";
-		} else if (avg > 6 && avg <= 12) {
+		} else if (avg >= 1.5 && avg < 2.5) {
 			overallRating = "Medium";
-		} else if (avg > 0 && avg <= 6) {
+		} else if (avg > 0 && avg < 1.5) {
 			overallRating = "Low";
 		} else
 			overallRating = "N/A";
@@ -193,12 +194,11 @@ public class RiskFactorsView extends Composite {
 				ratingLevel = "High";
 			} else if (ratingValue >= 3) {
 				ratingLevel = "Medium";
-			} else {
+			} else if (ratingValue >= 1) { // criteria added by moqeet
 				ratingLevel = "Low";
+			} else {
+				ratingLevel = "N/A"; // else was outside this scope
 			}
-
-		} else {
-			ratingLevel = "N/A";
 		}
 		// try {
 		// setOverAllRating();

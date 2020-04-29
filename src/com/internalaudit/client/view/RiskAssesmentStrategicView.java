@@ -28,7 +28,7 @@ public class RiskAssesmentStrategicView extends Composite {
 
 	private String strategicObjective;
 	@UiField
-	ListBox rating;
+	ListBox overallRating;
 	@UiField
 	HorizontalPanel userOption;
 	@UiField
@@ -61,14 +61,6 @@ public class RiskAssesmentStrategicView extends Composite {
 	private String comment;
 	private Label lblComment;
 	private TextArea ratingComment;
-
-	public ListBox getRating() {
-		return rating;
-	}
-
-	public void setRating(ListBox rating) {
-		this.rating = rating;
-	}
 
 	private RiskAssesmentStrategicViewData riskAssesmentStrategicViewData = new RiskAssesmentStrategicViewData();
 
@@ -136,7 +128,7 @@ public class RiskAssesmentStrategicView extends Composite {
 		listBoxUserOption.addChangeHandler(new ChangeHandler() {
 			@Override
 			public void onChange(ChangeEvent event) {
-				if (!rating.getSelectedValue().equalsIgnoreCase(listBoxUserOption.getSelectedValue())) {
+				if (!overallRating.getSelectedValue().equalsIgnoreCase(listBoxUserOption.getSelectedValue())) {
 					panelRatingComment.setVisible(true);
 				} else {
 					panelRatingComment.setVisible(false);
@@ -319,6 +311,14 @@ public class RiskAssesmentStrategicView extends Composite {
 
 	public void setRatingComment(TextArea ratingComment) {
 		this.ratingComment = ratingComment;
+	}
+
+	public ListBox getOverallRating() {
+		return overallRating;
+	}
+
+	public void setOverallRating(ListBox overallRating) {
+		this.overallRating = overallRating;
 	}
 
 	// public TextField getComments() {

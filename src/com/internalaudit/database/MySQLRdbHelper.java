@@ -4408,6 +4408,8 @@ public class MySQLRdbHelper {
 				String status = getJobCreationStatus(exception.getJobCreationId().getJobCreationId());
 				exception.setDisplayStatus(status);
 
+				// ADDED FOR GETTING RECOMMENDATIONS for exception.
+				exception.setRecommendation(getExceptionRecommendations(exception.getExceptionId()));
 				exceptions.add(exception);
 			}
 			if (jobId == 0) {
@@ -4423,10 +4425,37 @@ public class MySQLRdbHelper {
 		} finally {
 			session.close();
 		}
+
 		return exceptions;
 	}
 
-	//
+	private ArrayList<Recommendation> getExceptionRecommendations(int exceptionId) throws Exception {
+		Session session = null;
+		ArrayList<Recommendation> recommendations = new ArrayList<Recommendation>();
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(Recommendation.class);
+			crit.add(Restrictions.eq("exceptionId", exceptionId));
+
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				Recommendation recommendation = (Recommendation) it.next();
+				recommendations.add(recommendation);
+			}
+			logger.info(String
+					.format("(Inside MySqlRdbHelper)  getExceptionRecommendations for exception : " + exceptionId));
+
+			return recommendations;
+
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in getExceptionRecommendation", ex.getMessage()), ex);
+			throw ex;
+		} finally {
+			session.close();
+		}
+
+	}
+
 	public ArrayList<InformationRequestEntity> fetchInformationRequest(int companyId, HashMap<String, String> hm) {
 
 		Session session = null;

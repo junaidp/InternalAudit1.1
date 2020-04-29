@@ -30,6 +30,9 @@ public class Recommendation implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private JobCreation jobCreationId;
 
+	@Column(name = "exceptionId")
+	private int exceptionId;
+
 	@Column(name = "recommendation")
 	private String recommendation;
 
@@ -58,5 +61,13 @@ public class Recommendation implements Serializable {
 
 	public void setJobCreationId(JobCreation jobCreationId) {
 		this.jobCreationId = jobCreationId;
+	}
+
+	public int getExceptionId() {
+		return exceptionId;
+	}
+
+	public void setExceptionId(int exceptionId) {
+		this.exceptionId = exceptionId;
 	}
 }

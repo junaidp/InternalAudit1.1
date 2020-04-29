@@ -30,6 +30,7 @@ public class JobExceptionsView extends HorizontalPanel {
 	private TextField txtComments = new TextField();
 	// private AddImage addIcon = new AddImage();
 	private Anchor anchorAddRecommendations = new Anchor("Add More Action Steps");
+	private Anchor anchorViewActionSteps = new Anchor("View Action Steps");
 
 	public JobExceptionsView() {
 		// setWidth("900px");
@@ -81,6 +82,8 @@ public class JobExceptionsView extends HorizontalPanel {
 		HorizontalPanel hpnlAnchor = new HorizontalPanel();
 		hpnlAnchor.setWidth("75px");
 		hpnlAnchor.add(anchorAddRecommendations);
+		hpnlAnchor.add(anchorViewActionSteps);
+		anchorViewActionSteps.setVisible(false);
 		add(hpnlAnchor);
 		add(btnSave);
 		// if(status.getText().length()>1){
@@ -238,6 +241,14 @@ public class JobExceptionsView extends HorizontalPanel {
 
 	public void setAnchorAddRecommendations(Anchor anchorAddRecommendations) {
 		this.anchorAddRecommendations = anchorAddRecommendations;
+	}
+
+	public Anchor getAnchorViewActionSteps() {
+		return anchorViewActionSteps;
+	}
+
+	public void setAnchorViewActionSteps(Anchor anchorViewActionSteps) {
+		this.anchorViewActionSteps = anchorViewActionSteps;
 	}
 
 }

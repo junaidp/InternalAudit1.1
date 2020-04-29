@@ -51,6 +51,7 @@ public class ReportingPresenter implements Presenter
 	private Logger logger = Logger.getLogger("ReportingPresenter");
 	private String reportingTab;
 	private ArrayList<AuditStepsRecommendationData> auditStepsDatas;
+	private VerticalLayoutContainer vpnlViewPopUpData = new VerticalLayoutContainer();
 	int countAuditSteps = 1;
 
 	public interface Display {
@@ -807,7 +808,22 @@ public class ReportingPresenter implements Presenter
 		btnSend.setText("Send [" + countAuditSteps + "]");
 	}
 
-	private void multipleRecommendations(ArrayList<Employee> employeesListRecommendation, final Button btnSend) {
+	private void setViewMultipleRecommendations(ArrayList<Recommendation> recommendations, String employeeName,
+			String employeeID) {
+
+		vpnlViewPopUpData.setHeight(370);
+		vpnlViewPopUpData.setScrollMode(ScrollMode.AUTOY);
+
+		for (int i = 0; i < recommendations.size(); i++) {
+			AuditStepsRecommendationData auditStepsData = new AuditStepsRecommendationData();
+			auditStepsData.getRecommendations().setText(recommendations.get(i).getRecommendation());
+			auditStepsData.getDueDate().setValue(recommendations.get(i).getDueDate());
+			auditStepsData.getListAuditee().addItem(employeeName, employeeID);
+			vpnlViewPopUpData.add(auditStepsData);
+		}
+	}
+
+	private void addMultipleRecommendations(ArrayList<Employee> employeesListRecommendation, final Button btnSend) {
 		VerticalPanel vpnlPopUp = new VerticalPanel();
 		final VerticalLayoutContainer vpnlPopUpData = new VerticalLayoutContainer();
 		vpnlPopUpData.setHeight(370);
@@ -933,6 +949,9 @@ public class ReportingPresenter implements Presenter
 						jobExceptionsView.getListBoxImplicationRating().setItemText(0, "High");
 					}
 
+					setViewMultipleRecommendations(exceptions.get(i).getRecommendation(),
+							exceptions.get(i).getResponsiblePerson().getEmployeeName(),
+							exceptions.get(i).getResponsiblePerson().getEmployeeId() + "");
 					// addeed now
 					// jobExceptionsView.getResponsiblePerson().addItem(exceptions.get(i).getResponsiblePerson().getEmployeeName());
 					////// CHanged above line here
@@ -999,7 +1018,20 @@ public class ReportingPresenter implements Presenter
 
 						@Override
 						public void onClick(ClickEvent event) {
-							multipleRecommendations(employeesList, jobExceptionsView.getBtnSave());
+							addMultipleRecommendations(employeesList, jobExceptionsView.getBtnSave());
+						}
+					});
+					jobExceptionsView.getAnchorViewActionSteps().addClickHandler(new ClickHandler() {
+
+						@Override
+						public void onClick(ClickEvent event) {
+							VerticalPanel vpnlPopUp = new VerticalPanel();
+							AuditStepsRecommendationHeading auditStepsHeading = new AuditStepsRecommendationHeading();
+							vpnlPopUp.add(auditStepsHeading);
+
+							final PopupsView popUp = new PopupsView(vpnlPopUp.asWidget(), "Recommended Action Steps");
+
+							popUp.getVpnlMain().add(vpnlViewPopUpData);
 						}
 					});
 
@@ -1107,6 +1139,8 @@ public class ReportingPresenter implements Presenter
 
 			private void exceptionSent(final JobExceptionsView jobExceptionsView, String status) {
 				jobExceptionsView.getBtnSave().setVisible(false);
+				jobExceptionsView.getAnchorAddRecommendations().setVisible(false);
+				jobExceptionsView.getAnchorViewActionSteps().setVisible(true);
 				jobExceptionsView.getStatus().setText(status);
 				jobExceptionsView.getStatus().setVisible(true);
 			}
@@ -1144,6 +1178,7 @@ public class ReportingPresenter implements Presenter
 				// JobCreation j = new JobCreation();
 				// j.setJobCreationId(exceptionDataId);
 				recommendation.setJobCreationId(exceptions.get(0).getJobCreationId());
+				recommendation.setExceptionId(exceptions.get(0).getExceptionId());
 				recommendation.setDueDate(auditStepRecommendationData.getDueDate().getDatePicker().getValue());
 				recommendation.setRecommendation(auditStepRecommendationData.getRecommendations().getValue());
 				// Employee e = new Employee();
