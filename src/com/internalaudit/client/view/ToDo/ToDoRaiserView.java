@@ -52,9 +52,9 @@ public class ToDoRaiserView extends VerticalPanel {
 	VerticalPanel panelMail = new VerticalPanel();
 	VerticalPanel panelReply = new VerticalPanel();
 	VerticalPanel vpnlReplyMessages = new VerticalPanel();
+
 	// HorizontalPanel panelFileDetail = new HorizontalPanel();
 	// final VerticalPanel panelFileName = new VerticalPanel();
-
 	public ToDoRaiserView(final ToDoReceiverEntity toDo) {
 
 		setHandler(toDo);
