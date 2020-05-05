@@ -1,6 +1,7 @@
 package com.internalaudit.client.view.ToDo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.FontWeight;
@@ -12,6 +13,7 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -22,7 +24,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.upload.EmailAttachmentUpload;
-import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.JobCreation;
@@ -33,8 +34,8 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
 	VerticalPanel panelMain = new VerticalPanel();
 	HorizontalPanel PanelUpButton = new HorizontalPanel();
-	ButtonRound btnEmial = new ButtonRound("Email");
-	ButtonRound btnPrint = new ButtonRound("Print");
+	Button btnEmial = new Button("Email");
+	Button btnPrint = new Button("Print");
 	HorizontalPanel panelLabel = new HorizontalPanel();
 	Label lblIr = new Label();
 	Label lblIrData = new Label(":123");
@@ -50,18 +51,20 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 
 	Label lblReply = new Label("Reply: ");
 	TextArea txtAreaReply = new TextArea();
-	// ButtonRound btnSubmit = new ButtonRound("Submit/Close");
-	ButtonRound btnCancel = new ButtonRound("Close");
-	ButtonRound btnRep = new ButtonRound("Reply");
+	// Button btnSubmit = new Button("Submit/Close");
+	Button btnCancel = new Button("Close");
+	Button btnRep = new Button("Reply");
 	VerticalPanel panelMailRep = new VerticalPanel();
 	VerticalPanel panelMail = new VerticalPanel();
+	VerticalPanel vpnlReplyMessages = new VerticalPanel();
 	VerticalPanel panelReply = new VerticalPanel();
 	HorizontalPanel panelFileDetail = new HorizontalPanel();
-	private ToDoRaiserEntity toDORequest = null;
+	private List<ToDoRaiserEntity> toDos = new ArrayList<ToDoRaiserEntity>();
+	private ArrayList<ToDoLogsEntity> listOldToDoLogs;
+	private ArrayList<ToDoLogsEntity> listUpdatedToDoLogs;
+	private String loggedInUserName;
 
 	public ToDoRaiserFinalView(ToDoRaiserEntity toDo) {
-
-		this.toDORequest = toDo;
 		setLayout(toDo);
 		clickHandler(toDo);
 	}
@@ -73,7 +76,8 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 			public void onClick(ClickEvent event) {
 				final ToDo todoEntity = new ToDo();
 				todoEntity.setToDoId(toDo.getId());
-				todoEntity.setDescription(txtAreaReply.getText());
+				// Reply is updating the Task Description as well
+				// todoEntity.setDescription(txtAreaReply.getText());
 				todoEntity.setRead(false);
 				Employee assignedTo = new Employee();
 				assignedTo.setEmployeeId(toDo.getRaisedToId());
@@ -96,7 +100,6 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 				todoLogsEntity.setDate(toDo.getOverDueDays());
 
 				saveToDoLog(todoEntity, todoLogsEntity);
-
 			}
 
 			private void saveToDoLog(final ToDo todoEntity, final ToDoLogsEntity todoLogsEntity) {
@@ -111,56 +114,47 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 					@Override
 					public void onSuccess(String result) {
 						new DisplayAlert(result);
-						saveToDo(todoEntity);
-
+						saveToDo(todoEntity, todoLogsEntity);
 					}
 
-					private void saveToDo(final ToDo todoEntity) {
-						rpcService.savetoDo(todoEntity, new AsyncCallback<String>() {
+				});
+			}
 
-							@Override
-							public void onFailure(Throwable caught) {
-								Window.alert("save Todo failed");
-							}
+			private void saveToDo(final ToDo todoEntity, final ToDoLogsEntity todoLogsEntity) {
+				rpcService.savetoDo(todoEntity, new AsyncCallback<String>() {
 
-							@Override
-							public void onSuccess(String result) {
-
-								new DisplayAlert(result);
-							}
-						});
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("save Todo failed");
 					}
+
+					@Override
+					public void onSuccess(String result) {
+						new DisplayAlert(result);
+						viewUpdatedReply(todoLogsEntity);
+						// fetchUserRaisedTodo(todoEntity);
+					}
+
 				});
 			}
 		});
 	}
 
-	private void setLayout(ToDoRaiserEntity toDo) {
-		lblMesssageData = new Label();
-		lblMesssage = new Label();
-		for (int i = 0; i < toDo.getTodoLogList().size(); i++) {
-			if (i == 0) {
-				lblMesssage.setText("Message By: " + toDo.getRaisedBy());
-				lblMesssageData.setText(toDo.getTodoLogList().get(i).getDescription());
-				lblMesssage.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-				panelMail.add(lblMesssage);
-				panelMail.add(lblMesssageData);
-			}
-			lblReplyOld = new Label();
-			lblReplyOldData = new Label();
-			// lblReplyOld.setText("Message By ::" + toDo.getRaisedTo());
-			lblReplyOld.setText("Message By: " + toDo.getTodoLogList().get(i).getAssignedFrom().getEmployeeName());
-			lblReplyOldData.setText(toDo.getTodoLogList().get(i).getRespond());
-			lblReplyOld.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-			panelMail.add(lblReplyOld);
-			panelMail.add(lblReplyOldData);
-		}
+	private void viewUpdatedReply(final ToDoLogsEntity todoLogsEntity) {
+		listOldToDoLogs.add(todoLogsEntity);
+		listUpdatedToDoLogs = new ArrayList<ToDoLogsEntity>(listOldToDoLogs);
+		vpnlReplyMessages.clear();
+		updateLogs(listUpdatedToDoLogs);
+		txtAreaReply.setText("");
+		txtAreaReply.getElement().setPropertyString("placeholder", "Enter your Reply here");
+	}
 
-		//
-		lblRequestedData.setText(toDo.getRaisedTo());
-		String formattedDate = DateTimeFormat.getShortDateFormat().format(toDo.getOverDueDays());
+	private void setLayout(ToDoRaiserEntity toDoRaiserEntity) {
+		viewMessages(toDoRaiserEntity);
+		lblRequestedData.setText(toDoRaiserEntity.getRaisedTo());
+		String formattedDate = DateTimeFormat.getShortDateFormat().format(toDoRaiserEntity.getOverDueDays());
 		lblDateData.setText(formattedDate);
-		lblIrData.setText(toDo.getId().toString());
+		lblIrData.setText(toDoRaiserEntity.getId().toString());
 		// lblReplyOldData.setText(toDo.getReply());
 		setWidth("600px");
 		// setHeight("600px");
@@ -258,6 +252,39 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 
 	}
 
+	private void viewMessages(ToDoRaiserEntity toDo) {
+		lblMesssageData = new Label();
+		lblMesssage = new Label();
+		lblMesssage.setText("Message By: " + toDo.getRaisedBy());
+		lblMesssageData.setText(toDo.getTodoLogList().get(0).getDescription());
+		lblMesssage.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+		panelMail.add(lblMesssage);
+		panelMail.add(lblMesssageData);
+		panelMail.add(vpnlReplyMessages);
+		updateLogs(toDo.getTodoLogList());
+	}
+
+	private void updateLogs(ArrayList<ToDoLogsEntity> todoLogs) {
+		for (int i = 1; i < todoLogs.size(); i++) {
+			lblReplyOld = new Label();
+			lblReplyOldData = new Label();
+			String lblMsgHeader = null;
+			if (todoLogs.get(i) != null && todoLogs.get(i).getAssignedFrom() != null
+					&& todoLogs.get(i).getAssignedFrom().getEmployeeName() != null) {
+				loggedInUserName = todoLogs.get(i).getAssignedFrom().getEmployeeName();
+				lblMsgHeader = "Message By: " + todoLogs.get(i).getAssignedFrom().getEmployeeName();
+			} else {
+				lblMsgHeader = "Message By: " + loggedInUserName;
+			}
+			lblReplyOld.setText(lblMsgHeader);
+			lblReplyOldData.setText(todoLogs.get(i).getRespond());
+			lblReplyOld.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+			vpnlReplyMessages.add(lblReplyOld);
+			vpnlReplyMessages.add(lblReplyOldData);
+		}
+		listOldToDoLogs = new ArrayList<ToDoLogsEntity>(todoLogs);
+	}
+
 	private void fetchEmailAttachments() {
 		rpcService.fetchEmailAttachments(new AsyncCallback<ArrayList<String>>() {
 			FlexTable records = new FlexTable();
@@ -303,19 +330,19 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 		});
 	}
 
-	public ButtonRound getBtnCancel() {
+	public Button getBtnCancel() {
 		return btnCancel;
 	}
 
-	public void setBtnCancel(ButtonRound btnCancel) {
+	public void setBtnCancel(Button btnCancel) {
 		this.btnCancel = btnCancel;
 	}
 
-	// public ButtonRound getBtnSubmit() {
+	// public Button getBtnSubmit() {
 	// return btnSubmit;
 	// }
 	//
-	// public void setBtnSubmit(ButtonRound btnSubmit) {
+	// public void setBtnSubmit(Button btnSubmit) {
 	// this.btnSubmit = btnSubmit;
 	// }
 

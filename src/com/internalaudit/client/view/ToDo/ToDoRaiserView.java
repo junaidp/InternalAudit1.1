@@ -51,6 +51,7 @@ public class ToDoRaiserView extends VerticalPanel {
 	VerticalPanel panelMailRep = new VerticalPanel();
 	VerticalPanel panelMail = new VerticalPanel();
 	VerticalPanel panelReply = new VerticalPanel();
+	VerticalPanel vpnlReplyMessages = new VerticalPanel();
 	// HorizontalPanel panelFileDetail = new HorizontalPanel();
 	// final VerticalPanel panelFileName = new VerticalPanel();
 
@@ -181,7 +182,8 @@ public class ToDoRaiserView extends VerticalPanel {
 				final ToDo todoEntity = new ToDo();
 				todoEntity.setToDoId(toDo.getId());
 				todoEntity.setDescription(toDo.getRequestedItem());
-				todoEntity.setRespond(txtAreaReply.getText());
+				// Updating Task String as well
+				// todoEntity.setRespond(txtAreaReply.getText());
 				Employee assignedTo = new Employee();
 				assignedTo.setEmployeeId(toDo.getRaisedToId());
 				Employee assignedFrom = new Employee();

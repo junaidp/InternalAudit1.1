@@ -66,7 +66,6 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 
 			toDos.add(issue);
 		}
-		// }
 	}
 
 	public Widget createGridFieldWork() {
@@ -97,20 +96,20 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 				int row = c.getIndex();
 				ToDoRaiserEntity toDo = store.get(row);
 				ToDoRaiserFinalView toDoReceiver = new ToDoRaiserFinalView(toDo);
-				final PopupsView pp = new PopupsView(toDoReceiver, "To Do Receiver");
+				final PopupsView popUpToDoRaiserFinalView = new PopupsView(toDoReceiver, "To Do Receiver");
 				// pp.getLabelheading().setText("ToDo Receiver Receiver");
 				// pp.getPopup().setHeadingText("ToDo Receiver");
-				pp.getVpnlMain().setTitle("Todos");
-				pp.getVpnlMain().setWidth("600px");
-				pp.getHpnlSPace().setWidth("600px");
-				pp.getVpnlMain().setHeight("500px");
+				popUpToDoRaiserFinalView.getVpnlMain().setTitle("Todos");
+				popUpToDoRaiserFinalView.getVpnlMain().setWidth("600px");
+				popUpToDoRaiserFinalView.getHpnlSPace().setWidth("600px");
+				popUpToDoRaiserFinalView.getVpnlMain().setHeight("500px");
 
 				toDoReceiver.getBtnCancel().addClickHandler(new ClickHandler() {
 
 					@Override
 					public void onClick(ClickEvent event) {
-						pp.getVpnlMain().removeFromParent();
-						pp.getPopup().removeFromParent();
+						popUpToDoRaiserFinalView.getVpnlMain().removeFromParent();
+						popUpToDoRaiserFinalView.getPopup().removeFromParent();
 
 					}
 				});

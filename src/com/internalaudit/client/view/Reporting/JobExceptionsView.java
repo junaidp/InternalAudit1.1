@@ -2,7 +2,6 @@ package com.internalaudit.client.view.Reporting;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -29,8 +28,9 @@ public class JobExceptionsView extends HorizontalPanel {
 	private Label status = new Label("");
 	private TextField txtComments = new TextField();
 	// private AddImage addIcon = new AddImage();
-	private Anchor anchorAddRecommendations = new Anchor("Add More Action Steps");
-	private Anchor anchorViewActionSteps = new Anchor("View Action Steps");
+	// private Anchor anchorAddRecommendations = new Anchor("Add More Action
+	// Steps");
+	// private Anchor anchorViewActionSteps = new Anchor("View Action Steps");
 
 	public JobExceptionsView() {
 		// setWidth("900px");
@@ -79,12 +79,12 @@ public class JobExceptionsView extends HorizontalPanel {
 		// responsiblePerson.setMultipleSelect(true);
 		status.setWidth("60px");
 
-		HorizontalPanel hpnlAnchor = new HorizontalPanel();
-		hpnlAnchor.setWidth("75px");
-		hpnlAnchor.add(anchorAddRecommendations);
-		hpnlAnchor.add(anchorViewActionSteps);
-		anchorViewActionSteps.setVisible(false);
-		add(hpnlAnchor);
+		// HorizontalPanel hpnlAnchor = new HorizontalPanel();
+		// hpnlAnchor.setWidth("75px");
+		// hpnlAnchor.add(anchorAddRecommendations);
+		// hpnlAnchor.add(anchorViewActionSteps);
+		// anchorViewActionSteps.setVisible(false);
+		// add(hpnlAnchor);
 		add(btnSave);
 		// if(status.getText().length()>1){
 		add(status);
@@ -235,20 +235,21 @@ public class JobExceptionsView extends HorizontalPanel {
 		this.listBoxImplicationRating = listBoxImplicationRating;
 	}
 
-	public Anchor getAnchorAddRecommendations() {
-		return anchorAddRecommendations;
-	}
-
-	public void setAnchorAddRecommendations(Anchor anchorAddRecommendations) {
-		this.anchorAddRecommendations = anchorAddRecommendations;
-	}
-
-	public Anchor getAnchorViewActionSteps() {
-		return anchorViewActionSteps;
-	}
-
-	public void setAnchorViewActionSteps(Anchor anchorViewActionSteps) {
-		this.anchorViewActionSteps = anchorViewActionSteps;
-	}
+	// public Anchor getAnchorAddRecommendations() {
+	// return anchorAddRecommendations;
+	// }
+	//
+	// public void setAnchorAddRecommendations(Anchor anchorAddRecommendations)
+	// {
+	// this.anchorAddRecommendations = anchorAddRecommendations;
+	// }
+	//
+	// public Anchor getAnchorViewActionSteps() {
+	// return anchorViewActionSteps;
+	// }
+	//
+	// public void setAnchorViewActionSteps(Anchor anchorViewActionSteps) {
+	// this.anchorViewActionSteps = anchorViewActionSteps;
+	// }
 
 }

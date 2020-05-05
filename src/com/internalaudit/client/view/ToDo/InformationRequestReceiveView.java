@@ -47,6 +47,7 @@ public class InformationRequestReceiveView extends VerticalPanel {
 
 	VerticalPanel panelMailRep = new VerticalPanel();
 	VerticalPanel panelMail = new VerticalPanel();
+	VerticalPanel vpnlReplyMessages = new VerticalPanel();
 	VerticalPanel panelReply = new VerticalPanel();
 	HorizontalPanel panelFileDetail = new HorizontalPanel();
 	private InformationRequestReceiverEntity informationRequest = null;
@@ -73,7 +74,8 @@ public class InformationRequestReceiveView extends VerticalPanel {
 				jobid.setJobCreationId(informationRequest.getRelatedJobId());
 				infoReq.setJob(jobid);
 				infoReq.setInformationRequestId(informationRequest.getId());
-				infoReq.setRespond(txtAreaReply.getText());
+				// Updating Taks String as well
+				// infoReq.setRespond(txtAreaReply.getText());
 				Employee raisedTo = new Employee();
 				raisedTo.setEmployeeId(informationRequest.getRaisedToId());
 				Employee raisedBy = new Employee();

@@ -327,4 +327,6 @@ public interface InternalAuditService extends RemoteService {
 	String deleteActivityObjective(int jobId) throws Exception;
 
 	Date getNextYear(Date value);
+
+	// ToDo fetchSelectedRaisedToDo(int todoId) throws Exception;
 }

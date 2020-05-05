@@ -55,10 +55,14 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 	Button btnReply = new Button("Reply");
 	VerticalPanel panelMailRep = new VerticalPanel();
 	VerticalPanel panelMail = new VerticalPanel();
+	VerticalPanel vpnlReplyMessages = new VerticalPanel();
 	VerticalPanel panelReply = new VerticalPanel();
 	HorizontalPanel panelFileDetail = new HorizontalPanel();
 	ScrollPanel panelMessage = new ScrollPanel();
 	private InformationRequestRaiseEntity informationRequest = null;
+	private ArrayList<InformationRequestLogEntity> listOldInformationRequestLogEntity;
+	private ArrayList<InformationRequestLogEntity> listUpdatedInformationRequestLogEntity;
+	private String loggedInUserName;
 
 	public InformationRequestRaiserFinalView(InformationRequestRaiseEntity informationRequest) {
 
@@ -79,7 +83,8 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 				jobid.setJobCreationId(informationRequest.getRelatedJobId());
 				infoReq.setJob(jobid);
 				infoReq.setInformationRequestId(informationRequest.getId());
-				infoReq.setRequestItem(txtAreaReply.getText());
+				// Updating Task Strng as well
+				// infoReq.setRequestItem(txtAreaReply.getText());
 				infoReq.setRead(false);
 				infoReq.setSendNotication(informationRequest.getSendNotification());
 				infoReq.setSendReminder(informationRequest.getSendReminder());
@@ -101,11 +106,10 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 				infoRequestLog.setDate(informationRequest.getOverDueDays());
 				//
 				saveInformationRequestandLogs(infoReq, infoRequestLog);
-
 			}
 
 			private void saveInformationRequestandLogs(final InformationRequestEntity infoReq,
-					InformationRequestLogEntity infoRequestLog) {
+					final InformationRequestLogEntity infoRequestLog) {
 				rpcService.saveInformationRequestLogs(infoRequestLog, new AsyncCallback<String>() {
 
 					@Override
@@ -126,7 +130,8 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 
 							@Override
 							public void onSuccess(String result) {
-
+								// Window.alert("Saved information Request");
+								viewUpdatedReply(infoRequestLog);
 							}
 						});
 					}
@@ -135,29 +140,18 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 		});
 	}
 
+	private void viewUpdatedReply(final InformationRequestLogEntity infoRequestLog) {
+		listOldInformationRequestLogEntity.add(infoRequestLog);
+		listUpdatedInformationRequestLogEntity = new ArrayList<InformationRequestLogEntity>(
+				listOldInformationRequestLogEntity);
+		vpnlReplyMessages.clear();
+		informationRequestLogs(listUpdatedInformationRequestLogEntity);
+		txtAreaReply.setText("");
+		txtAreaReply.getElement().setPropertyString("placeholder", "Enter your Reply here");
+	}
+
 	private void setLayout(InformationRequestRaiseEntity informationRequest) {
-		lblMesssage = new Label();
-		lblMesssageData = new Label();
-
-		for (int i = 0; i < informationRequest.getInformationRequestLogList().size(); i++) {
-			if (i == 0) {
-				lblMesssage.setText("Message By: " + informationRequest.getRaisedBy());
-				lblMesssageData.setText(informationRequest.getInformationRequestLogList().get(i).getDescription());
-				lblMesssage.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-				panelMail.add(lblMesssage);
-				panelMail.add(lblMesssageData);
-			}
-
-			Label lblReplyOldData = new Label();
-			lblReplyOld = new Label();
-			lblReplyOld.setText("Message By: "
-					+ informationRequest.getInformationRequestLogList().get(i).getAssignedFrom().getEmployeeName());
-			lblReplyOldData.setText(informationRequest.getInformationRequestLogList().get(i).getRespond());
-			lblReplyOld.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-			panelMail.add(lblReplyOld);
-			panelMail.add(lblReplyOldData);
-
-		}
+		ViewMessages(informationRequest);
 
 		lblRequestedData.setText(informationRequest.getRaisedTo());
 		String formattedDate = DateTimeFormat.getShortDateFormat().format(informationRequest.getOverDueDays());
@@ -244,6 +238,40 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 		add(panelLabel);
 		add(panelMailRep);
 
+	}
+
+	private void ViewMessages(InformationRequestRaiseEntity informationRequest) {
+		lblMesssage = new Label();
+		lblMesssageData = new Label();
+		lblMesssage.setText("Message By: " + informationRequest.getRaisedBy());
+		lblMesssageData.setText(informationRequest.getInformationRequestLogList().get(0).getDescription());
+		lblMesssage.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+		panelMail.add(lblMesssage);
+		panelMail.add(lblMesssageData);
+		panelMail.add(vpnlReplyMessages);
+		panelMail.add(vpnlReplyMessages);
+		informationRequestLogs(informationRequest.getInformationRequestLogList());
+	}
+
+	private void informationRequestLogs(ArrayList<InformationRequestLogEntity> informationRequestLogList) {
+		for (int i = 1; i < informationRequestLogList.size(); i++) {
+			Label lblReplyOldData = new Label();
+			lblReplyOld = new Label();
+			String lblMsgHeader = null;
+			if (informationRequestLogList.get(i) != null && informationRequestLogList.get(i).getAssignedFrom() != null
+					&& informationRequestLogList.get(i).getAssignedFrom().getEmployeeName() != null) {
+				loggedInUserName = informationRequestLogList.get(i).getAssignedFrom().getEmployeeName();
+				lblMsgHeader = "Message By: " + informationRequestLogList.get(i).getAssignedFrom().getEmployeeName();
+			} else {
+				lblMsgHeader = "Message By: " + loggedInUserName;
+			}
+			lblReplyOld.setText(lblMsgHeader);
+			lblReplyOldData.setText(informationRequestLogList.get(i).getRespond());
+			lblReplyOld.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+			vpnlReplyMessages.add(lblReplyOld);
+			vpnlReplyMessages.add(lblReplyOldData);
+		}
+		listOldInformationRequestLogEntity = new ArrayList<InformationRequestLogEntity>(informationRequestLogList);
 	}
 
 	private void fetchEmailAttachments() {

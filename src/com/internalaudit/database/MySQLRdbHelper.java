@@ -279,7 +279,8 @@ public class MySQLRdbHelper {
 		return informationRequestLogs;
 	}
 
-	private ArrayList<ToDo> fetchUsersRaisedToDo(Employee employeeId) {
+	// CALL
+	public ArrayList<ToDo> fetchUsersRaisedToDo(Employee employeeId) {
 		Session session = null;
 		ArrayList<ToDo> toDos = new ArrayList<ToDo>();
 		try {
@@ -315,6 +316,42 @@ public class MySQLRdbHelper {
 		}
 		return toDos;
 	}
+
+	// public ToDo fetchSelectedRaisedToDo(int raisedTodoId) throws Exception {
+	// Session session = null;
+	// ToDo toDos = new ToDo();
+	// try {
+	// session = sessionFactory.openSession();
+	// // ToDo todo = (ToDo) session.get(ToDo.class, raisedTodoId); //
+	// // remove
+	// // logger.info(String.format("Inside fetchUsersRaisedTodo() " + new
+	// // Date()));
+	// // return todo;
+	// Criteria crit = session.createCriteria(ToDo.class);
+	// crit.createAlias("assignedTo", "assignedto");
+	// crit.createAlias("assignedFrom", "assignedfrom");
+	// crit.createAlias("job", "jobCreation");
+	// jobsStrategicAlias(crit);
+	// crit.add(Restrictions.eq("toDoId", raisedTodoId));
+	// toDos = (ToDo) crit.list().get(0);
+	// HibernateDetachUtility.nullOutUninitializedFields(toDos,
+	// HibernateDetachUtility.SerializationType.SERIALIZATION);
+	// HibernateDetachUtility.nullOutUninitializedFields(toDos.getAssignedFrom(),
+	// HibernateDetachUtility.SerializationType.SERIALIZATION);
+	// HibernateDetachUtility.nullOutUninitializedFields(toDos.getAssignedTo(),
+	// HibernateDetachUtility.SerializationType.SERIALIZATION);
+	// HibernateDetachUtility.nullOutUninitializedFields(toDos.getJob(),
+	// HibernateDetachUtility.SerializationType.SERIALIZATION);
+	// } catch (Exception ex) {
+	// logger.warn(String.format("Exception occured in fetchUsersRaisedTodo()",
+	// ex.getMessage()), ex);
+	// throw ex;
+	// } finally {
+	// session.close();
+	// }
+	// return toDos;
+	//
+	// }
 
 	private ArrayList<ToDoLogsEntity> fetchtoDoLogsLogs(int toDoId) {
 		Session session = null;
