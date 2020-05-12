@@ -1,7 +1,9 @@
 package com.internalaudit.shared;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,11 +17,11 @@ import javax.persistence.Transient;
 
 @Entity
 
-@Table(name="todo")
+@Table(name = "todo")
 
 public class ToDo implements Serializable {
 
-//	private static final long serialVersionUID = -7673298596496592711L;
+	// private static final long serialVersionUID = -7673298596496592711L;
 
 	/**
 	 * 
@@ -28,39 +30,42 @@ public class ToDo implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="toDoId")
+	@Column(name = "toDoId")
 	private int toDoId;
-	
-	 @Column(name="companyId")
+
+	@Column(name = "companyId")
 	private int companyId;
-	
-	@Column(name="description")
+
+	@Column(name = "task")
+	private String task;
+
+	@Column(name = "description")
 	private String description;
-	
+
 	@JoinColumn(name = "assignedTo")
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee assignedTo;
-	
+
 	@JoinColumn(name = "assignedFrom")
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee assignedFrom;
-	
+
 	@JoinColumn(name = "job")
 	@ManyToOne(fetch = FetchType.EAGER)
 	private JobCreation job;
-	
-	@Column(name="dueDate")
+
+	@Column(name = "dueDate")
 	private Date dueDate;
 
-	@Column(name="respond")
+	@Column(name = "respond")
 	private String respond;
-	
-	@Column(name="messageread")
+
+	@Column(name = "messageread")
 	private Boolean read;
-	
+
 	@Transient
-	private  ArrayList<ToDoLogsEntity>   todosLogList;
-	
+	private ArrayList<ToDoLogsEntity> todosLogList;
+
 	public int getToDoId() {
 		return toDoId;
 	}
@@ -141,7 +146,12 @@ public class ToDo implements Serializable {
 		this.todosLogList = todosLogList;
 	}
 
+	public String getTask() {
+		return task;
+	}
 
-	
-	
+	public void setTask(String task) {
+		this.task = task;
+	}
+
 }

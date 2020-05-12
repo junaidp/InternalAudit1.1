@@ -317,40 +317,44 @@ public class MySQLRdbHelper {
 		return toDos;
 	}
 
-	// public ToDo fetchSelectedRaisedToDo(int raisedTodoId) throws Exception {
+	// public ArrayList<ToDo> fetchUpdatedRaisedToDo(int employeeID) throws
+	// Exception {
 	// Session session = null;
-	// ToDo toDos = new ToDo();
+	// ArrayList<ToDo> toDos = new ArrayList<ToDo>();
 	// try {
 	// session = sessionFactory.openSession();
-	// // ToDo todo = (ToDo) session.get(ToDo.class, raisedTodoId); //
-	// // remove
-	// // logger.info(String.format("Inside fetchUsersRaisedTodo() " + new
-	// // Date()));
-	// // return todo;
 	// Criteria crit = session.createCriteria(ToDo.class);
 	// crit.createAlias("assignedTo", "assignedto");
 	// crit.createAlias("assignedFrom", "assignedfrom");
 	// crit.createAlias("job", "jobCreation");
 	// jobsStrategicAlias(crit);
-	// crit.add(Restrictions.eq("toDoId", raisedTodoId));
-	// toDos = (ToDo) crit.list().get(0);
-	// HibernateDetachUtility.nullOutUninitializedFields(toDos,
+	// crit.add(Restrictions.eq("assignedfrom.employeeId", employeeID));
+	//
+	// List rsList = crit.list();
+	// for (Iterator it = rsList.iterator(); it.hasNext();) {
+	// ToDo toDo = (ToDo) it.next();
+	// ArrayList<ToDoLogsEntity> todos = fetchtoDoLogsLogs(toDo.getToDoId());
+	// toDo.setTodosLogList(todos);
+	// HibernateDetachUtility.nullOutUninitializedFields(toDo,
 	// HibernateDetachUtility.SerializationType.SERIALIZATION);
-	// HibernateDetachUtility.nullOutUninitializedFields(toDos.getAssignedFrom(),
+	// HibernateDetachUtility.nullOutUninitializedFields(toDo.getAssignedFrom(),
 	// HibernateDetachUtility.SerializationType.SERIALIZATION);
-	// HibernateDetachUtility.nullOutUninitializedFields(toDos.getAssignedTo(),
+	// HibernateDetachUtility.nullOutUninitializedFields(toDo.getAssignedTo(),
 	// HibernateDetachUtility.SerializationType.SERIALIZATION);
-	// HibernateDetachUtility.nullOutUninitializedFields(toDos.getJob(),
+	// HibernateDetachUtility.nullOutUninitializedFields(toDo.getJob(),
 	// HibernateDetachUtility.SerializationType.SERIALIZATION);
+	// toDos.add(toDo);
+	// }
+	// logger.info(String.format("Inside fetchUsersRaisedTodo() " + new
+	// Date()));
 	// } catch (Exception ex) {
 	// logger.warn(String.format("Exception occured in fetchUsersRaisedTodo()",
 	// ex.getMessage()), ex);
-	// throw ex;
+	//
 	// } finally {
 	// session.close();
 	// }
 	// return toDos;
-	//
 	// }
 
 	private ArrayList<ToDoLogsEntity> fetchtoDoLogsLogs(int toDoId) {
@@ -9699,8 +9703,8 @@ public class MySQLRdbHelper {
 			 */
 			String toDoMessage = "Dear " + employeeAssignedDetail.getEmployeeName() + " <br></br> <br></br>"
 					+ " You have received ToDo request from ::" + todo.getAssignedFrom().getEmployeeName()
-					+ " <br></br> <br></br>" + todo.getDescription();
-
+					+ " <br></br> <br></br>" + todo.getTask();
+			// changed from getDescription to getTask by Moqeet
 			sendAttachmentEmail(toDoMessage, employeeAssignedDetail.getEmail(), "", "ToDO Request", null,
 					todo.getAssignedFrom().getEmail());
 
@@ -9825,8 +9829,14 @@ public class MySQLRdbHelper {
 	}
 
 	public ArrayList<ToDo> fetchToDoReload(Employee loggedInUser) {
-		// return fetchUsersRaisedToDo(loggedInUser);
-		return fetchUsersTodos(loggedInUser);
+		return fetchUsersRaisedToDo(loggedInUser);
+		// return fetchUsersTodos(loggedInUser);
+		// added & commented by Abdul Moqeet
+	}
+
+	public ArrayList<InformationRequestEntity> fetchInformationRequestReLoad(Employee loggedInUser) {
+		return fetchUserRaisedInformationRequest(loggedInUser);
+		// added & commented by AbdulMoqeet
 	}
 
 	/// new method fetchInformationreqLogs...(Employee

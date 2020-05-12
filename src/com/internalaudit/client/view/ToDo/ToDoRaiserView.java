@@ -181,8 +181,9 @@ public class ToDoRaiserView extends VerticalPanel {
 			public void onClick(ClickEvent event) {
 				final ToDo todoEntity = new ToDo();
 				todoEntity.setToDoId(toDo.getId());
-				todoEntity.setDescription(toDo.getRequestedItem());
-				// Updating Task String as well
+				todoEntity.setTask(toDo.getRequestedItem());
+				// todoEntity.setDescription(toDo.getRequestedItem());
+				// Updating Task String as well, by moqeet
 				// todoEntity.setRespond(txtAreaReply.getText());
 				Employee assignedTo = new Employee();
 				assignedTo.setEmployeeId(toDo.getRaisedToId());

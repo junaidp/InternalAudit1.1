@@ -8,14 +8,22 @@ import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.internalaudit.client.InternalAuditService;
+import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.PopupsView;
+import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.InformationRequestEntity;
+import com.internalaudit.shared.JobCreation;
 import com.sencha.gxt.cell.core.client.TextButtonCell;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.ContentPanel;
@@ -39,12 +47,15 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 	TextButtonCell button = new TextButtonCell();
 	ListStore<InformationRequestRaiseEntity> store;
 	private List<InformationRequestRaiseEntity> informationRequests = new ArrayList<InformationRequestRaiseEntity>();
+	private InternalAuditServiceAsync rpcService;
+	private String filepath;
+	private VerticalPanel con = new VerticalPanel();
 
 	public InformationRequestRaisePortal(ArrayList<InformationRequestEntity> arrayList) {
 		setData(arrayList);
 		// setData(exceptions);
 		add(createGridFieldWork());
-
+		rpcService = GWT.create(InternalAuditService.class);
 	}
 
 	private void setData(ArrayList<InformationRequestEntity> arrayList) {
@@ -143,15 +154,16 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 		// grid.getView().setForceFit(true);
 		// grid.getView().setStripeRows(true);
 		// grid.getView().setColumnLines(true);
-		VerticalPanel p = new VerticalPanel();
+		// VerticalPanel p = new VerticalPanel();
 		grid.setHeight("220px");
 		// p.setHeight("400px");
 
 		// VerticalLayoutContainer con = new VerticalLayoutContainer();
 		Anchor addInformationRequest = new Anchor("Raise Information Request");
 		addInformationRequest.addStyleName("w3-right");
-		p.add(addInformationRequest);
-		p.add(grid);
+		con.add(addInformationRequest);
+		con.add(grid);
+		con.setWidth("875px");
 
 		addInformationRequest.addClickHandler(new ClickHandler() {
 
@@ -181,10 +193,20 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 
 					}
 				});
+				informationrequestRaiser.getBtnSave().addClickHandler(new ClickHandler() {
 
+					@Override
+					public void onClick(ClickEvent event) {
+						// TODO Auto-generated method stub
+						refreshFile(informationrequestRaiser.getInformationRequestId(),
+								informationrequestRaiser.getMainFolder());
+						saveInformationRequest(informationrequestRaiser, filepath);
+						pp.getVpnlMain().removeFromParent();
+						pp.getPopup().removeFromParent();
+					}
+				});
 			}
 		});
-
 		// con.add(p, new VerticalLayoutData(1, 1));
 		// return con;
 		// panel = new ContentPanel();
@@ -193,6 +215,100 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 		// panel.setHeadingText("InformationRequestRaise");
 		// panel.add(con);
 		// return panel;
-		return p;
+		return con;
+	}
+
+	private void saveInformationRequest(InformationRequestRaiserView informationrequestRaiser, String filepath) {
+		InformationRequestEntity informationrequest = new InformationRequestEntity();
+		informationrequest.setRequestItem(informationrequestRaiser.getTxtBoxRequestItem().getText());
+		Employee responsibleContact = new Employee();
+		responsibleContact
+				.setEmployeeId(Integer.parseInt(informationrequestRaiser.getListBoxContact().getSelectedValue()));
+		JobCreation job = new JobCreation();
+		job.setJobCreationId(Integer.parseInt(informationrequestRaiser.getListBoxJobs().getSelectedValue()));
+		informationrequest.setContactResponsible(responsibleContact);
+
+		informationrequest.setJob(job);
+		informationrequest.setContactEmail(informationrequestRaiser.getTxtBoxEmail().getText());
+		informationrequest.setSendNotication(informationrequestRaiser.getCheckBoxNotification().getValue());
+		informationrequest.setSendReminder(informationrequestRaiser.getCheckBoxReminder().getValue());
+		informationrequest.setDueDate(informationrequestRaiser.getDueDate().getValue());
+		informationrequest.setStatus(informationrequestRaiser.getListBoxStatus().getSelectedIndex());
+		informationrequest.setRead(false);
+		rpcService.saveinformationRequest(informationrequest, filepath, new AsyncCallback<String>() {
+
+			@Override
+			public void onSuccess(String result) {
+				new DisplayAlert(result);
+				Window.alert(result + "success");
+				fetchInformationRequestReLoad();
+
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("error in rpc saveInformationRequest" + caught.getLocalizedMessage());
+
+			}
+		});
+	}
+
+	private void refreshFile(final String informationRequestId, final String mainFolder) {
+		rpcService.fetchAuditStepsProcerdure(informationRequestId, mainFolder, new AsyncCallback<ArrayList<String>>() {
+
+			@Override
+			public void onSuccess(ArrayList<String> result) {
+				Anchor lblfilename = null;
+				for (int i = 0; i < result.size(); i++) {
+					lblfilename = new Anchor(result.get(i));
+
+					lblfilename.addStyleName("pointerStyle");
+					lblfilename.getElement().getStyle().setTextDecoration(TextDecoration.NONE);
+					lblfilename.setHeight("25px");
+
+					lblfilename.setWordWrap(false);
+					String upperCasedJobLink = lblfilename.getText();
+					lblfilename.setText(upperCasedJobLink);
+
+				}
+				filepath = mainFolder + "/" + informationRequestId + "/" + lblfilename.getText();
+
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+
+				System.out.println("fetchAuditProcedure Failed");
+			}
+
+		});
+
+	}
+
+	public void fetchInformationRequestReLoad() {
+		rpcService.fetchInformationRequestReLoad(new AsyncCallback<ArrayList<InformationRequestEntity>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				Window.alert("failed to add new Information Request in Updated list");
+			}
+
+			@Override
+			public void onSuccess(ArrayList<InformationRequestEntity> result) {
+				// TODO Auto-generated method stub
+				updatedView(result);
+				// Window.alert("Successfully added new Information Request in
+				// Updated list");
+			}
+		});
+	}
+
+	private void updatedView(ArrayList<InformationRequestEntity> toDosUpdated) {
+		store.clear();
+		informationRequests.clear();
+		con.clear();
+		setData(toDosUpdated);
+		add(createGridFieldWork());
 	}
 }

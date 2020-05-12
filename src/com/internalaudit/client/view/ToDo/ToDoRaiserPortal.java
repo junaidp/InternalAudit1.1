@@ -12,11 +12,18 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.internalaudit.client.InternalAuditService;
+import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.client.view.ToDoView;
+import com.internalaudit.shared.Employee;
+import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.ToDo;
 import com.sencha.gxt.cell.core.client.TextButtonCell;
 import com.sencha.gxt.data.shared.ListStore;
@@ -39,12 +46,15 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 	TextButtonCell button = new TextButtonCell();
 	ListStore<ToDoRaiserEntity> store;
 	private List<ToDoRaiserEntity> toDos = new ArrayList<ToDoRaiserEntity>();
+	private InternalAuditServiceAsync rpcService;
+	VerticalPanel con = new VerticalPanel();
+	private PopupsView pp;
 
-	public ToDoRaiserPortal(ArrayList<ToDo> arrayList) {
-		setData(arrayList);
+	public ToDoRaiserPortal(ArrayList<ToDo> arrayListToDos) {
+		setData(arrayListToDos);
 		// setData(exceptions);
 		add(createGridFieldWork());
-
+		rpcService = GWT.create(InternalAuditService.class);
 	}
 
 	private void setData(ArrayList<ToDo> arrayList) {
@@ -52,7 +62,9 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 			ToDoRaiserEntity issue = new ToDoRaiserEntity();
 
 			issue.setId(arrayList.get(i).getToDoId());
-			issue.setRequestedItem(arrayList.get(i).getDescription());
+			issue.setRequestedItem(arrayList.get(i).getTask());
+			// issue.setRequestedItem(arrayList.get(i).getDescription());
+			// task added and description commented by moqeet
 			issue.setRelatedJob(arrayList.get(i).getJob().getJobName());
 			issue.setRaisedTo(arrayList.get(i).getAssignedTo().getEmployeeName());
 			issue.setRaisedBy(arrayList.get(i).getAssignedFrom().getEmployeeName());
@@ -144,7 +156,7 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 		// p.add(grid);
 
 		// VerticalLayoutContainer con = new VerticalLayoutContainer();
-		VerticalPanel con = new VerticalPanel();
+
 		Anchor addTask = new Anchor("Add New Task");
 		addTask.addStyleName("w3-right");
 		con.add(addTask);
@@ -154,7 +166,7 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 			@Override
 			public void onClick(ClickEvent event) {
 				final ToDoView todoview = new ToDoView();
-				final PopupsView pp = new PopupsView(todoview, "To Do");
+				pp = new PopupsView(todoview, "To Do");
 				// pp.getLabelheading().setText("To Do");
 				// pp.getPopup().setHeadingText("To Do");
 				pp.getVpnlMain().setWidth("370px");
@@ -180,7 +192,51 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 
 					}
 				});
+				todoview.getBtnSave().addClickHandler(new ClickHandler() {
 
+					@Override
+					public void onClick(ClickEvent event) {
+
+						saveToDo(todoview);
+					}
+
+				});
+			}
+
+			private void saveToDo(ToDoView todoview) {
+				final ToDo todo = new ToDo();
+				todo.setTask(todoview.getTxtAreaTask().getText());
+				todo.setDescription(todoview.getTxtBoxDescription().getText());
+
+				Employee assignedTo = new Employee();
+				assignedTo.setEmployeeId(Integer.parseInt(todoview.getListBoxAssignedTo().getSelectedValue()));
+				JobCreation job = new JobCreation();
+				job.setJobCreationId(Integer.parseInt(todoview.getListBoxJobs().getSelectedValue()));
+
+				todo.setJob(job);
+
+				todo.setAssignedTo(assignedTo);
+				todo.setRead(false);
+
+				// todo.setDueDate(dueDate.getDatePicker().getValue());
+				todo.setDueDate(todoview.getDueDate().getValue());
+
+				rpcService.savetoDo(todo, new AsyncCallback<String>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("error in rpc savetodo" + caught.getLocalizedMessage());
+
+					}
+
+					@Override
+					public void onSuccess(String result) {
+						new DisplayAlert(result);
+						fetchToDoReLoad();
+						pp.getVpnlMain().removeFromParent();
+						pp.getPopup().removeFromParent();
+					}
+				});
 			}
 		});
 
@@ -197,4 +253,29 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 		return con;
 	}
 
+	public void fetchToDoReLoad() {
+
+		rpcService.fetchToDoReLoad(new AsyncCallback<ArrayList<ToDo>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onSuccess(ArrayList<ToDo> result) {
+				// Window.alert("success");
+				updatedView(result);
+			}
+		});
+	}
+
+	private void updatedView(ArrayList<ToDo> toDosUpdated) {
+		store.clear();
+		toDos.clear();
+		con.clear();
+		setData(toDosUpdated);
+		add(createGridFieldWork());
+	}
 }

@@ -48,7 +48,9 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 			ToDoReceiverEntity issue = new ToDoReceiverEntity();
 			// issue.setId(exceptions.get(i).getExceptionId());
 			issue.setId(arrayList.get(i).getToDoId());
-			issue.setRequestedItem(arrayList.get(i).getDescription());
+			// issue.setRequestedItem(arrayList.get(i).getDescription());//changed
+			// by Moqeet
+			issue.setRequestedItem(arrayList.get(i).getTask());
 			issue.setRelatedJob(arrayList.get(i).getJob().getJobName());
 			issue.setRaisedBy(arrayList.get(i).getAssignedFrom().getEmployeeName());
 			issue.setOverDueDays(arrayList.get(i).getDueDate());

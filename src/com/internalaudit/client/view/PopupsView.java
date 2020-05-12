@@ -31,6 +31,10 @@ public class PopupsView {
 
 	public PopupsView(Widget widget, String heading) {
 
+		layout(widget, heading);
+	}
+
+	private void layout(Widget widget, String heading) {
 		// labelheading.getElement().getStyle().setBackgroundColor("BLUE");
 		labelheading.getElement().getStyle().setFontSize(18, Unit.PX);
 		labelheading.getElement().getStyle().setFontWeight(FontWeight.BOLD);
@@ -67,6 +71,12 @@ public class PopupsView {
 
 			}
 		});
+	}
+
+	public PopupsView(Widget widget, String heading, String width, String height) {
+		layout(widget, heading);
+		vpnlMain.setWidth(width);
+		vpnlMain.setHeight(height);
 	}
 
 	public Dialog getPopup() {

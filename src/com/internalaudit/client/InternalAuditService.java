@@ -328,5 +328,7 @@ public interface InternalAuditService extends RemoteService {
 
 	Date getNextYear(Date value);
 
-	// ToDo fetchSelectedRaisedToDo(int todoId) throws Exception;
+	ArrayList<InformationRequestEntity> fetchInformationRequestReLoad();
+
+	// ArrayList<ToDo> fetchUpdatedRaisedToDo(int employeeID) throws Exception;
 }

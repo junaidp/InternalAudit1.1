@@ -317,6 +317,8 @@ public interface InternalAuditServiceAsync {
 
 	void fetchToDoReLoad(AsyncCallback<ArrayList<ToDo>> callback);
 
+	void fetchInformationRequestReLoad(AsyncCallback<ArrayList<InformationRequestEntity>> callback);
+
 	void fetchJobExceptionWithImplicationRating(int jobId, int ImplicationRating,
 			AsyncCallback<ArrayList<Exceptions>> callback);
 
@@ -336,7 +338,6 @@ public interface InternalAuditServiceAsync {
 
 	void getNextYear(Date value, AsyncCallback<Date> asyncCallback);
 
-	// void fetchSelectedRaisedToDo(int todoId, AsyncCallback<ToDo>
-	// asyncCallback);
-
+	// void fetchUpdatedRaisedToDo(int employeeID,
+	// AsyncCallback<ArrayList<ToDo>> callback);
 }

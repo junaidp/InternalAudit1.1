@@ -42,7 +42,9 @@ public class PortalOutstandingCoaching extends VerticalLayoutContainer {
 			OutstandingCoaching issue = new OutstandingCoaching();
 			// issue.setId(exceptions.get(i).getExceptionId());
 			issue.setId(arrayList.get(i).getToDoId());
-			issue.setCoachingNote(arrayList.get(i).getDescription());
+			issue.setCoachingNote(arrayList.get(i).getTask());
+			// issue.setCoachingNote(arrayList.get(i).getDescription());
+			// changed by moqeet
 			issue.setRaisedBy(arrayList.get(i).getAssignedFrom().getEmployeeName());
 			issue.setRaisedTo(arrayList.get(i).getAssignedTo().getEmployeeName());
 			issue.setOverDueDays(arrayList.get(i).getDueDate());

@@ -120,14 +120,8 @@ public class SideBarView extends VerticalLayoutContainer {
 			@Override
 			public void onClick(ClickEvent event) {
 				ToDoRaiserPortal p = new ToDoRaiserPortal(loggedInUser.getUserRaisedToDos());
-				PopupsView pp = new PopupsView(p, "To Do Raiser Grid");
-
-				// pp.getLabelheading().setText("To Do Raiser Grid");
-				// pp.getPopup().setHeadingText("To Do Raiser Grid");
-				pp.getVpnlMain().setTitle("TaskList");
-				pp.getVpnlMain().setWidth("900px");
-				pp.getVpnlMain().setHeight("530px");
-
+				new PopupsView(p, "To Do Raiser Grid", "900px", "530px");
+				p.fetchToDoReLoad();
 			}
 		});
 		ImgMenu.setTitle("Information Request Raiser Grid");
@@ -137,13 +131,8 @@ public class SideBarView extends VerticalLayoutContainer {
 
 				InformationRequestRaisePortal p = new InformationRequestRaisePortal(
 						loggedInUser.getUserRaisedInformationRequests());
-				PopupsView pp = new PopupsView(p, "Information Request Raiser");
-				// pp.getLabelheading().setText("Information Request Raiser");
-				// pp.getPopup().setHeadingText("Information Request Raiser");
-				pp.getVpnlMain().setTitle("TaskList");
-				pp.getVpnlMain().setWidth("900px");
-				pp.getVpnlMain().setHeight("530px");
-
+				new PopupsView(p, "Information Request Raiser", "900px", "530px");
+				p.fetchInformationRequestReLoad();
 			}
 		});
 
@@ -154,12 +143,7 @@ public class SideBarView extends VerticalLayoutContainer {
 			public void onClick(ClickEvent event) {
 				InformationRequestReceiverPortal p = new InformationRequestReceiverPortal(
 						loggedInUser.getInformationRequests());
-				PopupsView pp = new PopupsView(p, "Information Request Receiver");
-
-				// pp.getLabelheading().setText("Information Request Receiver");
-				// pp.getPopup().setHeadingText("Information Request Receiver");
-				pp.getVpnlMain().setWidth("650px");
-				pp.getVpnlMain().setHeight("530px");
+				new PopupsView(p, "Information Request Receiver", "650px", "530px");
 
 			}
 		});
@@ -169,12 +153,7 @@ public class SideBarView extends VerticalLayoutContainer {
 			public void onClick(ClickEvent event) {
 
 				ToDoReceiverPortal p = new ToDoReceiverPortal(loggedInUser.getTodos());
-				PopupsView pp = new PopupsView(p, "To Do Receiver");
-				// pp.getLabelheading().setText("To Do Receiver");
-				// pp.getPopup().setHeadingText("To Do Receiver");
-				pp.getVpnlMain().setTitle("TaskList");
-				pp.getVpnlMain().setWidth("650px");
-				pp.getVpnlMain().setHeight("530px");
+				new PopupsView(p, "To Do Receiver", "650px", "530px");
 			}
 
 		});

@@ -22,7 +22,6 @@ import com.internalaudit.client.upload.AuditWorkProgramUpload;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.JobCreation;
-import com.internalaudit.shared.ToDo;
 import com.sencha.gxt.widget.core.client.form.DateField;
 
 public class ToDoView extends Composite {
@@ -99,64 +98,67 @@ public class ToDoView extends Composite {
 		});
 		btnSave.getElement().getStyle().setMarginLeft(185, Unit.PX);
 		btnSave.getElement().getStyle().setMarginTop(3, Unit.PX);
-		btnSave.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				saveToDo();
-			}
-
-		});
+		/*
+		 * btnSave.addClickHandler(new ClickHandler() {
+		 * 
+		 * @Override public void onClick(ClickEvent event) {
+		 * 
+		 * saveToDo(); }
+		 * 
+		 * }); }
+		 * 
+		 * private void saveToDo() { final ToDo todo = new ToDo();
+		 * todo.setDescription(txtBoxDescription.getText());
+		 * 
+		 * Employee assignedTo = new Employee();
+		 * assignedTo.setEmployeeId(Integer.parseInt(listBoxAssignedTo.
+		 * getSelectedValue())); JobCreation job = new JobCreation();
+		 * job.setJobCreationId(Integer.parseInt(listBoxJobs.getSelectedValue())
+		 * );
+		 * 
+		 * todo.setJob(job);
+		 * 
+		 * todo.setAssignedTo(assignedTo); todo.setRead(false);
+		 * 
+		 * // todo.setDueDate(dueDate.getDatePicker().getValue());
+		 * todo.setDueDate(dueDate.getValue());
+		 * 
+		 * rpcService.savetoDo(todo, new AsyncCallback<String>() {
+		 * 
+		 * @Override public void onFailure(Throwable caught) {
+		 * Window.alert("error in rpc savetodo" + caught.getLocalizedMessage());
+		 * 
+		 * }
+		 * 
+		 * @Override public void onSuccess(String result) { new
+		 * DisplayAlert(result); rpcService.fetchToDoReLoad(new
+		 * AsyncCallback<ArrayList<ToDo>>() {
+		 * 
+		 * @Override public void onFailure(Throwable caught) { // TODO
+		 * Auto-generated method stub
+		 * 
+		 * }
+		 * 
+		 * @Override public void onSuccess(ArrayList<ToDo> result) {
+		 * Window.alert("success");
+		 * fetchUpdatedToDos(todo.getAssignedTo().getEmployeeId()); } });
+		 * 
+		 * } });
+		 */
 	}
 
-	private void saveToDo() {
-		final ToDo todo = new ToDo();
-		todo.setDescription(txtBoxDescription.getText());
-
-		Employee assignedTo = new Employee();
-		assignedTo.setEmployeeId(Integer.parseInt(listBoxAssignedTo.getSelectedValue()));
-		JobCreation job = new JobCreation();
-		job.setJobCreationId(Integer.parseInt(listBoxJobs.getSelectedValue()));
-
-		todo.setJob(job);
-
-		todo.setAssignedTo(assignedTo);
-		todo.setRead(false);
-
-		// todo.setDueDate(dueDate.getDatePicker().getValue());
-		todo.setDueDate(dueDate.getValue());
-
-		rpcService.savetoDo(todo, new AsyncCallback<String>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Window.alert("error in rpc savetodo" + caught.getLocalizedMessage());
-
-			}
-
-			@Override
-			public void onSuccess(String result) {
-				new DisplayAlert(result);
-				rpcService.fetchToDoReLoad(new AsyncCallback<ArrayList<ToDo>>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void onSuccess(ArrayList<ToDo> result) {
-						Window.alert("success");
-
-					}
-				});
-
-			}
-		});
-	}
-
+	/*
+	 * private void fetchUpdatedToDos(final int employeeID) {
+	 * rpcService.fetchUpdatedRaisedToDo(employeeID, new
+	 * AsyncCallback<ArrayList<ToDo>>() {
+	 * 
+	 * @Override public void onFailure(Throwable caught) { // TODO
+	 * Auto-generated method stub Window.alert("failed Updated TODOS"); }
+	 * 
+	 * @Override public void onSuccess(ArrayList<ToDo> toDosUpdated) { // TODO
+	 * Auto-generated method stub Window.alert("success Updated TODOS"); new
+	 * ToDoRaiserPortal(toDosUpdated); } }); }
+	 */
 	private void fetchEmployees() {
 		rpcService.fetchEmployees(new AsyncCallback<ArrayList<Employee>>() {
 
@@ -236,6 +238,22 @@ public class ToDoView extends Composite {
 
 	public void setBtnCancel(Button btnCancel) {
 		this.btnCancel = btnCancel;
+	}
+
+	public Button getBtnSave() {
+		return btnSave;
+	}
+
+	public void setBtnSave(Button btnSave) {
+		this.btnSave = btnSave;
+	}
+
+	public TextArea getTxtAreaTask() {
+		return txtAreaTask;
+	}
+
+	public void setTxtAreaTask(TextArea txtAreaTask) {
+		this.txtAreaTask = txtAreaTask;
 	}
 
 }

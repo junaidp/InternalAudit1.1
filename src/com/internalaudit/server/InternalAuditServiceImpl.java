@@ -1743,6 +1743,13 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		return currentDatePlusOne;
 	}
 
+	@Override
+	public ArrayList<InformationRequestEntity> fetchInformationRequestReLoad() {
+		// TODO Auto-generated method stub
+		Employee loggedInUser = (Employee) session.getAttribute("user");
+		return rdbHelper.fetchInformationRequestReLoad(loggedInUser);
+	}
+
 	// @Override
 	// public ToDo fetchSelectedRaisedToDo(int todoId) throws Exception {
 	// // TODO Auto-generated method stub
