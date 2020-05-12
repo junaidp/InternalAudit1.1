@@ -1749,10 +1749,4 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		Employee loggedInUser = (Employee) session.getAttribute("user");
 		return rdbHelper.fetchInformationRequestReLoad(loggedInUser);
 	}
-
-	// @Override
-	// public ToDo fetchSelectedRaisedToDo(int todoId) throws Exception {
-	// // TODO Auto-generated method stub
-	// return rdbHelper.fetchSelectedRaisedToDo(todoId);
-	// }
 }
