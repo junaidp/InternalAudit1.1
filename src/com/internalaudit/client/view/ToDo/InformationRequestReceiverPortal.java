@@ -49,7 +49,7 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 	private void setData(ArrayList<InformationRequestEntity> arrayList) {
 
 		for (int i = 0; i < arrayList.size(); i++) {
-			final InformationRequestEntity infoReq = arrayList.get(i);
+			// final InformationRequestEntity infoReq = arrayList.get(i);
 			InformationRequestReceiverEntity issue = new InformationRequestReceiverEntity();
 			// issue.setId(exceptions.get(i).getExceptionId());
 
@@ -65,6 +65,7 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 			issue.setSendReminder(arrayList.get(i).getSendReminder());
 			issue.setRelatedJobId(arrayList.get(i).getJob().getJobCreationId());
 			issue.setOverDueDays(arrayList.get(i).getDueDate());
+			issue.setInformationRequestLogList(arrayList.get(i).getInformationRequestLogList());
 			informationRequests.add(issue);
 
 		}

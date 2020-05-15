@@ -43,6 +43,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
@@ -215,6 +216,8 @@ public class MySQLRdbHelper {
 			crit.createAlias("assignedFrom", "assignedfrom");
 			crit.add(Restrictions.eq("assignedFrom.employeeId", employeeId.getEmployeeId()));
 			crit.createAlias("job", "jobCreation");
+			crit.addOrder(Order.desc("read"));
+			// commented by moqeet show show alert icon
 			jobsStrategicAlias(crit);
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -291,6 +294,8 @@ public class MySQLRdbHelper {
 			crit.createAlias("job", "jobCreation");
 			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("assignedfrom.employeeId", employeeId.getEmployeeId()));
+			crit.addOrder(Order.desc("read"));
+			// commented by moqeet to sort read message
 
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -406,12 +411,18 @@ public class MySQLRdbHelper {
 			crit.createAlias("contactResponsible", "assignedto");
 			crit.createAlias("assignedFrom", "assignedfrom");
 			crit.add(Restrictions.eq("contactResponsible.employeeId", employeeId.getEmployeeId()));
-			crit.add(Restrictions.eq("read", false));
+			// crit.add(Restrictions.eq("read", false));
+			crit.addOrder(Order.desc("read"));
+			// commented by moqeet show show alert icon
 			crit.createAlias("job", "jobCreation");
 			jobsStrategicAlias(crit);
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				InformationRequestEntity informationRequest = (InformationRequestEntity) it.next();
+				ArrayList<InformationRequestLogEntity> informationrequestlogs = fetchInformationRequestLogs(
+						informationRequest.getInformationRequestId());
+				informationRequest.setInformationRequestLogList(informationrequestlogs);
+				// added by moqeet to get conversation list
 				HibernateDetachUtility.nullOutUninitializedFields(informationRequest,
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(informationRequest.getAssignedFrom(),
@@ -444,7 +455,9 @@ public class MySQLRdbHelper {
 			crit.createAlias("job", "jobCreation");
 			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("assignedto.employeeId", employeeId.getEmployeeId()));
-			crit.add(Restrictions.eq("read", false));
+			// crit.add(Restrictions.eq("read", false));
+			crit.addOrder(Order.desc("read"));
+			// commented by moqeet show show alert icon
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				ToDo toDo = (ToDo) it.next();

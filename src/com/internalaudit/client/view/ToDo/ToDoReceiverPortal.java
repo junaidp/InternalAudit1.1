@@ -11,11 +11,14 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.shared.ToDo;
+import com.sencha.gxt.cell.core.client.ButtonCell;
 import com.sencha.gxt.cell.core.client.TextButtonCell;
+import com.sencha.gxt.core.client.ValueProvider;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
@@ -24,6 +27,7 @@ import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
+import com.sencha.gxt.widget.core.client.grid.GridViewConfig;
 
 public class ToDoReceiverPortal extends VerticalLayoutContainer {
 
@@ -40,7 +44,6 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 	public ToDoReceiverPortal(ArrayList<ToDo> arrayList) {
 		setData(arrayList);
 		add(createGridFieldWork());
-
 	}
 
 	private void setData(ArrayList<ToDo> arrayList) {
@@ -59,6 +62,7 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 			issue.setRaisedTo(arrayList.get(i).getAssignedTo().getEmployeeName());
 			issue.setRelatedJobId(arrayList.get(i).getJob().getJobCreationId());
 			// issue.setStatus(arrayList.get(i).getJob().getJobName());
+			issue.setRead(arrayList.get(i).getRead());
 			toDoRequests.add(issue);
 		}
 		// }
@@ -70,6 +74,8 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 				properties.id(), 70, "Sr#");
 		ColumnConfig<ToDoReceiverEntity, String> requestedItem = new ColumnConfig<ToDoReceiverEntity, String>(
 				properties.requestedItem(), 170, "Task");
+		// requestedItem.setColumnStyle(SafeStylesUtils.fromTrustedString("background-color:
+		// blue; color: yellow;"));
 		ColumnConfig<ToDoReceiverEntity, String> informationRaisedBy = new ColumnConfig<ToDoReceiverEntity, String>(
 				properties.raisedBy(), 140, "Asigned By");
 		ColumnConfig<ToDoReceiverEntity, String> relatedJob = new ColumnConfig<ToDoReceiverEntity, String>(
@@ -132,6 +138,24 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 		grid.getView().setForceFit(true);
 		grid.getView().setStripeRows(true);
 		grid.getView().setColumnLines(true);
+		grid.getView().setViewConfig(new GridViewConfig<ToDoReceiverEntity>() {
+
+			@Override
+			public String getColStyle(ToDoReceiverEntity model, ValueProvider valueProvider, int rowIndex,
+					int colIndex) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public String getRowStyle(ToDoReceiverEntity toDoReceiverEntity, int rowIndex) {
+				// PUT IF Here and return any style name from .css file
+				if (toDoReceiverEntity.isRead())
+					return "";
+				else
+					return "gridUnreadRow";
+			}
+		});
 		VerticalPanel p = new VerticalPanel();
 		grid.setHeight("220px");
 		p.add(grid);
@@ -147,6 +171,28 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 		// panel.add(con);
 		// return panel;
 		return p;
+	}
+
+	public static Cell<String> getReadCell() {
+		ButtonCell<String> symbolCell = new ButtonCell<String>() {
+			@Override
+			public void render(Context context, String ip, SafeHtmlBuilder sb) {
+				if (ip != null) {
+					if (ip.contains(" ")) {
+						int decIdIndex = ip.indexOf(" ");
+						if (decIdIndex >= 0)
+							sb.appendHtmlConstant(
+									"<span style='background-color:white; color:blue; cursor: pointer;  text-decoration: underline;'>"
+											+ ip.substring(0, decIdIndex) + "</span>");
+					} else
+						sb.appendHtmlConstant("<span style='background-color:white;'>" + ip + "</span>");
+
+				} else {
+					sb.appendHtmlConstant("<span> &nbsp; </span>");
+				}
+			}
+		};
+		return symbolCell;
 	}
 
 }

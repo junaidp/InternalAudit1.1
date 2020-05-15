@@ -249,7 +249,7 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 		panelMail.add(lblMesssage);
 		panelMail.add(lblMesssageData);
 		panelMail.add(vpnlReplyMessages);
-		panelMail.add(vpnlReplyMessages);
+		// panelMail.add(vpnlReplyMessages);
 		informationRequestLogs(informationRequest.getInformationRequestLogList());
 	}
 

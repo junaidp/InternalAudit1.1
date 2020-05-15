@@ -17,6 +17,7 @@ public class ToDoReceiverEntity implements Serializable {
 	private Date overDueDays;
 	private int id;
 	private int raisedToId;
+	private boolean read;
 
 	public ToDoReceiverEntity() {
 
@@ -108,6 +109,14 @@ public class ToDoReceiverEntity implements Serializable {
 
 	public void setRaisedTo(String raisedTo) {
 		this.raisedTo = raisedTo;
+	}
+
+	public boolean isRead() {
+		return read;
+	}
+
+	public void setRead(boolean read) {
+		this.read = read;
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.internalaudit.client.view.ToDo;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.dom.client.Style.Unit;
@@ -11,6 +13,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
@@ -51,6 +54,10 @@ public class InformationRequestReceiveView extends VerticalPanel {
 	VerticalPanel panelReply = new VerticalPanel();
 	HorizontalPanel panelFileDetail = new HorizontalPanel();
 	private InformationRequestReceiverEntity informationRequest = null;
+	private String loggedInUserName;
+	private ArrayList<InformationRequestLogEntity> listOldInformationRequestLogEntity;
+	private Label lblReplyOld;
+	private ArrayList<InformationRequestLogEntity> listUpdatedInformationRequestLogEntity;
 
 	public InformationRequestReceiveView(InformationRequestReceiverEntity informationRequest) {
 
@@ -92,7 +99,7 @@ public class InformationRequestReceiveView extends VerticalPanel {
 				infoReq.setDueDate(informationRequest.getOverDueDays());
 				infoReq.setRead(true);
 				// Saving data for informationRequestlog
-				InformationRequestLogEntity infoRequestLog = new InformationRequestLogEntity();
+				final InformationRequestLogEntity infoRequestLog = new InformationRequestLogEntity();
 				infoRequestLog.setAssignedFrom(raisedTo);
 				infoRequestLog.setAssignedTo(raisedBy);
 				infoRequestLog.setDescription(informationRequest.getRequestedItem());
@@ -120,8 +127,8 @@ public class InformationRequestReceiveView extends VerticalPanel {
 
 							@Override
 							public void onSuccess(String result) {
-								txtAreaReply.setEnabled(false);
-
+								// txtAreaReply.setEnabled(false);
+								viewUpdatedReply(infoRequestLog);
 							}
 						});
 					}
@@ -131,7 +138,39 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		});
 	}
 
+	private void viewUpdatedReply(final InformationRequestLogEntity infoRequestLog) {
+		listOldInformationRequestLogEntity.add(infoRequestLog);
+		listUpdatedInformationRequestLogEntity = new ArrayList<InformationRequestLogEntity>(
+				listOldInformationRequestLogEntity);
+		vpnlReplyMessages.clear();
+		informationRequestLogs(listUpdatedInformationRequestLogEntity);
+		txtAreaReply.setText("");
+		txtAreaReply.getElement().setPropertyString("placeholder", "Enter your Reply here");
+	}
+
+	private void informationRequestLogs(ArrayList<InformationRequestLogEntity> arrayListIRLogEntity) {
+		for (int i = 1; i < arrayListIRLogEntity.size(); i++) {
+			Label lblReplyOldData = new Label();
+			lblReplyOld = new Label();
+			String lblMsgHeader = null;
+			if (arrayListIRLogEntity.get(i) != null && arrayListIRLogEntity.get(i).getAssignedFrom() != null
+					&& arrayListIRLogEntity.get(i).getAssignedFrom().getEmployeeName() != null) {
+				loggedInUserName = arrayListIRLogEntity.get(i).getAssignedFrom().getEmployeeName();
+				lblMsgHeader = "Message By: " + arrayListIRLogEntity.get(i).getAssignedFrom().getEmployeeName();
+			} else {
+				lblMsgHeader = "Message By: " + loggedInUserName;
+			}
+			lblReplyOld.setText(lblMsgHeader);
+			lblReplyOldData.setText(arrayListIRLogEntity.get(i).getRespond());
+			lblReplyOld.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+			vpnlReplyMessages.add(lblReplyOld);
+			vpnlReplyMessages.add(lblReplyOldData);
+		}
+		listOldInformationRequestLogEntity = new ArrayList<InformationRequestLogEntity>(arrayListIRLogEntity);
+	}
+
 	private void setLayout(InformationRequestReceiverEntity informationRequest) {
+
 		lblMesssage.setText("Message From: " + informationRequest.getRaisedBy());
 		lblMesssage.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 		lblIrData.setText(informationRequest.getId() + "");
@@ -140,6 +179,8 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		String formattedDate = DateTimeFormat.getShortDateFormat().format(informationRequest.getOverDueDays());
 		lblDateData.setText(formattedDate);
 		lblEmailData.setText(informationRequest.getRequestedItem());
+
+		informationRequestLogs(informationRequest.getInformationRequestLogList());
 		// setWidth("600px");
 		// setHeight("700px");
 		panelMain.addStyleName("w3-border");
@@ -181,13 +222,16 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		panelMail.add(lblMesssage);
 		panelMail.add(lblEmailData);
 		// panelMail.addStyleName("w3-gray");
-
+		ScrollPanel panelMessageScroll = new ScrollPanel();
+		panelMessageScroll.setHeight("200px");
+		panelMessageScroll.add(panelMail);
+		panelMail.add(vpnlReplyMessages);
 		panelReply.add(lblReply);
 		lblReply.addStyleName("labelDesign labelHeadingToDo");
 
 		panelReply.add(txtAreaReply);
 
-		panelMailRep.add(panelMail);
+		panelMailRep.add(panelMessageScroll);
 		panelMailRep.add(panelReply);
 		panelMailRep.add(btnSubmit);
 

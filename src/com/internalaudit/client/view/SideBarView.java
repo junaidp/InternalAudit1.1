@@ -23,15 +23,15 @@ public class SideBarView extends VerticalLayoutContainer {
 
 	VerticalPanel panelbar = new VerticalPanel();
 	// included
-	Image ImgMenu = new Image("Information Requestw.png");
+	Image imgIRRaiserGrid;
 	// included
-	Image ImgSecuirity = new Image("Taskw.png");
+	Image imgToDoReceiverGrid;
 
 	// included
-	Image ImgPie = new Image("IR receiverw.png");
+	Image imgIRReceiverGrid;
 	Image ImgMenu2 = new Image("menu (2).png");
 	// included
-	Image ImgHome = new Image("Icons/iconToDo.png");
+	Image imgToDoRaiserGrid;
 	// included
 	Image ImgControls = new Image("Reportsw.png");
 	/// Spaces
@@ -44,35 +44,35 @@ public class SideBarView extends VerticalLayoutContainer {
 	Image ImgCloseCircular = new Image("close-circular-button-symbol.png");
 
 	public SideBarView(final Employee loggedInUser, final HandlerManager eventBus) {
-
+		sideMenuIcons(loggedInUser);
 		panelbar.addStyleName("sidebarNew w3-cobalt  w3-bar-block ");
 		// panelbar.setWidth("64px");
 
-		ImgMenu.addStyleName("w3-bar-item w3-button w3-round w3-hover-blue");
+		imgIRRaiserGrid.addStyleName("w3-bar-item w3-button w3-round w3-hover-blue");
 		ImgCloseCircular.addStyleName("w3-bar-item w3-button w3-hover-blue");
-		ImgSecuirity.addStyleName("w3-bar-item w3-button w3-hover-blue");
+		imgToDoReceiverGrid.addStyleName("w3-bar-item w3-button w3-hover-blue");
 		ImgSpeedoMeter.addStyleName("w3-bar-item w3-button w3-hover-blue");
 		ImgTab.addStyleName("w3-bar-item w3-button w3-hover-blue");
 		ImgPlus.addStyleName("w3-bar-item w3-button w3-hover-blue");
-		ImgPie.addStyleName("w3-bar-item w3-button w3-hover-blue");
+		imgIRReceiverGrid.addStyleName("w3-bar-item w3-button w3-hover-blue");
 		ImgMenu2.addStyleName("w3-bar-item w3-button w3-hover-blue");
-		ImgHome.addStyleName("w3-bar-item w3-button w3-hover-blue");
+		imgToDoRaiserGrid.addStyleName("w3-bar-item w3-button w3-hover-blue");
 		ImgAnalysis.addStyleName("w3-bar-item w3-button w3-hover-blue");
 		ImgControls.addStyleName("w3-bar-item w3-button w3-hover-blue");
 		ImgCalendar.addStyleName("w3-bar-item w3-button w3-hover-blue");
 
-		ImgMenu.setWidth("60px");
-		ImgMenu.setHeight("45px");
-		ImgSecuirity.setWidth("60px");
-		ImgSecuirity.setHeight("45px");
-		ImgPie.setWidth("60px");
-		ImgPie.setHeight("45px");
+		imgIRRaiserGrid.setWidth("60px");
+		imgIRRaiserGrid.setHeight("45px");
+		imgToDoReceiverGrid.setWidth("60px");
+		imgToDoReceiverGrid.setHeight("45px");
+		imgIRReceiverGrid.setWidth("60px");
+		imgIRReceiverGrid.setHeight("45px");
 		// ImgPlus.setWidth("60px");
 		// ImgPlus.setHeight("50px");
 		// ImgCalendar.setWidth("60px");
 		// ImgCalendar.setHeight("50px");
-		ImgHome.setWidth("60px");
-		ImgHome.setHeight("45px");
+		imgToDoRaiserGrid.setWidth("60px");
+		imgToDoRaiserGrid.setHeight("45px");
 		// ImgAnalysis.setWidth("60px");
 		// ImgAnalysis.setHeight("50px");
 		// ImgCloseCircular.setWidth("60px");
@@ -86,15 +86,15 @@ public class SideBarView extends VerticalLayoutContainer {
 		// ImgSpeedoMeter.setWidth("60px");
 		// ImgSpeedoMeter.setHeight("50px");
 
-		ImgSecuirity.setSize("40", "40");
-		ImgPie.setSize("30", "30");
+		imgToDoReceiverGrid.setSize("40", "40");
+		imgIRReceiverGrid.setSize("30", "30");
 		ImgCalendar.setSize("25", "25");
 		panelbar.setWidth("40");
 
-		panelbar.add(ImgHome);
-		panelbar.add(ImgMenu);
-		panelbar.add(ImgSecuirity);
-		panelbar.add(ImgPie);
+		panelbar.add(imgToDoRaiserGrid);
+		panelbar.add(imgIRRaiserGrid);
+		panelbar.add(imgToDoReceiverGrid);
+		panelbar.add(imgIRReceiverGrid);
 		panelbar.add(ImgControls);
 
 		// panelbar.add(ImgCalendar);
@@ -114,8 +114,8 @@ public class SideBarView extends VerticalLayoutContainer {
 		 */
 		add(panelbar);
 
-		ImgHome.setTitle("To Do Raiser Grid");
-		ImgHome.addClickHandler(new ClickHandler() {
+		imgToDoRaiserGrid.setTitle("To Do Raiser Grid");
+		imgToDoRaiserGrid.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -124,8 +124,8 @@ public class SideBarView extends VerticalLayoutContainer {
 				p.fetchToDoReLoad();
 			}
 		});
-		ImgMenu.setTitle("Information Request Raiser Grid");
-		ImgMenu.addClickHandler(new ClickHandler() {
+		imgIRRaiserGrid.setTitle("Information Request Raiser Grid");
+		imgIRRaiserGrid.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 
@@ -136,8 +136,8 @@ public class SideBarView extends VerticalLayoutContainer {
 			}
 		});
 
-		ImgPie.setTitle("Information Request Receiver Grid");
-		ImgPie.addClickHandler(new ClickHandler() {
+		imgIRReceiverGrid.setTitle("Information Request Receiver Grid");
+		imgIRReceiverGrid.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -147,8 +147,8 @@ public class SideBarView extends VerticalLayoutContainer {
 
 			}
 		});
-		ImgSecuirity.setTitle("To Do Receiver Grid");
-		ImgSecuirity.addClickHandler(new ClickHandler() {
+		imgToDoReceiverGrid.setTitle("To Do Receiver Grid");
+		imgToDoReceiverGrid.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 
@@ -184,12 +184,69 @@ public class SideBarView extends VerticalLayoutContainer {
 
 	}
 
+	private void sideMenuIcons(Employee loggedInUser) {
+		setIconToDoRaiserGrid(loggedInUser);
+		setIconIRRaiserGrid(loggedInUser);
+		setIconToDoReceiverGrid(loggedInUser);
+		setIconIRReceiverGrid(loggedInUser);
+	}
+
+	private void setIconToDoRaiserGrid(Employee loggedInUser) {
+		boolean updateIconAlert = false;
+		for (int i = 0; i < loggedInUser.getUserRaisedToDos().size(); i++) {
+			if (loggedInUser.getUserRaisedToDos().get(i).getRead() == false)
+				updateIconAlert = true;
+		}
+		if (!updateIconAlert == true)
+			imgToDoRaiserGrid = new Image("Icons/iconToDo.png");
+		else
+			imgToDoRaiserGrid = new Image("sideMenuAlertIcons/iconToDo.png");
+	}
+
+	private void setIconIRRaiserGrid(Employee loggedInUser) {
+		boolean updateIconAlert = false;
+		for (int i = 0; i < loggedInUser.getUserRaisedInformationRequests().size(); i++) {
+			if (loggedInUser.getUserRaisedInformationRequests().get(i).getRead() == false)
+				updateIconAlert = true;
+		}
+		if (!updateIconAlert == true)
+			imgIRRaiserGrid = new Image("Information Requestw.png");
+		else
+			imgIRRaiserGrid = new Image("sideMenuAlertIcons/Information Requestw.png");
+		updateIconAlert = false;
+	}
+
+	private void setIconToDoReceiverGrid(Employee loggedInUser) {
+		boolean updateIconAlert = false;
+		for (int i = 0; i < loggedInUser.getTodos().size(); i++) {
+			if (loggedInUser.getTodos().get(i).getRead() == false)
+				updateIconAlert = true;
+		}
+		if (!updateIconAlert == true)
+			imgToDoReceiverGrid = new Image("Taskw.png");
+		else
+			imgToDoReceiverGrid = new Image("sideMenuAlertIcons/Taskw.png");
+	}
+
+	private void setIconIRReceiverGrid(Employee loggedInUser) {
+		boolean updateIconAlert = false;
+		for (int i = 0; i < loggedInUser.getInformationRequests().size(); i++) {
+			if (loggedInUser.getInformationRequests().get(i).getRead() == false)
+				updateIconAlert = true;
+		}
+		if (!updateIconAlert == true)
+			imgIRReceiverGrid = new Image("IR receiverw.png");
+		else
+			imgIRReceiverGrid = new Image("sideMenuAlertIcons/IR receiverw.png");
+		updateIconAlert = false;
+	}
+
 	public Image getImgMenu() {
-		return ImgMenu;
+		return imgIRRaiserGrid;
 	}
 
 	public void setImgMenu(Image imgMenu) {
-		ImgMenu = imgMenu;
+		imgIRRaiserGrid = imgMenu;
 	}
 
 	public Image getImgCloseCircular() {
@@ -201,11 +258,11 @@ public class SideBarView extends VerticalLayoutContainer {
 	}
 
 	public Image getImgSecuirity() {
-		return ImgSecuirity;
+		return imgToDoReceiverGrid;
 	}
 
 	public void setImgSecuirity(Image imgSecuirity) {
-		ImgSecuirity = imgSecuirity;
+		imgToDoReceiverGrid = imgSecuirity;
 	}
 
 	public Image getImgSpeedoMeter() {
@@ -233,11 +290,11 @@ public class SideBarView extends VerticalLayoutContainer {
 	}
 
 	public Image getImgPie() {
-		return ImgPie;
+		return imgIRReceiverGrid;
 	}
 
 	public void setImgPie(Image imgPie) {
-		ImgPie = imgPie;
+		imgIRReceiverGrid = imgPie;
 	}
 
 	public Image getImgMenu2() {
@@ -249,11 +306,11 @@ public class SideBarView extends VerticalLayoutContainer {
 	}
 
 	public Image getImgHome() {
-		return ImgHome;
+		return imgToDoRaiserGrid;
 	}
 
 	public void setImgHome(Image imgHome) {
-		ImgHome = imgHome;
+		imgToDoRaiserGrid = imgHome;
 	}
 
 	public Image getImgAnalysis() {
