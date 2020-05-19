@@ -294,7 +294,7 @@ public interface InternalAuditService extends RemoteService {
 
 	String saveInformationRequestLogs(InformationRequestLogEntity informationRequestLogEntity) throws Exception;
 
-	String saveinformationRequest(InformationRequestEntity informationrequest, String filepath);
+	String saveinformationRequest(InformationRequestEntity informationrequest, String filepath) throws Exception;
 
 	ArrayList<String> fetchEmailAttachments();
 

@@ -246,8 +246,8 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 		lblMesssage.setText("Message By: " + informationRequest.getRaisedBy());
 		lblMesssageData.setText(informationRequest.getInformationRequestLogList().get(0).getDescription());
 		lblMesssage.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		panelMail.add(lblMesssage);
-		panelMail.add(lblMesssageData);
+		vpnlReplyMessages.add(lblMesssage);
+		vpnlReplyMessages.add(lblMesssageData);
 		panelMail.add(vpnlReplyMessages);
 		// panelMail.add(vpnlReplyMessages);
 		informationRequestLogs(informationRequest.getInformationRequestLogList());

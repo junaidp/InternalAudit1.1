@@ -258,8 +258,8 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 		lblMesssage.setText("Message By: " + toDo.getRaisedBy());
 		lblMesssageData.setText(toDo.getTodoLogList().get(0).getDescription());
 		lblMesssage.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		panelMail.add(lblMesssage);
-		panelMail.add(lblMesssageData);
+		vpnlReplyMessages.add(lblMesssage);
+		vpnlReplyMessages.add(lblMesssageData);
 		panelMail.add(vpnlReplyMessages);
 		updateLogs(toDo.getTodoLogList());
 	}

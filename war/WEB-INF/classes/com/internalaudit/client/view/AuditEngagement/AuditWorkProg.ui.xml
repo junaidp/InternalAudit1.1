@@ -5,8 +5,13 @@
 		.heading{
 	font-size: 18px;
 }
-.txtExtendedWidths {
+.txtExtendedControlWidth {
 	width : 300px;
+	padding: 5px;
+	margin: 5px;	
+}
+.txtExtendedAuditProgramWidth {
+	width : 750px;
 	padding: 5px;
 	margin: 5px;
 	
@@ -23,11 +28,8 @@
 	margin : 5px;
 }
 	</ui:style>
-	<g:ScrollPanel height="390px" width="1197px">
 	
 	<g:HTMLPanel>
-	
-	<A:LabelHeading addStyleNames="{style.heading}"> Audit Work Program </A:LabelHeading>
 	
 	<div>
 	
@@ -43,18 +45,19 @@
 	<g:Label> Feedback: </g:Label>
 	<g:Label ui:field="feedback" styleName="blue"></g:Label>
 	</g:HorizontalPanel>
-	<g:HorizontalPanel ui:field="panelAddIcon" ></g:HorizontalPanel>
+	<g:HorizontalPanel ui:field="panelAddIcon" styleName="w3-right"></g:HorizontalPanel>
 	<!-- 
 	<g:Button ui:field="addMore" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Add Audit Work</g:Button>
 	 -->
-	<g:HorizontalPanel ui:field="heading" styleName="risksRow" width="611px" verticalAlignment="middle">
+	<g:HorizontalPanel ui:field="heading" styleName="risksRow" verticalAlignment="middle">
 	
 <!-- 		<A:LabelHeading wordWrap="false"   addStyleNames="{style.risksRow}" >Serial No.</A:LabelHeading>
 		<A:LabelHeading addStyleNames="{style.txtExtendedWidths}">Audit Program</A:LabelHeading>
 		<A:LabelHeading addStyleNames="{style.txtShrikedWidths}">Reviewer</A:LabelHeading>
 		<A:LabelHeading addStyleNames="{style.txtShrikedWidths}">Reference(Existing Controls)</A:LabelHeading> -->
-		<A:LabelHeading addStyleNames="{style.txtExtendedWidths}">Audit Program</A:LabelHeading>
-		<A:LabelHeading addStyleNames="{style.txtShrikedWidths}">Reference(Existing Controls)</A:LabelHeading>
+		<A:LabelHeading addStyleNames="{style.txtExtendedControlWidth}">Controls</A:LabelHeading>
+		<A:LabelHeading addStyleNames="{style.txtExtendedAuditProgramWidth}">Audit Program</A:LabelHeading>
+		
 		<!--  <A:LabelHeading styleName="txtShrikedWidth">Planned Status</A:LabelHeading> -->
 	
 	</g:HorizontalPanel>
@@ -105,5 +108,5 @@
 	</g:HorizontalPanel>
 
 	</g:HTMLPanel>
-		</g:ScrollPanel>
+	
 </ui:UiBinder> 

@@ -1,6 +1,8 @@
 
 package com.internalaudit.client.view.ToDo;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.dom.client.Style.Unit;
@@ -12,6 +14,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
@@ -23,7 +26,7 @@ import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.ToDo;
 import com.internalaudit.shared.ToDoLogsEntity;
 
-public class ToDoRaiserView extends VerticalPanel {
+public class ToDoeceiverView extends VerticalPanel {
 	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
 	VerticalPanel panelMain = new VerticalPanel();
 	HorizontalPanel PanelUpButton = new HorizontalPanel();
@@ -52,10 +55,16 @@ public class ToDoRaiserView extends VerticalPanel {
 	VerticalPanel panelMail = new VerticalPanel();
 	VerticalPanel panelReply = new VerticalPanel();
 	VerticalPanel vpnlReplyMessages = new VerticalPanel();
+	private ArrayList<ToDoLogsEntity> listOldToDoLogs;
+	private Label lblReplyOld;
+	private Label lblReplyOldData;
+	private String loggedInUserName;
+	private Label lblMesssageData;
+	private ArrayList<ToDoLogsEntity> listUpdatedToDoLogs;
 
 	// HorizontalPanel panelFileDetail = new HorizontalPanel();
 	// final VerticalPanel panelFileName = new VerticalPanel();
-	public ToDoRaiserView(final ToDoReceiverEntity toDo) {
+	public ToDoeceiverView(final ToDoReceiverEntity toDo) {
 
 		setHandler(toDo);
 		clickHandler(toDo);
@@ -63,6 +72,7 @@ public class ToDoRaiserView extends VerticalPanel {
 	}
 
 	private void setHandler(final ToDoReceiverEntity toDo) {
+		// viewMessages(toDo);
 		lblIrData.setText(toDo.getId() + "");
 		lblJobData.setText(toDo.getRelatedJob());
 		lblAssignedToData.setText(toDo.getRaisedBy());
@@ -107,6 +117,9 @@ public class ToDoRaiserView extends VerticalPanel {
 		panelReply.addStyleName("w3-border");
 		panelMail.addStyleName("w3-border");
 
+		updateLogs(toDo.getTodoLogList());
+		loggedInUserName = toDo.getRaisedTo();
+
 		// lblJob.setText("Job");
 		HorizontalPanel panelMailReq = new HorizontalPanel();
 		lblJob.setText("Job: ");
@@ -122,17 +135,22 @@ public class ToDoRaiserView extends VerticalPanel {
 		lblAssignedToData.addStyleName("labelHeadingToDo");
 		panelAssign.add(lblAssignedTo);
 		panelAssign.add(lblAssignedToData);
-		panelMail.add(panelMailReq);
-		panelMail.add(panelAssign);
-		panelMail.add(lblMesssage);
-		panelMail.add(lblEmailData);
+		panelMailRep.add(panelMailReq);
+		panelMailRep.add(panelAssign);
+		// panelMail.add(lblMesssage);
+		// panelMail.add(lblEmailData);
 
 		panelReply.add(lblReply);
 		lblReply.addStyleName("labelDesign labelHeadingToDo");
 
 		panelReply.add(txtAreaReply);
 
-		panelMailRep.add(panelMail);
+		ScrollPanel panelMessageScroll = new ScrollPanel();
+		panelMessageScroll.setHeight("200px");
+		panelMessageScroll.add(panelMail);
+		panelMail.addStyleName("w3-sand");
+		panelMail.add(vpnlReplyMessages);
+		panelMailRep.add(panelMessageScroll);
 		panelMailRep.add(panelReply);
 		btnSubmit.addStyleName("w3-right");
 		btnClose.addStyleName("w3-right");
@@ -172,6 +190,48 @@ public class ToDoRaiserView extends VerticalPanel {
 		add(panelMailRep);
 		add(panelFileUpload);
 		add(btnClose);
+	}
+
+	private void viewMessages(ToDoReceiverEntity toDoReceiverEntity) throws Exception {
+		lblMesssageData = new Label();
+		lblMesssage = new Label();
+		lblMesssage.setText("Message By: " + toDoReceiverEntity.getRaisedBy());
+		lblMesssageData.setText(toDoReceiverEntity.getTodoLogList().get(0).getDescription());
+		lblMesssage.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+		panelMail.add(lblMesssage);
+		panelMail.add(lblMesssageData);
+
+		updateLogs(toDoReceiverEntity.getTodoLogList());
+	}
+
+	private void updateLogs(ArrayList<ToDoLogsEntity> todoLogs) {
+		for (int i = 0; i < todoLogs.size(); i++) {
+			lblReplyOld = new Label();
+			lblReplyOldData = new Label();
+			String lblMsgHeader = null;
+			if (todoLogs.get(i) != null && todoLogs.get(i).getAssignedFrom() != null
+					&& todoLogs.get(i).getAssignedFrom().getEmployeeName() != null) {
+				loggedInUserName = todoLogs.get(i).getAssignedFrom().getEmployeeName();
+				lblMsgHeader = "Message By: " + todoLogs.get(i).getAssignedFrom().getEmployeeName();
+			} else {
+				lblMsgHeader = "Message By: " + loggedInUserName;
+			}
+			lblReplyOld.setText(lblMsgHeader);
+			lblReplyOldData.setText(todoLogs.get(i).getRespond());
+			lblReplyOld.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+			vpnlReplyMessages.add(lblReplyOld);
+			vpnlReplyMessages.add(lblReplyOldData);
+		}
+		listOldToDoLogs = new ArrayList<ToDoLogsEntity>(todoLogs);
+	}
+
+	private void viewUpdatedReply(final ToDoLogsEntity todoLogsEntity) {
+		listOldToDoLogs.add(todoLogsEntity);
+		listUpdatedToDoLogs = new ArrayList<ToDoLogsEntity>(listOldToDoLogs);
+		vpnlReplyMessages.clear();
+		updateLogs(listUpdatedToDoLogs);
+		txtAreaReply.setText("");
+		txtAreaReply.getElement().setPropertyString("placeholder", "Enter your Reply here");
 	}
 
 	private void clickHandler(final ToDoReceiverEntity toDo) {
@@ -222,11 +282,11 @@ public class ToDoRaiserView extends VerticalPanel {
 					@Override
 					public void onSuccess(String result) {
 						new DisplayAlert(result);
-						saveToDo(todoEntity);
-						txtAreaReply.setEnabled(false);
+						saveToDo(todoEntity, todoLogsEntity);
+						// txtAreaReply.setEnabled(false);
 					}
 
-					private void saveToDo(final ToDo todoEntity) {
+					private void saveToDo(final ToDo todoEntity, final ToDoLogsEntity todoLogsEntity) {
 						rpcService.savetoDo(todoEntity, new AsyncCallback<String>() {
 
 							@Override
@@ -236,9 +296,8 @@ public class ToDoRaiserView extends VerticalPanel {
 
 							@Override
 							public void onSuccess(String result) {
-
 								new DisplayAlert(result);
-
+								viewUpdatedReply(todoLogsEntity);
 							}
 						});
 					}

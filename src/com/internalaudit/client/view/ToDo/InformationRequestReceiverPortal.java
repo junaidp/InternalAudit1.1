@@ -11,8 +11,12 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.internalaudit.client.InternalAuditService;
+import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.shared.InformationRequestEntity;
 import com.sencha.gxt.cell.core.client.TextButtonCell;
@@ -36,14 +40,16 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 			.create(InformationRequestReceiverProperties.class);
 	TextButtonCell button = new TextButtonCell();
 	ListStore<InformationRequestReceiverEntity> store;
-
+	private InternalAuditServiceAsync rpcService;
 	private List<InformationRequestReceiverEntity> informationRequests = new ArrayList<InformationRequestReceiverEntity>();
+	private VerticalPanel p;
+	private PopupsView pp;
 
 	public InformationRequestReceiverPortal(ArrayList<InformationRequestEntity> arrayList) {
 		setData(arrayList);
 		// setData(exceptions);
 		add(createGridFieldWork());
-
+		rpcService = GWT.create(InternalAuditService.class);
 	}
 
 	private void setData(ArrayList<InformationRequestEntity> arrayList) {
@@ -100,7 +106,7 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 				int row = c.getIndex();
 				InformationRequestReceiverEntity informationRequest = store.get(row);
 				InformationRequestReceiveView infoReceiver = new InformationRequestReceiveView(informationRequest);
-				final PopupsView pp = new PopupsView(infoReceiver, "Information Request Receiver");
+				pp = new PopupsView(infoReceiver, "Information Request Receiver");
 				// pp.getLabelheading().setText("InformationRequest Receiver");
 				// pp.getPopup().setHeadingText("InformationRequest Receiver");
 				pp.getVpnlMain().setTitle("Todos");
@@ -140,7 +146,7 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 		grid.getView().setForceFit(true);
 		grid.getView().setStripeRows(true);
 		grid.getView().setColumnLines(true);
-		VerticalPanel p = new VerticalPanel();
+		p = new VerticalPanel();
 		grid.setHeight("220px");
 		p.add(grid);
 
@@ -159,6 +165,35 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 		// return panel;
 		// return con;
 		return p;
+	}
+
+	public void fetchInformationRequestReLoad() {
+		pp.getVpnlMain().removeFromParent();
+		pp.getPopup().removeFromParent();
+		rpcService.fetchInformationRequestReLoad(new AsyncCallback<ArrayList<InformationRequestEntity>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				Window.alert("failed to add new Information Request in Updated list");
+			}
+
+			@Override
+			public void onSuccess(ArrayList<InformationRequestEntity> result) {
+				// TODO Auto-generated method stub
+				updatedView(result);
+				// Window.alert("Successfully added new Information Request in
+				// Updated list");
+			}
+		});
+	}
+
+	private void updatedView(ArrayList<InformationRequestEntity> toDosUpdated) {
+		store.clear();
+		informationRequests.clear();
+		p.clear();
+		setData(toDosUpdated);
+		add(createGridFieldWork());
 	}
 
 }

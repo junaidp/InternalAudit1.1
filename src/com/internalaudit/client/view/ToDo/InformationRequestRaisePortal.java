@@ -50,6 +50,7 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 	private InternalAuditServiceAsync rpcService;
 	private String filepath;
 	private VerticalPanel con = new VerticalPanel();
+	private PopupsView pp;
 
 	public InformationRequestRaisePortal(ArrayList<InformationRequestEntity> arrayList) {
 		setData(arrayList);
@@ -111,7 +112,7 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 				InformationRequestRaiseEntity informationRequest = store.get(row);
 				InformationRequestRaiserFinalView infoReceiver = new InformationRequestRaiserFinalView(
 						informationRequest);
-				final PopupsView pp = new PopupsView(infoReceiver, "Information Request Receiver");
+				pp = new PopupsView(infoReceiver, "Information Request Raiser");
 				// pp.getLabelheading().setText("InformationRequest Receiver");
 				pp.getVpnlMain().setTitle("Todos");
 				pp.getVpnlMain().setWidth("600px");
@@ -124,7 +125,6 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 					public void onClick(ClickEvent event) {
 						pp.getVpnlMain().removeFromParent();
 						pp.getPopup().removeFromParent();
-
 					}
 				});
 
@@ -286,6 +286,8 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 	}
 
 	public void fetchInformationRequestReLoad() {
+		pp.getVpnlMain().removeFromParent();
+		pp.getPopup().removeFromParent();
 		rpcService.fetchInformationRequestReLoad(new AsyncCallback<ArrayList<InformationRequestEntity>>() {
 
 			@Override

@@ -6,7 +6,9 @@
 	.heading{
 	font-size: 18px;
 }
-	
+	.marginLeft{
+	margin-left: 930px;
+}
 	</ui:style>
 	
 	<g:HTMLPanel>
@@ -63,11 +65,17 @@
 	
 	</g:HorizontalPanel>
 	
-	<g:Label styleName="popupSmallHeading" width="100px" visible="false">Procedure Performance</g:Label>
+	<g:Label styleName="popupSmallHeading" width="100px" visible="false">Procedure Performance</g:Label>	
+	<g:TextArea ui:field="performance" visible="false"></g:TextArea>	
+	<g:HorizontalPanel>
 	
-	<g:TextArea ui:field="performance" visible="false"></g:TextArea>
+	<g:HorizontalPanel width="100px" >
+	<g:Label ui:field="lblObservations" styleName="labelDesign">Observations</g:Label>
+	</g:HorizontalPanel>
 	
-	<A:LabelHeading width="100px">Exceptions</A:LabelHeading>
+	<g:Button ui:field="addException" addStyleNames="{style.marginLeft}" width="110px">Add Observation</g:Button>
+	</g:HorizontalPanel>
+	
 		<g:HorizontalPanel ui:field="panelAddException"></g:HorizontalPanel>
 		<!--  
 		<g:Button ui:field="addException" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Add Exception1</g:Button>
@@ -82,9 +90,9 @@
 	
 	<g:HorizontalPanel spacing="5">
 		
-		<A:LabelHeading  >Conclusion</A:LabelHeading>
+		<g:Label styleName="labelDesign" width="100px">Conclusion</g:Label>
 		
-		<g:ListBox ui:field="conclusion" addStyleNames="w3-panel">
+		<g:ListBox ui:field="conclusion">
 			<g:item>Satisfactory</g:item>
 			<g:item>Non-Satisfactory</g:item>
 		</g:ListBox>

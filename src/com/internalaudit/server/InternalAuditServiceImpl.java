@@ -1622,7 +1622,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		Employee loggedInUser = (Employee) session.getAttribute("user");
 		int companyId = (Integer) session.getAttribute("companyId");
 		// todo.setCompanyId(companyId);
-		// toDoLogsEntity.setAssignedFrom(loggedInUser.getEmployeeId());
+		toDoLogsEntity.setAssignedFrom(loggedInUser);
 		return rdbHelper.saveToDoLogs(toDoLogsEntity);
 	}
 

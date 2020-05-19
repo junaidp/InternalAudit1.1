@@ -12,8 +12,11 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.internalaudit.client.InternalAuditService;
+import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.shared.ToDo;
 import com.sencha.gxt.cell.core.client.ButtonCell;
@@ -40,10 +43,14 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 	TextButtonCell button = new TextButtonCell();
 	ListStore<ToDoReceiverEntity> store;
 	private List<ToDoReceiverEntity> toDoRequests = new ArrayList<ToDoReceiverEntity>();
+	private InternalAuditServiceAsync rpcService;
+	private VerticalPanel p;
+	private PopupsView pp;
 
 	public ToDoReceiverPortal(ArrayList<ToDo> arrayList) {
 		setData(arrayList);
 		add(createGridFieldWork());
+		rpcService = GWT.create(InternalAuditService.class);
 	}
 
 	private void setData(ArrayList<ToDo> arrayList) {
@@ -51,8 +58,8 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 			ToDoReceiverEntity issue = new ToDoReceiverEntity();
 			// issue.setId(exceptions.get(i).getExceptionId());
 			issue.setId(arrayList.get(i).getToDoId());
-			// issue.setRequestedItem(arrayList.get(i).getDescription());//changed
-			// by Moqeet
+			// issue.setRequestedItem(arrayList.get(i).getDescription());
+			// changed by Moqeet
 			issue.setRequestedItem(arrayList.get(i).getTask());
 			issue.setRelatedJob(arrayList.get(i).getJob().getJobName());
 			issue.setRaisedBy(arrayList.get(i).getAssignedFrom().getEmployeeName());
@@ -63,6 +70,8 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 			issue.setRelatedJobId(arrayList.get(i).getJob().getJobCreationId());
 			// issue.setStatus(arrayList.get(i).getJob().getJobName());
 			issue.setRead(arrayList.get(i).getRead());
+			// added by moqeet to get chat list
+			issue.setTodoLogList(arrayList.get(i).getTodosLogList());
 			toDoRequests.add(issue);
 		}
 		// }
@@ -97,8 +106,8 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 				Context c = event.getContext();
 				int row = c.getIndex();
 				ToDoReceiverEntity toDo = store.get(row);
-				ToDoRaiserView toDoReceiverView = new ToDoRaiserView(toDo);
-				final PopupsView pp = new PopupsView(toDoReceiverView, "To Do Receiver");
+				ToDoeceiverView toDoReceiverView = new ToDoeceiverView(toDo);
+				pp = new PopupsView(toDoReceiverView, "To Do Receiver");
 				// pp.getLabelheading().setText("ToDo Receiver");
 				// pp.getPopup().setHeadingText("ToDo Receiver");
 				pp.getVpnlMain().setTitle("Todos");
@@ -156,7 +165,7 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 					return "gridUnreadRow";
 			}
 		});
-		VerticalPanel p = new VerticalPanel();
+		p = new VerticalPanel();
 		grid.setHeight("220px");
 		p.add(grid);
 
@@ -195,4 +204,30 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 		return symbolCell;
 	}
 
+	public void fetchToDoReLoad() {
+		pp.getVpnlMain().removeFromParent();
+		pp.getPopup().removeFromParent();
+		rpcService.fetchToDoReLoad(new AsyncCallback<ArrayList<ToDo>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onSuccess(ArrayList<ToDo> result) {
+				// Window.alert("success");
+				updatedView(result);
+			}
+		});
+	}
+
+	private void updatedView(ArrayList<ToDo> toDosUpdated) {
+		store.clear();
+		toDoRequests.clear();
+		p.clear();
+		setData(toDosUpdated);
+		add(createGridFieldWork());
+	}
 }

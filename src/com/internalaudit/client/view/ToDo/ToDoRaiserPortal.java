@@ -49,6 +49,7 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 	private InternalAuditServiceAsync rpcService;
 	VerticalPanel con = new VerticalPanel();
 	private PopupsView pp;
+	private PopupsView popUpToDoRaiserFinalView;
 
 	public ToDoRaiserPortal(ArrayList<ToDo> arrayListToDos) {
 		setData(arrayListToDos);
@@ -102,13 +103,14 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 		button.setText("view");
 
 		button.addSelectHandler(new SelectHandler() {
+
 			@Override
 			public void onSelect(SelectEvent event) {
 				Context c = event.getContext();
 				int row = c.getIndex();
 				ToDoRaiserEntity toDo = store.get(row);
-				ToDoRaiserFinalView toDoReceiver = new ToDoRaiserFinalView(toDo);
-				final PopupsView popUpToDoRaiserFinalView = new PopupsView(toDoReceiver, "To Do Receiver");
+				ToDoRaiserFinalView toDoRaiser = new ToDoRaiserFinalView(toDo);
+				popUpToDoRaiserFinalView = new PopupsView(toDoRaiser, "To Do Raiser");
 				// pp.getLabelheading().setText("ToDo Receiver Receiver");
 				// pp.getPopup().setHeadingText("ToDo Receiver");
 				popUpToDoRaiserFinalView.getVpnlMain().setTitle("Todos");
@@ -116,7 +118,7 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 				popUpToDoRaiserFinalView.getHpnlSPace().setWidth("600px");
 				popUpToDoRaiserFinalView.getVpnlMain().setHeight("500px");
 
-				toDoReceiver.getBtnCancel().addClickHandler(new ClickHandler() {
+				toDoRaiser.getBtnCancel().addClickHandler(new ClickHandler() {
 
 					@Override
 					public void onClick(ClickEvent event) {
@@ -254,7 +256,9 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 	}
 
 	public void fetchToDoReLoad() {
-
+		// close previous popUp, as 2 were adding
+		popUpToDoRaiserFinalView.getVpnlMain().removeFromParent();
+		popUpToDoRaiserFinalView.getPopup().removeFromParent();
 		rpcService.fetchToDoReLoad(new AsyncCallback<ArrayList<ToDo>>() {
 
 			@Override

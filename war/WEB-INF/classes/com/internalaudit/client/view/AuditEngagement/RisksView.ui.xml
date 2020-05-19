@@ -7,17 +7,16 @@
 	font-size: 18px;
 }
 	</ui:style>
-	<g:ScrollPanel height="440px" width="1193px">
+	<g:ScrollPanel height="440px" width="100%">
 	<g:HTMLPanel>
 	
-	<A:LabelHeading addStyleNames="{style.heading}"> Risks </A:LabelHeading>
 	<div>
 	
 	<g:HorizontalPanel spacing="5">
 	<g:Image url="images/tick.png" ui:field="imgApproved" visible="false" title="Approved"></g:Image>
 	
 	<g:Label ui:field="submittedBy" visible="false" styleName="blue"> </g:Label>
-	<g:Label> :: </g:Label>
+	<g:Label ui:field="seperator" visible="false"> :: </g:Label>
 	<g:Label ui:field="approvedBy" visible="false" styleName="blue"> </g:Label>
 	</g:HorizontalPanel>
 	</div>
@@ -26,7 +25,7 @@
 	<g:Label> Feedback: </g:Label>
 	<g:Label ui:field="feedback" styleName="blue"></g:Label>
 	</g:HorizontalPanel>
-	<g:HorizontalPanel ui:field="addIconPanel"></g:HorizontalPanel> 
+	<g:HorizontalPanel ui:field="addIconPanel" styleName="w3-right"></g:HorizontalPanel> 
 	<!--  
 	<g:Button ui:field="addMore" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Add More</g:Button>
 	-->

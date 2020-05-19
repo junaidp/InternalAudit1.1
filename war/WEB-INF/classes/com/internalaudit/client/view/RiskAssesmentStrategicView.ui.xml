@@ -10,11 +10,11 @@
 	
 	<g:HorizontalPanel>
 	<g:VerticalPanel ui:field="riskFactors" spacing="2"></g:VerticalPanel>
-	<g:VerticalPanel ui:field="vpnlComments"></g:VerticalPanel>
+	<!-- <g:VerticalPanel ui:field="vpnlComments"></g:VerticalPanel>  -->
 	</g:HorizontalPanel>
 	<g:HorizontalPanel>
 	<g:Label width="860px" styleName="boldText">Overall Rating</g:Label>
-	<g:ListBox ui:field="rating">
+	<g:ListBox ui:field="overallRating">
 	<g:item>N/A</g:item>
 	<g:item>High</g:item>
 	<g:item>Medium</g:item>

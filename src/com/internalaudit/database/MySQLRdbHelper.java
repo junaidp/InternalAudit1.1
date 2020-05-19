@@ -461,6 +461,9 @@ public class MySQLRdbHelper {
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				ToDo toDo = (ToDo) it.next();
+				// added by moqeet to get chat on ToDo Receiver
+				ArrayList<ToDoLogsEntity> todos = fetchtoDoLogsLogs(toDo.getToDoId());
+				toDo.setTodosLogList(todos);
 				HibernateDetachUtility.nullOutUninitializedFields(toDo,
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(toDo.getAssignedFrom(),

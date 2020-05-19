@@ -149,7 +149,7 @@ public class InformationRequestReceiveView extends VerticalPanel {
 	}
 
 	private void informationRequestLogs(ArrayList<InformationRequestLogEntity> arrayListIRLogEntity) {
-		for (int i = 1; i < arrayListIRLogEntity.size(); i++) {
+		for (int i = 0; i < arrayListIRLogEntity.size(); i++) {
 			Label lblReplyOldData = new Label();
 			lblReplyOld = new Label();
 			String lblMsgHeader = null;
@@ -179,6 +179,7 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		String formattedDate = DateTimeFormat.getShortDateFormat().format(informationRequest.getOverDueDays());
 		lblDateData.setText(formattedDate);
 		lblEmailData.setText(informationRequest.getRequestedItem());
+		loggedInUserName = informationRequest.getRaisedBy();
 
 		informationRequestLogs(informationRequest.getInformationRequestLogList());
 		// setWidth("600px");
@@ -209,7 +210,7 @@ public class InformationRequestReceiveView extends VerticalPanel {
 
 		panelMailRep.addStyleName("w3-border");
 		panelReply.addStyleName("w3-border");
-		panelMail.addStyleName("w3-border");
+		panelMail.addStyleName("w3-border w3-sand");
 
 		lblRequestetBy.setText("Requested By: ");
 		lblRequestetBy.setWidth("110px");
@@ -218,9 +219,10 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		panelMailReq.add(lblRequestetBy);
 		lblRequestedData.addStyleName("labelHeadingToDo");
 		panelMailReq.add(lblRequestedData);
-		panelMail.add(panelMailReq);
-		panelMail.add(lblMesssage);
-		panelMail.add(lblEmailData);
+
+		panelMailRep.add(lblMesssage);
+		panelMailRep.add(lblEmailData);
+		panelMailRep.add(panelMailReq);
 		// panelMail.addStyleName("w3-gray");
 		ScrollPanel panelMessageScroll = new ScrollPanel();
 		panelMessageScroll.setHeight("200px");

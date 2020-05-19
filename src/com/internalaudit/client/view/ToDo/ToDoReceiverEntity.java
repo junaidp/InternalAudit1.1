@@ -1,7 +1,10 @@
 package com.internalaudit.client.view.ToDo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+
+import com.internalaudit.shared.ToDoLogsEntity;
 
 public class ToDoReceiverEntity implements Serializable {
 
@@ -18,6 +21,7 @@ public class ToDoReceiverEntity implements Serializable {
 	private int id;
 	private int raisedToId;
 	private boolean read;
+	private ArrayList<ToDoLogsEntity> todoLogList;
 
 	public ToDoReceiverEntity() {
 
@@ -117,6 +121,14 @@ public class ToDoReceiverEntity implements Serializable {
 
 	public void setRead(boolean read) {
 		this.read = read;
+	}
+
+	public ArrayList<ToDoLogsEntity> getTodoLogList() {
+		return todoLogList;
+	}
+
+	public void setTodoLogList(ArrayList<ToDoLogsEntity> todoLogList) {
+		this.todoLogList = todoLogList;
 	}
 
 }

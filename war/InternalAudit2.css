@@ -19,6 +19,16 @@
 	border-radius: 4px;
 }
 
+.gridUnreadRow{
+	background: gray !imporant;
+}
+.gridUnreadRow>div{
+	background: gray !imporant;
+}
+.viewButtonAlert{
+	color: red;
+	background-color: #CAE1FF;
+}
 .statusRowConsolidation {
 	background-color: #F0F8FF;
 	min-width: 1000px !important;
@@ -539,7 +549,7 @@ cursor: pointer;
 x: 82px;
 y: 43px;
 width: 44px;
-height: 704px;
+height:704px;
 background: #104b67;
 border: 0px solid #ffffff;
 border-radius: 0px;
@@ -740,4 +750,8 @@ select::-ms-expand {
 .listTextBold{
 	font-weight: bold;
 	margin-left: 5px;
+}
+.wordWrap{
+ width:200px;
+ white-space:pre-wrap;
 }

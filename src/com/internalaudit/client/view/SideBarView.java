@@ -144,7 +144,7 @@ public class SideBarView extends VerticalLayoutContainer {
 				InformationRequestReceiverPortal p = new InformationRequestReceiverPortal(
 						loggedInUser.getInformationRequests());
 				new PopupsView(p, "Information Request Receiver", "650px", "530px");
-
+				p.fetchInformationRequestReLoad();
 			}
 		});
 		imgToDoReceiverGrid.setTitle("To Do Receiver Grid");
@@ -154,6 +154,7 @@ public class SideBarView extends VerticalLayoutContainer {
 
 				ToDoReceiverPortal p = new ToDoReceiverPortal(loggedInUser.getTodos());
 				new PopupsView(p, "To Do Receiver", "650px", "530px");
+				p.fetchToDoReLoad();
 			}
 
 		});
