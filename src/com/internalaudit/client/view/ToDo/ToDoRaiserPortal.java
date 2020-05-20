@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
-import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.client.view.ToDoView;
 import com.internalaudit.shared.Employee;
@@ -63,8 +62,8 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 			ToDoRaiserEntity issue = new ToDoRaiserEntity();
 
 			issue.setId(arrayList.get(i).getToDoId());
-			issue.setRequestedItem(arrayList.get(i).getTask());
-			// issue.setRequestedItem(arrayList.get(i).getDescription());
+			issue.setTaskName(arrayList.get(i).getTask());
+			issue.setTaskDescription(arrayList.get(i).getDescription());
 			// task added and description commented by moqeet
 			issue.setRelatedJob(arrayList.get(i).getJob().getJobName());
 			issue.setRaisedTo(arrayList.get(i).getAssignedTo().getEmployeeName());
@@ -86,7 +85,7 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 		ColumnConfig<ToDoRaiserEntity, Integer> informationId = new ColumnConfig<ToDoRaiserEntity, Integer>(
 				properties.id(), 70, "SR#");
 		ColumnConfig<ToDoRaiserEntity, String> requestedItem = new ColumnConfig<ToDoRaiserEntity, String>(
-				properties.requestedItem(), 180, "Task");
+				properties.taskName(), 180, "Task");
 		ColumnConfig<ToDoRaiserEntity, String> informationRaisedBy = new ColumnConfig<ToDoRaiserEntity, String>(
 				properties.raisedTo(), 140, "Asigned To");
 		ColumnConfig<ToDoRaiserEntity, String> relatedJob = new ColumnConfig<ToDoRaiserEntity, String>(
@@ -198,7 +197,8 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 
 					@Override
 					public void onClick(ClickEvent event) {
-
+						Window.alert("Inside Send");
+						todoview.getBtnSave().setEnabled(false);
 						saveToDo(todoview);
 					}
 
@@ -233,7 +233,7 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 
 					@Override
 					public void onSuccess(String result) {
-						new DisplayAlert(result);
+						// new DisplayAlert(result);
 						fetchToDoReLoad();
 						pp.getVpnlMain().removeFromParent();
 						pp.getPopup().removeFromParent();
@@ -264,7 +264,7 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-
+				Window.alert("fetchToDoReload in ToDoRaiserPortal");
 			}
 
 			@Override

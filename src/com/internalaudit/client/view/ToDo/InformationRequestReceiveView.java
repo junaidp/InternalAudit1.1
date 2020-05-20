@@ -51,6 +51,7 @@ public class InformationRequestReceiveView extends VerticalPanel {
 	VerticalPanel panelMailRep = new VerticalPanel();
 	VerticalPanel panelMail = new VerticalPanel();
 	VerticalPanel vpnlReplyMessages = new VerticalPanel();
+	VerticalPanel vpnlDescriptionMessage = new VerticalPanel();
 	VerticalPanel panelReply = new VerticalPanel();
 	HorizontalPanel panelFileDetail = new HorizontalPanel();
 	private InformationRequestReceiverEntity informationRequest = null;
@@ -163,8 +164,8 @@ public class InformationRequestReceiveView extends VerticalPanel {
 			lblReplyOld.setText(lblMsgHeader);
 			lblReplyOldData.setText(arrayListIRLogEntity.get(i).getRespond());
 			lblReplyOld.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-			vpnlReplyMessages.add(lblReplyOld);
-			vpnlReplyMessages.add(lblReplyOldData);
+			vpnlDescriptionMessage.add(lblReplyOld);
+			vpnlDescriptionMessage.add(lblReplyOldData);
 		}
 		listOldInformationRequestLogEntity = new ArrayList<InformationRequestLogEntity>(arrayListIRLogEntity);
 	}
@@ -227,6 +228,7 @@ public class InformationRequestReceiveView extends VerticalPanel {
 		ScrollPanel panelMessageScroll = new ScrollPanel();
 		panelMessageScroll.setHeight("200px");
 		panelMessageScroll.add(panelMail);
+		panelMail.add(vpnlDescriptionMessage);
 		panelMail.add(vpnlReplyMessages);
 		panelReply.add(lblReply);
 		lblReply.addStyleName("labelDesign labelHeadingToDo");

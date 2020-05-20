@@ -55,6 +55,7 @@ public class ToDoeceiverView extends VerticalPanel {
 	VerticalPanel panelMail = new VerticalPanel();
 	VerticalPanel panelReply = new VerticalPanel();
 	VerticalPanel vpnlReplyMessages = new VerticalPanel();
+	VerticalPanel vpnlDescriptionMessage = new VerticalPanel();
 	private ArrayList<ToDoLogsEntity> listOldToDoLogs;
 	private Label lblReplyOld;
 	private Label lblReplyOldData;
@@ -72,7 +73,7 @@ public class ToDoeceiverView extends VerticalPanel {
 	}
 
 	private void setHandler(final ToDoReceiverEntity toDo) {
-		// viewMessages(toDo);
+		viewMessages(toDo);
 		lblIrData.setText(toDo.getId() + "");
 		lblJobData.setText(toDo.getRelatedJob());
 		lblAssignedToData.setText(toDo.getRaisedBy());
@@ -89,7 +90,7 @@ public class ToDoeceiverView extends VerticalPanel {
 		String formattedDate = DateTimeFormat.getShortDateFormat().format(toDo.getOverDueDays());
 		lblDateData.setText(formattedDate);
 
-		lblEmailData.setText(toDo.getRequestedItem());
+		lblEmailData.setText(toDo.getTaskDescription());
 		// setWidth("600px");
 		// setHeight("500px");
 		panelMain.addStyleName("w3-border");
@@ -117,7 +118,6 @@ public class ToDoeceiverView extends VerticalPanel {
 		panelReply.addStyleName("w3-border");
 		panelMail.addStyleName("w3-border");
 
-		updateLogs(toDo.getTodoLogList());
 		loggedInUserName = toDo.getRaisedTo();
 
 		// lblJob.setText("Job");
@@ -149,6 +149,7 @@ public class ToDoeceiverView extends VerticalPanel {
 		panelMessageScroll.setHeight("200px");
 		panelMessageScroll.add(panelMail);
 		panelMail.addStyleName("w3-sand");
+		panelMail.add(vpnlDescriptionMessage);
 		panelMail.add(vpnlReplyMessages);
 		panelMailRep.add(panelMessageScroll);
 		panelMailRep.add(panelReply);
@@ -192,14 +193,14 @@ public class ToDoeceiverView extends VerticalPanel {
 		add(btnClose);
 	}
 
-	private void viewMessages(ToDoReceiverEntity toDoReceiverEntity) throws Exception {
+	private void viewMessages(ToDoReceiverEntity toDoReceiverEntity) {
 		lblMesssageData = new Label();
 		lblMesssage = new Label();
 		lblMesssage.setText("Message By: " + toDoReceiverEntity.getRaisedBy());
 		lblMesssageData.setText(toDoReceiverEntity.getTodoLogList().get(0).getDescription());
 		lblMesssage.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		panelMail.add(lblMesssage);
-		panelMail.add(lblMesssageData);
+		vpnlDescriptionMessage.add(lblMesssage);
+		vpnlDescriptionMessage.add(lblMesssageData);
 
 		updateLogs(toDoReceiverEntity.getTodoLogList());
 	}
@@ -241,7 +242,7 @@ public class ToDoeceiverView extends VerticalPanel {
 			public void onClick(ClickEvent event) {
 				final ToDo todoEntity = new ToDo();
 				todoEntity.setToDoId(toDo.getId());
-				todoEntity.setTask(toDo.getRequestedItem());
+				todoEntity.setTask(toDo.getTaskDescription());
 				// todoEntity.setDescription(toDo.getRequestedItem());
 				// Updating Task String as well, by moqeet
 				// todoEntity.setRespond(txtAreaReply.getText());
@@ -259,7 +260,7 @@ public class ToDoeceiverView extends VerticalPanel {
 
 				final ToDoLogsEntity todoLogsEntity = new ToDoLogsEntity();
 
-				todoLogsEntity.setDescription(toDo.getRequestedItem());
+				todoLogsEntity.setDescription(toDo.getTaskDescription());
 				todoLogsEntity.setRespond(txtAreaReply.getText());
 				todoLogsEntity.setToDoId(toDo.getId());
 				todoLogsEntity.setAssignedFrom(assignedTo);

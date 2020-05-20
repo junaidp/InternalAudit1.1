@@ -42,6 +42,10 @@ public class SideBarView extends VerticalLayoutContainer {
 	Image ImgTab = new Image("tab.png");
 	Image ImgPlus = new Image("plus.png");
 	Image ImgCloseCircular = new Image("close-circular-button-symbol.png");
+	private ToDoRaiserPortal toDoRaiserPortal;
+	private InformationRequestRaisePortal informationRequestRaisePortal;
+	private ToDoReceiverPortal toDoReceiverPortal;
+	private InformationRequestReceiverPortal informationRequestReceiverPortal;
 
 	public SideBarView(final Employee loggedInUser, final HandlerManager eventBus) {
 		sideMenuIcons(loggedInUser);
@@ -119,9 +123,10 @@ public class SideBarView extends VerticalLayoutContainer {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ToDoRaiserPortal p = new ToDoRaiserPortal(loggedInUser.getUserRaisedToDos());
-				new PopupsView(p, "To Do Raiser Grid", "900px", "530px");
-				p.fetchToDoReLoad();
+				toDoRaiserPortal = new ToDoRaiserPortal(loggedInUser.getUserRaisedToDos());
+				new PopupsView(toDoRaiserPortal, "To Do Raiser Grid", "900px", "530px");
+				toDoRaiserPortal.fetchToDoReLoad();
+				toDoReceiverPortal.fetchToDoReLoad();
 			}
 		});
 		imgIRRaiserGrid.setTitle("Information Request Raiser Grid");
@@ -129,22 +134,11 @@ public class SideBarView extends VerticalLayoutContainer {
 			@Override
 			public void onClick(ClickEvent event) {
 
-				InformationRequestRaisePortal p = new InformationRequestRaisePortal(
+				informationRequestRaisePortal = new InformationRequestRaisePortal(
 						loggedInUser.getUserRaisedInformationRequests());
-				new PopupsView(p, "Information Request Raiser", "900px", "530px");
-				p.fetchInformationRequestReLoad();
-			}
-		});
-
-		imgIRReceiverGrid.setTitle("Information Request Receiver Grid");
-		imgIRReceiverGrid.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				InformationRequestReceiverPortal p = new InformationRequestReceiverPortal(
-						loggedInUser.getInformationRequests());
-				new PopupsView(p, "Information Request Receiver", "650px", "530px");
-				p.fetchInformationRequestReLoad();
+				new PopupsView(informationRequestRaisePortal, "Information Request Raiser", "900px", "530px");
+				informationRequestRaisePortal.fetchInformationRequestReLoad();
+				informationRequestReceiverPortal.fetchInformationRequestReLoad();
 			}
 		});
 		imgToDoReceiverGrid.setTitle("To Do Receiver Grid");
@@ -152,11 +146,24 @@ public class SideBarView extends VerticalLayoutContainer {
 			@Override
 			public void onClick(ClickEvent event) {
 
-				ToDoReceiverPortal p = new ToDoReceiverPortal(loggedInUser.getTodos());
-				new PopupsView(p, "To Do Receiver", "650px", "530px");
-				p.fetchToDoReLoad();
+				toDoReceiverPortal = new ToDoReceiverPortal(loggedInUser.getTodos());
+				new PopupsView(toDoReceiverPortal, "To Do Receiver", "650px", "530px");
+				toDoReceiverPortal.fetchToDoReLoad();
+				toDoRaiserPortal.fetchToDoReLoad();
 			}
 
+		});
+		imgIRReceiverGrid.setTitle("Information Request Receiver Grid");
+		imgIRReceiverGrid.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				informationRequestReceiverPortal = new InformationRequestReceiverPortal(
+						loggedInUser.getInformationRequests());
+				new PopupsView(informationRequestReceiverPortal, "Information Request Receiver", "650px", "530px");
+				informationRequestReceiverPortal.fetchInformationRequestReLoad();
+				informationRequestRaisePortal.fetchInformationRequestReLoad();
+			}
 		});
 		ImgControls.setTitle("ReportView");
 		ImgControls.addClickHandler(new ClickHandler() {

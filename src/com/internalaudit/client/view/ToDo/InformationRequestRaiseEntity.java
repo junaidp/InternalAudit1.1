@@ -9,7 +9,8 @@ import com.internalaudit.shared.InformationRequestLogEntity;
 public class InformationRequestRaiseEntity implements Serializable {
 
 	// field work data
-	private String requestedItem;
+	private String taskName;
+	private String taskDescription;
 	private String raisedTo;
 	private String raisedBy;
 	private String relatedJob;
@@ -39,12 +40,12 @@ public class InformationRequestRaiseEntity implements Serializable {
 		this.raisedTo = raisedTo;
 	}
 
-	public String getRequestedItem() {
-		return requestedItem;
+	public String getTaskDescription() {
+		return taskDescription;
 	}
 
-	public void setRequestedItem(String requestedItem) {
-		this.requestedItem = requestedItem;
+	public void setTaskDescription(String requestedItem) {
+		this.taskDescription = requestedItem;
 	}
 
 	public String getRelatedJob() {
@@ -165,6 +166,14 @@ public class InformationRequestRaiseEntity implements Serializable {
 
 	public void setRaisedBy(String raisedBy) {
 		this.raisedBy = raisedBy;
+	}
+
+	public String getTaskName() {
+		return taskName;
+	}
+
+	public void setTaskName(String taskName) {
+		this.taskName = taskName;
 	}
 
 }

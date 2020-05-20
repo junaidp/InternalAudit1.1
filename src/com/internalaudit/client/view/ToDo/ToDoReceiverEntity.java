@@ -9,7 +9,8 @@ import com.internalaudit.shared.ToDoLogsEntity;
 public class ToDoReceiverEntity implements Serializable {
 
 	// field work data
-	private String requestedItem;
+	private String taskName;
+	private String taskDescription;
 	private String raisedBy;
 	private String raisedTo;
 	private int raisedById;
@@ -35,12 +36,12 @@ public class ToDoReceiverEntity implements Serializable {
 		this.id = id;
 	}
 
-	public String getRequestedItem() {
-		return requestedItem;
+	public String getTaskDescription() {
+		return taskDescription;
 	}
 
-	public void setRequestedItem(String requestedItem) {
-		this.requestedItem = requestedItem;
+	public void setTaskDescription(String requestedItem) {
+		this.taskDescription = taskDescription;
 	}
 
 	public String getRelatedJob() {
@@ -129,6 +130,14 @@ public class ToDoReceiverEntity implements Serializable {
 
 	public void setTodoLogList(ArrayList<ToDoLogsEntity> todoLogList) {
 		this.todoLogList = todoLogList;
+	}
+
+	public String getTaskName() {
+		return taskName;
+	}
+
+	public void setTaskName(String taskName) {
+		this.taskName = taskName;
 	}
 
 }

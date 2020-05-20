@@ -12,6 +12,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -58,9 +59,9 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 			ToDoReceiverEntity issue = new ToDoReceiverEntity();
 			// issue.setId(exceptions.get(i).getExceptionId());
 			issue.setId(arrayList.get(i).getToDoId());
-			// issue.setRequestedItem(arrayList.get(i).getDescription());
+			issue.setTaskName(arrayList.get(i).getTask());
+			issue.setTaskDescription(arrayList.get(i).getDescription());
 			// changed by Moqeet
-			issue.setRequestedItem(arrayList.get(i).getTask());
 			issue.setRelatedJob(arrayList.get(i).getJob().getJobName());
 			issue.setRaisedBy(arrayList.get(i).getAssignedFrom().getEmployeeName());
 			issue.setOverDueDays(arrayList.get(i).getDueDate());
@@ -82,7 +83,7 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 		ColumnConfig<ToDoReceiverEntity, Integer> informationId = new ColumnConfig<ToDoReceiverEntity, Integer>(
 				properties.id(), 70, "Sr#");
 		ColumnConfig<ToDoReceiverEntity, String> requestedItem = new ColumnConfig<ToDoReceiverEntity, String>(
-				properties.requestedItem(), 170, "Task");
+				properties.taskName(), 170, "Task");
 		// requestedItem.setColumnStyle(SafeStylesUtils.fromTrustedString("background-color:
 		// blue; color: yellow;"));
 		ColumnConfig<ToDoReceiverEntity, String> informationRaisedBy = new ColumnConfig<ToDoReceiverEntity, String>(
@@ -211,8 +212,7 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-
+				Window.alert("failed fetchToDoReLoad in ToDoReceiverPortal");
 			}
 
 			@Override

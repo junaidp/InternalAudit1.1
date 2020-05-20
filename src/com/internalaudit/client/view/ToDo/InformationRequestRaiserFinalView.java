@@ -56,6 +56,7 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 	VerticalPanel panelMailRep = new VerticalPanel();
 	VerticalPanel panelMail = new VerticalPanel();
 	VerticalPanel vpnlReplyMessages = new VerticalPanel();
+	VerticalPanel vpnlDescriptionMessage = new VerticalPanel();
 	VerticalPanel panelReply = new VerticalPanel();
 	HorizontalPanel panelFileDetail = new HorizontalPanel();
 	ScrollPanel panelMessage = new ScrollPanel();
@@ -101,7 +102,7 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 				infoRequestLog.setInformationRequestId(informationRequest.getId());
 				infoRequestLog.setAssignedFrom(raisedBy);
 				infoRequestLog.setAssignedTo(raisedTo);
-				infoRequestLog.setDescription(informationRequest.getRequestedItem());
+				infoRequestLog.setDescription(informationRequest.getTaskDescription());
 				infoRequestLog.setRespond(txtAreaReply.getText());
 				infoRequestLog.setDate(informationRequest.getOverDueDays());
 				//
@@ -194,6 +195,8 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 		ScrollPanel panelMessageScroll = new ScrollPanel();
 		panelMessageScroll.setHeight("200px");
 		panelMessageScroll.add(panelMail);
+		panelMail.add(vpnlDescriptionMessage);
+		panelMail.add(vpnlReplyMessages);
 		panelReply.add(lblReply);
 		lblReply.addStyleName("labelDesign labelHeadingToDo");
 		panelReply.add(txtAreaReply);
@@ -246,15 +249,14 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 		lblMesssage.setText("Message By: " + informationRequest.getRaisedBy());
 		lblMesssageData.setText(informationRequest.getInformationRequestLogList().get(0).getDescription());
 		lblMesssage.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		vpnlReplyMessages.add(lblMesssage);
-		vpnlReplyMessages.add(lblMesssageData);
-		panelMail.add(vpnlReplyMessages);
+		vpnlDescriptionMessage.add(lblMesssage);
+		vpnlDescriptionMessage.add(lblMesssageData);
 		// panelMail.add(vpnlReplyMessages);
 		informationRequestLogs(informationRequest.getInformationRequestLogList());
 	}
 
 	private void informationRequestLogs(ArrayList<InformationRequestLogEntity> informationRequestLogList) {
-		for (int i = 1; i < informationRequestLogList.size(); i++) {
+		for (int i = 0; i < informationRequestLogList.size(); i++) {
 			Label lblReplyOldData = new Label();
 			lblReplyOld = new Label();
 			String lblMsgHeader = null;

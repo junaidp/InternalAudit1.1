@@ -11,7 +11,7 @@ public interface ToDoReceiverProperties extends PropertyAccess<ToDoReceiverEntit
 	@Path("id")
 	ModelKeyProvider<ToDoReceiverEntity> key();
 
-	ValueProvider<ToDoReceiverEntity, String> requestedItem();
+	ValueProvider<ToDoReceiverEntity, String> taskName();
 
 	ValueProvider<ToDoReceiverEntity, String> raisedBy();
 

@@ -57,6 +57,7 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 	VerticalPanel panelMailRep = new VerticalPanel();
 	VerticalPanel panelMail = new VerticalPanel();
 	VerticalPanel vpnlReplyMessages = new VerticalPanel();
+	VerticalPanel vpnlDescriptionMessage = new VerticalPanel();
 	VerticalPanel panelReply = new VerticalPanel();
 	HorizontalPanel panelFileDetail = new HorizontalPanel();
 	private List<ToDoRaiserEntity> toDos = new ArrayList<ToDoRaiserEntity>();
@@ -92,7 +93,7 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 
 				final ToDoLogsEntity todoLogsEntity = new ToDoLogsEntity();
 
-				todoLogsEntity.setDescription(toDo.getRequestedItem());
+				todoLogsEntity.setDescription(toDo.getTaskDescription());
 				todoLogsEntity.setRespond(txtAreaReply.getText());
 				todoLogsEntity.setToDoId(toDo.getId());
 				todoLogsEntity.setAssignedFrom(assignedFrom);
@@ -204,6 +205,8 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 		ScrollPanel panelMessageScroll = new ScrollPanel();
 		panelMessageScroll.setHeight("200px");
 		panelMessageScroll.add(panelMail);
+		panelMail.add(vpnlDescriptionMessage);
+		panelMail.add(vpnlReplyMessages);
 		lblReply.addStyleName("labelDesign labelHeadingToDo");
 		panelReply.add(lblReply);
 		panelReply.add(txtAreaReply);
@@ -258,14 +261,13 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 		lblMesssage.setText("Message By: " + toDo.getRaisedBy());
 		lblMesssageData.setText(toDo.getTodoLogList().get(0).getDescription());
 		lblMesssage.getElement().getStyle().setFontWeight(FontWeight.BOLD);
-		vpnlReplyMessages.add(lblMesssage);
-		vpnlReplyMessages.add(lblMesssageData);
-		panelMail.add(vpnlReplyMessages);
+		vpnlDescriptionMessage.add(lblMesssage);
+		vpnlDescriptionMessage.add(lblMesssageData);
 		updateLogs(toDo.getTodoLogList());
 	}
 
 	private void updateLogs(ArrayList<ToDoLogsEntity> todoLogs) {
-		for (int i = 1; i < todoLogs.size(); i++) {
+		for (int i = 0; i < todoLogs.size(); i++) {
 			lblReplyOld = new Label();
 			lblReplyOldData = new Label();
 			String lblMsgHeader = null;
