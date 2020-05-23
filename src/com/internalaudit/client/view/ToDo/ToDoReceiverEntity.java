@@ -40,7 +40,7 @@ public class ToDoReceiverEntity implements Serializable {
 		return taskDescription;
 	}
 
-	public void setTaskDescription(String requestedItem) {
+	public void setTaskDescription(String taskDescription) {
 		this.taskDescription = taskDescription;
 	}
 

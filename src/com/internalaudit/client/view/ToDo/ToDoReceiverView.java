@@ -26,7 +26,7 @@ import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.ToDo;
 import com.internalaudit.shared.ToDoLogsEntity;
 
-public class ToDoeceiverView extends VerticalPanel {
+public class ToDoReceiverView extends VerticalPanel {
 	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
 	VerticalPanel panelMain = new VerticalPanel();
 	HorizontalPanel PanelUpButton = new HorizontalPanel();
@@ -65,7 +65,7 @@ public class ToDoeceiverView extends VerticalPanel {
 
 	// HorizontalPanel panelFileDetail = new HorizontalPanel();
 	// final VerticalPanel panelFileName = new VerticalPanel();
-	public ToDoeceiverView(final ToDoReceiverEntity toDo) {
+	public ToDoReceiverView(final ToDoReceiverEntity toDo) {
 
 		setHandler(toDo);
 		clickHandler(toDo);
@@ -197,11 +197,11 @@ public class ToDoeceiverView extends VerticalPanel {
 		lblMesssageData = new Label();
 		lblMesssage = new Label();
 		lblMesssage.setText("Message By: " + toDoReceiverEntity.getRaisedBy());
-		lblMesssageData.setText(toDoReceiverEntity.getTodoLogList().get(0).getDescription());
+		lblMesssageData.setText(toDoReceiverEntity.getTaskDescription());
+		// lblMesssageData.setText(toDoReceiverEntity.getTodoLogList().get(0).getDescription());
 		lblMesssage.getElement().getStyle().setFontWeight(FontWeight.BOLD);
 		vpnlDescriptionMessage.add(lblMesssage);
 		vpnlDescriptionMessage.add(lblMesssageData);
-
 		updateLogs(toDoReceiverEntity.getTodoLogList());
 	}
 
@@ -242,7 +242,7 @@ public class ToDoeceiverView extends VerticalPanel {
 			public void onClick(ClickEvent event) {
 				final ToDo todoEntity = new ToDo();
 				todoEntity.setToDoId(toDo.getId());
-				todoEntity.setTask(toDo.getTaskDescription());
+				todoEntity.setDescription(toDo.getTaskDescription());
 				// todoEntity.setDescription(toDo.getRequestedItem());
 				// Updating Task String as well, by moqeet
 				// todoEntity.setRespond(txtAreaReply.getText());

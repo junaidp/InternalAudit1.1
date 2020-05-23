@@ -22,7 +22,6 @@ import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.shared.ToDo;
 import com.sencha.gxt.cell.core.client.ButtonCell;
 import com.sencha.gxt.cell.core.client.TextButtonCell;
-import com.sencha.gxt.core.client.ValueProvider;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
@@ -31,7 +30,6 @@ import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
-import com.sencha.gxt.widget.core.client.grid.GridViewConfig;
 
 public class ToDoReceiverPortal extends VerticalLayoutContainer {
 
@@ -47,6 +45,7 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 	private InternalAuditServiceAsync rpcService;
 	private VerticalPanel p;
 	private PopupsView pp;
+	// private boolean isPopUpSet = false;
 
 	public ToDoReceiverPortal(ArrayList<ToDo> arrayList) {
 		setData(arrayList);
@@ -107,8 +106,10 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 				Context c = event.getContext();
 				int row = c.getIndex();
 				ToDoReceiverEntity toDo = store.get(row);
-				ToDoeceiverView toDoReceiverView = new ToDoeceiverView(toDo);
+				ToDoReceiverView toDoReceiverView = new ToDoReceiverView(toDo);
 				pp = new PopupsView(toDoReceiverView, "To Do Receiver");
+				// isPopUpSet = true;
+				// added to Records when added in Raiser otherwise null on pp
 				// pp.getLabelheading().setText("ToDo Receiver");
 				// pp.getPopup().setHeadingText("ToDo Receiver");
 				pp.getVpnlMain().setTitle("Todos");
@@ -148,24 +149,27 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 		grid.getView().setForceFit(true);
 		grid.getView().setStripeRows(true);
 		grid.getView().setColumnLines(true);
-		grid.getView().setViewConfig(new GridViewConfig<ToDoReceiverEntity>() {
-
-			@Override
-			public String getColStyle(ToDoReceiverEntity model, ValueProvider valueProvider, int rowIndex,
-					int colIndex) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public String getRowStyle(ToDoReceiverEntity toDoReceiverEntity, int rowIndex) {
-				// PUT IF Here and return any style name from .css file
-				if (toDoReceiverEntity.isRead())
-					return "";
-				else
-					return "gridUnreadRow";
-			}
-		});
+		// grid.getView().setViewConfig(new GridViewConfig<ToDoReceiverEntity>()
+		// {
+		//
+		// @Override
+		// public String getColStyle(ToDoReceiverEntity model, ValueProvider
+		// valueProvider, int rowIndex,
+		// int colIndex) {
+		// // TODO Auto-generated method stub
+		// return null;
+		// }
+		//
+		// @Override
+		// public String getRowStyle(ToDoReceiverEntity toDoReceiverEntity, int
+		// rowIndex) {
+		// // PUT IF Here and return any style name from .css file
+		// if (toDoReceiverEntity.isRead())
+		// return "";
+		// else
+		// return "gridUnreadRow";
+		// }
+		// });
 		p = new VerticalPanel();
 		grid.setHeight("220px");
 		p.add(grid);
@@ -205,9 +209,15 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 		return symbolCell;
 	}
 
-	public void fetchToDoReLoad() {
-		pp.getVpnlMain().removeFromParent();
-		pp.getPopup().removeFromParent();
+	public void sideMenufetchToDoReLoad(boolean receiverToDoView) {
+		if (!receiverToDoView == true) {
+			pp.getVpnlMain().removeFromParent();
+			pp.getPopup().removeFromParent();
+		}
+		fetchToDoReLoad();
+	}
+
+	private void fetchToDoReLoad() {
 		rpcService.fetchToDoReLoad(new AsyncCallback<ArrayList<ToDo>>() {
 
 			@Override

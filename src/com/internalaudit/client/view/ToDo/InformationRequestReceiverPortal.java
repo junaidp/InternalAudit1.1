@@ -44,6 +44,7 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 	private List<InformationRequestReceiverEntity> informationRequests = new ArrayList<InformationRequestReceiverEntity>();
 	private VerticalPanel p;
 	private PopupsView pp;
+	private boolean isPopUpSet = false;
 
 	public InformationRequestReceiverPortal(ArrayList<InformationRequestEntity> arrayList) {
 		setData(arrayList);
@@ -107,6 +108,8 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 				InformationRequestReceiverEntity informationRequest = store.get(row);
 				InformationRequestReceiveView infoReceiver = new InformationRequestReceiveView(informationRequest);
 				pp = new PopupsView(infoReceiver, "Information Request Receiver");
+				isPopUpSet = true;
+				// added to Records when added in Raiser otherwise null on pp
 				// pp.getLabelheading().setText("InformationRequest Receiver");
 				// pp.getPopup().setHeadingText("InformationRequest Receiver");
 				pp.getVpnlMain().setTitle("Todos");
@@ -168,8 +171,10 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 	}
 
 	public void fetchInformationRequestReLoad() {
-		pp.getVpnlMain().removeFromParent();
-		pp.getPopup().removeFromParent();
+		if (isPopUpSet == true) {
+			pp.getVpnlMain().removeFromParent();
+			pp.getPopup().removeFromParent();
+		}
 		rpcService.fetchInformationRequestReLoad(new AsyncCallback<ArrayList<InformationRequestEntity>>() {
 
 			@Override

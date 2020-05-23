@@ -102,7 +102,7 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 				infoRequestLog.setInformationRequestId(informationRequest.getId());
 				infoRequestLog.setAssignedFrom(raisedBy);
 				infoRequestLog.setAssignedTo(raisedTo);
-				infoRequestLog.setDescription(informationRequest.getTaskDescription());
+				infoRequestLog.setDescription(informationRequest.getRequestedItem());
 				infoRequestLog.setRespond(txtAreaReply.getText());
 				infoRequestLog.setDate(informationRequest.getOverDueDays());
 				//

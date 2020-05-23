@@ -46,6 +46,8 @@ public class SideBarView extends VerticalLayoutContainer {
 	private InformationRequestRaisePortal informationRequestRaisePortal;
 	private ToDoReceiverPortal toDoReceiverPortal;
 	private InformationRequestReceiverPortal informationRequestReceiverPortal;
+	private boolean receiverToDoView = true;
+	private boolean raiserToDoView = true;
 
 	public SideBarView(final Employee loggedInUser, final HandlerManager eventBus) {
 		sideMenuIcons(loggedInUser);
@@ -123,10 +125,11 @@ public class SideBarView extends VerticalLayoutContainer {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				// raiserToDoView = true;
 				toDoRaiserPortal = new ToDoRaiserPortal(loggedInUser.getUserRaisedToDos());
 				new PopupsView(toDoRaiserPortal, "To Do Raiser Grid", "900px", "530px");
-				toDoRaiserPortal.fetchToDoReLoad();
-				toDoReceiverPortal.fetchToDoReLoad();
+				toDoRaiserPortal.sideMenuToDoReLoad(raiserToDoView);
+				receiverToDoView = false;
 			}
 		});
 		imgIRRaiserGrid.setTitle("Information Request Raiser Grid");
@@ -138,18 +141,17 @@ public class SideBarView extends VerticalLayoutContainer {
 						loggedInUser.getUserRaisedInformationRequests());
 				new PopupsView(informationRequestRaisePortal, "Information Request Raiser", "900px", "530px");
 				informationRequestRaisePortal.fetchInformationRequestReLoad();
-				informationRequestReceiverPortal.fetchInformationRequestReLoad();
 			}
 		});
 		imgToDoReceiverGrid.setTitle("To Do Receiver Grid");
 		imgToDoReceiverGrid.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-
+				// receiverToDoView = true;
 				toDoReceiverPortal = new ToDoReceiverPortal(loggedInUser.getTodos());
 				new PopupsView(toDoReceiverPortal, "To Do Receiver", "650px", "530px");
-				toDoReceiverPortal.fetchToDoReLoad();
-				toDoRaiserPortal.fetchToDoReLoad();
+				toDoReceiverPortal.sideMenufetchToDoReLoad(receiverToDoView);
+				raiserToDoView = false;
 			}
 
 		});
@@ -162,7 +164,6 @@ public class SideBarView extends VerticalLayoutContainer {
 						loggedInUser.getInformationRequests());
 				new PopupsView(informationRequestReceiverPortal, "Information Request Receiver", "650px", "530px");
 				informationRequestReceiverPortal.fetchInformationRequestReLoad();
-				informationRequestRaisePortal.fetchInformationRequestReLoad();
 			}
 		});
 		ImgControls.setTitle("ReportView");

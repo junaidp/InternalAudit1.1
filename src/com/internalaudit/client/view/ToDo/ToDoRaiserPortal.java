@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.client.view.ToDoView;
 import com.internalaudit.shared.Employee;
@@ -197,8 +198,6 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 
 					@Override
 					public void onClick(ClickEvent event) {
-						Window.alert("Inside Send");
-						todoview.getBtnSave().setEnabled(false);
 						saveToDo(todoview);
 					}
 
@@ -233,7 +232,7 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 
 					@Override
 					public void onSuccess(String result) {
-						// new DisplayAlert(result);
+						new DisplayAlert(result);
 						fetchToDoReLoad();
 						pp.getVpnlMain().removeFromParent();
 						pp.getPopup().removeFromParent();
@@ -255,10 +254,14 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 		return con;
 	}
 
+	public void sideMenuToDoReLoad(boolean raiserToDoView) {
+		if (!raiserToDoView == true) {
+			pp.getVpnlMain().removeFromParent();
+			pp.getPopup().removeFromParent();
+		}
+	}
+
 	public void fetchToDoReLoad() {
-		// close previous popUp, as 2 were adding
-		popUpToDoRaiserFinalView.getVpnlMain().removeFromParent();
-		popUpToDoRaiserFinalView.getPopup().removeFromParent();
 		rpcService.fetchToDoReLoad(new AsyncCallback<ArrayList<ToDo>>() {
 
 			@Override

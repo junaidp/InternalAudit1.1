@@ -63,7 +63,7 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 		for (int i = 0; i < arrayList.size(); i++) {
 			InformationRequestRaiseEntity issue = new InformationRequestRaiseEntity();
 			issue.setId(arrayList.get(i).getInformationRequestId());
-			issue.setTaskDescription(arrayList.get(i).getRequestItem());
+			issue.setRequestedItem(arrayList.get(i).getRequestItem());
 			issue.setRelatedJob(arrayList.get(i).getJob().getJobName());
 			issue.setRaisedTo(arrayList.get(i).getContactResponsible().getEmployeeName());
 			issue.setOverDueDays(arrayList.get(i).getDueDate());
