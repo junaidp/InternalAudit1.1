@@ -39,13 +39,11 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 	protected static final int PREFERRED_WIDTH = 1;
 	private ContentPanel panel;
 	private static final ToDoReceiverProperties properties = GWT.create(ToDoReceiverProperties.class);
-	TextButtonCell button = new TextButtonCell();
 	ListStore<ToDoReceiverEntity> store;
 	private List<ToDoReceiverEntity> toDoRequests = new ArrayList<ToDoReceiverEntity>();
 	private InternalAuditServiceAsync rpcService;
 	private VerticalPanel p;
 	private PopupsView pp;
-	// private boolean isPopUpSet = false;
 
 	public ToDoReceiverPortal(ArrayList<ToDo> arrayList) {
 		setData(arrayList);
@@ -78,6 +76,10 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 	}
 
 	public Widget createGridFieldWork() {
+
+		if (pp != null)
+			pp.getPopup().removeFromParent();
+		TextButtonCell button = new TextButtonCell();
 
 		ColumnConfig<ToDoReceiverEntity, Integer> informationId = new ColumnConfig<ToDoReceiverEntity, Integer>(
 				properties.id(), 70, "Sr#");
@@ -209,15 +211,11 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 		return symbolCell;
 	}
 
-	public void sideMenufetchToDoReLoad(boolean receiverToDoView) {
-		if (!receiverToDoView == true) {
+	public void fetchToDoReLoad() {
+		if (pp != null && pp.getVpnlMain() != null) {
 			pp.getVpnlMain().removeFromParent();
 			pp.getPopup().removeFromParent();
 		}
-		fetchToDoReLoad();
-	}
-
-	private void fetchToDoReLoad() {
 		rpcService.fetchToDoReLoad(new AsyncCallback<ArrayList<ToDo>>() {
 
 			@Override

@@ -115,7 +115,8 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 
 				add(paneljobviewscroll);
 				// panelLeft.add(paneljobviewscroll);
-				add(actualHours);
+				// add(actualHours);
+				// Actual Hours removed by Moqeet as Rafey Said
 				// upperPanel.add(dashboardlistBox);
 				// upperPanel.add(panelDate);
 				add(portalInformation);

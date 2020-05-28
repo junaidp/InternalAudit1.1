@@ -3,7 +3,6 @@ package com.internalaudit.client.DashboardNew;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DateBox.DefaultFormat;
 import com.internalaudit.client.view.AuditEngagement.LabelBold;
@@ -41,8 +40,9 @@ public class ProjectManagementDate extends FlexTable {
 		setWidget(0, 1, lblEndDate);
 		setWidget(1, 0, dpStart);
 		setWidget(1, 1, dpEnd);
-		setWidget(1, 2, new HTML(
-				"&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
+		// setWidget(1, 2, new HTML(
+		// "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		// &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
 		// add(panelStart);
 		// add(panelEnd);
 

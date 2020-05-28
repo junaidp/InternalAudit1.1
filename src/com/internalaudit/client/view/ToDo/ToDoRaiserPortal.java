@@ -43,7 +43,7 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 	protected static final int PREFERRED_WIDTH = 1;
 	private ContentPanel panel;
 	private static final ToDoRaiserProperties properties = GWT.create(ToDoRaiserProperties.class);
-	TextButtonCell button = new TextButtonCell();
+
 	ListStore<ToDoRaiserEntity> store;
 	private List<ToDoRaiserEntity> toDos = new ArrayList<ToDoRaiserEntity>();
 	private InternalAuditServiceAsync rpcService;
@@ -83,6 +83,9 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 
 	public Widget createGridFieldWork() {
 
+		if (popUpToDoRaiserFinalView != null)
+			popUpToDoRaiserFinalView.getPopup().removeFromParent();
+		TextButtonCell button = new TextButtonCell();
 		ColumnConfig<ToDoRaiserEntity, Integer> informationId = new ColumnConfig<ToDoRaiserEntity, Integer>(
 				properties.id(), 70, "SR#");
 		ColumnConfig<ToDoRaiserEntity, String> requestedItem = new ColumnConfig<ToDoRaiserEntity, String>(
@@ -198,6 +201,7 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 
 					@Override
 					public void onClick(ClickEvent event) {
+
 						saveToDo(todoview);
 					}
 
@@ -254,14 +258,11 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 		return con;
 	}
 
-	public void sideMenuToDoReLoad(boolean raiserToDoView) {
-		if (!raiserToDoView == true) {
-			pp.getVpnlMain().removeFromParent();
-			pp.getPopup().removeFromParent();
-		}
-	}
-
 	public void fetchToDoReLoad() {
+		if (popUpToDoRaiserFinalView != null && popUpToDoRaiserFinalView.getVpnlMain() != null) {
+			popUpToDoRaiserFinalView.getVpnlMain().removeFromParent();
+			popUpToDoRaiserFinalView.getPopup().removeFromParent();
+		}
 		rpcService.fetchToDoReLoad(new AsyncCallback<ArrayList<ToDo>>() {
 
 			@Override

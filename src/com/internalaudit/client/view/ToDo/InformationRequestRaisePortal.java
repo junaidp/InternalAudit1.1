@@ -44,7 +44,6 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 	private String formattedDate;
 	private static final InformationRequestRaiseProperties properties = GWT
 			.create(InformationRequestRaiseProperties.class);
-	TextButtonCell button = new TextButtonCell();
 	ListStore<InformationRequestRaiseEntity> store;
 	private List<InformationRequestRaiseEntity> informationRequests = new ArrayList<InformationRequestRaiseEntity>();
 	private InternalAuditServiceAsync rpcService;
@@ -84,7 +83,9 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 	}
 
 	public Widget createGridFieldWork() {
-
+		if (pp != null)
+			pp.getPopup().removeFromParent();
+		TextButtonCell button = new TextButtonCell();
 		ColumnConfig<InformationRequestRaiseEntity, Integer> informationId = new ColumnConfig<InformationRequestRaiseEntity, Integer>(
 				properties.id(), 70, "IR#");
 		ColumnConfig<InformationRequestRaiseEntity, String> requestedItem = new ColumnConfig<InformationRequestRaiseEntity, String>(
@@ -286,8 +287,10 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 	}
 
 	public void fetchInformationRequestReLoad() {
-		pp.getVpnlMain().removeFromParent();
-		pp.getPopup().removeFromParent();
+		if (pp != null && pp.getVpnlMain() != null) {
+			pp.getVpnlMain().removeFromParent();
+			pp.getPopup().removeFromParent();
+		}
 		rpcService.fetchInformationRequestReLoad(new AsyncCallback<ArrayList<InformationRequestEntity>>() {
 
 			@Override

@@ -38,13 +38,11 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 	private ContentPanel panel;
 	private static final InformationRequestReceiverProperties properties = GWT
 			.create(InformationRequestReceiverProperties.class);
-	TextButtonCell button = new TextButtonCell();
 	ListStore<InformationRequestReceiverEntity> store;
 	private InternalAuditServiceAsync rpcService;
 	private List<InformationRequestReceiverEntity> informationRequests = new ArrayList<InformationRequestReceiverEntity>();
 	private VerticalPanel p;
 	private PopupsView pp;
-	private boolean isPopUpSet = false;
 
 	public InformationRequestReceiverPortal(ArrayList<InformationRequestEntity> arrayList) {
 		setData(arrayList);
@@ -80,7 +78,9 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 	}
 
 	public Widget createGridFieldWork() {
-
+		if (pp != null)
+			pp.getPopup().removeFromParent();
+		TextButtonCell button = new TextButtonCell();
 		ColumnConfig<InformationRequestReceiverEntity, Integer> informationId = new ColumnConfig<InformationRequestReceiverEntity, Integer>(
 				properties.id(), 70, "IR#");
 		ColumnConfig<InformationRequestReceiverEntity, String> requestedItem = new ColumnConfig<InformationRequestReceiverEntity, String>(
@@ -108,8 +108,6 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 				InformationRequestReceiverEntity informationRequest = store.get(row);
 				InformationRequestReceiveView infoReceiver = new InformationRequestReceiveView(informationRequest);
 				pp = new PopupsView(infoReceiver, "Information Request Receiver");
-				isPopUpSet = true;
-				// added to Records when added in Raiser otherwise null on pp
 				// pp.getLabelheading().setText("InformationRequest Receiver");
 				// pp.getPopup().setHeadingText("InformationRequest Receiver");
 				pp.getVpnlMain().setTitle("Todos");
@@ -171,7 +169,7 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 	}
 
 	public void fetchInformationRequestReLoad() {
-		if (isPopUpSet == true) {
+		if (pp != null && pp.getVpnlMain() != null) {
 			pp.getVpnlMain().removeFromParent();
 			pp.getPopup().removeFromParent();
 		}

@@ -46,8 +46,6 @@ public class SideBarView extends VerticalLayoutContainer {
 	private InformationRequestRaisePortal informationRequestRaisePortal;
 	private ToDoReceiverPortal toDoReceiverPortal;
 	private InformationRequestReceiverPortal informationRequestReceiverPortal;
-	private boolean receiverToDoView = true;
-	private boolean raiserToDoView = true;
 
 	public SideBarView(final Employee loggedInUser, final HandlerManager eventBus) {
 		sideMenuIcons(loggedInUser);
@@ -128,8 +126,8 @@ public class SideBarView extends VerticalLayoutContainer {
 				// raiserToDoView = true;
 				toDoRaiserPortal = new ToDoRaiserPortal(loggedInUser.getUserRaisedToDos());
 				new PopupsView(toDoRaiserPortal, "To Do Raiser Grid", "900px", "530px");
-				toDoRaiserPortal.sideMenuToDoReLoad(raiserToDoView);
-				receiverToDoView = false;
+				toDoRaiserPortal.fetchToDoReLoad();
+				// receiverToDoView = false;
 			}
 		});
 		imgIRRaiserGrid.setTitle("Information Request Raiser Grid");
@@ -150,8 +148,8 @@ public class SideBarView extends VerticalLayoutContainer {
 				// receiverToDoView = true;
 				toDoReceiverPortal = new ToDoReceiverPortal(loggedInUser.getTodos());
 				new PopupsView(toDoReceiverPortal, "To Do Receiver", "650px", "530px");
-				toDoReceiverPortal.sideMenufetchToDoReLoad(receiverToDoView);
-				raiserToDoView = false;
+				toDoReceiverPortal.fetchToDoReLoad();
+				// raiserToDoView = false;
 			}
 
 		});
