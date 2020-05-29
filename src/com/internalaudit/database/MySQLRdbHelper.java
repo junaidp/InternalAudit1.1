@@ -4617,22 +4617,58 @@ public class MySQLRdbHelper {
 		Date todaysDate = new Date();
 		for (int i = 0; i < exceptions.size(); i++) {
 
-			long diff = getDatesDiff(todaysDate, exceptions.get(i).getImplementaionDate());
+			if (exceptions.get(i).getDueDate() != null) {
 
-			if (diff > 0 && diff < 7 && exceptions.get(i).getEmailSent() == 0) {
+				long dueDateDiff = getDatesDiff(todaysDate, exceptions.get(i).getDueDate());
+				// hamza 2020 for sending email notification
 
-				String date = exceptions.get(i).getImplementaionDate().toLocaleString();
-				String implenDate = date.substring(0, 13);
-				String managementsMessage = "Dear " + exceptions.get(i).getResponsiblePerson().getEmployeeName() + " "
-						+ " <br></br> <br></br>" + " Less than a week remaining In implemting the <br></br> <br></br>"
-						+ " Exception :" + exceptions.get(i).getDetail() + "<br></br> <br></br>" + " For Job :"
-						+ exceptions.get(i).getJobName() + "<br></br> <br></br>" + " Due Date :" + implenDate
-						+ "<br></br> <br></br>";
+				if ((dueDateDiff == 7 || dueDateDiff == 1 || dueDateDiff == 0)
+						&& exceptions.get(i).getEmailSent() == 0) {
 
-				sendEmail(managementsMessage, exceptions.get(i).getResponsiblePerson().getEmail(), "",
-						"Exceptions Implementation Date");
-				updateException(exceptions.get(i));
+					String date = exceptions.get(i).getDueDate().toLocaleString();
+					String implenDate = date.substring(0, 13);
+					String day = dueDateDiff > 1 ? "days" : "day";
+					String managementsMessage = "Dear " + exceptions.get(i).getResponsiblePerson().getEmployeeName()
+							+ " " + " <br></br> <br></br>" + " Less than " + dueDateDiff + " " + day
+							+ " remaining In implemting the <br></br> <br></br>" + " Exception :"
+							+ exceptions.get(i).getDetail() + "<br></br> <br></br>" + " For Job :"
+							+ exceptions.get(i).getJobName() + "<br></br> <br></br>" + " Due Date :" + implenDate
+							+ "<br></br> <br></br>";
+
+					sendEmail(managementsMessage, exceptions.get(i).getResponsiblePerson().getEmail(), "",
+							"Exceptions Implementation Date");
+					if (dueDateDiff == 0) {
+						exceptions.get(i).setEmailSent(1);
+						updateException(exceptions.get(i));
+					}
+				}
+
 			}
+
+			/*
+			 * long diff = getDatesDiff(todaysDate,
+			 * exceptions.get(i).getImplementaionDate());
+			 * 
+			 * if (diff > 0 && diff < 7 && exceptions.get(i).getEmailSent() ==
+			 * 0) {
+			 * 
+			 * String date =
+			 * exceptions.get(i).getImplementaionDate().toLocaleString(); String
+			 * implenDate = date.substring(0, 13); String managementsMessage =
+			 * "Dear " +
+			 * exceptions.get(i).getResponsiblePerson().getEmployeeName() + " "
+			 * + " <br></br> <br></br>" +
+			 * " Less than a week remaining In implemting the <br></br> <br></br>"
+			 * + " Exception :" + exceptions.get(i).getDetail() +
+			 * "<br></br> <br></br>" + " For Job :" +
+			 * exceptions.get(i).getJobName() + "<br></br> <br></br>" +
+			 * " Due Date :" + implenDate + "<br></br> <br></br>";
+			 * 
+			 * sendEmail(managementsMessage,
+			 * exceptions.get(i).getResponsiblePerson().getEmail(), "",
+			 * "Exceptions Implementation Date");
+			 * updateException(exceptions.get(i)); }
+			 */
 		}
 		// sendEmail("test", "junaidp@gmail.com");
 
@@ -4643,7 +4679,6 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			Transaction tr = session.beginTransaction();
-			exception.setEmailSent(1);
 			session.update(exception);
 			tr.commit();
 

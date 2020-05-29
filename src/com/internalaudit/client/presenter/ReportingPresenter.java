@@ -1064,8 +1064,8 @@ public class ReportingPresenter implements Presenter
 								setResponsibleForandDvisionHead(exceptions, jobExceptionsView, exceptionData);
 								exceptions.get(exceptionData.getSelectedId()).setInitialStatus("");
 								// 2019 aug
-								Boolean sendMail = true; // set true by Abdul
-															// Moqeet
+								Boolean sendMail = false; // set false by Abdul
+															//
 								sendException(exceptions.get(exceptionData.getSelectedId()), sendMail);
 								// jobExceptionsView.getBtnSave().setText("Exception
 								// Sent.");
