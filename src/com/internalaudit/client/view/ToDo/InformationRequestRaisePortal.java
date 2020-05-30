@@ -67,7 +67,8 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 			issue.setRaisedTo(arrayList.get(i).getContactResponsible().getEmployeeName());
 			issue.setOverDueDays(arrayList.get(i).getDueDate());
 			issue.setRaisedBy(arrayList.get(i).getAssignedFrom().getEmployeeName());
-			issue.setStatus(arrayList.get(i).getStatus() + "");
+			// issue.setStatus(arrayList.get(i).getStatus() + "");
+			// status is commented as its not in other 3 menus
 			issue.setReply(arrayList.get(i).getRespond());
 			issue.setRaisedById(arrayList.get(i).getAssignedFrom().getEmployeeId());
 			issue.setRaisedToId(arrayList.get(i).getContactResponsible().getEmployeeId());

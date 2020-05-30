@@ -373,7 +373,7 @@ public class AuditStepView extends Composite {
 		auditSamplingView.getListBoxControlList().setEnabled(false);
 		auditSamplingView.getListBoxFrequency().setEnabled(false);
 		auditSamplingView.getListBoxSamplingMethod().setEnabled(false);
-		auditSamplingView.fileUpload.getBtnSubmit().setVisible(false);
+		auditSamplingView.fileUpload.getBtnUpload().setVisible(false);
 		auditSamplingView.fileUpload.getUploadPanel().setVisible(false);
 		// Window.alert(exceptions.getWidgetCount() + "");
 		for (int i = 0; i < exceptions.getWidgetCount(); i++) {

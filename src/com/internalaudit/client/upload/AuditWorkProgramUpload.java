@@ -10,6 +10,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -30,7 +31,7 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 	HorizontalPanel panelFileDetail = new HorizontalPanel();
 	Anchor lblfilename;
 	String file;
-	ButtonRound btnSubmit;
+	Button btnUpload;
 	FileUpload upload;
 	HorizontalPanel panelContainer = new HorizontalPanel();
 	private VerticalPanel uploadPanel;
@@ -45,7 +46,7 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 		HorizontalPanel panel = new HorizontalPanel();
 		form.setWidget(panel);
 		ScrollPanel panelScroll = new ScrollPanel();
-		// panelScroll.setHeight("120px");
+		panelScroll.setHeight("65px");
 		uploadPanel = new VerticalPanel();
 		upload = new FileUpload();
 		upload.setName(auditProcedureId + ":" + mainFolder);
@@ -56,9 +57,9 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 		// uploadPanel.add(fa);
 
 		// Add a 'submit' button.
-		btnSubmit = new ButtonRound("Upload");
-		btnSubmit.getElement().getStyle().setMarginTop(3, Unit.PX);
-		btnSubmit.addClickHandler(new ClickHandler() {
+		btnUpload = new Button("Upload");
+		btnUpload.getElement().getStyle().setMarginTop(3, Unit.PX);
+		btnUpload.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -94,7 +95,7 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 		});
 
 		add(form);
-		uploadPanel.add(btnSubmit);
+		uploadPanel.add(btnUpload);
 		panel.add(uploadPanel);
 		panelScroll.add(panelFileDetail);
 		panel.add(panelScroll);
@@ -109,12 +110,12 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 			@Override
 			public void onSuccess(ArrayList<String> result) {
 				panelFileDetail.clear();
-
-				if (result.size() >= 1) {
-					btnSubmit.setVisible(false);
-				} else {
-					btnSubmit.setVisible(true);
-				}
+				// commented by Moqeet as per requirenment
+				// if (result.size() >= 1) {
+				// btnUpload.setVisible(false);
+				// } else {
+				// btnUpload.setVisible(true);
+				// }
 				for (int i = 0; i < result.size(); i++) {
 					lblfilename = new Anchor(result.get(i));
 					delete = new Image("images/deleteIcon.png");
@@ -122,14 +123,14 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 					lblfilename.getElement().getStyle().setTextDecoration(TextDecoration.NONE);
 					lblfilename.setHeight("25px");
 
-					records.setWidth("100%");
+					// records.setWidth("100%");
 					records.setWidget(i, 0, lblfilename);
 					records.setWidget(i, 1, delete);
 
 					if (i % 2 != 0) {
 						records.getRowFormatter().addStyleName(i, "jobStatusRow");
 					}
-					panelFileDetail.setWidth("100%");
+					// panelFileDetail.setWidth("350px");
 					panelFileDetail.add(records);
 					lblfilename.setWordWrap(false);
 					final String upperCasedJobLink = result.get(i);
@@ -160,7 +161,6 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 									public void onSuccess(String result) {
 										Window.alert("File Deleted Successfully");
 										fetchProcedureAttachments(auditProcedureId, mainFolder);
-
 									}
 								});
 
@@ -179,7 +179,8 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 						// frame.setWidth("1000px");
 						// frame.setHeight("500px");
 						frame.setPixelSize(800, 300);
-						panelContainer.add(frame);
+						// panelContainer.add(frame);
+						// (frame)commented by moqeet as rafery said
 						Window.open(mainFolder + "/" + auditProcedureId + "/" + upperCasedJobLink, "name", "");
 
 					}
@@ -210,9 +211,9 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 		return btn;
 	}
 
-	public void disableField() {
-		btnSubmit.setVisible(false);
-	}
+	// public void disableField() {
+	// btnUpload.setVisible(false);
+	// }
 
 	public FormPanel getForm() {
 		return form;
@@ -238,12 +239,12 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 		this.file = file;
 	}
 
-	public ButtonRound getBtnSubmit() {
-		return btnSubmit;
+	public Button getBtnUpload() {
+		return btnUpload;
 	}
 
-	public void setBtnSubmit(ButtonRound btnSubmit) {
-		this.btnSubmit = btnSubmit;
+	public void setBtnUpload(ButtonRound btnUpload) {
+		this.btnUpload = btnUpload;
 	}
 
 	public FileUpload getUpload() {
@@ -268,5 +269,13 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 
 	public void setDelete(Image delete) {
 		this.delete = delete;
+	}
+
+	public HorizontalPanel getPanelFileDetail() {
+		return panelFileDetail;
+	}
+
+	public void setPanelFileDetail(HorizontalPanel panelFileDetail) {
+		this.panelFileDetail = panelFileDetail;
 	}
 }

@@ -67,6 +67,8 @@ public class InformationRequestRaiserView extends Composite {
 		rpcService = GWT.create(InternalAuditService.class);
 		fetchEmployees();
 		fetchJobs();
+		listBoxContact.addItem("--Select Person--");
+		listBoxJobs.addItem("--Select Job--");
 		txtBoxRequestItem.getElement().setPropertyString("placeholder", "Enter text here");
 		mainFolder = InternalAuditConstants.PATHINFORMATIONREQUESTUPLOADS;
 		informationRequestId = InternalAuditConstants.PATHTOUNSAVEDATTACHMENTS;
@@ -74,6 +76,7 @@ public class InformationRequestRaiserView extends Composite {
 				mainFolder);
 		clickHandlers(informationRequestId, mainFolder);
 		panelInformationUploadAttachments.add(informationUploadAttachments);
+		informationUploadAttachments.getPanelFileDetail().setWidth("150px");
 		// String dateString =
 		// DateTimeFormat.getFormat("MM/dd/yyyy").format(date);
 		// dueDate.setFormat((Format) DateTimeFormat.getFormat("MM/dd/yyyy"));

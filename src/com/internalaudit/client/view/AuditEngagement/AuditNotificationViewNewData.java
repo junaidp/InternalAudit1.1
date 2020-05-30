@@ -36,7 +36,7 @@ public class AuditNotificationViewNewData {
 		// !selectedAuditEngagement.getTo().equals("")) {
 		if (selectedAuditEngagement.getEmailStatus() == 1) {
 			auditNotificationViewNew.disableFields();
-			auditNotificationViewNew.getFileUploader().getBtnSubmit().setVisible(false);
+			auditNotificationViewNew.getFileUploader().getBtnUpload().setVisible(false);
 		}
 		if (!selectedAuditEngagement.getSubject().isEmpty()) {
 			displaySavedNotification();

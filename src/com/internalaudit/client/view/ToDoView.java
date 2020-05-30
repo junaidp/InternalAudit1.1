@@ -59,9 +59,12 @@ public class ToDoView extends Composite {
 		setHandlers();
 		String toDoId = "check";
 		String mainFolder = "ToDoUploads";
+		listBoxAssignedTo.addItem("--Select Person--");
+		listBoxJobs.addItem("--Select Job--");
 		txtBoxDescription.getElement().setPropertyString("placeholder", "Enter text here");
 		AuditWorkProgramUpload toDoAttachmentUploqad = new AuditWorkProgramUpload(toDoId, mainFolder);
 		panelAttachment.add(toDoAttachmentUploqad);
+		toDoAttachmentUploqad.getPanelFileDetail().setWidth("350px");
 		// dueDate.getElement().setPropertyString("placeholder", " dd/mm/yyyy");
 		// DateBox.DefaultFormat(DateTimeFormat.getFormat("dd MMMM , yyyy")));
 		txtAreaTask.getElement().setPropertyString("placeholder", "Enter text here");

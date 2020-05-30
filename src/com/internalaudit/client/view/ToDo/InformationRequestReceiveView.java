@@ -45,7 +45,7 @@ public class InformationRequestReceiveView extends VerticalPanel {
 	Label lblReply = new Label("Reply: ");
 	TextArea txtAreaReply = new TextArea();
 
-	Button btnSubmit = new Button("Submit");
+	Button btnSubmit = new Button("Reply");
 	Button btnClose = new Button("Close");
 
 	VerticalPanel panelMailRep = new VerticalPanel();
@@ -248,17 +248,18 @@ public class InformationRequestReceiveView extends VerticalPanel {
 				mainFolder);
 		VerticalPanel panelFileUpload = new VerticalPanel();
 		panelFileUpload.add(informationRequestUploadAttachment);
+		informationRequestUploadAttachment.getPanelFileDetail().setWidth("350px");
 		txtAreaReply.getElement().setPropertyString("placeholder", "Enter your Reply here");
 
 		PanelUpButton.setHeight("50px");
 		panelLabel.setHeight("50px");
 		panelMailRep.setHeight("300px");
-		panelFileUpload.setHeight("50px");
+		// panelFileUpload.setHeight("50px");
 		panelMail.setHeight("150px");
 		txtAreaReply.setHeight("150px");
 		panelReply.setWidth("600px");
 		panelMail.setWidth("590px");
-		panelFileUpload.setWidth("590px");
+		// panelFileUpload.setWidth("590px");
 		txtAreaReply.setWidth("590px");
 
 		// add(PanelUpButton);

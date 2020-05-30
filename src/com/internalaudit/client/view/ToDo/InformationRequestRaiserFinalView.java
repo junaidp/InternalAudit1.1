@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.upload.AuditWorkProgramUpload;
 import com.internalaudit.client.upload.EmailAttachmentUpload;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.shared.Employee;
@@ -221,26 +222,33 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 		panelb.add(btnReply);
 		panelb.add(btnCancel);
 		// btnSubmit.setWidth("85px");
-		panelMailRep.add(panelb);
-
+		// panelMailRep.add(panelb);
 		EmailAttachmentUpload a = new EmailAttachmentUpload();
+		// panelFileUpload.add(a);
+		// commented as it is not added in view by moqeet
+		String mainFolder = "InformationRequestUploads";
+		String informationRequestId = informationRequest.getId() + "";
+		AuditWorkProgramUpload informationRequestUploadAttachment = new AuditWorkProgramUpload(informationRequestId,
+				mainFolder);
 		VerticalPanel panelFileUpload = new VerticalPanel();
-		panelFileUpload.add(a);
+		panelFileUpload.add(informationRequestUploadAttachment);
+		informationRequestUploadAttachment.getPanelFileDetail().setWidth("350px");
 		txtAreaReply.getElement().setPropertyString("placeholder", "Enter your Reply here");
 		txtAreaReply.setWidth("590px");
 		PanelUpButton.setHeight("50px");
 		panelLabel.setHeight("50px");
 		panelMailRep.setHeight("300px");
-		panelFileUpload.setHeight("50px");
+		// panelFileUpload.setHeight("50px");
 		panelMail.setHeight("250px");
 		txtAreaReply.setHeight("80px");
 		panelReply.setWidth("600px");
 		panelMail.setWidth("590px");
-		panelFileUpload.setWidth("590px");
+		// panelFileUpload.setWidth("590px");
 		// add(PanelUpButton);
 		add(panelLabel);
 		add(panelMailRep);
-
+		add(panelFileUpload);
+		add(panelb);
 	}
 
 	private void ViewMessages(InformationRequestRaiseEntity informationRequest) {

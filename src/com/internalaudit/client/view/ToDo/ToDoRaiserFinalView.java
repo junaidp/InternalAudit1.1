@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.upload.AuditWorkProgramUpload;
 import com.internalaudit.client.upload.EmailAttachmentUpload;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.shared.Employee;
@@ -234,15 +235,21 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 		// panelbuttons.add(btnSubmit);
 		panelbuttons.add(btnRep);
 		panelbuttons.add(btnCancel);
-		panelMailRep.add(panelbuttons);
+		// panelMailRep.add(panelbuttons);
+		String mainFolder = "ToDoUploads";
+		String toDoId = toDoRaiserEntity.getId() + "";
 		EmailAttachmentUpload a = new EmailAttachmentUpload();
 		VerticalPanel panelFileUpload = new VerticalPanel();
-		panelFileUpload.add(a);
+		// panelFileUpload.add(a);
+		// commented by moqeet as not added in view
+		AuditWorkProgramUpload informationRequestUpload = new AuditWorkProgramUpload(toDoId, mainFolder);
+		panelFileUpload.add(informationRequestUpload);
+		informationRequestUpload.getPanelFileDetail().setWidth("350px");
 		txtAreaReply.getElement().setPropertyString("placeholder", "Enter your Reply here");
 		PanelUpButton.setHeight("30px");
 		panelLabel.setHeight("40px");
 		panelMailRep.setHeight("320px");
-		panelFileUpload.setHeight("50px");
+		// panelFileUpload.setHeight("50px");
 		panelMail.setHeight("250px");
 		txtAreaReply.setHeight("100px");
 		panelReply.setWidth("600px");
@@ -252,7 +259,8 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 		// add(PanelUpButton);
 		add(panelLabel);
 		add(panelMailRep);
-
+		add(panelFileUpload);
+		add(panelbuttons);
 	}
 
 	private void viewMessages(ToDoRaiserEntity toDo) {

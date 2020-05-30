@@ -162,6 +162,7 @@ public class ToDoReceiverView extends VerticalPanel {
 		AuditWorkProgramUpload informationRequestUpload = new AuditWorkProgramUpload(toDoId, mainFolder);
 		VerticalPanel panelFileUpload = new VerticalPanel();
 		panelFileUpload.add(informationRequestUpload);
+		informationRequestUpload.getPanelFileDetail().setWidth("350px");
 		txtAreaReply.getElement().setPropertyString("placeholder", "Enter your Reply here");
 
 		// VerticalPanel panelAttached = new VerticalPanel();
