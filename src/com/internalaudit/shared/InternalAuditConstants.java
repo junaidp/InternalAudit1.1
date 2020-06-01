@@ -55,4 +55,6 @@ public class InternalAuditConstants {
 	public static final String SELECTALLROLES = "Please select atleast 1 employee from Management and 1 from Audit";
 	public static final String PDF = "pdf";
 	public static final String EXCEL = "excel";
+	public static final String REPORTINGJOBVIEW = "JobExcceptionView";
+	public static final String REPORTINGRESPONSIBLEVIEW = "ResponsiblePersonView";
 }

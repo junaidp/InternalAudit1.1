@@ -149,7 +149,7 @@ public interface InternalAuditServiceAsync {
 
 	void fetchEmployeeExceptions(int employeeId, int jobId, AsyncCallback<ArrayList<Exceptions>> asyncCallbac);
 
-	void sendException(Exceptions exception, Boolean sendMail, AsyncCallback<String> asyncCallbac);
+	void sendException(Exceptions exception, Boolean sendMail, String selectedView, AsyncCallback<String> asyncCallbac);
 
 	void saveAuditStepAndExceptions(AuditStep step, ArrayList<Exceptions> exs, AsyncCallback<Void> asyncCallback);
 

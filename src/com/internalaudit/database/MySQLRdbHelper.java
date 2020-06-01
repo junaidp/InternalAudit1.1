@@ -4630,7 +4630,7 @@ public class MySQLRdbHelper {
 					String day = dueDateDiff > 1 ? "days" : "day";
 					String managementsMessage = "Dear " + exceptions.get(i).getResponsiblePerson().getEmployeeName()
 							+ " " + " <br></br> <br></br>" + " Less than " + dueDateDiff + " " + day
-							+ " remaining In implemting the <br></br> <br></br>" + " Exception :"
+							+ " remaining in implementing the <br></br> <br></br>" + " Exception :"
 							+ exceptions.get(i).getDetail() + "<br></br> <br></br>" + " For Job :"
 							+ exceptions.get(i).getJobName() + "<br></br> <br></br>" + " Due Date :" + implenDate
 							+ "<br></br> <br></br>";
@@ -4719,7 +4719,7 @@ public class MySQLRdbHelper {
 		}
 	}
 
-	public String sendException(Exceptions exception, int year, int companyId, Boolean sendMail) {
+	public String sendException(Exceptions exception, int year, int companyId, Boolean sendMail, String selectedView) {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
@@ -4739,7 +4739,6 @@ public class MySQLRdbHelper {
 			session.update(exception);
 			session.flush();
 
-			Employee employeeAssignedDetail = fetchEmployeeById(exception.getResponsiblePerson().getEmployeeId());
 			/*
 			 * String message = "Dear " +
 			 * exception.getResponsiblePerson().getEmployeeName() +
@@ -4753,12 +4752,7 @@ public class MySQLRdbHelper {
 			 */
 			if (sendMail == true) {
 
-				String message = "Dear " + employeeAssignedDetail.getEmployeeName() + " <br></br> <br></br>"
-						+ " Your have received an Exception update from Abilite: <br></br> <br></br>"
-						+ exception.getDetail();
-				// sendEmail(message, "hamzariaz1994@gmail.com", "", "Abilite:
-				// Exception Received");
-				sendEmail(message, employeeAssignedDetail.getEmail(), "", "Abilite: Exception Received");
+				sendManagementAndHeadEmail(exception, selectedView);
 			}
 			logger.info(String.format("(Inside sendException)  sending Exception for year: " + year + "for company"
 					+ companyId + " " + new Date()));
@@ -4770,6 +4764,39 @@ public class MySQLRdbHelper {
 			session.close();
 		}
 		return "exception sent";
+	}
+
+	private void sendManagementAndHeadEmail(Exceptions exception, String selectedView) throws Exception {
+
+		Employee employeeAssignedDetail = fetchEmployeeById(exception.getResponsiblePerson().getEmployeeId());
+		Employee employeeAssigneeDetail = fetchEmployeeById(exception.getAuditHead());
+
+		if (selectedView.equalsIgnoreCase(InternalAuditConstants.REPORTINGJOBVIEW)) {
+			String date = exception.getDueDate().toLocaleString();
+			String dueDate = date.substring(0, 13);
+
+			String message = "Dear " + employeeAssignedDetail.getEmployeeName() + " <br></br> <br></br>"
+					+ " Your have received an Exception update from Abilite: <br></br> <br></br>"
+					+ "You have been assigned " + exception.getDetail() + "  From  "
+					+ employeeAssigneeDetail.getEmployeeName() + " <br></br> <br></br>" + " Due on  " + dueDate;
+			// sendEmail(message, "hamzariaz1994@gmail.com", "", "Abilite:
+			// Exception Received");
+			sendEmail(message, employeeAssignedDetail.getEmail(), "", "Abilite: Exception Received");
+		}
+
+		else {
+			String date = exception.getImplementaionDate().toLocaleString();
+			String implenDate = date.substring(0, 13);
+
+			String message = "Dear " + employeeAssigneeDetail.getEmployeeName() + " <br></br> <br></br>"
+					+ " Your have received an Exception update from Abilite: <br></br> <br></br>"
+					+ "You have received Management Comments  :" + exception.getManagementComments() + "  From  "
+					+ employeeAssignedDetail.getEmployeeName() + " <br></br> <br></br>" + "Implementation on  "
+					+ implenDate;
+			// sendEmail(message, "hamzariaz1994@gmail.com", "", "Abilite:
+			// Exception Received");
+			sendEmail(message, employeeAssignedDetail.getEmail(), "", "Abilite: Exception Received");
+		}
 	}
 
 	private int fetchAuditHead(int jobId, Session session) {

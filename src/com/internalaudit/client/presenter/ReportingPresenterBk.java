@@ -498,7 +498,7 @@ public class ReportingPresenterBk implements Presenter
 
 	private void sendException(Exceptions exception) {
 		Boolean sendMail = false;
-		rpcService.sendException(exception, sendMail, new AsyncCallback<String>() {
+		rpcService.sendException(exception, sendMail, "", new AsyncCallback<String>() {
 
 			@Override
 			public void onFailure(Throwable caught) {

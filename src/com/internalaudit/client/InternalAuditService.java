@@ -147,7 +147,7 @@ public interface InternalAuditService extends RemoteService {
 
 	ArrayList<Exceptions> fetchEmployeeExceptions(int employeeId, int jobId) throws Exception;
 
-	String sendException(Exceptions exception, Boolean sendMail) throws Exception;
+	String sendException(Exceptions exception, Boolean sendMail, String selectedView) throws Exception;
 
 	void saveAuditStepAndExceptions(AuditStep step, ArrayList<Exceptions> exs) throws Exception;
 

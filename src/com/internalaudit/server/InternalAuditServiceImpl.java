@@ -722,12 +722,12 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	}
 
 	@Override
-	public String sendException(Exceptions exception, Boolean sendMail) throws Exception {
+	public String sendException(Exceptions exception, Boolean sendMail, String selectedView) throws Exception {
 		if (isLoggedIn()) {
 			session = getThreadLocalRequest().getSession(true);
 			int year = (Integer) session.getAttribute("year");
 			int companyId = (Integer) session.getAttribute("companyId");
-			return rdbHelper.sendException(exception, year, companyId, sendMail);
+			return rdbHelper.sendException(exception, year, companyId, sendMail, selectedView);
 		} else {
 
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);
