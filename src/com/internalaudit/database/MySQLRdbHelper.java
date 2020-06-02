@@ -4773,7 +4773,8 @@ public class MySQLRdbHelper {
 
 		if (selectedView.equalsIgnoreCase(InternalAuditConstants.REPORTINGJOBVIEW)) {
 			String date = exception.getDueDate().toLocaleString();
-			String dueDate = date.substring(0, 13);
+			String dueDate = date.substring(0, 12);
+			// String dueDate = date.substring(0, 13);
 
 			String message = "Dear " + employeeAssignedDetail.getEmployeeName() + " <br></br> <br></br>"
 					+ " Your have received an Exception update from Abilite: <br></br> <br></br>"
@@ -9769,26 +9770,27 @@ public class MySQLRdbHelper {
 			updateFolder(todo.getToDoId(), mainFolder, deleteFolder);
 			Employee employeeAssignedDetail = fetchEmployeeById(todo.getAssignedTo().getEmployeeId());
 
-			// if (informationrequest.getSendNotication() == true) {
-
 			/*
 			 * String toDoMessage = "Dear " +
-			 * employeeAssignedDetail.getEmployeeName() + " " +
-			 * " <br></br> <br></br>" + " You have received ToDo request from "
-			 * + todo.getAssignedFrom().getEmployeeName() +
-			 * " <br></br> <br></br>" + todo.getDescription() +
-			 * "<br></br> <br></br>";
+			 * employeeAssignedDetail.getEmployeeName() + " <br></br> <br></br>"
+			 * + " You have received ToDo request from ::" +
+			 * todo.getAssignedFrom().getEmployeeName() + " <br></br> <br></br>"
+			 * + todo.getTask(); // changed from getDescription to getTask by
+			 * Moqeet
+			 * 
+			 * sendAttachmentEmail(toDoMessage,
+			 * employeeAssignedDetail.getEmail(), "", "ToDO Request", null,
+			 * todo.getAssignedFrom().getEmail());
 			 */
-			String toDoMessage = "Dear " + employeeAssignedDetail.getEmployeeName() + " <br></br> <br></br>"
-					+ " You have received ToDo request from ::" + todo.getAssignedFrom().getEmployeeName()
-					+ " <br></br> <br></br>" + todo.getTask();
-			// changed from getDescription to getTask by Moqeet
-			sendAttachmentEmail(toDoMessage, employeeAssignedDetail.getEmail(), "", "ToDO Request", null,
-					todo.getAssignedFrom().getEmail());
+			String date = todo.getDueDate().toLocaleString();
+			String dueDate = date.substring(0, 12);
+			String todoEmailBody = "Dear " + employeeAssignedDetail.getEmployeeName() + " <br></br> <br></br>"
+					+ "You have received Information request from ::" + todo.getAssignedFrom().getEmployeeName()
+					+ "<br></br> <br></br>" + todo.getTask() + " <br></br> <br></br>" + " <br></br> <br></br>"
+					+ " Due on  " + dueDate;
 
-			// sendAttachmentEmail(toDoMessage,
-			// employeeAssignedDetail.getEmail(), "", "ToDO Request", realPath,
-			// todo.getAssignedFrom().getEmail());
+			sendEmail(todoEmailBody, employeeAssignedDetail.getEmail(), "", "ToDo request Received");
+
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in savetoDo", ex.getMessage()), ex);
 
@@ -9809,37 +9811,35 @@ public class MySQLRdbHelper {
 			File mainFolder = new File(realPath + "/" + InternalAuditConstants.PATHINFORMATIONREQUESTUPLOADS);
 			File deleteFolder = new File(mainFolder + "/" + InternalAuditConstants.PATHTOUNSAVEDATTACHMENTS);
 			updateFolder(informationrequest.getInformationRequestId(), mainFolder, deleteFolder);
-			// logger.info(String.format("(Inside saveAuditNotification) saving
-			// AuditNotification for message to: " + to
-			// + "for message" + message + "for year" + year + "for company" +
-			// companyId + "" + new Date()));
+
 			Employee employeeAssignedDetail = fetchEmployeeById(
 					informationrequest.getContactResponsible().getEmployeeId());
-
+			String date = informationrequest.getDueDate().toLocaleString();
+			String dueDate = date.substring(0, 12);
 			if (informationrequest.getSendNotication() == true) {
 
-				/*
-				 * String informationRequestMessage = "Dear " +
-				 * employeeAssignedDetail.getEmployeeName() + " " +
-				 * " <br></br> <br></br>" +
-				 * " You have received information request from " +
-				 * informationrequest.getAssignedFrom().getEmployeeName() +
-				 * " <br></br> <br></br>" + informationrequest.getRequestItem()
-				 * + "<br></br> <br></br>";
-				 */
+				String InformationRequestEmailBody = "Dear " + employeeAssignedDetail.getEmployeeName()
+						+ " <br></br> <br></br>" + "You have received Information request from ::"
+						+ informationrequest.getAssignedFrom().getEmployeeName() + "<br></br> <br></br>"
+						+ informationrequest.getRequestItem() + " <br></br> <br></br>" + " <br></br> <br></br>"
+						+ " Due on  " + dueDate;
 
-				String informationRequestMessage = "Dear " + employeeAssignedDetail.getEmployeeName()
-						+ " <br></br> <br></br>" + " You have received Information request from ::"
-						+ informationrequest.getAssignedFrom().getEmployeeName() + " <br></br> <br></br>"
-						+ informationrequest.getRequestItem();
-
-				sendAttachmentEmail(informationRequestMessage, employeeAssignedDetail.getEmail(), "",
-						"Information Request Request", null, informationrequest.getAssignedFrom().getEmail());
+				sendEmail(InformationRequestEmailBody, employeeAssignedDetail.getEmail(), "",
+						"Information Request Received");
 
 			}
-			// sendEmail(informationRequestMessage,
-			// informationrequest.getContactResponsible().getEmail(), "",
-			// "Information Request Received");
+			/*
+			 * String informationRequestMessage = "Dear " +
+			 * employeeAssignedDetail.getEmployeeName() + " <br></br> <br></br>"
+			 * + " You have received Information request from ::" +
+			 * informationrequest.getAssignedFrom().getEmployeeName() +
+			 * " <br></br> <br></br>" + informationrequest.getRequestItem();
+			 * 
+			 * sendAttachmentEmail(informationRequestMessage,
+			 * employeeAssignedDetail.getEmail(), "",
+			 * "Information Request Request", null,
+			 * informationrequest.getAssignedFrom().getEmail());
+			 */
 
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in saveInformationRequest", ex.getMessage()), ex);
