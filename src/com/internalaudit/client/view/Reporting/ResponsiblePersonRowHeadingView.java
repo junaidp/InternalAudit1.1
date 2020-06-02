@@ -32,7 +32,7 @@ public class ResponsiblePersonRowHeadingView extends VerticalPanel {
 		LabelHeading managementComments = new LabelHeading();
 		managementComments.setText("Management Comments");
 		LabelHeading implementaionDate = new LabelHeading();
-		implementaionDate.setText("Implementation");
+		implementaionDate.setText("Implementation Date");
 
 		LabelHeading implicationRating = new LabelHeading();
 		implicationRating.setText("Implication Rating");

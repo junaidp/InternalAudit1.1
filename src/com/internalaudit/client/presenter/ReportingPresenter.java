@@ -269,7 +269,6 @@ public class ReportingPresenter implements Presenter
 										sendException(result.get(jobData.getSelectedId()), sendMail,
 												InternalAuditConstants.REPORTINGRESPONSIBLEVIEW);
 										new DisplayAlert("Exception Rejected");
-
 									}
 								});
 								responsiblePersonRowView.getImplementaionDate().setEnabled(false);
@@ -951,6 +950,7 @@ public class ReportingPresenter implements Presenter
 					jobExceptionsView.getDueDate().setValue(exceptions.get(i).getDueDate());
 					jobExceptionsView.getRecommendations().setText(exceptions.get(i).getRecommendations());
 					jobExceptionsView.getTxtAreaImplication().setText(exceptions.get(i).getImplication());
+					jobExceptionsView.getLblPerviewFeedback().setText(exceptions.get(i).getComments());
 
 					if (exceptions.get(i).getImplicationRating() == "0") {
 						jobExceptionsView.getListBoxImplicationRating().setItemText(0, "Low");
@@ -1083,6 +1083,19 @@ public class ReportingPresenter implements Presenter
 							}
 						}
 					});
+					if (jobExceptionsView.getLblPerviewFeedback().getText() != null
+							|| jobExceptionsView.getLblPerviewFeedback().getText() != "")
+						jobExceptionsView.getAnchorFeedback().setVisible(true);
+
+					jobExceptionsView.getAnchorFeedback().addClickHandler(new ClickHandler() {
+
+						@Override
+						public void onClick(ClickEvent event) {
+							// TODO Auto-generated method stub
+							jobExceptionsView.getAnchorFeedback().setVisible(false);
+							jobExceptionsView.getLblPerviewFeedback().setVisible(true);
+						}
+					});
 
 					jobExceptionsView.getBtnApprove().addClickHandler(new ClickHandler() {
 
@@ -1127,9 +1140,9 @@ public class ReportingPresenter implements Presenter
 							jobExceptionsView.getHpnlButtons().setVisible(false);
 
 							exceptionSent(jobExceptionsView, "feedback given");
-							new DisplayAlert("Exception Rejected");
+							new DisplayAlert("Exception Accepted");
+							// Exception changed to accepted by Moqeet
 						}
-
 					});
 					////// ADDED 2018
 					String status;
@@ -1214,7 +1227,7 @@ public class ReportingPresenter implements Presenter
 
 	}
 
-	private void sendException(Exceptions exception, Boolean sendMail, String selectedView) {
+	private void sendException(final Exceptions exception, Boolean sendMail, String selectedView) {
 		rpcService.sendException(exception, sendMail, selectedView, new AsyncCallback<String>() {
 
 			@Override

@@ -108,6 +108,7 @@ public class ResponsiblePersonRowView extends VerticalPanel {
 		// vpnlimplementationComments.add(implementaionComments);
 		flex.setWidget(1, 0, lblFnlComment);
 		flex.setWidget(1, 1, implementaionComments);
+		implementaionComments.getElement().getStyle().setPaddingTop(11, Unit.PX);
 		// hpnl2.add(vpnlisAgreed);
 		// hpnl2.add(vpnlisImplemented);
 		// hpnl2.add(vpnlimplementationComments);
@@ -128,6 +129,7 @@ public class ResponsiblePersonRowView extends VerticalPanel {
 		implication.setWidth("145px");
 		implication.getElement().getStyle().setPaddingLeft(5, Unit.PX);
 		status.setWidth("120px");
+		status.setWordWrap(false);
 		// isAgreed.setWidth("100px");
 		// for(int i=0; i< getWidgetCount()-3; i++){
 		// getWidget(i).setWidth("300px");
@@ -155,7 +157,6 @@ public class ResponsiblePersonRowView extends VerticalPanel {
 		managementComments.addStyleName("noresize");
 		implication.addStyleName("noresize");
 		implementaionComments.addStyleName("noresize");
-
 	}
 
 	public TextBox getAuditJob() {
@@ -310,5 +311,4 @@ public class ResponsiblePersonRowView extends VerticalPanel {
 	public void setResponsiblePerson(ListBox responsiblePerson) {
 		this.responsiblePerson = responsiblePerson;
 	}
-
 }
