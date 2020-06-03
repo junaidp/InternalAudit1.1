@@ -15,6 +15,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -23,6 +24,7 @@ import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.AuditStepsRecommendationData;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.JobData;
+import com.internalaudit.client.view.PopupViewGXT;
 import com.internalaudit.client.view.Reporting.AllJobsView;
 import com.internalaudit.client.view.Reporting.JobExceptionsView;
 import com.internalaudit.client.view.Reporting.JobReportView;
@@ -169,6 +171,8 @@ public class ReportingPresenter implements Presenter
 								responsiblePersonRowView.getException().setTitle(result.get(i).getDetail());
 								responsiblePersonRowView.getAuditJob().setText(result.get(i).getJobName());
 								responsiblePersonRowView.getAuditJob().setTitle(result.get(i).getJobName());
+								responsiblePersonRowView.getImplementaionDate()
+										.setValue(result.get(i).getImplementaionDate());
 								showManagementPanel(result, i, responsiblePersonRowView);
 								if (result.get(i).getFinalStatus() != null
 										&& result.get(i).getFinalStatus().equalsIgnoreCase("Approved")) {
@@ -382,6 +386,8 @@ public class ReportingPresenter implements Presenter
 								responsiblePersonRowView.getImplication().setText(result.get(i).getImplication());
 								responsiblePersonRowView.getResponsiblePerson()
 										.addItem(result.get(i).getResponsiblePerson().getEmployeeName());
+								responsiblePersonRowView.getImplementaionDate()
+										.setValue(result.get(i).getImplementaionDate());
 								// responsiblePersonRowView.getImplicationRating().addItem(result.get(i).getImplicationRating());
 								if (result.get(i).getImplicationRating() == "0") {
 									responsiblePersonRowView.getImplicationRating().addItem("Low");
@@ -950,7 +956,8 @@ public class ReportingPresenter implements Presenter
 					jobExceptionsView.getDueDate().setValue(exceptions.get(i).getDueDate());
 					jobExceptionsView.getRecommendations().setText(exceptions.get(i).getRecommendations());
 					jobExceptionsView.getTxtAreaImplication().setText(exceptions.get(i).getImplication());
-					jobExceptionsView.getLblPerviewFeedback().setText(exceptions.get(i).getComments());
+					// jobExceptionsView.getLblPerviewFeedback().setText(exceptions.get(i).getComments());
+					final String feedback = exceptions.get(i).getComments();
 
 					if (exceptions.get(i).getImplicationRating() == "0") {
 						jobExceptionsView.getListBoxImplicationRating().setItemText(0, "Low");
@@ -1083,8 +1090,8 @@ public class ReportingPresenter implements Presenter
 							}
 						}
 					});
-					if (jobExceptionsView.getLblPerviewFeedback().getText() != null
-							|| jobExceptionsView.getLblPerviewFeedback().getText() != "")
+					// if there is some feedback then anchor is enable
+					if (feedback != null && !feedback.isEmpty())
 						jobExceptionsView.getAnchorFeedback().setVisible(true);
 
 					jobExceptionsView.getAnchorFeedback().addClickHandler(new ClickHandler() {
@@ -1092,8 +1099,9 @@ public class ReportingPresenter implements Presenter
 						@Override
 						public void onClick(ClickEvent event) {
 							// TODO Auto-generated method stub
-							jobExceptionsView.getAnchorFeedback().setVisible(false);
-							jobExceptionsView.getLblPerviewFeedback().setVisible(true);
+							// jobExceptionsView.getAnchorFeedback().setVisible(false);
+							// jobExceptionsView.getLblPerviewFeedback().setVisible(true);
+							PopupViewGXT feedbackpopup = new PopupViewGXT(new HTML(feedback), "Feedback");
 						}
 					});
 

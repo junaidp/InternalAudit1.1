@@ -27,8 +27,7 @@ public class JobExceptionsView extends HorizontalPanel {
 	private Button btnApprove = new Button("Approve");
 	private Button btnReject = new Button("Feedback");
 	private Label status = new Label("");
-	private Label lblPerviewFeedback = new Label("T");
-	private Anchor anchorFeedback = new Anchor("feedback");
+	private Anchor anchorFeedback = new Anchor("Feedback");
 	private TextField txtComments = new TextField();
 	// private AddImage addIcon = new AddImage();
 	// private Anchor anchorAddRecommendations = new Anchor("Add More Action
@@ -91,10 +90,8 @@ public class JobExceptionsView extends HorizontalPanel {
 		add(btnSave);
 		// anchor added by moqeet
 		add(anchorFeedback);
-		add(lblPerviewFeedback);
-		lblPerviewFeedback.setVisible(false);
-		lblPerviewFeedback.setWidth("120px");
 		anchorFeedback.setVisible(false);
+		anchorFeedback.getElement().getStyle().setPaddingLeft(5, Unit.PX);
 		// if(status.getText().length()>1){
 		add(status);
 		// }
@@ -241,14 +238,6 @@ public class JobExceptionsView extends HorizontalPanel {
 
 	public void setListBoxImplicationRating(ListBox listBoxImplicationRating) {
 		this.listBoxImplicationRating = listBoxImplicationRating;
-	}
-
-	public Label getLblPerviewFeedback() {
-		return lblPerviewFeedback;
-	}
-
-	public void setLblPerviewFeedback(Label lblPerviewFeedback) {
-		this.lblPerviewFeedback = lblPerviewFeedback;
 	}
 
 	public Anchor getAnchorFeedback() {
