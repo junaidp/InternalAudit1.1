@@ -41,6 +41,7 @@ import com.internalaudit.shared.RiskAssesmentDTO;
 import com.internalaudit.shared.RiskControlMatrixEntity;
 import com.internalaudit.shared.RiskFactor;
 import com.internalaudit.shared.RiskObjective;
+import com.internalaudit.shared.SamplingExcelSheetEntity;
 import com.internalaudit.shared.SkillUpdateData;
 import com.internalaudit.shared.Skills;
 import com.internalaudit.shared.Strategic;
@@ -329,6 +330,8 @@ public interface InternalAuditService extends RemoteService {
 	Date getNextYear(Date value);
 
 	ArrayList<InformationRequestEntity> fetchInformationRequestReLoad();
+
+	ArrayList<SamplingExcelSheetEntity> readExcel(String subFolder, String mainFolder);
 
 	// ArrayList<ToDo> fetchUpdatedRaisedToDo(int employeeID) throws Exception;
 }

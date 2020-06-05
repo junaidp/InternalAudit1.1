@@ -24,6 +24,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.ButtonRound;
+import com.internalaudit.shared.InternalAuditConstants;
+import com.internalaudit.shared.SamplingExcelSheetEntity;
 
 public class AuditWorkProgramUpload extends VerticalPanel {
 	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
@@ -37,8 +39,10 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 	private VerticalPanel uploadPanel;
 	private Image delete;
 
-	public AuditWorkProgramUpload(final String auditProcedureId, final String mainFolder) {
+	public AuditWorkProgramUpload(final String subFolder, final String mainFolder) {
 		// FileUploadField f = new FileUploadField();
+
+		delete = new Image("images/deleteIcon.png");
 		form = new FormPanel();
 		form.setAction(GWT.getModuleBaseURL() + "AuditWorkProgramUpload");
 		form.setEncoding(FormPanel.ENCODING_MULTIPART);
@@ -49,7 +53,7 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 		panelScroll.setHeight("65px");
 		uploadPanel = new VerticalPanel();
 		upload = new FileUpload();
-		upload.setName(auditProcedureId + ":" + mainFolder);
+		upload.setName(subFolder + ":" + mainFolder);
 		upload.setTitle("AuditProcedureUploads");
 		// uploadPanel.add(f);
 		// FileUploader fa = new FileUploader();
@@ -59,6 +63,7 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 		// Add a 'submit' button.
 		btnUpload = new Button("Upload");
 		btnUpload.getElement().getStyle().setMarginTop(3, Unit.PX);
+
 		btnUpload.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -69,15 +74,19 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 			}
 		});
 
-		fetchProcedureAttachments(auditProcedureId, mainFolder);
+		fetchProcedureAttachments(subFolder, mainFolder);
 
 		// Add an event handler to the form.
+
 		form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
 			public void onSubmitComplete(SubmitCompleteEvent event) {
 				if (event.getResults().contains("success")) {
 					Window.alert("File uploaded");
+					if (mainFolder.equalsIgnoreCase(InternalAuditConstants.SamplingSheet)) {
+						populateSamplingInput(subFolder, mainFolder);
+					}
 					// btnSubmit.setVisible(false);
-					fetchProcedureAttachments(auditProcedureId, mainFolder);
+					fetchProcedureAttachments(subFolder, mainFolder);
 					// updateFileNameInDatabase();
 				} else {
 					try {
@@ -102,13 +111,14 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 		add(panelContainer);
 	}
 
-	public void fetchProcedureAttachments(final String auditProcedureId, final String mainFolder) {
-		rpcService.fetchAuditStepsProcerdure(auditProcedureId, mainFolder, new AsyncCallback<ArrayList<String>>() {
+	public void fetchProcedureAttachments(final String subFolder, final String mainFolder) {
+		rpcService.fetchAuditStepsProcerdure(subFolder, mainFolder, new AsyncCallback<ArrayList<String>>() {
 
 			FlexTable records = new FlexTable();
 
 			@Override
 			public void onSuccess(ArrayList<String> result) {
+
 				panelFileDetail.clear();
 				// commented by Moqeet as per requirenment
 				// if (result.size() >= 1) {
@@ -118,7 +128,6 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 				// }
 				for (int i = 0; i < result.size(); i++) {
 					lblfilename = new Anchor(result.get(i));
-					delete = new Image("images/deleteIcon.png");
 					lblfilename.addStyleName("pointerStyle");
 					lblfilename.getElement().getStyle().setTextDecoration(TextDecoration.NONE);
 					lblfilename.setHeight("25px");
@@ -136,20 +145,21 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 					final String upperCasedJobLink = result.get(i);
 					lblfilename.setText(upperCasedJobLink);
 
-					clickHandlers(auditProcedureId, mainFolder, delete, upperCasedJobLink);
+					clickHandlers(subFolder, mainFolder, delete, upperCasedJobLink);
 
 				}
 
 			}
 
-			private void clickHandlers(final String auditProcedureId, final String mainFolder, Image delete,
+			private void clickHandlers(final String subFolder, final String mainFolder, Image delete,
 					final String upperCasedJobLink) {
+
 				delete.addClickHandler(new ClickHandler() {
 
 					@Override
 					public void onClick(ClickEvent event) {
 
-						rpcService.deleteAttachmentFile(auditProcedureId, mainFolder, upperCasedJobLink,
+						rpcService.deleteAttachmentFile(subFolder, mainFolder, upperCasedJobLink,
 								new AsyncCallback<String>() {
 
 									@Override
@@ -160,7 +170,7 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 									@Override
 									public void onSuccess(String result) {
 										Window.alert("File Deleted Successfully");
-										fetchProcedureAttachments(auditProcedureId, mainFolder);
+										fetchProcedureAttachments(subFolder, mainFolder);
 									}
 								});
 
@@ -175,13 +185,13 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 
 						// Frame frame = new
 						// Frame("/war/NotificationUploads/202/client%20mang.png");
-						Frame frame = new Frame(mainFolder + "/" + auditProcedureId + "/" + upperCasedJobLink);
+						Frame frame = new Frame(mainFolder + "/" + subFolder + "/" + upperCasedJobLink);
 						// frame.setWidth("1000px");
 						// frame.setHeight("500px");
 						frame.setPixelSize(800, 300);
 						// panelContainer.add(frame);
 						// (frame)commented by moqeet as rafery said
-						Window.open(mainFolder + "/" + auditProcedureId + "/" + upperCasedJobLink, "name", "");
+						Window.open(mainFolder + "/" + subFolder + "/" + upperCasedJobLink, "name", "");
 
 					}
 
@@ -211,6 +221,22 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 		return btn;
 	}
 
+	private void populateSamplingInput(final String subFolder, final String mainFolder) {
+		rpcService.readExcel(subFolder, mainFolder, new AsyncCallback<ArrayList<SamplingExcelSheetEntity>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("fail");
+
+			}
+
+			@Override
+			public void onSuccess(ArrayList<SamplingExcelSheetEntity> result) {
+				Window.alert("success");
+
+			}
+		});
+	}
 	// public void disableField() {
 	// btnUpload.setVisible(false);
 	// }

@@ -58,6 +58,7 @@ import com.internalaudit.shared.RiskAssesmentDTO;
 import com.internalaudit.shared.RiskControlMatrixEntity;
 import com.internalaudit.shared.RiskFactor;
 import com.internalaudit.shared.RiskObjective;
+import com.internalaudit.shared.SamplingExcelSheetEntity;
 import com.internalaudit.shared.SkillUpdateData;
 import com.internalaudit.shared.Skills;
 import com.internalaudit.shared.Strategic;
@@ -1748,5 +1749,13 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		// TODO Auto-generated method stub
 		Employee loggedInUser = (Employee) session.getAttribute("user");
 		return rdbHelper.fetchInformationRequestReLoad(loggedInUser);
+	}
+
+	@Override
+	public ArrayList<SamplingExcelSheetEntity> readExcel(String subFolder, String mainFolder) {
+		String realPath = getServletContext().getRealPath("/");
+		File filePath = new File(
+				realPath + "/" + mainFolder + "/" + subFolder + "/" + InternalAuditConstants.SamplingExcelFileName);
+		return rdbHelper.readExcel(filePath);
 	}
 }

@@ -15,6 +15,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
@@ -24,6 +25,7 @@ import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.client.view.PhaseNames;
+import com.internalaudit.client.view.PopupViewGXT;
 import com.internalaudit.client.view.PrioritizationView;
 import com.internalaudit.shared.Strategic;
 import com.internalaudit.shared.TimeOutException;
@@ -201,7 +203,14 @@ public class PrioritizationViewData {
 					} else {
 						prioritizationView.getComments().addStyleName("white");
 					}
-					prioritizationView.getComments().setTitle(strategics.get(index).getComments());
+					// prioritizationView.getComments().setTitle(strategics.get(index).getComments());
+					final String feedbackmsg = strategics.get(index).getComments();
+					prioritizationView.getComments().addClickHandler(new ClickHandler() {
+						@Override
+						public void onClick(ClickEvent event) {
+							PopupViewGXT feedbackpopup = new PopupViewGXT(new HTML(feedbackmsg), "Feedback");
+						}
+					});
 
 					vpnlData.add(prioritizationView);
 					prioritizationView.getArea().setText(strategics.get(index).getAuditableUnit());

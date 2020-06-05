@@ -40,6 +40,7 @@ import com.internalaudit.shared.RiskAssesmentDTO;
 import com.internalaudit.shared.RiskControlMatrixEntity;
 import com.internalaudit.shared.RiskFactor;
 import com.internalaudit.shared.RiskObjective;
+import com.internalaudit.shared.SamplingExcelSheetEntity;
 import com.internalaudit.shared.SkillUpdateData;
 import com.internalaudit.shared.Skills;
 import com.internalaudit.shared.Strategic;
@@ -337,4 +338,6 @@ public interface InternalAuditServiceAsync {
 	void deleteActivityObjective(int jobId, AsyncCallback<String> callback);
 
 	void getNextYear(Date value, AsyncCallback<Date> asyncCallback);
+
+	void readExcel(String subFolder, String mainFolder, AsyncCallback<ArrayList<SamplingExcelSheetEntity>> callback);
 }

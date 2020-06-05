@@ -1,10 +1,12 @@
 package com.internalaudit.database;
 
 import java.io.File;
+import java.io.FileInputStream;
 //import java.lang.invoke.VolatileCallSite;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -34,6 +36,7 @@ import javax.mail.internet.MimeMultipart;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -103,6 +106,7 @@ import com.internalaudit.shared.RiskControlMatrixEntity;
 import com.internalaudit.shared.RiskFactor;
 import com.internalaudit.shared.RiskJobRelation;
 import com.internalaudit.shared.RiskObjective;
+import com.internalaudit.shared.SamplingExcelSheetEntity;
 import com.internalaudit.shared.SkillUpdateData;
 import com.internalaudit.shared.Skills;
 import com.internalaudit.shared.Strategic;
@@ -809,7 +813,18 @@ public class MySQLRdbHelper {
 
 					} else {
 						strategic.setAuditableUnit(clientSideStrategic.getAuditableUnit());
-						strategic.setProcess(clientSideStrategic.getProcess());
+						strategic.setProcess(clientSideStrategic.getProcess());// comment
+																				// this
+																				// line
+																				// and
+																				// ,
+																				// from
+																				// here
+																				// call
+																				// a
+																				// new
+																				// method
+																				// "saveStrategicSubProcess()"
 						strategic.setSubProcess(clientSideStrategic.getSubProcess());
 						strategic.setJobType(clientSideStrategic.getJobType());
 						submitStrategic(strategic, loggedInUser, clientSideStrategic, session);
@@ -1193,6 +1208,11 @@ public class MySQLRdbHelper {
 									&& strategic.getInitiatedBy().getEmployeeId() != employeeId)) {
 						// DO not send this strategy
 					} else {
+						// Here call a new method which will get the
+						// subProcesses from the new table with strategic
+						// Id(strategic.getId()) and then set that list to the
+						// list in StrategicEntity.
+
 						strategics.add(strategic);
 					}
 				}
@@ -6055,9 +6075,9 @@ public class MySQLRdbHelper {
 		} finally {
 			session.close();
 		}
-		// if (status == 1) {
-		sendAttachmentEmail(message, to, cc, "Audit Notification", filePath, from);
-		// }
+		if (status == 1) {
+			sendAttachmentEmail(message, to, cc, "Audit Notification", filePath, from);
+		}
 		return "Audit Notification saved";
 	}
 
@@ -10180,6 +10200,52 @@ public class MySQLRdbHelper {
 
 		}
 		return "ActivityObjective deleted";
+	}
+
+	public ArrayList<SamplingExcelSheetEntity> readExcel(File filePath) {
+
+		{
+
+			try {
+				ArrayList<SamplingExcelSheetEntity> listSampling = new ArrayList<SamplingExcelSheetEntity>();
+				SamplingExcelSheetEntity samplingData = new SamplingExcelSheetEntity();
+				InputStream ExcelFileToRead = new FileInputStream(filePath.getPath());
+				HSSFWorkbook wb;
+				wb = new HSSFWorkbook(ExcelFileToRead);
+
+				HSSFSheet sheet = wb.getSheetAt(0);
+				HSSFRow row;
+				HSSFCell cell;
+
+				Iterator rows = sheet.rowIterator();
+
+				while (rows.hasNext()) {
+					row = (HSSFRow) rows.next();
+					Iterator cells = row.cellIterator();
+					HSSFCell c = row.getCell((short) 0);
+					samplingData.setJobId(c.getStringCellValue() + "");
+					System.out.print(c.getStringCellValue() + " ");
+					// while (cells.hasNext()) {
+					// cell = (HSSFCell) cells.next();
+					//
+					// if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
+					// System.out.print(cell.getStringCellValue() + " ");
+					// } else if (cell.getCellType() ==
+					// HSSFCell.CELL_TYPE_NUMERIC) {
+					// System.out.print(cell.getNumericCellValue() + " ");
+					// } else {
+					// // U Can Handel Boolean, Formula, Errors
+					// }
+					// }
+					System.out.println();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+		return null;
 	}
 
 }

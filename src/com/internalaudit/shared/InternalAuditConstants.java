@@ -57,4 +57,7 @@ public class InternalAuditConstants {
 	public static final String EXCEL = "excel";
 	public static final String REPORTINGJOBVIEW = "JobExcceptionView";
 	public static final String REPORTINGRESPONSIBLEVIEW = "ResponsiblePersonView";
+	public static final String SamplingSheet = "SamplingSheet";
+	public static final String SamplingExcelFileName = "SamplingExcel.xls";
+
 }

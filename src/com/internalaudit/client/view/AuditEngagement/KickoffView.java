@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
@@ -68,7 +69,7 @@ public class KickoffView extends Composite {
 	Label lblProcess;
 
 	@UiField
-	Label lblAuditableUnit;
+	TextArea lblAuditableUnit;
 
 	@UiField
 	Label lblSubProcess;
@@ -92,6 +93,8 @@ public class KickoffView extends Composite {
 		this.selectedJobId = selectedjobId;
 		initWidget(uiBinder.createAndBindUi(this));
 		this.auditEngId = auditEngId;
+		lblAuditableUnit.setEnabled(false);
+		jobName.setWordWrap(false);
 		fetchCreatedJob(selectedJobId, loggedInUser);
 
 		updateKickoffStatus(selectedjobId);

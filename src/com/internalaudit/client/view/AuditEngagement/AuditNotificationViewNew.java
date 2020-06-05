@@ -75,6 +75,8 @@ public class AuditNotificationViewNew extends Composite {
 		btnSend.getElement().getStyle().setMarginLeft(1020, Unit.PX);
 		// Window.alert(uploada.getFile());
 		fileUploader.fetchProcedureAttachments(notificationId, mainFolder);
+		// next line added by moqeet
+		fileUploader.getDelete().setVisible(false);
 		panelUpload.add(fileUploader);
 
 	}
@@ -160,7 +162,6 @@ public class AuditNotificationViewNew extends Composite {
 							public void onSuccess(String result) {
 								refreshFile(notificationId, mainFolder);
 								asyncCallback.onSuccess(null);
-
 							}
 						});
 				disableFields();
@@ -171,7 +172,6 @@ public class AuditNotificationViewNew extends Composite {
 
 	public void disableFields() {
 		fileUploader.getUploadPanel().setVisible(false);
-
 		txtAreaBody.setEnabled(false);
 		txtBoxForAction.setEnabled(false);
 		txtBoxForInfo.setEnabled(false);
@@ -183,7 +183,6 @@ public class AuditNotificationViewNew extends Composite {
 		btnSend.setVisible(false);
 		btnSubmit.setVisible(false);
 		// uploada.getBtnSubmit().setVisible(false);
-
 	}
 
 	public AuditNotificationViewNewData getAuditNotificationViewNewData() {

@@ -301,7 +301,6 @@ public class JobCreationPresenter implements Presenter {
 
 							History.newItem("auditScheduling");
 						}
-						//
 					}
 
 					@Override
@@ -313,13 +312,9 @@ public class JobCreationPresenter implements Presenter {
 							History.newItem("login");
 						} else {
 							System.out.println("FAIL: saveCreatedJob .Inside AuditAreaspresenter");
-							Window.alert("FAIL: saveCreatedJob" + caught.getMessage());// After
-																						// FAIL
-							// ... write
-							// RPC Name
-							// NOT
-							// Method
-							// Name..
+							Window.alert("FAIL: saveCreatedJob" + caught.getMessage());
+							// After FAIL
+							// ... write RPC Name NOT Method Name..
 						}
 
 					}

@@ -95,7 +95,7 @@
 			
 			<g:HorizontalPanel>
 			<g:Label width="100px" text="Subject"  addStyleNames ="labelDesign w3-panel"></g:Label>
-			<g:TextBox width="200px" text="Engegement Name" ui:field="txtBoxSubject" addStyleNames =" auditengToccText"></g:TextBox>
+			<g:TextBox width="200px" text="Engagement Name" ui:field="txtBoxSubject" addStyleNames =" auditengToccText"></g:TextBox>
 			</g:HorizontalPanel>
 			</g:VerticalPanel>
 

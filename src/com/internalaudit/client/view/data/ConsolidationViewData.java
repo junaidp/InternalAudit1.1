@@ -61,15 +61,29 @@ public class ConsolidationViewData {
 		// strategic.setJobType(consolidationView.getListBoxJobType().getSelectedItemText());
 		// strategic.setPhase("Consolidation");
 		Process process = new Process();
-		String a = consolidationView.getListBoxProcess()
-				.getValue(consolidationView.getListBoxProcess().getSelectedIndex());
+		// String a = consolidationView.getListBoxProcess()
+		// .getValue(consolidationView.getListBoxProcess().getSelectedIndex());
 		process.setProcessId(Integer.parseInt(consolidationView.getListBoxProcess()
 				.getValue(consolidationView.getListBoxProcess().getSelectedIndex())));
 		strategic.setProcess(process);
 
 		SubProcess subprocess = new SubProcess();
-		String s = consolidationView.getListBoxSubProcess()
-				.getValue(consolidationView.getListBoxSubProcess().getSelectedIndex());
+		// String s = consolidationView.getListBoxSubProcess()
+		// .getValue(consolidationView.getListBoxSubProcess().getSelectedIndex());
+
+		/// 1-GET the multiple values from the listbox..Right now it will only
+		/// give first selected listbox value
+		// 2-Create ArrayList<SubProcess> "subProcessList" variable with
+		/// getter/setter in Strategic Entity class and set the list from
+		/// listbox,as it is doing now for One.
+		// 3- Create a new table and entity .."StrategicSubProcess"
+		// 4- In MySQL class line 816 , call a new method which will save this
+		/// list to this new table above. (in that method we will get the data
+		/// from ArrayList<SubProcess> from strategicEntity and set in our new
+		/// table)
+		// 5- inMySQL line 1200.. we will get our saves subprocesses from db and
+		/// set to the list "subProcessList"
+
 		subprocess.setSubProcessId(Integer.parseInt(consolidationView.getListBoxSubProcess()
 				.getValue(consolidationView.getListBoxSubProcess().getSelectedIndex())));
 		strategic.setSubProcess(subprocess);
