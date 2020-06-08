@@ -106,6 +106,9 @@ public class Strategic implements Serializable {
 	@Transient
 	private int jobCreationId;
 
+	@Transient
+	private ArrayList<SubProcess> listSubProcess;
+
 	public boolean isApprovedByAuditHead() {
 		return approvedByAuditHead;
 	}
@@ -430,6 +433,14 @@ public class Strategic implements Serializable {
 
 	public void setRatingComments(String ratingComments) {
 		this.ratingComments = ratingComments;
+	}
+
+	public ArrayList<SubProcess> getListSubProcess() {
+		return listSubProcess;
+	}
+
+	public void setListSubProcess(ArrayList<SubProcess> listSubProcess) {
+		this.listSubProcess = listSubProcess;
 	}
 
 }

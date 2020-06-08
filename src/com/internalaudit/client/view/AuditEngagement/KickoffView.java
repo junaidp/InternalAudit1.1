@@ -83,6 +83,7 @@ public class KickoffView extends Composite {
 	private int auditEngId = 0;
 	private AuditEngagement selectedAuditEngagement;
 	private SubProcess subProcess;
+	// private ArrayList<SubProcess> listSubProcess;
 
 	public KickoffView(InternalAuditServiceAsync rpcService, int selectedjobId, int auditEngId, Employee loggedInUser,
 			AuditEngagement auditEngagement) {
@@ -161,6 +162,8 @@ public class KickoffView extends Composite {
 							: result.getStrategic().getAuditableUnit());
 
 					subProcess = result.getStrategic().getSubProcess();
+					//
+					// listSubProcess.addAll(result.getStrategic().getListSubProcess());
 				}
 
 			}
@@ -980,6 +983,8 @@ public class KickoffView extends Composite {
 			activityObjectiveView.getDelete().setVisible(false);
 			activityObjectiveView.getData(activityObjective);
 			activityObjective.setSubProcessId(subProcess);
+			// activityObjective.setSubProcessId(listSubProcess);
+			// list added by moqeet
 			// activityObjective.setChecked(true);
 			activityObjectives.add(activityObjective);
 		}

@@ -19,7 +19,7 @@
 	</ui:style>
 	<g:HTMLPanel>
 
-		<A:LabelHeading width="1205px" ui:field="jobName"> Loading.. </A:LabelHeading>
+		<A:LabelHeading width="1205px" height="40px" ui:field="jobName"> Loading.. </A:LabelHeading>
 		
 	<g:VerticalPanel addStyleNames="{style.panel}">
 		<g:HorizontalPanel>
@@ -33,7 +33,7 @@
 				<g:Label styleName="lblSpace" addStyleNames=" auditengLabel" >Auditable Unit</g:Label> 
 		    </g:VerticalPanel>
 			<g:VerticalPanel width="200px">
-			    <g:Label text="Loading.." width="170px" ui:field="lblAuditableUnit"   ></g:Label>
+			    <g:TextArea text="Loading.." width="190px" height="55px" ui:field="lblAuditableUnit"></g:TextArea>
 			</g:VerticalPanel>
 			<g:VerticalPanel>
 				 <g:Label styleName="lblSpace" addStyleNames=" auditengLabel">Process</g:Label> 

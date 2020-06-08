@@ -114,6 +114,7 @@ import com.internalaudit.shared.StrategicAudit;
 import com.internalaudit.shared.StrategicDTO;
 import com.internalaudit.shared.StrategicDepartments;
 import com.internalaudit.shared.StrategicRisk;
+import com.internalaudit.shared.StrategicSubProcess;
 import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.TimeLineDates;
@@ -825,7 +826,7 @@ public class MySQLRdbHelper {
 																				// new
 																				// method
 																				// "saveStrategicSubProcess()"
-						strategic.setSubProcess(clientSideStrategic.getSubProcess());
+
 						strategic.setJobType(clientSideStrategic.getJobType());
 						submitStrategic(strategic, loggedInUser, clientSideStrategic, session);
 					}
@@ -888,6 +889,27 @@ public class MySQLRdbHelper {
 		} finally {
 			session.close();
 		}
+	}
+
+	private void saveStrategicSubProcess(Strategic strategic, Session session) {
+
+		try {
+
+			for (int i = 0; i < strategic.getListSubProcess().size(); i++) {
+				StrategicSubProcess strategicSubProcess = new StrategicSubProcess();
+				strategicSubProcess.setStrategicID(strategic.getId());
+				strategicSubProcess.setSubProcessId(strategic.getListSubProcess().get(i));
+				session.saveOrUpdate(strategicSubProcess);
+				session.flush();
+			}
+			logger.info(String.format("(Inside saveStrategicSubProcess) saving saveStrategicSubProcess for strategic : "
+					+ strategic.getStrategicObjective() + " " + new Date()));
+		} catch (Exception ex) {
+
+			logger.warn(String.format("Exception occured in saveStrategicSubProcess", ex.getMessage()), ex);
+
+		}
+
 	}
 
 	private void saveDepartments(Strategic strategic) {
@@ -1035,6 +1057,10 @@ public class MySQLRdbHelper {
 		strategic.setAcheivementDate(clientSideStrategic.getAcheivementDate());
 		strategic.setRelevantDepartment(clientSideStrategic.getRelevantDepartment());
 		strategic.setAudit(clientSideStrategic.isAudit());
+
+		// Save List of subProcess against strategic.
+		saveStrategicSubProcess(clientSideStrategic, session);
+
 		logger.info(String.format("(Inside approveStrategic) approve strategic for Looged In User : " + loggedInUser
 				+ " initiated by " + initiatedBy.getEmployeeName() + " " + new Date()));
 	}
@@ -1069,6 +1095,9 @@ public class MySQLRdbHelper {
 		// HERE Objective owner
 		strategic.setRelevantDepartment(clientSideStrategic.getRelevantDepartment());
 		strategic.setAudit(clientSideStrategic.isAudit());
+		// Save List of subProcess against strategic.
+		saveStrategicSubProcess(clientSideStrategic, session);
+
 		logger.info(String.format("(Inside initiateStrategic) Initiated strategic " + strategic.getStrategicObjective()
 				+ " for Looged In User : " + loggedInUser + " " + new Date()));
 	}
@@ -1212,7 +1241,8 @@ public class MySQLRdbHelper {
 						// subProcesses from the new table with strategic
 						// Id(strategic.getId()) and then set that list to the
 						// list in StrategicEntity.
-
+						// strategic.getListSubProcess()
+						strategic.setListSubProcess(fetchStrategicSubProcess(strategic.getId(), session));
 						strategics.add(strategic);
 					}
 				}
@@ -1230,6 +1260,30 @@ public class MySQLRdbHelper {
 		}
 		Collections.reverse(strategics);
 		return strategics;
+	}
+
+	private ArrayList<SubProcess> fetchStrategicSubProcess(int strategicId, Session session) {
+		ArrayList<SubProcess> subProcess = new ArrayList<SubProcess>();
+		try {
+			Criteria crit = session.createCriteria(StrategicSubProcess.class);
+			crit.add(Restrictions.eq("strategicID", strategicId));
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				StrategicSubProcess strategicSP = (StrategicSubProcess) it.next();
+				subProcess.add(strategicSP.getSubProcessId());
+
+			}
+			logger.info(String
+					.format("(Inside fetchStrategicSubProcess) fetching Strategic fetchStrategicSubProcess for strategicId : "
+							+ strategicId + new Date()));
+
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchStrategicSubProcess", ex.getMessage()), ex);
+
+		} finally {
+
+		}
+		return subProcess;
 	}
 
 	private ArrayList<StrategicDepartments> fetchStrategicdepartments(Strategic strategic, Session session) {

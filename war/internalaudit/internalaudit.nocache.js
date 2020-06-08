@@ -1,67 +1,27 @@
-/*
- * Copyright 2014 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
-
-/**
- * This startup script is used when we run superdevmode from an app server.
- */
-(function($wnd, $doc){
-  // document.head does not exist in IE8
-  var $head = $doc.head || $doc.getElementsByTagName('head')[0];
-  // Compute some codeserver urls so as the user does not need bookmarklets
-  var hostName = $wnd.location.hostname;
-  var serverUrl = 'http://' + hostName + ':9876';
-  var module = 'internalaudit';
-  var nocacheUrl = serverUrl + '/recompile-requester/' + module;
-
-  // Insert the superdevmode nocache script in the first position of the head
-  var devModeScript = $doc.createElement('script');
-  devModeScript.src = nocacheUrl;
-
-  // Everybody except IE8 does fire an error event
-  // This means that we do not detect a non running SDM with IE8.
-  if (devModeScript.addEventListener) {
-    var callback = function() {
-      // Don't show the confirmation dialogue twice (multimodule)
-      if (!$wnd.__gwt__sdm__confirmed &&
-           (!$wnd.__gwt_sdm__recompiler || !$wnd.__gwt_sdm__recompiler.loaded)) {
-        $wnd.__gwt__sdm__confirmed = true;
-        if ($wnd.confirm(
-            "Couldn't load " +  module + " from Super Dev Mode\n" +
-            "server at " + serverUrl + ".\n" +
-            "Please make sure this server is ready.\n" +
-            "Do you want to try again?")) {
-          $wnd.location.reload();
-        }
-      }
-    };
-    devModeScript.addEventListener("error", callback, true);
-  }
-
-  var injectScriptTag = function(){
-    $head.insertBefore(devModeScript, $head.firstElementChild || $head.children[0]);
-  };
-
-  if (/loaded|complete/.test($doc.readyState)) {
-    injectScriptTag();
-  } else {
-    //defer app script insertion until the body is ready
-    if($wnd.addEventListener){
-      $wnd.addEventListener('load', injectScriptTag, false);
-    } else{
-      $wnd.attachEvent('onload', injectScriptTag);
-    }
-  }
-})(window, document);
+function internalaudit(){var O='bootstrap',P='begin',Q='gwt.codesvr.internalaudit=',R='gwt.codesvr=',S='internalaudit',T='startup',U='DUMMY',V=0,W=1,X='iframe',Y='javascript:""',Z='position:absolute; width:0; height:0; border:none; left: -1000px;',$=' top: -1000px;',_='CSS1Compat',ab='<!doctype html>',bb='',cb='<html><head><\/head><body><\/body><\/html>',db='undefined',eb='DOMContentLoaded',fb=50,gb='Chrome',hb='eval("',ib='");',jb='script',kb='javascript',lb='moduleStartup',mb='moduleRequested',nb='Failed to load ',ob='head',pb='meta',qb='name',rb='internalaudit::',sb='::',tb='gwt:property',ub='content',vb='=',wb='gwt:onPropertyErrorFn',xb='Bad handler "',yb='" for "gwt:onPropertyErrorFn"',zb='gwt:onLoadErrorFn',Ab='" for "gwt:onLoadErrorFn"',Bb='#',Cb='?',Db='/',Eb='img',Fb='clear.cache.gif',Gb='baseUrl',Hb='internalaudit.nocache.js',Ib='base',Jb='//',Kb='gxt.user.agent',Lb='chrome',Mb='opera',Nb='msie',Ob=10,Pb='ie10',Qb=9,Rb='ie9',Sb=8,Tb='ie8',Ub='msie 7',Vb='ie7',Wb='msie 6',Xb='ie6',Yb='safari',Zb='version/3',$b='safari3',_b='version/4',ac='safari4',bc='safari5',cc='gecko',dc='rv:1.8',ec='gecko1_8',fc='gecko1_9',gc='adobeair',hc='air',ic=2,jc=3,kc=4,lc=5,mc=6,nc=7,oc='user.agent',pc='webkit',qc=11,rc='user.agent.os',sc='macintosh',tc='mac os x',uc='mac',vc='linux',wc='windows',xc='win32',yc='unknown',zc='selectingPermutation',Ac='internalaudit.devmode.js',Bc='09A638D1C1F878D766E0EA44FC0A6944',Cc=':1',Dc=':10',Ec=':11',Fc=':2',Gc=':3',Hc=':4',Ic=':5',Jc=':6',Kc=':7',Lc=':8',Mc=':9',Nc='1481082CA0ACDB785313E26750C75062',Oc='154D296E437F9B8709A74467645B71C5',Pc='3277E01D6B70C0F1E592D4CBF0EAC9C2',Qc='3559B38C8F4987F67C3413960555C310',Rc='5B3F780D87E9912F5B9903011783D12F',Sc='6CB92157BFB05DAB65D1FA21536F4751',Tc=':',Uc='.cache.js',Vc='link',Wc='rel',Xc='stylesheet',Yc='href',Zc='loadExternalRefs',$c='css/chart.css',_c='gwt/standard/standard.css',ad='end',bd='http:',cd='file:',dd='_gwt_dummy_',ed='__gwtDevModeHook:internalaudit',fd='Ignoring non-whitelisted Dev Mode URL: ',gd=':moduleBase';var o=window;var p=document;r(O,P);function q(){var a=o.location.search;return a.indexOf(Q)!=-1||a.indexOf(R)!=-1}
+function r(a,b){if(o.__gwtStatsEvent){o.__gwtStatsEvent({moduleName:S,sessionId:o.__gwtStatsSessionId,subSystem:T,evtGroup:a,millis:(new Date).getTime(),type:b})}}
+internalaudit.__sendStats=r;internalaudit.__moduleName=S;internalaudit.__errFn=null;internalaudit.__moduleBase=U;internalaudit.__softPermutationId=V;internalaudit.__computePropValue=null;internalaudit.__getPropMap=null;internalaudit.__installRunAsyncCode=function(){};internalaudit.__gwtStartLoadingFragment=function(){return null};internalaudit.__gwt_isKnownPropertyValue=function(){return false};internalaudit.__gwt_getMetaProperty=function(){return null};var s=null;var t=o.__gwt_activeModules=o.__gwt_activeModules||{};t[S]={moduleName:S};internalaudit.__moduleStartupDone=function(e){var f=t[S].bindings;t[S].bindings=function(){var a=f?f():{};var b=e[internalaudit.__softPermutationId];for(var c=V;c<b.length;c++){var d=b[c];a[d[V]]=d[W]}return a}};var u;function v(){w();return u}
+function w(){if(u){return}var a=p.createElement(X);a.src=Y;a.id=S;a.style.cssText=Z+$;a.tabIndex=-1;p.body.appendChild(a);u=a.contentDocument;if(!u){u=a.contentWindow.document}u.open();var b=document.compatMode==_?ab:bb;u.write(b+cb);u.close()}
+function A(k){function l(a){function b(){if(typeof p.readyState==db){return typeof p.body!=db&&p.body!=null}return /loaded|complete/.test(p.readyState)}
+var c=b();if(c){a();return}function d(){if(!c){c=true;a();if(p.removeEventListener){p.removeEventListener(eb,d,false)}if(e){clearInterval(e)}}}
+if(p.addEventListener){p.addEventListener(eb,d,false)}var e=setInterval(function(){if(b()){d()}},fb)}
+function m(c){function d(a,b){a.removeChild(b)}
+var e=v();var f=e.body;var g;if(navigator.userAgent.indexOf(gb)>-1&&window.JSON){var h=e.createDocumentFragment();h.appendChild(e.createTextNode(hb));for(var i=V;i<c.length;i++){var j=window.JSON.stringify(c[i]);h.appendChild(e.createTextNode(j.substring(W,j.length-W)))}h.appendChild(e.createTextNode(ib));g=e.createElement(jb);g.language=kb;g.appendChild(h);f.appendChild(g);d(f,g)}else{for(var i=V;i<c.length;i++){g=e.createElement(jb);g.language=kb;g.text=c[i];f.appendChild(g);d(f,g)}}}
+internalaudit.onScriptDownloaded=function(a){l(function(){m(a)})};r(lb,mb);var n=p.createElement(jb);n.src=k;if(internalaudit.__errFn){n.onerror=function(){internalaudit.__errFn(S,new Error(nb+code))}}p.getElementsByTagName(ob)[V].appendChild(n)}
+internalaudit.__startLoadingFragment=function(a){return D(a)};internalaudit.__installRunAsyncCode=function(a){var b=v();var c=b.body;var d=b.createElement(jb);d.language=kb;d.text=a;c.appendChild(d);c.removeChild(d)};function B(){var c={};var d;var e;var f=p.getElementsByTagName(pb);for(var g=V,h=f.length;g<h;++g){var i=f[g],j=i.getAttribute(qb),k;if(j){j=j.replace(rb,bb);if(j.indexOf(sb)>=V){continue}if(j==tb){k=i.getAttribute(ub);if(k){var l,m=k.indexOf(vb);if(m>=V){j=k.substring(V,m);l=k.substring(m+W)}else{j=k;l=bb}c[j]=l}}else if(j==wb){k=i.getAttribute(ub);if(k){try{d=eval(k)}catch(a){alert(xb+k+yb)}}}else if(j==zb){k=i.getAttribute(ub);if(k){try{e=eval(k)}catch(a){alert(xb+k+Ab)}}}}}__gwt_getMetaProperty=function(a){var b=c[a];return b==null?null:b};s=d;internalaudit.__errFn=e}
+function C(){function e(a){var b=a.lastIndexOf(Bb);if(b==-1){b=a.length}var c=a.indexOf(Cb);if(c==-1){c=a.length}var d=a.lastIndexOf(Db,Math.min(c,b));return d>=V?a.substring(V,d+W):bb}
+function f(a){if(a.match(/^\w+:\/\//)){}else{var b=p.createElement(Eb);b.src=a+Fb;a=e(b.src)}return a}
+function g(){var a=__gwt_getMetaProperty(Gb);if(a!=null){return a}return bb}
+function h(){var a=p.getElementsByTagName(jb);for(var b=V;b<a.length;++b){if(a[b].src.indexOf(Hb)!=-1){return e(a[b].src)}}return bb}
+function i(){var a=p.getElementsByTagName(Ib);if(a.length>V){return a[a.length-W].href}return bb}
+function j(){var a=p.location;return a.href==a.protocol+Jb+a.host+a.pathname+a.search+a.hash}
+var k=g();if(k==bb){k=h()}if(k==bb){k=i()}if(k==bb&&j()){k=e(p.location.href)}k=f(k);return k}
+function D(a){if(a.match(/^\//)){return a}if(a.match(/^[a-zA-Z]+:\/\//)){return a}return internalaudit.__moduleBase+a}
+function F(){var f=[];var g=V;function h(a,b){var c=f;for(var d=V,e=a.length-W;d<e;++d){c=c[a[d]]||(c[a[d]]=[])}c[a[e]]=b}
+var i=[];var j=[];function k(a){var b=j[a](),c=i[a];if(b in c){return b}var d=[];for(var e in c){d[c[e]]=e}if(s){s(a,d,b)}throw null}
+j[Kb]=function(){var a=navigator.userAgent.toLowerCase();if(a.indexOf(Lb)!=-1)return Lb;if(a.indexOf(Mb)!=-1)return Mb;if(a.indexOf(Nb)!=-1){if(p.documentMode>=Ob)return Pb;if(p.documentMode>=Qb)return Rb;if(p.documentMode>=Sb)return Tb;if(a.indexOf(Ub)!=-1)return Vb;if(a.indexOf(Wb)!=-1)return Xb;return Pb}if(a.indexOf(Yb)!=-1){if(a.indexOf(Zb)!=-1)return $b;if(a.indexOf(_b)!=-1)return ac;return bc}if(a.indexOf(cc)!=-1){if(a.indexOf(dc)!=-1)return ec;return fc}if(a.indexOf(gc)!=-1)return hc;return null};i[Kb]={air:V,chrome:W,gecko1_8:ic,gecko1_9:jc,ie10:kc,ie8:lc,ie9:mc,safari3:nc,safari4:Sb,safari5:Qb};j[oc]=function(){var a=navigator.userAgent.toLowerCase();var b=p.documentMode;if(function(){return a.indexOf(pc)!=-1}())return Yb;if(function(){return a.indexOf(Nb)!=-1&&(b>=Ob&&b<qc)}())return Pb;if(function(){return a.indexOf(Nb)!=-1&&(b>=Qb&&b<qc)}())return Rb;if(function(){return a.indexOf(Nb)!=-1&&(b>=Sb&&b<qc)}())return Tb;if(function(){return a.indexOf(cc)!=-1||b>=qc}())return ec;return bb};i[oc]={gecko1_8:V,ie10:W,ie8:ic,ie9:jc,safari:kc};j[rc]=function(){var a=o.navigator.userAgent.toLowerCase();if(a.indexOf(sc)!=-1||a.indexOf(tc)!=-1){return uc}if(a.indexOf(vc)!=-1){return vc}if(a.indexOf(wc)!=-1||a.indexOf(xc)!=-1){return wc}return yc};i[rc]={linux:V,mac:W,unknown:ic,windows:jc};__gwt_isKnownPropertyValue=function(a,b){return b in i[a]};internalaudit.__getPropMap=function(){var a={};for(var b in i){if(i.hasOwnProperty(b)){a[b]=k(b)}}return a};internalaudit.__computePropValue=k;o.__gwt_activeModules[S].bindings=internalaudit.__getPropMap;r(O,zc);if(q()){return D(Ac)}var l;try{h([hc,Yb,vc],Bc);h([hc,Yb,uc],Bc+Cc);h([bc,Yb,yc],Bc+Dc);h([bc,Yb,wc],Bc+Ec);h([hc,Yb,yc],Bc+Fc);h([hc,Yb,wc],Bc+Gc);h([Lb,Yb,vc],Bc+Hc);h([Lb,Yb,uc],Bc+Ic);h([Lb,Yb,yc],Bc+Jc);h([Lb,Yb,wc],Bc+Kc);h([bc,Yb,vc],Bc+Lc);h([bc,Yb,uc],Bc+Mc);h([ec,ec,vc],Nc);h([ec,ec,uc],Nc+Cc);h([ec,ec,yc],Nc+Fc);h([ec,ec,wc],Nc+Gc);h([Pb,Pb,vc],Oc);h([Pb,Pb,uc],Oc+Cc);h([Pb,Pb,yc],Oc+Fc);h([Pb,Pb,wc],Oc+Gc);h([$b,Yb,vc],Pc);h([$b,Yb,uc],Pc+Cc);h([$b,Yb,yc],Pc+Fc);h([$b,Yb,wc],Pc+Gc);h([ac,Yb,vc],Pc+Hc);h([ac,Yb,uc],Pc+Ic);h([ac,Yb,yc],Pc+Jc);h([ac,Yb,wc],Pc+Kc);h([fc,ec,vc],Qc);h([fc,ec,uc],Qc+Cc);h([fc,ec,yc],Qc+Fc);h([fc,ec,wc],Qc+Gc);h([Tb,Tb,vc],Rc);h([Tb,Tb,uc],Rc+Cc);h([Tb,Tb,yc],Rc+Fc);h([Tb,Tb,wc],Rc+Gc);h([Rb,Rb,vc],Sc);h([Rb,Rb,uc],Sc+Cc);h([Rb,Rb,yc],Sc+Fc);h([Rb,Rb,wc],Sc+Gc);l=f[k(Kb)][k(oc)][k(rc)];var m=l.indexOf(Tc);if(m!=-1){g=parseInt(l.substring(m+W),Ob);l=l.substring(V,m)}}catch(a){}internalaudit.__softPermutationId=g;return D(l+Uc)}
+function G(){if(!o.__gwt_stylesLoaded){o.__gwt_stylesLoaded={}}function c(a){if(!__gwt_stylesLoaded[a]){var b=p.createElement(Vc);b.setAttribute(Wc,Xc);b.setAttribute(Yc,D(a));p.getElementsByTagName(ob)[V].appendChild(b);__gwt_stylesLoaded[a]=true}}
+r(Zc,P);c($c);c(_c);r(Zc,ad)}
+B();internalaudit.__moduleBase=C();t[S].moduleBase=internalaudit.__moduleBase;var H=F();if(o){var I=!!(o.location.protocol==bd||o.location.protocol==cd);o.__gwt_activeModules[S].canRedirect=I;function J(){var b=dd;try{o.sessionStorage.setItem(b,b);o.sessionStorage.removeItem(b);return true}catch(a){return false}}
+if(I&&J()){var K=ed;var L=o.sessionStorage[K];if(!/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?\/.*$/.test(L)){if(L&&(window.console&&console.log)){console.log(fd+L)}L=bb}if(L&&!o[K]){o[K]=true;o[K+gd]=C();var M=p.createElement(jb);M.src=L;var N=p.getElementsByTagName(ob)[V];N.insertBefore(M,N.firstElementChild||N.children[V]);return false}}}G();r(O,ad);A(H);return true}
+internalaudit.succeeded=internalaudit();
