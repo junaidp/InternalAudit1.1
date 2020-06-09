@@ -59,8 +59,8 @@
 				<g:VerticalPanel>
 				<g:Label styleName="lblSpace" addStyleNames=" auditengLabel" >SubProcess</g:Label>
 			</g:VerticalPanel>
-			<g:VerticalPanel width="200px">
-			    <g:Label text="Loading.." width="170px"  ui:field="lblSubProcess"  ></g:Label>
+			<g:VerticalPanel width="200px" ui:field="vpnlSubProcess">
+			 <g:Label text="Loading.." width="170px"  ui:field="lblSubProcess"  ></g:Label>
 			</g:VerticalPanel>
 		   </g:HorizontalPanel>	
 		

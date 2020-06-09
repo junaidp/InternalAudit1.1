@@ -75,6 +75,8 @@ public class KickoffView extends Composite {
 	Label lblSubProcess;
 	@UiField
 	Label lblJobType;
+	@UiField
+	VerticalPanel vpnlSubProcess;
 
 	private Employee loggedInUser;
 	private ContentPanel panel;
@@ -156,6 +158,17 @@ public class KickoffView extends Composite {
 							: result.getStrategic().getProcess().getProcessName());
 					lblSubProcess.setText(result.getStrategic().getSubProcess() == null ? ""
 							: result.getStrategic().getSubProcess().getSubProcessName());
+					// if multiple SubProcess selected
+					if (result.getStrategic().getListSubProcess().size() > 0) {
+						vpnlSubProcess.clear();
+						for (int i = 0; i < result.getStrategic().getListSubProcess().size(); i++) {
+							Label lblSubProces = new Label(
+									result.getStrategic().getListSubProcess().get(i).getSubProcessName());
+							lblSubProces.setWidth("100%");
+							vpnlSubProcess.add(lblSubProces);
+						}
+					}
+
 					lblJobType.setText(result.getStrategic().getJobType() == null ? ""
 							: result.getStrategic().getJobType().getJobTypeName());
 					lblAuditableUnit.setText(result.getStrategic().getAuditableUnit() == null ? ""

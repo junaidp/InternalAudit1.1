@@ -75,8 +75,7 @@ public class ConsolidationViewData {
 				// .getValue(consolidationView.getListBoxSubProcess().getSelectedIndex())));
 
 				SubProcess subProcess = new SubProcess();
-				subProcess
-						.setSubProcessId(Integer.parseInt(consolidationView.getListBoxSubProcess().getSelectedValue()));
+				subProcess.setSubProcessId(Integer.parseInt(consolidationView.getListBoxSubProcess().getValue(i)));
 				subProcess.setProcessId(process);
 				listSubprocess.add(subProcess);
 			}

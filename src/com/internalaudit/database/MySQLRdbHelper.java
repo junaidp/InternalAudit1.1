@@ -892,7 +892,7 @@ public class MySQLRdbHelper {
 	}
 
 	private void saveStrategicSubProcess(Strategic strategic, Session session) {
-
+		deleteAlreadySavedStrategicSubProcess(strategic.getId());
 		try {
 
 			for (int i = 0; i < strategic.getListSubProcess().size(); i++) {
@@ -910,6 +910,36 @@ public class MySQLRdbHelper {
 
 		}
 
+	}
+
+	private boolean deleteAlreadySavedStrategicSubProcess(int strategicId) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(StrategicSubProcess.class);
+			// crit.createAlias("department", "dept");
+			crit.add(Restrictions.eq("strategicID", strategicId));
+			// crit.add(Restrictions.eq("dept.departmentId", departmentId));
+			List rsList = crit.list();
+
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				StrategicSubProcess subProcess = (StrategicSubProcess) it.next();
+				session.delete(subProcess);
+				session.flush();
+			}
+
+			logger.info(String
+					.format("(Inside deleteAlreadySavedStrategicSubProcess) deleteAlreadySavedStrategicSubProcess for strategicID : "
+							+ strategicId + " of department : " + new Date()));
+		} catch (Exception ex) {
+
+			logger.warn(String.format("Exception occured in deleteAlreadySavedStrategicSubProcess", ex.getMessage()),
+					ex);
+
+		} finally {
+			session.close();
+		}
+		return true;
 	}
 
 	private void saveDepartments(Strategic strategic) {
@@ -2779,11 +2809,11 @@ public class MySQLRdbHelper {
 				job = new JobCreationDTO();
 
 				job.setJob((JobCreation) it.next());
-
 				// get emp associated with this job
 
 				if (getEmpRelation) {
 					job.setRelation(fetchEmployeeJobRelations(job.getJob().getJobCreationId()));
+
 				}
 
 				if (getSkillRelation) {
@@ -2817,6 +2847,8 @@ public class MySQLRdbHelper {
 			JobCreation jobCreation = (JobCreation) rsList.get(0);
 			// ADDED 19-7-2018 to have process ,subprocess,jobtypes in aud eng
 			Strategic strategic = fetchStrategicAgainstStrategicId(jobCreation.getStrategicId().getId(), session);
+			strategic.setListSubProcess(fetchStrategicSubProcess(jobCreation.getStrategicId().getId(), session));
+			// fetchStrategicSubProcess added by moqeet
 			jobCreation.setStrategic(strategic);
 			HibernateDetachUtility.nullOutUninitializedFields(jobCreation,
 					HibernateDetachUtility.SerializationType.SERIALIZATION);
@@ -10258,48 +10290,65 @@ public class MySQLRdbHelper {
 
 	public ArrayList<SamplingExcelSheetEntity> readExcel(File filePath) {
 
-		{
+		ArrayList<SamplingExcelSheetEntity> listSampling = null;
 
-			try {
-				ArrayList<SamplingExcelSheetEntity> listSampling = new ArrayList<SamplingExcelSheetEntity>();
-				SamplingExcelSheetEntity samplingData = new SamplingExcelSheetEntity();
-				InputStream ExcelFileToRead = new FileInputStream(filePath.getPath());
-				HSSFWorkbook wb;
-				wb = new HSSFWorkbook(ExcelFileToRead);
+		try {
+			listSampling = new ArrayList<SamplingExcelSheetEntity>();
+			SamplingExcelSheetEntity samplingData = new SamplingExcelSheetEntity();
+			InputStream ExcelFileToRead = new FileInputStream(filePath.getPath());
+			HSSFWorkbook wb;
+			wb = new HSSFWorkbook(ExcelFileToRead);
 
-				HSSFSheet sheet = wb.getSheetAt(0);
-				HSSFRow row;
-				HSSFCell cell;
+			// XSSFWorkbook wb = new XSSFWorkbook(ExcelFileToRead);
+			HSSFSheet sheet = wb.getSheetAt(0);
+			HSSFRow row;
+			HSSFCell cell;
 
-				Iterator rows = sheet.rowIterator();
+			Iterator rows = sheet.rowIterator();
 
-				while (rows.hasNext()) {
-					row = (HSSFRow) rows.next();
-					Iterator cells = row.cellIterator();
-					HSSFCell c = row.getCell((short) 0);
-					samplingData.setJobId(c.getStringCellValue() + "");
-					System.out.print(c.getStringCellValue() + " ");
-					// while (cells.hasNext()) {
-					// cell = (HSSFCell) cells.next();
-					//
-					// if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
-					// System.out.print(cell.getStringCellValue() + " ");
-					// } else if (cell.getCellType() ==
-					// HSSFCell.CELL_TYPE_NUMERIC) {
-					// System.out.print(cell.getNumericCellValue() + " ");
-					// } else {
-					// // U Can Handel Boolean, Formula, Errors
-					// }
-					// }
-					System.out.println();
+			while (rows.hasNext()) {
+				row = (HSSFRow) rows.next();
+				Iterator cells = row.cellIterator();
+				HSSFCell date = row.getCell((short) 0);
+				samplingData.setDate(date.getStringCellValue());
+
+				HSSFCell desc = row.getCell((short) 2);
+				samplingData.setDescription(desc.getStringCellValue());
+				if (row.getRowNum() > 0) {
+					HSSFCell refNo = row.getCell((short) 1);
+					samplingData.setReferenceNo(refNo.getNumericCellValue());
+
+					HSSFCell amount = row.getCell((short) 3);
+					samplingData.setAmount(amount.getNumericCellValue());
 				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 
+				HSSFCell jobId = row.getCell((short) 4);
+				samplingData.setJobId(jobId.getStringCellValue());
+
+				HSSFCell location = row.getCell((short) 5);
+				// samplingData.setLocation(location.getStringCellValue());
+
+				// while (cells.hasNext()) {
+				// cell = (HSSFCell) cells.next();
+				//
+				// if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
+				// System.out.print(cell.getStringCellValue() + " ");
+				// } else if (cell.getCellType() ==
+				// HSSFCell.CELL_TYPE_NUMERIC) {
+				// System.out.print(cell.getNumericCellValue() + " ");
+				// } else {
+				// // U Can Handel Boolean, Formula, Errors
+				// }
+				// }
+				listSampling.add(samplingData);
+				System.out.println();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return null;
+
+		return listSampling;
 	}
 
 }
