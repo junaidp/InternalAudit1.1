@@ -4,8 +4,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
@@ -18,7 +16,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.upload.AuditWorkProgramUpload;
-import com.internalaudit.client.view.PopupsView;
+import com.internalaudit.client.upload.SamplingFileUploader;
+import com.internalaudit.shared.InternalAuditConstants;
 
 public class SamplingAuditStep extends VerticalPanel {
 	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
@@ -38,14 +37,20 @@ public class SamplingAuditStep extends VerticalPanel {
 	TextBox lblPopulationData = new TextBox();
 	TextArea txtAreaAuditProcedure = new TextArea();
 	Button btnUploadData = new Button("Upload Data");
+	SamplingFileUploader samplingFileUploader;
 	// HorizontalPanel panelFileDetail = new HorizontalPanel();
 	// ScrollPanel panelFileDetailScroll = new ScrollPanel();
 	AuditWorkProgramUpload fileUpload;
+	String fileName = "samplingSheet";
 
 	public SamplingAuditStep(String auditStep) {
 		// TODO Auto-generated method stub
 		btnUploadData.setWidth("120px");
 		btnUploadData.setVisible(false);
+
+		samplingFileUploader = new SamplingFileUploader(fileName, InternalAuditConstants.SamplingSheet,
+				lblPopulationData, lblSampleSizeData, listBoxSamplingMethod);
+		samplingFileUploader.setVisible(false);
 		// panelFileDetail.setHeight("100px");
 		// panelFileDetail.setWidth("120px");
 		// panelFileDetailScroll.setHeight("90px");
@@ -118,9 +123,9 @@ public class SamplingAuditStep extends VerticalPanel {
 			public void onChange(ChangeEvent event) {
 				getSampleSize(listBoxControlList.getSelectedValue(), listBoxFrequency.getSelectedValue());
 				if (listBoxFrequency.getSelectedItemText().equalsIgnoreCase("Daily")) {
-					btnUploadData.setVisible(true);
+					samplingFileUploader.setVisible(true);
 				} else {
-					btnUploadData.setVisible(false);
+					samplingFileUploader.setVisible(false);
 				}
 			}
 		});
@@ -134,29 +139,32 @@ public class SamplingAuditStep extends VerticalPanel {
 			}
 		});
 
-		btnUploadData.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				SamplingSheetView samplingSheet = new SamplingSheetView();
-				PopupsView pp = new PopupsView(samplingSheet, "Sampling Input Sheet");
-				pp.getVpnlMain().setWidth("1000px");
-				pp.getHpnlSPace().setWidth("1000px");
-				pp.getVpnlMain().setHeight("600px");
-				// pp.getPopup().center();
-
-				// todoview.getBtnCancel().addClickHandler(new ClickHandler() {
-				//
-				// @Override
-				// public void onClick(ClickEvent event) {
-				// pp.getVpnlMain().removeFromParent();
-				// pp.getPopup().removeFromParent();
-				//
-				// }
-				// });
-
-			}
-		});
+		// btnUploadData.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// ArrayList<SamplingExcelSheetEntity> list = new
+		// ArrayList<SamplingExcelSheetEntity>();
+		// SamplingSheetView samplingSheet = new SamplingSheetView(list);
+		// PopupsView pp = new PopupsView(samplingSheet, "Sampling Input
+		// Sheet");
+		// pp.getVpnlMain().setWidth("1000px");
+		// pp.getHpnlSPace().setWidth("1000px");
+		// pp.getVpnlMain().setHeight("600px");
+		// // pp.getPopup().center();
+		//
+		// // todoview.getBtnCancel().addClickHandler(new ClickHandler() {
+		// //
+		// // @Override
+		// // public void onClick(ClickEvent event) {
+		// // pp.getVpnlMain().removeFromParent();
+		// // pp.getPopup().removeFromParent();
+		// //
+		// // }
+		// // });
+		//
+		// }
+		// });
 
 		FlexTable flex = new FlexTable();
 
@@ -177,7 +185,7 @@ public class SamplingAuditStep extends VerticalPanel {
 		flex.setWidget(1, 2, new HTML("&nbsp; &nbsp; &nbsp;"));
 		flex.setWidget(1, 3, lblSampleSize);
 		flex.setWidget(1, 4, lblSampleSizeData);
-		flex.setWidget(1, 6, btnUploadData);
+		flex.setWidget(1, 6, samplingFileUploader);
 
 		// flex.setWidget(2, 0, lblAuditProcedure);
 		// flex.setWidget(2, 1, txtAreaAuditProcedure);

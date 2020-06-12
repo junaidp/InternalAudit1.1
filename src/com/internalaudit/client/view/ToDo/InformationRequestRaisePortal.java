@@ -243,7 +243,7 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 			public void onSuccess(String result) {
 				new DisplayAlert(result);
 				Window.alert(result + "success");
-				fetchInformationRequestReLoad();
+				fetchAssignedFromIRReLoad();
 
 			}
 
@@ -287,12 +287,12 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 
 	}
 
-	public void fetchInformationRequestReLoad() {
+	public void fetchAssignedFromIRReLoad() {
 		if (pp != null && pp.getVpnlMain() != null) {
 			pp.getVpnlMain().removeFromParent();
 			pp.getPopup().removeFromParent();
 		}
-		rpcService.fetchInformationRequestReLoad(new AsyncCallback<ArrayList<InformationRequestEntity>>() {
+		rpcService.fetchAssignedFromIRReLoad(new AsyncCallback<ArrayList<InformationRequestEntity>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {

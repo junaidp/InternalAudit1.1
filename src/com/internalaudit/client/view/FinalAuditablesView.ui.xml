@@ -8,7 +8,7 @@
 	<g:HorizontalPanel ui:field="hpnlHeading"></g:HorizontalPanel>
 	<div>
 	<g:ScrollPanel width="100%" height="400px" >
-	<g:VerticalPanel ui:field="areas" ></g:VerticalPanel>
+	<g:VerticalPanel ui:field="areas" width="100%"></g:VerticalPanel>
 	</g:ScrollPanel>
 	</div>
 	</g:HTMLPanel>

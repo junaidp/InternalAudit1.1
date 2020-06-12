@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -840,7 +841,10 @@ public class MySQLRdbHelper {
 			strategic.setComments(clientSideStrategic.getComments());
 			strategic.setAuditableUnit(clientSideStrategic.getAuditableUnit());
 			strategic.setProcess(clientSideStrategic.getProcess());
-			strategic.setSubProcess(clientSideStrategic.getSubProcess());
+			// strategic.setSubProcess(clientSideStrategic.getSubProcess());
+			if (clientSideStrategic.getListSubProcess() != null) {
+				saveStrategicSubProcess(clientSideStrategic, session);
+			}
 			strategic.setJobType(clientSideStrategic.getJobType());
 			strategic.setStrategicDepartments(clientSideStrategic.getStrategicDepartments());
 			strategic.setDate(new Date());
@@ -864,10 +868,14 @@ public class MySQLRdbHelper {
 				process.setProcessId(1);
 				strategic.setProcess(process);
 			}
-			if (strategic.getSubProcess() == null || strategic.getSubProcess().getSubProcessId() == 0) {
+			if (strategic.getListSubProcess() == null || strategic.getListSubProcess().isEmpty()) {
+				ArrayList<SubProcess> subProcessList = new ArrayList<SubProcess>();
 				SubProcess subProcess = new SubProcess();
 				subProcess.setSubProcessId(5);
+				// for error strategic subprocess cant be null
 				strategic.setSubProcess(subProcess);
+				subProcessList.add(subProcess);
+				strategic.setListSubProcess(subProcessList);
 			}
 			// end
 
@@ -1089,7 +1097,7 @@ public class MySQLRdbHelper {
 		strategic.setAudit(clientSideStrategic.isAudit());
 
 		// Save List of subProcess against strategic.
-		saveStrategicSubProcess(clientSideStrategic, session);
+		// saveStrategicSubProcess(clientSideStrategic, session);
 
 		logger.info(String.format("(Inside approveStrategic) approve strategic for Looged In User : " + loggedInUser
 				+ " initiated by " + initiatedBy.getEmployeeName() + " " + new Date()));
@@ -1126,7 +1134,7 @@ public class MySQLRdbHelper {
 		strategic.setRelevantDepartment(clientSideStrategic.getRelevantDepartment());
 		strategic.setAudit(clientSideStrategic.isAudit());
 		// Save List of subProcess against strategic.
-		saveStrategicSubProcess(clientSideStrategic, session);
+		// saveStrategicSubProcess(clientSideStrategic, session);
 
 		logger.info(String.format("(Inside initiateStrategic) Initiated strategic " + strategic.getStrategicObjective()
 				+ " for Looged In User : " + loggedInUser + " " + new Date()));
@@ -1235,7 +1243,7 @@ public class MySQLRdbHelper {
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(strategic.getJobType(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
-				HibernateDetachUtility.nullOutUninitializedFields(strategic.getSubProcess(),
+				HibernateDetachUtility.nullOutUninitializedFields(strategic.getListSubProcess(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
 				// HibernateDetachUtility.nullOutUninitializedFields(strategic.getObjectiveOwner().getCityId(),
@@ -2904,7 +2912,7 @@ public class MySQLRdbHelper {
 					HibernateDetachUtility.SerializationType.SERIALIZATION);
 			HibernateDetachUtility.nullOutUninitializedFields(strategic.getJobType(),
 					HibernateDetachUtility.SerializationType.SERIALIZATION);
-			HibernateDetachUtility.nullOutUninitializedFields(strategic.getSubProcess(),
+			HibernateDetachUtility.nullOutUninitializedFields(strategic.getListSubProcess(),
 					HibernateDetachUtility.SerializationType.SERIALIZATION);
 
 		} catch (Exception ex) {
@@ -3279,14 +3287,20 @@ public class MySQLRdbHelper {
 		return records;
 	}
 
-	private EngagementDTO fetchActivityObjective(int subProcessId, Session session) {
+	private EngagementDTO fetchActivityObjective(ArrayList<SubProcess> subProcessList, Session session) {
 		EngagementDTO engagementDTO = new EngagementDTO();
 		// ArrayList<ActivityObjective> listObjective = new
 		// ArrayList<ActivityObjective>();
 		try {
 			Criteria crit = session.createCriteria(ActivityObjective.class);
 			crit.createAlias("subProcessId", "subProcess");
-			crit.add(Restrictions.eq("subProcess.subProcessId", subProcessId));
+
+			Disjunction disc = Restrictions.disjunction();
+			for (SubProcess subProcessId : subProcessList) {
+				disc.add(Restrictions.eq("subProcess.subProcessId", subProcessId.getSubProcessId()));
+			}
+			crit.add(disc);
+
 			crit.add(Restrictions.eq("checked", false));
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -3414,10 +3428,13 @@ public class MySQLRdbHelper {
 				Strategic strategic = fetchStrategicAgainstStrategicId(
 						auditEngagement.getJobCreation().getStrategicId().getId(), session);
 				auditEngagement.setStrategic(strategic);
-				EngagementDTO engagementDTO = fetchActivityObjective(strategic.getSubProcess().getSubProcessId(),
-						session);
+				// EngagementDTO engagementDTO =
+				// fetchActivityObjective(strategic.getSubProcess().getSubProcessId(),
+				// session);
+				EngagementDTO engagementDTO = fetchActivityObjective(strategic.getListSubProcess(), session);
 				// AcitivityObjectives of the selected job
 				// User's
+
 				engagementDTO.setSelectedActivityObjectives(
 						fetchActivityObjectivesForSelectedJob(jobCreationId, session, engagementDTO));
 				engagementDTO.setSelectedObjectiveRisks(
@@ -3428,7 +3445,6 @@ public class MySQLRdbHelper {
 				// END
 
 				auditEngagement.setEngagementDTO(engagementDTO);
-
 				HibernateDetachUtility.nullOutUninitializedFields(auditEngagement,
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(auditEngagement.getInitiatedBy().getReportingTo(),
@@ -10012,14 +10028,25 @@ public class MySQLRdbHelper {
 		return "deleted";
 	}
 
-	public ArrayList<ToDo> fetchToDoReload(Employee loggedInUser) {
+	public ArrayList<ToDo> fetchAssignedFromToDos(Employee loggedInUser) {
 		return fetchUsersRaisedToDo(loggedInUser);
 		// return fetchUsersTodos(loggedInUser);
 		// added & commented by Abdul Moqeet
 	}
 
-	public ArrayList<InformationRequestEntity> fetchInformationRequestReLoad(Employee loggedInUser) {
+	public ArrayList<ToDo> fetchAssignedToToDos(Employee loggedInUser) {
+		return fetchUsersTodos(loggedInUser);
+		// return fetchUsersTodos(loggedInUser);
+		// added & commented by Abdul Moqeet
+	}
+
+	public ArrayList<InformationRequestEntity> fetchAssignedFromIRReLoad(Employee loggedInUser) {
 		return fetchUserRaisedInformationRequest(loggedInUser);
+		// added & commented by AbdulMoqeet
+	}
+
+	public ArrayList<InformationRequestEntity> fetchAssignedToIRReLoad(Employee loggedInUser) {
+		return fetchInformationUserRequest(loggedInUser);
 		// added & commented by AbdulMoqeet
 	}
 
@@ -10294,7 +10321,6 @@ public class MySQLRdbHelper {
 
 		try {
 			listSampling = new ArrayList<SamplingExcelSheetEntity>();
-			SamplingExcelSheetEntity samplingData = new SamplingExcelSheetEntity();
 			InputStream ExcelFileToRead = new FileInputStream(filePath.getPath());
 			HSSFWorkbook wb;
 			wb = new HSSFWorkbook(ExcelFileToRead);
@@ -10307,13 +10333,22 @@ public class MySQLRdbHelper {
 			Iterator rows = sheet.rowIterator();
 
 			while (rows.hasNext()) {
+				SamplingExcelSheetEntity samplingData = new SamplingExcelSheetEntity();
+
 				row = (HSSFRow) rows.next();
 				Iterator cells = row.cellIterator();
+
+				Random rd = new Random(); // creating Random object
+											// samplingData.setId(rd.nextInt());
+				samplingData.setId(row.getRowNum());
+
 				HSSFCell date = row.getCell((short) 0);
 				samplingData.setDate(date.getStringCellValue());
 
 				HSSFCell desc = row.getCell((short) 2);
 				samplingData.setDescription(desc.getStringCellValue());
+
+				// samplingData.setId(row.getRowNum());
 				if (row.getRowNum() > 0) {
 					HSSFCell refNo = row.getCell((short) 1);
 					samplingData.setReferenceNo(refNo.getNumericCellValue());
@@ -10326,20 +10361,7 @@ public class MySQLRdbHelper {
 				samplingData.setJobId(jobId.getStringCellValue());
 
 				HSSFCell location = row.getCell((short) 5);
-				// samplingData.setLocation(location.getStringCellValue());
 
-				// while (cells.hasNext()) {
-				// cell = (HSSFCell) cells.next();
-				//
-				// if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
-				// System.out.print(cell.getStringCellValue() + " ");
-				// } else if (cell.getCellType() ==
-				// HSSFCell.CELL_TYPE_NUMERIC) {
-				// System.out.print(cell.getNumericCellValue() + " ");
-				// } else {
-				// // U Can Handel Boolean, Formula, Errors
-				// }
-				// }
 				listSampling.add(samplingData);
 				System.out.println();
 			}
@@ -10347,8 +10369,55 @@ public class MySQLRdbHelper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		// samplingData.setLocation(location.getStringCellValue());
 
+		// while (cells.hasNext()) {
+		// cell = (HSSFCell) cells.next();
+		//
+		// if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
+		// System.out.print(cell.getStringCellValue() + " ");
+		// } else if (cell.getCellType() ==
+		// HSSFCell.CELL_TYPE_NUMERIC) {
+		// System.out.print(cell.getNumericCellValue() + " ");
+		// } else {
+		// // U Can Handel Boolean, Formula, Errors
+		// }
+		// }
 		return listSampling;
+	}
+
+	public ArrayList<SamplingExcelSheetEntity> generateSamplingOutput(String populationSize, String samplingSize,
+			String samplingMehod, ArrayList<SamplingExcelSheetEntity> listSamplingExcel) {
+		Session session = null;
+		ArrayList<SamplingExcelSheetEntity> selectedEntries = null;
+		Integer popSize = 25;
+		try {
+
+			if (popSize >= listSamplingExcel.size()) {
+				return listSamplingExcel;
+			}
+
+			selectedEntries = new ArrayList<SamplingExcelSheetEntity>();
+			Random random = new Random();
+			int listSize = listSamplingExcel.size();
+
+			// Get a random item until we got the requested amount
+			while (selectedEntries.size() < popSize) {
+				int randomIndex = random.nextInt(listSize);
+				SamplingExcelSheetEntity element = listSamplingExcel.get(randomIndex);
+
+				if (!selectedEntries.contains(element)) {
+					selectedEntries.add(element);
+				}
+			}
+			// tr.commit();
+			logger.info(String.format("(Inside generateSamplingOutput) generating generateSamplingOutput  for excel : "
+					+ " " + new Date()));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in generateSamplingOutput", ex.getMessage()), ex);
+
+		}
+		return selectedEntries;
 	}
 
 }

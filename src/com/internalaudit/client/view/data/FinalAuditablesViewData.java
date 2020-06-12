@@ -10,12 +10,12 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
-import com.internalaudit.client.view.ButtonRound;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.FinalAuditablesView;
 import com.internalaudit.shared.Employee;
@@ -115,10 +115,11 @@ public class FinalAuditablesViewData {
 				int count = 0;
 				for (int i = 0; i < strategic.size(); i++) {
 
-					ButtonRound btnApprove = new ButtonRound("Approve");
-					ButtonRound btnDecline = new ButtonRound("Decline");
+					Button btnApprove = new Button("Approve");
+					Button btnDecline = new Button("Decline");
 					final TextField txtComments = new TextField();
 					txtComments.setEmptyText("Comments");
+					txtComments.setWidth(160);
 
 					HorizontalPanel hpnlButtonContainer = new HorizontalPanel();
 					hpnlButtonContainer.add(btnDecline);

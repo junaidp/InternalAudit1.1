@@ -316,9 +316,11 @@ public interface InternalAuditServiceAsync {
 
 	void deleteUnsavedAttachemnts(String pathtodouploads, AsyncCallback<String> callback);
 
-	void fetchToDoReLoad(AsyncCallback<ArrayList<ToDo>> callback);
+	void fetchAssignedFromToDos(AsyncCallback<ArrayList<ToDo>> callback);
 
-	void fetchInformationRequestReLoad(AsyncCallback<ArrayList<InformationRequestEntity>> callback);
+	void fetchAssignedToToDos(AsyncCallback<ArrayList<ToDo>> callback);
+
+	void fetchAssignedFromIRReLoad(AsyncCallback<ArrayList<InformationRequestEntity>> callback);
 
 	void fetchJobExceptionWithImplicationRating(int jobId, int ImplicationRating,
 			AsyncCallback<ArrayList<Exceptions>> callback);
@@ -340,4 +342,9 @@ public interface InternalAuditServiceAsync {
 	void getNextYear(Date value, AsyncCallback<Date> asyncCallback);
 
 	void readExcel(String subFolder, String mainFolder, AsyncCallback<ArrayList<SamplingExcelSheetEntity>> callback);
+
+	void fetchAssignedToIRReLoad(AsyncCallback<ArrayList<InformationRequestEntity>> asyncCallback);
+
+	void generateSamplingOutput(String populationSize, String samplingSize, String samplingMehod,
+			ArrayList<SamplingExcelSheetEntity> list, AsyncCallback<ArrayList<SamplingExcelSheetEntity>> callback);
 }

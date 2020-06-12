@@ -211,12 +211,12 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 		return symbolCell;
 	}
 
-	public void fetchToDoReLoad() {
+	public void fetchAssignedToToDos() {
 		if (pp != null && pp.getVpnlMain() != null) {
 			pp.getVpnlMain().removeFromParent();
 			pp.getPopup().removeFromParent();
 		}
-		rpcService.fetchToDoReLoad(new AsyncCallback<ArrayList<ToDo>>() {
+		rpcService.fetchAssignedToToDos(new AsyncCallback<ArrayList<ToDo>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {

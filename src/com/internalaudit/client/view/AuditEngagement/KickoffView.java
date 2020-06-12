@@ -156,8 +156,10 @@ public class KickoffView extends Composite {
 					jobName.setText(result.getJobName() == null ? "" : result.getJobName());
 					lblProcess.setText(result.getStrategic().getProcess() == null ? ""
 							: result.getStrategic().getProcess().getProcessName());
-					lblSubProcess.setText(result.getStrategic().getSubProcess() == null ? ""
-							: result.getStrategic().getSubProcess().getSubProcessName());
+					// lblSubProcess.setText(result.getStrategic().getSubProcess()
+					// == null ? ""
+					// :
+					// result.getStrategic().getSubProcess().getSubProcessName());
 					// if multiple SubProcess selected
 					if (result.getStrategic().getListSubProcess().size() > 0) {
 						vpnlSubProcess.clear();
@@ -174,7 +176,9 @@ public class KickoffView extends Composite {
 					lblAuditableUnit.setText(result.getStrategic().getAuditableUnit() == null ? ""
 							: result.getStrategic().getAuditableUnit());
 
-					subProcess = result.getStrategic().getSubProcess();
+					// TODO: NEED TO BE ADJUSTED FROM LIST OF SUBPROCESS
+					subProcess = result.getStrategic().getListSubProcess().get(0);
+					// subProcess = result.getStrategic().getSubProcess();
 					//
 					// listSubProcess.addAll(result.getStrategic().getListSubProcess());
 				}

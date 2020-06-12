@@ -168,12 +168,12 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 		return p;
 	}
 
-	public void fetchInformationRequestReLoad() {
+	public void fetchAssignedToIRReLoad() {
 		if (pp != null && pp.getVpnlMain() != null) {
 			pp.getVpnlMain().removeFromParent();
 			pp.getPopup().removeFromParent();
 		}
-		rpcService.fetchInformationRequestReLoad(new AsyncCallback<ArrayList<InformationRequestEntity>>() {
+		rpcService.fetchAssignedToIRReLoad(new AsyncCallback<ArrayList<InformationRequestEntity>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {

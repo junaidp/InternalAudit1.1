@@ -307,7 +307,7 @@ public interface InternalAuditService extends RemoteService {
 
 	String deleteAttachmentFile(String id, String mainFolder, String fileName);
 
-	ArrayList<ToDo> fetchToDoReLoad();
+	ArrayList<ToDo> fetchAssignedFromToDos();
 
 	ArrayList<Exceptions> fetchJobExceptionWithImplicationRating(int jobId, int ImplicationRating) throws Exception;
 
@@ -329,9 +329,16 @@ public interface InternalAuditService extends RemoteService {
 
 	Date getNextYear(Date value);
 
-	ArrayList<InformationRequestEntity> fetchInformationRequestReLoad();
+	ArrayList<InformationRequestEntity> fetchAssignedFromIRReLoad();
 
 	ArrayList<SamplingExcelSheetEntity> readExcel(String subFolder, String mainFolder);
+
+	ArrayList<ToDo> fetchAssignedToToDos();
+
+	ArrayList<InformationRequestEntity> fetchAssignedToIRReLoad();
+
+	ArrayList<SamplingExcelSheetEntity> generateSamplingOutput(String populationSize, String samplingSize,
+			String samplingMehod, ArrayList<SamplingExcelSheetEntity> listSamplingSheet);
 
 	// ArrayList<ToDo> fetchUpdatedRaisedToDo(int employeeID) throws Exception;
 }

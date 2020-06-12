@@ -1680,10 +1680,10 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	}
 
 	@Override
-	public ArrayList<ToDo> fetchToDoReLoad() {
+	public ArrayList<ToDo> fetchAssignedFromToDos() {
 		Employee loggedInUser = (Employee) session.getAttribute("user");
 
-		return rdbHelper.fetchToDoReload(loggedInUser);
+		return rdbHelper.fetchAssignedFromToDos(loggedInUser);
 	}
 
 	@Override
@@ -1745,10 +1745,10 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	}
 
 	@Override
-	public ArrayList<InformationRequestEntity> fetchInformationRequestReLoad() {
+	public ArrayList<InformationRequestEntity> fetchAssignedFromIRReLoad() {
 		// TODO Auto-generated method stub
 		Employee loggedInUser = (Employee) session.getAttribute("user");
-		return rdbHelper.fetchInformationRequestReLoad(loggedInUser);
+		return rdbHelper.fetchAssignedFromIRReLoad(loggedInUser);
 	}
 
 	@Override
@@ -1757,5 +1757,25 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		File filePath = new File(
 				realPath + "/" + mainFolder + "/" + subFolder + "/" + InternalAuditConstants.SamplingExcelFileName);
 		return rdbHelper.readExcel(filePath);
+	}
+
+	@Override
+	public ArrayList<ToDo> fetchAssignedToToDos() {
+		// TODO Auto-generated method stub
+		Employee loggedInUser = (Employee) session.getAttribute("user");
+		return rdbHelper.fetchAssignedToToDos(loggedInUser);
+	}
+
+	@Override
+	public ArrayList<InformationRequestEntity> fetchAssignedToIRReLoad() {
+		// TODO Auto-generated method stub
+		Employee loggedInUser = (Employee) session.getAttribute("user");
+		return rdbHelper.fetchAssignedToIRReLoad(loggedInUser);
+	}
+
+	@Override
+	public ArrayList<SamplingExcelSheetEntity> generateSamplingOutput(String populationSize, String samplingSize,
+			String samplingMehod, ArrayList<SamplingExcelSheetEntity> listSamplingExcel) {
+		return rdbHelper.generateSamplingOutput(populationSize, samplingSize, samplingMehod, listSamplingExcel);
 	}
 }

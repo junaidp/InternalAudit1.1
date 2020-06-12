@@ -237,7 +237,7 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 					@Override
 					public void onSuccess(String result) {
 						new DisplayAlert(result);
-						fetchToDoReLoad();
+						fetchAssignedFromToDoReLoad();
 						pp.getVpnlMain().removeFromParent();
 						pp.getPopup().removeFromParent();
 					}
@@ -258,12 +258,12 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 		return con;
 	}
 
-	public void fetchToDoReLoad() {
+	public void fetchAssignedFromToDoReLoad() {
 		if (popUpToDoRaiserFinalView != null && popUpToDoRaiserFinalView.getVpnlMain() != null) {
 			popUpToDoRaiserFinalView.getVpnlMain().removeFromParent();
 			popUpToDoRaiserFinalView.getPopup().removeFromParent();
 		}
-		rpcService.fetchToDoReLoad(new AsyncCallback<ArrayList<ToDo>>() {
+		rpcService.fetchAssignedFromToDos(new AsyncCallback<ArrayList<ToDo>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {

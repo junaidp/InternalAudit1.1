@@ -179,13 +179,13 @@ public class ConsolidationViewData {
 			@Override
 			public void onSuccess(ArrayList<ProcessDTO> result) {
 				processDTO = result;
-				fetchSubProcess(result.get(0).getProcessList().get(0).getProcessId(), null, 0);
+				fetchSubProcess(result.get(0).getProcessList().get(0).getProcessId(), null);
 			}
 		});
 
 	}
 
-	public void fetchSubProcess(int processId, final ListBox listBox, final int index) {
+	public void fetchSubProcess(int processId, final ListBox listBox) {
 
 		rpcService.fetchSubProcess(processId, new AsyncCallback<ArrayList<SubProcess>>() {
 
@@ -321,6 +321,14 @@ public class ConsolidationViewData {
 						consolidationView.getListBoxSubProcess().addItem(subProcess.get(i).getSubProcessName(),
 								subProcess.get(i).getSubProcessId() + "");
 					}
+
+					// for (int i = 0; i <
+					// strategics.get(index).getListSubProcess().size(); i++) {
+					// consolidationView.getListBoxSubProcess().addItem(
+					// strategics.get(index).getListSubProcess().get(i).getSubProcessName(),
+					// strategics.get(index).getListSubProcess().get(i).getSubProcessId()
+					// + "");
+					// }
 					// consolidationView.getListBoxSubProcess().insertItem("N/A",
 					// "0", 0);
 
@@ -334,8 +342,19 @@ public class ConsolidationViewData {
 									.get(consolidationView.getIndex()).getProcess().getProcessId()) {
 								consolidationView.getListBoxProcess().setSelectedIndex(i);
 								fetchSubProcess(Integer.parseInt(consolidationView.getListBoxProcess().getValue(i)),
-										consolidationView.getListBoxSubProcess(),
-										strategics.get(consolidationView.getIndex()).getSubProcess().getSubProcessId());
+										consolidationView.getListBoxSubProcess());
+
+								// if
+								// (!strategics.get(index).getListSubProcess().isEmpty())
+								// for (int j = 0; j <
+								// strategics.get(index).getListSubProcess().size();
+								// j++) {
+								// fetchSubProcess(
+								// Integer.parseInt(consolidationView.getListBoxProcess().getValue(i)),
+								// consolidationView.getListBoxSubProcess(),
+								// strategics.get(consolidationView.getIndex()).getSubProcess()
+								// .getSubProcessId());
+								// }
 								break;
 							}
 						}
@@ -367,7 +386,7 @@ public class ConsolidationViewData {
 							fetchSubProcess(
 									Integer.parseInt(consolidationView.getListBoxProcess()
 											.getValue(consolidationView.getListBoxProcess().getSelectedIndex())),
-									consolidationView.getListBoxSubProcess(), 0);
+									consolidationView.getListBoxSubProcess());
 						}
 					});
 

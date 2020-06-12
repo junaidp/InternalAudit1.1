@@ -1,6 +1,5 @@
 package com.internalaudit.client.view;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -8,8 +7,6 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.internalaudit.client.InternalAuditService;
-import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.ToDo.InformationRequestRaisePortal;
 import com.internalaudit.client.view.ToDo.InformationRequestReceiverPortal;
 import com.internalaudit.client.view.ToDo.ToDoRaiserPortal;
@@ -18,7 +15,8 @@ import com.internalaudit.shared.Employee;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
 public class SideBarView extends VerticalLayoutContainer {
-	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
+	// InternalAuditServiceAsync rpcService =
+	// GWT.create(InternalAuditService.class);
 	final MainViewNew mv = new MainViewNew();
 
 	VerticalPanel panelbar = new VerticalPanel();
@@ -126,7 +124,7 @@ public class SideBarView extends VerticalLayoutContainer {
 				// raiserToDoView = true;
 				toDoRaiserPortal = new ToDoRaiserPortal(loggedInUser.getUserRaisedToDos());
 				new PopupsView(toDoRaiserPortal, "To Do Raiser Grid", "900px", "530px");
-				toDoRaiserPortal.fetchToDoReLoad();
+				toDoRaiserPortal.fetchAssignedFromToDoReLoad();
 				// receiverToDoView = false;
 			}
 		});
@@ -138,7 +136,7 @@ public class SideBarView extends VerticalLayoutContainer {
 				informationRequestRaisePortal = new InformationRequestRaisePortal(
 						loggedInUser.getUserRaisedInformationRequests());
 				new PopupsView(informationRequestRaisePortal, "Information Request Raiser", "900px", "530px");
-				informationRequestRaisePortal.fetchInformationRequestReLoad();
+				informationRequestRaisePortal.fetchAssignedFromIRReLoad();
 			}
 		});
 		imgToDoReceiverGrid.setTitle("To Do Receiver Grid");
@@ -148,7 +146,7 @@ public class SideBarView extends VerticalLayoutContainer {
 				// receiverToDoView = true;
 				toDoReceiverPortal = new ToDoReceiverPortal(loggedInUser.getTodos());
 				new PopupsView(toDoReceiverPortal, "To Do Receiver", "650px", "530px");
-				toDoReceiverPortal.fetchToDoReLoad();
+				toDoReceiverPortal.fetchAssignedToToDos();
 				// raiserToDoView = false;
 			}
 
@@ -161,7 +159,7 @@ public class SideBarView extends VerticalLayoutContainer {
 				informationRequestReceiverPortal = new InformationRequestReceiverPortal(
 						loggedInUser.getInformationRequests());
 				new PopupsView(informationRequestReceiverPortal, "Information Request Receiver", "650px", "530px");
-				informationRequestReceiverPortal.fetchInformationRequestReLoad();
+				informationRequestReceiverPortal.fetchAssignedToIRReLoad();
 			}
 		});
 		ImgControls.setTitle("ReportView");
