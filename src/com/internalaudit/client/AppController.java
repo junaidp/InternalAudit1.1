@@ -56,7 +56,6 @@ import com.internalaudit.client.view.AuditListingView;
 import com.internalaudit.client.view.AuditReportView;
 import com.internalaudit.client.view.CompanyInductionFormView;
 import com.internalaudit.client.view.EditUserFormView;
-import com.internalaudit.client.view.HeaderView;
 import com.internalaudit.client.view.JobListingView;
 import com.internalaudit.client.view.LoginUi;
 import com.internalaudit.client.view.MainView;
@@ -79,7 +78,6 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 	private final InternalAuditServiceAsync rpcService;
 	private HasWidgets container;
-	private HeaderView header;
 	private Employee loggedInUser;
 	private VerticalPanel centerPanel;
 	private HasWidgets mainContainer;
