@@ -69,6 +69,7 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 	public ToDoRaiserFinalView(ToDoRaiserEntity toDo) {
 		setLayout(toDo);
 		clickHandler(toDo);
+		// toDo.setReadBySender(true);
 	}
 
 	private void clickHandler(final ToDoRaiserEntity toDo) {
@@ -80,7 +81,9 @@ public class ToDoRaiserFinalView extends VerticalPanel {
 				todoEntity.setToDoId(toDo.getId());
 				// Reply is updating the Task Description as well
 				// todoEntity.setDescription(txtAreaReply.getText());
-				todoEntity.setRead(false);
+
+				todoEntity.setMessageReadBySender(true);
+				todoEntity.setMessageReadByReceiver(false);
 				Employee assignedTo = new Employee();
 				assignedTo.setEmployeeId(toDo.getRaisedToId());
 				Employee assignedFrom = new Employee();

@@ -113,10 +113,10 @@ public class SamplingAuditStep extends VerticalPanel {
 		listBoxFrequency.addItem("Daily", "4");
 		listBoxFrequency.addItem("Recurring", "5");
 
-		listBoxSamplingMethod.addItem("Random Selection", "0");
-		listBoxSamplingMethod.addItem("Systematic Selection", "1");
+		listBoxSamplingMethod.addItem(InternalAuditConstants.RANDOMSELECTION, "0");
+		listBoxSamplingMethod.addItem(InternalAuditConstants.SYSTEMATICSELECTION, "1");
 
-		listBoxSamplingMethod.addItem("Block Selection", "2");
+		listBoxSamplingMethod.addItem(InternalAuditConstants.BLOCKSELECTION, "2");
 		listBoxFrequency.addChangeHandler(new ChangeHandler() {
 
 			@Override

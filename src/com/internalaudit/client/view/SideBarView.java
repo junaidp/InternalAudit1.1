@@ -199,7 +199,7 @@ public class SideBarView extends VerticalLayoutContainer {
 	private void setIconToDoRaiserGrid(Employee loggedInUser) {
 		boolean updateIconAlert = false;
 		for (int i = 0; i < loggedInUser.getUserRaisedToDos().size(); i++) {
-			if (loggedInUser.getUserRaisedToDos().get(i).getRead() == false)
+			if (loggedInUser.getUserRaisedToDos().get(i).getMessageReadBySender() == false)
 				updateIconAlert = true;
 		}
 		if (!updateIconAlert == true)
@@ -224,7 +224,7 @@ public class SideBarView extends VerticalLayoutContainer {
 	private void setIconToDoReceiverGrid(Employee loggedInUser) {
 		boolean updateIconAlert = false;
 		for (int i = 0; i < loggedInUser.getTodos().size(); i++) {
-			if (loggedInUser.getTodos().get(i).getRead() == false)
+			if (loggedInUser.getTodos().get(i).getMessageReadByReceiver() == false)
 				updateIconAlert = true;
 		}
 		if (!updateIconAlert == true)

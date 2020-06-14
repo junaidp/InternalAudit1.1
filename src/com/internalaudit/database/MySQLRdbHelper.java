@@ -47,7 +47,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Disjunction;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
@@ -222,7 +221,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("assignedFrom", "assignedfrom");
 			crit.add(Restrictions.eq("assignedFrom.employeeId", employeeId.getEmployeeId()));
 			crit.createAlias("job", "jobCreation");
-			crit.addOrder(Order.desc("read"));
+			// crit.addOrder(Order.desc("read"));
 			// commented by moqeet show show alert icon
 			jobsStrategicAlias(crit);
 			List rsList = crit.list();
@@ -300,7 +299,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("job", "jobCreation");
 			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("assignedfrom.employeeId", employeeId.getEmployeeId()));
-			crit.addOrder(Order.desc("read"));
+			// crit.addOrder(Order.desc("read"));
 			// commented by moqeet to sort read message
 
 			List rsList = crit.list();
@@ -418,7 +417,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("assignedFrom", "assignedfrom");
 			crit.add(Restrictions.eq("contactResponsible.employeeId", employeeId.getEmployeeId()));
 			// crit.add(Restrictions.eq("read", false));
-			crit.addOrder(Order.desc("read"));
+			// crit.addOrder(Order.desc("read"));
 			// commented by moqeet show show alert icon
 			crit.createAlias("job", "jobCreation");
 			jobsStrategicAlias(crit);
@@ -462,7 +461,7 @@ public class MySQLRdbHelper {
 			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("assignedto.employeeId", employeeId.getEmployeeId()));
 			// crit.add(Restrictions.eq("read", false));
-			crit.addOrder(Order.desc("read"));
+			// crit.addOrder(Order.desc("read"));
 			// commented by moqeet show show alert icon
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -10365,57 +10364,94 @@ public class MySQLRdbHelper {
 				listSampling.add(samplingData);
 				System.out.println();
 			}
+			ExcelFileToRead.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// samplingData.setLocation(location.getStringCellValue());
 
-		// while (cells.hasNext()) {
-		// cell = (HSSFCell) cells.next();
-		//
-		// if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
-		// System.out.print(cell.getStringCellValue() + " ");
-		// } else if (cell.getCellType() ==
-		// HSSFCell.CELL_TYPE_NUMERIC) {
-		// System.out.print(cell.getNumericCellValue() + " ");
-		// } else {
-		// // U Can Handel Boolean, Formula, Errors
-		// }
-		// }
 		return listSampling;
+
 	}
 
+	// samplingData.setLocation(location.getStringCellValue());
+
+	// while (cells.hasNext()) {
+	// cell = (HSSFCell) cells.next();
+	//
+	// if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
+	// System.out.print(cell.getStringCellValue() + " ");
+	// } else if (cell.getCellType() ==
+	// HSSFCell.CELL_TYPE_NUMERIC) {
+	// System.out.print(cell.getNumericCellValue() + " ");
+	// } else {
+	// // U Can Handel Boolean, Formula, Errors
+	// }
+	// }
 	public ArrayList<SamplingExcelSheetEntity> generateSamplingOutput(String populationSize, String samplingSize,
 			String samplingMehod, ArrayList<SamplingExcelSheetEntity> listSamplingExcel) {
 		Session session = null;
 		ArrayList<SamplingExcelSheetEntity> selectedEntries = null;
 		Integer popSize = 25;
+		int listSize = listSamplingExcel.size();
 		try {
 
-			if (popSize >= listSamplingExcel.size()) {
+			if (Integer.parseInt(samplingSize) >= listSamplingExcel.size()) {
 				return listSamplingExcel;
 			}
 
-			selectedEntries = new ArrayList<SamplingExcelSheetEntity>();
-			Random random = new Random();
-			int listSize = listSamplingExcel.size();
-
-			// Get a random item until we got the requested amount
-			while (selectedEntries.size() < popSize) {
-				int randomIndex = random.nextInt(listSize);
-				SamplingExcelSheetEntity element = listSamplingExcel.get(randomIndex);
-
-				if (!selectedEntries.contains(element)) {
-					selectedEntries.add(element);
-				}
+			if (samplingMehod.equalsIgnoreCase(InternalAuditConstants.RANDOMSELECTION)) {
+				selectedEntries = randomSamplingSelection(samplingSize, listSamplingExcel, selectedEntries, listSize);
 			}
+
+			if (samplingMehod.equalsIgnoreCase(InternalAuditConstants.SYSTEMATICSELECTION)) {
+				selectedEntries = SystematicSamplingSelection(samplingSize, listSamplingExcel, selectedEntries,
+						listSize);
+			}
+
 			// tr.commit();
 			logger.info(String.format("(Inside generateSamplingOutput) generating generateSamplingOutput  for excel : "
 					+ " " + new Date()));
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in generateSamplingOutput", ex.getMessage()), ex);
 
+		}
+		return selectedEntries;
+	}
+
+	private ArrayList<SamplingExcelSheetEntity> SystematicSamplingSelection(String populationSize,
+			ArrayList<SamplingExcelSheetEntity> listSamplingExcel, ArrayList<SamplingExcelSheetEntity> selectedEntries,
+			int listSize) {
+
+		selectedEntries = new ArrayList<SamplingExcelSheetEntity>();
+		int systematicRows = (listSize / Integer.parseInt(populationSize));
+
+		for (int i = 1; i < listSamplingExcel.size(); i++) {
+
+			if (i % systematicRows == 0)
+				// SamplingExcelSheetEntity sample = listSamplingExcel.get(i));
+				selectedEntries.add(listSamplingExcel.get(i));
+
+		}
+
+		return selectedEntries;
+	}
+
+	private ArrayList<SamplingExcelSheetEntity> randomSamplingSelection(String populationSize,
+			ArrayList<SamplingExcelSheetEntity> listSamplingExcel, ArrayList<SamplingExcelSheetEntity> selectedEntries,
+			int listSize) {
+
+		selectedEntries = new ArrayList<SamplingExcelSheetEntity>();
+		Random random = new Random();
+
+		// Get a random item until we got the requested amount
+		while (selectedEntries.size() < Integer.parseInt(populationSize)) {
+			int randomIndex = random.nextInt(listSize);
+			SamplingExcelSheetEntity element = listSamplingExcel.get(randomIndex);
+
+			if (!selectedEntries.contains(element)) {
+				selectedEntries.add(element);
+			}
 		}
 		return selectedEntries;
 	}

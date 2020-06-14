@@ -69,7 +69,7 @@ public class ToDoReceiverView extends VerticalPanel {
 
 		setHandler(toDo);
 		clickHandler(toDo);
-
+		// toDo.setReadByReceiver(true);
 	}
 
 	private void setHandler(final ToDoReceiverEntity toDo) {
@@ -257,7 +257,8 @@ public class ToDoReceiverView extends VerticalPanel {
 				JobCreation jobcreationId = new JobCreation();
 				jobcreationId.setJobCreationId(toDo.getRelatedJobId());
 				todoEntity.setJob(jobcreationId);
-				todoEntity.setRead(true);
+				todoEntity.setMessageReadBySender(false);
+				todoEntity.setMessageReadByReceiver(true);
 
 				final ToDoLogsEntity todoLogsEntity = new ToDoLogsEntity();
 

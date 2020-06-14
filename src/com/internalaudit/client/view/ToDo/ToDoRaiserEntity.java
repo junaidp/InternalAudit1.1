@@ -24,6 +24,8 @@ public class ToDoRaiserEntity implements Serializable {
 	private String raisedBy;
 	private int relatedJobId;
 	private ArrayList<ToDoLogsEntity> todoLogList;
+	private boolean readBySender;
+	private boolean readByReceiver;
 
 	public ToDoRaiserEntity() {
 
@@ -141,4 +143,19 @@ public class ToDoRaiserEntity implements Serializable {
 		this.taskName = taskName;
 	}
 
+	public boolean isReadBySender() {
+		return readBySender;
+	}
+
+	public void setReadBySender(boolean readBySender) {
+		this.readBySender = readBySender;
+	}
+
+	public boolean isReadByReceiver() {
+		return readByReceiver;
+	}
+
+	public void setReadByReceiver(boolean readByReceiver) {
+		this.readByReceiver = readByReceiver;
+	}
 }
