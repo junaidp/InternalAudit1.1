@@ -347,4 +347,9 @@ public interface InternalAuditServiceAsync {
 
 	void generateSamplingOutput(String populationSize, String samplingSize, String samplingMehod,
 			ArrayList<SamplingExcelSheetEntity> list, AsyncCallback<ArrayList<SamplingExcelSheetEntity>> callback);
+
+
+	void exportSamplingAuditStep(String samplingMehod, String reportFormat, ArrayList<SamplingExcelSheetEntity> list,
+			AsyncCallback<String> callback);
+
 }

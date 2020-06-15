@@ -10456,4 +10456,140 @@ public class MySQLRdbHelper {
 		return selectedEntries;
 	}
 
+	public String exportSamplingAuditStep(ArrayList<SamplingExcelSheetEntity> samplingList,
+			String rootDir, String samplingMehod , String reportFormat) throws DocumentException {
+		
+		if (reportFormat.contains(InternalAuditConstants.PDF)) {
+			return reportSamplingAuditPDF(samplingList, rootDir);
+		} else {
+			return reportSamplingAuditExcel(samplingList, rootDir);
+		}
+	}
+
+	private String reportSamplingAuditExcel(
+			ArrayList<SamplingExcelSheetEntity> samplingList, String rootDir) {
+		try {
+
+			FileOutputStream fileOut = new FileOutputStream(rootDir + "/SamplingAuditStep/reportSamplingAudit.xls");// "D:\\POI111.xls"
+			HSSFWorkbook workbook = new HSSFWorkbook();
+			HSSFSheet worksheet = workbook.createSheet("SamplingAudit Worksheet");
+			HSSFRow row = worksheet.createRow((short) 0);
+			row.createCell((short) 0).setCellValue("Date");
+			row.createCell((short) 1).setCellValue("Reference No");
+			row.createCell((short) 2).setCellValue("Description");
+			row.createCell((short) 3).setCellValue("Amount");
+			row.createCell((short) 4).setCellValue("Job ID");
+			row.createCell((short) 5).setCellValue("Location");
+
+			for (int i = 0; i < samplingList.size(); i++) {
+				HSSFRow row1 = worksheet.createRow((short) i + 1);
+				row1.createCell((short) 0).setCellValue(samplingList.get(i).getDate());
+				row1.createCell((short) 1).setCellValue(samplingList.get(i).getReferenceNo());
+				row1.createCell((short) 2).setCellValue(samplingList.get(i).getDescription());
+				row1.createCell((short) 3).setCellValue(samplingList.get(i).getAmount());
+				row1.createCell((short) 3).setCellValue(samplingList.get(i).getJobId());
+				row1.createCell((short) 3).setCellValue(samplingList.get(i).getLocation());
+
+
+			}
+			workbook.write(fileOut);
+			fileOut.flush();
+			fileOut.close();
+
+			logger.info(String
+					.format("(Inside reportSamplingAuditExcel)exporting reportSamplingAuditExcel for data list"
+							+ samplingList + "for dir" + rootDir + "" + new Date()));
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Sampling excel sheet: downloaded");
+		return "exported";
+	}
+
+	private String reportSamplingAuditPDF(ArrayList<SamplingExcelSheetEntity> samplingList,
+			String rootDir) throws DocumentException {
+		try {
+
+			Rectangle pagesize = new Rectangle(612, 861);
+			Document document = new Document(PageSize.A4);
+
+			PdfPTable table = new PdfPTable(new float[] { 1,2, 2, 3, 2, 2 ,2  });
+
+			table.setWidthPercentage(100);
+			table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+			table.addCell(new Phrase("Sr#", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Date", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Reference No", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Description", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Amount", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Job ID", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Location", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+
+			
+			table.setHeaderRows(1);
+			PdfPCell[] cells = table.getRow(0).getCells();
+			for (int j = 0; j < cells.length; j++) {
+				cells[j].setBackgroundColor(BaseColor.LIGHT_GRAY);
+
+			}
+			int count = 0;
+			for (int i = 0; i < samplingList.size(); i++) {
+				/// pdf
+
+				count++;
+				table.addCell(new Phrase(count + "", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(new Phrase(samplingList.get(i).getDate(),
+						FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(
+						new Phrase(samplingList.get(i).getReferenceNo()+"", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(new Phrase(samplingList.get(i).getDescription(),
+						FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(
+						new Phrase(samplingList.get(i).getAmount()+"", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(
+						new Phrase(samplingList.get(i).getJobId(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(
+						new Phrase(samplingList.get(i).getLocation(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+
+				
+				
+			}
+			//
+
+			FileOutputStream pdfFile = new FileOutputStream(
+					rootDir + "/SamplingAuditStep/reportSamplingAuditPDF.pdf");
+			// PdfWriter.getInstance(document, pdfFile);
+			PdfWriter pdfWriter = PdfWriter.getInstance(document, pdfFile);
+			HeaderAndFooterPdfPageEventHelper headerAndFooter = new HeaderAndFooterPdfPageEventHelper();
+			pdfWriter.setPageEvent(headerAndFooter);
+			document.open();
+
+			String title = "Sampling Audit Report";
+			Paragraph paragraph = new Paragraph(title,
+					FontFactory.getFont(FontFactory.TIMES_BOLD, 16, Font.BOLD, BaseColor.BLUE));
+
+			Paragraph p = new Paragraph();
+			document.add(paragraph);
+			document.add(new Paragraph(
+					"________________________________________________________________________________________________________________________"));
+			document.add(table);
+			document.close();
+
+			logger.info(
+					String.format("(Inside reportSamplingAuditPDF exporting reportSamplingAuditPDF for data list"
+							+ samplingList + "for dir" + rootDir + "" + new Date()));
+
+		} catch (FileNotFoundException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("reportSamplingAuditPDFn excel sheet: downloaded");
+		return "pdf exported";
+	}
+
 }

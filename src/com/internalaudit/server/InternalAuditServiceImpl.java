@@ -1779,4 +1779,20 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 			String samplingMehod, ArrayList<SamplingExcelSheetEntity> listSamplingExcel) {
 		return rdbHelper.generateSamplingOutput(populationSize, samplingSize, samplingMehod, listSamplingExcel);
 	}
+
+	@Override
+	public String exportSamplingAuditStep(String samplingMehod, String reportFormat,
+			ArrayList<SamplingExcelSheetEntity> samplingList) throws Exception {
+		if (isLoggedIn()) {
+			String rootDir = getServletContext().getRealPath("/");
+			// return
+			// rdbHelper.exportJobTimeAllocationReportToExcel(excelDataList,
+			// rootDir);
+			return rdbHelper.exportSamplingAuditStep(samplingList, rootDir, samplingMehod , reportFormat);
+		} else {
+
+			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);
+
+		}
+	}
 }

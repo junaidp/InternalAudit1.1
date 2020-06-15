@@ -122,7 +122,7 @@ public class SamplingAuditStep extends VerticalPanel {
 			@Override
 			public void onChange(ChangeEvent event) {
 				getSampleSize(listBoxControlList.getSelectedValue(), listBoxFrequency.getSelectedValue());
-				if (listBoxFrequency.getSelectedItemText().equalsIgnoreCase("Daily")) {
+				if (listBoxFrequency.getSelectedItemText().equalsIgnoreCase("Daily") || listBoxFrequency.getSelectedItemText().equalsIgnoreCase("Recurring") ) {
 					samplingFileUploader.setVisible(true);
 				} else {
 					samplingFileUploader.setVisible(false);

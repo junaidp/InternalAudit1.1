@@ -340,5 +340,8 @@ public interface InternalAuditService extends RemoteService {
 	ArrayList<SamplingExcelSheetEntity> generateSamplingOutput(String populationSize, String samplingSize,
 			String samplingMehod, ArrayList<SamplingExcelSheetEntity> listSamplingSheet);
 
+	String exportSamplingAuditStep(String samplingMehod, String reportFormat,
+			ArrayList<SamplingExcelSheetEntity> list) throws  Exception;
+
 	// ArrayList<ToDo> fetchUpdatedRaisedToDo(int employeeID) throws Exception;
 }
