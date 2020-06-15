@@ -60,11 +60,8 @@ public class ToDo implements Serializable {
 	@Column(name = "respond")
 	private String respond;
 
-	@Column(name = "messageReadSender")
-	private Boolean messageReadBySender;
-
-	@Column(name = "messageReadReceiver")
-	private Boolean messageReadByReceiver;
+	@Column(name = "messageread")
+	private Boolean read;
 
 	@Transient
 	private ArrayList<ToDoLogsEntity> todosLogList;
@@ -133,6 +130,14 @@ public class ToDo implements Serializable {
 		this.job = job;
 	}
 
+	public Boolean getRead() {
+		return read;
+	}
+
+	public void setRead(Boolean read) {
+		this.read = read;
+	}
+
 	public ArrayList<ToDoLogsEntity> getTodosLogList() {
 		return todosLogList;
 	}
@@ -147,22 +152,6 @@ public class ToDo implements Serializable {
 
 	public void setTask(String task) {
 		this.task = task;
-	}
-
-	public Boolean getMessageReadBySender() {
-		return messageReadBySender;
-	}
-
-	public void setMessageReadBySender(Boolean read) {
-		this.messageReadBySender = read;
-	}
-
-	public Boolean getMessageReadByReceiver() {
-		return messageReadByReceiver;
-	}
-
-	public void setMessageReadByReceiver(Boolean messageReadByReceiver) {
-		this.messageReadByReceiver = messageReadByReceiver;
 	}
 
 }

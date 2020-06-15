@@ -52,6 +52,7 @@ import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
+import com.google.gwt.user.client.Window;
 import com.internalaudit.client.presenter.HeaderAndFooterPdfPageEventHelper;
 import com.internalaudit.client.view.InternalAuditReporting.AssesmentGridEntity;
 import com.internalaudit.shared.ActivityObjective;
@@ -9884,7 +9885,6 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 
 			session.saveOrUpdate(todo);
-
 			session.flush();
 			File mainFolder = new File(realPath + "/" + InternalAuditConstants.PATHTODOUPLOADS);
 			File deleteFolder = new File(mainFolder + "/" + InternalAuditConstants.PATHTOUNSAVEDATTACHMENTS);

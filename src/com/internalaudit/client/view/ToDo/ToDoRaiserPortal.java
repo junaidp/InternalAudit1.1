@@ -76,8 +76,6 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 			issue.setRaisedToId(arrayList.get(i).getAssignedTo().getEmployeeId());
 			issue.setRelatedJobId(arrayList.get(i).getJob().getJobCreationId());
 			issue.setTodoLogList(arrayList.get(i).getTodosLogList());
-			issue.setReadBySender(arrayList.get(i).getMessageReadBySender());
-			issue.setReadByReceiver(arrayList.get(i).getMessageReadByReceiver());
 
 			toDos.add(issue);
 		}
@@ -223,9 +221,7 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 				todo.setJob(job);
 
 				todo.setAssignedTo(assignedTo);
-				// sender set to true so that he could not view 1st time
-				todo.setMessageReadBySender(true);
-				todo.setMessageReadByReceiver(false);
+				todo.setRead(false);
 
 				// todo.setDueDate(dueDate.getDatePicker().getValue());
 				todo.setDueDate(todoview.getDueDate().getValue());

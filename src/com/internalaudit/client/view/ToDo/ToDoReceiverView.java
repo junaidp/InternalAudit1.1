@@ -69,7 +69,7 @@ public class ToDoReceiverView extends VerticalPanel {
 
 		setHandler(toDo);
 		clickHandler(toDo);
-		// toDo.setReadByReceiver(true);
+
 	}
 
 	private void setHandler(final ToDoReceiverEntity toDo) {
@@ -244,6 +244,8 @@ public class ToDoReceiverView extends VerticalPanel {
 				final ToDo todoEntity = new ToDo();
 				todoEntity.setToDoId(toDo.getId());
 				todoEntity.setDescription(toDo.getTaskDescription());
+				//Task set by moqeet
+				todoEntity.setTask(toDo.getTaskName());
 				// todoEntity.setDescription(toDo.getRequestedItem());
 				// Updating Task String as well, by moqeet
 				// todoEntity.setRespond(txtAreaReply.getText());
@@ -257,8 +259,7 @@ public class ToDoReceiverView extends VerticalPanel {
 				JobCreation jobcreationId = new JobCreation();
 				jobcreationId.setJobCreationId(toDo.getRelatedJobId());
 				todoEntity.setJob(jobcreationId);
-				todoEntity.setMessageReadBySender(false);
-				todoEntity.setMessageReadByReceiver(true);
+				todoEntity.setRead(true);
 
 				final ToDoLogsEntity todoLogsEntity = new ToDoLogsEntity();
 

@@ -196,10 +196,11 @@ public class SideBarView extends VerticalLayoutContainer {
 		setIconIRReceiverGrid(loggedInUser);
 	}
 
+	
 	private void setIconToDoRaiserGrid(Employee loggedInUser) {
 		boolean updateIconAlert = false;
 		for (int i = 0; i < loggedInUser.getUserRaisedToDos().size(); i++) {
-			if (loggedInUser.getUserRaisedToDos().get(i).getMessageReadBySender() == false)
+			if (loggedInUser.getUserRaisedToDos().get(i).getRead() == true)
 				updateIconAlert = true;
 		}
 		if (!updateIconAlert == true)
@@ -211,7 +212,7 @@ public class SideBarView extends VerticalLayoutContainer {
 	private void setIconIRRaiserGrid(Employee loggedInUser) {
 		boolean updateIconAlert = false;
 		for (int i = 0; i < loggedInUser.getUserRaisedInformationRequests().size(); i++) {
-			if (loggedInUser.getUserRaisedInformationRequests().get(i).getRead() == false)
+			if (loggedInUser.getUserRaisedInformationRequests().get(i).getRead() == true)
 				updateIconAlert = true;
 		}
 		if (!updateIconAlert == true)
@@ -224,7 +225,7 @@ public class SideBarView extends VerticalLayoutContainer {
 	private void setIconToDoReceiverGrid(Employee loggedInUser) {
 		boolean updateIconAlert = false;
 		for (int i = 0; i < loggedInUser.getTodos().size(); i++) {
-			if (loggedInUser.getTodos().get(i).getMessageReadByReceiver() == false)
+			if (loggedInUser.getTodos().get(i).getRead() == false)
 				updateIconAlert = true;
 		}
 		if (!updateIconAlert == true)

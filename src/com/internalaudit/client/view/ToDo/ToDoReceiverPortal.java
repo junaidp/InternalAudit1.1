@@ -67,8 +67,7 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 			issue.setRaisedTo(arrayList.get(i).getAssignedTo().getEmployeeName());
 			issue.setRelatedJobId(arrayList.get(i).getJob().getJobCreationId());
 			// issue.setStatus(arrayList.get(i).getJob().getJobName());
-			issue.setReadBySender(arrayList.get(i).getMessageReadBySender());
-			issue.setReadByReceiver(arrayList.get(i).getMessageReadByReceiver());
+			issue.setRead(arrayList.get(i).getRead());
 			// added by moqeet to get chat list
 			issue.setTodoLogList(arrayList.get(i).getTodosLogList());
 			toDoRequests.add(issue);

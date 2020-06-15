@@ -86,8 +86,8 @@ public class InformationRequestRaiserFinalView extends VerticalPanel {
 				infoReq.setJob(jobid);
 				infoReq.setInformationRequestId(informationRequest.getId());
 				// Updating Task Strng as well
-				// infoReq.setRequestItem(txtAreaReply.getText());
-				infoReq.setRead(false);
+				infoReq.setRequestItem(informationRequest.getRequestedItem());
+				infoReq.setRead(false);			
 				infoReq.setSendNotication(informationRequest.getSendNotification());
 				infoReq.setSendReminder(informationRequest.getSendReminder());
 				infoReq.setContactEmail(informationRequest.getContactEmail());

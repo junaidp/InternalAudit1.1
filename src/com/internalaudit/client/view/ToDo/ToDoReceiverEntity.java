@@ -21,8 +21,7 @@ public class ToDoReceiverEntity implements Serializable {
 	private Date overDueDays;
 	private int id;
 	private int raisedToId;
-	private boolean readBySender;
-	private boolean readByReceiver;
+	private boolean read;
 	private ArrayList<ToDoLogsEntity> todoLogList;
 
 	public ToDoReceiverEntity() {
@@ -117,12 +116,12 @@ public class ToDoReceiverEntity implements Serializable {
 		this.raisedTo = raisedTo;
 	}
 
-	public boolean isReadBySender() {
-		return readBySender;
+	public boolean isRead() {
+		return read;
 	}
 
-	public void setReadBySender(boolean readBySender) {
-		this.readBySender = readBySender;
+	public void setRead(boolean read) {
+		this.read = read;
 	}
 
 	public ArrayList<ToDoLogsEntity> getTodoLogList() {
@@ -139,14 +138,6 @@ public class ToDoReceiverEntity implements Serializable {
 
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
-	}
-
-	public boolean isReadByReceiver() {
-		return readByReceiver;
-	}
-
-	public void setReadByReceiver(boolean readByReceiver) {
-		this.readByReceiver = readByReceiver;
 	}
 
 }
