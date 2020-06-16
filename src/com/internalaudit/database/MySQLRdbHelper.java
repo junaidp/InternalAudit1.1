@@ -1143,6 +1143,8 @@ public class MySQLRdbHelper {
 	private void ammendStrategic(Strategic strategic, Employee loggedInUser, Strategic clientSideStrategic,
 			Session session) {
 		strategic.setStatus("amend");
+		//added setPhase by moqeet
+		strategic.setPhase(3);
 		// Employee emp = new Employee();
 		// emp.setEmployeeId(0);
 		// strategic.setApprovedBy(emp);

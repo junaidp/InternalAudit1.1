@@ -2,6 +2,7 @@ package com.internalaudit.client.view;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -19,15 +20,15 @@ public class PrioritizationView extends Composite {
 	private Label objective;
 	private CheckBox audit = new CheckBox();
 	// private CheckBox nextYear = new CheckBox() ;
-	private Label comments = new Label(" Feedback ");
+	private Label feedback = new Label(" Feedback ");
 	private Image submitted = new Image(" images/tick.png ");
 	private ListBox listYears = new ListBox();
-	private ButtonRound btnSave = new ButtonRound("Save");
-	private ButtonRound btnSubmit = new ButtonRound("Submit");
-	private ButtonRound btnApprove = new ButtonRound("Approve");
-	private ButtonRound btnDecline = new ButtonRound("Delete");
-	private ButtonRound btnDeclineInitiator = new ButtonRound("Delete");
-	private ButtonRound btnAmend = new ButtonRound("Feedback");
+	private Button btnSave = new Button("Save");
+	private Button btnSubmit = new Button("Submit");
+	private Button btnApprove = new Button("Approve");
+	private Button btnDecline = new Button("Delete");
+	private Button btnDeclineInitiator = new Button("Delete");
+	private Button btnFeedback = new Button("Feedback");
 	private HorizontalPanel hpnlButtonInitiator = new HorizontalPanel();
 	private HorizontalPanel hpnlButtonsApprovar = new HorizontalPanel();
 	private int strategicId;
@@ -83,7 +84,7 @@ public class PrioritizationView extends Composite {
 
 		hpnlButtonsApprovar.add(hpnlSpaceApprovar);
 		hpnlButtonsApprovar.add(btnDecline);
-		hpnlButtonsApprovar.add(btnAmend);
+		hpnlButtonsApprovar.add(btnFeedback);
 		hpnlButtonsApprovar.add(btnApprove);
 		hpnlButtonsApprovar.setSpacing(2);
 
@@ -91,7 +92,7 @@ public class PrioritizationView extends Composite {
 		hpnlButtonInitiator.setVisible(false);
 
 		btnDecline.setWidth("70px");
-		btnAmend.setWidth("70px");
+		btnFeedback.setWidth("70px");
 		btnApprove.setWidth("70px");
 
 		hpnlSpace.setWidth("650px");
@@ -108,7 +109,7 @@ public class PrioritizationView extends Composite {
 		hpnlButtonInitiator.setSpacing(2);
 
 		HorizontalPanel hpnlComments = new HorizontalPanel();
-		hpnlComments.add(comments);
+		hpnlComments.add(feedback);
 		hpnlComments.add(submitted);
 		hpnlComments.setWidth("0px");
 
@@ -171,60 +172,60 @@ public class PrioritizationView extends Composite {
 		this.audit = priority;
 	}
 
-	public Label getComments() {
-		return comments;
+	public Label getFeedback() {
+		return feedback;
 	}
 
-	public void setComments(Label comments) {
-		this.comments = comments;
+	public void setFeedback(Label feedback) {
+		this.feedback = feedback;
 	}
 
-	public ButtonRound getBtnSave() {
+	public Button getBtnSave() {
 		return btnSave;
 	}
 
-	public void setBtnSave(ButtonRound btnSave) {
+	public void setBtnSave(Button btnSave) {
 		this.btnSave = btnSave;
 	}
 
-	public ButtonRound getBtnSubmit() {
+	public Button getBtnSubmit() {
 		return btnSubmit;
 	}
 
-	public void setBtnSubmit(ButtonRound btnSubmit) {
+	public void setBtnSubmit(Button btnSubmit) {
 		this.btnSubmit = btnSubmit;
 	}
 
-	public ButtonRound getBtnApprove() {
+	public Button getBtnApprove() {
 		return btnApprove;
 	}
 
-	public void setBtnApprove(ButtonRound btnApprove) {
+	public void setBtnApprove(Button btnApprove) {
 		this.btnApprove = btnApprove;
 	}
 
-	public ButtonRound getBtnDecline() {
+	public Button getBtnDecline() {
 		return btnDecline;
 	}
 
-	public void setBtnDecline(ButtonRound btnDecline) {
+	public void setBtnDecline(Button btnDecline) {
 		this.btnDecline = btnDecline;
 	}
 
-	public ButtonRound getBtnDeclineInitiator() {
+	public Button getBtnDeclineInitiator() {
 		return btnDeclineInitiator;
 	}
 
-	public void setBtnDeclineInitiator(ButtonRound btnDeclineInitiator) {
+	public void setBtnDeclineInitiator(Button btnDeclineInitiator) {
 		this.btnDeclineInitiator = btnDeclineInitiator;
 	}
 
-	public ButtonRound getBtnAmend() {
-		return btnAmend;
+	public Button getBtnFeedback() {
+		return btnFeedback;
 	}
 
-	public void setBtnAmend(ButtonRound btnAmend) {
-		this.btnAmend = btnAmend;
+	public void setBtnFeedback(Button btnFeedback) {
+		this.btnFeedback = btnFeedback;
 	}
 
 	public HorizontalPanel getHpnlButtonInitiator() {

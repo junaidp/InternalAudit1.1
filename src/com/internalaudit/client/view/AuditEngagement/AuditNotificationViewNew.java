@@ -15,6 +15,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -66,9 +67,20 @@ public class AuditNotificationViewNew extends Composite {
 		refreshFile(notificationId, mainFolder);
 		setHandlers(asyncCallback, notificationId, mainFolder);
 
-		txtAreaBody.setText(
-				"We hereby would like to inform you that company Name Internal Audit will be conducting a review of Engagement Name from 14 December, 2017. This is part of the Internal Audit Plan for 2017, discussed with Top Management, Group Internal Audit, and approved by member(s) of BOD/Audit Committee\nThe audit will be performed by Mr. DEF ond M.r GHI , members of Local Internal Audit.\n The scope of the audit includes review of adequacy, effectiveness & efficiency of the controls and processes around Engagement Name, with specific focus on xxxx. \n Please note that IA team may take contact with relevant members of your team in the coming days for a better process understanding relating to this audit and information required. Any resultant scope changes, if required, will be duly communicated. \n The completion and finalization will depend on the availability of information and interviews, yet we aim at delivering a draft report for your review and comments by 8 February, 2018. \n You are requested to forward the information in this notification to those who will be involved in the audit. If you have any questions concerning the audit, please feel free to contact myself or e-mail at xxxxx. \n We look forward to your continued support. ");
-
+		//txtAreaBody.setText(
+				//"We hereby would like to inform you that company Name Internal Audit will be conducting a review of Engagement Name from 14 December, 2017. This is part of the Internal Audit Plan for 2017, discussed with Top Management, Group Internal Audit, and approved by member(s) of BOD/Audit Committee\nThe audit will be performed by Mr. DEF ond M.r GHI , members of Local Internal Audit.\n The scope of the audit includes review of adequacy, effectiveness & efficiency of the controls and processes around Engagement Name, with specific focus on xxxx. \n Please note that IA team may take contact with relevant members of your team in the coming days for a better process understanding relating to this audit and information required. Any resultant scope changes, if required, will be duly communicated. \n The completion and finalization will depend on the availability of information and interviews, yet we aim at delivering a draft report for your review and comments by 8 February, 2018. \n You are requested to forward the information in this notification to those who will be involved in the audit. If you have any questions concerning the audit, please feel free to contact myself or e-mail at xxxxx. \n We look forward to your continued support. ");
+//updated as per client requirement
+		txtAreaBody.setText("Dear [Name of Person(s)], \n\n"+
+				"We hereby would like to inform you that Internal Audit Department will be conducting a review of [Engagement Name] from [14 December, 2017]. This is part of the Internal Audit Plan for [2020] as approved by member(s) of BOD/Audit Committee.\n \n" + 
+				"The audit will be performed by [Mr. DEF] and [M.r GHI] , members of the Internal Audit Department.\n \n" + 
+				"The scope of the audit includes review of adequacy, effectiveness &amp; efficiency of the controls and processes around Engagement Name, with the intention to improve the process by identifying the system flaws which needs immediate remedial actions.\n \n" + 
+				"Please note that IA team may contact with relevant members of your team and visit the location in the coming days for a better process understanding relating to this audit and information required. Any resultant scope changes, if required, will be duly communicated.\n \n" + 
+				"We will follow the agile auditing concept and will share the queries in piecemeal to save your and our time and would like to have the feedback in short span of time. The final draft report will include all the points which we shared before and the new ones.\n \n" + 
+				"The completion and finalization will depend on the availability of information and interviews, yet we aim at delivering a draft report for your review and comments by [8 February, 2018].\n \n" + 
+				"The final draft report shall require only a glance review if have missed anything to be added to the report, you are more than welcome to provide that.\n \n" + 
+				"You are requested to forward the information in this notification to those who will be involved in the audit. If you have any questions concerning the audit, please feel free to contact myself or e-mail at [xxx@email.com].\n \n" + 
+				"We look forward to your continued support.");
+		
 		date.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd MMMM , yyyy")));
 
 		fileUploader = new AuditWorkProgramUpload(notificationId, mainFolder);

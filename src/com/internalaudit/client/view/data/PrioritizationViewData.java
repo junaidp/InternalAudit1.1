@@ -14,6 +14,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
@@ -49,7 +50,7 @@ public class PrioritizationViewData {
 	}
 
 	public void savePrioritization(final VerticalPanel vpnlData, PrioritizationView prioritizationView,
-			Strategic strategic, String todo, int tab, final ButtonRound buttonRound) {
+			Strategic strategic, String todo, int tab, final Button buttonRound) {
 		buttonRound.setEnabled(false);
 		strategic.setAudit(prioritizationView.getAudit().getValue());
 
@@ -198,14 +199,14 @@ public class PrioritizationViewData {
 					prioritizationView.setIndex(index);
 
 					if (strategics.get(index).getStatus().equals("amend")) {
-						prioritizationView.getComments().addStyleName("point");
-						prioritizationView.getComments().removeStyleName("white");
+						prioritizationView.getFeedback().addStyleName("point");
+						prioritizationView.getFeedback().removeStyleName("white");
 					} else {
-						prioritizationView.getComments().addStyleName("white");
+						prioritizationView.getFeedback().addStyleName("white");
 					}
 					// prioritizationView.getComments().setTitle(strategics.get(index).getComments());
 					final String feedbackmsg = strategics.get(index).getComments();
-					prioritizationView.getComments().addClickHandler(new ClickHandler() {
+					prioritizationView.getFeedback().addClickHandler(new ClickHandler() {
 						@Override
 						public void onClick(ClickEvent event) {
 							PopupViewGXT feedbackpopup = new PopupViewGXT(new HTML(feedbackmsg), "Feedback");
@@ -241,7 +242,7 @@ public class PrioritizationViewData {
 					if (strategics.get(prioritizationView.getIndex()).getTab() == 3) {
 						// prioritizationView.getTab().setText("(Compliance)");
 					}
-					prioritizationView.getComments().setTitle(strategics.get(index).getComments());
+					prioritizationView.getFeedback().setTitle(strategics.get(index).getComments());
 
 					prioritizationView.getBtnSubmit().addClickHandler(new ClickHandler() {
 
@@ -291,7 +292,7 @@ public class PrioritizationViewData {
 						}
 					});
 
-					prioritizationView.getBtnAmend().addClickHandler(new ClickHandler() {
+					prioritizationView.getBtnFeedback().addClickHandler(new ClickHandler() {
 
 						@Override
 						public void onClick(ClickEvent event) {
@@ -305,7 +306,7 @@ public class PrioritizationViewData {
 									savePrioritization(vpnlData, prioritizationView,
 											strategics.get(prioritizationView.getIndex()), "amend",
 											strategics.get(prioritizationView.getIndex()).getTab(),
-											prioritizationView.getBtnAmend());
+											prioritizationView.getBtnFeedback());
 									amendmentPopup.getPopupComments().removeFromParent();
 								}
 							});
@@ -394,7 +395,7 @@ public class PrioritizationViewData {
 		}
 	}
 
-	public void declineStrategic(int strategicId, final VerticalPanel vpnlData, final ButtonRound buttonRound) {
+	public void declineStrategic(int strategicId, final VerticalPanel vpnlData, final Button buttonRound) {
 		buttonRound.setEnabled(false);
 		rpcService.declineStrategic(strategicId, new AsyncCallback<String>() {
 
