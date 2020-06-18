@@ -122,7 +122,7 @@ public class SamplingFileUploader extends VerticalPanel {
 				PopupsView pp = new PopupsView(samplingSheet, "");
 				pp.getVpnlMain().setWidth("1000px");
 				pp.getHpnlSPace().setWidth("1000px");
-				pp.getVpnlMain().setHeight("600px");
+				pp.getVpnlMain().setHeight("700px");
 
 			}
 		});

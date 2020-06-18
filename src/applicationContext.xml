@@ -55,6 +55,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 				<value>com.internalaudit.shared.City</value>
 				<value>com.internalaudit.shared.Country</value>
 				<value>com.internalaudit.shared.Department</value>
+				<value>com.internalaudit.shared.Division</value>
 				<value>com.internalaudit.shared.Employee</value>
 				<value>com.internalaudit.shared.Strategic</value>
 				<value>com.internalaudit.shared.StrategicAudit</value>

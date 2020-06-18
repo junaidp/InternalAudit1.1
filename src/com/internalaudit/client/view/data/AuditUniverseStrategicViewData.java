@@ -29,6 +29,7 @@ import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.client.view.PhaseNames;
 import com.internalaudit.client.view.PopupViewGXT;
 import com.internalaudit.shared.Department;
+import com.internalaudit.shared.Division;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.RiskFactor;
 import com.internalaudit.shared.Strategic;
@@ -41,6 +42,7 @@ public class AuditUniverseStrategicViewData {
 	// private AuditUniverseStrategicView auditUniverseStrategicView;
 	private ArrayList<Employee> objectiveOwners = new ArrayList<Employee>();
 	private ArrayList<Department> departments = new ArrayList<Department>();
+	private ArrayList<Division> divisions = new ArrayList<Division>();
 	private String actionperformed;
 	private Logger logger = Logger.getLogger("AuditUniverStrategicViewData");
 
@@ -164,6 +166,8 @@ public class AuditUniverseStrategicViewData {
 		setDepartments(strategicView.getRelevantDepartment(), strategic);
 		strategic.setRelevantDepartment(department);
 		strategic.setStrategicObjective(strategicView.getStrategicObjective().getText());
+		//added by Moqeet
+		strategic.setDivisionID(Integer.parseInt(strategicView.getListBoxDivision().getSelectedValue()));
 		// strategic.setPhase("Identification");
 		strategic.setPhase(1);
 		strategic.setNextPhase(2);
@@ -299,6 +303,26 @@ public class AuditUniverseStrategicViewData {
 					}
 					if (auditUniverseStrategicView.getRelevantDepartment().getSelectedIndex() == -1) {
 						auditUniverseStrategicView.getRelevantDepartment().setSelectedIndex(0);
+					}
+				}
+			}
+		});
+		
+		//added by Moqeet to fetch Division
+		rpcService.fetchDivision(new AsyncCallback<ArrayList<Division>>() {
+
+			@Override
+			public void onFailure(Throwable arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Division> division) {
+				divisions = division;
+				if (auditUniverseStrategicView != null) {
+					for(Division div:division) {
+						auditUniverseStrategicView.getListBoxDivision().addItem(div.getDivisionName(),div.getDivisionID()+"");
 					}
 				}
 			}
@@ -447,6 +471,7 @@ public class AuditUniverseStrategicViewData {
 		auditUniverseStrategicView.getHpnlButtonInitiator().setVisible(false);
 		auditUniverseStrategicView.getLstObjectiveOwner().setEnabled(false);
 		auditUniverseStrategicView.getRelevantDepartment().setEnabled(false);
+		auditUniverseStrategicView.getListBoxDivision().setEnabled(false);
 		auditUniverseStrategicView.getObjectiveAchievementDate().setEnabled(false);
 		auditUniverseStrategicView.getStrategicObjective().setEnabled(false);
 		auditUniverseStrategicView.getSubmitted().setVisible(true);
@@ -458,6 +483,7 @@ public class AuditUniverseStrategicViewData {
 	public void enablePanel(AuditUniverseStrategicView auditUniverseStrategicView) {
 		auditUniverseStrategicView.getLstObjectiveOwner().setEnabled(true);
 		auditUniverseStrategicView.getRelevantDepartment().setEnabled(true);
+		auditUniverseStrategicView.getListBoxDivision().setEnabled(true);
 		auditUniverseStrategicView.getObjectiveAchievementDate().setEnabled(true);
 		auditUniverseStrategicView.getStrategicObjective().setEnabled(true);
 		auditUniverseStrategicView.getSubmitted().setVisible(false);
@@ -487,13 +513,13 @@ public class AuditUniverseStrategicViewData {
 		final Strategic data = result.get(i);
 		auditUniverseStrategicView.setStrategicId(result.get(i).getId());
 		if (result.get(i).getStatus().equals("amend")) {
-			auditUniverseStrategicView.getComments().addStyleName("point");
-			auditUniverseStrategicView.getComments().setVisible(true);
+			auditUniverseStrategicView.getFeedback().addStyleName("point");
+			auditUniverseStrategicView.getFeedback().setVisible(true);
 		} else {
-			auditUniverseStrategicView.getComments().setVisible(false);
+			auditUniverseStrategicView.getFeedback().setVisible(false);
 		}
 
-		auditUniverseStrategicView.getComments().addClickHandler(new ClickHandler() {
+		auditUniverseStrategicView.getFeedback().addClickHandler(new ClickHandler() {
 			// SH
 			@Override
 			public void onClick(ClickEvent event) {
@@ -502,7 +528,7 @@ public class AuditUniverseStrategicViewData {
 			}
 		});
 
-		auditUniverseStrategicView.getComments().setTitle(result.get(i).getComments());
+		auditUniverseStrategicView.getFeedback().setTitle(result.get(i).getComments());
 		auditUniverseStrategicView.getObjectiveAchievementDate().setValue(result.get(i).getAcheivementDate());
 		auditUniverseStrategicView.getStrategicObjective().setText(result.get(i).getStrategicObjective());
 		auditUniverseStrategicView.getLblStrategicId().setText(result.get(i).getId() + ".");
@@ -516,13 +542,18 @@ public class AuditUniverseStrategicViewData {
 						result.get(i).getStrategicDepartments().get(k).getDepartment().getDepartmentId() + "");
 
 			}
-
+			//added by Moqeet
+			auditUniverseStrategicView.getListBoxDivision().setEnabled(false);
+			auditUniverseStrategicView.getListBoxDivision().addItem(result.get(i).getDivision().getDivisionName(), result.get(i).getDivision().getDivisionID()+"");
 		} else {
 			for (int j = 0; j < departments.size(); j++) {
 				auditUniverseStrategicView.getRelevantDepartment().addItem(departments.get(j).getDepartmentName(),
 						departments.get(j).getDepartmentId() + "");
 			}
-
+			//added by Moqeet
+			for(Division div:divisions) {
+				auditUniverseStrategicView.getListBoxDivision().addItem(div.getDivisionName(), div.getDivisionID()+"");
+			}
 		}
 
 		for (int j = 0; j < objectiveOwners.size(); j++) {
@@ -548,7 +579,12 @@ public class AuditUniverseStrategicViewData {
 		if (auditUniverseStrategicView.getRelevantDepartment().getSelectedIndex() == -1) {
 			auditUniverseStrategicView.getRelevantDepartment().setSelectedIndex(0);
 		}
-
+		//added by moqeet
+		for (int j = 0; j < auditUniverseStrategicView.getListBoxDivision().getItemCount(); j++) {
+			if (auditUniverseStrategicView.getListBoxDivision().getValue(j).equals(result.get(i).getDivisionID()+""));
+			auditUniverseStrategicView.getListBoxDivision().setItemSelected(j, true);
+			break;
+		}
 	}
 
 	private void setHandlers(final VerticalPanel vpnlStrategic, final HorizontalPanel hpnlButtonInitiator,
@@ -636,6 +672,12 @@ public class AuditUniverseStrategicViewData {
 		for (int i = 0; i < departments.size(); i++) {
 			auditUniverseStrategicView.getRelevantDepartment().addItem(departments.get(i).getDepartmentName(),
 					departments.get(i).getDepartmentId() + "");
+		}
+		
+		//added by Moqeet
+		
+		for (Division div:divisions) {
+			auditUniverseStrategicView.getListBoxDivision().addItem(div.getDivisionName(), div.getDivisionID() + "");
 		}
 
 		for (int i = 0; i < objectiveOwners.size(); i++) {

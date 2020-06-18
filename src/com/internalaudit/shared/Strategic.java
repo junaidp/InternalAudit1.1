@@ -61,6 +61,17 @@ public class Strategic implements Serializable {
 
 	@Column(name = "audit")
 	private boolean audit;
+	
+	@Column(name = "divisionID")
+	private int divisionID;
+
+	public int getDivisionID() {
+		return divisionID;
+	}
+
+	public void setDivisionID(int divisionID) {
+		this.divisionID = divisionID;
+	}
 
 	@JoinColumn(name = "riskFactor", nullable = true)
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -162,6 +173,17 @@ public class Strategic implements Serializable {
 
 	@Transient
 	ArrayList<StrategicDepartments> strategicDepartments;
+	
+	@Transient
+	Division division;
+
+	public Division getDivision() {
+		return division;
+	}
+
+	public void setDivision(Division dividision) {
+		this.division = dividision;
+	}
 
 	public int getLoggedInUser() {
 		return loggedInUser;

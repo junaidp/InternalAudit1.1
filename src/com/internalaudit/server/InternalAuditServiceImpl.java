@@ -35,6 +35,7 @@ import com.internalaudit.shared.DashBoardDTO;
 import com.internalaudit.shared.DashBoardNewDTO;
 import com.internalaudit.shared.DashboardListBoxDTO;
 import com.internalaudit.shared.Department;
+import com.internalaudit.shared.Division;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.ExcelDataDTO;
 import com.internalaudit.shared.Exceptions;
@@ -1794,5 +1795,11 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);
 
 		}
+	}
+
+	@Override
+	public ArrayList<Division> fetchDivision() {
+		// TODO Auto-generated method stub
+		return rdbHelper.fetchDivision();
 	}
 }

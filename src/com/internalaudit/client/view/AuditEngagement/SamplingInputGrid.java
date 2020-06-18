@@ -87,7 +87,7 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 				sampling.setId(samplingExcel.getId());
 				sampling.setAmount(samplingExcel.getAmount());
 				sampling.setDate(samplingExcel.getDate());
-				sampling.setReferenceNo(sampling.getReferenceNo());
+				sampling.setReferenceNo(samplingExcel.getReferenceNo());
 				sampling.setDescription(samplingExcel.getDescription());
 				sampling.setJobId(samplingExcel.getJobId());
 				sampling.setLocation(samplingExcel.getLocation());
@@ -125,7 +125,7 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 		btnExportPDF.setVisible(false);
 		btnExportExcel.setWidth("125px");
 		btnExportPDF.setWidth("125px");
-		btnExportPDF.getElement().getStyle().setPaddingLeft(40, Unit.PX);
+		btnExportPDF.getElement().getStyle().setMarginLeft(40, Unit.PX);
 
 		List<ColumnConfig<SamplingExcelSheetEntity, ?>> columns = new ArrayList<ColumnConfig<SamplingExcelSheetEntity, ?>>();
 		columns.add(samplingSheetId);

@@ -19,6 +19,7 @@ import com.internalaudit.shared.DashBoardDTO;
 import com.internalaudit.shared.DashBoardNewDTO;
 import com.internalaudit.shared.DashboardListBoxDTO;
 import com.internalaudit.shared.Department;
+import com.internalaudit.shared.Division;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.ExcelDataDTO;
 import com.internalaudit.shared.Exceptions;
@@ -342,6 +343,8 @@ public interface InternalAuditService extends RemoteService {
 
 	String exportSamplingAuditStep(String samplingMehod, String reportFormat,
 			ArrayList<SamplingExcelSheetEntity> list) throws  Exception;
+
+	ArrayList<Division> fetchDivision();
 
 	// ArrayList<ToDo> fetchUpdatedRaisedToDo(int employeeID) throws Exception;
 }

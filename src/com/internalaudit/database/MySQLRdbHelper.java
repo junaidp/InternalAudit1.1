@@ -41,6 +41,14 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 //import org.eclipse.jetty.util.log.Log;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -70,6 +78,7 @@ import com.internalaudit.shared.DashBoardDTO;
 import com.internalaudit.shared.DashBoardNewDTO;
 import com.internalaudit.shared.DashboardListBoxDTO;
 import com.internalaudit.shared.Department;
+import com.internalaudit.shared.Division;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.EmployeeJobDTO;
 import com.internalaudit.shared.EngagementDTO;
@@ -610,6 +619,27 @@ public class MySQLRdbHelper {
 		}
 		return departments;
 	}
+	
+	public ArrayList<Division> fetchDivision() {
+		Session session = null;
+		ArrayList<Division> divisions = new ArrayList<Division>();
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(Division.class);
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				Division division = (Division) it.next();
+				divisions.add(division);
+			}
+			logger.info(String.format("Inside fetchDivision() " + new Date()));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchDivision", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+		return divisions;
+	}
 
 	public JobTimeEstimationDTO fetchJobTime(int jobId, int year, int companyId) {
 
@@ -841,6 +871,7 @@ public class MySQLRdbHelper {
 			strategic.setComments(clientSideStrategic.getComments());
 			strategic.setAuditableUnit(clientSideStrategic.getAuditableUnit());
 			strategic.setProcess(clientSideStrategic.getProcess());
+			strategic.setDivisionID(clientSideStrategic.getDivisionID());
 			// strategic.setSubProcess(clientSideStrategic.getSubProcess());
 			if (clientSideStrategic.getListSubProcess() != null) {
 				saveStrategicSubProcess(clientSideStrategic, session);
@@ -1214,6 +1245,7 @@ public class MySQLRdbHelper {
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				Strategic strategic = (Strategic) it.next();
 				strategic.setStrategicDepartments(fetchStrategicdepartments(strategic, session));
+				strategic.setDivision(fetchStrategicDivision(strategic, session));
 				strategic.setLoggedInUser(employeeId);
 				//////////// Dont sent those which are SAVED and are not belong
 				//////////// to loggedInUser
@@ -1324,6 +1356,25 @@ public class MySQLRdbHelper {
 
 		}
 		return subProcess;
+	}
+
+	private Division fetchStrategicDivision(Strategic strategic, Session session) {
+		Division division = new Division();
+		try {
+			Criteria crit = session.createCriteria(Division.class);
+//			crit.createAlias("division", "div");
+			crit.add(Restrictions.eq("divisionID", strategic.getDivisionID()));
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				 division = (Division) it.next();
+			}
+			logger.info(String.format("(Inside fetchStrategicDivision)"+ strategic.getStrategicObjective() + " " + new Date()));
+
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchStrategicDivision", ex.getMessage()), ex);
+
+		} 
+		return division;
 	}
 
 	private ArrayList<StrategicDepartments> fetchStrategicdepartments(Strategic strategic, Session session) {
@@ -10593,5 +10644,94 @@ public class MySQLRdbHelper {
 		System.out.println("reportSamplingAuditPDFn excel sheet: downloaded");
 		return "pdf exported";
 	}
+	
+//	public ArrayList<SamplingExcelSheetEntity> readExcel(File filePath) {
+//
+//		ArrayList<SamplingExcelSheetEntity> listSampling = null;
+//
+//		try {
+//			
+//			listSampling = new ArrayList<SamplingExcelSheetEntity>();
+//			//for reading xls file 
+//			/*InputStream ExcelFileToRead = new FileInputStream(filePath.getPath());
+//			HSSFWorkbook wb;
+//			wb = new HSSFWorkbook(ExcelFileToRead);
+//
+//			// XSSFWorkbook wb = new XSSFWorkbook(ExcelFileToRead);
+//			HSSFSheet sheet = wb.getSheetAt(0);
+//			HSSFRow row;
+//			HSSFCell cell;*/
+//			 FileInputStream inputStream = new FileInputStream(new File(filePath.getPath()));
+//				InputStream ExcelFileToRead = new FileInputStream(filePath.getPath());
+//				File file = new File(filePath.getPath());   //creating a new file instance  
+//				FileInputStream fis = new FileInputStream(file); 
+////				//creating Workbook instance that refers to .xlsx file  
+////	            Workbook workbook = new XSSFWorkbook(ExcelFileToRead);
+////
+////				XSSFWorkbook wb = new XSSFWorkbook(fis);   
+////				XSSFSheet sheet = wb.getSheetAt(0);     //creating a Sheet object to retrieve object  
+//				Workbook workbook = WorkbookFactory.create(fis);
+//				OPCPackage pkg; 			
+//				System.out.println("opening file"); 			
+//				System.out.println("back from return");
+//				pkg = OPCPackage.open(fis); 
+//				XSSFWorkbook wb = new XSSFWorkbook(pkg);
+//				XSSFSheet sheet = wb.getSheetAt(0);
+//				
+//				
+//				
+//				
+//				XSSFRow row;
+//				XSSFCell cell;
+//			
+//			Iterator rows = sheet.rowIterator();
+//			
+//			
+//			
+//
+//			while (rows.hasNext()) {
+//				SamplingExcelSheetEntity samplingData = new SamplingExcelSheetEntity();
+//
+//				row = (XSSFRow) rows.next();
+//				Iterator cells = row.cellIterator();
+//
+//				Random rd = new Random(); // creating Random object
+//											// samplingData.setId(rd.nextInt());
+//				samplingData.setId(row.getRowNum());
+//
+//				XSSFCell date = row.getCell((short) 0);
+//				samplingData.setDate(date.getStringCellValue());
+//
+//				XSSFCell desc = row.getCell((short) 2);
+//				samplingData.setDescription(desc.getStringCellValue());
+//
+//				// samplingData.setId(row.getRowNum());
+//				if (row.getRowNum() > 0) {
+//					XSSFCell refNo = row.getCell((short) 1);
+//					samplingData.setReferenceNo(refNo.getNumericCellValue());
+//
+//					XSSFCell amount = row.getCell((short) 3);
+//					samplingData.setAmount(amount.getNumericCellValue());
+//				}
+//
+//				XSSFCell jobId = row.getCell((short) 4);
+//				samplingData.setJobId(jobId.getStringCellValue());
+//
+//				XSSFCell location = row.getCell((short) 5);
+//
+//				listSampling.add(samplingData);
+//				System.out.println();
+//			}
+//			ExcelFileToRead.close();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (InvalidFormatException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return listSampling;
+//
+//	}
 
 }

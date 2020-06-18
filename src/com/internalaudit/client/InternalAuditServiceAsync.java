@@ -18,6 +18,7 @@ import com.internalaudit.shared.DashBoardDTO;
 import com.internalaudit.shared.DashBoardNewDTO;
 import com.internalaudit.shared.DashboardListBoxDTO;
 import com.internalaudit.shared.Department;
+import com.internalaudit.shared.Division;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.ExcelDataDTO;
 import com.internalaudit.shared.Exceptions;
@@ -351,5 +352,7 @@ public interface InternalAuditServiceAsync {
 
 	void exportSamplingAuditStep(String samplingMehod, String reportFormat, ArrayList<SamplingExcelSheetEntity> list,
 			AsyncCallback<String> callback);
+
+	void fetchDivision(AsyncCallback<ArrayList<Division>> asyncCallback);
 
 }
