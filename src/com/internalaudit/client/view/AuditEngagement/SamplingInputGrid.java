@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.SamplingExcelSheetEntity;
 import com.sencha.gxt.core.client.ValueProvider;
@@ -82,9 +83,11 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 	private void setData(ArrayList<SamplingExcelSheetEntity> result) {
 		listSamplingSheet = new ArrayList<SamplingExcelSheetEntity>();
 		if (result != null && !result.isEmpty()) {
+			int i =0;
 			for (SamplingExcelSheetEntity samplingExcel : result) {
+				i++;
 				SamplingExcelSheetEntity sampling = new SamplingExcelSheetEntity();
-				sampling.setId(samplingExcel.getId());
+				sampling.setId(i);
 				sampling.setAmount(samplingExcel.getAmount());
 				sampling.setDate(samplingExcel.getDate());
 				sampling.setReferenceNo(samplingExcel.getReferenceNo());
@@ -207,6 +210,8 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 		});
 	}
 	private void generateReport(final ListBox listBoxSamplingMethod, String reportFormat) {
+		final LoadingPopup loadingpopup = new LoadingPopup();
+		loadingpopup.display();
 		rpcService.exportSamplingAuditStep(listBoxSamplingMethod.getSelectedItemText(), reportFormat, exportList, new AsyncCallback<String>() {
 
 			@Override
@@ -216,8 +221,16 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 			}
 
 			@Override
-			public void onSuccess(String arg0) {
-				Window.alert(arg0);
+			public void onSuccess(String report) {
+				Window.alert(report);
+				loadingpopup.remove();
+				if (report.contains(InternalAuditConstants.PDF)) {
+					Window.open("SamplingAuditStep/reportSamplingAuditPDF.pdf", "_blank", "");
+
+				} else {
+
+					Window.open("SamplingAuditStep/reportSamplingAudit.xls", "_blank", "");
+				}
 				
 			}
 		});

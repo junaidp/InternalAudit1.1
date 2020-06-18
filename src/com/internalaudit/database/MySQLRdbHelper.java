@@ -10367,65 +10367,65 @@ public class MySQLRdbHelper {
 		return "ActivityObjective deleted";
 	}
 
-	public ArrayList<SamplingExcelSheetEntity> readExcel(File filePath) {
-
-		ArrayList<SamplingExcelSheetEntity> listSampling = null;
-
-		try {
-			listSampling = new ArrayList<SamplingExcelSheetEntity>();
-			InputStream ExcelFileToRead = new FileInputStream(filePath.getPath());
-			HSSFWorkbook wb;
-			wb = new HSSFWorkbook(ExcelFileToRead);
-
-			// XSSFWorkbook wb = new XSSFWorkbook(ExcelFileToRead);
-			HSSFSheet sheet = wb.getSheetAt(0);
-			HSSFRow row;
-			HSSFCell cell;
-
-			Iterator rows = sheet.rowIterator();
-
-			while (rows.hasNext()) {
-				SamplingExcelSheetEntity samplingData = new SamplingExcelSheetEntity();
-
-				row = (HSSFRow) rows.next();
-				Iterator cells = row.cellIterator();
-
-				Random rd = new Random(); // creating Random object
-											// samplingData.setId(rd.nextInt());
-				samplingData.setId(row.getRowNum());
-
-				HSSFCell date = row.getCell((short) 0);
-				samplingData.setDate(date.getStringCellValue());
-
-				HSSFCell desc = row.getCell((short) 2);
-				samplingData.setDescription(desc.getStringCellValue());
-
-				// samplingData.setId(row.getRowNum());
-				if (row.getRowNum() > 0) {
-					HSSFCell refNo = row.getCell((short) 1);
-					samplingData.setReferenceNo(refNo.getNumericCellValue());
-
-					HSSFCell amount = row.getCell((short) 3);
-					samplingData.setAmount(amount.getNumericCellValue());
-				}
-
-				HSSFCell jobId = row.getCell((short) 4);
-				samplingData.setJobId(jobId.getStringCellValue());
-
-				HSSFCell location = row.getCell((short) 5);
-
-				listSampling.add(samplingData);
-				System.out.println();
-			}
-			ExcelFileToRead.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return listSampling;
-
-	}
+//	public ArrayList<SamplingExcelSheetEntity> readExcel(File filePath) {
+//
+//		ArrayList<SamplingExcelSheetEntity> listSampling = null;
+//
+//		try {
+//			listSampling = new ArrayList<SamplingExcelSheetEntity>();
+//			InputStream ExcelFileToRead = new FileInputStream(filePath.getPath());
+//			HSSFWorkbook wb;
+//			wb = new HSSFWorkbook(ExcelFileToRead);
+//
+//			// XSSFWorkbook wb = new XSSFWorkbook(ExcelFileToRead);
+//			HSSFSheet sheet = wb.getSheetAt(0);
+//			HSSFRow row;
+//			HSSFCell cell;
+//
+//			Iterator rows = sheet.rowIterator();
+//
+//			while (rows.hasNext()) {
+//				SamplingExcelSheetEntity samplingData = new SamplingExcelSheetEntity();
+//
+//				row = (HSSFRow) rows.next();
+//				Iterator cells = row.cellIterator();
+//
+//				Random rd = new Random(); // creating Random object
+//											// samplingData.setId(rd.nextInt());
+//				samplingData.setId(row.getRowNum());
+//
+//				HSSFCell date = row.getCell((short) 0);
+//				samplingData.setDate(date.getStringCellValue());
+//
+//				HSSFCell desc = row.getCell((short) 2);
+//				samplingData.setDescription(desc.getStringCellValue());
+//
+//				// samplingData.setId(row.getRowNum());
+//				if (row.getRowNum() > 0) {
+//					HSSFCell refNo = row.getCell((short) 1);
+//					samplingData.setReferenceNo(refNo.getNumericCellValue());
+//
+//					HSSFCell amount = row.getCell((short) 3);
+//					samplingData.setAmount(amount.getNumericCellValue());
+//				}
+//
+//				HSSFCell jobId = row.getCell((short) 4);
+//				samplingData.setJobId(jobId.getStringCellValue());
+//
+//				HSSFCell location = row.getCell((short) 5);
+//
+//				listSampling.add(samplingData);
+//				System.out.println();
+//			}
+//			ExcelFileToRead.close();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//		return listSampling;
+//
+//	}
 
 	// samplingData.setLocation(location.getStringCellValue());
 
@@ -10540,8 +10540,8 @@ public class MySQLRdbHelper {
 				row1.createCell((short) 1).setCellValue(samplingList.get(i).getReferenceNo());
 				row1.createCell((short) 2).setCellValue(samplingList.get(i).getDescription());
 				row1.createCell((short) 3).setCellValue(samplingList.get(i).getAmount());
-				row1.createCell((short) 3).setCellValue(samplingList.get(i).getJobId());
-				row1.createCell((short) 3).setCellValue(samplingList.get(i).getLocation());
+				row1.createCell((short) 4).setCellValue(samplingList.get(i).getJobId());
+				row1.createCell((short) 5).setCellValue(samplingList.get(i).getLocation());
 
 
 			}
@@ -10559,7 +10559,7 @@ public class MySQLRdbHelper {
 			e.printStackTrace();
 		}
 		System.out.println("Sampling excel sheet: downloaded");
-		return "exported";
+		return "Excel exported";
 	}
 
 	private String reportSamplingAuditPDF(ArrayList<SamplingExcelSheetEntity> samplingList,
@@ -10645,93 +10645,79 @@ public class MySQLRdbHelper {
 		return "pdf exported";
 	}
 	
-//	public ArrayList<SamplingExcelSheetEntity> readExcel(File filePath) {
-//
-//		ArrayList<SamplingExcelSheetEntity> listSampling = null;
-//
-//		try {
-//			
-//			listSampling = new ArrayList<SamplingExcelSheetEntity>();
-//			//for reading xls file 
-//			/*InputStream ExcelFileToRead = new FileInputStream(filePath.getPath());
-//			HSSFWorkbook wb;
-//			wb = new HSSFWorkbook(ExcelFileToRead);
-//
-//			// XSSFWorkbook wb = new XSSFWorkbook(ExcelFileToRead);
-//			HSSFSheet sheet = wb.getSheetAt(0);
-//			HSSFRow row;
-//			HSSFCell cell;*/
-//			 FileInputStream inputStream = new FileInputStream(new File(filePath.getPath()));
-//				InputStream ExcelFileToRead = new FileInputStream(filePath.getPath());
-//				File file = new File(filePath.getPath());   //creating a new file instance  
-//				FileInputStream fis = new FileInputStream(file); 
-////				//creating Workbook instance that refers to .xlsx file  
-////	            Workbook workbook = new XSSFWorkbook(ExcelFileToRead);
-////
-////				XSSFWorkbook wb = new XSSFWorkbook(fis);   
-////				XSSFSheet sheet = wb.getSheetAt(0);     //creating a Sheet object to retrieve object  
-//				Workbook workbook = WorkbookFactory.create(fis);
-//				OPCPackage pkg; 			
-//				System.out.println("opening file"); 			
-//				System.out.println("back from return");
-//				pkg = OPCPackage.open(fis); 
-//				XSSFWorkbook wb = new XSSFWorkbook(pkg);
-//				XSSFSheet sheet = wb.getSheetAt(0);
-//				
-//				
-//				
-//				
-//				XSSFRow row;
-//				XSSFCell cell;
-//			
-//			Iterator rows = sheet.rowIterator();
-//			
-//			
-//			
-//
-//			while (rows.hasNext()) {
-//				SamplingExcelSheetEntity samplingData = new SamplingExcelSheetEntity();
-//
-//				row = (XSSFRow) rows.next();
-//				Iterator cells = row.cellIterator();
-//
-//				Random rd = new Random(); // creating Random object
-//											// samplingData.setId(rd.nextInt());
-//				samplingData.setId(row.getRowNum());
-//
-//				XSSFCell date = row.getCell((short) 0);
-//				samplingData.setDate(date.getStringCellValue());
-//
-//				XSSFCell desc = row.getCell((short) 2);
-//				samplingData.setDescription(desc.getStringCellValue());
-//
-//				// samplingData.setId(row.getRowNum());
-//				if (row.getRowNum() > 0) {
-//					XSSFCell refNo = row.getCell((short) 1);
-//					samplingData.setReferenceNo(refNo.getNumericCellValue());
-//
-//					XSSFCell amount = row.getCell((short) 3);
-//					samplingData.setAmount(amount.getNumericCellValue());
-//				}
-//
-//				XSSFCell jobId = row.getCell((short) 4);
-//				samplingData.setJobId(jobId.getStringCellValue());
-//
-//				XSSFCell location = row.getCell((short) 5);
-//
-//				listSampling.add(samplingData);
-//				System.out.println();
-//			}
-//			ExcelFileToRead.close();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (InvalidFormatException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return listSampling;
-//
-//	}
+	public ArrayList<SamplingExcelSheetEntity> readExcel(File filePath) {
+
+		ArrayList<SamplingExcelSheetEntity> listSampling = null;
+
+		try {
+			
+			listSampling = new ArrayList<SamplingExcelSheetEntity>();
+			//for reading xls file 
+			/*InputStream ExcelFileToRead = new FileInputStream(filePath.getPath());
+			HSSFWorkbook wb;
+			wb = new HSSFWorkbook(ExcelFileToRead);
+
+			// XSSFWorkbook wb = new XSSFWorkbook(ExcelFileToRead);
+			HSSFSheet sheet = wb.getSheetAt(0);
+			HSSFRow row;
+			HSSFCell cell;*/
+				InputStream ExcelFileToRead = new FileInputStream(filePath.getPath());
+				OPCPackage pkg; 			
+				pkg = OPCPackage.open(ExcelFileToRead); 
+				XSSFWorkbook wb = new XSSFWorkbook(pkg);
+				XSSFSheet sheet = wb.getSheetAt(0);
+				
+				XSSFRow row;
+				XSSFCell cell;
+			
+			Iterator rows = sheet.rowIterator();
+			
+			
+			
+
+			while (rows.hasNext()) {
+				SamplingExcelSheetEntity samplingData = new SamplingExcelSheetEntity();
+
+				row = (XSSFRow) rows.next();
+				Iterator cells = row.cellIterator();
+
+				Random rd = new Random(); // creating Random object
+											// samplingData.setId(rd.nextInt());
+				samplingData.setId(row.getRowNum());
+
+				XSSFCell date = row.getCell((short) 0);
+				samplingData.setDate(date.getStringCellValue());
+
+				XSSFCell desc = row.getCell((short) 2);
+				samplingData.setDescription(desc.getStringCellValue());
+
+				// samplingData.setId(row.getRowNum());
+				
+
+				XSSFCell jobId = row.getCell((short) 4);
+				samplingData.setJobId(jobId.getStringCellValue());
+
+				XSSFCell location = row.getCell((short) 5);
+
+				if (row.getRowNum() > 0) {
+					XSSFCell refNo = row.getCell((short) 1);
+					samplingData.setReferenceNo(refNo.getNumericCellValue());
+
+					XSSFCell amount = row.getCell((short) 3);
+					samplingData.setAmount(amount.getNumericCellValue());
+					listSampling.add(samplingData);
+				}
+				
+				System.out.println();
+			}
+			ExcelFileToRead.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InvalidFormatException e) {
+			e.printStackTrace();
+		}
+		return listSampling;
+
+	}
 
 }

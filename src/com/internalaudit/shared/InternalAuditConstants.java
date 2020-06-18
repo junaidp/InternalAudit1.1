@@ -59,7 +59,7 @@ public class InternalAuditConstants {
 	public static final String REPORTINGJOBVIEW = "JobExcceptionView";
 	public static final String REPORTINGRESPONSIBLEVIEW = "ResponsiblePersonView";
 	public static final String SamplingSheet = "SamplingSheet";
-	public static final String SamplingExcelFileName = "SamplingExcel.xls";
+	public static final String SamplingExcelFileName = "SamplingExcel.xlsx";
 	public static final String RANDOMSELECTION = "Random Selection";
 	public static final String SYSTEMATICSELECTION = "Systematic Selection";
 	public static final String BLOCKSELECTION = "Block Selection";
