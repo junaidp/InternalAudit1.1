@@ -22,9 +22,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.ButtonRound;
+import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.client.view.AuditEngagement.SamplingSheetView;
 import com.internalaudit.shared.SamplingExcelSheetEntity;
+import com.sencha.gxt.data.shared.loader.Loader;
 
 public class SamplingFileUploader extends VerticalPanel {
 	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
@@ -37,6 +39,7 @@ public class SamplingFileUploader extends VerticalPanel {
 	HorizontalPanel panelContainer = new HorizontalPanel();
 	private VerticalPanel uploadPanel;
 	private Image delete;
+	private LoadingPopup loadingPopup;
 
 	public SamplingFileUploader(final String subFolder, final String mainFolder, final TextBox lblPopulationData,
 			final TextBox lblSampleSizeData, final ListBox listBoxSamplingMethod) {
@@ -67,6 +70,8 @@ public class SamplingFileUploader extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				loadingPopup = new LoadingPopup();
+				loadingPopup.display();
 				form.submit();
 				// btnSubmit.setVisible(false);
 
@@ -76,12 +81,13 @@ public class SamplingFileUploader extends VerticalPanel {
 
 		form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
 			public void onSubmitComplete(SubmitCompleteEvent event) {
+				
 				if (event.getResults().contains("success")) {
-					Window.alert("File uploadedSa");
 					populateSamplingInput(subFolder, mainFolder, lblPopulationData, lblSampleSizeData,
 							listBoxSamplingMethod);
 				} else {
 					try {
+						loadingPopup.remove();
 						int start = event.getResults().indexOf(">");
 						int end = event.getResults().lastIndexOf(".<");
 						// Window.alert(event.getResults());
@@ -109,6 +115,7 @@ public class SamplingFileUploader extends VerticalPanel {
 
 			@Override
 			public void onFailure(Throwable caught) {
+				loadingPopup.remove();
 				Window.alert("fail");
 
 			}
@@ -116,13 +123,11 @@ public class SamplingFileUploader extends VerticalPanel {
 			@Override
 			public void onSuccess(ArrayList<SamplingExcelSheetEntity> result) {
 				Window.alert("success");
-
+				loadingPopup.remove();
 				SamplingSheetView samplingSheet = new SamplingSheetView(result, lblPopulationData, lblSampleSizeData,
 						listBoxSamplingMethod);
-				PopupsView pp = new PopupsView(samplingSheet, "");
-				pp.getVpnlMain().setWidth("1000px");
-				pp.getHpnlSPace().setWidth("1000px");
-				pp.getVpnlMain().setHeight("700px");
+				PopupsView pp = new PopupsView(samplingSheet, "Sampling", "1000px" ,"700px");
+				pp.getPopup().setPosition(15, 300);
 
 			}
 		});

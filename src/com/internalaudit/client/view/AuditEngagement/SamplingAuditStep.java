@@ -122,7 +122,7 @@ public class SamplingAuditStep extends VerticalPanel {
 			@Override
 			public void onChange(ChangeEvent event) {
 				getSampleSize(listBoxControlList.getSelectedValue(), listBoxFrequency.getSelectedValue());
-				if (listBoxFrequency.getSelectedItemText().equalsIgnoreCase("Daily") || listBoxFrequency.getSelectedItemText().equalsIgnoreCase("Recurring") ) {
+				if ((listBoxFrequency.getSelectedItemText().equalsIgnoreCase("Daily") || listBoxFrequency.getSelectedItemText().equalsIgnoreCase("Recurring")) && !listBoxSamplingMethod.getSelectedItemText().equalsIgnoreCase(InternalAuditConstants.BLOCKSELECTION) ) {
 					samplingFileUploader.setVisible(true);
 				} else {
 					samplingFileUploader.setVisible(false);
@@ -138,33 +138,6 @@ public class SamplingAuditStep extends VerticalPanel {
 
 			}
 		});
-
-		// btnUploadData.addClickHandler(new ClickHandler() {
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// ArrayList<SamplingExcelSheetEntity> list = new
-		// ArrayList<SamplingExcelSheetEntity>();
-		// SamplingSheetView samplingSheet = new SamplingSheetView(list);
-		// PopupsView pp = new PopupsView(samplingSheet, "Sampling Input
-		// Sheet");
-		// pp.getVpnlMain().setWidth("1000px");
-		// pp.getHpnlSPace().setWidth("1000px");
-		// pp.getVpnlMain().setHeight("600px");
-		// // pp.getPopup().center();
-		//
-		// // todoview.getBtnCancel().addClickHandler(new ClickHandler() {
-		// //
-		// // @Override
-		// // public void onClick(ClickEvent event) {
-		// // pp.getVpnlMain().removeFromParent();
-		// // pp.getPopup().removeFromParent();
-		// //
-		// // }
-		// // });
-		//
-		// }
-		// });
 
 		FlexTable flex = new FlexTable();
 
