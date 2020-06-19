@@ -42,7 +42,7 @@ public class AuditUniverseStrategicView extends Composite {
 	private ButtonRound btnApprove = new ButtonRound("Approve");
 	private ButtonRound btnDecline = new ButtonRound("Delete");
 	private ButtonRound btnDeclineInitiator = new ButtonRound("Delete");
-	private ButtonRound btnAmend = new ButtonRound("Feedback");
+	private ButtonRound btnFeedback = new ButtonRound("Feedback");
 	private HorizontalPanel hpnlButtonInitiator = new HorizontalPanel();
 	private HorizontalPanel hpnlButtonsApprovar = new HorizontalPanel();
 	private String comment;
@@ -66,8 +66,8 @@ public class AuditUniverseStrategicView extends Composite {
 
 	private void mainPanelLayout() {
 	strategicObjective.setEmptyText("Enter Objective");
-	listBoxDivision.setWidth("150px");
-	relevantDepartment.setWidth("150px");
+	listBoxDivision.setWidth("190px");
+	relevantDepartment.setWidth("180px");
 	strategicObjective.setWidth("610px");
 	VerticalPanel vpnlStrategicId = new VerticalPanel();
 	VerticalPanel vpnlStrategicObjective = new VerticalPanel();
@@ -121,8 +121,8 @@ public class AuditUniverseStrategicView extends Composite {
 	feedback.getElement().getStyle().setMarginLeft(25, Unit.PX);
 	hpnlComments.add(submitted);
 	hpnlStrategic.add(hpnlComments);
-	hpnlStrategic.add(vpnlRelevantDepartments);
 	hpnlStrategic.add(vpnlRelevantDivision);
+	hpnlStrategic.add(vpnlRelevantDepartments);
 
 	hpnlButtonInitiator.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 	mainPanel.add(hpnlStrategic);
@@ -133,7 +133,7 @@ public class AuditUniverseStrategicView extends Composite {
 
 	hpnlButtonsApprovar.add(hpnlSpaceApprovar);
 	hpnlButtonsApprovar.add(btnDecline);
-	hpnlButtonsApprovar.add(btnAmend);
+	hpnlButtonsApprovar.add(btnFeedback);
 	hpnlButtonsApprovar.add(btnApprove);
 	hpnlButtonsApprovar.setSpacing(2);
 
@@ -268,11 +268,11 @@ public class AuditUniverseStrategicView extends Composite {
 	}
 
 	public ButtonRound getBtnAmend() {
-		return btnAmend;
+		return btnFeedback;
 	}
 
 	public void setBtnAmend(ButtonRound btnAmend) {
-		this.btnAmend = btnAmend;
+		this.btnFeedback = btnAmend;
 	}
 
 	public HorizontalPanel getHpnlButtonsApprovar() {

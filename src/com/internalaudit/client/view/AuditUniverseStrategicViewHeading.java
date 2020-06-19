@@ -23,9 +23,9 @@ public class AuditUniverseStrategicViewHeading extends Composite {
 		//Label lblObjectiveOwner = new Label(InternalAuditConstants.STRATEGICOBJECTIVEOWNER);
 		// lblObjectiveOwner.getElement().getStyle().setFontSize(16, Unit.PX);
 		LabelHeading relevantDivision = new LabelHeading();
-		relevantDivision.setText(InternalAuditConstants.STRATEGICDEPT);
+		relevantDivision.setText(InternalAuditConstants.STRATEGICLOCATION);
 		LabelHeading relevantDepartment = new LabelHeading();
-		relevantDepartment.setText(InternalAuditConstants.STRATEGICLOCATION);
+		relevantDepartment.setText(InternalAuditConstants.STRATEGICDEPT);
 		// relevantDepartment.getElement().getStyle().setFontSize(16, Unit.PX);
 		Label objectiveAchievementDate = new Label(InternalAuditConstants.STRATEGICDATE);
 		LabelHeading objectiveId = new LabelHeading();

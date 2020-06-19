@@ -88,7 +88,7 @@ public class AuditNotificationViewNew extends Composite {
 		// Window.alert(uploada.getFile());
 		fileUploader.fetchProcedureAttachments(notificationId, mainFolder);
 		// next line added by moqeet
-		fileUploader.getDelete().setVisible(false);
+		//fileUploader.getDelete().setVisible(false);
 		panelUpload.add(fileUploader);
 
 	}

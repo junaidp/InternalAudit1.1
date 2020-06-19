@@ -1175,6 +1175,7 @@ public class MySQLRdbHelper {
 			Session session) {
 		strategic.setStatus("amend");
 		//added setPhase by moqeet
+		if(strategic.getPhase() == 4)
 		strategic.setPhase(3);
 		// Employee emp = new Employee();
 		// emp.setEmployeeId(0);
