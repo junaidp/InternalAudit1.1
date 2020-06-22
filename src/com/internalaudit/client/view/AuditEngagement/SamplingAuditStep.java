@@ -239,7 +239,7 @@ public class SamplingAuditStep extends VerticalPanel {
 			
 			@Override
 			public void onClick(ClickEvent arg0) {
-				Window.open("/" + InternalAuditConstants.SamplingExcelFileTemplate , "name", "");
+				Window.open(InternalAuditConstants.SamplingSheet + "/" + InternalAuditConstants.SamplingExcelFileTemplate , "name", "");
 
 			}
 		});
