@@ -620,6 +620,30 @@ public class MySQLRdbHelper {
 		return departments;
 	}
 	
+	public ArrayList<Department> fetchDivisionDepartments(int divisionID) {
+		Session session = null;
+		ArrayList<Department> departments = new ArrayList<Department>();
+		if(divisionID<10)
+			divisionID = 1;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(Department.class);
+			crit.add(Restrictions.eq("divisionID", divisionID));
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				Department department = (Department) it.next();
+				departments.add(department);
+			}
+			logger.info(String.format("Inside fetchDivisionDepartments() " + new Date()));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchDivisionDepartments", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+		return departments;
+	}
+	
 	public ArrayList<Division> fetchDivision() {
 		Session session = null;
 		ArrayList<Division> divisions = new ArrayList<Division>();

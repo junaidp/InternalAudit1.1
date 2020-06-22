@@ -6,6 +6,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
@@ -34,6 +36,7 @@ import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.RiskFactor;
 import com.internalaudit.shared.Strategic;
 import com.internalaudit.shared.StrategicDepartments;
+import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.TimeOutException;
 
 public class AuditUniverseStrategicViewData {
@@ -46,12 +49,11 @@ public class AuditUniverseStrategicViewData {
 	private String actionperformed;
 	private Logger logger = Logger.getLogger("AuditUniverStrategicViewData");
 
-	public void setData(AuditUniverseStrategicView auditUniverseStrategicView) {
+	public void setData(final AuditUniverseStrategicView auditUniverseStrategicView) {
 		// this.auditUniverseStrategicView = auditUniverseStrategicView;
 		fetchObjectiveOwners();
 		fetchDepartments();
 		// setHandlers();
-		//
 	}
 
 	public void declineStrategic(int strategicId, final VerticalPanel vpnlStrategic,
@@ -330,6 +332,16 @@ public class AuditUniverseStrategicViewData {
 				}
 			}
 		});
+		auditUniverseStrategicView.getListBoxDivision().addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				fetchDepartmentsDivision(
+						Integer.parseInt(auditUniverseStrategicView.getListBoxDivision()
+								.getValue(auditUniverseStrategicView.getListBoxDivision().getSelectedIndex())),
+						auditUniverseStrategicView.getRelevantDepartment());
+			}
+		});
 	}
 
 	public void fetchObjectiveOwnersForNewRecord(final AuditUniverseStrategicView auditUniverseStrategicView) {
@@ -370,7 +382,30 @@ public class AuditUniverseStrategicViewData {
 	}
 
 	public void fetchDepartments() {
+//Division added by Moqeet
+		rpcService.fetchDivision(new AsyncCallback<ArrayList<Division>>() {
 
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				logger.log(Level.INFO, "FAIL: FetchDivisions .Inside Audit AuditAreaspresenter");
+				if (caught instanceof TimeOutException) {
+					History.newItem("login");
+				} else {
+					System.out.println("FAIL: FetchDivisions .Inside AuditAreaspresenter");
+					Window.alert("FAIL: FetchDivisions");// After FAIL ...
+															// write RPC Name
+															// NOT Method Name..
+				}
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Division> division) {
+				divisions = division;
+			}
+		});
+		
+		
 		rpcService.fetchDepartments(new AsyncCallback<ArrayList<Department>>() {
 
 			@Override
@@ -438,7 +473,7 @@ public class AuditUniverseStrategicViewData {
 				// vpnlStrategic.add(new AuditUniverseStrategicViewHeading());
 				for (int i = 0; i < result.size(); i++) {
 
-					AuditUniverseStrategicView auditUniverseStrategicView = new AuditUniverseStrategicView();
+					final AuditUniverseStrategicView auditUniverseStrategicView = new AuditUniverseStrategicView();
 					setButtonsVisibility(result, i, auditUniverseStrategicView);
 					if (result.get(i).getPhase() != 1
 							|| result.get(i).getLoggedInUser() != result.get(i).getAssignedTo().getEmployeeId()) {
@@ -452,8 +487,6 @@ public class AuditUniverseStrategicViewData {
 
 					setHandlers(vpnlStrategic, hpnlButtonInitiator, hpnlButtonsApprovar, btnAdd,
 							auditUniverseStrategicView, result.get(i).getTab());
-
-					// strategicList.add(auditUniverseStrategicView);
 				}
 				if (result.size() > 0) {
 					hpnlButtonInitiator.setVisible(true);
@@ -465,9 +498,31 @@ public class AuditUniverseStrategicViewData {
 				loadingPopup.remove();
 			}
 		});
-
 	}
 
+	public void fetchDepartmentsDivision(int divisionID, final ListBox listBoxDepartments) {
+
+		rpcService.fetchDivisionDepartments(divisionID, new AsyncCallback<ArrayList<Department>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("error occured in DepartmentsDivisionFetch");
+
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Department> departments) {
+				if (listBoxDepartments != null) {
+					listBoxDepartments.clear();
+				for(Department dept : departments) {
+					listBoxDepartments.addItem(dept.getDepartmentName(), dept.getDepartmentId() + "");
+				}
+				
+			}
+		}
+		});
+	}
+	
 	public void disablePanel(AuditUniverseStrategicView auditUniverseStrategicView, Strategic strategic) {
 
 		auditUniverseStrategicView.getHpnlButtonsApprovar().setVisible(false);
@@ -669,6 +724,17 @@ public class AuditUniverseStrategicViewData {
 					declineStrategic(auditUniverseStrategicView.getStrategicId(), vpnlStrategic, hpnlButtonInitiator,
 							hpnlButtonsApprovar, btnAdd, tab, auditUniverseStrategicView.getBtnDeclineInitiator());
 				}
+			}
+		});
+		
+		auditUniverseStrategicView.getListBoxDivision().addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				fetchDepartmentsDivision(
+						Integer.parseInt(auditUniverseStrategicView.getListBoxDivision()
+								.getValue(auditUniverseStrategicView.getListBoxDivision().getSelectedIndex())),
+						auditUniverseStrategicView.getRelevantDepartment());
 			}
 		});
 	}

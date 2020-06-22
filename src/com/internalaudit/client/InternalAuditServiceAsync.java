@@ -355,4 +355,6 @@ public interface InternalAuditServiceAsync {
 
 	void fetchDivision(AsyncCallback<ArrayList<Division>> asyncCallback);
 
+	void fetchDivisionDepartments(int divisionID, AsyncCallback<ArrayList<Department>> asyncCallback);
+
 }

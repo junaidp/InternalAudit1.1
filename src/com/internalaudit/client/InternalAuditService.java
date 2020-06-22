@@ -346,5 +346,7 @@ public interface InternalAuditService extends RemoteService {
 
 	ArrayList<Division> fetchDivision();
 
+	ArrayList<Department> fetchDivisionDepartments(int divisionID);
+
 	// ArrayList<ToDo> fetchUpdatedRaisedToDo(int employeeID) throws Exception;
 }

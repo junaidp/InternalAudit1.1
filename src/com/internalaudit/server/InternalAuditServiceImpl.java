@@ -1802,4 +1802,10 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		// TODO Auto-generated method stub
 		return rdbHelper.fetchDivision();
 	}
+
+	@Override
+	public ArrayList<Department> fetchDivisionDepartments(int divisionID) {
+		// TODO Auto-generated method stub
+		return rdbHelper.fetchDivisionDepartments(divisionID);
+	}
 }

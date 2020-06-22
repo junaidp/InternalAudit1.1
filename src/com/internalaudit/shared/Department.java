@@ -21,8 +21,8 @@ import javax.persistence.Table;
 		@Column(name="departmentName")
 		private String departmentName;
 		
-//		@Column(name="availableHours")
-//		private String availableHours;
+		@Column(name="divisionID")
+		private int divisionID;
 
 		public int getDepartmentId() {
 			return departmentId;
@@ -39,13 +39,5 @@ import javax.persistence.Table;
 		public void setDepartmentName(String departmentName) {
 			this.departmentName = departmentName;
 		}
-
-//		public String getAvailableHours() {
-//			return availableHours;
-//		}
-//
-//		public void setAvailableHours(String availableHours) {
-//			this.availableHours = availableHours;
-//		}
 
 }
