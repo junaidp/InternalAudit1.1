@@ -4,6 +4,10 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
@@ -41,7 +45,8 @@ public class SamplingAuditStep extends VerticalPanel {
 	// HorizontalPanel panelFileDetail = new HorizontalPanel();
 	// ScrollPanel panelFileDetailScroll = new ScrollPanel();
 	AuditWorkProgramUpload fileUpload;
-	String fileName = "samplingSheet";
+	String fileName = "samplingSheet"; 
+	Anchor anchorExcelTemplate = new Anchor("Excel Template");
 
 	public SamplingAuditStep(String auditStep) {
 		// TODO Auto-generated method stub
@@ -56,6 +61,7 @@ public class SamplingAuditStep extends VerticalPanel {
 		// panelFileDetailScroll.setHeight("90px");
 		// panelFileDetailScroll.setWidth("100px");
 		// panelFileDetail.add(panelFileDetailScroll);
+		anchorExcelTemplate.getElement().getStyle().setMarginLeft(200, Unit.PX);
 		lblControl.setText("Control");
 		lblControl.addStyleName("labelDesign");
 		lblControlRisk.setText("Control Risk");
@@ -117,27 +123,7 @@ public class SamplingAuditStep extends VerticalPanel {
 		listBoxSamplingMethod.addItem(InternalAuditConstants.SYSTEMATICSELECTION, "1");
 
 		listBoxSamplingMethod.addItem(InternalAuditConstants.BLOCKSELECTION, "2");
-		listBoxFrequency.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				getSampleSize(listBoxControlList.getSelectedValue(), listBoxFrequency.getSelectedValue());
-				if ((listBoxFrequency.getSelectedItemText().equalsIgnoreCase("Daily") || listBoxFrequency.getSelectedItemText().equalsIgnoreCase("Recurring")) && !listBoxSamplingMethod.getSelectedItemText().equalsIgnoreCase(InternalAuditConstants.BLOCKSELECTION) ) {
-					samplingFileUploader.setVisible(true);
-				} else {
-					samplingFileUploader.setVisible(false);
-				}
-			}
-		});
-
-		listBoxControlList.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				getSampleSize(listBoxControlList.getSelectedValue(), listBoxFrequency.getSelectedValue());
-
-			}
-		});
+		clickHandler();
 
 		FlexTable flex = new FlexTable();
 
@@ -152,6 +138,7 @@ public class SamplingAuditStep extends VerticalPanel {
 		flex.setWidget(0, 5, new HTML("&nbsp; &nbsp; &nbsp;"));
 		flex.setWidget(0, 6, lblFrequency);
 		flex.setWidget(0, 7, listBoxFrequency);
+		flex.setWidget(0, 9, anchorExcelTemplate);
 
 		flex.setWidget(1, 0, lblPopulationSize);
 		flex.setWidget(1, 1, lblPopulationData);
@@ -223,6 +210,39 @@ public class SamplingAuditStep extends VerticalPanel {
 		//
 		// });
 
+	}
+
+	private void clickHandler() {
+		listBoxFrequency.addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				getSampleSize(listBoxControlList.getSelectedValue(), listBoxFrequency.getSelectedValue());
+				if ((listBoxFrequency.getSelectedItemText().equalsIgnoreCase("Daily") || listBoxFrequency.getSelectedItemText().equalsIgnoreCase("Recurring")) && !listBoxSamplingMethod.getSelectedItemText().equalsIgnoreCase(InternalAuditConstants.BLOCKSELECTION) ) {
+					samplingFileUploader.setVisible(true);
+				} else {
+					samplingFileUploader.setVisible(false);
+				}
+			}
+		});
+
+		listBoxControlList.addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				getSampleSize(listBoxControlList.getSelectedValue(), listBoxFrequency.getSelectedValue());
+
+			}
+		});
+		
+		anchorExcelTemplate.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent arg0) {
+				Window.open("/" + InternalAuditConstants.SamplingExcelFileTemplate , "name", "");
+
+			}
+		});
 	}
 
 	private void getSampleSize(String control, String frequency) {

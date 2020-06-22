@@ -63,5 +63,6 @@ public class InternalAuditConstants {
 	public static final String RANDOMSELECTION = "Random Selection";
 	public static final String SYSTEMATICSELECTION = "Systematic Selection";
 	public static final String BLOCKSELECTION = "Block Selection";
+	public static final String SamplingExcelFileTemplate = "samplingExcelTemplate.xlsx";
 
 }
