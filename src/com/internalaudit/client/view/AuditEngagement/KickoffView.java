@@ -810,6 +810,9 @@ public class KickoffView extends Composite {
 
 		final VerticalPanel vpnlActicityObjective = new VerticalPanel();
 		final VerticalPanel vpnlActicityObjectiveContainer = new VerticalPanel();
+		final ScrollPanel scrollActicityObjectiveContainer = new ScrollPanel();
+		scrollActicityObjectiveContainer.setSize("100%", "530px");
+		scrollActicityObjectiveContainer.add(vpnlActicityObjectiveContainer);
 		final VerticalPanel usersActivityContainer = new VerticalPanel();
 		Button btnSaveActicityObjective = new Button("Save");
 		Button btnSubmitActicityObjective = new Button("Submit");
@@ -960,7 +963,10 @@ public class KickoffView extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				final PopupsView p = new PopupsView(vpnlActicityObjectiveContainer, "Library");
+				if(record.getEngagementDTO().getActivityObjectiveList().size()<1)
+					new DisplayAlert("No Library added");
+				else {
+				final PopupsView p = new PopupsView(scrollActicityObjectiveContainer, "Library");
 				p.getVpnlMain().setSize("500px", "300px");
 				Button btnClose = new Button("Close");
 				p.getVpnlMain().add(btnClose);
@@ -975,7 +981,8 @@ public class KickoffView extends Composite {
 					}
 				});
 			}
-		});
+		}
+	});
 		vpnlActicityObjective.add(usersActivityContainer);
 		// vpnlActicityObjective.add(vpnlActicityObjectiveContainer);
 

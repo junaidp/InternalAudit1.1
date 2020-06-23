@@ -1377,9 +1377,7 @@ public class MySQLRdbHelper {
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchStrategicSubProcess", ex.getMessage()), ex);
 
-		} finally {
-
-		}
+		} 
 		return subProcess;
 	}
 
@@ -3378,8 +3376,8 @@ public class MySQLRdbHelper {
 				disc.add(Restrictions.eq("subProcess.subProcessId", subProcessId.getSubProcessId()));
 			}
 			crit.add(disc);
-
 			crit.add(Restrictions.eq("checked", false));
+			//checked crit commented to get Objectives against multiple subprocess
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				ActivityObjective activityObjective = (ActivityObjective) it.next();
@@ -3509,6 +3507,8 @@ public class MySQLRdbHelper {
 				// EngagementDTO engagementDTO =
 				// fetchActivityObjective(strategic.getSubProcess().getSubProcessId(),
 				// session);
+				//setListSubProcess to fetch Library Objectives
+				strategic.setListSubProcess(fetchStrategicSubProcess(strategic.getId(), session));
 				EngagementDTO engagementDTO = fetchActivityObjective(strategic.getListSubProcess(), session);
 				// AcitivityObjectives of the selected job
 				// User's
