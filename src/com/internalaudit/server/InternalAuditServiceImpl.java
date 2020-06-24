@@ -1783,13 +1783,13 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 
 	@Override
 	public String exportSamplingAuditStep(String samplingMehod, String reportFormat,
-			ArrayList<SamplingExcelSheetEntity> samplingList) throws Exception {
+			ArrayList<SamplingExcelSheetEntity> samplingList, Integer auditStepId) throws Exception {
 		if (isLoggedIn()) {
 			String rootDir = getServletContext().getRealPath("/");
 			// return
 			// rdbHelper.exportJobTimeAllocationReportToExcel(excelDataList,
 			// rootDir);
-			return rdbHelper.exportSamplingAuditStep(samplingList, rootDir, samplingMehod , reportFormat);
+			return rdbHelper.exportSamplingAuditStep(samplingList, rootDir, samplingMehod , reportFormat, auditStepId);
 		} else {
 
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);
@@ -1807,5 +1807,23 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	public ArrayList<Department> fetchDivisionDepartments(int divisionID) {
 		// TODO Auto-generated method stub
 		return rdbHelper.fetchDivisionDepartments(divisionID);
+	}
+
+	@Override
+	public String fetchSavedSamplingReport(String folder, String auditStepId) {
+		// TODO Auto-generated method stub
+		File filePDF = null;
+		String realPath = getServletContext().getRealPath("/");
+		File directory = new File(realPath + "/" + folder );
+		// get all the files from a directory
+		File[] fList = directory.listFiles();
+		for (File file : fList) {
+			if (file.isFile()) {
+				if(file.getName().contains(auditStepId))
+					filePDF = file;
+
+			}
+		}
+		return filePDF.getName();
 	}
 }

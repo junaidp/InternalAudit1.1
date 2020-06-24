@@ -10535,10 +10535,10 @@ public class MySQLRdbHelper {
 	}
 
 	public String exportSamplingAuditStep(ArrayList<SamplingExcelSheetEntity> samplingList,
-			String rootDir, String samplingMehod , String reportFormat) throws DocumentException {
+			String rootDir, String samplingMehod , String reportFormat, Integer auditStepId) throws DocumentException {
 		
 		if (reportFormat.contains(InternalAuditConstants.PDF)) {
-			return reportSamplingAuditPDF(samplingList, rootDir);
+			return reportSamplingAuditPDF(samplingList, rootDir,auditStepId);
 		} else {
 			return reportSamplingAuditExcel(samplingList, rootDir);
 		}
@@ -10548,7 +10548,7 @@ public class MySQLRdbHelper {
 			ArrayList<SamplingExcelSheetEntity> samplingList, String rootDir) {
 		try {
 
-			FileOutputStream fileOut = new FileOutputStream(rootDir + "/SamplingAuditStep/reportSamplingAudit.xls");// "D:\\POI111.xls"
+			FileOutputStream fileOut = new FileOutputStream(rootDir + "/"+InternalAuditConstants.SAMPLINGAUDITSTEPFOLDEER+ "/reportSamplingAudit.xls");// "D:\\POI111.xls"
 			HSSFWorkbook workbook = new HSSFWorkbook();
 			HSSFSheet worksheet = workbook.createSheet("SamplingAudit Worksheet");
 			HSSFRow row = worksheet.createRow((short) 0);
@@ -10588,7 +10588,7 @@ public class MySQLRdbHelper {
 	}
 
 	private String reportSamplingAuditPDF(ArrayList<SamplingExcelSheetEntity> samplingList,
-			String rootDir) throws DocumentException {
+			String rootDir, Integer auditStepId) throws DocumentException {
 		try {
 
 			Rectangle pagesize = new Rectangle(612, 861);
@@ -10638,11 +10638,17 @@ public class MySQLRdbHelper {
 			//
 
 			FileOutputStream pdfFile = new FileOutputStream(
-					rootDir + "/SamplingAuditStep/reportSamplingAuditPDF.pdf");
+					rootDir + "/"+InternalAuditConstants.SAMPLINGAUDITSTEPFOLDEER+"/reportSamplingAuditPDF.pdf");
 			// PdfWriter.getInstance(document, pdfFile);
 			PdfWriter pdfWriter = PdfWriter.getInstance(document, pdfFile);
 			HeaderAndFooterPdfPageEventHelper headerAndFooter = new HeaderAndFooterPdfPageEventHelper();
 			pdfWriter.setPageEvent(headerAndFooter);
+			
+			FileOutputStream pdfFileToSave = new FileOutputStream(
+					rootDir + "/"+InternalAuditConstants.SAMPLINGAUDITSTEPFOLDEER+"/"+auditStepId+".pdf");
+			PdfWriter pdfWriterToSave = PdfWriter.getInstance(document, pdfFileToSave);
+			pdfWriterToSave.setPageEvent(headerAndFooter);
+			
 			document.open();
 
 			String title = "Sampling Audit Report";
@@ -10654,6 +10660,8 @@ public class MySQLRdbHelper {
 			document.add(new Paragraph(
 					"________________________________________________________________________________________________________________________"));
 			document.add(table);
+			
+			
 			document.close();
 
 			logger.info(

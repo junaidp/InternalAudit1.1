@@ -1,5 +1,6 @@
 package com.internalaudit.client;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -351,10 +352,12 @@ public interface InternalAuditServiceAsync {
 
 
 	void exportSamplingAuditStep(String samplingMehod, String reportFormat, ArrayList<SamplingExcelSheetEntity> list,
-			AsyncCallback<String> callback);
+			Integer auditStepId, AsyncCallback<String> callback);
 
 	void fetchDivision(AsyncCallback<ArrayList<Division>> asyncCallback);
 
 	void fetchDivisionDepartments(int divisionID, AsyncCallback<ArrayList<Department>> asyncCallback);
+
+	void fetchSavedSamplingReport(String folder, String auditStepId, AsyncCallback<String> callback);
 
 }

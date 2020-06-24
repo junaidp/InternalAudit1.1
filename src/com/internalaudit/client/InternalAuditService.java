@@ -1,5 +1,6 @@
 package com.internalaudit.client;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -341,12 +342,14 @@ public interface InternalAuditService extends RemoteService {
 	ArrayList<SamplingExcelSheetEntity> generateSamplingOutput(String populationSize, String samplingSize,
 			String samplingMehod, ArrayList<SamplingExcelSheetEntity> listSamplingSheet);
 
-	String exportSamplingAuditStep(String samplingMehod, String reportFormat,
-			ArrayList<SamplingExcelSheetEntity> list) throws  Exception;
+	String exportSamplingAuditStep(String samplingMehod, String reportFormat, ArrayList<SamplingExcelSheetEntity> list,
+			Integer auditStepId) throws Exception;
 
 	ArrayList<Division> fetchDivision();
 
 	ArrayList<Department> fetchDivisionDepartments(int divisionID);
+	
+	String fetchSavedSamplingReport(String folder, String auditStepId);
 
 	// ArrayList<ToDo> fetchUpdatedRaisedToDo(int employeeID) throws Exception;
 }

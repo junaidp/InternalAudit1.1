@@ -1,5 +1,7 @@
 package com.internalaudit.client.view.AuditEngagement;
 
+import java.io.File;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -7,6 +9,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -39,23 +42,29 @@ public class SamplingAuditStep extends VerticalPanel {
 	TextBox lblSampleSizeData = new TextBox();
 	ListBox listBoxSamplingMethod = new ListBox();
 	TextBox lblPopulationData = new TextBox();
-	TextArea txtAreaAuditProcedure = new TextArea();
-	Button btnUploadData = new Button("Upload Data");
-	SamplingFileUploader samplingFileUploader;
+	private TextArea txtAreaAuditProcedure = new TextArea();
+	private Button btnUploadData = new Button("Upload Data");
+	private SamplingFileUploader samplingFileUploader;
 	// HorizontalPanel panelFileDetail = new HorizontalPanel();
 	// ScrollPanel panelFileDetailScroll = new ScrollPanel();
 	AuditWorkProgramUpload fileUpload;
-	String fileName = "samplingSheet"; 
-	Anchor anchorExcelTemplate = new Anchor("Excel Template");
+	private String fileName = "samplingSheet"; 
+	private Anchor anchorExcelTemplate = new Anchor("Excel Template");
+	private Integer auditStepId;
+	private Label lblSavedAuditReport = new Label();
 
 	public SamplingAuditStep(String auditStep) {
+		
 		// TODO Auto-generated method stub
+		auditStepId = Integer.parseInt(auditStep);
+		fetchSavedSamplingPDF(auditStepId);
 		btnUploadData.setWidth("120px");
 		btnUploadData.setVisible(false);
 
 		samplingFileUploader = new SamplingFileUploader(fileName, InternalAuditConstants.SamplingSheet,
-				lblPopulationData, lblSampleSizeData, listBoxSamplingMethod);
+				lblPopulationData, lblSampleSizeData, listBoxSamplingMethod ,auditStepId);
 		samplingFileUploader.setVisible(false);
+		anchorExcelTemplate.setVisible(false);
 		// panelFileDetail.setHeight("100px");
 		// panelFileDetail.setWidth("120px");
 		// panelFileDetailScroll.setHeight("90px");
@@ -138,6 +147,7 @@ public class SamplingAuditStep extends VerticalPanel {
 		flex.setWidget(0, 5, new HTML("&nbsp; &nbsp; &nbsp;"));
 		flex.setWidget(0, 6, lblFrequency);
 		flex.setWidget(0, 7, listBoxFrequency);
+		flex.setWidget(0, 8, lblSavedAuditReport);
 		flex.setWidget(0, 9, anchorExcelTemplate);
 
 		flex.setWidget(1, 0, lblPopulationSize);
@@ -220,8 +230,10 @@ public class SamplingAuditStep extends VerticalPanel {
 				getSampleSize(listBoxControlList.getSelectedValue(), listBoxFrequency.getSelectedValue());
 				if ((listBoxFrequency.getSelectedItemText().equalsIgnoreCase("Daily") || listBoxFrequency.getSelectedItemText().equalsIgnoreCase("Recurring")) && !listBoxSamplingMethod.getSelectedItemText().equalsIgnoreCase(InternalAuditConstants.BLOCKSELECTION) ) {
 					samplingFileUploader.setVisible(true);
+					anchorExcelTemplate.setVisible(true);
 				} else {
 					samplingFileUploader.setVisible(false);
+					anchorExcelTemplate.setVisible(false);
 				}
 			}
 		});
@@ -350,6 +362,25 @@ public class SamplingAuditStep extends VerticalPanel {
 		}
 
 	}
+	
+	private void fetchSavedSamplingPDF(Integer auditStepId) {
+		rpcService.fetchSavedSamplingReport(InternalAuditConstants.SAMPLINGAUDITSTEPFOLDEER, auditStepId+"", new AsyncCallback<String>() {
+
+			@Override
+			public void onFailure(Throwable arg0) {
+			//	Window.alert("Failed Fetching file");
+				
+			}
+
+			@Override
+			public void onSuccess(String file) {
+				Window.alert(file +"ss"); 
+				lblSavedAuditReport.setText(file);
+				
+			}
+		});
+	}
+	
 
 	public TextArea getTxtAreaControl() {
 		return txtAreaControl;
@@ -410,5 +441,6 @@ public class SamplingAuditStep extends VerticalPanel {
 	public AuditWorkProgramUpload getFileUpload() {
 		return fileUpload;
 	}
+	
 
 }
