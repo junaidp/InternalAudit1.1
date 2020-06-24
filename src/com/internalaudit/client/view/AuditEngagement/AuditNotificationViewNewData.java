@@ -42,6 +42,9 @@ public class AuditNotificationViewNewData {
 			displaySavedNotification();
 		}
 
+		//added by moqeet to hide delete icon after submit
+		if(selectedAuditEngagement.getEmailStatus() != 0)
+			auditNotificationViewNew.getFileUploader().getDelete().setVisible(false);
 	}
 
 	public void displaySavedNotification() {

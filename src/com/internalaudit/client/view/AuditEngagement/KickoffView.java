@@ -334,13 +334,16 @@ public class KickoffView extends Composite {
 		final VerticalPanel vpnlPopup = new VerticalPanel();
 		final ScrollPanel scrollPopup = new ScrollPanel();
 		scrollPopup.add(vpnlPopup);
-		scrollPopup.setHeight("400px");
-		vpnlPopup.setHeight("400px");
+		scrollPopup.setHeight("530px");
+		//vpnlPopup.setHeight("400px");
 		btnLibrary.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
+				if(record.getEngagementDTO().getAuditProgrammeList().size()<1)
+					new DisplayAlert("No Library added");
+				else {
 				final PopupsView popUp = new PopupsView(scrollPopup, "Audit Work Program Library");
 				Button btnClose = new Button("Close");
 				popUp.getVpnlMain().add(btnClose);
@@ -354,6 +357,7 @@ public class KickoffView extends Composite {
 						popUp.getPopup().removeFromParent();
 					}
 				});
+				}
 			}
 		});
 
@@ -465,6 +469,9 @@ public class KickoffView extends Composite {
 		// vps.setHeight("400px");
 		VerticalPanel vpExistingControl = new VerticalPanel();
 		final VerticalPanel vpExistingControlContainer = new VerticalPanel();
+		final ScrollPanel scrollExistingControlContainer = new ScrollPanel();
+		scrollExistingControlContainer.setHeight("530px");
+		scrollExistingControlContainer.add(vpExistingControlContainer);
 		final VerticalPanel userRiskControlContainer = new VerticalPanel();
 
 		// user's
@@ -476,6 +483,7 @@ public class KickoffView extends Composite {
 		Button btnLibrary = new Button("Library");
 		btnLibrary.setWidth("100px");
 		vpExistingControl.add(btnLibrary);
+		
 		ArrayList<Integer> riskIds = new ArrayList<Integer>();
 		for (int i = 0; i < record.getEngagementDTO().getSuggestedControlsList().size(); i++) {
 			final RiskControlMatrixView riskControlMatrixView = new RiskControlMatrixView();
@@ -525,7 +533,10 @@ public class KickoffView extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				final PopupsView popUp = new PopupsView(vpExistingControlContainer, "User Risk Library");
+				if(record.getEngagementDTO().getSuggestedControlsList().size()<1)
+					new DisplayAlert("No Library added");
+				else {
+				final PopupsView popUp = new PopupsView(scrollExistingControlContainer, "User Risk Library");
 				Button btnClose = new Button("Close");
 				popUp.getVpnlMain().add(btnClose);
 				btnClose.getElement().getStyle().setMarginLeft(755, Unit.PX);
@@ -538,6 +549,7 @@ public class KickoffView extends Composite {
 						popUp.getPopup().removeFromParent();
 					}
 				});
+				}
 			}
 		});
 		// vpExistingControl.add(vpExistingControlContainer);
@@ -588,6 +600,9 @@ public class KickoffView extends Composite {
 		// v.setWidth("600px");
 		VerticalPanel verticalPanelKeyRisks = new VerticalPanel();
 		final VerticalPanel verticalPanelKeyRisksContainer = new VerticalPanel();
+		final ScrollPanel scrollKeyRisksContainer = new ScrollPanel();
+		scrollKeyRisksContainer.setHeight("530px");
+		scrollKeyRisksContainer.add(verticalPanelKeyRisksContainer);
 		final VerticalPanel usersRisksContainer = new VerticalPanel();
 		Button btnSaveKeyRisk = new Button("Save");
 		Button btnSubmitKeyRisk = new Button("Submit");
@@ -595,6 +610,12 @@ public class KickoffView extends Composite {
 		btnLibrary.setWidth("100px");
 		// AddIcon btnAdd = new AddIcon();
 		AddImage btnAdd = new AddImage();
+		final HorizontalPanel hpnlButton = new HorizontalPanel();
+		hpnlButton.add(btnSaveKeyRisk);
+		hpnlButton.add(btnSubmitKeyRisk);
+		hpnlButton.getElement().getStyle().setMarginLeft(1010, Unit.PX);
+		hpnlButton.getElement().getStyle().setMarginTop(10, Unit.PX);
+		hpnlButton.setVisible(false);
 
 		HorizontalPanel hpnlTopAdd = new HorizontalPanel();
 		verticalPanelKeyRisks.add(hpnlTopAdd);
@@ -609,8 +630,7 @@ public class KickoffView extends Composite {
 			if (record.getEngagementDTO().getSelectedObjectiveRisks().get(j)
 					.getStatus() == InternalAuditConstants.SUBMIT) {
 				keyRiskView.disable();
-				btnSaveKeyRisk.setVisible(false);
-				btnSubmitKeyRisk.setVisible(false);
+				hpnlButton.setVisible(false);
 				btnAdd.setVisible(false);
 			}
 			keyRiskView.getDelete().addClickHandler(new ClickHandler() {
@@ -664,7 +684,7 @@ public class KickoffView extends Composite {
 
 					@Override
 					public void onClick(ClickEvent event) {
-
+						hpnlButton.setVisible(true);
 						keyRiskView.getBtnSelect().setVisible(false);
 						final KeyRiskViewNew keyRiskSelectedView = new KeyRiskViewNew();
 						keyRiskSelectedView.usersView();
@@ -677,6 +697,8 @@ public class KickoffView extends Composite {
 							public void onClick(ClickEvent event) {
 								keyRiskSelectedView.removeFromParent();
 								keyRiskView.getBtnSelect().setVisible(true);
+								if(usersRisksContainer.getWidgetCount()<1)
+									hpnlButton.setVisible(false);
 							}
 						});
 
@@ -689,6 +711,7 @@ public class KickoffView extends Composite {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				hpnlButton.setVisible(true);
 				final KeyRiskViewNew keyRiskViewNew = new KeyRiskViewNew();
 				keyRiskViewNew.usersView();
 				keyRiskViewNew.getLblRef().setText(MyUtil.getRandom());
@@ -701,6 +724,8 @@ public class KickoffView extends Composite {
 					@Override
 					public void onClick(ClickEvent event) {
 						keyRiskViewNew.removeFromParent();
+						if(usersRisksContainer.getWidgetCount()<1)
+							hpnlButton.setVisible(false);
 					}
 				});
 
@@ -714,7 +739,10 @@ public class KickoffView extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				final PopupsView popUp = new PopupsView(verticalPanelKeyRisksContainer, "Key Risk Library");
+				if(record.getEngagementDTO().getRiskObjectiveList().size()<1)
+					new DisplayAlert("No Library added");
+				else {
+				final PopupsView popUp = new PopupsView(scrollKeyRisksContainer, "Key Risk Library");
 				Button btnClose = new Button("Close");
 				popUp.getVpnlMain().add(btnClose);
 				btnClose.getElement().getStyle().setMarginLeft(590, Unit.PX);
@@ -727,14 +755,10 @@ public class KickoffView extends Composite {
 						popUp.getPopup().removeFromParent();
 					}
 				});
+				}
 			}
 		});
 		// verticalPanelKeyRisks.add(verticalPanelKeyRisksContainer);
-		HorizontalPanel hpnlButton = new HorizontalPanel();
-		hpnlButton.add(btnSaveKeyRisk);
-		hpnlButton.add(btnSubmitKeyRisk);
-		hpnlButton.getElement().getStyle().setMarginLeft(1010, Unit.PX);
-		hpnlButton.getElement().getStyle().setMarginTop(10, Unit.PX);
 		verticalPanelKeyRisks.add(hpnlButton);
 
 		// hpnlButton.getElement().getStyle().setMarginTop(30, Unit.PX);
@@ -853,7 +877,6 @@ public class KickoffView extends Composite {
 
 					if (confirmed) {
 						activityObjectiveView.removeFromParent();
-
 						deleteActivityObjective();
 					}
 				}
@@ -899,8 +922,9 @@ public class KickoffView extends Composite {
 							public void onClick(ClickEvent event) {
 								activityObjectiveSelected.removeFromParent();
 								activityObjectiveView.getBtnSelectActivity().setVisible(true);
-								hpnlButtons.setVisible(false);
 								activityObjectiveSelected.getTxtAreaActivityObj().addStyleName("w3-sand");
+								if(usersActivityContainer.getWidgetCount()<1)
+									hpnlButtons.setVisible(false);
 							}
 						});
 
@@ -926,7 +950,8 @@ public class KickoffView extends Composite {
 					public void onClick(ClickEvent event) {
 						// TODO Auto-generated method stub
 						act.removeFromParent();
-						hpnlButtons.setVisible(false);
+						if(usersActivityContainer.getWidgetCount()<1)
+							hpnlButtons.setVisible(false);
 						// usersActivityContainer.clear();
 					}
 				});
