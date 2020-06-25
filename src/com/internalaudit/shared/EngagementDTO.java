@@ -14,7 +14,6 @@ public class EngagementDTO implements Serializable{
 	private ArrayList<SuggestedControls> selectedControls = new ArrayList<SuggestedControls>();
 	
 	
-	
 	public ArrayList<ActivityObjective> getActivityObjectiveList() {
 		return activityObjectiveList;
 	}

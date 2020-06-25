@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 @Entity
@@ -40,6 +41,7 @@ public class SuggestedControls   implements Serializable {
 	@Column(name ="controlRisk")
 	private int controlRisk;
 	
+
 	public int getSuggestedControlsId() {
 		return suggestedControlsId;
 	}

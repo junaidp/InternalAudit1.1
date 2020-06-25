@@ -7,7 +7,7 @@
 	font-size: 18px;
 }
 	</ui:style>
-	<g:ScrollPanel height="440px" width="100%">
+	<g:ScrollPanel height="440px" width="1195px">
 	<g:HTMLPanel>
 	
 	<div>
@@ -25,7 +25,7 @@
 	<g:Label> Feedback: </g:Label>
 	<g:Label ui:field="feedback" styleName="blue"></g:Label>
 	</g:HorizontalPanel>
-	<g:HorizontalPanel ui:field="addIconPanel" styleName="w3-right"></g:HorizontalPanel> 
+	<g:HorizontalPanel ui:field="addPanel"></g:HorizontalPanel> 
 	<!--  
 	<g:Button ui:field="addMore" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Add More</g:Button>
 	-->

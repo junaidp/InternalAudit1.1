@@ -469,21 +469,23 @@ public class KickoffView extends Composite {
 		// vps.setHeight("400px");
 		VerticalPanel vpExistingControl = new VerticalPanel();
 		final VerticalPanel vpExistingControlContainer = new VerticalPanel();
-		final ScrollPanel scrollExistingControlContainer = new ScrollPanel();
-		scrollExistingControlContainer.setHeight("530px");
-		scrollExistingControlContainer.add(vpExistingControlContainer);
+//		final ScrollPanel scrollExistingControlContainer = new ScrollPanel();
+//		scrollExistingControlContainer.setHeight("530px");
+//		scrollExistingControlContainer.add(vpExistingControlContainer);
 		final VerticalPanel userRiskControlContainer = new VerticalPanel();
 
-		// user's
-		final RisksView riskView = new RisksView(auditEngId, rpcService, loggedInUser,
-				record.getEngagementDTO().getSelectedObjectiveRisks(), vpExistingControlContainer, refreshMethod(con));
-		userRiskControlContainer.add(riskView);
-
 		// library's
-		Button btnLibrary = new Button("Library");
-		btnLibrary.setWidth("100px");
-		vpExistingControl.add(btnLibrary);
+//		Button btnLibrary = new Button("Library");
+//		btnLibrary.setWidth("100px");
+		//vpExistingControl.add(btnLibrary);
 		
+		// user's
+				final RisksView riskView = new RisksView(auditEngId, rpcService, loggedInUser,
+						record.getEngagementDTO().getSelectedObjectiveRisks(), vpExistingControlContainer, refreshMethod(con), record.getEngagementDTO().getSuggestedControlsList().size());
+				userRiskControlContainer.add(riskView);
+				
+		riskView.showhideSaveSubmitButtons(false);
+
 		ArrayList<Integer> riskIds = new ArrayList<Integer>();
 		for (int i = 0; i < record.getEngagementDTO().getSuggestedControlsList().size(); i++) {
 			final RiskControlMatrixView riskControlMatrixView = new RiskControlMatrixView();
@@ -513,6 +515,7 @@ public class KickoffView extends Composite {
 				public void onClick(ClickEvent event) {
 					riskControlMatrixView.getBtnSelect().setVisible(false);
 					riskView.addRow(riskControlMatrixView, riskObjective);
+					riskView.showhideSaveSubmitButtons(true);
 				}
 			});
 		}
@@ -528,30 +531,31 @@ public class KickoffView extends Composite {
 		// library.addStyleName("libraryText");
 		// vpExistingControlContainer.add(new
 		// Label("---------Library----------"));
-		btnLibrary.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				if(record.getEngagementDTO().getSuggestedControlsList().size()<1)
-					new DisplayAlert("No Library added");
-				else {
-				final PopupsView popUp = new PopupsView(scrollExistingControlContainer, "User Risk Library");
-				Button btnClose = new Button("Close");
-				popUp.getVpnlMain().add(btnClose);
-				btnClose.getElement().getStyle().setMarginLeft(755, Unit.PX);
-				btnClose.addClickHandler(new ClickHandler() {
-
-					@Override
-					public void onClick(ClickEvent event) {
-						// TODO Auto-generated method stub
-						popUp.getVpnlMain().removeFromParent();
-						popUp.getPopup().removeFromParent();
-					}
-				});
-				}
-			}
-		});
+//		btnLibrary.addClickHandler(new ClickHandler() {
+//
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				// TODO Auto-generated method stub
+//				if(record.getEngagementDTO().getSuggestedControlsList().size()<1)
+//					new DisplayAlert("No Library added");
+//				else {
+//				final PopupsView popUp = new PopupsView(scrollExistingControlContainer, "User Risk Library");
+//				Button btnClose = new Button("Close");
+//				popUp.getVpnlMain().add(btnClose);
+//				btnClose.getElement().getStyle().setMarginLeft(755, Unit.PX);
+//				btnClose.addClickHandler(new ClickHandler() {
+//
+//					@Override
+//					public void onClick(ClickEvent event) {
+//						// TODO Auto-generated method stub
+//						popUp.getVpnlMain().removeFromParent();
+//						popUp.getPopup().removeFromParent();
+//						
+//					}
+//				});
+//				}
+//			}
+//		});
 		// vpExistingControl.add(vpExistingControlContainer);
 		// vps.add(vpExistingControl);
 		vpExistingControl.setHeight("400px");
@@ -860,8 +864,7 @@ public class KickoffView extends Composite {
 			activityObjectiveView.getBtnSelectActivity().setVisible(false);
 			activityObjectiveView.getDelete().setVisible(true);
 			activityObjectiveView.setData(record.getEngagementDTO().getSelectedActivityObjectives().get(j));
-			if (record.getEngagementDTO().getSelectedActivityObjectives().get(j)
-					.getStatus() == InternalAuditConstants.SUBMIT) {
+			if (record.getEngagementDTO().getSelectedActivityObjectives().get(j).getStatus() == InternalAuditConstants.SUBMIT) {
 				activityObjectiveView.disable();
 				btnSaveActicityObjective.setVisible(false);
 				btnAddAcitivityObjective.setVisible(false);
@@ -1163,14 +1166,16 @@ public class KickoffView extends Composite {
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-
+				//DisablePanels here ....
+				
 			}
 
 			@Override
 			public void onSuccess(KickoffView result) {
 				// panel.clear();
 				refreshAccordionPanel(con);
-
+				
+				
 			}
 		};
 	}
