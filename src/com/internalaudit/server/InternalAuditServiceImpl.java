@@ -1610,10 +1610,12 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		File directory = new File(realPath + "/" + mainFolder + "/" + id);
 		// get all the files from a directory
 		File[] fList = directory.listFiles();
-		for (File file : fList) {
-			if (file.isFile()) {
-				listFiles.add(file.getName());
-
+		if(fList != null) {
+			for (File file : fList) {
+				if (file.isFile()) {
+					listFiles.add(file.getName());
+	
+				}
 			}
 		}
 		return listFiles;
@@ -1813,17 +1815,21 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	public String fetchSavedSamplingReport(String folder, String auditStepId) {
 		// TODO Auto-generated method stub
 		File filePDF = null;
+		String filePath="";
 		String realPath = getServletContext().getRealPath("/");
 		File directory = new File(realPath + "/" + folder );
 		// get all the files from a directory
 		File[] fList = directory.listFiles();
 		for (File file : fList) {
 			if (file.isFile()) {
-				if(file.getName().contains(auditStepId))
+				if(file.getName().contains(auditStepId)) {
 					filePDF = file;
+					filePath = file.getName();
+				}
+				
 
 			}
 		}
-		return filePDF.getName();
+		return filePath;
 	}
 }

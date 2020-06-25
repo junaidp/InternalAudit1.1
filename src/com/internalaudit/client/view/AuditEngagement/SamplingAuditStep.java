@@ -3,6 +3,7 @@ package com.internalaudit.client.view.AuditEngagement;
 import java.io.File;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -51,7 +52,7 @@ public class SamplingAuditStep extends VerticalPanel {
 	private String fileName = "samplingSheet"; 
 	private Anchor anchorExcelTemplate = new Anchor("Excel Template");
 	private Integer auditStepId;
-	private Label lblSavedAuditReport = new Label();
+	private Anchor lblSavedAuditReport = new Anchor();
 
 	public SamplingAuditStep(String auditStep) {
 		
@@ -60,6 +61,10 @@ public class SamplingAuditStep extends VerticalPanel {
 		fetchSavedSamplingPDF(auditStepId);
 		btnUploadData.setWidth("120px");
 		btnUploadData.setVisible(false);
+		lblSavedAuditReport.addStyleName("pointerStyle");
+		lblSavedAuditReport.getElement().getStyle().setTextDecoration(TextDecoration.NONE);
+		lblSavedAuditReport.setHeight("25px");
+		lblSavedAuditReport.setWordWrap(false);
 
 		samplingFileUploader = new SamplingFileUploader(fileName, InternalAuditConstants.SamplingSheet,
 				lblPopulationData, lblSampleSizeData, listBoxSamplingMethod ,auditStepId);
@@ -70,7 +75,8 @@ public class SamplingAuditStep extends VerticalPanel {
 		// panelFileDetailScroll.setHeight("90px");
 		// panelFileDetailScroll.setWidth("100px");
 		// panelFileDetail.add(panelFileDetailScroll);
-		anchorExcelTemplate.getElement().getStyle().setMarginLeft(200, Unit.PX);
+		anchorExcelTemplate.getElement().getStyle().setMarginLeft(60, Unit.PX);
+		lblSavedAuditReport.getElement().getStyle().setMarginLeft(80, Unit.PX);
 		lblControl.setText("Control");
 		lblControl.addStyleName("labelDesign");
 		lblControlRisk.setText("Control Risk");
@@ -255,6 +261,15 @@ public class SamplingAuditStep extends VerticalPanel {
 
 			}
 		});
+		
+		lblSavedAuditReport.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent arg0) {
+				Window.open(InternalAuditConstants.SAMPLINGAUDITSTEPFOLDEER  + "/" + lblSavedAuditReport.getText(), "name", "");
+				
+			}
+		});
 	}
 
 	private void getSampleSize(String control, String frequency) {
@@ -374,7 +389,6 @@ public class SamplingAuditStep extends VerticalPanel {
 
 			@Override
 			public void onSuccess(String file) {
-				Window.alert(file +"ss"); 
 				lblSavedAuditReport.setText(file);
 				
 			}
