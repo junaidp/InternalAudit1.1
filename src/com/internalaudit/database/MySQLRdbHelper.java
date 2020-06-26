@@ -3519,7 +3519,8 @@ public class MySQLRdbHelper {
 						fetchObjectiveRisksForSelectedJob(jobCreationId, session, engagementDTO));
 				engagementDTO.setSelectedControls(
 						fetchControlsAgainstEngagementId(auditEngagement.getAuditEngId(), engagementDTO));
-
+//status set bby moqeet to enable objectives on rejection
+				engagementDTO.setStatusControlRisk(fetchControlRiskStatus(auditEngagement.getAuditEngId()));
 				// END
 
 				auditEngagement.setEngagementDTO(engagementDTO);
@@ -3552,6 +3553,34 @@ public class MySQLRdbHelper {
 			session.close();
 		}
 		return record;
+	}
+
+	private int fetchControlRiskStatus(int auditEngId) {
+		Session session = null;
+		int status = 0;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(RiskControlMatrixEntity.class);
+
+			crit.createAlias("auditEngageId", "audEng");
+			crit.add(Restrictions.eq("audEng.auditEngId", auditEngId));
+			crit.add(Restrictions.ne("status", InternalAuditConstants.DELETED));
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				RiskControlMatrixEntity risk = (RiskControlMatrixEntity) it.next();
+				status = risk.getStatus();
+				break;
+			}
+		logger.info(
+				String.format("(Inside fetchControlRiskStatus)  fetchControlRiskStatus Risks  for auditengid : " + auditEngId + new Date()));
+
+	} catch (Exception ex) {
+		logger.warn(String.format("Exception occured in  fetchControlRiskStatus", ex.getMessage()), ex);
+
+	} finally {
+		session.close();
+	}
+	return status;
 	}
 
 	// This will All Objectives for a selected job

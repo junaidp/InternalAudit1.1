@@ -37,9 +37,11 @@ import com.internalaudit.shared.RiskObjective;
 import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.TimeOutException;
+import com.sencha.gxt.core.client.dom.ScrollSupport.ScrollMode;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer.AccordionLayoutAppearance;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
 public class KickoffView extends Composite {
 
@@ -483,8 +485,7 @@ public class KickoffView extends Composite {
 				final RisksView riskView = new RisksView(auditEngId, rpcService, loggedInUser,
 						record.getEngagementDTO().getSelectedObjectiveRisks(), vpExistingControlContainer, refreshMethod(con), record.getEngagementDTO().getSuggestedControlsList().size());
 				userRiskControlContainer.add(riskView);
-				
-		riskView.showhideSaveSubmitButtons(false);
+			riskView.showhideSaveSubmitButtons(false);
 
 		ArrayList<Integer> riskIds = new ArrayList<Integer>();
 		for (int i = 0; i < record.getEngagementDTO().getSuggestedControlsList().size(); i++) {
@@ -599,8 +600,9 @@ public class KickoffView extends Composite {
 		cp.setAnimCollapse(false);
 		cp.setBodyStyleName("pad-text");
 		cp.setHeadingText("Key Risks");
-		ScrollPanel v1 = new ScrollPanel();
-		v1.setHeight("400px");
+		VerticalLayoutContainer scrollMainKeyRisks = new VerticalLayoutContainer();
+		scrollMainKeyRisks.setHeight("400px");
+		scrollMainKeyRisks.setScrollMode(ScrollMode.AUTOY);
 		// v.setWidth("600px");
 		VerticalPanel verticalPanelKeyRisks = new VerticalPanel();
 		final VerticalPanel verticalPanelKeyRisksContainer = new VerticalPanel();
@@ -610,8 +612,9 @@ public class KickoffView extends Composite {
 		final VerticalPanel usersRisksContainer = new VerticalPanel();
 		Button btnSaveKeyRisk = new Button("Save");
 		Button btnSubmitKeyRisk = new Button("Submit");
-		Button btnLibrary = new Button("Library");
-		btnLibrary.setWidth("100px");
+		Button btnLibraryKeyRisk = new Button("Library");
+		btnLibraryKeyRisk.setWidth("100px");
+		
 		// AddIcon btnAdd = new AddIcon();
 		AddImage btnAdd = new AddImage();
 		final HorizontalPanel hpnlButton = new HorizontalPanel();
@@ -631,8 +634,8 @@ public class KickoffView extends Composite {
 			keyRiskView.usersView();
 			final RiskObjective objectiveRisk = record.getEngagementDTO().getSelectedObjectiveRisks().get(j);
 			keyRiskView.setData(objectiveRisk);
-			if (record.getEngagementDTO().getSelectedObjectiveRisks().get(j)
-					.getStatus() == InternalAuditConstants.SUBMIT) {
+			if (record.getEngagementDTO().getSelectedObjectiveRisks().get(j).getStatus() == InternalAuditConstants.SUBMIT
+					&& record.getEngagementDTO().getStatusControlRisk() != InternalAuditConstants.REJECTED) {
 				keyRiskView.disable();
 				hpnlButton.setVisible(false);
 				btnAdd.setVisible(false);
@@ -658,9 +661,13 @@ public class KickoffView extends Composite {
 
 		// library
 
-		if (record.getEngagementDTO().getSelectedObjectiveRisks().size() <= 0 || record.getEngagementDTO()
-				.getSelectedObjectiveRisks().get(0).getStatus() == InternalAuditConstants.SAVED) {
-			hpnlTopAdd.add(btnLibrary);
+		if(record.getEngagementDTO().getStatusControlRisk() == InternalAuditConstants.REJECTED) {
+			hpnlTopAdd.add(btnLibraryKeyRisk);
+			hpnlButton.setVisible(true);
+		}
+			
+		if (record.getEngagementDTO().getSelectedObjectiveRisks().size() <= 0 || record.getEngagementDTO().getSelectedObjectiveRisks().get(0).getStatus() == InternalAuditConstants.SAVED) {
+			hpnlTopAdd.add(btnLibraryKeyRisk);
 
 			for (int i = 0; i < record.getEngagementDTO().getRiskObjectiveList().size(); i++) {
 				final KeyRiskViewNew keyRiskView = new KeyRiskViewNew();
@@ -738,7 +745,7 @@ public class KickoffView extends Composite {
 		hpnlTopAdd.add(btnAdd);
 		btnAdd.getElement().getStyle().setMarginLeft(1050, Unit.PX);
 		verticalPanelKeyRisks.add(usersRisksContainer);
-		btnLibrary.addClickHandler(new ClickHandler() {
+		btnLibraryKeyRisk.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -773,8 +780,8 @@ public class KickoffView extends Composite {
 			verticalPanelKeyRisksContainer.clear();//////// here
 		}
 
-		v1.add(verticalPanelKeyRisks);
-		cp.add(v1);
+		scrollMainKeyRisks.add(verticalPanelKeyRisks);
+		cp.add(scrollMainKeyRisks);
 		con.add(cp);
 
 		btnSaveKeyRisk.addClickHandler(new ClickHandler() {
@@ -864,14 +871,14 @@ public class KickoffView extends Composite {
 			activityObjectiveView.getBtnSelectActivity().setVisible(false);
 			activityObjectiveView.getDelete().setVisible(true);
 			activityObjectiveView.setData(record.getEngagementDTO().getSelectedActivityObjectives().get(j));
-			if (record.getEngagementDTO().getSelectedActivityObjectives().get(j).getStatus() == InternalAuditConstants.SUBMIT) {
+			if (record.getEngagementDTO().getSelectedActivityObjectives().get(j).getStatus() == InternalAuditConstants.SUBMIT
+					&& record.getEngagementDTO().getStatusControlRisk() != InternalAuditConstants.REJECTED) {
 				activityObjectiveView.disable();
 				btnSaveActicityObjective.setVisible(false);
 				btnAddAcitivityObjective.setVisible(false);
-
-				// 2019 april
 				btnSubmitActicityObjective.setVisible(false);
 			}
+			
 			activityObjectiveView.getDelete().addClickHandler(new ClickHandler() {
 
 				@Override
@@ -895,7 +902,10 @@ public class KickoffView extends Composite {
 		Button btnLibrary = new Button("Library");
 		btnLibrary.setWidth("100px");
 		// lblLibHeading.addStyleName("libraryText");
-		btnLibrary.setVisible(false);
+		if(record.getEngagementDTO().getStatusControlRisk() == InternalAuditConstants.REJECTED)
+			hpnlButtons.setVisible(true);
+		else
+			btnLibrary.setVisible(false);
 		if (record.getEngagementDTO().getSelectedActivityObjectives().size() <= 0 || record.getEngagementDTO()
 				.getSelectedActivityObjectives().get(0).getStatus() == InternalAuditConstants.SAVED) {
 			btnLibrary.setVisible(true);
@@ -1016,10 +1026,11 @@ public class KickoffView extends Composite {
 
 		// hpnlButtons.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		vpnlActicityObjective.add(hpnlButtons);
-		ScrollPanel v = new ScrollPanel();
-		v.setHeight("400px");
-		v.add(vpnlActicityObjective);
-		cp.add(v);
+		VerticalLayoutContainer scrollMain = new VerticalLayoutContainer();
+		scrollMain.setHeight("400px");
+		scrollMain.setScrollMode(ScrollMode.AUTOY);
+		scrollMain.add(vpnlActicityObjective);
+		cp.add(scrollMain);
 		con.add(cp);
 
 	}
@@ -1166,16 +1177,14 @@ public class KickoffView extends Composite {
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-				//DisablePanels here ....
-				
+
 			}
 
 			@Override
 			public void onSuccess(KickoffView result) {
 				// panel.clear();
 				refreshAccordionPanel(con);
-				
-				
+
 			}
 		};
 	}

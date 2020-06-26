@@ -90,5 +90,4 @@ public class SuggestedControls   implements Serializable {
 		this.controlRisk = controlRisk;
 	}
 
-	
 }

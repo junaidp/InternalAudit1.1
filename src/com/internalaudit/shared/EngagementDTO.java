@@ -12,8 +12,14 @@ public class EngagementDTO implements Serializable{
 	private ArrayList<ActivityObjective> selectedActivityObjectives = new  ArrayList<ActivityObjective>();
 	private ArrayList<RiskObjective> selectedObjectiveRisks = new ArrayList<RiskObjective>();
 	private ArrayList<SuggestedControls> selectedControls = new ArrayList<SuggestedControls>();
+	private int statusControlRisk;
 	
-	
+	public int getStatusControlRisk() {
+		return statusControlRisk;
+	}
+	public void setStatusControlRisk(int statusControlRisk) {
+		this.statusControlRisk = statusControlRisk;
+	}
 	public ArrayList<ActivityObjective> getActivityObjectiveList() {
 		return activityObjectiveList;
 	}
@@ -56,6 +62,5 @@ public class EngagementDTO implements Serializable{
 	public void setSelectedControls(ArrayList<SuggestedControls> selectedControls) {
 		this.selectedControls = selectedControls;
 	}
-	
 	
 }

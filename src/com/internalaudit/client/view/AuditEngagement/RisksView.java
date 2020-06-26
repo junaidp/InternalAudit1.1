@@ -37,6 +37,8 @@ import com.internalaudit.shared.RiskControlMatrixEntity;
 import com.internalaudit.shared.RiskObjective;
 import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.TimeOutException;
+import com.sencha.gxt.core.client.dom.ScrollSupport.ScrollMode;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
 public class RisksView extends Composite {
 
@@ -94,8 +96,7 @@ public class RisksView extends Composite {
 	private Button reject = new Button("FeedBack");
 	private AddImage addMore = new AddImage();
 	private Button btnLibrary = new Button("Library");
-	private ScrollPanel scrollExistingControlContainer = new ScrollPanel();
-	private  AsyncCallback<String> asyncForEnablePanels = null;
+	private VerticalLayoutContainer scrollExistingControlContainer = new VerticalLayoutContainer();
 
 	interface RisksViewUiBinder extends UiBinder<Widget, RisksView> {
 	}
@@ -109,7 +110,6 @@ public class RisksView extends Composite {
 		this.auditEngId = auditEngId;
 		this.loggedInEmployee = employee;
 		this.listRisks = listSavedRisks;
-		this.asyncForEnablePanels = asyncForEnablePanels;
 		getRiskInfo(auditEngId, vpExistingControlContainer);
 
 		setHandlers(auditEngId, suggestedControlsList, rpcService, asyncCallback);
@@ -120,6 +120,7 @@ public class RisksView extends Composite {
 		
 		scrollExistingControlContainer.setHeight("400px");
 		scrollExistingControlContainer.add(vpExistingControlContainer);
+		scrollExistingControlContainer.setScrollMode(ScrollMode.AUTOY);
 		// approvalButtonsPanel.getElement().getStyle().setPaddingLeft(400,
 		// Unit.PX);
 	}
@@ -299,8 +300,6 @@ public class RisksView extends Composite {
 					new DisplayAlert("Risks approved");
 				} else if (status == InternalAuditConstants.REJECTED) {
 					new DisplayAlert("Feedback submitted");
-					asyncCallback.onFailure(null);
-					return;
 				}
 				asyncCallback.onSuccess(null);
 			}
@@ -322,7 +321,7 @@ public class RisksView extends Composite {
 			auditEng.setAuditEngId(auditEngId);
 			riskControlMatrix.setAuditEngageId(auditEng);
 
-			saveSuggestedControls(current, riskControlMatrix);
+			saveSuggestedControls(current, riskControlMatrix, status);
 
 			riskControlMatrix.setRiskId(Integer.parseInt(current.getRiskId().getText()));
 
@@ -352,7 +351,7 @@ public class RisksView extends Composite {
 		saveRiskstoDb(auditEngId, rpcService, records, status, asyncCallback);
 	}
 
-	private void saveSuggestedControls(RiskRow current, RiskControlMatrixEntity riskControlMatrix) {
+	private void saveSuggestedControls(RiskRow current, RiskControlMatrixEntity riskControlMatrix, int status) {
 		SuggestedControls suggestedControls = new SuggestedControls();
 		suggestedControls.setSuggestedControlsId(current.getExistingControlView().getSuggestedControlsId());
 		suggestedControls.setRiskId(current.getExistingControlView().getRiskObjective());
@@ -530,6 +529,7 @@ public class RisksView extends Composite {
 									|| r.get(0).getStatus() == InternalAuditConstants.REJECTED)) {
 						enableInitiationpanel();
 						enableFields();
+						showhideSaveSubmitButtons(true);//added by moqeet to enable Save and Submit
 						enableRiskRows();
 					} else if (r.get(0).getStatus() == InternalAuditConstants.SUBMIT
 							&& r.get(0).getInitiatedBy().getReportingTo() != null
