@@ -85,6 +85,7 @@ public class SamplingAuditStep extends VerticalPanel {
 		lblFrequency.setText("Frequency");
 		lblFrequency.getElement().getStyle().setMarginTop(12, Unit.PX);
 		lblFrequency.addStyleName("labelDesign");
+		lblFrequency.setWidth("100px");
 		lblSampleSize.setText("Sample Size");
 		lblSampleSize.addStyleName("labelDesign");
 		lblSampleSize.getElement().getStyle().setMarginTop(12, Unit.PX);
@@ -136,8 +137,8 @@ public class SamplingAuditStep extends VerticalPanel {
 
 		listBoxSamplingMethod.addItem(InternalAuditConstants.RANDOMSELECTION, "0");
 		listBoxSamplingMethod.addItem(InternalAuditConstants.SYSTEMATICSELECTION, "1");
-
-		listBoxSamplingMethod.addItem(InternalAuditConstants.BLOCKSELECTION, "2");
+// item was commented, by rafey
+		//listBoxSamplingMethod.addItem(InternalAuditConstants.BLOCKSELECTION, "2");
 		clickHandler();
 
 		FlexTable flex = new FlexTable();

@@ -27,6 +27,7 @@ import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.util.MyUtil;
 import com.internalaudit.client.view.AmendmentPopup;
 import com.internalaudit.client.view.DisplayAlert;
+import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.client.view.data.DataSetter;
 import com.internalaudit.client.widgets.AddImage;
 import com.internalaudit.client.widgets.AuditWorkRow;
@@ -37,6 +38,8 @@ import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.JobEmployeeRelation;
 import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.TimeOutException;
+import com.sencha.gxt.core.client.dom.ScrollSupport.ScrollMode;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
 public class AuditWorkProg extends Composite {
 
@@ -87,48 +90,79 @@ public class AuditWorkProg extends Composite {
 	ArrayList<JobEmployeeRelation> listData;
 	private ArrayList<AuditWork> savedAuditWorks;
 	private int selectedJobId;
-	AddImage addMore = new AddImage();
+	private AddImage addMore = new AddImage();
 	private Button save = new Button("Save");
 	private Button submit = new Button("Submit");
 	private Button approve = new Button("Approve");
 	private Button reject = new Button("FeedBack");
+	private Button btnLibrary = new Button("Library");
+	final VerticalLayoutContainer scrollPopup = new VerticalLayoutContainer();
 
 	public AuditWorkProg(final InternalAuditServiceAsync rpcService, final int selectedJobId, Employee employee,
 			ArrayList<SuggestedControls> controls, VerticalPanel auditWorkNewContainer,
-			final AsyncCallback<KickoffView> asyncCallback) {
+			final AsyncCallback<KickoffView> asyncCallback, VerticalPanel vpnlPopup, int sizeAuditProgramList) {
 		initWidget(uiBinder.createAndBindUi(this));
 
 		this.controls = controls;
 		// fill listbox with appropriate employees
 		this.selectedJobId = selectedJobId;
 		getEmployeesForJob(rpcService, selectedJobId, auditWorkNewContainer);
-		setHandlers(rpcService, selectedJobId, asyncCallback);
+		setHandlers(rpcService, selectedJobId, sizeAuditProgramList, asyncCallback);
 		this.loggedInEmployee = employee;
 		addMore.setVisible(false);
+		visibleSaveSubmitBtn(false);
 		if (rows.getWidgetCount() < 2) {
 			heading.setVisible(false);
 			rows.setSpacing(5);
 		}
-
+		scrollPopup.add(vpnlPopup);
+		scrollPopup.setHeight("530px");
+		scrollPopup.setScrollMode(ScrollMode.AUTOY);
 	}
 
 	private void setHandlers(final InternalAuditServiceAsync rpcService, final int selectedJobId,
-			final AsyncCallback<KickoffView> asyncCallback) {
+			final int sizeAuditProgramList, final AsyncCallback<KickoffView> asyncCallback) {
 		approvalButtonsPanel.getElement().getStyle().setMarginLeft(1020, Unit.PX);
 		initiationButtonsPanel.getElement().getStyle().setMarginTop(25, Unit.PX);
 		initiationButtonsPanel.getElement().getStyle().setMarginLeft(1020, Unit.PX);
+		panelAddIcon.add(btnLibrary);
 		panelAddIcon.add(addMore);
+		addMore.getElement().getStyle().setPaddingLeft(1080, Unit.PX);
 		initiationButtonsPanel.add(save);
 		initiationButtonsPanel.add(submit);
 		approvalButtonsPanel.add(approve);
 		approvalButtonsPanel.add(reject);
 
+		btnLibrary.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				if(sizeAuditProgramList < 1)
+					new DisplayAlert("No Library added");
+				else {
+				final PopupsView popUp = new PopupsView(scrollPopup, "Audit Work Program Library");
+				Button btnClose = new Button("Close");
+				popUp.getVpnlMain().add(btnClose);
+				btnClose.getElement().getStyle().setMarginLeft(530, Unit.PX);
+				btnClose.addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						// TODO Auto-generated method stub
+						popUp.getVpnlMain().removeFromParent();
+						popUp.getPopup().removeFromParent();
+					}
+				});
+				}
+			}
+		});
+		
 		addMore.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
 				addRow(null);
-
 			}
 
 		});
@@ -141,7 +175,6 @@ public class AuditWorkProg extends Composite {
 					Window.alert("please add Audit Work");
 				} else {
 					saveAuditWork(rpcService, selectedJobId, InternalAuditConstants.SAVED, asyncCallback);
-
 				}
 			}
 		});
@@ -205,10 +238,12 @@ public class AuditWorkProg extends Composite {
 
 	public void addRow(final AuditWorkProgramNew auditWorkProgramNew) {
 		rows.setSpacing(0);
+		visibleSaveSubmitBtn(true);
 		if (!heading.isVisible()) {
-			heading.setVisible(true);
+		//2020 jan hamza
+			//	heading.setVisible(true);
 		}
-		save.setVisible(true);
+		//save.setVisible(true);
 		final AuditWorkRow r = new AuditWorkRow();
 		for (int i = 0; i < listData.size(); ++i) {
 			if (listData.get(i).getEmployee().getRollId() == 1) {
@@ -251,16 +286,18 @@ public class AuditWorkProg extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				r.removeRow();
-				auditWorkProgramNew.getBtnSelect().setVisible(true);
 				for (int i = 0; i < rows.getWidgetCount(); i++) {
 					if (rows.getWidget(i) == r) {
 						rows.remove(i);
 					}
 				}
-				if (rows.getWidgetCount() < 2) {
-					heading.setVisible(false);
-					rows.setSpacing(5);
-				}
+//				if (rows.getWidgetCount() < 2) {
+//					heading.setVisible(false);
+//					rows.setSpacing(5);
+//				}
+				if(rows.getWidgetCount() < 1)
+					visibleSaveSubmitBtn(false);
+				auditWorkProgramNew.getBtnSelect().setVisible(true);
 			}
 		});
 
@@ -316,8 +353,14 @@ public class AuditWorkProg extends Composite {
 
 				// Add suggested control 2018//
 				SuggestedControls suggestedControls = new SuggestedControls();
-				suggestedControls.setSuggestedControlsId(Integer.parseInt(
-						row.getListBoxExistingCtrl().getValue(row.getListBoxExistingCtrl().getSelectedIndex())));
+				if(row.getListBoxExistingCtrl().getSelectedValue()!= null) {
+					suggestedControls.setSuggestedControlsId(Integer
+							.parseInt(row.getListBoxExistingCtrl().getValue(row.getListBoxExistingCtrl().getSelectedIndex())));
+				}
+				
+				else {
+					suggestedControls.setSuggestedControlsId(10000);
+				}
 				auditWork.setSuggestedControlsId(suggestedControls);
 				// control end
 
@@ -343,8 +386,15 @@ public class AuditWorkProg extends Composite {
 
 						// Add suggested control 2018//
 						SuggestedControls suggestedControls = new SuggestedControls();
-						suggestedControls.setSuggestedControlsId(Integer.parseInt(row.getListBoxExistingCtrl()
-								.getValue(row.getListBoxExistingCtrl().getSelectedIndex())));
+						if(row.getListBoxExistingCtrl().getSelectedValue()!= null) {
+							suggestedControls.setSuggestedControlsId(Integer.parseInt(row.getListBoxExistingCtrl()
+									.getValue(row.getListBoxExistingCtrl().getSelectedIndex())));
+							}
+						
+						else {
+							suggestedControls.setSuggestedControlsId(10000);
+						}
+						
 						auditWork.setSuggestedControlsId(suggestedControls);
 						// control end
 
@@ -384,13 +434,14 @@ public class AuditWorkProg extends Composite {
 			auditWork.setJobCreationId(jobCreation);
 			auditWork.setAuditWorkId(Integer.parseInt(row.getAuditWorkId().getText()));
 			auditWork.setStatus(status);
-			if (status != InternalAuditConstants.SAVED) {
+			if (status != InternalAuditConstants.SAVED)
+			{
 				row.disableFields();
-
 				disableApprovalpanel();
 				disableInitiationpanel();
 				disableFields();
 			}
+		
 			Employee initiatedBy = new Employee();
 			initiatedBy = loggedInEmployee;
 			auditWork.setInitiatedBy(initiatedBy);
@@ -401,8 +452,15 @@ public class AuditWorkProg extends Composite {
 
 			// Add suggested control 2018//
 			SuggestedControls suggestedControls = new SuggestedControls();
-			suggestedControls.setSuggestedControlsId(Integer
-					.parseInt(row.getListBoxExistingCtrl().getValue(row.getListBoxExistingCtrl().getSelectedIndex())));
+			
+			if(row.getListBoxExistingCtrl().getSelectedValue()!= null) {
+				suggestedControls.setSuggestedControlsId(Integer
+						.parseInt(row.getListBoxExistingCtrl().getValue(row.getListBoxExistingCtrl().getSelectedIndex())));
+			}
+			
+			else {
+				suggestedControls.setSuggestedControlsId(10000);
+			}
 			auditWork.setSuggestedControlsId(suggestedControls);
 			// control end
 
@@ -473,14 +531,15 @@ public class AuditWorkProg extends Composite {
 
 			@Override
 			public void onSuccess(ArrayList<AuditWork> auditWorks) {
-
 				rows.clear();
 				savedAuditWorks = auditWorks;
 				if (auditWorks.size() < 1) {//
 					enableInitiationpanel();
 					enableFields();
 				} else {// Just to show Approved By/ Submitted By ...
-					heading.setVisible(true);
+				//2020 6 hamza
+					//	heading.setVisible(true);
+					visibleSaveSubmitBtn(true);
 					if (auditWorks.get(0).getApprovedBy() != null
 							&& auditWorks.get(0).getApprovedBy().getEmployeeId() != 0
 							&& auditWorks.get(0).getStatus() == InternalAuditConstants.APPROVED) {
@@ -536,11 +595,19 @@ public class AuditWorkProg extends Composite {
 						row.getAuditWorkId().setText(String.valueOf(auditWork.getAuditWorkId()));
 						// Setting suggested control
 						row.getListBoxExistingCtrl().clear();
+						if(controls.size() == 0) {
+							row.getTxtBoxExistingControls()
+							.setText(auditWork.getSuggestedControlsId().getSuggestedControlsName());
+							row.getLblControls().setVisible(false);
+							row.getContainerExistingControls().setVisible(false);
+						}
+						
 						for (int j = 0; j < controls.size(); j++) {
 							row.getListBoxExistingCtrl().addItem(controls.get(j).getSuggestedReferenceNo(),
 									controls.get(j).getSuggestedControlsId() + "");
 							row.getListBoxExistingCtrl().setTitle(controls.get(j).getSuggestedControlsName());
 						}
+						
 						for (int i = 0; i < row.getListBoxExistingCtrl().getItemCount(); i++) {
 							if (Integer.parseInt(row.getListBoxExistingCtrl().getValue(i)) == auditWork
 									.getSuggestedControlsId().getSuggestedControlsId()) {
@@ -578,10 +645,12 @@ public class AuditWorkProg extends Composite {
 									row.removeRow();
 									rows.remove(row);
 									deleteAuditWork(dataSetter.getId(), rpcService);
-									if (rows.getWidgetCount() < 2) {
-										heading.setVisible(false);
-										rows.setSpacing(5);
-									}
+//									if (rows.getWidgetCount() < 2) {
+//										heading.setVisible(false);
+//										rows.setSpacing(5);
+//									}
+									if(rows.getWidgetCount() < 1)
+										visibleSaveSubmitBtn(false);
 								}
 							}
 
@@ -598,7 +667,7 @@ public class AuditWorkProg extends Composite {
 				addMore.setVisible(true);
 				row.enableFields();
 			}
-
+//
 			private void showApprovalView(AuditWorkRow row) {
 				approvalButtonsPanel.setVisible(true);
 				addMore.setVisible(false);
@@ -713,5 +782,10 @@ public class AuditWorkProg extends Composite {
 		addMore.setVisible(true);
 
 	}
-
+	
+	private void visibleSaveSubmitBtn(boolean flag) {
+		save.setVisible(flag);
+		submit.setVisible(flag);
+		initiationButtonsPanel.setVisible(flag);
+	}
 }

@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.view.LoadingPopup;
+import com.internalaudit.shared.AuditWork;
 import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.SamplingExcelSheetEntity;
 import com.sencha.gxt.core.client.ValueProvider;
@@ -186,7 +187,6 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 			@Override
 			public void onClick(ClickEvent arg0) {
 				generateSamplingOutpot(lblPopulationData, lblSamplingSizeData, listBoxSamplingMethod);
-
 			}
 
 			
@@ -254,7 +254,7 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 						btnSubmit.setVisible(false);
 						btnExportExcel.setVisible(true);
 						btnExportPDF.setVisible(true);
-
+							
 					}
 
 					@Override

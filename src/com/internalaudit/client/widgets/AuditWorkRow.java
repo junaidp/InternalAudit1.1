@@ -3,6 +3,7 @@ package com.internalaudit.client.widgets;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -12,6 +13,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 
 public class AuditWorkRow extends Composite {
 
@@ -29,14 +31,51 @@ public class AuditWorkRow extends Composite {
 	private ListBox listBoxExistingCtrl;
 
 	private Image removeRow;
+	
+	VerticalPanel containerExistingControls;
+
+	public VerticalPanel getContainerExistingControls() {
+		return containerExistingControls;
+	}
+
+	public void setContainerExistingControls(VerticalPanel containerExistingControls) {
+		this.containerExistingControls = containerExistingControls;
+	}
 
 	private HorizontalPanel rowContainer;
+	private LabelHeading lblControls = new LabelHeading("Controls") ;
+	private LabelHeading lblAuditProgram = new LabelHeading("Audit Program") ;
+	
+	public LabelHeading getLblControls() {
+		return lblControls;
+	}
+
+	public void setLblControls(LabelHeading lblControls) {
+		this.lblControls = lblControls;
+	}
+
+	public LabelHeading getLblAuditProgram() {
+		return lblAuditProgram;
+	}
+
+	public void setLblAuditProgram(LabelHeading lblAuditProgram) {
+		this.lblAuditProgram = lblAuditProgram;
+	}
 
 	private int auditEngId = 0;
 	private InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
 
 	public AuditWorkRow() {
+		//for moqeet added new flectable and added headings in that . at first 
+		// headins were in auditworkProg tab..i sset visible false in audtwork prog.
+		// check line 561 of auditworkprog.
 		rowContainer = new HorizontalPanel();
+		
+		FlexTable flex = new FlexTable();
+		
+		lblControls.addStyleName("txtExtendedControlWidth");
+		lblAuditProgram.addStyleName("txtExtendedAuditProgramWidth");
+		
 		description = new TextArea();
 		description.setWidth("750px");
 		description.setHeight("90px");
@@ -60,7 +99,7 @@ public class AuditWorkRow extends Composite {
 		auditWorkId.addStyleName("hidden");
 		// auditWorkId.setWidth("100px");
 		auditWorkId.setVisible(false);
-		initWidget(rowContainer);
+		initWidget(flex);
 		lstReviewer.setWidth("170px");
 		listBoxExistingCtrl.setWidth("165px");
 		removeRow.getElement().getStyle().setMarginLeft(30, Unit.PX);
@@ -75,19 +114,30 @@ public class AuditWorkRow extends Composite {
 		listBoxExistingCtrl.addStyleName("listTextBold");
 		listBoxExistingCtrl.getElement().getStyle().setMarginLeft(8, Unit.PX);
 
-		VerticalPanel containerExistingControls = new VerticalPanel();
+		containerExistingControls = new VerticalPanel();
 
 		containerExistingControls.add(listBoxExistingCtrl);
 		containerExistingControls.add(txtBoxExistingControls);
 		containerExistingControls.setWidth("300px");
 
 		// rowContainer.add(step);
-		rowContainer.add(containerExistingControls);
-		rowContainer.add(description);
+	//	rowContainer.add(containerExistingControls);
+	//	rowContainer.add(description);
 		// rowContainer.add(lstReviewer);
 		// rowContainer.add(listBoxRisk);
+		
+		flex.setWidget(0, 1, lblControls);
+		flex.setWidget(1, 1, containerExistingControls);
+		
+		flex.setWidget(0, 2, lblAuditProgram);
+		flex.setWidget(1, 2, description);
+		
+		flex.setWidget(1, 3, removeRow);
+		
+		
 
-		rowContainer.add(removeRow);
+		
+	//	rowContainer.add(removeRow);
 		lstReviewer.setEnabled(false);
 
 	}
@@ -171,6 +221,8 @@ public class AuditWorkRow extends Composite {
 	}
 
 	public void removeRow() {
+		lblAuditProgram.removeFromParent();
+		lblControls.removeFromParent();
 		description.removeFromParent();
 		lstReviewer.removeFromParent();
 		txtBoxExistingControls.removeFromParent();

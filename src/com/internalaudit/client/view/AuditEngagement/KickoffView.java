@@ -331,42 +331,41 @@ public class KickoffView extends Composite {
 		cp.setHeadingText("Audit Work Programme");
 		VerticalPanel vpnl = new VerticalPanel();
 		// vpnl.setHeight("400px");
-		Button btnLibrary = new Button("Library");
-		vpnl.add(btnLibrary);
+		//Button btnLibrary = new Button("Library");
+		//vpnl.add(btnLibrary);
 		final VerticalPanel vpnlPopup = new VerticalPanel();
-		final ScrollPanel scrollPopup = new ScrollPanel();
-		scrollPopup.add(vpnlPopup);
-		scrollPopup.setHeight("530px");
+		//final ScrollPanel scrollPopup = new ScrollPanel();
+		//scrollPopup.add(vpnlPopup);
+		//scrollPopup.setHeight("530px");
 		//vpnlPopup.setHeight("400px");
-		btnLibrary.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				if(record.getEngagementDTO().getAuditProgrammeList().size()<1)
-					new DisplayAlert("No Library added");
-				else {
-				final PopupsView popUp = new PopupsView(scrollPopup, "Audit Work Program Library");
-				Button btnClose = new Button("Close");
-				popUp.getVpnlMain().add(btnClose);
-				btnClose.getElement().getStyle().setMarginLeft(530, Unit.PX);
-				btnClose.addClickHandler(new ClickHandler() {
-
-					@Override
-					public void onClick(ClickEvent event) {
-						// TODO Auto-generated method stub
-						popUp.getVpnlMain().removeFromParent();
-						popUp.getPopup().removeFromParent();
-					}
-				});
-				}
-			}
-		});
+		
+//		btnLibrary.addClickHandler(new ClickHandler() {
+//
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				// TODO Auto-generated method stub
+//				if(record.getEngagementDTO().getAuditProgrammeList().size()<1)
+//					new DisplayAlert("No Library added");
+//				else {
+//				final PopupsView popUp = new PopupsView(scrollPopup, "Audit Work Program Library");
+//				Button btnClose = new Button("Close");
+//				popUp.getVpnlMain().add(btnClose);
+//				btnClose.getElement().getStyle().setMarginLeft(530, Unit.PX);
+//				btnClose.addClickHandler(new ClickHandler() {
+//
+//					@Override
+//					public void onClick(ClickEvent event) {
+//						// TODO Auto-generated method stub
+//						popUp.getVpnlMain().removeFromParent();
+//						popUp.getPopup().removeFromParent();
+//					}
+//				});
+//				}
+//			}
+//		});
 
 		final VerticalPanel auditWorkNewContainer = new VerticalPanel();
-
-		final AuditWorkProg auditWorkProg = new AuditWorkProg(rpcService, selectedJobId, loggedInUser,
-				record.getEngagementDTO().getSelectedControls(), auditWorkNewContainer, refreshMethod(con));
+		final AuditWorkProg auditWorkProg = new AuditWorkProg(rpcService, selectedJobId, loggedInUser, record.getEngagementDTO().getSelectedControls(), auditWorkNewContainer, refreshMethod(con), vpnlPopup, record.getEngagementDTO().getAuditProgrammeList().size());
 		vpnl.add(auditWorkProg);
 
 		// AddIcon btnAddAuditWork = new AddIcon();
@@ -429,18 +428,21 @@ public class KickoffView extends Composite {
 			}
 
 		});
-		HorizontalPanel panelAuditWorkBtn = new HorizontalPanel();
-		panelAuditWorkBtn.addStyleName("w3-display-bottom");
-		panelAuditWorkBtn.add(btnSaveAuditWork);
-		panelAuditWorkBtn.add(btnApproveAuditWork);
-		ScrollPanel scroll = new ScrollPanel();
+//		HorizontalPanel panelAuditWorkBtn = new HorizontalPanel();
+//		panelAuditWorkBtn.addStyleName("w3-display-bottom");
+//		panelAuditWorkBtn.add(btnSaveAuditWork);
+//		panelAuditWorkBtn.add(btnApproveAuditWork);
+//		panelAuditWorkBtn.setVisible(false);
+		VerticalLayoutContainer scroll = new VerticalLayoutContainer();
 		if (record.getEngagementDTO().getAuditProgrammeList().isEmpty()
 				&& record.getEngagementDTO().getSelectedControls().isEmpty()) {
 			// changedvpn1
 			auditWorkNewContainer.clear();
 		}
-		scroll.setWidget(vpnl);
+		//scroll.setWidget(vpnl);
+		scroll.add(vpnl);
 		scroll.setHeight("400px");
+		scroll.setScrollMode(ScrollMode.AUTOY);
 
 		// vpnl.add(new AuditWorkProgramNew());
 		cp.add(scroll);
@@ -450,9 +452,10 @@ public class KickoffView extends Composite {
 		cp.setAnimCollapse(false);
 		cp.setBodyStyleName("pad-text");
 		cp.setHeadingText("Audit Step");
-		ScrollPanel sp = new ScrollPanel();
+		VerticalLayoutContainer sp = new VerticalLayoutContainer();
 		sp.add(new AuditStepContainer(selectedJobId, rpcService, loggedInUser));
 		sp.setHeight("500px");
+		sp.setScrollMode(ScrollMode.AUTOY);
 		cp.add(sp);
 		con.add(cp);
 		statusPanel.add(panel);
@@ -606,8 +609,9 @@ public class KickoffView extends Composite {
 		// v.setWidth("600px");
 		VerticalPanel verticalPanelKeyRisks = new VerticalPanel();
 		final VerticalPanel verticalPanelKeyRisksContainer = new VerticalPanel();
-		final ScrollPanel scrollKeyRisksContainer = new ScrollPanel();
+		final VerticalLayoutContainer scrollKeyRisksContainer = new VerticalLayoutContainer();
 		scrollKeyRisksContainer.setHeight("530px");
+		scrollKeyRisksContainer.setScrollMode(ScrollMode.AUTOY);
 		scrollKeyRisksContainer.add(verticalPanelKeyRisksContainer);
 		final VerticalPanel usersRisksContainer = new VerticalPanel();
 		Button btnSaveKeyRisk = new Button("Save");
@@ -630,8 +634,8 @@ public class KickoffView extends Composite {
 		// User's LIBRARY
 		for (int j = 0; j < record.getEngagementDTO().getSelectedObjectiveRisks().size(); j++) {
 			final KeyRiskViewNew keyRiskView = new KeyRiskViewNew();
-
 			keyRiskView.usersView();
+			hpnlButton.setVisible(true);
 			final RiskObjective objectiveRisk = record.getEngagementDTO().getSelectedObjectiveRisks().get(j);
 			keyRiskView.setData(objectiveRisk);
 			if (record.getEngagementDTO().getSelectedObjectiveRisks().get(j).getStatus() == InternalAuditConstants.SUBMIT
@@ -845,8 +849,9 @@ public class KickoffView extends Composite {
 
 		final VerticalPanel vpnlActicityObjective = new VerticalPanel();
 		final VerticalPanel vpnlActicityObjectiveContainer = new VerticalPanel();
-		final ScrollPanel scrollActicityObjectiveContainer = new ScrollPanel();
+		final VerticalLayoutContainer scrollActicityObjectiveContainer = new VerticalLayoutContainer();
 		scrollActicityObjectiveContainer.setSize("100%", "530px");
+		scrollActicityObjectiveContainer.setScrollMode(ScrollMode.AUTOY);
 		scrollActicityObjectiveContainer.add(vpnlActicityObjectiveContainer);
 		final VerticalPanel usersActivityContainer = new VerticalPanel();
 		Button btnSaveActicityObjective = new Button("Save");
@@ -870,6 +875,7 @@ public class KickoffView extends Composite {
 			final ActivityObjectiveViewNew activityObjectiveView = new ActivityObjectiveViewNew();
 			activityObjectiveView.getBtnSelectActivity().setVisible(false);
 			activityObjectiveView.getDelete().setVisible(true);
+			hpnlButtons.setVisible(true);
 			activityObjectiveView.setData(record.getEngagementDTO().getSelectedActivityObjectives().get(j));
 			if (record.getEngagementDTO().getSelectedActivityObjectives().get(j).getStatus() == InternalAuditConstants.SUBMIT
 					&& record.getEngagementDTO().getStatusControlRisk() != InternalAuditConstants.REJECTED) {
