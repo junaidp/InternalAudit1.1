@@ -2,6 +2,7 @@ package com.internalaudit.client.view.AuditEngagement;
 
 import java.util.ArrayList;
 
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -16,9 +17,9 @@ public class SamplingSheetView extends VerticalPanel {
 	Button btnSubmit = new Button("Submit");
 
 	public SamplingSheetView(ArrayList<SamplingExcelSheetEntity> result, TextBox lblPopulationData,
-			TextBox lblSamplingSizeData, ListBox listBoxSamplingMethod, Integer auditStepId) {
+			TextBox lblSamplingSizeData, ListBox listBoxSamplingMethod, Integer auditStepId, Anchor lblSavedAuditReport) {
 
-		sampligGrid = new SamplingInputGrid(result, lblPopulationData, lblSamplingSizeData, listBoxSamplingMethod, auditStepId);
+		sampligGrid = new SamplingInputGrid(result, lblPopulationData, lblSamplingSizeData, listBoxSamplingMethod, auditStepId , lblSavedAuditReport);
 		add(sampligGrid);
 		// add(btnSubmit);
 	}

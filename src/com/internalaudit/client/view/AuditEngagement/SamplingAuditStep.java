@@ -67,7 +67,7 @@ public class SamplingAuditStep extends VerticalPanel {
 		lblSavedAuditReport.setWordWrap(false);
 
 		samplingFileUploader = new SamplingFileUploader(fileName, InternalAuditConstants.SamplingSheet,
-				lblPopulationData, lblSampleSizeData, listBoxSamplingMethod ,auditStepId);
+				lblPopulationData, lblSampleSizeData, listBoxSamplingMethod ,auditStepId ,lblSavedAuditReport);
 		samplingFileUploader.setVisible(false);
 		anchorExcelTemplate.setVisible(false);
 		// panelFileDetail.setHeight("100px");
@@ -455,6 +455,14 @@ public class SamplingAuditStep extends VerticalPanel {
 
 	public AuditWorkProgramUpload getFileUpload() {
 		return fileUpload;
+	}
+	
+	public Anchor getLblSavedAuditReport() {
+		return lblSavedAuditReport;
+	}
+
+	public void setLblSavedAuditReport(Anchor lblSavedAuditReport) {
+		this.lblSavedAuditReport = lblSavedAuditReport;
 	}
 	
 

@@ -28,6 +28,7 @@ public class PopupsView {
 
 	Image close = new Image("close.jpg");
 	Label labelheading = new Label();
+	ButtonRound btnClose = new ButtonRound("Cancel");
 
 	public PopupsView(Widget widget, String heading) {
 
@@ -48,11 +49,13 @@ public class PopupsView {
 		close.addStyleName("pointerStyle");
 		popup = new Dialog();
 		popup.getButton(PredefinedButton.OK).setVisible(false);
-
+		btnClose.addStyleName("w3-right");
 		vpnlMain = new VerticalPanel();
 		vpnlMain.add(hpnlClose);
 		vpnlMain.add(labelheading);
 		vpnlMain.add(widget);
+		vpnlMain.add(btnClose);
+		
 		popup.setWidget(vpnlMain);
 		hpnlSPace.addStyleName("w3-panel w3-white ");
 		vpnlMain.addStyleName("w3-panel w3-white");
@@ -61,22 +64,41 @@ public class PopupsView {
 		popup.show();
 		popup.center();
 
-		close.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent arg0) {
-				popup.removeFromParent();
-				vpnlMain.removeFromParent();
-				hpnlSPace.removeFromParent();
-
-			}
-		});
+		clickHandler();
 	}
+
+
 
 	public PopupsView(Widget widget, String heading, String width, String height) {
 		layout(widget, heading);
 		vpnlMain.setWidth(width);
 		vpnlMain.setHeight(height);
+	}
+	
+	private void clickHandler() {
+		close.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				closePopUp();
+
+			}
+
+		});
+		btnClose.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent arg0) {
+				closePopUp();
+				
+			}
+		});
+	}
+	
+	private void closePopUp() {
+		popup.removeFromParent();
+		vpnlMain.removeFromParent();
+		hpnlSPace.removeFromParent();
 	}
 
 	public Dialog getPopup() {

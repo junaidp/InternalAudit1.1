@@ -42,7 +42,7 @@ public class SamplingFileUploader extends VerticalPanel {
 	private LoadingPopup loadingPopup;
 
 	public SamplingFileUploader(final String subFolder, final String mainFolder, final TextBox lblPopulationData,
-			final TextBox lblSampleSizeData, final ListBox listBoxSamplingMethod,final Integer auditStepId) {
+			final TextBox lblSampleSizeData, final ListBox listBoxSamplingMethod,final Integer auditStepId,final Anchor lblSavedAuditReport) {
 		// FileUploadField f = new FileUploadField();
 
 		form = new FormPanel();
@@ -84,7 +84,7 @@ public class SamplingFileUploader extends VerticalPanel {
 				
 				if (event.getResults().contains("success")) {
 					populateSamplingInput(subFolder, mainFolder, lblPopulationData, lblSampleSizeData,
-							listBoxSamplingMethod,auditStepId);
+							listBoxSamplingMethod,auditStepId , lblSavedAuditReport);
 				} else {
 					try {
 						loadingPopup.remove();
@@ -110,7 +110,7 @@ public class SamplingFileUploader extends VerticalPanel {
 	}
 
 	private void populateSamplingInput(final String subFolder, final String mainFolder, final TextBox lblPopulationData,
-			final TextBox lblSampleSizeData, final ListBox listBoxSamplingMethod,final Integer auditStepId) {
+			final TextBox lblSampleSizeData, final ListBox listBoxSamplingMethod,final Integer auditStepId,final Anchor lblSavedAuditReport) {
 		rpcService.readExcel(subFolder, mainFolder, new AsyncCallback<ArrayList<SamplingExcelSheetEntity>>() {
 
 			@Override
@@ -125,7 +125,7 @@ public class SamplingFileUploader extends VerticalPanel {
 				Window.alert("success");
 				loadingPopup.remove();
 				SamplingSheetView samplingSheet = new SamplingSheetView(result, lblPopulationData, lblSampleSizeData,
-						listBoxSamplingMethod,auditStepId);
+						listBoxSamplingMethod,auditStepId , lblSavedAuditReport);
 				PopupsView pp = new PopupsView(samplingSheet, "Sampling", "1000px" ,"700px");
 				pp.getPopup().setPosition(15, 300);
 
