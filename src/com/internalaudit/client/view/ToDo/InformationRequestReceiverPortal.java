@@ -114,13 +114,13 @@ public class InformationRequestReceiverPortal extends VerticalLayoutContainer {
 				pp.getVpnlMain().setWidth("600px");
 				pp.getHpnlSPace().setWidth("600px");
 				pp.getVpnlMain().setHeight("500px");
-				infoReceiver.getBtnClose().addClickHandler(new ClickHandler() {
-					@Override
-					public void onClick(ClickEvent event) {
-						pp.getVpnlMain().removeFromParent();
-						pp.getPopup().removeFromParent();
-					}
-				});
+//				infoReceiver.getBtnClose().addClickHandler(new ClickHandler() {
+//					@Override
+//					public void onClick(ClickEvent event) {
+//						pp.getVpnlMain().removeFromParent();
+//						pp.getPopup().removeFromParent();
+//					}
+//				});
 				// Info.display("Event", "The " + p.getRequestedItem() + " was
 				// clicked.");
 			}

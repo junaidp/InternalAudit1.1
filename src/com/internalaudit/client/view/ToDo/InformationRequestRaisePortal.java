@@ -115,6 +115,7 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 				InformationRequestRaiserFinalView infoReceiver = new InformationRequestRaiserFinalView(
 						informationRequest);
 				pp = new PopupsView(infoReceiver, "Information Request Raiser");
+				pp.hideCloseBtn();
 				// pp.getLabelheading().setText("InformationRequest Receiver");
 				pp.getVpnlMain().setTitle("Todos");
 				pp.getVpnlMain().setWidth("600px");
@@ -173,6 +174,7 @@ public class InformationRequestRaisePortal extends VerticalLayoutContainer {
 			public void onClick(ClickEvent event) {
 				final InformationRequestRaiserView informationrequestRaiser = new InformationRequestRaiserView();
 				final PopupsView pp = new PopupsView(informationrequestRaiser, "Information Request");
+				pp.hideCloseBtn();
 				// pp.getLabelheading().setText("Information Request");
 				// pp.getPopup().setHeadingText("Information Request");
 				pp.getVpnlMain().setTitle("Information Request");

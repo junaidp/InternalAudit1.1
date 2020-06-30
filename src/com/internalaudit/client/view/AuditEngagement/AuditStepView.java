@@ -119,7 +119,7 @@ public class AuditStepView extends Composite {
 		initiationButtonsPanel.getElement().getStyle().setMarginLeft(980, Unit.PX);
 		approvalButtonsPanel.getElement().getStyle().setMarginLeft(980, Unit.PX);
 		conclusion.addStyleName("listTextBold");
-		auditStepSamplingView = new SamplingAuditStep(auditWork.getStepNo());
+		auditStepSamplingView = new SamplingAuditStep(auditWork.getAuditWorkId() + "");
 		panelSamplingAudit.add(auditStepSamplingView);
 		auditStepSamplingView.getTxtAreaControl().setText(auditWork.getDescription());
 		addException.addClickHandler(new ClickHandler() {

@@ -110,6 +110,7 @@ public class AuditWorkProg extends Composite {
 		setHandlers(rpcService, selectedJobId, sizeAuditProgramList, asyncCallback);
 		this.loggedInEmployee = employee;
 		addMore.setVisible(false);
+		btnLibrary.setVisible(false);
 		visibleSaveSubmitBtn(false);
 		if (rows.getWidgetCount() < 2) {
 			heading.setVisible(false);
@@ -142,18 +143,18 @@ public class AuditWorkProg extends Composite {
 					new DisplayAlert("No Library added");
 				else {
 				final PopupsView popUp = new PopupsView(scrollPopup, "Audit Work Program Library");
-				Button btnClose = new Button("Close");
-				popUp.getVpnlMain().add(btnClose);
-				btnClose.getElement().getStyle().setMarginLeft(530, Unit.PX);
-				btnClose.addClickHandler(new ClickHandler() {
-
-					@Override
-					public void onClick(ClickEvent event) {
-						// TODO Auto-generated method stub
-						popUp.getVpnlMain().removeFromParent();
-						popUp.getPopup().removeFromParent();
-					}
-				});
+//				Button btnClose = new Button("Close");
+//				popUp.getVpnlMain().add(btnClose);
+//				btnClose.getElement().getStyle().setMarginLeft(530, Unit.PX);
+//				btnClose.addClickHandler(new ClickHandler() {
+//
+//					@Override
+//					public void onClick(ClickEvent event) {
+//						// TODO Auto-generated method stub
+//						popUp.getVpnlMain().removeFromParent();
+//						popUp.getPopup().removeFromParent();
+//					}
+//				});
 				}
 			}
 		});
@@ -562,6 +563,7 @@ public class AuditWorkProg extends Composite {
 						initiationButtonsPanel.setVisible(false);
 						approvalButtonsPanel.setVisible(false);
 						addMore.setVisible(false);
+						btnLibrary.setVisible(false);
 
 						final AuditWorkRow row = new AuditWorkRow();
 						row.disableFields();
@@ -665,12 +667,14 @@ public class AuditWorkProg extends Composite {
 				approvalButtonsPanel.setVisible(false);
 				initiationButtonsPanel.setVisible(true);
 				addMore.setVisible(true);
+				btnLibrary.setVisible(true);
 				row.enableFields();
 			}
 //
 			private void showApprovalView(AuditWorkRow row) {
 				approvalButtonsPanel.setVisible(true);
 				addMore.setVisible(false);
+				btnLibrary.setVisible(false);
 				initiationButtonsPanel.setVisible(false);
 				row.enableFields();
 			}
@@ -752,35 +756,36 @@ public class AuditWorkProg extends Composite {
 	public void enableInitiationpanel() {
 		initiationButtonsPanel.setVisible(true);
 		addMore.setVisible(true);
-
+		btnLibrary.setVisible(true);
 	}
 
 	public void disableInitiationpanel() {
 		initiationButtonsPanel.setVisible(false);
 		addMore.setVisible(false);
+		btnLibrary.setVisible(false);
 	}
 
 	public void enableApprovalnpanel() {
 		approvalButtonsPanel.setVisible(true);
 		addMore.setVisible(true);
-
+		btnLibrary.setVisible(true);
 	}
 
 	public void disableApprovalpanel() {
 		approvalButtonsPanel.setVisible(false);
 		addMore.setVisible(false);
-
+		btnLibrary.setVisible(false);
 	}
 
 	public void disableFields() {
 		addMore.setVisible(false);
 		save.setVisible(false);
-
+		btnLibrary.setVisible(false);
 	}
 
 	public void enableFields() {
 		addMore.setVisible(true);
-
+		btnLibrary.setVisible(true);
 	}
 	
 	private void visibleSaveSubmitBtn(boolean flag) {

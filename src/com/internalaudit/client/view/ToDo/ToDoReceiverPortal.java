@@ -118,13 +118,13 @@ public class ToDoReceiverPortal extends VerticalLayoutContainer {
 				pp.getVpnlMain().setWidth("600px");
 				pp.getHpnlSPace().setWidth("600px");
 				pp.getVpnlMain().setHeight("500px");
-				toDoReceiverView.getBtnClose().addClickHandler(new ClickHandler() {
-					@Override
-					public void onClick(ClickEvent event) {
-						pp.getVpnlMain().removeFromParent();
-						pp.getPopup().removeFromParent();
-					}
-				});
+//				toDoReceiverView.getBtnClose().addClickHandler(new ClickHandler() {
+//					@Override
+//					public void onClick(ClickEvent event) {
+//						pp.getVpnlMain().removeFromParent();
+//						pp.getPopup().removeFromParent();
+//					}
+//				});
 
 			}
 		});

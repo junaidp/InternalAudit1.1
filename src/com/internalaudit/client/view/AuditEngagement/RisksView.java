@@ -155,19 +155,19 @@ public class RisksView extends Composite {
 					new DisplayAlert("No Library added");
 				else {
 				final PopupsView popUp = new PopupsView(scrollExistingControlContainer, "User Risk Library");
-				Button btnClose = new Button("Close");
-				popUp.getVpnlMain().add(btnClose);
-				btnClose.getElement().getStyle().setMarginLeft(755, Unit.PX);
-				btnClose.addClickHandler(new ClickHandler() {
-
-					@Override
-					public void onClick(ClickEvent event) {
-						// TODO Auto-generated method stub
-						popUp.getVpnlMain().removeFromParent();
-						popUp.getPopup().removeFromParent();
-						
-					}
-				});
+//				Button btnClose = new Button("Close");
+//				popUp.getVpnlMain().add(btnClose);
+//				btnClose.getElement().getStyle().setMarginLeft(755, Unit.PX);
+//				btnClose.addClickHandler(new ClickHandler() {
+//
+//					@Override
+//					public void onClick(ClickEvent event) {
+//						// TODO Auto-generated method stub
+//						popUp.getVpnlMain().removeFromParent();
+//						popUp.getPopup().removeFromParent();
+//						
+//					}
+//				});
 				}
 			}
 		});

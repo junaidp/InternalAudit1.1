@@ -114,6 +114,7 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 				ToDoRaiserEntity toDo = store.get(row);
 				ToDoRaiserFinalView toDoRaiser = new ToDoRaiserFinalView(toDo);
 				popUpToDoRaiserFinalView = new PopupsView(toDoRaiser, "To Do Raiser");
+				popUpToDoRaiserFinalView.hideCloseBtn();
 				// pp.getLabelheading().setText("ToDo Receiver Receiver");
 				// pp.getPopup().setHeadingText("ToDo Receiver");
 				popUpToDoRaiserFinalView.getVpnlMain().setTitle("Todos");
@@ -172,6 +173,7 @@ public class ToDoRaiserPortal extends VerticalLayoutContainer {
 			public void onClick(ClickEvent event) {
 				final ToDoView todoview = new ToDoView();
 				pp = new PopupsView(todoview, "To Do");
+				pp.hideCloseBtn();
 				// pp.getLabelheading().setText("To Do");
 				// pp.getPopup().setHeadingText("To Do");
 				pp.getVpnlMain().setWidth("370px");

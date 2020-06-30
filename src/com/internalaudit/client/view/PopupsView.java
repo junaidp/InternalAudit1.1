@@ -4,6 +4,7 @@ import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -28,7 +29,7 @@ public class PopupsView {
 
 	Image close = new Image("close.jpg");
 	Label labelheading = new Label();
-	ButtonRound btnClose = new ButtonRound("Cancel");
+	Button btnClose = new Button("Close");
 
 	public PopupsView(Widget widget, String heading) {
 
@@ -93,6 +94,11 @@ public class PopupsView {
 				
 			}
 		});
+	}
+	
+	//button need to hide as close already added most of the views, cause alignment issue
+	public void hideCloseBtn() {
+		btnClose.setVisible(false);
 	}
 	
 	private void closePopUp() {

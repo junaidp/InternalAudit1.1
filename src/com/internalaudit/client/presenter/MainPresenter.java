@@ -231,6 +231,7 @@ public class MainPresenter implements Presenter
 			public void onClick(ClickEvent event) {
 				final FeedbackWidget feedBackWidget = new FeedbackWidget();
 				final PopupsView popup = new PopupsView(feedBackWidget, "Feedback");
+				popup.hideCloseBtn();
 				feedBackWidget.getBtnSubmit().addClickHandler(new ClickHandler() {
 
 					@Override

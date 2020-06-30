@@ -49,7 +49,7 @@ public class ToDoReceiverView extends VerticalPanel {
 	TextArea txtAreaReply = new TextArea();
 
 	Button btnSubmit = new Button("Submit");
-	Button btnClose = new Button("Close");
+//	Button btnClose = new Button("Close");
 
 	VerticalPanel panelMailRep = new VerticalPanel();
 	VerticalPanel panelMail = new VerticalPanel();
@@ -154,7 +154,7 @@ public class ToDoReceiverView extends VerticalPanel {
 		panelMailRep.add(panelMessageScroll);
 		panelMailRep.add(panelReply);
 		btnSubmit.addStyleName("w3-right");
-		btnClose.addStyleName("w3-right");
+//		btnClose.addStyleName("w3-right");
 		panelMailRep.add(btnSubmit);
 		String mainFolder = "ToDoUploads";
 		String toDoId = toDo.getId() + "";
@@ -191,7 +191,7 @@ public class ToDoReceiverView extends VerticalPanel {
 		add(panelLabel);
 		add(panelMailRep);
 		add(panelFileUpload);
-		add(btnClose);
+//		add(btnClose);
 	}
 
 	private void viewMessages(ToDoReceiverEntity toDoReceiverEntity) {
@@ -310,12 +310,12 @@ public class ToDoReceiverView extends VerticalPanel {
 		});
 	}
 
-	public Button getBtnClose() {
-		return btnClose;
-	}
-
-	public void setBtnClose(Button btnClose) {
-		this.btnClose = btnClose;
-	}
+//	public Button getBtnClose() {
+//		return btnClose;
+//	}
+//
+//	public void setBtnClose(Button btnClose) {
+//		this.btnClose = btnClose;
+//	}
 
 }

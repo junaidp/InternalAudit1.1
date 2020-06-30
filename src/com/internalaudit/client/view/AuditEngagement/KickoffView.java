@@ -758,18 +758,18 @@ public class KickoffView extends Composite {
 					new DisplayAlert("No Library added");
 				else {
 				final PopupsView popUp = new PopupsView(scrollKeyRisksContainer, "Key Risk Library");
-				Button btnClose = new Button("Close");
-				popUp.getVpnlMain().add(btnClose);
-				btnClose.getElement().getStyle().setMarginLeft(590, Unit.PX);
-				btnClose.addClickHandler(new ClickHandler() {
-
-					@Override
-					public void onClick(ClickEvent event) {
-						// TODO Auto-generated method stub
-						popUp.getVpnlMain().removeFromParent();
-						popUp.getPopup().removeFromParent();
-					}
-				});
+//				Button btnClose = new Button("Close");
+//				popUp.getVpnlMain().add(btnClose);
+//				btnClose.getElement().getStyle().setMarginLeft(590, Unit.PX);
+//				btnClose.addClickHandler(new ClickHandler() {
+//
+//					@Override
+//					public void onClick(ClickEvent event) {
+//						// TODO Auto-generated method stub
+//						popUp.getVpnlMain().removeFromParent();
+//						popUp.getPopup().removeFromParent();
+//					}
+//				});
 				}
 			}
 		});
@@ -1012,18 +1012,18 @@ public class KickoffView extends Composite {
 				else {
 				final PopupsView p = new PopupsView(scrollActicityObjectiveContainer, "Library");
 				p.getVpnlMain().setSize("500px", "300px");
-				Button btnClose = new Button("Close");
-				p.getVpnlMain().add(btnClose);
-				btnClose.getElement().getStyle().setMarginLeft(420, Unit.PX);
-				btnClose.addClickHandler(new ClickHandler() {
-
-					@Override
-					public void onClick(ClickEvent event) {
-						// TODO Auto-generated method stub
-						p.getVpnlMain().removeFromParent();
-						p.getPopup().removeFromParent();
-					}
-				});
+//				Button btnClose = new Button("Close");
+//				p.getVpnlMain().add(btnClose);
+//				btnClose.getElement().getStyle().setMarginLeft(420, Unit.PX);
+//				btnClose.addClickHandler(new ClickHandler() {
+//
+//					@Override
+//					public void onClick(ClickEvent event) {
+//						// TODO Auto-generated method stub
+//						p.getVpnlMain().removeFromParent();
+//						p.getPopup().removeFromParent();
+//					}
+//				});
 			}
 		}
 	});

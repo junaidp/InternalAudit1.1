@@ -1,13 +1,13 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:A="urn:import:com.internalaudit.client.view.AuditEngagement" xmlns:v="urn:import:com.internalaudit.client.view">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:A="urn:import:com.internalaudit.client.view.AuditEngagement" xmlns:v="urn:import:com.internalaudit.client.view" xmlns:c="urn:import:com.sencha.gxt.widget.core.client.container">
 	<ui:style>
 	}
 	.heading{
 	font-size: 18px;
 }
 	</ui:style>
-	<g:ScrollPanel height="440px" width="1195px">
+	<g:ScrollPanel height="440px" width="1200px">
 	<g:HTMLPanel>
 	
 	<div>
