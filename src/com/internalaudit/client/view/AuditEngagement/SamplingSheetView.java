@@ -17,9 +17,9 @@ public class SamplingSheetView extends VerticalPanel {
 	Button btnSubmit = new Button("Submit");
 
 	public SamplingSheetView(ArrayList<SamplingExcelSheetEntity> result, TextBox lblPopulationData,
-			TextBox lblSamplingSizeData, ListBox listBoxSamplingMethod, Integer auditStepId, Anchor lblSavedAuditReport) {
+			TextBox lblSamplingSizeData, ListBox listBoxSamplingMethod, Integer auditStepId, Anchor lblSavedAuditReport, Anchor anchorExcelTemplate) {
 
-		sampligGrid = new SamplingInputGrid(result, lblPopulationData, lblSamplingSizeData, listBoxSamplingMethod, auditStepId , lblSavedAuditReport);
+		sampligGrid = new SamplingInputGrid(result, lblPopulationData, lblSamplingSizeData, listBoxSamplingMethod, auditStepId , lblSavedAuditReport,anchorExcelTemplate);
 		add(sampligGrid);
 		// add(btnSubmit);
 	}

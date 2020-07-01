@@ -56,11 +56,11 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 	private ArrayList<SamplingExcelSheetEntity> listSamplingSheet;
 
 	public SamplingInputGrid(ArrayList<SamplingExcelSheetEntity> result, TextBox lblPopulationData,
-			TextBox lblSamplingSizeData, ListBox listBoxSamplingMethod, Integer auditStepId, Anchor lblSavedAuditReport) {
+			TextBox lblSamplingSizeData, ListBox listBoxSamplingMethod, Integer auditStepId, Anchor lblSavedAuditReport, Anchor anchorExcelTemplate) {
 
 		add(createGridFieldWork(lblPopulationData, lblSamplingSizeData, listBoxSamplingMethod));
 		setData(result);
-		clickHandlers(lblPopulationData, lblSamplingSizeData, listBoxSamplingMethod, auditStepId, lblSavedAuditReport);
+		clickHandlers(lblPopulationData, lblSamplingSizeData, listBoxSamplingMethod, auditStepId, lblSavedAuditReport, anchorExcelTemplate);
 	}
 
 
@@ -181,7 +181,7 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 	}
 
 	private void clickHandlers(final TextBox lblPopulationData, final TextBox lblSamplingSizeData,
-			final ListBox listBoxSamplingMethod,final Integer auditStepId, final Anchor lblSavedAuditReport) {
+			final ListBox listBoxSamplingMethod,final Integer auditStepId, final Anchor lblSavedAuditReport, final Anchor anchorExcelTemplate) {
 
 		btnSubmit.addClickHandler(new ClickHandler() {
 
@@ -198,7 +198,7 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 			@Override
 			public void onClick(ClickEvent arg0) {
 				String reportFormat = InternalAuditConstants.EXCEL;
-				generateReport(listBoxSamplingMethod, reportFormat, auditStepId, lblSavedAuditReport);
+				generateReport(listBoxSamplingMethod, reportFormat, auditStepId, lblSavedAuditReport,anchorExcelTemplate);
 				
 			}
 		});
@@ -208,12 +208,12 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 			@Override
 			public void onClick(ClickEvent arg0) {
 				String reportFormat = InternalAuditConstants.PDF;
-				generateReport(listBoxSamplingMethod, reportFormat, auditStepId ,lblSavedAuditReport);
+				generateReport(listBoxSamplingMethod, reportFormat, auditStepId ,lblSavedAuditReport,anchorExcelTemplate);
 				
 			}
 		});
 	}
-	private void generateReport(final ListBox listBoxSamplingMethod, String reportFormat,final Integer auditStepId,final Anchor lblSavedAuditReport) {
+	private void generateReport(final ListBox listBoxSamplingMethod, String reportFormat,final Integer auditStepId,final Anchor lblSavedAuditReport,final Anchor anchorExcelTemplate) {
 		final LoadingPopup loadingpopup = new LoadingPopup();
 		loadingpopup.display();
 		rpcService.exportSamplingAuditStep(listBoxSamplingMethod.getSelectedItemText(), reportFormat, exportList,auditStepId, new AsyncCallback<String>() {
@@ -235,7 +235,7 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 
 					Window.open("SamplingAuditStep/reportSamplingAudit.xls", "_blank", "");
 				}
-				fetchSavedSamplingPDF(auditStepId,lblSavedAuditReport);
+				fetchSavedSamplingPDF(auditStepId,lblSavedAuditReport,anchorExcelTemplate);
 				
 			}
 		});
@@ -266,7 +266,7 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 				});
 	}
 	
-	private void fetchSavedSamplingPDF(Integer auditStepId,final Anchor lblSavedAuditReport) {
+	private void fetchSavedSamplingPDF(Integer auditStepId,final Anchor lblSavedAuditReport,final Anchor anchorExcelTemplate) {
 		rpcService.fetchSavedSamplingReport(InternalAuditConstants.SAMPLINGAUDITSTEPFOLDEER, auditStepId+"", new AsyncCallback<String>() {
 
 			@Override
@@ -277,8 +277,10 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 
 			@Override
 			public void onSuccess(String file) {
+				
 				lblSavedAuditReport.setVisible(true);
 				lblSavedAuditReport.setText(file);
+				anchorExcelTemplate.setVisible(false);
 				
 			}
 		});

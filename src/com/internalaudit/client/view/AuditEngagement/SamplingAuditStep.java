@@ -67,7 +67,7 @@ public class SamplingAuditStep extends VerticalPanel {
 		lblSavedAuditReport.setWordWrap(false);
 
 		samplingFileUploader = new SamplingFileUploader(fileName, InternalAuditConstants.SamplingSheet,
-				lblPopulationData, lblSampleSizeData, listBoxSamplingMethod ,auditStepId ,lblSavedAuditReport);
+				lblPopulationData, lblSampleSizeData, listBoxSamplingMethod ,auditStepId ,lblSavedAuditReport, anchorExcelTemplate);
 		samplingFileUploader.setVisible(false);
 		anchorExcelTemplate.setVisible(false);
 		// panelFileDetail.setHeight("100px");
@@ -236,8 +236,11 @@ public class SamplingAuditStep extends VerticalPanel {
 			public void onChange(ChangeEvent event) {
 				getSampleSize(listBoxControlList.getSelectedValue(), listBoxFrequency.getSelectedValue());
 				if ((listBoxFrequency.getSelectedItemText().equalsIgnoreCase("Daily") || listBoxFrequency.getSelectedItemText().equalsIgnoreCase("Recurring")) && !listBoxSamplingMethod.getSelectedItemText().equalsIgnoreCase(InternalAuditConstants.BLOCKSELECTION) ) {
-					samplingFileUploader.setVisible(true);
-					anchorExcelTemplate.setVisible(true);
+					samplingFileUploader.setVisible(true);  
+					if((getLblSavedAuditReport().getText() == "")) {
+						anchorExcelTemplate.setVisible(true);
+					}
+					
 				} else {
 					samplingFileUploader.setVisible(false);
 					anchorExcelTemplate.setVisible(false);
@@ -390,6 +393,7 @@ public class SamplingAuditStep extends VerticalPanel {
 
 			@Override
 			public void onSuccess(String file) {
+				anchorExcelTemplate.setVisible(false);
 				lblSavedAuditReport.setText(file);
 				
 			}
