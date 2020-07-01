@@ -21,8 +21,11 @@ import com.internalaudit.client.view.FinalAuditablesView;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.Strategic;
+import com.internalaudit.shared.StrategicDepartments;
 import com.internalaudit.shared.TimeOutException;
+import com.sencha.gxt.core.client.dom.ScrollSupport.ScrollMode;
 import com.sencha.gxt.widget.core.client.ContentPanel;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.event.BeforeExpandEvent;
 import com.sencha.gxt.widget.core.client.event.BeforeExpandEvent.BeforeExpandHandler;
 import com.sencha.gxt.widget.core.client.form.TextField;
@@ -57,162 +60,135 @@ public class FinalAuditablesViewData {
 					History.newItem("login");
 				} else {
 					System.out.println("FAIL: fetchDashBoard .Inside AuditAreaspresenter");
-					Window.alert("FAIL: fetchDashBoard in finalauditableviewdata");// After
-																					// FAIL
-																					// ...
-																					// write
-																					// RPC
-																					// Name
-																					// NOT
-																					// Method
-																					// Name..
+					Window.alert("FAIL: fetchDashBoard in finalauditableviewdata"); //After FAIL... Name..
 				}
 
 			}
 
 			@Override
 			public void onSuccess(final ArrayList<Strategic> strategic) {
-				finalAuditablesView.getAreas().clear();
-				// HorizontalPanel hpnlHeading = new HorizontalPanel();
-				// hpnlHeading.setSpacing(5);
-				// LabelHeading lblSerialNo = new LabelHeading();
-				// lblSerialNo.setWidth("50px");
-				// // lblSerialNo.getElement().getStyle().setMarginRight(40,
-				// // Unit.PX);
-				// lblSerialNo.setText("Sr#");
-				// LabelHeading lblStatus = new LabelHeading();
-				// lblStatus.setWidth("100px");
-				// lblStatus.setText("Status");
-				// LabelHeading lblUnitHeading = new LabelHeading();
-				// lblUnitHeading.setText("Auditable Unit");
-				// Label lblObjHeading = new Label("Objective");
-				// lblUnitHeading.setWidth("600px");
-				// lblObjHeading.setWidth("250px");
-				// hpnlHeading.add(lblSerialNo);
-				// hpnlHeading.add(lblUnitHeading);
-				// hpnlHeading.add(lblStatus);
-				// // hpnlHeading.addStyleName("statusRowConsolidation");
-				//
-				// // lblUnitHeading.addStyleName("labelHeading");
-				// lblObjHeading.addStyleName("labelHeading");
-				// finalAuditablesView.getAreas().add(hpnlHeading);
-				// for(int i=0; i< result.size(); i++){
-				// Label lblObjective = new
-				// Label(result.get(i).getStrategicObjective());
-				// Label lblUnit = new Label(result.get(i).getAuditableUnit());
-				// lblObjective.setWidth("400px");
-				//
-				// lblUnit.setWidth("400px");
-				// HorizontalPanel hpnlMain = new HorizontalPanel();
-				// hpnlMain.add(lblUnit);
-				// hpnlMain.add(lblObjective);
-				// finalAuditablesView.getAreas().add(hpnlMain);
-				// hpnlMain.addStyleName("form-row");
-				// }
-				ArrayList<String> auditableUnits = new ArrayList<String>();
-				ArrayList<HorizontalPanel> hpnlContainer = new ArrayList<HorizontalPanel>();
+				setViewData(finalAuditablesView, loggedInUser, strategic);
+			}
+		});
+	}
+	
+	private void setViewData(final FinalAuditablesView finalAuditablesView, final Employee loggedInUser,
+			final ArrayList<Strategic> strategic) {
+		finalAuditablesView.getAreas().clear();
+		ArrayList<String> auditableUnits = new ArrayList<String>();
+		ArrayList<HorizontalPanel> hpnlContainer = new ArrayList<HorizontalPanel>();
 
-				int count = 0;
-				for (int i = 0; i < strategic.size(); i++) {
+		int count = 0;
+		for (int i = 0; i < strategic.size(); i++) {
 
-					Button btnApprove = new Button("Approve");
-					Button btnDecline = new Button("Decline");
-					final TextField txtComments = new TextField();
-					txtComments.setEmptyText("Comments");
-					txtComments.setWidth(160);
+			Button btnApprove = new Button("Approve");
+			Button btnDecline = new Button("Decline");
+			final TextField txtComments = new TextField();
+			txtComments.setEmptyText("Comments");
+			txtComments.setWidth(160);
 
-					HorizontalPanel hpnlButtonContainer = new HorizontalPanel();
-					hpnlButtonContainer.add(btnDecline);
-					hpnlButtonContainer.add(btnApprove);
+			HorizontalPanel hpnlButtonContainer = new HorizontalPanel();
+			hpnlButtonContainer.add(btnDecline);
+			hpnlButtonContainer.add(btnApprove);
 
-					VerticalPanel vpnlObjectiveContainer = new VerticalPanel();
-					Label lblUnit = new Label(strategic.get(i).getAuditableUnit());
+			VerticalPanel vpnlObjectiveContainer = new VerticalPanel();
+			Label lblUnit = new Label(strategic.get(i).getAuditableUnit());
 
-					lblUnit.setWidth("605px");
-					if (!auditableUnits.contains(strategic.get(i).getAuditableUnit())) {
-						count++;
-						HorizontalPanel hpnlMain = new HorizontalPanel();
+			lblUnit.setWidth("605px");
+			if (!auditableUnits.contains(strategic.get(i).getAuditableUnit())) {
+				count++;
+				HorizontalPanel hpnlMain = new HorizontalPanel();
 
-						auditableUnits.add(strategic.get(i).getAuditableUnit());
-						JobCreation jb = new JobCreation();
+				auditableUnits.add(strategic.get(i).getAuditableUnit());
+				JobCreation jb = new JobCreation();
 
-						Label lblCount = new Label("");
-						lblCount.setWidth("55px");
-						lblCount.addStyleName("blue");
-						// lblCount.setText(count + ")" );
+				Label lblCount = new Label("");
+				lblCount.setWidth("55px");
+				lblCount.addStyleName("blue");
+				// lblCount.setText(count + ")" );
 
-						// lblCount.setText(jb.getJobCreationId() + ")" );
-						lblCount.setText(strategic.get(i).getJobCreationId() + ".");
-						hpnlMain.add(lblCount);
-						hpnlMain.add(lblUnit);
-						hpnlMain.setSpacing(5);
+				// lblCount.setText(jb.getJobCreationId() + ")" );
+				lblCount.setText(strategic.get(i).getJobCreationId() + ".");
+				hpnlMain.add(lblCount);
+				hpnlMain.add(lblUnit);
 
-						// hpnlMain.add(vpnlObjectiveContainer);
-						// if(loggedInUser.getEmployeeId().isAuditHead()) {
-						if (loggedInUser.getRollId() == 1 || loggedInUser.getRollId() == 2
-								|| loggedInUser.getRollId() == 3) {
-							if (strategic.get(i).isApprovedByAuditHead()) {
-								Label lblApproved = new Label("Approved");
-								lblApproved.addStyleName("blue");
-								lblApproved.setWidth("90px");
-								hpnlMain.add(lblApproved);
-							} else if (loggedInUser.getRollId() == 1) {
-								VerticalPanel vpnlCommentsAndButton = new VerticalPanel();
-								vpnlCommentsAndButton.add(txtComments);
-								vpnlCommentsAndButton.add(hpnlButtonContainer);
-								hpnlMain.add(vpnlCommentsAndButton);
-							}
-						}
-
-						finalAuditablesView.getAreas().add(hpnlMain);
-						hpnlMain.addStyleName("form-row");
-						hpnlContainer.add(hpnlMain);
-
-						final DataSetter dataSetter = new DataSetter();
-						dataSetter.setId(i);
-
-						btnDecline.addClickHandler(new ClickHandler() {
-
-							@Override
-							public void onClick(ClickEvent event) {
-								strategic.get(dataSetter.getId()).setComments(txtComments.getText());
-								declineFinalAuditable(strategic.get(dataSetter.getId()), finalAuditablesView,
-										loggedInUser);
-							}
-						});
-
-						btnApprove.addClickHandler(new ClickHandler() {
-
-							@Override
-							public void onClick(ClickEvent event) {
-								strategic.get(dataSetter.getId()).setComments(txtComments.getText());
-								approveFinalAuditable(strategic.get(dataSetter.getId()), finalAuditablesView,
-										loggedInUser);
-							}
-						});
-
-					}
-
+				Label lblDivision = new Label(strategic.get(i).getDivision().getDivisionName());
+				lblDivision.setWidth("180px");
+				hpnlMain.add(lblDivision);
+				
+				VerticalLayoutContainer vpnlDepartments = new VerticalLayoutContainer();
+				vpnlDepartments.setWidth(190);
+				vpnlDepartments.setScrollMode(ScrollMode.AUTOY);
+				for(StrategicDepartments departments : strategic.get(i).getStrategicDepartments()) {
+					Label lblDepartments = new Label(departments.getDepartment().getDepartmentName());
+					lblDepartments.setWidth("190px");
+					vpnlDepartments.add(lblDepartments);
 				}
-
-				for (int i = 0; i < hpnlContainer.size(); i++) {
-					for (int j = 0; j < strategic.size(); j++) {
-						Label lblObjective = new Label(strategic.get(j).getStrategicObjective() + " ( "
-								+ strategic.get(j).getRating() + " ) ");
-						lblObjective.setWidth("400px");
-						Label lblUnit = (Label) hpnlContainer.get(i).getWidget(0);
-						if (lblUnit.getText().equalsIgnoreCase(strategic.get(j).getAuditableUnit())) {
-							VerticalPanel vpnlObjectiveContainer = (VerticalPanel) hpnlContainer.get(i).getWidget(1);
-							// vpnlObjectiveContainer.add(lblObjective); // ONLY
-							// SHOWING AUDITBLE UNIT FROM NOW...
-						}
-
+				hpnlMain.add(vpnlDepartments);				
+				hpnlMain.setSpacing(5);
+				
+				// hpnlMain.add(vpnlObjectiveContainer);
+				// if(loggedInUser.getEmployeeId().isAuditHead()) {
+				if (loggedInUser.getRollId() == 1 || loggedInUser.getRollId() == 2
+						|| loggedInUser.getRollId() == 3) {
+					if (strategic.get(i).isApprovedByAuditHead()) {
+						Label lblApproved = new Label("Approved");
+						lblApproved.addStyleName("blue");
+						lblApproved.setWidth("90px");
+						hpnlMain.add(lblApproved);
+					} else if (loggedInUser.getRollId() == 1) {
+						VerticalPanel vpnlCommentsAndButton = new VerticalPanel();
+						vpnlCommentsAndButton.add(txtComments);
+						vpnlCommentsAndButton.add(hpnlButtonContainer);
+						hpnlMain.add(vpnlCommentsAndButton);
 					}
 				}
+
+				finalAuditablesView.getAreas().add(hpnlMain);
+				hpnlMain.addStyleName("form-row");
+				hpnlContainer.add(hpnlMain);
+
+				final DataSetter dataSetter = new DataSetter();
+				dataSetter.setId(i);
+
+				btnDecline.addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						strategic.get(dataSetter.getId()).setComments(txtComments.getText());
+						declineFinalAuditable(strategic.get(dataSetter.getId()), finalAuditablesView,
+								loggedInUser);
+					}
+				});
+
+				btnApprove.addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						strategic.get(dataSetter.getId()).setComments(txtComments.getText());
+						approveFinalAuditable(strategic.get(dataSetter.getId()), finalAuditablesView,
+								loggedInUser);
+					}
+				});
 
 			}
 
-		});
+		}
+
+		for (int i = 0; i < hpnlContainer.size(); i++) {
+			for (int j = 0; j < strategic.size(); j++) {
+				Label lblObjective = new Label(strategic.get(j).getStrategicObjective() + " ( "
+						+ strategic.get(j).getRating() + " ) ");
+				lblObjective.setWidth("400px");
+				Label lblUnit = (Label) hpnlContainer.get(i).getWidget(0);
+				if (lblUnit.getText().equalsIgnoreCase(strategic.get(j).getAuditableUnit())) {
+					VerticalPanel vpnlObjectiveContainer = (VerticalPanel) hpnlContainer.get(i).getWidget(1);
+					// vpnlObjectiveContainer.add(lblObjective); // ONLY
+					// SHOWING AUDITBLE UNIT FROM NOW...
+				}
+
+			}
+		}
 	}
 
 	public void approveFinalAuditable(Strategic strategic, final FinalAuditablesView finalAuditablesView,

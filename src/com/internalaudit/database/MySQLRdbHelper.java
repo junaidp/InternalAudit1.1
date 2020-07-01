@@ -2080,6 +2080,9 @@ public class MySQLRdbHelper {
 
 				// Added 2018
 				strategic.setJobCreationId(fetchJobCreationIdAgainstStrategin(strategic.getId()));
+				//Division and Departments set by moqeet
+				strategic.setStrategicDepartments(fetchStrategicdepartments(strategic, session));
+				strategic.setDivision(fetchStrategicDivision(strategic, session));
 				// end
 				strategics.add(strategic);
 
@@ -8571,7 +8574,7 @@ public class MySQLRdbHelper {
 			return jobsInExecution;
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.info("eeror in : fetchjobsInExecution");
+			logger.info("error in : fetchjobsInExecution");
 
 			throw e;
 		}

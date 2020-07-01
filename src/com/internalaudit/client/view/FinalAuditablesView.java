@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.view.AuditEngagement.LabelHeading;
 import com.internalaudit.client.view.data.FinalAuditablesViewData;
 import com.internalaudit.shared.Employee;
+import com.internalaudit.shared.InternalAuditConstants;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 
 public class FinalAuditablesView extends Composite {
@@ -38,13 +39,22 @@ public class FinalAuditablesView extends Composite {
 		lblStatus.setText("Status");
 		LabelHeading lblUnitHeading = new LabelHeading();
 		lblUnitHeading.setText("Auditable Unit");
-		Label lblObjHeading = new Label("Objective");
+		//Label lblObjHeading = new Label("Objective");
 		lblUnitHeading.setWidth("600px");
-		lblObjHeading.setWidth("250px");
+		//lblObjHeading.setWidth("250px");
+		
+		LabelHeading lblDivision = new LabelHeading(InternalAuditConstants.STRATEGICLOCATION);
+		lblDivision.setWidth("180px");
+		
+		LabelHeading lblDepartments = new LabelHeading(InternalAuditConstants.STRATEGICDEPT);
+		lblDepartments.setWidth("180px");
+		
 		hpnlHeading.add(lblSerialNo);
 		hpnlHeading.add(lblUnitHeading);
+		hpnlHeading.add(lblDivision);
+		hpnlHeading.add(lblDepartments);
 		hpnlHeading.add(lblStatus);
-		lblObjHeading.addStyleName("labelHeading");
+		//lblObjHeading.addStyleName("labelHeading");
 
 		finalAuditablesViewData.setData(cp, this, vpnlFinalAuditable, loggedInUser);
 	}

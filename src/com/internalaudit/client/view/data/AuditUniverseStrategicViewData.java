@@ -291,29 +291,6 @@ public class AuditUniverseStrategicViewData {
 
 	public void fetchDepartmentsForNewRecord(final AuditUniverseStrategicView auditUniverseStrategicView) {
 //fecth Department commented by Moqeet
-//		rpcService.fetchDepartments(new AsyncCallback<ArrayList<Department>>() {
-//
-//			@Override
-//			public void onFailure(Throwable arg0) {
-//				//
-//			}
-//
-//			@Override
-//			public void onSuccess(ArrayList<Department> department) {
-//				departments = department;
-//				if (auditUniverseStrategicView != null) {
-//					for (int i = 0; i < department.size(); i++) {
-//						auditUniverseStrategicView.getRelevantDepartment().addItem(
-//								department.get(i).getDepartmentName(), department.get(i).getDepartmentId() + "");
-//					}
-//					if (auditUniverseStrategicView.getRelevantDepartment().getSelectedIndex() == -1) {
-//						auditUniverseStrategicView.getRelevantDepartment().setSelectedIndex(0);
-//					}
-//				}
-//			}
-//		});
-//		
-		//added by Moqeet to fetch Division
 		rpcService.fetchDivision(new AsyncCallback<ArrayList<Division>>() {
 
 			@Override
