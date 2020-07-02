@@ -40,7 +40,7 @@ public class FinalAuditablesView extends Composite {
 		LabelHeading lblUnitHeading = new LabelHeading();
 		lblUnitHeading.setText("Auditable Unit");
 		//Label lblObjHeading = new Label("Objective");
-		lblUnitHeading.setWidth("600px");
+		lblUnitHeading.setWidth("500px");
 		//lblObjHeading.setWidth("250px");
 		
 		LabelHeading lblDivision = new LabelHeading(InternalAuditConstants.STRATEGICLOCATION);

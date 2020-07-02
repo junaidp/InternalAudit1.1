@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
@@ -94,7 +95,7 @@ public class FinalAuditablesViewData {
 			VerticalPanel vpnlObjectiveContainer = new VerticalPanel();
 			Label lblUnit = new Label(strategic.get(i).getAuditableUnit());
 
-			lblUnit.setWidth("605px");
+			lblUnit.setWidth("505px");
 			if (!auditableUnits.contains(strategic.get(i).getAuditableUnit())) {
 				count++;
 				HorizontalPanel hpnlMain = new HorizontalPanel();
@@ -117,11 +118,12 @@ public class FinalAuditablesViewData {
 				hpnlMain.add(lblDivision);
 				
 				VerticalLayoutContainer vpnlDepartments = new VerticalLayoutContainer();
-				vpnlDepartments.setWidth(190);
-				vpnlDepartments.setScrollMode(ScrollMode.AUTOY);
+				vpnlDepartments.setWidth(180);
+				vpnlDepartments.setScrollMode(ScrollMode.AUTOX);
 				for(StrategicDepartments departments : strategic.get(i).getStrategicDepartments()) {
 					Label lblDepartments = new Label(departments.getDepartment().getDepartmentName());
-					lblDepartments.setWidth("190px");
+					lblDepartments.setWidth("180px");
+					lblDepartments.setWordWrap(false);
 					vpnlDepartments.add(lblDepartments);
 				}
 				hpnlMain.add(vpnlDepartments);				
@@ -133,6 +135,7 @@ public class FinalAuditablesViewData {
 						|| loggedInUser.getRollId() == 3) {
 					if (strategic.get(i).isApprovedByAuditHead()) {
 						Label lblApproved = new Label("Approved");
+						lblApproved.getElement().getStyle().setMarginLeft(10, Unit.PX);
 						lblApproved.addStyleName("blue");
 						lblApproved.setWidth("90px");
 						hpnlMain.add(lblApproved);
@@ -140,6 +143,7 @@ public class FinalAuditablesViewData {
 						VerticalPanel vpnlCommentsAndButton = new VerticalPanel();
 						vpnlCommentsAndButton.add(txtComments);
 						vpnlCommentsAndButton.add(hpnlButtonContainer);
+						vpnlCommentsAndButton.getElement().getStyle().setMarginLeft(10, Unit.PX);
 						hpnlMain.add(vpnlCommentsAndButton);
 					}
 				}
