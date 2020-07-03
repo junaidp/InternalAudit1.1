@@ -915,43 +915,20 @@ public class KickoffView extends Composite {
 		if (record.getEngagementDTO().getSelectedActivityObjectives().size() <= 0 || record.getEngagementDTO()
 				.getSelectedActivityObjectives().get(0).getStatus() == InternalAuditConstants.SAVED) {
 			btnLibrary.setVisible(true);
-			for (int i = 0; i < record.getEngagementDTO().getActivityObjectiveList().size(); i++) {
-				final ActivityObjectiveViewNew activityObjectiveView = new ActivityObjectiveViewNew();
-
-				activityObjectiveView.setData(record.getEngagementDTO().getActivityObjectiveList().get(i));
-				// activityObjectiveView.disable();
-				activityObjectiveView.getTxtAreaActivityObj().setSize("400px", "120px");
-				vpnlActicityObjectiveContainer.add(activityObjectiveView);
-
-				activityObjectiveView.getBtnSelectActivity().addClickHandler(new ClickHandler() {
-
-					@Override
-					public void onClick(ClickEvent event) {
-						final ActivityObjectiveViewNew activityObjectiveSelected = new ActivityObjectiveViewNew();
-						activityObjectiveView.getData(activityObjectiveSelected);
-						usersActivityContainer.add(activityObjectiveSelected);
-						activityObjectiveSelected.getTxtAreaActivityObj().addStyleName("w3-sand");
-						activityObjectiveView.getTxtAreaActivityObj().addStyleName("w3-sand");
-						activityObjectiveView.getBtnSelectActivity().setVisible(false);
-						hpnlButtons.setVisible(true);
-
-						activityObjectiveSelected.getDelete().addClickHandler(new ClickHandler() {
-
-							@Override
-							public void onClick(ClickEvent event) {
-								activityObjectiveSelected.removeFromParent();
-								activityObjectiveView.getBtnSelectActivity().setVisible(true);
-								activityObjectiveSelected.getTxtAreaActivityObj().addStyleName("w3-sand");
-								if(usersActivityContainer.getWidgetCount()<1)
-									hpnlButtons.setVisible(false);
-							}
-						});
-
+			boolean isAddInLibrary;
+			for (ActivityObjective activityObjectiveLibrary : record.getEngagementDTO().getActivityObjectiveList()) {	
+				 isAddInLibrary = true;
+				if(record.getEngagementDTO().getSelectedActivityObjectives().size() > 0 || record.getEngagementDTO().getSelectedActivityObjectives() != null) {
+					for(ActivityObjective selectedObjective : record.getEngagementDTO().getSelectedActivityObjectives()) {
+						if(activityObjectiveLibrary.getObjectiveName().equals(selectedObjective.getObjectiveName())) {
+							isAddInLibrary = false;
 					}
-				});
-
+				}
 			}
+				 if(isAddInLibrary)
+					viewObjectivesLibraryList(activityObjectiveLibrary, vpnlActicityObjectiveContainer, usersActivityContainer, hpnlButtons);				
 		}
+	}
 
 		btnAddAcitivityObjective.addClickHandler(new ClickHandler() {
 
@@ -1007,7 +984,7 @@ public class KickoffView extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				if(record.getEngagementDTO().getActivityObjectiveList().size()<1)
+				if(vpnlActicityObjectiveContainer.getWidgetCount() < 1)
 					new DisplayAlert("No Library added");
 				else {
 				final PopupsView p = new PopupsView(scrollActicityObjectiveContainer, "Library");
@@ -1039,6 +1016,40 @@ public class KickoffView extends Composite {
 		cp.add(scrollMain);
 		con.add(cp);
 
+	}
+
+	private void viewObjectivesLibraryList(final ActivityObjective activityObjectiveLibrary, final VerticalPanel vpnlActicityObjectiveContainer,
+			final VerticalPanel usersActivityContainer, final HorizontalPanel hpnlButtons) {
+		final ActivityObjectiveViewNew activityObjectiveViewLibrary = new ActivityObjectiveViewNew();
+		activityObjectiveViewLibrary.setData(activityObjectiveLibrary);
+		activityObjectiveViewLibrary.getTxtAreaActivityObj().setSize("400px", "120px");
+		vpnlActicityObjectiveContainer.add(activityObjectiveViewLibrary);
+		activityObjectiveViewLibrary.getBtnSelectActivity().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				final ActivityObjectiveViewNew activityObjectiveSelected = new ActivityObjectiveViewNew();
+				activityObjectiveViewLibrary.getData(activityObjectiveSelected);
+				usersActivityContainer.add(activityObjectiveSelected);
+				activityObjectiveSelected.getTxtAreaActivityObj().addStyleName("w3-sand");
+				activityObjectiveViewLibrary.getTxtAreaActivityObj().addStyleName("w3-sand");
+				activityObjectiveViewLibrary.getBtnSelectActivity().setVisible(false);
+				hpnlButtons.setVisible(true);
+
+				activityObjectiveSelected.getDelete().addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						activityObjectiveSelected.removeFromParent();
+						activityObjectiveViewLibrary.getBtnSelectActivity().setVisible(true);
+						activityObjectiveSelected.getTxtAreaActivityObj().addStyleName("w3-sand");
+						if(usersActivityContainer.getWidgetCount()<1)
+							hpnlButtons.setVisible(false);
+					}
+				});
+
+			}
+		});
 	}
 
 	private void saveActivityObjective(final VerticalPanel usersActivityContainer, int status,
