@@ -30,6 +30,7 @@ import com.internalaudit.client.widgets.AddImage;
 import com.internalaudit.shared.ActivityObjective;
 import com.internalaudit.shared.AuditEngagement;
 import com.internalaudit.shared.AuditProgramme;
+import com.internalaudit.shared.AuditWork;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.JobCreation;
@@ -381,21 +382,15 @@ public class KickoffView extends Composite {
 		// 2018
 
 		// library
-		for (int i = 0; i < record.getEngagementDTO().getAuditProgrammeList().size(); i++) {
-			final AuditWorkProgramNew auditWorkProgramNew = new AuditWorkProgramNew();
-			auditWorkProgramNew.setPopupView();
-			vpnlPopup.add(auditWorkProgramNew);
-			vpnl.add(auditWorkNewContainer);
-			auditWorkProgramNew.setData(record.getEngagementDTO().getAuditProgrammeList().get(i));
-
-			auditWorkProgramNew.getBtnSelect().addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					auditWorkProg.addRow(auditWorkProgramNew);
-					auditWorkProgramNew.getBtnSelect().setVisible(false);
-				}
-			});
+		for (AuditProgramme auditParogramsLibrary : record.getEngagementDTO().getAuditProgrammeList()) {
+			boolean isAddInLibrary = true;
+			if(record.getEngagementDTO().getSelectedAuditWorkforPrograms().size()>1 || record.getEngagementDTO().getSelectedAuditWorkforPrograms() != null)
+			for(AuditWork selectedControls : record.getEngagementDTO().getSelectedAuditWorkforPrograms()) {
+			if(auditParogramsLibrary.getAuditProgrammeName().equals(selectedControls.getDescription()))
+				isAddInLibrary = false;
+			}
+			if(isAddInLibrary)
+				viewAuditParogramsLibrary(vpnl, vpnlPopup, auditWorkNewContainer, auditWorkProg, auditParogramsLibrary);
 		}
 
 		// addclickhandler of button risk
@@ -461,6 +456,24 @@ public class KickoffView extends Composite {
 		statusPanel.add(panel);
 	}
 
+	private void viewAuditParogramsLibrary(VerticalPanel vpnl, final VerticalPanel vpnlPopup,
+			final VerticalPanel auditWorkNewContainer, final AuditWorkProg auditWorkProg,
+			AuditProgramme auditParogramsLibrary) {
+		final AuditWorkProgramNew auditWorkProgramNew = new AuditWorkProgramNew();
+		auditWorkProgramNew.setPopupView();
+		vpnlPopup.add(auditWorkProgramNew);
+		vpnl.add(auditWorkNewContainer);
+		auditWorkProgramNew.setData(auditParogramsLibrary);
+		auditWorkProgramNew.getBtnSelect().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				auditWorkProg.addRow(auditWorkProgramNew);
+				auditWorkProgramNew.getBtnSelect().setVisible(false);
+			}
+		});
+	}
+
 	private void objectiveRiskControlMatrix(final AuditEngagement record, final AccordionLayoutContainer con,
 			AccordionLayoutAppearance appearance) {
 		ContentPanel cp;
@@ -491,37 +504,15 @@ public class KickoffView extends Composite {
 			riskView.showhideSaveSubmitButtons(false);
 
 		ArrayList<Integer> riskIds = new ArrayList<Integer>();
-		for (int i = 0; i < record.getEngagementDTO().getSuggestedControlsList().size(); i++) {
-			final RiskControlMatrixView riskControlMatrixView = new RiskControlMatrixView();
-			riskControlMatrixView.setPopupView();
-			vpExistingControlContainer.add(riskControlMatrixView);
-			final RiskObjective riskObjective = record.getEngagementDTO().getSuggestedControlsList().get(i).getRiskId();
-			boolean riskAdded = riskIds.contains(riskObjective.getRiskId());
-			riskIds.add(riskObjective.getRiskId());
-			riskControlMatrixView.setData(record.getEngagementDTO().getSuggestedControlsList().get(i), riskAdded);
-			riskControlMatrixView.setRiskObjective(riskObjective);
-
-			final DataStorage dataStorage = new DataStorage(); // We will use
-																// the same
-																// datastoage
-																// class and set
-																// the same
-																// count and
-																// value field
-																// for every
-																// other tabs
-																// too.
-			dataStorage.setCount(i);
-
-			riskControlMatrixView.getBtnSelect().addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					riskControlMatrixView.getBtnSelect().setVisible(false);
-					riskView.addRow(riskControlMatrixView, riskObjective);
-					riskView.showhideSaveSubmitButtons(true);
-				}
-			});
+		//check is added below by moqeet, selected objectivs not added again in library
+		for (SuggestedControls suggestedControlsLibrary : record.getEngagementDTO().getSuggestedControlsList()) {
+			boolean isAddInLibrary = true;
+			if(record.getEngagementDTO().getSelectedControls().size() > 0 || record.getEngagementDTO().getSelectedActivityObjectives() != null)
+			for(SuggestedControls objectiveControlsSelected : record.getEngagementDTO().getSelectedControls())
+			if(suggestedControlsLibrary.getSuggestedControlsName().equals(objectiveControlsSelected.getSuggestedControlsName()))
+				isAddInLibrary = false;
+			if(isAddInLibrary)
+				viewLibraryObjectiveRiskControlMatrix(vpExistingControlContainer, riskView, riskIds, suggestedControlsLibrary);
 		}
 
 		HorizontalPanel panelButtons = new HorizontalPanel();
@@ -595,6 +586,33 @@ public class KickoffView extends Composite {
 		 */
 	}
 
+	private void viewLibraryObjectiveRiskControlMatrix(final VerticalPanel vpExistingControlContainer,
+			final RisksView riskView, ArrayList<Integer> riskIds, SuggestedControls suggestedControlsLibrary) {
+		final RiskControlMatrixView riskControlMatrixView = new RiskControlMatrixView();
+		riskControlMatrixView.setPopupView();
+		vpExistingControlContainer.add(riskControlMatrixView);
+		final RiskObjective riskObjective = suggestedControlsLibrary.getRiskId();
+		boolean riskAdded = riskIds.contains(riskObjective.getRiskId());
+		riskIds.add(riskObjective.getRiskId());
+		riskControlMatrixView.setData(suggestedControlsLibrary, riskAdded);
+		riskControlMatrixView.setRiskObjective(riskObjective);
+
+		//final DataStorage dataStorage = new DataStorage(); 
+		//data storage commented by moqeet, no use of it.
+// We will use the same data storage class and set the same count and value field for every other tabs too.
+		//dataStorage.setCount(i);
+
+		riskControlMatrixView.getBtnSelect().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				riskControlMatrixView.getBtnSelect().setVisible(false);
+				riskView.addRow(riskControlMatrixView, riskObjective);
+				riskView.showhideSaveSubmitButtons(true);
+			}
+		});
+	}
+
 	private void keyRisksLayout(final AuditEngagement record, final AccordionLayoutContainer con,
 			AccordionLayoutAppearance appearance) {
 
@@ -631,7 +649,7 @@ public class KickoffView extends Composite {
 		HorizontalPanel hpnlTopAdd = new HorizontalPanel();
 		verticalPanelKeyRisks.add(hpnlTopAdd);
 
-		// User's LIBRARY
+		// User's LIBRARY Selected
 		for (int j = 0; j < record.getEngagementDTO().getSelectedObjectiveRisks().size(); j++) {
 			final KeyRiskViewNew keyRiskView = new KeyRiskViewNew();
 			keyRiskView.usersView();
@@ -673,52 +691,16 @@ public class KickoffView extends Composite {
 		if (record.getEngagementDTO().getSelectedObjectiveRisks().size() <= 0 || record.getEngagementDTO().getSelectedObjectiveRisks().get(0).getStatus() == InternalAuditConstants.SAVED) {
 			hpnlTopAdd.add(btnLibraryKeyRisk);
 
-			for (int i = 0; i < record.getEngagementDTO().getRiskObjectiveList().size(); i++) {
-				final KeyRiskViewNew keyRiskView = new KeyRiskViewNew();
-				keyRiskView.setPopupView();
-				verticalPanelKeyRisksContainer.add(keyRiskView);
-				final RiskObjective riskObjective = record.getEngagementDTO().getRiskObjectiveList().get(i);
-				keyRiskView.setData(riskObjective);
-
-				final DataStorage dataStorage = new DataStorage(); // We will
-																	// use the
-																	// same
-																	// datastoage
-																	// class and
-																	// set the
-																	// same
-																	// count and
-																	// value
-																	// field for
-																	// every
-																	// other
-																	// tabs too.
-				dataStorage.setCount(i);
-
-				keyRiskView.getBtnSelect().addClickHandler(new ClickHandler() {
-
-					@Override
-					public void onClick(ClickEvent event) {
-						hpnlButton.setVisible(true);
-						keyRiskView.getBtnSelect().setVisible(false);
-						final KeyRiskViewNew keyRiskSelectedView = new KeyRiskViewNew();
-						keyRiskSelectedView.usersView();
-						keyRiskView.getData(keyRiskSelectedView);
-						keyRiskSelectedView.addStyleName("w3-sand");
-						usersRisksContainer.add(keyRiskSelectedView);
-						keyRiskSelectedView.getDelete().addClickHandler(new ClickHandler() {
-
-							@Override
-							public void onClick(ClickEvent event) {
-								keyRiskSelectedView.removeFromParent();
-								keyRiskView.getBtnSelect().setVisible(true);
-								if(usersRisksContainer.getWidgetCount()<1)
-									hpnlButton.setVisible(false);
-							}
-						});
-
-					}
-				});
+			for (RiskObjective riskObjectivesLibrary : record.getEngagementDTO().getRiskObjectiveList()) {
+				boolean isAddInLibrary = true;
+				if(record.getEngagementDTO().getSelectedObjectiveRisks().size() > 0 || record.getEngagementDTO().getSelectedObjectiveRisks() != null)
+				for(RiskObjective riskObjectivesLibrarySelected : record.getEngagementDTO().getSelectedObjectiveRisks()) {
+				if(riskObjectivesLibrary.getRiskname().equals(riskObjectivesLibrarySelected.getRiskname()))
+					isAddInLibrary = false;
+				//this check is added by moqeet,already selected not added in library again.
+				}
+				if(isAddInLibrary)
+				viewLibraryKeyRisks(verticalPanelKeyRisksContainer, usersRisksContainer, hpnlButton, riskObjectivesLibrary);
 			}
 		}
 
@@ -754,7 +736,7 @@ public class KickoffView extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				if(record.getEngagementDTO().getRiskObjectiveList().size()<1)
+				if(verticalPanelKeyRisksContainer.getWidgetCount()<1)
 					new DisplayAlert("No Library added");
 				else {
 				final PopupsView popUp = new PopupsView(scrollKeyRisksContainer, "Key Risk Library");
@@ -816,6 +798,43 @@ public class KickoffView extends Composite {
 					riskObjectives.add(riskObjective);
 				}
 				saveRiskObjectives(riskObjectives, InternalAuditConstants.SUBMIT, con);
+
+			}
+		});
+	}
+
+	private void viewLibraryKeyRisks(final VerticalPanel verticalPanelKeyRisksContainer,
+			final VerticalPanel usersRisksContainer, final HorizontalPanel hpnlButton,
+			RiskObjective riskObjectivesLibrary) {
+		final KeyRiskViewNew keyRiskView = new KeyRiskViewNew();
+		keyRiskView.setPopupView();
+		verticalPanelKeyRisksContainer.add(keyRiskView);
+		final RiskObjective riskObjective = riskObjectivesLibrary;
+		keyRiskView.setData(riskObjective);
+		//final DataStorage dataStorage = new DataStorage(); //DataStorage, not using
+// We will use the same datastoage class and set the same count and value field for every other tabs too.
+		//dataStorage.setCount(i);
+		keyRiskView.getBtnSelect().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				hpnlButton.setVisible(true);
+				keyRiskView.getBtnSelect().setVisible(false);
+				final KeyRiskViewNew keyRiskSelectedView = new KeyRiskViewNew();
+				keyRiskSelectedView.usersView();
+				keyRiskView.getData(keyRiskSelectedView);
+				keyRiskSelectedView.addStyleName("w3-sand");
+				usersRisksContainer.add(keyRiskSelectedView);
+				keyRiskSelectedView.getDelete().addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						keyRiskSelectedView.removeFromParent();
+						keyRiskView.getBtnSelect().setVisible(true);
+						if(usersRisksContainer.getWidgetCount()<1)
+							hpnlButton.setVisible(false);
+					}
+				});
 
 			}
 		});

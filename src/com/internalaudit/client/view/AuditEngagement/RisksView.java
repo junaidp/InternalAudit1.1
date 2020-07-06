@@ -40,6 +40,8 @@ import com.internalaudit.shared.TimeOutException;
 import com.sencha.gxt.core.client.dom.ScrollSupport.ScrollMode;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
+import javafx.geometry.VPos;
+
 public class RisksView extends Composite {
 
 	private Logger logger = Logger.getLogger("RisksView");
@@ -112,7 +114,7 @@ public class RisksView extends Composite {
 		this.listRisks = listSavedRisks;
 		getRiskInfo(auditEngId, vpExistingControlContainer);
 
-		setHandlers(auditEngId, suggestedControlsList, rpcService, asyncCallback);
+		setHandlers(auditEngId, vpExistingControlContainer, suggestedControlsList, rpcService, asyncCallback);
 		approvalButtonsPanel.getElement().getStyle().setMarginTop(40, Unit.PX);
 		initiationButtonsPanel.getElement().getStyle().setMarginTop(10, Unit.PX);
 		approvalButtonsPanel.getElement().getStyle().setMarginLeft(1010, Unit.PX);
@@ -125,7 +127,7 @@ public class RisksView extends Composite {
 		// Unit.PX);
 	}
 
-	private void setHandlers(final int auditEngId, final int suggestedControlsList, final InternalAuditServiceAsync rpcService,
+	private void setHandlers(final int auditEngId, final VerticalPanel vpExistingControlContainer, final int suggestedControlsList, final InternalAuditServiceAsync rpcService,
 			final AsyncCallback<KickoffView> asyncCallback) {
 		initiationButtonsPanel.add(saveRisks);
 		initiationButtonsPanel.add(submit);
@@ -151,7 +153,7 @@ public class RisksView extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				if(suggestedControlsList <1)
+				if(vpExistingControlContainer.getWidgetCount()<1)
 					new DisplayAlert("No Library added");
 				else {
 				final PopupsView popUp = new PopupsView(scrollExistingControlContainer, "User Risk Library");

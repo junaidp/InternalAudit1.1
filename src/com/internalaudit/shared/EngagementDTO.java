@@ -12,8 +12,15 @@ public class EngagementDTO implements Serializable{
 	private ArrayList<ActivityObjective> selectedActivityObjectives = new  ArrayList<ActivityObjective>();
 	private ArrayList<RiskObjective> selectedObjectiveRisks = new ArrayList<RiskObjective>();
 	private ArrayList<SuggestedControls> selectedControls = new ArrayList<SuggestedControls>();
+	private ArrayList<AuditWork> selectedAuditWorkforPrograms = new ArrayList<AuditWork>();
 	private int statusControlRisk;
 	
+	public ArrayList<AuditWork> getSelectedAuditWorkforPrograms() {
+		return selectedAuditWorkforPrograms;
+	}
+	public void setSelectedAuditWorkforPrograms(ArrayList<AuditWork> selectedAuditWorkforPrograms) {
+		this.selectedAuditWorkforPrograms = selectedAuditWorkforPrograms;
+	}
 	public int getStatusControlRisk() {
 		return statusControlRisk;
 	}

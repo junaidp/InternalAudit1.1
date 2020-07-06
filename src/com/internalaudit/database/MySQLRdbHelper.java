@@ -3516,6 +3516,8 @@ public class MySQLRdbHelper {
 				// AcitivityObjectives of the selected job
 				// User's
 
+				//july 2020, setSelectedAuditWorkforPrograms set by Moqeet
+				engagementDTO.setSelectedAuditWorkforPrograms(fetchAuditWorkRows(jobCreationId, companyId, year));
 				engagementDTO.setSelectedActivityObjectives(
 						fetchActivityObjectivesForSelectedJob(jobCreationId, session, engagementDTO));
 				engagementDTO.setSelectedObjectiveRisks(
@@ -5689,6 +5691,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("jobCreationId", "jobCreation");
 			jobsStrategicAlias(crit);
 			crit.add(Restrictions.eq("jobCreation.jobCreationId", jocreationid));
+			//crit.add(Restrictions.eq("jobCreationId", jocreationid));//added by moqeet
 			crit.add(Restrictions.eq("companyId", companyId));
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.ne("status", InternalAuditConstants.DELETED));

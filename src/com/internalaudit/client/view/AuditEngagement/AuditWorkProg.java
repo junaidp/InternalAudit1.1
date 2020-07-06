@@ -107,7 +107,7 @@ public class AuditWorkProg extends Composite {
 		// fill listbox with appropriate employees
 		this.selectedJobId = selectedJobId;
 		getEmployeesForJob(rpcService, selectedJobId, auditWorkNewContainer);
-		setHandlers(rpcService, selectedJobId, sizeAuditProgramList, asyncCallback);
+		setHandlers(rpcService, selectedJobId, sizeAuditProgramList, vpnlPopup, asyncCallback);
 		this.loggedInEmployee = employee;
 		addMore.setVisible(false);
 		btnLibrary.setVisible(false);
@@ -122,7 +122,7 @@ public class AuditWorkProg extends Composite {
 	}
 
 	private void setHandlers(final InternalAuditServiceAsync rpcService, final int selectedJobId,
-			final int sizeAuditProgramList, final AsyncCallback<KickoffView> asyncCallback) {
+			final int sizeAuditProgramList, final VerticalPanel vpnlPopup, final AsyncCallback<KickoffView> asyncCallback) {
 		approvalButtonsPanel.getElement().getStyle().setMarginLeft(1020, Unit.PX);
 		initiationButtonsPanel.getElement().getStyle().setMarginTop(25, Unit.PX);
 		initiationButtonsPanel.getElement().getStyle().setMarginLeft(1020, Unit.PX);
@@ -139,7 +139,7 @@ public class AuditWorkProg extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				if(sizeAuditProgramList < 1)
+				if(vpnlPopup.getWidgetCount() < 1)
 					new DisplayAlert("No Library added");
 				else {
 				final PopupsView popUp = new PopupsView(scrollPopup, "Audit Work Program Library");
@@ -425,11 +425,10 @@ public class AuditWorkProg extends Composite {
 		for (int i = 0; i < rows.getWidgetCount(); ++i) {
 			AuditWorkRow row = ((AuditWorkRow) rows.getWidget(i));
 			AuditWork auditWork = new AuditWork();
-
 			auditWork.setDescription(row.getDescription().getText());
 			auditWork.setResponsibleControl(
 					Integer.parseInt(row.getLstControls().getValue(row.getLstControls().getSelectedIndex())));
-			auditWork.setStepNo(row.getStep().getText());
+			auditWork.setStepNo(row.getStep().getText());			
 			JobCreation jobCreation = new JobCreation();
 			jobCreation.setJobCreationId(selectedJobId);
 			auditWork.setJobCreationId(jobCreation);
@@ -591,7 +590,7 @@ public class AuditWorkProg extends Composite {
 							feedbackPanel.setVisible(true);
 							feedback.setText(auditWork.getFeedback());
 						}
-						//// end feedbacl
+						//// end feedback
 						row.getStep().setText(auditWork.getStepNo());
 						row.getDescription().setText(auditWork.getDescription());
 						row.getAuditWorkId().setText(String.valueOf(auditWork.getAuditWorkId()));
@@ -614,8 +613,8 @@ public class AuditWorkProg extends Composite {
 							if (Integer.parseInt(row.getListBoxExistingCtrl().getValue(i)) == auditWork
 									.getSuggestedControlsId().getSuggestedControlsId()) {
 								row.getListBoxExistingCtrl().setSelectedIndex(i);
-								row.getTxtBoxExistingControls()
-										.setText(auditWork.getSuggestedControlsId().getSuggestedControlsName());
+								row.getTxtBoxExistingControls().setText(auditWork.getStepNo());
+								//july 2020 set stepNo instead of ControlName
 								break;
 							}
 						}
