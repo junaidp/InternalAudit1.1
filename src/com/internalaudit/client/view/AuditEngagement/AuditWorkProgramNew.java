@@ -173,4 +173,12 @@ public class AuditWorkProgramNew extends VerticalPanel {
 	public void setBtnSelect(Button btnSelect) {
 		this.btnSelect = btnSelect;
 	}
+	
+	public SuggestedControls getControl() {
+		return control;
+	}
+
+	public void setControl(SuggestedControls control) {
+		this.control = control;
+	}
 }

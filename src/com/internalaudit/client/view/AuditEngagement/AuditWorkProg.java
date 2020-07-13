@@ -244,6 +244,8 @@ public class AuditWorkProg extends Composite {
 		//2020 jan hamza
 			//	heading.setVisible(true);
 		}
+		
+		
 		//save.setVisible(true);
 		final AuditWorkRow r = new AuditWorkRow();
 		for (int i = 0; i < listData.size(); ++i) {
@@ -258,6 +260,10 @@ public class AuditWorkProg extends Composite {
 			r.getTxtBoxExistingControls().setText(controls.get(0).getSuggestedControlsName());
 			r.getListBoxExistingCtrl().addItem(controls.get(j).getSuggestedReferenceNo(),
 					controls.get(j).getSuggestedControlsId() + "");
+//			for(int k=0; k<r.getListBoxExistingCtrl().getItemCount(); k++) {
+//				if(controls.get(j).getSuggestedReferenceNo() == controls.get(0).getSuggestedReferenceNo())
+//					r.getListBoxExistingCtrl().setSelectedIndex(k);
+//			}
 		}
 		r.getListBoxExistingCtrl().addChangeHandler(new ChangeHandler() {
 
@@ -311,8 +317,9 @@ public class AuditWorkProg extends Composite {
 			r.addStyleName("w3-sand");
 
 			for (int i = 0; i < r.getListBoxExistingCtrl().getItemCount(); i++) {
-				if (r.getListBoxExistingCtrl().getItemText(i)
-						.equals(auditWorkProgramNew.getLblReferenceData().getText())) {
+//				if (r.getListBoxExistingCtrl().getItemText(i).equals(auditWorkProgramNew.getLblReferenceData().getText())) {
+				//check updated by Moqeet to set listbox value accordingly, 13-7-20
+				if (r.getListBoxExistingCtrl().getItemText(i).equals(auditWorkProgramNew.getControl().getSuggestedReferenceNo())) {
 					r.getListBoxExistingCtrl().setSelectedIndex(i);
 					break;
 				}
@@ -597,8 +604,7 @@ public class AuditWorkProg extends Composite {
 						// Setting suggested control
 						row.getListBoxExistingCtrl().clear();
 						if(controls.size() == 0) {
-							row.getTxtBoxExistingControls()
-							.setText(auditWork.getSuggestedControlsId().getSuggestedControlsName());
+							row.getTxtBoxExistingControls().setText(auditWork.getSuggestedControlsId().getSuggestedControlsName());
 							row.getLblControls().setVisible(false);
 							row.getContainerExistingControls().setVisible(false);
 						}
@@ -613,7 +619,12 @@ public class AuditWorkProg extends Composite {
 							if (Integer.parseInt(row.getListBoxExistingCtrl().getValue(i)) == auditWork
 									.getSuggestedControlsId().getSuggestedControlsId()) {
 								row.getListBoxExistingCtrl().setSelectedIndex(i);
-								row.getTxtBoxExistingControls().setText(auditWork.getStepNo());
+								//existing control is set by stepNo,sets library selected 
+								//and stepNo sets manual add
+//								if(!auditWork.getStepNo().matches("^[0-9]*$"))
+//								row.getTxtBoxExistingControls().setText(auditWork.getStepNo());
+//								else
+								row.getTxtBoxExistingControls().setText(auditWork.getSuggestedControlsId().getSuggestedControlsName());
 								//july 2020 set stepNo instead of ControlName
 								break;
 							}

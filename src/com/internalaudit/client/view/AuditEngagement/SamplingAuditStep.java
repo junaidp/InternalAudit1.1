@@ -468,6 +468,22 @@ public class SamplingAuditStep extends VerticalPanel {
 	public void setLblSavedAuditReport(Anchor lblSavedAuditReport) {
 		this.lblSavedAuditReport = lblSavedAuditReport;
 	}
+	public SamplingFileUploader getSamplingFileUploader() {
+		return samplingFileUploader;
+	}
+
+	public void setSamplingFileUploader(SamplingFileUploader samplingFileUploader) {
+		this.samplingFileUploader = samplingFileUploader;
+	}
+
+	public Anchor getAnchorExcelTemplate() {
+		return anchorExcelTemplate;
+	}
+
+	public void setAnchorExcelTemplate(Anchor anchorExcelTemplate) {
+		this.anchorExcelTemplate = anchorExcelTemplate;
+	}
+
 	
 
 }

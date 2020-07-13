@@ -1779,8 +1779,9 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 
 	@Override
 	public ArrayList<SamplingExcelSheetEntity> generateSamplingOutput(String populationSize, String samplingSize,
-			String samplingMehod, ArrayList<SamplingExcelSheetEntity> listSamplingExcel) {
-		return rdbHelper.generateSamplingOutput(populationSize, samplingSize, samplingMehod, listSamplingExcel);
+			String samplingMehod, ArrayList<SamplingExcelSheetEntity> listSamplingExcel, Integer auditStepId) {
+		String rootDir = getServletContext().getRealPath("/");
+		return rdbHelper.generateSamplingOutput(populationSize, samplingSize, samplingMehod, listSamplingExcel,auditStepId,rootDir);
 	}
 
 	@Override

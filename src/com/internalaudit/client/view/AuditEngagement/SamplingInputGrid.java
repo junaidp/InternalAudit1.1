@@ -187,7 +187,7 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				generateSamplingOutpot(lblPopulationData, lblSamplingSizeData, listBoxSamplingMethod);
+				generateSamplingOutpot(lblPopulationData, lblSamplingSizeData, listBoxSamplingMethod,auditStepId,lblSavedAuditReport,anchorExcelTemplate);
 			}
 
 			
@@ -242,9 +242,9 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 	}
 	
 	private void generateSamplingOutpot(final TextBox lblPopulationData, final TextBox lblSamplingSizeData,
-			final ListBox listBoxSamplingMethod) {
+			final ListBox listBoxSamplingMethod,final Integer auditStepId,final Anchor lblSavedAuditReport,final Anchor anchorExcelTemplate) {
 		rpcService.generateSamplingOutput(lblPopulationData.getText(), lblSamplingSizeData.getText(),
-				listBoxSamplingMethod.getSelectedItemText(), listSamplingSheet,
+				listBoxSamplingMethod.getSelectedItemText(), listSamplingSheet, auditStepId,
 				new AsyncCallback<ArrayList<SamplingExcelSheetEntity>>() {
 
 					@Override
@@ -256,6 +256,7 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 						btnSubmit.setVisible(false);
 						btnExportExcel.setVisible(true);
 						btnExportPDF.setVisible(true);
+						fetchSavedSamplingPDF(auditStepId,lblSavedAuditReport,anchorExcelTemplate);
 							
 					}
 

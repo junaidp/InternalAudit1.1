@@ -46,12 +46,16 @@ public class DashboardAuditWorkStatus extends VerticalLayoutContainer {
 		String listBoxResource = dashboardlistBox.getListBoxResource().getSelectedValue();
 		String listBoxDivision = dashboardlistBox.getListBoxDivision().getSelectedValue();
 		String listBoxRisk = dashboardlistBox.getListBoxRiskLevel().getSelectedValue();
+		String listBoxDepartment = dashboardlistBox.getListBoxDepartment().getSelectedValue();
 
+		
+		
 		hm.put("Process", listBoxProcess);
 		hm.put("Domain", listBoxDomain);
 		hm.put("Audit", listBoxAudit);
 		hm.put("Unit", listBoxUnit);
 		hm.put("Resource", listBoxResource);
+		hm.put("Department", listBoxDepartment);
 		hm.put("Division", listBoxDivision);
 		hm.put("Risk", listBoxRisk);
 

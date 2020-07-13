@@ -340,7 +340,7 @@ public interface InternalAuditService extends RemoteService {
 	ArrayList<InformationRequestEntity> fetchAssignedToIRReLoad();
 
 	ArrayList<SamplingExcelSheetEntity> generateSamplingOutput(String populationSize, String samplingSize,
-			String samplingMehod, ArrayList<SamplingExcelSheetEntity> listSamplingSheet);
+			String samplingMehod, ArrayList<SamplingExcelSheetEntity> list, Integer auditStepId);
 
 	String exportSamplingAuditStep(String samplingMehod, String reportFormat, ArrayList<SamplingExcelSheetEntity> list,
 			Integer auditStepId) throws Exception;

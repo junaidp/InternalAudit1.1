@@ -3674,6 +3674,7 @@ public class MySQLRdbHelper {
 		crit.createAlias("strategic.jobType", "jobTypeId");
 		crit.createAlias("strategic.relevantDepartment", "dept");
 		crit.createAlias("strategic.riskFactor", "riskFact");
+	//	crit.createAlias("strategic.divisionID", "divisionID");
 
 		crit.createAlias("strategic.initiatedBy", "sinitiated");
 		crit.createAlias("strategic.assignedTo", "sassigned");
@@ -9253,12 +9254,21 @@ public class MySQLRdbHelper {
 					crit.add(Restrictions.eq("strategic.auditableUnit", hm.get("Unit")));
 				}
 				if (!hm.get("Division").equals("0") && !hm.get("Division").equalsIgnoreCase("All")) {
-					crit.add(Restrictions.eq("dept.departmentName", hm.get("Division")));// TODO
+					crit.add(Restrictions.eq("strategic.divisionID", Integer.parseInt(hm.get("Division"))));// TODO
 					// should
 					// be
 					// depId
 
 				}
+				
+				if (!hm.get("Department").equals("0") && !hm.get("Department").equalsIgnoreCase("All")) {
+					crit.add(Restrictions.eq("dept.departmentName", hm.get("Department")));// TODO
+					// should
+					// be
+					// depId
+
+				}
+				
 				if (!hm.get("Resource").equals("0")) {
 					crit.add(Restrictions.eq("resPerson.employeeId", Integer.parseInt(hm.get("Resource"))));
 				}
@@ -10502,7 +10512,7 @@ public class MySQLRdbHelper {
 	// }
 	// }
 	public ArrayList<SamplingExcelSheetEntity> generateSamplingOutput(String populationSize, String samplingSize,
-			String samplingMehod, ArrayList<SamplingExcelSheetEntity> listSamplingExcel) {
+			String samplingMehod, ArrayList<SamplingExcelSheetEntity> listSamplingExcel, int auditStepId, String rootDir) {
 		Session session = null;
 		ArrayList<SamplingExcelSheetEntity> selectedEntries = null;
 		Integer popSize = 25;
@@ -10528,6 +10538,13 @@ public class MySQLRdbHelper {
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in generateSamplingOutput", ex.getMessage()), ex);
 
+		}
+		try {
+			reportSamplingAuditPDF(selectedEntries, rootDir,auditStepId);
+			
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return selectedEntries;
 	}

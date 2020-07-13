@@ -348,7 +348,7 @@ public interface InternalAuditServiceAsync {
 	void fetchAssignedToIRReLoad(AsyncCallback<ArrayList<InformationRequestEntity>> asyncCallback);
 
 	void generateSamplingOutput(String populationSize, String samplingSize, String samplingMehod,
-			ArrayList<SamplingExcelSheetEntity> list, AsyncCallback<ArrayList<SamplingExcelSheetEntity>> callback);
+			ArrayList<SamplingExcelSheetEntity> list, Integer auditStepId, AsyncCallback<ArrayList<SamplingExcelSheetEntity>> callback);
 
 
 	void exportSamplingAuditStep(String samplingMehod, String reportFormat, ArrayList<SamplingExcelSheetEntity> list,

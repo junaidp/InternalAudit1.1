@@ -51,6 +51,8 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 		String listBoxResource = dashboardlistBox.getListBoxResource().getSelectedValue();
 		String listBoxDivision = dashboardlistBox.getListBoxDivision().getSelectedValue();
 		String listBoxRisk = dashboardlistBox.getListBoxRiskLevel().getSelectedValue();
+		String listBoxDepartment = dashboardlistBox.getListBoxDepartment().getSelectedValue();
+
 
 		hm.put("Process", listBoxProcess);
 		hm.put("Domain", listBoxDomain);
@@ -58,6 +60,7 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 		hm.put("Unit", listBoxUnit);
 		hm.put("Resource", listBoxResource);
 		hm.put("Division", listBoxDivision);
+		hm.put("Department", listBoxDepartment);
 		hm.put("Risk", listBoxRisk);
 
 		InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);

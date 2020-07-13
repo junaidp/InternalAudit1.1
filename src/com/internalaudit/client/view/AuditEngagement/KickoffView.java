@@ -559,6 +559,11 @@ public class KickoffView extends Composite {
 				&& record.getEngagementDTO().getSelectedObjectiveRisks().isEmpty()) {
 			vpExistingControlContainer.clear();
 		}
+		
+		if(record.getEngagementDTO().getSelectedAuditWorkforPrograms().get(0).getStatus() == InternalAuditConstants.SUBMIT){
+			vpExistingControl.setVisible(false);
+			}
+
 
 		// cp.add(panelAdd);
 		cp.add(vpExistingControl);
@@ -648,7 +653,7 @@ public class KickoffView extends Composite {
 
 		HorizontalPanel hpnlTopAdd = new HorizontalPanel();
 		verticalPanelKeyRisks.add(hpnlTopAdd);
-
+		
 		// User's LIBRARY Selected
 		for (int j = 0; j < record.getEngagementDTO().getSelectedObjectiveRisks().size(); j++) {
 			final KeyRiskViewNew keyRiskView = new KeyRiskViewNew();
@@ -662,6 +667,7 @@ public class KickoffView extends Composite {
 				hpnlButton.setVisible(false);
 				btnAdd.setVisible(false);
 			}
+			
 			keyRiskView.getDelete().addClickHandler(new ClickHandler() {
 
 				@Override
@@ -765,6 +771,11 @@ public class KickoffView extends Composite {
 				&& record.getEngagementDTO().getSelectedObjectiveRisks().isEmpty()) {
 			verticalPanelKeyRisksContainer.clear();//////// here
 		}
+		
+		if(record.getEngagementDTO().getSelectedAuditWorkforPrograms().get(0).getStatus() == InternalAuditConstants.SUBMIT){
+			hpnlButton.setVisible(false);
+			hpnlTopAdd.setVisible(false);
+			}
 
 		scrollMainKeyRisks.add(verticalPanelKeyRisks);
 		cp.add(scrollMainKeyRisks);
@@ -1028,6 +1039,8 @@ public class KickoffView extends Composite {
 
 		// hpnlButtons.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		vpnlActicityObjective.add(hpnlButtons);
+		if(record.getEngagementDTO().getSelectedAuditWorkforPrograms().get(0).getStatus() == InternalAuditConstants.SUBMIT)
+			vpnlActicityObjective.setVisible(false);
 		VerticalLayoutContainer scrollMain = new VerticalLayoutContainer();
 		scrollMain.setHeight("400px");
 		scrollMain.setScrollMode(ScrollMode.AUTOY);
