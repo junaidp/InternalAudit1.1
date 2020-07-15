@@ -192,7 +192,7 @@ public class ReportingPresenter implements Presenter
 									responsiblePersonRowView.getStatus().addStyleName("blue");
 									responsiblePersonRowView.getVpnlApprovalButton().setVisible(false);
 									showManagementPanel(result, i, responsiblePersonRowView);
-									showImplementationPanel(result, i, responsiblePersonRowView);
+									//showImplementationPanel(result, i, responsiblePersonRowView);
 								}
 								responsiblePersonView.getVpnlData().add(responsiblePersonRowView);
 								final JobData jobData = new JobData();
@@ -296,8 +296,9 @@ public class ReportingPresenter implements Presenter
 						responsiblePersonRowView.getImplementaionDate().setValue(result.get(i).getImplementaionDate());
 						responsiblePersonRowView.getIsAgreed().setSelectedIndex(result.get(i).getIsAgreed());
 
-						responsiblePersonRowView.getTxtComments().setText(result.get(i).getComments());
-						responsiblePersonRowView.getTxtComments().setTitle(result.get(i).getComments());
+//						responsiblePersonRowView.getTxtComments().setText(result.get(i).getComments());
+//						responsiblePersonRowView.getTxtComments().setTitle(result.get(i).getComments());
+						responsiblePersonRowView.getTxtComments().getElement().setPropertyString("placeholder", result.get(i).getComments());
 						responsiblePersonRowView.getImplication().setText(result.get(i).getImplication());
 						responsiblePersonRowView.getResponsiblePerson()
 								.addItem(result.get(i).getResponsiblePerson().getEmployeeName());
@@ -420,12 +421,13 @@ public class ReportingPresenter implements Presenter
 
 									responsiblePersonRowView.getImplementaionDate()
 											.setValue(result.get(i).getImplementaionDate());
+									responsiblePersonRowView.anchorFeedbackHandler(result.get(i).getComments());
 									// responsiblePersonRowView.getStatus().setText(result.get(i).getStatus()+"
 									// ( "+ result.get(i).getComments()+ " ) ");
-									responsiblePersonRowView.getStatus().setText(result.get(i).getStatus());
-									if (result.get(i).getStatus().equalsIgnoreCase("rejected")) {
-										responsiblePersonRowView.getStatus().setText("feedback given");
-									}
+//									responsiblePersonRowView.getStatus().setText(result.get(i).getStatus());
+//									if (result.get(i).getStatus().equalsIgnoreCase("rejected")) {
+//										responsiblePersonRowView.getStatus().setText("feedback given");
+//									}
 
 									responsiblePersonRowView.getStatus().setTitle(result.get(i).getComments());
 
@@ -505,11 +507,13 @@ public class ReportingPresenter implements Presenter
 											responsiblePersonRowView.getIsImplemented().setEnabled(true);
 											responsiblePersonRowView.getBtnSend().setText("Send");
 											responsiblePersonRowView.getBtnSend().setEnabled(true);
+											responsiblePersonRowView.anchorFeedbackHandler(result.get(i).getComments());
+
 											// responsiblePersonRowView.getStatus().setText(result.get(i).getFinalStatus()+"
 											// ( "+ result.get(i).getComments()+
 											// " ) ");
-											responsiblePersonRowView.getStatus().setText("feedback given");
-											responsiblePersonRowView.getStatus().setTitle(result.get(i).getComments());
+//											responsiblePersonRowView.getStatus().setText("feedback given");
+//											responsiblePersonRowView.getStatus().setTitle(result.get(i).getComments());
 
 										}
 

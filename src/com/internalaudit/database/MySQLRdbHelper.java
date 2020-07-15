@@ -4647,10 +4647,12 @@ public class MySQLRdbHelper {
 					crit.add(Restrictions.eq("strategic.auditableUnit", hm.get("Unit")));
 				}
 				if (!hm.get("Division").equals("0") && !hm.get("Division").equalsIgnoreCase("All")) {
-					crit.add(Restrictions.eq("dept.departmentName", hm.get("Division")));// TODO
-					// should
-					// be
-					// depId
+					crit.add(Restrictions.eq("strategic.divisionID", Integer.parseInt(hm.get("Division"))));// TODO
+
+				}
+				
+				if (!hm.get("Department").equals("0") && !hm.get("Department").equalsIgnoreCase("All")) {
+					crit.add(Restrictions.eq("dept.departmentName", hm.get("Department")));// TODO
 
 				}
 				if (!hm.get("Resource").equals("0")) {
@@ -4756,7 +4758,7 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(InformationRequestEntity.class);
 
-			crit.add(Restrictions.eq("companyId", companyId));
+			//crit.add(Restrictions.eq("companyId", companyId));
 
 			crit.createAlias("assignedFrom", "from");
 			crit.createAlias("contactResponsible", "To");
@@ -8778,15 +8780,18 @@ public class MySQLRdbHelper {
 					crit.add(Restrictions.eq("strategic.auditableUnit", hm.get("Unit")));
 				}
 				if (!hm.get("Division").equals("0") && !hm.get("Division").equalsIgnoreCase("All")) {
-					crit.add(Restrictions.eq("dept.departmentName", hm.get("Division")));// TODO
-					// should
-					// be
-					// depId
+					crit.add(Restrictions.eq("strategic.divisionID", Integer.parseInt(hm.get("Division"))));// TODO
+
+				}
+				
+				if (!hm.get("Department").equals("0") && !hm.get("Department").equalsIgnoreCase("All")) {
+					crit.add(Restrictions.eq("dept.departmentName", hm.get("Department")));// TODO
 
 				}
 				if (!hm.get("Resource").equals("0")) {
 					crit.add(Restrictions.eq("resPerson.employeeId", Integer.parseInt(hm.get("Resource"))));
 				}
+				
 				if (!hm.get("Risk").equals("0") && !hm.get("Risk").equalsIgnoreCase("All")) {
 					crit.add(Restrictions.eq("jobCreation.riskRating", hm.get("Risk")));
 				}
@@ -8866,10 +8871,12 @@ public class MySQLRdbHelper {
 					crit.add(Restrictions.eq("strategic.auditableUnit", hm.get("Unit")));
 				}
 				if (!hm.get("Division").equals("0") && !hm.get("Division").equalsIgnoreCase("All")) {
-					crit.add(Restrictions.eq("dept.departmentName", hm.get("Division")));// TODO
-					// should
-					// be
-					// depId
+					crit.add(Restrictions.eq("strategic.divisionID", Integer.parseInt(hm.get("Division"))));// TODO
+
+				}
+				
+				if (!hm.get("Department").equals("0") && !hm.get("Department").equalsIgnoreCase("All")) {
+					crit.add(Restrictions.eq("dept.departmentName", hm.get("Department")));// TODO
 
 				}
 				if (!hm.get("Resource").equals("0")) {
@@ -9180,12 +9187,15 @@ public class MySQLRdbHelper {
 					crit.add(Restrictions.eq("strategic.auditableUnit", hm.get("Unit")));
 				}
 				if (!hm.get("Division").equals("0") && !hm.get("Division").equalsIgnoreCase("All")) {
-					crit.add(Restrictions.eq("dept.departmentName", hm.get("Division")));// TODO
-					// should
-					// be
-					// depId
+					crit.add(Restrictions.eq("strategic.divisionID", Integer.parseInt(hm.get("Division"))));// TODO
 
 				}
+				
+				if (!hm.get("Department").equals("0") && !hm.get("Department").equalsIgnoreCase("All")) {
+					crit.add(Restrictions.eq("dept.departmentName", hm.get("Department")));// TODO
+
+				}
+				
 				if (!hm.get("Resource").equals("0")) {
 					crit.add(Restrictions.eq("sassigned.employeeId", Integer.parseInt(hm.get("Resource"))));
 				}
@@ -9255,17 +9265,11 @@ public class MySQLRdbHelper {
 				}
 				if (!hm.get("Division").equals("0") && !hm.get("Division").equalsIgnoreCase("All")) {
 					crit.add(Restrictions.eq("strategic.divisionID", Integer.parseInt(hm.get("Division"))));// TODO
-					// should
-					// be
-					// depId
 
 				}
 				
 				if (!hm.get("Department").equals("0") && !hm.get("Department").equalsIgnoreCase("All")) {
 					crit.add(Restrictions.eq("dept.departmentName", hm.get("Department")));// TODO
-					// should
-					// be
-					// depId
 
 				}
 				

@@ -1,9 +1,13 @@
 package com.internalaudit.client.view.Reporting;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -12,6 +16,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DateBox.DefaultFormat;
+import com.internalaudit.client.view.PopupViewGXT;
 
 public class ResponsiblePersonRowView extends VerticalPanel {
 
@@ -28,6 +33,7 @@ public class ResponsiblePersonRowView extends VerticalPanel {
 	private DateBox implementaionDate = new DateBox();
 	private Button btnSend = new Button("Send");
 	private Label status = new Label("");
+	private Anchor anchorFeedback = new Anchor("Feedback");
 	private Button btnApprove = new Button("Approve");
 	private Button btnReject = new Button("Feedback");
 	private VerticalPanel vpnlApprovalButton = new VerticalPanel();
@@ -79,7 +85,10 @@ public class ResponsiblePersonRowView extends VerticalPanel {
 		implementaionDate.getElement().setPropertyString("placeholder", "yyyy-mm-dd");
 		hpnl1.add(implementaionDate);
 		hpnl1.add(isAgreed);
-		hpnl1.add(btnSend);
+		VerticalPanel vpnlBtnAnchor = new VerticalPanel();
+		vpnlBtnAnchor.add(btnSend);
+		vpnlBtnAnchor.add(anchorFeedback);
+		hpnl1.add(vpnlBtnAnchor);
 		hpnl1.add(vpnlApprovalButton);
 		isAgreed.setWidth("30px");
 		hpnl1.add(status);
@@ -128,8 +137,10 @@ public class ResponsiblePersonRowView extends VerticalPanel {
 		managementComments.getElement().getStyle().setPaddingLeft(5, Unit.PX);
 		implication.setWidth("145px");
 		implication.getElement().getStyle().setPaddingLeft(5, Unit.PX);
-		status.setWidth("120px");
+		status.setWidth("142px");
 		status.setWordWrap(false);
+		anchorFeedback.setVisible(false);
+		anchorFeedback.getElement().getStyle().setPaddingLeft(13, Unit.PX);
 		// isAgreed.setWidth("100px");
 		// for(int i=0; i< getWidgetCount()-3; i++){
 		// getWidget(i).setWidth("300px");
@@ -157,6 +168,18 @@ public class ResponsiblePersonRowView extends VerticalPanel {
 		managementComments.addStyleName("noresize");
 		implication.addStyleName("noresize");
 		implementaionComments.addStyleName("noresize");
+	}
+	
+	public void anchorFeedbackHandler(final String feedback) {
+		anchorFeedback.setVisible(true);
+		anchorFeedback.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent arg0) {
+				// TODO Auto-generated method stub
+				PopupViewGXT feedbackpopup = new PopupViewGXT(new HTML(feedback), "Feedback");	
+			}
+		});
 	}
 
 	public TextBox getAuditJob() {
@@ -310,5 +333,14 @@ public class ResponsiblePersonRowView extends VerticalPanel {
 
 	public void setResponsiblePerson(ListBox responsiblePerson) {
 		this.responsiblePerson = responsiblePerson;
+	}
+	
+
+	public Anchor getAnchorFeedback() {
+		return anchorFeedback;
+	}
+
+	public void setAnchorFeedback(Anchor anchorFeedback) {
+		this.anchorFeedback = anchorFeedback;
 	}
 }

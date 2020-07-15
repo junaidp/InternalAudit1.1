@@ -19,14 +19,17 @@ public class DashboardAuditWorkStatus extends VerticalLayoutContainer {
 
 	private DashboardListBoxes dashboardlistBox;
 
-	public DashboardAuditWorkStatus(DashboardListBoxes dashboardlistBox) {
-		this.dashboardlistBox = dashboardlistBox;
+	public DashboardAuditWorkStatus() {
+		
+		DashboardListBoxes dashboardlistBox1 = new DashboardListBoxes();
+		this.dashboardlistBox = dashboardlistBox1;
 		loadData();
 
 		dashboardlistBox.getBtnSearch().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				Window.alert("inside dashboard auditwork");
 				loadData();
 
 			}

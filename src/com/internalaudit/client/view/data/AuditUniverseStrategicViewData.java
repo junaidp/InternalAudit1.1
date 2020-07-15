@@ -38,6 +38,7 @@ import com.internalaudit.shared.Strategic;
 import com.internalaudit.shared.StrategicDepartments;
 import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.TimeOutException;
+import com.sencha.gxt.core.client.util.DelayedTask;
 
 public class AuditUniverseStrategicViewData {
 
@@ -52,7 +53,7 @@ public class AuditUniverseStrategicViewData {
 	public void setData(final AuditUniverseStrategicView auditUniverseStrategicView) {
 		// this.auditUniverseStrategicView = auditUniverseStrategicView;
 		fetchObjectiveOwners();
-		fetchDepartments();
+		fetchDivisions();
 		// setHandlers();
 	}
 
@@ -165,7 +166,7 @@ public class AuditUniverseStrategicViewData {
 		Department department = new Department();
 		// department.setDepartmentId(Integer.parseInt(strategicView.getRelevantDepartment().getValue(strategicView.getRelevantDepartment().getSelectedIndex())));
 		//////
-		setDepartments(strategicView.getRelevantDepartment(), strategic);
+		setDepartments(strategicView.getListRelevantDepartment(), strategic);
 		strategic.setRelevantDepartment(department);
 		strategic.setStrategicObjective(strategicView.getStrategicObjective().getText());
 		//added by Moqeet
@@ -310,11 +311,11 @@ public class AuditUniverseStrategicViewData {
 				}
 				//if/else added to fetch departments on divisionID basis when !=0
 				if(auditUniverseStrategicView.getListBoxDivision().getSelectedValue() == "0")
-					auditUniverseStrategicView.getRelevantDepartment().addItem("--Select Department--");
+					auditUniverseStrategicView.getListRelevantDepartment().addItem("--Select Department--");
 				else
 					fetchDepartmentsDivision(Integer.parseInt(auditUniverseStrategicView.getListBoxDivision()
 									.getValue(auditUniverseStrategicView.getListBoxDivision().getSelectedIndex())),
-							auditUniverseStrategicView.getRelevantDepartment());
+							auditUniverseStrategicView.getListRelevantDepartment());
 			}
 		});
 		
@@ -325,7 +326,7 @@ public class AuditUniverseStrategicViewData {
 				fetchDepartmentsDivision(
 						Integer.parseInt(auditUniverseStrategicView.getListBoxDivision()
 								.getValue(auditUniverseStrategicView.getListBoxDivision().getSelectedIndex())),
-						auditUniverseStrategicView.getRelevantDepartment());
+						auditUniverseStrategicView.getListRelevantDepartment());
 			}
 		});
 	}
@@ -367,7 +368,7 @@ public class AuditUniverseStrategicViewData {
 		});
 	}
 
-	public void fetchDepartments() {
+	public void fetchDivisions() {
 //Division added by Moqeet
 		rpcService.fetchDivision(new AsyncCallback<ArrayList<Division>>() {
 
@@ -486,7 +487,7 @@ public class AuditUniverseStrategicViewData {
 		});
 	}
 
-	public void fetchDepartmentsDivision(int divisionID, final ListBox listBoxDepartments) {
+	public void fetchDepartmentsDivision(final int divisionID, final ListBox listBoxDepartments) {
 
 		rpcService.fetchDivisionDepartments(divisionID, new AsyncCallback<ArrayList<Department>>() {
 
@@ -498,12 +499,13 @@ public class AuditUniverseStrategicViewData {
 
 			@Override
 			public void onSuccess(ArrayList<Department> departments) {
+				listDepartments = departments;
 				if (listBoxDepartments != null) {
 					listBoxDepartments.clear();
 				for(Department dept : departments) {
 					listBoxDepartments.addItem(dept.getDepartmentName(), dept.getDepartmentId() + "");
 				}
-				listDepartments = departments;
+				//Window.alert(divisionID+"|"+departments.size()+"|"+listBoxDepartments.getItemCount());
 			}
 		}
 		});
@@ -514,7 +516,7 @@ public class AuditUniverseStrategicViewData {
 		auditUniverseStrategicView.getHpnlButtonsApprovar().setVisible(false);
 		auditUniverseStrategicView.getHpnlButtonInitiator().setVisible(false);
 		auditUniverseStrategicView.getLstObjectiveOwner().setEnabled(false);
-		auditUniverseStrategicView.getRelevantDepartment().setEnabled(false);
+		auditUniverseStrategicView.getListRelevantDepartment().setEnabled(false);
 		auditUniverseStrategicView.getListBoxDivision().setEnabled(false);
 		auditUniverseStrategicView.getObjectiveAchievementDate().setEnabled(false);
 		auditUniverseStrategicView.getStrategicObjective().setEnabled(false);
@@ -526,7 +528,7 @@ public class AuditUniverseStrategicViewData {
 
 	public void enablePanel(AuditUniverseStrategicView auditUniverseStrategicView) {
 		auditUniverseStrategicView.getLstObjectiveOwner().setEnabled(true);
-		auditUniverseStrategicView.getRelevantDepartment().setEnabled(true);
+		auditUniverseStrategicView.getListRelevantDepartment().setEnabled(true);
 		auditUniverseStrategicView.getListBoxDivision().setEnabled(true);
 		auditUniverseStrategicView.getObjectiveAchievementDate().setEnabled(true);
 		auditUniverseStrategicView.getStrategicObjective().setEnabled(true);
@@ -552,7 +554,7 @@ public class AuditUniverseStrategicViewData {
 	}
 
 	private void updateFields(final ArrayList<Strategic> result, int i,
-			AuditUniverseStrategicView auditUniverseStrategicView) {
+			final AuditUniverseStrategicView auditUniverseStrategicView) {
 
 		final Strategic data = result.get(i);
 		auditUniverseStrategicView.setStrategicId(result.get(i).getId());
@@ -579,13 +581,13 @@ public class AuditUniverseStrategicViewData {
 		auditUniverseStrategicView.getStrategicObjective().setTitle(result.get(i).getStrategicObjective());
 
 		if (result.get(i).getStatus().equals("submitted") || result.get(i).getPhase() > 1) {
-			auditUniverseStrategicView.getRelevantDepartment().setEnabled(false);
+			auditUniverseStrategicView.getListRelevantDepartment().setEnabled(false);
 			//list box changed to disable instead of addStyleName("invisibleListBox");
 			for (int k = 0; k < result.get(i).getStrategicDepartments().size(); k++) {
-				auditUniverseStrategicView.getRelevantDepartment().addItem(
+				//Window.alert(auditUniverseStrategicView.getStrategicObjective().getText());
+				auditUniverseStrategicView.getListRelevantDepartment().addItem(
 						result.get(i).getStrategicDepartments().get(k).getDepartment().getDepartmentName(),
 						result.get(i).getStrategicDepartments().get(k).getDepartment().getDepartmentId() + "");
-
 			}
 			//added by Moqeet
 			auditUniverseStrategicView.getListBoxDivision().setEnabled(false);
@@ -594,15 +596,15 @@ public class AuditUniverseStrategicViewData {
 			//added by Moqeet
 			for(Division div:divisions) {
 				auditUniverseStrategicView.getListBoxDivision().addItem(div.getDivisionName(), div.getDivisionID()+"");
+				fetchDepartmentsDivision(div.getDivisionID(), auditUniverseStrategicView.getListRelevantDepartment());
 			}
 			
 			for (int j = 0; j < listDepartments.size(); j++) {
-				auditUniverseStrategicView.getRelevantDepartment().addItem(listDepartments.get(j).getDepartmentName(),
+				auditUniverseStrategicView.getListRelevantDepartment().addItem(listDepartments.get(j).getDepartmentName(),
 						listDepartments.get(j).getDepartmentId() + "");
 			}
 		}
-		
-	
+			
 		for (int j = 0; j < objectiveOwners.size(); j++) {
 			auditUniverseStrategicView.getLstObjectiveOwner().addItem(objectiveOwners.get(j).getEmployeeName(),
 					objectiveOwners.get(j).getEmployeeId() + "");
@@ -617,24 +619,29 @@ public class AuditUniverseStrategicViewData {
 		for (int k = 0; k < auditUniverseStrategicView.getListBoxDivision().getItemCount(); k++) {
 			if (auditUniverseStrategicView.getListBoxDivision().getValue(k).equals(data.getDivisionID()+""))
 			{
-			auditUniverseStrategicView.getListBoxDivision().setItemSelected(k, true);			
-			break;
+				auditUniverseStrategicView.getListBoxDivision().setItemSelected(k, true);	
+					break;
 			}
-			fetchDepartmentsDivision(data.getDivisionID(), auditUniverseStrategicView.getRelevantDepartment());
+			
+			fetchDepartmentsDivision(data.getDivisionID(), auditUniverseStrategicView.getListRelevantDepartment());	
 		}
 		// LISTBOX OF DEPARTMENTS
-		for (int j = 0; j < auditUniverseStrategicView.getRelevantDepartment().getItemCount(); j++) {
+		int loopSize = (result.get(i).getStatus().equals("saved"))? listDepartments.size(): auditUniverseStrategicView.getListRelevantDepartment().getItemCount();
+		for (int j = 0; j < loopSize; j++) {
 			for (int k = 0; k < result.get(i).getStrategicDepartments().size(); k++) {
-				if (auditUniverseStrategicView.getRelevantDepartment().getValue(j).equals(
+//				Window.alert(auditUniverseStrategicView.getListRelevantDepartment().getValue(j));
+				if (auditUniverseStrategicView.getListRelevantDepartment().getValue(j).equals(
 						result.get(i).getStrategicDepartments().get(k).getDepartment().getDepartmentId() + "")) {
-					auditUniverseStrategicView.getRelevantDepartment().setItemSelected(j, true);
+					auditUniverseStrategicView.getListRelevantDepartment().setItemSelected(j, true);
 					break;
 				}
 			}
 		}
-		if (auditUniverseStrategicView.getRelevantDepartment().getSelectedIndex() == -1) {
-			auditUniverseStrategicView.getRelevantDepartment().setSelectedIndex(0);
+		if (auditUniverseStrategicView.getListRelevantDepartment().getSelectedIndex() == -1) {
+			auditUniverseStrategicView.getListRelevantDepartment().setSelectedIndex(0);
 		}
+		
+		
 	}
 
 	private void setHandlers(final VerticalPanel vpnlStrategic, final HorizontalPanel hpnlButtonInitiator,
@@ -723,29 +730,29 @@ public class AuditUniverseStrategicViewData {
 				fetchDepartmentsDivision(
 						Integer.parseInt(auditUniverseStrategicView.getListBoxDivision()
 								.getValue(auditUniverseStrategicView.getListBoxDivision().getSelectedIndex())),
-						auditUniverseStrategicView.getRelevantDepartment());
+						auditUniverseStrategicView.getListRelevantDepartment());
 			}
 		});
 	}
-
-	public void setNewRecordData(AuditUniverseStrategicView auditUniverseStrategicView) {
-
-		for (int i = 0; i < listDepartments.size(); i++) {
-			auditUniverseStrategicView.getRelevantDepartment().addItem(listDepartments.get(i).getDepartmentName(),
-					listDepartments.get(i).getDepartmentId() + "");
-		}
-		
-		//added by Moqeet
-		
-		for (Division div:divisions) {
-			auditUniverseStrategicView.getListBoxDivision().addItem(div.getDivisionName(), div.getDivisionID() + "");
-		}
-
-		for (int i = 0; i < objectiveOwners.size(); i++) {
-			auditUniverseStrategicView.getLstObjectiveOwner().addItem(objectiveOwners.get(i).getEmployeeName(),
-					objectiveOwners.get(i).getEmployeeId() + "");
-		}
-	}
+//
+//	public void setNewRecordData(AuditUniverseStrategicView auditUniverseStrategicView) {
+//
+//		for (int i = 0; i < listDepartments.size(); i++) {
+//			auditUniverseStrategicView.getListRelevantDepartment().addItem(listDepartments.get(i).getDepartmentName(),
+//					listDepartments.get(i).getDepartmentId() + "");
+//		}
+//		
+//		//added by Moqeet
+//		
+//		for (Division div:divisions) {
+//			auditUniverseStrategicView.getListBoxDivision().addItem(div.getDivisionName(), div.getDivisionID() + "");
+//		}
+//
+//		for (int i = 0; i < objectiveOwners.size(); i++) {
+//			auditUniverseStrategicView.getLstObjectiveOwner().addItem(objectiveOwners.get(i).getEmployeeName(),
+//					objectiveOwners.get(i).getEmployeeId() + "");
+//		}
+//	}
 
 	// private void popupAmendment(final VerticalPanel vpnlStrategic,
 	// final HorizontalPanel hpnlButtonInitiator,

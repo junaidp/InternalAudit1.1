@@ -26,20 +26,32 @@ import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
 public class DashboardProjectManagement extends VerticalLayoutContainer {
 	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
-	DashboardListBoxes dashboardlistBox = null;
-
-	public DashboardProjectManagement(DashboardListBoxes dashboardlistBox) {
-		this.dashboardlistBox = dashboardlistBox;
-		loadData();
-
-		dashboardlistBox.getBtnSearch().addClickHandler(new ClickHandler() {
+	private DashboardListBoxes dashboardlistBox = null;
+//	private ProjectManagementDate pmDate;
+	public DashboardProjectManagement() {
+		
+		 DashboardListBoxes dashboardlistBox1 = new DashboardListBoxes();
+		 this.dashboardlistBox = dashboardlistBox1;
+		 loadData();
+		 
+		 dashboardlistBox.getBtnSearch().setVisible(false);
+		
+			
+		 dashboardlistBox.getBtnSearch().setVisible(false);
+		/*
+		 dashboardlistBox.getBtnSearch().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				Window.alert("projj management");
 				loadData();
 
 			}
-		});
+		});  */
+		
+
+		
+		
 	}
 
 	private void loadData() {
@@ -90,6 +102,7 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 				// end
 				ProjectManagementActualHours actualHours = new ProjectManagementActualHours();
 				ProjectManagementDate pmDate = new ProjectManagementDate();
+				clcikHandler(pmDate);
 				PortalInformationRequest portalInformation = new PortalInformationRequest(
 						dashboard.getInformationRequests());
 				PortalOutstandingCoaching portalOutstanding = new PortalOutstandingCoaching(dashboard.getTodo());
@@ -114,6 +127,7 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 				// Unit.PX);
 				// panelDate.getElement().getStyle().setPaddingTop(20, Unit.PX);
 				//
+				dashboardlistBox.getBtnSearch().setVisible(false);
 				add(dashboardlistBox);
 
 				add(paneljobviewscroll);
@@ -130,6 +144,18 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 				// add(paneljobviewscroll);
 				// add(mainPanel);
 
+			}
+
+			private void clcikHandler(ProjectManagementDate pmDate) {
+				pmDate.getBtnSrearchP().addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						Window.alert("projj management");
+						loadData();
+
+					}
+				});
 			}
 		});
 

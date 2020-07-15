@@ -97,7 +97,7 @@ public class AuditUniverseIdentificationView extends Composite {
 		vpnlStrategic.add(hpnlButtonsApprovar);
 		// vpnlStrategicData.add(hpnlStrategic);
 		auditUniverseStrategicView = new AuditUniverseStrategicView();
-		auditUniverseStrategicView.getAuditUniverseStrategicViewData().fetchDepartments();
+		auditUniverseStrategicView.getAuditUniverseStrategicViewData().fetchDivisions();
 		auditUniverseStrategicView.getAuditUniverseStrategicViewData().fetchObjectiveOwners();
 
 		vpnlStrategicData.clear();

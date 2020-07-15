@@ -33,6 +33,7 @@ public class DashboardListBoxes extends HorizontalPanel {
 
 	private	Button btnSearch = new Button("search");
 
+
 	private	ListBox listBoxDomain = new ListBox();
 	private ListBox listBoxProcess = new ListBox();
 	
@@ -213,6 +214,8 @@ public class DashboardListBoxes extends HorizontalPanel {
 
 			@Override
 			public void onSuccess(ArrayList<Department> departments) {
+				listBoxDepartment.addItem("All", "All");
+
 				for(Department department :departments ) {
 					listBoxDepartment.addItem(department.getDepartmentName(), department.getDepartmentId()+"");
 				}

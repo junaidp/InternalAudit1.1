@@ -30,7 +30,7 @@ public class AuditUniverseStrategicView extends Composite {
 	IconButton btnAdd = new IconButton("+..");
 	private AuditUniverseStrategicViewData auditUniverseStrategicViewData = new AuditUniverseStrategicViewData();
 	private ListBox lstObjectiveOwner = new ListBox();
-	private ListBox relevantDepartment = new ListBox();
+	private ListBox listRelevantDepartment = new ListBox();
 	private DateField objectiveAchievementDate = new DateField();
 	private TextField strategicObjective = new TextField();
 	private Label feedback = new Label(" Feedback ");
@@ -67,7 +67,7 @@ public class AuditUniverseStrategicView extends Composite {
 	private void mainPanelLayout() {
 	strategicObjective.setEmptyText("Enter Objective");
 	listBoxDivision.setWidth("190px");
-	relevantDepartment.setWidth("180px");
+	listRelevantDepartment.setWidth("180px");
 	strategicObjective.setWidth("610px");
 	VerticalPanel vpnlStrategicId = new VerticalPanel();
 	VerticalPanel vpnlStrategicObjective = new VerticalPanel();
@@ -92,7 +92,7 @@ public class AuditUniverseStrategicView extends Composite {
 	vpnlStrategicObjective.add(strategicObjective);
 	vpnlLstObjectiveOwner.add(lstObjectiveOwner);
 	vpnlStrategicId.add(lblStrategicId);
-	relevantDepartment.setMultipleSelect(true);
+	listRelevantDepartment.setMultipleSelect(true);
 	vpnlRelevantDivision.add(listBoxDivision );
 	ScrollPanel scrollDivisionPanel =  new ScrollPanel();
 	vpnlRelevantDivision.add(scrollDivisionPanel);
@@ -100,7 +100,7 @@ public class AuditUniverseStrategicView extends Composite {
 	scrollDivisionPanel.setHeight("30px");
 	vpnlRelevantDivision.setSpacing(1);
 	vpnlRelevantDepartments.setSpacing(1);
-	vpnlRelevantDepartments.add(relevantDepartment);
+	vpnlRelevantDepartments.add(listRelevantDepartment);
 	vpnlRelevantDepartments.add(relevantDepartmentPanel);
 	relevantDepartmentPanel.setHeight("30px");
 	vpnlObjectiveAchievementDate.add(objectiveAchievementDate);
@@ -179,12 +179,12 @@ public class AuditUniverseStrategicView extends Composite {
 		this.lstObjectiveOwner = lstObjectiveOwner;
 	}
 
-	public ListBox getRelevantDepartment() {
-		return relevantDepartment;
+	public ListBox getListRelevantDepartment() {
+		return listRelevantDepartment;
 	}
 
-	public void setRelevantDepartment(ListBox relevantDepartment) {
-		this.relevantDepartment = relevantDepartment;
+	public void setListRelevantDepartment(ListBox listRelevantDepartment) {
+		this.listRelevantDepartment = listRelevantDepartment;
 	}
 	
 	public ListBox getListBoxDivision() {

@@ -559,10 +559,12 @@ public class KickoffView extends Composite {
 				&& record.getEngagementDTO().getSelectedObjectiveRisks().isEmpty()) {
 			vpExistingControlContainer.clear();
 		}
-		
-		if(record.getEngagementDTO().getSelectedAuditWorkforPrograms().get(0).getStatus() == InternalAuditConstants.SUBMIT){
+		//When user directly add and submit Audit work in Audit Work Programme, this tab invisible
+		if(record.getEngagementDTO().getSelectedAuditWorkforPrograms().size()>0) {
+			if(record.getEngagementDTO().getSelectedAuditWorkforPrograms().get(0).getStatus() == InternalAuditConstants.SUBMIT 
+					|| record.getEngagementDTO().getSelectedAuditWorkforPrograms().get(0).getStatus() == InternalAuditConstants.APPROVED )			
 			vpExistingControl.setVisible(false);
-			}
+		}
 
 
 		// cp.add(panelAdd);
@@ -627,7 +629,6 @@ public class KickoffView extends Composite {
 		cp.setBodyStyleName("pad-text");
 		cp.setHeadingText("Key Risks");
 		VerticalLayoutContainer scrollMainKeyRisks = new VerticalLayoutContainer();
-		scrollMainKeyRisks.setHeight("400px");
 		scrollMainKeyRisks.setScrollMode(ScrollMode.AUTOY);
 		// v.setWidth("600px");
 		VerticalPanel verticalPanelKeyRisks = new VerticalPanel();
@@ -771,12 +772,13 @@ public class KickoffView extends Composite {
 				&& record.getEngagementDTO().getSelectedObjectiveRisks().isEmpty()) {
 			verticalPanelKeyRisksContainer.clear();//////// here
 		}
-		
-		if(record.getEngagementDTO().getSelectedAuditWorkforPrograms().get(0).getStatus() == InternalAuditConstants.SUBMIT){
-			hpnlButton.setVisible(false);
-			hpnlTopAdd.setVisible(false);
-			}
-
+		//When user directly add and submit Audit work in Audit Work Programme, this tab invisible
+		if(record.getEngagementDTO().getSelectedAuditWorkforPrograms().size()>0) {
+			if(record.getEngagementDTO().getSelectedAuditWorkforPrograms().get(0).getStatus() == InternalAuditConstants.SUBMIT 
+					|| record.getEngagementDTO().getSelectedAuditWorkforPrograms().get(0).getStatus() == InternalAuditConstants.APPROVED )			
+			scrollMainKeyRisks.setVisible(false);
+		}
+		scrollMainKeyRisks.setHeight("400px");
 		scrollMainKeyRisks.add(verticalPanelKeyRisks);
 		cp.add(scrollMainKeyRisks);
 		con.add(cp);
@@ -1039,12 +1041,16 @@ public class KickoffView extends Composite {
 
 		// hpnlButtons.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		vpnlActicityObjective.add(hpnlButtons);
-		if(record.getEngagementDTO().getSelectedAuditWorkforPrograms().get(0).getStatus() == InternalAuditConstants.SUBMIT)
-			vpnlActicityObjective.setVisible(false);
 		VerticalLayoutContainer scrollMain = new VerticalLayoutContainer();
 		scrollMain.setHeight("400px");
 		scrollMain.setScrollMode(ScrollMode.AUTOY);
 		scrollMain.add(vpnlActicityObjective);
+		//When user directly add and submit Audit work in Audit Work Programme, this tab invisible
+		if(record.getEngagementDTO().getSelectedAuditWorkforPrograms().size()>0) {
+			if(record.getEngagementDTO().getSelectedAuditWorkforPrograms().get(0).getStatus() == InternalAuditConstants.SUBMIT 
+					|| record.getEngagementDTO().getSelectedAuditWorkforPrograms().get(0).getStatus() == InternalAuditConstants.APPROVED )			
+				scrollMain.setVisible(false);
+			}
 		cp.add(scrollMain);
 		con.add(cp);
 
