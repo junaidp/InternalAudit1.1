@@ -360,4 +360,6 @@ public interface InternalAuditServiceAsync {
 
 	void fetchSavedSamplingReport(String folder, String auditStepId, AsyncCallback<String> callback);
 
+	void fetchJobsAgainstSelectedDates(Date startDate, Date endDate, AsyncCallback<ArrayList<JobCreation>> callback);
+
 }

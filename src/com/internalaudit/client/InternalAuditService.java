@@ -350,6 +350,8 @@ public interface InternalAuditService extends RemoteService {
 	ArrayList<Department> fetchDivisionDepartments(int divisionID);
 	
 	String fetchSavedSamplingReport(String folder, String auditStepId);
+	
+	ArrayList<JobCreation> fetchJobsAgainstSelectedDates(Date startDate , Date endDate) throws Exception;
 
 	// ArrayList<ToDo> fetchUpdatedRaisedToDo(int employeeID) throws Exception;
 }

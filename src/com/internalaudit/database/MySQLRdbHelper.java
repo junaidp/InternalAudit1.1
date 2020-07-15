@@ -61,6 +61,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Days;
 
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.datepicker.client.CalendarUtil;
 import com.internalaudit.client.presenter.HeaderAndFooterPdfPageEventHelper;
 import com.internalaudit.client.view.InternalAuditReporting.AssesmentGridEntity;
 import com.internalaudit.shared.ActivityObjective;
@@ -4504,7 +4505,9 @@ public class MySQLRdbHelper {
 				HibernateDetachUtility.nullOutUninitializedFields(jobCreation,
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
-				jobsList.add(jobCreation);
+				
+						jobsList.add(jobCreation);
+					
 			}
 
 			logger.info(String.format("(Inside fetchJobs) fetching jobs for year : " + year + "for company" + companyId
@@ -4518,6 +4521,25 @@ public class MySQLRdbHelper {
 		}
 		return jobsList;
 	}
+		
+	
+	
+		private Date getDate(String dateString) {
+			///
+			Date date = null;
+			
+			SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yy");
+		
+			
+				try {
+					date = fmt.parse(dateString);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return date;
+			
+		}
 
 	public TimeLineDates getMonthsInvolved(String startDate, String endDate) {
 
@@ -4527,6 +4549,7 @@ public class MySQLRdbHelper {
 			timeLineDates.setStartWeek(0);
 			timeLineDates.setFormattedEndDate("");
 			timeLineDates.setFormattedStartDat("");
+			
 			return timeLineDates;
 		}
 
@@ -4762,6 +4785,7 @@ public class MySQLRdbHelper {
 
 			crit.createAlias("assignedFrom", "from");
 			crit.createAlias("contactResponsible", "To");
+			crit.createAlias("job", "job");
 
 			// crit.add(Restrictions.eq("companyId", companyId));
 
@@ -4773,6 +4797,15 @@ public class MySQLRdbHelper {
 			crit.createAlias("To.countryId", "employeeCountR");
 			crit.createAlias("To.cityId", "employeeCityR");
 			crit.createAlias("To.reportingTo", "employeeRepR");
+			
+			if (hm != null) {
+				if (!hm.get("Unit").equals("0")) {
+					crit.add(Restrictions.eq("job.jobCreationId",Integer.parseInt( hm.get("Unit"))));
+				}
+				if (!hm.get("Resource").equals("0")) {
+					crit.add(Restrictions.eq("To.employeeId", Integer.parseInt(hm.get("Resource"))));
+				}
+			}
 
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -4811,6 +4844,7 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(ToDo.class);
 			crit.createAlias("assignedFrom", "from");
 			crit.createAlias("assignedTo", "To");
+			crit.createAlias("job", "job");
 
 			// crit.add(Restrictions.eq("companyId", companyId));
 
@@ -4825,6 +4859,15 @@ public class MySQLRdbHelper {
 			crit.createAlias("To.countryId", "employeeCountR");
 			crit.createAlias("To.cityId", "employeeCityR");
 			crit.createAlias("To.reportingTo", "employeeRepR");
+			
+			if (hm != null) {
+				if (!hm.get("Unit").equals("0")) {
+					crit.add(Restrictions.eq("job.jobCreationId",Integer.parseInt( hm.get("Unit"))));
+				}
+				if (!hm.get("Resource").equals("0")) {
+					crit.add(Restrictions.eq("To.employeeId", Integer.parseInt(hm.get("Resource"))));
+				}
+			}
 
 			// crit.add(Restrictions.eq("read", 0));
 
@@ -10807,6 +10850,57 @@ public class MySQLRdbHelper {
 		}
 		return listSampling;
 
+	}
+
+	public ArrayList<JobCreation> fetchJobsAgainstSelectedDates(int year, int companyId, Date clientStartDate, Date clientEndDate) {
+		Session session = null;
+		ArrayList<JobCreation> jobsList = new ArrayList<JobCreation>();
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(JobCreation.class);
+			crit.add(Restrictions.eq("year", year));
+			crit.add(Restrictions.eq("companyId", companyId));
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				JobCreation jobCreation = (JobCreation) it.next();
+				if (!(jobCreation.getStartDate() == null)) {
+					TimeLineDates dates = getMonthsInvolved(jobCreation.getStartDate(), jobCreation.getEndDate());
+					jobCreation.setTimeLineDates(dates);
+				}
+				jobCreation.setReportStatus(fetchJobExceptionStatus(jobCreation.getJobCreationId()));
+				HibernateDetachUtility.nullOutUninitializedFields(jobCreation,
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+
+				if(clientStartDate != null && clientEndDate != null) {
+				Date startDate = getDate(jobCreation.getStartDate());
+				Date endDate = getDate(jobCreation.getEndDate());
+					for(JobCreation job : jobsList) {
+				
+						if(clientStartDate.compareTo(startDate)> 0 && clientEndDate.compareTo(endDate) < 0) {
+						jobsList.add(jobCreation);
+						}
+//					if(clientStartDate.getDate() > startDate.getDate() && clientEndDate.getDate() < endDate.getDate() ) {
+//						jobsList.add(jobCreation);
+//					}
+				}
+				}
+				else {
+					jobsList.add(jobCreation);
+				}
+						
+					
+			}
+
+			logger.info(String.format("(Inside fetchJobs) fetching jobs for year : " + year + "for company" + companyId
+					+ " " + new Date()));
+
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchJobs", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+		return jobsList;
 	}
 
 }

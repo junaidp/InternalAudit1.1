@@ -1,6 +1,7 @@
 package com.internalaudit.client.DashboardNew;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import com.google.gwt.core.client.GWT;
@@ -27,32 +28,19 @@ import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 public class DashboardProjectManagement extends VerticalLayoutContainer {
 	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
 	private DashboardListBoxes dashboardlistBox = null;
-//	private ProjectManagementDate pmDate;
+	private ProjectManagementDate pmDate = null;
+	private Date startDate = null;
+	private Date endDate = null;
+	
 	public DashboardProjectManagement() {
 		
 		 DashboardListBoxes dashboardlistBox1 = new DashboardListBoxes();
 		 this.dashboardlistBox = dashboardlistBox1;
 		 loadData();
-		 
-		 dashboardlistBox.getBtnSearch().setVisible(false);
-		
-			
-		 dashboardlistBox.getBtnSearch().setVisible(false);
-		/*
-		 dashboardlistBox.getBtnSearch().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				Window.alert("projj management");
-				loadData();
-
-			}
-		});  */
-		
-
-		
+		 clickHandler();  
 		
 	}
+
 
 	private void loadData() {
 		HashMap<String, String> hm = new HashMap<String, String>();
@@ -90,79 +78,36 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 			public void onSuccess(DashBoardNewDTO dashboard) {
 				loadingpopup.remove();
 				clear();
-				// ProjectManagementTimeLine timeLine = new
-				// ProjectManagementTimeLine();
-				// 2018 mew
 				final JobsSchedulingView jobSchedulingView = new JobsSchedulingView();
-				fetchJobs(jobSchedulingView);
 				ScrollPanel paneljobviewscroll = new ScrollPanel();
 				paneljobviewscroll.add(jobSchedulingView);
 				paneljobviewscroll.setWidth("1200px");
 				paneljobviewscroll.setHeight("300px");
 				// end
 				ProjectManagementActualHours actualHours = new ProjectManagementActualHours();
-				ProjectManagementDate pmDate = new ProjectManagementDate();
-				clcikHandler(pmDate);
+				pmDate = new ProjectManagementDate();
+				startDate =pmDate.getDpStart().getDatePicker().getValue();
+				endDate = pmDate.getDpEnd().getDatePicker().getValue();
+				fetchJobs(jobSchedulingView,startDate,endDate);
+				
+				dashboardlistBox.getHpnlDates().clear();
 				PortalInformationRequest portalInformation = new PortalInformationRequest(
 						dashboard.getInformationRequests());
 				PortalOutstandingCoaching portalOutstanding = new PortalOutstandingCoaching(dashboard.getTodo());
-				Label l = new Label("ada");
-				// add(portalOutstanding);
-				// add(timeLine);
-				// add(actualHours);
-
-				DashboardListBoxes dashboardlistBox = new DashboardListBoxes();
-				// HorizontalPanel paneljoblist = new HorizontalPanel();
-				// HorizontalPanel mainPanel = new HorizontalPanel();
-				// HorizontalPanel upperPanel = new HorizontalPanel();
-				// mainPanel.setWidth("1200px");
-				// VerticalPanel panelLeft = new VerticalPanel();
-				// panelLeft.setWidth("500px");
-				// VerticalPanel panelRight = new VerticalPanel();
-				// panelRight.setWidth("650%");
-				// VerticalPanel panelDate = new VerticalPanel();
-				// panelDate.add(pmDate);
 				dashboardlistBox.getHpnlDates().add(pmDate);
-				// panelDate.getElement().getStyle().setPaddingLeft(30,
-				// Unit.PX);
-				// panelDate.getElement().getStyle().setPaddingTop(20, Unit.PX);
-				//
-				dashboardlistBox.getBtnSearch().setVisible(false);
 				add(dashboardlistBox);
-
 				add(paneljobviewscroll);
-				// panelLeft.add(paneljobviewscroll);
-				// add(actualHours);
-				// Actual Hours removed by Moqeet as Rafey Said
-				// upperPanel.add(dashboardlistBox);
-				// upperPanel.add(panelDate);
 				add(portalInformation);
 				add(portalOutstanding);
-				// mainPanel.add(panelLeft);
-				// mainPanel.add(panelRight);
-				// add(upperPanel);
-				// add(paneljobviewscroll);
-				// add(mainPanel);
 
 			}
 
-			private void clcikHandler(ProjectManagementDate pmDate) {
-				pmDate.getBtnSrearchP().addClickHandler(new ClickHandler() {
-
-					@Override
-					public void onClick(ClickEvent event) {
-						Window.alert("projj management");
-						loadData();
-
-					}
-				});
-			}
 		});
 
 	}
 
-	private void fetchJobs(final JobsSchedulingView jobSchedulingView) {
-		rpcService.fetchJobs(new AsyncCallback<ArrayList<JobCreation>>() {
+	private void fetchJobs(final JobsSchedulingView jobSchedulingView, Date startDate, Date endDate) {
+		rpcService.fetchJobsAgainstSelectedDates(startDate, endDate,new AsyncCallback<ArrayList<JobCreation>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -172,8 +117,8 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 				if (caught instanceof TimeOutException) {
 					History.newItem("login");
 				} else {
-					System.out.println("FAIL: fetchJobs .Inside AuditAreaspresenter");
-					Window.alert("FAIL: fetchJobs");// After FAIL ... write RPC
+					System.out.println("FAIL: fetchJobsAgainstSelectedDates .Inside AuditAreaspresenter");
+					Window.alert("FAIL: fetchJobsAgainstSelectedDates");// After FAIL ... write RPC
 													// Name NOT Method Name..
 				}
 
@@ -181,8 +126,6 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 
 			@Override
 			public void onSuccess(ArrayList<JobCreation> result) {
-				// new PopupsViewWhite(jobSchedulingView);
-				// popup.setWidth("1000px");
 
 				addHeading(jobSchedulingView);
 				AuditScheduling auditSchedulingTemp = null;
@@ -201,29 +144,9 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 					auditScheduling.getStartDate().setVisible(false);
 					jobSchedulingView.getListContainer().add(auditScheduling);
 					auditScheduling.getTimeLineContainer().add(new TimeLineJobsView(result.get(i).getTimeLineDates()));
-					// setHandlers(auditScheduling);
-					// if(result.get(i).isApproved()){
-					// auditScheduling.getStartDate().setEnabled(false);
-					// }
-
-					/////////////////////
 					if (auditSchedulingTemp == null || auditSchedulingTemp != auditScheduling) {
 						auditSchedulingTemp = auditScheduling;
 
-						// auditScheduling.getStartDate().addValueChangeHandler(new
-						// ValueChangeHandler<Date>() {
-						//
-						//
-						// @Override
-						// public void onValueChange(ValueChangeEvent<Date>
-						// event) {
-						//
-						// // getEndDate(auditScheduling, event);
-						// }
-						//
-						//
-						// });
-						///////////////////////
 					}
 				}
 			}
@@ -241,14 +164,6 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 		Label jobName = new Label("Job Name");
 		jobName.setWidth("160px");
 		headingPanel.add(jobName);
-
-		// Label startDate = new Label("Start Date");
-		// headingPanel.add(startDate);
-		// startDate.setWidth("90px");
-		//
-		// Label endDate = new Label("End Date");
-		// headingPanel.add(endDate);
-		// endDate.setWidth("90px");
 
 		String[] names = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
@@ -279,4 +194,16 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 
 	}
 
+	private void clickHandler() {
+		dashboardlistBox.getBtnSearch().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				//Window.alert(startDate+ "");
+				//Window.alert(endDate+ "");
+				loadData();
+
+			}
+		});
+	}
 }

@@ -1833,4 +1833,18 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		}
 		return filePath;
 	}
+
+	@Override
+	public ArrayList<JobCreation> fetchJobsAgainstSelectedDates(Date startDate, Date endDate) throws Exception {
+		if (isLoggedIn()) {
+			session = getThreadLocalRequest().getSession(true);
+			int year = (Integer) session.getAttribute("year");
+			int companyId = (Integer) session.getAttribute("companyId");
+			return rdbHelper.fetchJobsAgainstSelectedDates(year, companyId,startDate , endDate);
+		} else {
+
+			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);
+
+		}
+	}
 }
