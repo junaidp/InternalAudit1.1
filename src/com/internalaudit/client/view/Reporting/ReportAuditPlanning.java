@@ -18,6 +18,15 @@ public class ReportAuditPlanning extends Composite implements IStackWidget {
 	ListBox lstDomain;
 	ListBox lstDiv;
 	ListBox lstRisk;
+	ListBox lstDepartment;
+
+	public ListBox getLstDepartment() {
+		return lstDepartment;
+	}
+
+	public void setLstDepartment(ListBox lstDepartment) {
+		this.lstDepartment = lstDepartment;
+	}
 
 	Button btnSearch = new Button("Preview");
 
@@ -105,11 +114,13 @@ public class ReportAuditPlanning extends Composite implements IStackWidget {
 		// lbl1.addStyleName("labelHeading");
 
 		LabelBold lbl2 = new LabelBold("Division:");
+		
+		LabelBold lbl3 = new LabelBold("Department:");
 		// lbl2.setText("Division:");
 
 		// lbl2.addStyleName("labelHeading");
 
-		LabelBold lbl3 = new LabelBold("Risk Assesment:");
+		LabelBold lbl4 = new LabelBold("Risk Assesment:");
 		// lbl3.setText("Risk Assesment:");
 
 		// lbl3.addStyleName("labelHeading");
@@ -147,10 +158,18 @@ public class ReportAuditPlanning extends Composite implements IStackWidget {
 
 		lstDiv.addItem("All", "All");
 		lstDiv.setSelectedIndex(0);
+		
+		lstDepartment = new ListBox(); // lstRisk.setMultipleSelect(true);
+		// //lstRisk.addStyleName("listboxStyle");
+		lstDepartment.addStyleName(" w3-border");
+		lstDepartment.setWidth("150px");
+		
+		lstDepartment.addItem("All", "All");
+		lstDepartment.setSelectedIndex(0);
 
-		lstDiv.addItem("IT", "1");
-		lstDiv.addItem("Finance", "2");
-		lstDiv.addItem("Business", "3");
+//		lstDiv.addItem("IT", "1");
+//		lstDiv.addItem("Finance", "2");
+//		lstDiv.addItem("Business", "3");
 
 		initWidget(vpnlMain);
 
@@ -163,7 +182,8 @@ public class ReportAuditPlanning extends Composite implements IStackWidget {
 		// mainRowContainer.add(vpRisk);
 		lbl1.setWidth("70px");
 		lbl2.setWidth("70px");
-		lbl3.setWidth("120px");
+		lbl3.setWidth("90px");
+		lbl4.setWidth("120px");
 		mainRowContainer.getElement().getStyle().setPaddingTop(5, Unit.PX);
 
 		mainRowContainer.add(lbl1);
@@ -175,10 +195,14 @@ public class ReportAuditPlanning extends Composite implements IStackWidget {
 		mainRowContainer.add(new HTML("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
 
 		mainRowContainer.add(lbl3);
-		mainRowContainer.add(lstRisk);
+		mainRowContainer.add(lstDepartment);
 		mainRowContainer.add(new HTML("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
 
-		btnSearch.getElement().getStyle().setMarginLeft(270, Unit.PX);
+		mainRowContainer.add(lbl4);
+		mainRowContainer.add(lstRisk);
+		mainRowContainer.add(new HTML("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
+		
+		//btnSearch.getElement().getStyle().setMarginLeft(270, Unit.PX);
 		mainRowContainer.add(btnSearch);
 		vpnlRows.add(hpnlBtnExport);
 

@@ -17,6 +17,7 @@ public class ReportAuditScheduling extends Composite implements IStackWidget {
 
 	ListBox lstDomain;
 	ListBox lstDiv;
+	ListBox lstDepartment;
 	ListBox lstRisk;
 	ListBox lstEmp;
 	ListBox lstJobStatus;
@@ -87,31 +88,37 @@ public class ReportAuditScheduling extends Composite implements IStackWidget {
 		btnBelowTable.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		LabelBold lbl1 = new LabelBold("Domain:");
 		LabelBold lbl2 = new LabelBold("Division:");
-		LabelBold lbl3 = new LabelBold("Job Status:");
-		LabelBold lbl4 = new LabelBold("Responsible Person:");
+		LabelBold lbl3 = new LabelBold("Department:");
+		LabelBold lbl4 = new LabelBold("Job Status:");
+		LabelBold lbl5 = new LabelBold("Responsible Person:");
 		lbl1.setWidth("65px");
 		lbl2.setWidth("70px");
-		lbl3.setWidth("85px");
-		lbl4.setWidth("145px");
+		lbl3.setWidth("90px");
+		lbl4.setWidth("85px");
+		lbl5.setWidth("145px");
 
 		lstDomain = new ListBox(); // lstDomain.setMultipleSelect(true);
 									// lstDomain.addStyleName("listboxStyle");
 		lstDiv = new ListBox(); // lstDiv.setMultipleSelect(true);
 								// lstDiv.addStyleName("listboxStyle");
+		lstDepartment = new ListBox();
+
 		lstRisk = new ListBox(); // lstRisk.setMultipleSelect(true);
 									// lstRisk.addStyleName("listboxStyle");
 		lstEmp = new ListBox(); // lstEmp.setMultipleSelect(true);
 								// lstEmp.addStyleName("listboxStyle");
 		lstJobStatus = new ListBox(); // lstJobStatus.setMultipleSelect(true);
 										// lstJobStatus.addStyleName("listboxStyle");
-		lstDomain.setWidth("150px");
+		lstDomain.setWidth("100px");
 		lstRisk.setWidth("150px");
 
-		lstEmp.setWidth("150px");
-		lstJobStatus.setWidth("150px");
-		lstDiv.setWidth("150px");
+		lstEmp.setWidth("100px");
+		lstJobStatus.setWidth("100px");
+		lstDiv.setWidth("130px");
+		lstDepartment.setWidth("150px");
 		lstDomain.addStyleName(" w3-border");
 		lstDiv.addStyleName(" w3-border");
+		lstDepartment.addStyleName(" w3-border");
 		lstRisk.addStyleName(" w3-border");
 		lstEmp.addStyleName(" w3-border");
 		lstJobStatus.addStyleName(" w3-border");
@@ -138,9 +145,12 @@ public class ReportAuditScheduling extends Composite implements IStackWidget {
 		lstEmp.setSelectedIndex(0);
 		lstDiv.addItem("All", "All");
 		lstDiv.setSelectedIndex(0);
-		lstDiv.addItem("IT", "1");
-		lstDiv.addItem("Finance", "2");
-		lstDiv.addItem("Business", "3");
+		
+		lstDepartment.addItem("All", "All");
+		lstDepartment.setSelectedIndex(0);
+//		lstDiv.addItem("IT", "1");
+//		lstDiv.addItem("Finance", "2");
+//		lstDiv.addItem("Business", "3");
 		initWidget(vpnlMain);
 
 		hpnlRow1.getElement().getStyle().setPaddingTop(5, Unit.PX);
@@ -153,10 +163,14 @@ public class ReportAuditScheduling extends Composite implements IStackWidget {
 		hpnlRow1.add(new HTML("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
 
 		hpnlRow1.add(lbl3);
-		hpnlRow1.add(lstJobStatus);
+		hpnlRow1.add(lstDepartment);
 		hpnlRow1.add(new HTML("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
 
 		hpnlRow1.add(lbl4);
+		hpnlRow1.add(lstJobStatus);
+		hpnlRow1.add(new HTML("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
+		
+		hpnlRow1.add(lbl5);
 		hpnlRow1.add(lstEmp);
 		hpnlRow1.add(new HTML("&nbsp; &nbsp; &nbsp;"));
 
@@ -293,6 +307,13 @@ public class ReportAuditScheduling extends Composite implements IStackWidget {
 
 	public void setVpnlPerviewData(VerticalPanel vpnlPerviewData) {
 		this.vpnlPerviewData = vpnlPerviewData;
+	}
+	public ListBox getLstDepartment() {
+		return lstDepartment;
+	}
+
+	public void setLstDepartment(ListBox lstDepartment) {
+		this.lstDepartment = lstDepartment;
 	}
 
 }

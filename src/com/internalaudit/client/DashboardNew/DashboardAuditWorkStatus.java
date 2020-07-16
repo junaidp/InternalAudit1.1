@@ -29,7 +29,6 @@ public class DashboardAuditWorkStatus extends VerticalLayoutContainer {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				Window.alert("inside dashboard auditwork");
 				loadData();
 
 			}

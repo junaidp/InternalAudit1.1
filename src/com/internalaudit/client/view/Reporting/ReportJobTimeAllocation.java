@@ -16,6 +16,7 @@ public class ReportJobTimeAllocation extends Composite implements IStackWidget {
 
 	ListBox lstDomain;
 	ListBox lstDiv;
+	ListBox lstDepartment;
 	ListBox lstRisk;
 	ListBox lstResource;
 	//
@@ -78,29 +79,38 @@ public class ReportJobTimeAllocation extends Composite implements IStackWidget {
 
 		LabelBold lbl2 = new LabelBold("Division:");
 		lbl2.setWidth("75px");
+		
 
-		LabelBold lbl3 = new LabelBold("Risk Rating:");
-		lbl3.setWidth("95px");
+		LabelBold lbl3 = new LabelBold("Department:");
+		lbl2.setWidth("75px");
 
-		LabelBold lbl4 = new LabelBold("Resource:");
+		LabelBold lbl4 = new LabelBold("Risk Rating:");
+		lbl3.setWidth("100px");
+
+		LabelBold lbl5 = new LabelBold("Resource:");
 		lbl4.setWidth("80px");
 
 		lstDomain = new ListBox(); // lstDomain.setMultipleSelect(true);
 									// lstDomain.addStyleName("listboxStyle");
 		lstDiv = new ListBox(); // lstDiv.setMultipleSelect(true);
 								// lstDiv.addStyleName("listboxStyle");
+		
+		lstDepartment = new ListBox();
+		
 		lstRisk = new ListBox(); // lstRisk.setMultipleSelect(true);
 									// lstRisk.addStyleName("listboxStyle");
 		lstResource = new ListBox(); // lstResource.setMultipleSelect(true);
 										// lstResource.addStyleName("listboxStyle");
 		lstDomain.addStyleName(" w3-border");
 		lstDiv.addStyleName(" w3-border");
+		lstDepartment.addStyleName(" w3-border");
 		lstRisk.addStyleName(" w3-border");
 		lstResource.addStyleName(" w3-border");
-		lstDomain.setWidth("150px");
+		lstDomain.setWidth("100px");
 		lstResource.setWidth("150px");
-		lstRisk.setWidth("150px");
-		lstDiv.setWidth("150px");
+		lstRisk.setWidth("100px");
+		lstDiv.setWidth("130px");
+		lstDepartment.setWidth("150px");
 
 		lstRisk.addItem("All", "All");
 		lstRisk.setSelectedIndex(0);
@@ -118,9 +128,12 @@ public class ReportJobTimeAllocation extends Composite implements IStackWidget {
 		lstResource.setSelectedIndex(0);
 		lstDiv.addItem("All", "All");
 		lstDiv.setSelectedIndex(0);
-		lstDiv.addItem("IT");
-		lstDiv.addItem("Finance");
-		lstDiv.addItem("Business");
+		
+		lstDepartment.addItem("All", "All");
+		lstDepartment.setSelectedIndex(0);
+//		lstDiv.addItem("IT");
+//		lstDiv.addItem("Finance");
+//		lstDiv.addItem("Business");
 
 		initWidget(vpnlMain);
 
@@ -133,10 +146,14 @@ public class ReportJobTimeAllocation extends Composite implements IStackWidget {
 		mainRowContainer.add(new HTML("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
 
 		mainRowContainer.add(lbl3);
-		mainRowContainer.add(lstRisk);
+		mainRowContainer.add(lstDepartment);
 		mainRowContainer.add(new HTML("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
 
 		mainRowContainer.add(lbl4);
+		mainRowContainer.add(lstRisk);
+		mainRowContainer.add(new HTML("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
+		
+		mainRowContainer.add(lbl5);
 		mainRowContainer.add(lstResource);
 		mainRowContainer.add(new HTML("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
 
@@ -279,5 +296,13 @@ public class ReportJobTimeAllocation extends Composite implements IStackWidget {
 	public void setVpnlPerviewData(VerticalPanel vpnlPerviewData) {
 		this.vpnlPerviewData = vpnlPerviewData;
 	}
+	public ListBox getLstDepartment() {
+		return lstDepartment;
+	}
+
+	public void setLstDepartment(ListBox lstDepartment) {
+		this.lstDepartment = lstDepartment;
+	}
+
 
 }

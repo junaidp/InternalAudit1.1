@@ -205,7 +205,7 @@ public interface InternalAuditServiceAsync {
 	void fetchJobSoftSkills(int strategicId, AsyncCallback<ArrayList<Integer>> asyncCallback);
 
 	void fetchReportSearchResult(ArrayList<String> dept, ArrayList<String> domain, ArrayList<String> risk,
-			AsyncCallback<ArrayList<Strategic>> callback);
+			ArrayList<String> department, AsyncCallback<ArrayList<Strategic>> callback);
 
 	void fetchReportWithResourcesSearchResult(ArrayList<String> dept, ArrayList<String> domain, ArrayList<String> risk,
 			ArrayList<String> resources, AsyncCallback<ArrayList<JobCreation>> callback);

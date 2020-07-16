@@ -626,14 +626,31 @@ public class AuditUniverseStrategicViewData {
 			fetchDepartmentsDivision(data.getDivisionID(), auditUniverseStrategicView.getListRelevantDepartment());	
 		}
 		// LISTBOX OF DEPARTMENTS
-		int loopSize = (result.get(i).getStatus().equals("saved"))? listDepartments.size(): auditUniverseStrategicView.getListRelevantDepartment().getItemCount();
-		for (int j = 0; j < loopSize; j++) {
+		//int loopSize = (result.get(i).getStatus().equals("saved"))? listDepartments.size(): auditUniverseStrategicView.getListRelevantDepartment().getItemCount();
+		if(result.get(i).getStatus().equals("saved")) {
+			auditUniverseStrategicView.getListRelevantDepartment().clear();
+		for (int j = 0; j < listDepartments.size(); j++) {
 			for (int k = 0; k < result.get(i).getStrategicDepartments().size(); k++) {
 //				Window.alert(auditUniverseStrategicView.getListRelevantDepartment().getValue(j));
-				if (auditUniverseStrategicView.getListRelevantDepartment().getValue(j).equals(
-						result.get(i).getStrategicDepartments().get(k).getDepartment().getDepartmentId() + "")) {
-					auditUniverseStrategicView.getListRelevantDepartment().setItemSelected(j, true);
+				if (listDepartments.get(j).getDepartmentId() ==
+						result.get(i).getStrategicDepartments().get(k).getDepartment().getDepartmentId()) {
+					auditUniverseStrategicView.getListRelevantDepartment().addItem(result.get(i).getStrategicDepartments().get(k).getDepartment().getDepartmentName(), 
+							result.get(i).getStrategicDepartments().get(k).getDepartment().getDepartmentId() + "");
 					break;
+				}
+			}
+		}
+		}
+		else
+		{
+			for (int j = 0; j < auditUniverseStrategicView.getListRelevantDepartment().getItemCount(); j++) {
+				for (int k = 0; k < result.get(i).getStrategicDepartments().size(); k++) {
+//					Window.alert(auditUniverseStrategicView.getListRelevantDepartment().getValue(j));
+					if (auditUniverseStrategicView.getListRelevantDepartment().getValue(j).equals(
+							result.get(i).getStrategicDepartments().get(k).getDepartment().getDepartmentId() + "")) {
+						auditUniverseStrategicView.getListRelevantDepartment().setItemSelected(j, true);
+						break;
+					}
 				}
 			}
 		}

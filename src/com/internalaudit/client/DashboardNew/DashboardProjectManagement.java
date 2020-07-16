@@ -36,6 +36,7 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 		
 		 DashboardListBoxes dashboardlistBox1 = new DashboardListBoxes();
 		 this.dashboardlistBox = dashboardlistBox1;
+		 pmDate = new ProjectManagementDate();
 		 loadData();
 		 clickHandler();  
 		
@@ -78,6 +79,7 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 			public void onSuccess(DashBoardNewDTO dashboard) {
 				loadingpopup.remove();
 				clear();
+				dashboardlistBox.getHpnlDates().clear();
 				final JobsSchedulingView jobSchedulingView = new JobsSchedulingView();
 				ScrollPanel paneljobviewscroll = new ScrollPanel();
 				paneljobviewscroll.add(jobSchedulingView);
@@ -85,12 +87,10 @@ public class DashboardProjectManagement extends VerticalLayoutContainer {
 				paneljobviewscroll.setHeight("300px");
 				// end
 				ProjectManagementActualHours actualHours = new ProjectManagementActualHours();
-				pmDate = new ProjectManagementDate();
 				startDate =pmDate.getDpStart().getDatePicker().getValue();
 				endDate = pmDate.getDpEnd().getDatePicker().getValue();
 				fetchJobs(jobSchedulingView,startDate,endDate);
 				
-				dashboardlistBox.getHpnlDates().clear();
 				PortalInformationRequest portalInformation = new PortalInformationRequest(
 						dashboard.getInformationRequests());
 				PortalOutstandingCoaching portalOutstanding = new PortalOutstandingCoaching(dashboard.getTodo());

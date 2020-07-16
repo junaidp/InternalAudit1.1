@@ -202,7 +202,7 @@ public interface InternalAuditService extends RemoteService {
 	ArrayList<Integer> fetchJobSoftSkills(int strategicId) throws Exception;
 
 	ArrayList<Strategic> fetchReportSearchResult(ArrayList<String> dept, ArrayList<String> domain,
-			ArrayList<String> risk) throws Exception;
+			ArrayList<String> risk, ArrayList<String> department) throws Exception;
 
 	ArrayList<JobCreation> fetchReportWithResourcesSearchResult(ArrayList<String> dept, ArrayList<String> domain,
 			ArrayList<String> risk, ArrayList<String> resources) throws Exception;

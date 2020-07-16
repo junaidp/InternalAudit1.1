@@ -17,6 +17,7 @@ public class ReportAuditExceptions extends Composite implements IStackWidget {
 
 	ListBox lstDomain;
 	ListBox lstDiv;
+	ListBox lstDepartment;
 	ListBox lstJobs;
 	ListBox lstExceptionStatus;
 	ListBox lstResource;
@@ -79,26 +80,32 @@ public class ReportAuditExceptions extends Composite implements IStackWidget {
 
 		LabelBold lbl2 = new LabelBold("Division:");
 		lbl2.setWidth("70px");
+		
+		LabelBold lbl3 = new LabelBold("Department:");
+		lbl2.setWidth("90px");
 
-		LabelBold lbl3 = new LabelBold("Risk Rating:");
+		LabelBold lbl4 = new LabelBold("Risk Rating:");
 		lbl3.setWidth("85px");
 
-		LabelBold lbl4 = new LabelBold("Resources:");
+		LabelBold lbl5 = new LabelBold("Resources:");
 		lbl4.setWidth("85px");
 
-		LabelBold lbl5 = new LabelBold("Jobs:");
+		LabelBold lbl6 = new LabelBold("Jobs:");
 		lbl5.setWidth("50px");
 
-		LabelBold lbl6 = new LabelBold("Exception Status:");
+		LabelBold lbl7 = new LabelBold("Exception Status:");
 		lbl6.setWidth("125px");
 
-		LabelBold lbl7 = new LabelBold("Responsible Auditee:");
+		LabelBold lbl8 = new LabelBold("Responsible Auditee:");
 		lbl7.setWidth("150px");
 
 		lstDomain = new ListBox();// lstDomain.setMultipleSelect(true);
 									// lstDomain.addStyleName("listboxStyle");
 		lstDiv = new ListBox(); // lstDiv.setMultipleSelect(true);
 								// lstDiv.addStyleName("listboxStyle");
+		
+		lstDepartment = new ListBox();
+		
 		lstRisk = new ListBox(); // lstRisk.setMultipleSelect(true);
 									// lstRisk.addStyleName("listboxStyle");
 		lstResource = new ListBox(); // lstResource.setMultipleSelect(true);
@@ -116,13 +123,15 @@ public class ReportAuditExceptions extends Composite implements IStackWidget {
 		lstExceptionStatus.addStyleName("w3-border");
 		lstResponsibleAuditee.addStyleName("w3-border");
 		lstDiv.addStyleName("w3-border");
+		lstDepartment.addStyleName("w3-border");
 		lstDomain.setWidth("150px");
-		lstDiv.setWidth("150px");
-		lstRisk.setWidth("150px");
-		lstResource.setWidth("150px");
-		lstJobs.setWidth("150px");
-		lstExceptionStatus.setWidth("150px");
-		lstResponsibleAuditee.setWidth("150px");
+		lstDiv.setWidth("130px");
+		lstDepartment.setWidth("150px");
+		lstRisk.setWidth("100px");
+		lstResource.setWidth("130px");
+		lstJobs.setWidth("130px");
+		lstExceptionStatus.setWidth("100px");
+		lstResponsibleAuditee.setWidth("130px");
 		lstRisk.addItem("All", "All");
 		lstRisk.setSelectedIndex(0);
 		lstRisk.addItem("High", "High");
@@ -139,9 +148,11 @@ public class ReportAuditExceptions extends Composite implements IStackWidget {
 		lstResource.setSelectedIndex(0);
 		lstDiv.addItem("All", "All");
 		lstDiv.setSelectedIndex(0);
-		lstDiv.addItem("IT");
-		lstDiv.addItem("Finance");
-		lstDiv.addItem("Business");
+		lstDepartment.addItem("All", "All");
+		lstDepartment.setSelectedIndex(0);
+//		lstDiv.addItem("IT");
+//		lstDiv.addItem("Finance");
+//		lstDiv.addItem("Business");
 
 		lstJobs.addItem("All", "All");
 		lstJobs.setSelectedIndex(0);
@@ -169,22 +180,26 @@ public class ReportAuditExceptions extends Composite implements IStackWidget {
 		mainRow1.add(new HTML("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
 
 		mainRow1.add(lbl3);
+		mainRow1.add(lstDepartment);
+		mainRow1.add(new HTML("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
+		
+		mainRow1.add(lbl4);
 		mainRow1.add(lstRisk);
 		mainRow1.add(new HTML("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
 
-		mainRow1.add(lbl4);
+		mainRow1.add(lbl5);
 		mainRow1.add(lstResource);
 		mainRow1.add(new HTML("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
 
-		mainRow2.add(lbl5);
+		mainRow2.add(lbl6);
 		mainRow2.add(lstJobs);
 		mainRow2.add(new HTML("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
 
-		mainRow2.add(lbl6);
+		mainRow2.add(lbl7);
 		mainRow2.add(lstExceptionStatus);
 		mainRow2.add(new HTML("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"));
 
-		mainRow2.add(lbl7);
+		mainRow2.add(lbl8);
 		mainRow2.add(lstResponsibleAuditee);
 		btnSearch.getElement().getStyle().setMarginLeft(250, Unit.PX);
 		mainRow2.add(btnSearch);
@@ -343,5 +358,11 @@ public class ReportAuditExceptions extends Composite implements IStackWidget {
 	public void setVpnlPerview(VerticalPanel vpnlPerview) {
 		this.vpnlPerview = vpnlPerview;
 	}
+	public ListBox getLstDepartment() {
+		return lstDepartment;
+	}
 
+	public void setLstDepartment(ListBox lstDepartment) {
+		this.lstDepartment = lstDepartment;
+	}
 }

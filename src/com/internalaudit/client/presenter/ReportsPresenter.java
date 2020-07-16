@@ -16,6 +16,8 @@ import org.moxieapps.gwt.highcharts.client.labels.DataLabelsFormatter;
 import org.moxieapps.gwt.highcharts.client.labels.PieDataLabels;
 import org.moxieapps.gwt.highcharts.client.plotOptions.PiePlotOptions;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -42,6 +44,7 @@ import com.internalaudit.client.view.Reporting.ReportJobTimeAllocation;
 import com.internalaudit.shared.AuditSchedulingReportDTO;
 import com.internalaudit.shared.DataCount;
 import com.internalaudit.shared.Department;
+import com.internalaudit.shared.Division;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.ExcelDataDTO;
 import com.internalaudit.shared.Exceptions;
@@ -184,11 +187,127 @@ public class ReportsPresenter implements Presenter
 
 			}
 		});
-
+		populateDivision(display);
+		populateDepartmentAgainstDivision(display);
 		bind();
 
 	}
+	private void populateDivision( final Display display) {
+		rpcService.fetchDivision(new AsyncCallback<ArrayList<Division>>() {
+			
+			@Override
+			public void onSuccess(ArrayList<Division> divisions) {
+				for(Division division :divisions) {
+					display.getReport1().getDivListbox().addItem(division.getDivisionName(), division.getDivisionID() +"");
+					display.getReport2().getDivListbox().addItem(division.getDivisionName(), division.getDivisionID() +"");
+					display.getReport4().getDivListbox().addItem(division.getDivisionName(), division.getDivisionID() +"");
+					display.getReport5().getDivListbox().addItem(division.getDivisionName(), division.getDivisionID() +"");
+				}
+				
+			}
+			
+			@Override
+			public void onFailure(Throwable arg0) {
+				Window.alert("Failed fetching Divisions " + arg0.getLocalizedMessage());
+				
+			}
+		});
+	}
+	
+	private void populateDepartmentAgainstDivision(final Display display) {
+		display.getReport1().getDivListbox().addChangeHandler(new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent arg0) {
+				
+				if(display.getReport1().getDivListbox().getSelectedValue().equalsIgnoreCase("All")) {
+					display.getReport1().getLstDepartment().clear();
+					display.getReport1().getLstDepartment().addItem("All", "All");
+				}
+				else {
+					int selectedDivision  = Integer.parseInt(display.getReport1().getDivListbox().getSelectedValue());
+					fetchDepartmentAgainstDivision(display.getReport1().getLstDepartment(), selectedDivision);
 
+					}
+				}
+		});
+		display.getReport2().getDivListbox().addChangeHandler(new ChangeHandler() {
+					
+					@Override
+					public void onChange(ChangeEvent arg0) {
+						
+						if(display.getReport2().getDivListbox().getSelectedValue().equalsIgnoreCase("All")) {
+						display.getReport2().getLstDepartment().clear();
+						display.getReport2().getLstDepartment().addItem("All", "All");
+					}
+					else {
+						int selectedDivision  = Integer.parseInt(display.getReport2().getDivListbox().getSelectedValue());
+						fetchDepartmentAgainstDivision(display.getReport2().getLstDepartment(), selectedDivision);
+		
+						}
+					}
+			});
+
+		
+		display.getReport4().getDivListbox().addChangeHandler(new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent arg0) {
+				
+				if(display.getReport4().getDivListbox().getSelectedValue().equalsIgnoreCase("All")) {
+				display.getReport4().getLstDepartment().clear();
+				display.getReport4().getLstDepartment().addItem("All", "All");
+			}
+			else {
+				int selectedDivision  = Integer.parseInt(display.getReport4().getDivListbox().getSelectedValue());
+				fetchDepartmentAgainstDivision(display.getReport4().getLstDepartment(), selectedDivision);
+
+				}
+			}
+	});
+		
+		
+		display.getReport5().getDivListbox().addChangeHandler(new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent arg0) {
+				
+				if(display.getReport5().getDivListbox().getSelectedValue().equalsIgnoreCase("All")) {
+				display.getReport5().getLstDepartment().clear();
+				display.getReport5().getLstDepartment().addItem("All", "All");
+			}
+			else {
+				int selectedDivision  = Integer.parseInt(display.getReport5().getDivListbox().getSelectedValue());
+				fetchDepartmentAgainstDivision(display.getReport5().getLstDepartment(), selectedDivision);
+
+				}
+			}
+	});
+		
+	}
+	
+	private void fetchDepartmentAgainstDivision(final ListBox listBoxDepartment, int selectedDivision) {
+		listBoxDepartment.clear();
+		rpcService.fetchDivisionDepartments(selectedDivision, new AsyncCallback<ArrayList<Department>>() {
+
+			@Override
+			public void onFailure(Throwable arg0) {
+				Window.alert("Error in fetch/department against Divison ");
+				
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Department> departments) {
+				listBoxDepartment.addItem("All", "All");
+
+				for(Department department :departments ) {
+					listBoxDepartment.addItem(department.getDepartmentName(), department.getDepartmentId()+"");
+				}
+				
+			}
+		});
+	}
+	
 	private void bind() {
 
 		initialize();
@@ -734,10 +853,12 @@ public class ReportsPresenter implements Presenter
 				// display.getDivListbox() );
 
 				ArrayList<String> risk = getSelectedItems(display.getReport1().getRiskListbox());
+				
+				ArrayList<String> department = getSelectedItems(display.getReport1().getLstDepartment());
 
 				final ReportAuditPlanning view = new ReportAuditPlanning(null);
 
-				rpcService.fetchReportSearchResult(div, domain, risk, new AsyncCallback<ArrayList<Strategic>>() {
+				rpcService.fetchReportSearchResult(div, domain, risk,department ,new AsyncCallback<ArrayList<Strategic>>() {
 
 					@Override
 					public void onSuccess(ArrayList<Strategic> strategicList) {

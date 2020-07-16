@@ -6856,7 +6856,7 @@ public class MySQLRdbHelper {
 	}
 
 	public ArrayList<Strategic> fetchReportSearchResult(ArrayList<String> div, ArrayList<String> domain,
-			ArrayList<String> risk, int year, int companyId) // int dept, int
+			ArrayList<String> risk, ArrayList<String> department, int year, int companyId) // int dept, int
 	// domain, String
 	// risk)
 	{
@@ -9364,8 +9364,11 @@ public class MySQLRdbHelper {
 		div.add("All");
 		ArrayList<String> risk = new ArrayList<String>();
 		risk.add("All");
+		//2020hamza
+		ArrayList<String> department = new ArrayList<String>();
+		risk.add("All");
 		ArrayList<Integer> ids = new ArrayList<Integer>();
-		ArrayList<Strategic> reports = fetchReportSearchResult(div, domain, risk, year, companyId);
+		ArrayList<Strategic> reports = fetchReportSearchResult(div, domain, risk,department, year, companyId);
 		for (int i = 0; i < reports.size(); i++) {
 			ids.add(reports.get(i).getId());
 		}
@@ -10872,17 +10875,11 @@ public class MySQLRdbHelper {
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
 				if(clientStartDate != null && clientEndDate != null) {
-				Date startDate = getDate(jobCreation.getStartDate());
-				Date endDate = getDate(jobCreation.getEndDate());
-					for(JobCreation job : jobsList) {
-				
-						if(clientStartDate.compareTo(startDate)> 0 && clientEndDate.compareTo(endDate) < 0) {
+					Date startDate = getDate(jobCreation.getStartDate());
+					Date endDate = getDate(jobCreation.getEndDate());
+					if(clientStartDate.compareTo(startDate)< 0 && clientEndDate.compareTo(endDate) > 0) {
 						jobsList.add(jobCreation);
-						}
-//					if(clientStartDate.getDate() > startDate.getDate() && clientEndDate.getDate() < endDate.getDate() ) {
-//						jobsList.add(jobCreation);
-//					}
-				}
+					}
 				}
 				else {
 					jobsList.add(jobCreation);

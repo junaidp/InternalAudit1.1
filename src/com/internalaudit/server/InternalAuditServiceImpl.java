@@ -1116,12 +1116,12 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 
 	@Override
 	public ArrayList<Strategic> fetchReportSearchResult(ArrayList<String> dept, ArrayList<String> domain,
-			ArrayList<String> risk) throws Exception {
+			ArrayList<String> risk, ArrayList<String> department) throws Exception {
 		if (isLoggedIn()) {
 			session = getThreadLocalRequest().getSession(true);
 			int year = (Integer) session.getAttribute("year");
 			int companyId = (Integer) session.getAttribute("companyId");
-			return rdbHelper.fetchReportSearchResult(dept, domain, risk, year, companyId);
+			return rdbHelper.fetchReportSearchResult(dept, domain, risk,department, year, companyId);
 		} else {
 
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);
