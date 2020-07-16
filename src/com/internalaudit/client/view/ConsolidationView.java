@@ -1,6 +1,7 @@
 package com.internalaudit.client.view;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -22,6 +23,7 @@ public class ConsolidationView extends Composite {
 	// new listbox for subprocess
 	private ListBox listBoxSubProcess;
 	private ListBox listBoxJobType;
+	private Anchor anchorFeedback = new Anchor("Feedback");
 	private Button btnSave = new Button("Save");
 	private Button btnSubmit = new Button("Submit");
 	private Button btnApprove = new Button("Approve");
@@ -142,6 +144,9 @@ public class ConsolidationView extends Composite {
 		hpnlComments.add(comments);
 		hpnlComments.add(submitted);
 		hpnlComments.setWidth("150px");
+		anchorFeedback.setVisible(false);
+		anchorFeedback.addStyleName("w3-right");
+		verticalPanel.add(anchorFeedback); 
 		// horizontalPanel.add(hpnlComments);
 
 		verticalPanel.addStyleName("form-row");
@@ -308,4 +313,11 @@ public class ConsolidationView extends Composite {
 		this.listBoxJobType = listBoxJobType;
 	}
 
+	public Anchor getAnchorFeedback() {
+		return anchorFeedback;
+	}
+
+	public void setAnchorFeedback(Anchor anchorFeedback) {
+		this.anchorFeedback = anchorFeedback;
+	}
 }

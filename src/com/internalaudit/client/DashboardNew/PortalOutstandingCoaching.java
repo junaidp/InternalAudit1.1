@@ -58,7 +58,7 @@ public class PortalOutstandingCoaching extends VerticalLayoutContainer {
 		ColumnConfig<OutstandingCoaching, Integer> outstandingId = new ColumnConfig<OutstandingCoaching, Integer>(
 				properties.id(), 70, "Id");
 		ColumnConfig<OutstandingCoaching, String> outstandingCoachingNote = new ColumnConfig<OutstandingCoaching, String>(
-				properties.coachingNote(), 590, "Coaching Note");
+				properties.coachingNote(), 590, "Tasks");
 		ColumnConfig<OutstandingCoaching, String> outstandingRaisedTo = new ColumnConfig<OutstandingCoaching, String>(
 				properties.raisedTo(), 180, "Raised To");
 		ColumnConfig<OutstandingCoaching, String> outstandingRaisedBy = new ColumnConfig<OutstandingCoaching, String>(
@@ -100,7 +100,7 @@ public class PortalOutstandingCoaching extends VerticalLayoutContainer {
 		// panel.setHeight(220);
 		// panel.setWidth(700);
 		panel.setSize("1190px", "350px");
-		panel.setHeadingText("OutstandingCoaching");
+		panel.setHeadingText("To Do Task");
 		panel.add(con);
 		return panel;
 	}

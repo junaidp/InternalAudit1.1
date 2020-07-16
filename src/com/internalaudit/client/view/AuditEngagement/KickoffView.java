@@ -560,7 +560,7 @@ public class KickoffView extends Composite {
 			vpExistingControlContainer.clear();
 		}
 		//When user directly add and submit Audit work in Audit Work Programme, this tab invisible
-		if(record.getEngagementDTO().getSelectedAuditWorkforPrograms().size()>0) {
+		if(record.getEngagementDTO().getSelectedAuditWorkforPrograms().size()>0 && record.getEngagementDTO().getSelectedControls().size()<1) {
 			if(record.getEngagementDTO().getSelectedAuditWorkforPrograms().get(0).getStatus() == InternalAuditConstants.SUBMIT 
 					|| record.getEngagementDTO().getSelectedAuditWorkforPrograms().get(0).getStatus() == InternalAuditConstants.APPROVED )			
 			vpExistingControl.setVisible(false);
@@ -773,7 +773,7 @@ public class KickoffView extends Composite {
 			verticalPanelKeyRisksContainer.clear();//////// here
 		}
 		//When user directly add and submit Audit work in Audit Work Programme, this tab invisible
-		if(record.getEngagementDTO().getSelectedAuditWorkforPrograms().size()>0) {
+		if(record.getEngagementDTO().getSelectedAuditWorkforPrograms().size()>0 && record.getEngagementDTO().getSelectedObjectiveRisks().size()<1) {
 			if(record.getEngagementDTO().getSelectedAuditWorkforPrograms().get(0).getStatus() == InternalAuditConstants.SUBMIT 
 					|| record.getEngagementDTO().getSelectedAuditWorkforPrograms().get(0).getStatus() == InternalAuditConstants.APPROVED )			
 			scrollMainKeyRisks.setVisible(false);
@@ -1046,7 +1046,7 @@ public class KickoffView extends Composite {
 		scrollMain.setScrollMode(ScrollMode.AUTOY);
 		scrollMain.add(vpnlActicityObjective);
 		//When user directly add and submit Audit work in Audit Work Programme, this tab invisible
-		if(record.getEngagementDTO().getSelectedAuditWorkforPrograms().size()>0) {
+		if(record.getEngagementDTO().getSelectedAuditWorkforPrograms().size()>0 && record.getEngagementDTO().getSelectedActivityObjectives().size()<1) {
 			if(record.getEngagementDTO().getSelectedAuditWorkforPrograms().get(0).getStatus() == InternalAuditConstants.SUBMIT 
 					|| record.getEngagementDTO().getSelectedAuditWorkforPrograms().get(0).getStatus() == InternalAuditConstants.APPROVED )			
 				scrollMain.setVisible(false);

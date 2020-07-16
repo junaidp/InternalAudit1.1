@@ -104,7 +104,7 @@ public class PortalInformationRequest extends VerticalLayoutContainer {
 		// panel.setHeight(230);
 		// panel.setWidth(700);
 		panel.setSize("1190px", "350px");
-		panel.setHeadingText("InformationRequest");
+		panel.setHeadingText("Information Request");
 		panel.add(con);
 		return panel;
 	}

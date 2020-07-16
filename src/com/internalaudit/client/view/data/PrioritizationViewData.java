@@ -14,6 +14,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -185,6 +186,8 @@ public class PrioritizationViewData {
 					}
 					// prioritizationView.getListYears().setSelectedIndex(index);
 					//
+					if(strategics.get(index).getComments() != null && strategics.get(index).getComments().length()>1) 
+						showFeeback(prioritizationView.getAnchorFeedback(), strategics.get(index).getComments());
 
 					setButtonsVisibility(strategics, index, prioritizationView);
 					if (strategics.get(index).getPhase() != 4 || strategics.get(index).getLoggedInUser() != strategics
@@ -387,12 +390,22 @@ public class PrioritizationViewData {
 			prioritizationView.getBtnDeclineInitiator().setVisible(false);
 			prioritizationView.getHpnlButtonsApprovar().setVisible(false);
 			prioritizationView.getHpnlButtonInitiator().setVisible(true);
-
 		} else {
 			prioritizationView.getBtnDeclineInitiator().setVisible(true);
 			prioritizationView.getHpnlButtonsApprovar().setVisible(false);
 			prioritizationView.getHpnlButtonInitiator().setVisible(true);
 		}
+	}
+	
+	private void showFeeback(Anchor feedback, final String feedbackMsg) {
+		feedback.setVisible(true);
+		feedback.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent arg0) {
+				new PopupViewGXT(new HTML(feedbackMsg), "Feedback");
+			}
+		});
 	}
 
 	public void declineStrategic(int strategicId, final VerticalPanel vpnlData, final Button buttonRound) {

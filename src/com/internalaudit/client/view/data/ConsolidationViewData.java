@@ -14,8 +14,10 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -25,6 +27,7 @@ import com.internalaudit.client.view.AmendmentPopup;
 import com.internalaudit.client.view.ConsolidationView;
 import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.client.view.PhaseNames;
+import com.internalaudit.client.view.PopupViewGXT;
 import com.internalaudit.shared.JobType;
 import com.internalaudit.shared.Process;
 import com.internalaudit.shared.ProcessDTO;
@@ -250,6 +253,9 @@ public class ConsolidationViewData {
 
 				for (index = 0; index < strategics.size(); index++) {
 					final ConsolidationView consolidationView = new ConsolidationView();
+					if(strategics.get(index).getComments() != null && strategics.get(index).getComments().length()>1
+							&& strategics.get(index).getPhase() == 3) 
+						showFeeback(consolidationView.getAnchorFeedback(), strategics.get(index).getComments());
 					setButtonsVisibility(strategics, index, consolidationView);
 					if (strategics.get(index).getPhase() != 3 || strategics.get(index).getLoggedInUser() != strategics
 							.get(index).getAssignedTo().getEmployeeId()) {
@@ -524,6 +530,17 @@ public class ConsolidationViewData {
 		}
 	}
 
+	private void showFeeback(Anchor feedback, final String feedbackMsg) {
+		feedback.setVisible(true);
+		feedback.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent arg0) {
+				new PopupViewGXT(new HTML(feedbackMsg), "Feedback");
+			}
+		});
+	}
+	
 	public void declineStrategic(int strategicId, final VerticalPanel vpnlData, final Button button) {
 		button.setEnabled(false);
 		rpcService.declineStrategic(strategicId, new AsyncCallback<String>() {

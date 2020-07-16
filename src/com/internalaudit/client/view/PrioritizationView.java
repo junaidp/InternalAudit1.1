@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.google.gwt.user.client.ui.Anchor;
 
 public class PrioritizationView extends Composite {
 	private Label area;
@@ -29,6 +30,7 @@ public class PrioritizationView extends Composite {
 	private Button btnDecline = new Button("Delete");
 	private Button btnDeclineInitiator = new Button("Delete");
 	private Button btnFeedback = new Button("Feedback");
+	private Anchor anchorFeedback = new Anchor("Feedback");
 	private HorizontalPanel hpnlButtonInitiator = new HorizontalPanel();
 	private HorizontalPanel hpnlButtonsApprovar = new HorizontalPanel();
 	private int strategicId;
@@ -79,6 +81,9 @@ public class PrioritizationView extends Composite {
 
 		verticalPanel.add(hpnlButtonInitiator);
 		verticalPanel.add(hpnlButtonsApprovar);
+
+		anchorFeedback.setVisible(false);
+		
 		HorizontalPanel hpnlSpace = new HorizontalPanel();
 		HorizontalPanel hpnlSpaceApprovar = new HorizontalPanel();
 
@@ -115,7 +120,8 @@ public class PrioritizationView extends Composite {
 
 		horizontalPanel.add(listYears);
 		horizontalPanel.add(hpnlComments);
-
+		anchorFeedback.addStyleName("w3-right");
+		verticalPanel.add(anchorFeedback); 
 		verticalPanel.addStyleName("form-row");
 
 		////
@@ -131,6 +137,14 @@ public class PrioritizationView extends Composite {
 		tab.setWidth("70px");
 		fetchCurrentYear(horizontalPanel);
 
+	}
+
+	public Anchor getAnchorFeedback() {
+		return anchorFeedback;
+	}
+
+	public void setAnchorFeedback(Anchor anchorFeedback) {
+		this.anchorFeedback = anchorFeedback;
 	}
 
 	private void fetchCurrentYear(final HorizontalPanel horizontalPanel) {

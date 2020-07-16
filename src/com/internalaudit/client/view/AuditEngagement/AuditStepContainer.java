@@ -89,7 +89,9 @@ public class AuditStepContainer extends Composite {
 
 		ContentPanel cp = new ContentPanel(appearance);
 		cp.setAnimCollapse(false);
-		cp.setHeadingText(auditWork.getStepNo() + "." + auditWork.getDescription());
+		//stepNo check added to add Reference number of job 17 july 2020
+		String stepNo = ((!auditWork.getStepNo().contains("[a-zA-Z]+")) && auditWork.getStepNo().contains("^[0-9]*$"))? auditWork.getStepNo() : auditWork.getSuggestedControlsId().getSuggestedReferenceNo();
+		cp.setHeadingText(stepNo + " | " + auditWork.getDescription());
 		ScrollPanel sp = new ScrollPanel();
 		sp.add(new AuditStepView(auditWork, selectedJobId, loggedInEmployee));
 		sp.setSize("1180px", "350px");

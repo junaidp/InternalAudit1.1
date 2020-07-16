@@ -31,7 +31,7 @@ public class DashboardListBoxes extends HorizontalPanel {
 	private ArrayList<SubProcess> subProcess;
 	HorizontalPanel hpnlDates = new HorizontalPanel();
 
-	private	Button btnSearch = new Button("searchList");
+	private	Button btnSearch = new Button("Search");
 
 
 	private	ListBox listBoxDomain = new ListBox();
