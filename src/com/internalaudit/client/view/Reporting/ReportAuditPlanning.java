@@ -12,6 +12,8 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.client.view.AuditEngagement.LabelBold;
+import com.sencha.gxt.core.client.dom.ScrollSupport.ScrollMode;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
 public class ReportAuditPlanning extends Composite implements IStackWidget {
 
@@ -37,7 +39,7 @@ public class ReportAuditPlanning extends Composite implements IStackWidget {
 	Button btnEmail = new Button("Email");
 	Anchor ancDetailed = new Anchor("Show Detailed View");
 
-	VerticalPanel vpnlMain;
+	VerticalLayoutContainer vpnlMain;
 
 	VerticalPanel vpnlTable;
 
@@ -56,9 +58,11 @@ public class ReportAuditPlanning extends Composite implements IStackWidget {
 		btnExportToPDF.setWidth("130px");
 		// btnExportToPDF.addStyleName("w3-margin");
 		// btnSearch.addStyleName("w3-margin");
-		vpnlMain = new VerticalPanel();
+		vpnlMain = new VerticalLayoutContainer();
 		vpnlTable = new VerticalPanel();
-		vpnlMain.setWidth("100%");
+		vpnlMain.setScrollMode(ScrollMode.AUTOX);
+		vpnlMain.setWidth("90%");
+	
 		chartPanel.setWidth("100%");
 
 		// chartPanel.setWidth("800px");
@@ -279,7 +283,7 @@ public class ReportAuditPlanning extends Composite implements IStackWidget {
 		return lstRisk;
 	}
 
-	public VerticalPanel getMainPanel() {
+	public VerticalLayoutContainer getMainPanel() {
 		return vpnlMain;
 	}
 

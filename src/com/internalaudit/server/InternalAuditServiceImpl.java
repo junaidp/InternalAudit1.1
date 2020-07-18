@@ -67,6 +67,7 @@ import com.internalaudit.shared.StrategicAudit;
 import com.internalaudit.shared.StrategicDTO;
 import com.internalaudit.shared.StrategicDepartments;
 import com.internalaudit.shared.StrategicRisk;
+import com.internalaudit.shared.StrategicSubProcess;
 import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.TimeOutException;
@@ -1151,13 +1152,13 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 
 	@Override
 	public ArrayList<Strategic> fetchReportAuditScheduling(ArrayList<String> dept, ArrayList<String> domain,
-			ArrayList<String> jobStatus, ArrayList<String> responsiblePerson) throws Exception {
+			ArrayList<String> jobStatus, ArrayList<String> responsiblePerson,  ArrayList<String> department) throws TimeOutException, Exception {
 
 		if (isLoggedIn()) {
 			session = getThreadLocalRequest().getSession(true);
 			int year = (Integer) session.getAttribute("year");
 			int companyId = (Integer) session.getAttribute("companyId");
-			return rdbHelper.fetchReportAuditScheduling(dept, domain, jobStatus, responsiblePerson, year, companyId);
+			return rdbHelper.fetchReportAuditScheduling(dept, domain, jobStatus, responsiblePerson,department, year, companyId);
 		} else {
 
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);
@@ -1331,12 +1332,12 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 
 	@Override
 	public ArrayList<JobCreation> fetchReportWithResourcesSearchResult(ArrayList<String> dept, ArrayList<String> domain,
-			ArrayList<String> risk, ArrayList<String> resources) throws Exception {
+			ArrayList<String> risk, ArrayList<String> resources,ArrayList<String> department) throws Exception {
 		if (isLoggedIn()) {
 			session = getThreadLocalRequest().getSession(true);
 			int year = (Integer) session.getAttribute("year");
 			int companyId = (Integer) session.getAttribute("companyId");
-			return rdbHelper.fetchReportWithResourcesSearchResult(dept, domain, risk, resources, year, companyId);
+			return rdbHelper.fetchReportWithResourcesSearchResult(dept, domain, risk, resources,department, year, companyId);
 		} else {
 
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);
@@ -1347,12 +1348,12 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	@Override
 	public ArrayList<Exceptions> fetchExceptionReports(ArrayList<String> div, ArrayList<String> domain,
 			ArrayList<String> risk, ArrayList<String> resources, ArrayList<String> jobs, ArrayList<String> auditees,
-			ArrayList<String> exceptionStatus) throws Exception {
+			ArrayList<String> exceptionStatus,ArrayList<String> department) throws Exception {
 		if (isLoggedIn()) {
 			session = getThreadLocalRequest().getSession(true);
 			int year = (Integer) session.getAttribute("year");
 			int companyId = (Integer) session.getAttribute("companyId");
-			return rdbHelper.fetchExceptionReports(div, domain, risk, resources, jobs, auditees, exceptionStatus, year,
+			return rdbHelper.fetchExceptionReports(div, domain, risk, resources, jobs, auditees,exceptionStatus,department , year,
 					companyId);
 		} else {
 
@@ -1846,5 +1847,11 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);
 
 		}
+	}
+
+	@Override
+	public StrategicSubProcess fetchStrategicSubProcess(int id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

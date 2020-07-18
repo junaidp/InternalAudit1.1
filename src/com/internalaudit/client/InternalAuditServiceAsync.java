@@ -50,6 +50,7 @@ import com.internalaudit.shared.StrategicAudit;
 import com.internalaudit.shared.StrategicDTO;
 import com.internalaudit.shared.StrategicDepartments;
 import com.internalaudit.shared.StrategicRisk;
+import com.internalaudit.shared.StrategicSubProcess;
 import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.ToDo;
@@ -208,7 +209,7 @@ public interface InternalAuditServiceAsync {
 			ArrayList<String> department, AsyncCallback<ArrayList<Strategic>> callback);
 
 	void fetchReportWithResourcesSearchResult(ArrayList<String> dept, ArrayList<String> domain, ArrayList<String> risk,
-			ArrayList<String> resources, AsyncCallback<ArrayList<JobCreation>> callback);
+			ArrayList<String> resources, ArrayList<String> department, AsyncCallback<ArrayList<JobCreation>> callback);
 
 	void fetchStrategicDepartmentsMultiple(ArrayList<Integer> ids,
 			AsyncCallback<ArrayList<StrategicDepartments>> callback);
@@ -216,7 +217,7 @@ public interface InternalAuditServiceAsync {
 	void exportAuditPlanningReport(ArrayList<ExcelDataDTO> excelDataList, String btn, AsyncCallback<String> callback);
 
 	void fetchReportAuditScheduling(ArrayList<String> dept, ArrayList<String> domain, ArrayList<String> jobStatus,
-			ArrayList<String> responsiblePerson, AsyncCallback<ArrayList<Strategic>> callback);
+			ArrayList<String> responsiblePerson, ArrayList<String> dep, AsyncCallback<ArrayList<Strategic>> callback);
 
 	void approveFinalAuditable(Strategic strategic, AsyncCallback<String> callback);
 
@@ -254,7 +255,7 @@ public interface InternalAuditServiceAsync {
 
 	void fetchExceptionReports(ArrayList<String> div, ArrayList<String> domain, ArrayList<String> risk,
 			ArrayList<String> resources, ArrayList<String> jobs, ArrayList<String> auditees,
-			ArrayList<String> exceptionStatus, AsyncCallback<ArrayList<Exceptions>> asyncCallback);
+			ArrayList<String> exceptionStatus, ArrayList<String> department, AsyncCallback<ArrayList<Exceptions>> asyncCallback);
 
 	void exportJobTimeAllocationReport(ArrayList<JobTimeAllocationReportDTO> excelDataList, String btn,
 			AsyncCallback<String> callback);
@@ -361,5 +362,7 @@ public interface InternalAuditServiceAsync {
 	void fetchSavedSamplingReport(String folder, String auditStepId, AsyncCallback<String> callback);
 
 	void fetchJobsAgainstSelectedDates(Date startDate, Date endDate, AsyncCallback<ArrayList<JobCreation>> callback);
+
+	void fetchStrategicSubProcess(int id, AsyncCallback<StrategicSubProcess> asyncCallback);
 
 }

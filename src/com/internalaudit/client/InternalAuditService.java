@@ -51,6 +51,7 @@ import com.internalaudit.shared.StrategicAudit;
 import com.internalaudit.shared.StrategicDTO;
 import com.internalaudit.shared.StrategicDepartments;
 import com.internalaudit.shared.StrategicRisk;
+import com.internalaudit.shared.StrategicSubProcess;
 import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.TimeOutException;
@@ -205,14 +206,14 @@ public interface InternalAuditService extends RemoteService {
 			ArrayList<String> risk, ArrayList<String> department) throws Exception;
 
 	ArrayList<JobCreation> fetchReportWithResourcesSearchResult(ArrayList<String> dept, ArrayList<String> domain,
-			ArrayList<String> risk, ArrayList<String> resources) throws Exception;
+			ArrayList<String> risk, ArrayList<String> resources, ArrayList<String> department) throws Exception;
 
 	ArrayList<StrategicDepartments> fetchStrategicDepartmentsMultiple(ArrayList<Integer> ids) throws Exception;
 
 	String exportAuditPlanningReport(ArrayList<ExcelDataDTO> excelDataList, String btn) throws Exception;
 
 	ArrayList<Strategic> fetchReportAuditScheduling(ArrayList<String> dept, ArrayList<String> domain,
-			ArrayList<String> jobStatus, ArrayList<String> responsiblePerson) throws Exception;
+			ArrayList<String> jobStatus, ArrayList<String> responsiblePerson, ArrayList<String> dep) throws TimeOutException, Exception;
 
 	String approveFinalAuditable(Strategic strategic) throws Exception;
 
@@ -250,7 +251,7 @@ public interface InternalAuditService extends RemoteService {
 
 	ArrayList<Exceptions> fetchExceptionReports(ArrayList<String> div, ArrayList<String> domain, ArrayList<String> risk,
 			ArrayList<String> resources, ArrayList<String> jobs, ArrayList<String> auditees,
-			ArrayList<String> exceptionStatus) throws Exception;
+			ArrayList<String> exceptionStatus, ArrayList<String> department) throws Exception;
 
 	String exportJobTimeAllocationReport(ArrayList<JobTimeAllocationReportDTO> excelDataList, String btn)
 			throws Exception;
@@ -352,6 +353,8 @@ public interface InternalAuditService extends RemoteService {
 	String fetchSavedSamplingReport(String folder, String auditStepId);
 	
 	ArrayList<JobCreation> fetchJobsAgainstSelectedDates(Date startDate , Date endDate) throws Exception;
+
+	StrategicSubProcess fetchStrategicSubProcess(int id);
 
 	// ArrayList<ToDo> fetchUpdatedRaisedToDo(int employeeID) throws Exception;
 }

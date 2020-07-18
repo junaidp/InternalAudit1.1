@@ -1,5 +1,6 @@
 package com.internalaudit.client.presenter;
 
+import java.awt.dnd.Autoscroll;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -54,6 +55,8 @@ import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.JobTimeAllocationReportDTO;
 import com.internalaudit.shared.Strategic;
 import com.internalaudit.shared.StrategicDepartments;
+import com.sencha.gxt.core.client.dom.ScrollSupport.ScrollMode;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
 public class ReportsPresenter implements Presenter
 
@@ -664,6 +667,8 @@ public class ReportsPresenter implements Presenter
 				ArrayList<String> domain = getSelectedItems(display.getReport2().getDomainListbox());
 
 				ArrayList<String> div = getSelectedItems(display.getReport2().getDivListbox());
+				
+				ArrayList<String> dep = getSelectedItems(display.getReport2().getLstDepartment());
 
 				ArrayList<String> selectedEmp = getSelectedItems(display.getReport2().getEmpListbox());
 
@@ -672,7 +677,7 @@ public class ReportsPresenter implements Presenter
 				// final ReportAuditScheduling view = new
 				// ReportAuditScheduling(null);
 
-				rpcService.fetchReportAuditScheduling(div, domain, jobStatus, selectedEmp,
+				rpcService.fetchReportAuditScheduling(div, domain, jobStatus, selectedEmp,dep,
 						new AsyncCallback<ArrayList<Strategic>>() {
 
 							@Override
@@ -696,6 +701,7 @@ public class ReportsPresenter implements Presenter
 									LabelHeading lblAuditableUnit = new LabelHeading();
 									LabelHeading lblDomain = new LabelHeading();
 									LabelHeading lblDivision = new LabelHeading();
+									LabelHeading lblDepartment = new LabelHeading();
 									LabelHeading lblRiskAssessment = new LabelHeading();
 									LabelHeading lblResources = new LabelHeading();
 									LabelHeading lblTimeAllocated = new LabelHeading();
@@ -703,6 +709,7 @@ public class ReportsPresenter implements Presenter
 									lblAuditableUnit.setText("Job");
 									lblDomain.setText("Domain");
 									lblDivision.setText("Division");
+									lblDepartment.setText("Department");
 									lblRiskAssessment.setText("Risk Assessment");
 									lblResources.setText("Resources");
 									lblTimeAllocated.setText("Time Allocated");
@@ -710,9 +717,10 @@ public class ReportsPresenter implements Presenter
 									resultsTable.setWidget(0, 0, lblAuditableUnit);
 									resultsTable.setWidget(0, 1, lblDomain);
 									resultsTable.setWidget(0, 2, lblDivision);
-									resultsTable.setWidget(0, 3, lblRiskAssessment);
-									resultsTable.setWidget(0, 4, lblResources);
-									resultsTable.setWidget(0, 5, lblTimeAllocated);
+									resultsTable.setWidget(0, 3, lblDepartment);
+									resultsTable.setWidget(0, 4, lblRiskAssessment);
+									resultsTable.setWidget(0, 5, lblResources);
+									resultsTable.setWidget(0, 6, lblTimeAllocated);
 
 									// resultsTable.setWidget(0, 0, new
 									// Label("Job"));
@@ -759,9 +767,10 @@ public class ReportsPresenter implements Presenter
 										resultsTable.getCellFormatter().addStyleName(i + 1, j + 3, "form-row");
 										resultsTable.getCellFormatter().addStyleName(i + 1, j + 4, "form-row");
 										resultsTable.getCellFormatter().addStyleName(i + 1, j + 5, "form-row");
+										resultsTable.getCellFormatter().addStyleName(i + 1, j + 6, "form-row");
 
 										Label lblJobName = new Label();
-										lblJobName.setWidth("650px");
+										lblJobName.setWidth("350px");
 										lblJobName.setText(strategicList.get(i).getJobName());
 										resultsTable.setWidget(i + 1, j++, lblJobName);
 
@@ -770,7 +779,19 @@ public class ReportsPresenter implements Presenter
 										// Label(strategicList.get(i).getJobName()));
 										resultsTable.setWidget(i + 1, j++, new Label(strategicList.get(i).getDomain()));
 										resultsTable.setWidget(i + 1, j++,
-												new Label(strategicList.get(i).getDivisionName()));
+												new Label(strategicList.get(i).getDivision().getDivisionName()));
+										
+										VerticalLayoutContainer vpnlDepartments = new VerticalLayoutContainer();
+										vpnlDepartments.setWidth(180);
+										vpnlDepartments.setScrollMode(ScrollMode.AUTOX);
+										for(StrategicDepartments departments : strategicList.get(i).getStrategicDepartments()) {
+											Label lblDepartments = new Label(departments.getDepartment().getDepartmentName());
+											lblDepartments.setWidth("180px");
+											lblDepartments.setWordWrap(false);
+											vpnlDepartments.add(lblDepartments);
+										}
+										resultsTable.setWidget(i + 1, j++,	vpnlDepartments);
+										
 										resultsTable.setWidget(i + 1, j++, new Label(strategicList.get(i).getRating()));
 										// resultsTable.setWidget(i+1, j++, new
 										// Label(
@@ -883,17 +904,20 @@ public class ReportsPresenter implements Presenter
 							LabelHeading lblAuditableUnit = new LabelHeading();
 							LabelHeading lblDomain = new LabelHeading();
 							LabelHeading lblDivision = new LabelHeading();
+							LabelHeading lblDepartment = new LabelHeading();
 							LabelHeading lblRiskAssessment = new LabelHeading();
 
 							lblAuditableUnit.setText("Auditable Unit");
 							lblDomain.setText("Domain");
 							lblDivision.setText("Division");
+							lblDepartment.setText("Department");
 							lblRiskAssessment.setText("Risk Assessment");
 
 							resultsTable.setWidget(0, 0, lblAuditableUnit);
 							resultsTable.setWidget(0, 1, lblDomain);
 							resultsTable.setWidget(0, 2, lblDivision);
-							resultsTable.setWidget(0, 3, lblRiskAssessment);
+							resultsTable.setWidget(0, 3, lblDepartment);
+							resultsTable.setWidget(0, 4, lblRiskAssessment);
 
 							// resultsTable.setWidget(0, 0, new Label("Auditable
 							// Unit"));
@@ -917,7 +941,7 @@ public class ReportsPresenter implements Presenter
 
 							resultsTable.addStyleName("alignCenter");
 							resultsTable.addStyleName("form-row");
-							resultsTable.setWidth("100%");
+							resultsTable.setWidth("1000px");
 
 							// fill the rows with resulting data
 							ArrayList<Integer> ids = new ArrayList<Integer>();
@@ -931,6 +955,7 @@ public class ReportsPresenter implements Presenter
 								resultsTable.getCellFormatter().addStyleName(i + 1, j + 1, "form-row");
 								resultsTable.getCellFormatter().addStyleName(i + 1, j + 2, "form-row");
 								resultsTable.getCellFormatter().addStyleName(i + 1, j + 3, "form-row");
+								resultsTable.getCellFormatter().addStyleName(i + 1, j + 4, "form-row");
 
 								// resultsTable.setWidget(i+1, j++, new Label(
 								// strategicList.get(i).getStrategicObjective()
@@ -940,19 +965,32 @@ public class ReportsPresenter implements Presenter
 								// ));
 
 								Label lblAuditableUnitData = new Label();
-								lblAuditableUnitData.setWidth("915px");
+								lblAuditableUnitData.setWidth("400px");
 								lblAuditableUnitData.setText(strategicList.get(i).getAuditableUnit());
 								resultsTable.setWidget(i + 1, j++, lblAuditableUnitData);
 								// resultsTable.setWidget(i + 1, j++, new
 								// Label(strategicList.get(i).getAuditableUnit()));
 								resultsTable.setWidget(i + 1, j++, new Label(strategicList.get(i).getDomain()));
-								resultsTable.setWidget(i + 1, j++, new Label(strategicList.get(i).getDivisionName()));
+								resultsTable.setWidget(i + 1, j++, new Label(strategicList.get(i).getDivision().getDivisionName()));
+	
+								VerticalLayoutContainer vpnlDepartments = new VerticalLayoutContainer();
+								vpnlDepartments.setWidth(180);
+								vpnlDepartments.setScrollMode(ScrollMode.AUTOX);
+								for(StrategicDepartments departments : strategicList.get(i).getStrategicDepartments()) {
+									Label lblDepartments = new Label(departments.getDepartment().getDepartmentName());
+									lblDepartments.setWidth("180px");
+									lblDepartments.setWordWrap(false);
+									vpnlDepartments.add(lblDepartments);
+								}
+								resultsTable.setWidget(i + 1, j++,	vpnlDepartments);
 								resultsTable.setWidget(i + 1, j++, new Label(strategicList.get(i).getRating()));
 
 								// resultsTable.getCellFormatter().addStyleName(i+1,
 								// j++, "form-row");
 							}
 							resultsTable.setWidth("100%");
+							
+							
 							display.getReport1().getVpnlPerviewData().add(resultsTable);
 
 							display.getReport1().showButtonBelow();
@@ -1015,14 +1053,14 @@ public class ReportsPresenter implements Presenter
 				ArrayList<String> domain = getSelectedItems(display.getReport4().getDomainListbox());
 
 				ArrayList<String> div = getSelectedItems(display.getReport4().getDivListbox());
-
+				ArrayList<String> department = getSelectedItems(display.getReport4().getLstDepartment());
 				ArrayList<String> risk = getSelectedItems(display.getReport4().getRiskListbox());
 				ArrayList<String> resources = getSelectedItems(display.getReport4().getLstResource());
 
 				// final ReportJobTimeAllocation view = new
 				// ReportJobTimeAllocation(null);
 
-				rpcService.fetchReportWithResourcesSearchResult(div, domain, risk, resources,
+				rpcService.fetchReportWithResourcesSearchResult(div, domain, risk, resources,department,
 						new AsyncCallback<ArrayList<JobCreation>>() {
 
 							@Override
@@ -1158,7 +1196,7 @@ public class ReportsPresenter implements Presenter
 				ArrayList<String> domain = getSelectedItems(display.getReport5().getDomainListbox());
 
 				ArrayList<String> div = getSelectedItems(display.getReport5().getDivListbox());
-
+				ArrayList<String> department = getSelectedItems(display.getReport5().getLstDepartment());
 				ArrayList<String> risk = getSelectedItems(display.getReport5().getRiskListbox());
 				ArrayList<String> resources = getSelectedItems(display.getReport5().getLstResource());
 				ArrayList<String> jobs = getSelectedItems(display.getReport5().getLstJobs());
@@ -1168,7 +1206,7 @@ public class ReportsPresenter implements Presenter
 				// final ReportJobTimeAllocation view = new
 				// ReportJobTimeAllocation(null);
 
-				rpcService.fetchExceptionReports(div, domain, risk, resources, jobs, auditees, exceptionStatus,
+				rpcService.fetchExceptionReports(div, domain, risk, resources, jobs, auditees, exceptionStatus,department,
 						new AsyncCallback<ArrayList<Exceptions>>() {
 
 							@Override

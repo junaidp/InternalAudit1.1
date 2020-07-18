@@ -665,6 +665,28 @@ public class MySQLRdbHelper {
 		}
 		return divisions;
 	}
+	
+	public Division fetchDivisionById(int divisionId) {
+		Session session = null;
+		Division division = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(Division.class);
+			crit.add(Restrictions.eq("divisionID", divisionId));
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+
+				division = (Division) it.next();
+			}
+			logger.info(String.format("Inside fetchDivisionById() " + new Date()));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchDivisionById", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+		return division;
+	}
 
 	public JobTimeEstimationDTO fetchJobTime(int jobId, int year, int companyId) {
 
@@ -4675,8 +4697,7 @@ public class MySQLRdbHelper {
 				}
 				
 				if (!hm.get("Department").equals("0") && !hm.get("Department").equalsIgnoreCase("All")) {
-					crit.add(Restrictions.eq("dept.departmentName", hm.get("Department")));// TODO
-
+					crit.add(Restrictions.eq("dept.departmentId",Integer.parseInt( hm.get("Department"))));
 				}
 				if (!hm.get("Resource").equals("0")) {
 					crit.add(Restrictions.eq("employee.employeeId", Integer.parseInt(hm.get("Resource"))));
@@ -6871,6 +6892,7 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(Strategic.class);
 			crit.createAlias("initiatedBy", "initiated");
 			crit.createAlias("assignedTo", "assigned");
+			crit.createAlias("relevantDepartment", "dept");
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			// crit.add(Restrictions.eq("tab", domain));
@@ -6898,6 +6920,17 @@ public class MySQLRdbHelper {
 				}
 				crit.add(riskOR);
 			}
+			
+			Disjunction divOR = Restrictions.disjunction();
+
+			if (!div.contains("All")) {
+				for (int i = 0; i < div.size(); i++) {
+
+					divOR.add(Restrictions.eq("divisionID", Integer.parseInt(div.get(i))));
+				}
+				crit.add(divOR);
+			}
+			
 
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -6929,8 +6962,9 @@ public class MySQLRdbHelper {
 				// HibernateDetachUtility.SerializationType.SERIALIZATION);
 				// HibernateDetachUtility.nullOutUninitializedFields(strategic.getObjectiveOwner().getReportingTo(),
 				// HibernateDetachUtility.SerializationType.SERIALIZATION);
-
-				if (strategicHaveTheDept(strategic, div, session)) {
+				strategic.setStrategicDepartments(fetchStrategicDepartments(strategic.getId()));
+				strategic.setDivision(fetchDivisionById(strategic.getDivisionID()));
+				if (strategicHaveTheDept(strategic, department, session)) {
 					dtoList.add(strategic);
 				}
 
@@ -6955,7 +6989,7 @@ public class MySQLRdbHelper {
 		return dtoList;
 	}
 
-	public boolean strategicHaveTheDept(Strategic strategic, ArrayList<String> div, Session session) {
+	public boolean strategicHaveTheDept(Strategic strategic, ArrayList<String> department, Session session) {
 
 		ArrayList<StrategicDepartments> lstDept = new ArrayList<StrategicDepartments>();
 
@@ -6967,11 +7001,11 @@ public class MySQLRdbHelper {
 			crit.createAlias("department", "dept");
 
 			crit.add(Restrictions.eq("strategic", strategic.getId()));
-			if (!div.contains("All")) {
+			if (!department.contains("All")) {
 				Disjunction or = Restrictions.disjunction();
-				for (int i = 0; i < div.size(); i++) {
+				for (int i = 0; i < department.size(); i++) {
 
-					or.add(Restrictions.eq("dept.departmentId", Integer.parseInt(div.get(i))));
+					or.add(Restrictions.eq("dept.departmentId", Integer.parseInt(department.get(i))));
 				}
 				crit.add(or);
 			}
@@ -6980,7 +7014,7 @@ public class MySQLRdbHelper {
 				StrategicDepartments depts = (StrategicDepartments) it.next();
 				strategic.setDivisionName(depts.getDepartment().getDepartmentName());
 			}
-			if (crit.list().size() > 0 || div.contains("All")) {
+			if (crit.list().size() > 0 || department.contains("All")) {
 				available = true;
 			}
 
@@ -7211,7 +7245,7 @@ public class MySQLRdbHelper {
 	}
 
 	public ArrayList<Strategic> fetchReportAuditScheduling(ArrayList<String> div, ArrayList<String> domain,
-			ArrayList<String> jobStatus, ArrayList<String> responsiblePerson, int year, int companyId) {
+			ArrayList<String> jobStatus, ArrayList<String> responsiblePerson, ArrayList<String> department, int year, int companyId) {
 
 		Session session = null;
 		ArrayList<Strategic> dtoList = new ArrayList<Strategic>();
@@ -7222,6 +7256,7 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(Strategic.class);
 			crit.createAlias("initiatedBy", "initiated");
 			crit.createAlias("assignedTo", "assigned");
+			crit.createAlias("relevantDepartment", "dept");
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
 			// crit.add(Restrictions.eq("tab", domain));
@@ -7237,6 +7272,17 @@ public class MySQLRdbHelper {
 
 				crit.add(domainOR);
 			}
+			
+			Disjunction divOR = Restrictions.disjunction();
+
+			if (!div.contains("All")) {
+				for (int i = 0; i < div.size(); i++) {
+
+					divOR.add(Restrictions.eq("divisionID", Integer.parseInt(div.get(i))));
+				}
+				crit.add(divOR);
+			}
+			
 
 			Disjunction jobStatusOR = Restrictions.disjunction();
 
@@ -7296,9 +7342,14 @@ public class MySQLRdbHelper {
 				// HibernateDetachUtility.nullOutUninitializedFields(strategic.getObjectiveOwner().getReportingTo(),
 				// HibernateDetachUtility.SerializationType.SERIALIZATION);
 				JobCreation job = getJob(strategic.getId());
-				if (jobHavetheResources(job, responsiblePerson, session)) {
 
-					if (strategicHaveTheDept(strategic, div, session)) {
+				strategic.setStrategicDepartments(fetchStrategicDepartments(strategic.getId()));
+				strategic.setDivision(fetchDivisionById(strategic.getDivisionID()));
+				if (jobHavetheResources(job, responsiblePerson, session)) {
+					
+					
+
+					if (strategicHaveTheDept(strategic, department, session)) {
 
 						if (strategicHaveTheJobStatus(strategic, jobStatus)) {
 							dtoList.add(strategic);
@@ -7910,7 +7961,7 @@ public class MySQLRdbHelper {
 	}
 
 	public ArrayList<JobCreation> fetchReportWithResourcesSearchResult(ArrayList<String> div, ArrayList<String> domain,
-			ArrayList<String> risk, ArrayList<String> resources, int year, int companyId) {
+			ArrayList<String> risk, ArrayList<String> resources, ArrayList<String> department, int year, int companyId) {
 		Session session = null;
 		ArrayList<JobCreation> jobs = new ArrayList<JobCreation>();
 		try {
@@ -7930,6 +7981,26 @@ public class MySQLRdbHelper {
 				}
 
 				crit.add(domainOR);
+			}
+			
+			Disjunction divOR = Restrictions.disjunction();
+
+			if (!div.contains("All")) {
+				for (int i = 0; i < div.size(); i++) {
+
+					divOR.add(Restrictions.eq("strategic.divisionID", Integer.parseInt(div.get(i))));
+				}
+				crit.add(divOR);
+			}
+			
+			Disjunction depOR = Restrictions.disjunction();
+
+			if (!department.contains("All")) {
+				for (int i = 0; i < department.size(); i++) {
+
+					depOR.add(Restrictions.eq("dept.departmentId",Integer.parseInt( department.get(i))));   //departmentName
+				}
+				crit.add(depOR);
 			}
 
 			// Disjunction resourcesOR = Restrictions.disjunction();
@@ -7955,15 +8026,15 @@ public class MySQLRdbHelper {
 				crit.add(riskOR);
 			}
 
-			Disjunction divisionOR = Restrictions.disjunction();
-
-			if (!div.contains("All")) {
-				for (int i = 0; i < div.size(); i++) {
-					divisionOR.add(Restrictions.eq("relevantDept", div.get(i)));
-
-				}
-				crit.add(divisionOR);
-			}
+//			Disjunction divisionOR = Restrictions.disjunction();
+//
+//			if (!div.contains("All")) {
+//				for (int i = 0; i < div.size(); i++) {
+//					divisionOR.add(Restrictions.eq("relevantDept", div.get(i)));
+//
+//				}
+//				crit.add(divisionOR);
+//			}
 
 			List rsList = crit.list();
 
@@ -7972,6 +8043,8 @@ public class MySQLRdbHelper {
 				JobCreation job = (JobCreation) it.next();
 
 				if (jobHavetheResources(job, resources, session)) {
+					job.getStrategicId().setStrategicDepartments(fetchStrategicDepartments(job.getStrategicId().getId()));
+					job.getStrategicId().setDivision(fetchDivisionById(job.getStrategicId().getDivisionID()));
 					jobs.add(job);
 				}
 
@@ -7997,7 +8070,7 @@ public class MySQLRdbHelper {
 	}
 
 	public ArrayList<Integer> fetchJobsInExceptionReport(ArrayList<String> div, ArrayList<String> domain,
-			ArrayList<String> risk, ArrayList<String> resources, ArrayList<String> jobs, int year, int companyId) {
+			ArrayList<String> risk, ArrayList<String> resources, ArrayList<String> jobs, ArrayList<String> department, int year, int companyId) {
 		Session session = null;
 		ArrayList<Integer> jobIds = new ArrayList<Integer>();
 		ArrayList<Exception> exceptions = new ArrayList<Exception>();
@@ -8007,6 +8080,7 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(JobCreation.class);
 			crit.add(Restrictions.eq("year", year));
 			crit.add(Restrictions.eq("companyId", companyId));
+			crit.createAlias("strategicId", "strategic");
 
 			Disjunction domainOR = Restrictions.disjunction();
 
@@ -8033,7 +8107,7 @@ public class MySQLRdbHelper {
 
 			if (!div.contains("All")) {
 				for (int i = 0; i < div.size(); i++) {
-					divisionOR.add(Restrictions.eq("relevantDept", div.get(i)));
+					divisionOR.add(Restrictions.eq("strategic.divisionID", Integer.parseInt(div.get(i))));
 
 				}
 				crit.add(divisionOR);
@@ -8056,7 +8130,10 @@ public class MySQLRdbHelper {
 				JobCreation job = (JobCreation) it.next();
 
 				if (jobHavetheResources(job, resources, session)) {
-					jobIds.add(job.getJobCreationId());
+					
+					if(strategicHaveTheDept(job.getStrategicId(), department, session)) {
+						jobIds.add(job.getJobCreationId());
+					}
 				}
 			}
 
@@ -8075,9 +8152,9 @@ public class MySQLRdbHelper {
 
 	public ArrayList<Exceptions> fetchExceptionReports(ArrayList<String> div, ArrayList<String> domain,
 			ArrayList<String> risk, ArrayList<String> resources, ArrayList<String> jobs, ArrayList<String> auditees,
-			ArrayList<String> exceptionStatus, int year, int companyId) {
+			ArrayList<String> exceptionStatus, ArrayList<String> department, int year, int companyId) {
 
-		ArrayList<Integer> jobIds = fetchJobsInExceptionReport(div, domain, risk, resources, jobs, year, companyId);
+		ArrayList<Integer> jobIds = fetchJobsInExceptionReport(div, domain, risk, resources, jobs,department, year, companyId);
 		if (jobIds == null || jobIds.size() < 1)
 			return null;
 		ArrayList<Exceptions> exceptionsList = new ArrayList<Exceptions>();
@@ -8120,6 +8197,8 @@ public class MySQLRdbHelper {
 
 			crit.add(Restrictions.ne("employee.employeeId", 0));
 			crit.add(Restrictions.ne("divHead.employeeId", 0));
+
+			
 			Disjunction jobsOR = Restrictions.disjunction();
 
 			for (int i = 0; i < jobIds.size(); i++) {
@@ -8191,8 +8270,10 @@ public class MySQLRdbHelper {
 				exception.setDisplayStatus(status);
 				HibernateDetachUtility.nullOutUninitializedFields(exception,
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
-
-				exceptionsList.add(exception);
+				//hamza2020/07
+				exception.getJobCreationId().getStrategicId().setStrategicDepartments(fetchStrategicDepartments(exception.getJobCreationId().getStrategicId().getId()));
+				exception.getJobCreationId().getStrategicId().setDivision(fetchDivisionById(exception.getJobCreationId().getStrategicId().getDivisionID()));
+				exceptionsList.add(exception); 
 
 			}
 
@@ -8828,7 +8909,7 @@ public class MySQLRdbHelper {
 				}
 				
 				if (!hm.get("Department").equals("0") && !hm.get("Department").equalsIgnoreCase("All")) {
-					crit.add(Restrictions.eq("dept.departmentName", hm.get("Department")));// TODO
+					crit.add(Restrictions.eq("dept.departmentId",Integer.parseInt( hm.get("Department"))));// TODO
 
 				}
 				if (!hm.get("Resource").equals("0")) {
@@ -8919,8 +9000,7 @@ public class MySQLRdbHelper {
 				}
 				
 				if (!hm.get("Department").equals("0") && !hm.get("Department").equalsIgnoreCase("All")) {
-					crit.add(Restrictions.eq("dept.departmentName", hm.get("Department")));// TODO
-
+					crit.add(Restrictions.eq("dept.departmentId",Integer.parseInt( hm.get("Department"))));
 				}
 				if (!hm.get("Resource").equals("0")) {
 					crit.add(Restrictions.eq("resPerson.employeeId", Integer.parseInt(hm.get("Resource"))));
@@ -9235,8 +9315,7 @@ public class MySQLRdbHelper {
 				}
 				
 				if (!hm.get("Department").equals("0") && !hm.get("Department").equalsIgnoreCase("All")) {
-					crit.add(Restrictions.eq("dept.departmentName", hm.get("Department")));// TODO
-
+					crit.add(Restrictions.eq("dept.departmentId",Integer.parseInt( hm.get("Department"))));
 				}
 				
 				if (!hm.get("Resource").equals("0")) {
@@ -9312,8 +9391,7 @@ public class MySQLRdbHelper {
 				}
 				
 				if (!hm.get("Department").equals("0") && !hm.get("Department").equalsIgnoreCase("All")) {
-					crit.add(Restrictions.eq("dept.departmentName", hm.get("Department")));// TODO
-
+					crit.add(Restrictions.eq("dept.departmentId",Integer.parseInt( hm.get("Department"))));
 				}
 				
 				if (!hm.get("Resource").equals("0")) {
