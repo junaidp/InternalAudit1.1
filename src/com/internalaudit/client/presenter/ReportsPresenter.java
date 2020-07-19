@@ -489,7 +489,17 @@ public class ReportsPresenter implements Presenter
 		for (int i = 0; i < strategicReportData.size(); i++) {
 			ExcelDataDTO excelData = new ExcelDataDTO();
 			excelData.setAuditableUnit(strategicReportData.get(i).getAuditableUnit());
-			excelData.setDivision(strategicReportData.get(i).getDivisionName());
+			excelData.setDivision(strategicReportData.get(i).getDivision().getDivisionName());
+			String departmentsAll = "";
+			for(StrategicDepartments departments : strategicReportData.get(i).getStrategicDepartments()) {
+				
+				if (departmentsAll == "") {
+					departmentsAll = departmentsAll + departments.getDepartment().getDepartmentName();
+				} else {
+					departmentsAll = departmentsAll + ", " + departments.getDepartment().getDepartmentName();
+				}
+			}
+			excelData.setDepartment(departmentsAll);
 			excelData.setDomain(strategicReportData.get(i).getDomain());
 			// excelData.setObjective(strategicReportData.get(i).getStrategicObjective());
 			excelData.setObjective(strategicReportData.get(i).getAuditableUnit());
@@ -504,8 +514,17 @@ public class ReportsPresenter implements Presenter
 		ArrayList<AuditSchedulingReportDTO> excelDataList = new ArrayList<AuditSchedulingReportDTO>();
 		for (int i = 0; i < strategicReportData.size(); i++) {
 			AuditSchedulingReportDTO excelData = new AuditSchedulingReportDTO();
-			excelData.setDivision(strategicReportData.get(i).getDivisionName());
-			excelData.setDomain(strategicReportData.get(i).getDomain());
+			excelData.setDivision(strategicReportData.get(i).getDivision().getDivisionName());
+			String departmentsAll = "";
+			for(StrategicDepartments departments : strategicReportData.get(i).getStrategicDepartments()) {
+				
+				if (departmentsAll == "") {
+					departmentsAll = departmentsAll + departments.getDepartment().getDepartmentName();
+				} else {
+					departmentsAll = departmentsAll + ", " + departments.getDepartment().getDepartmentName();
+				}
+			}
+			excelData.setDepartment(departmentsAll);			excelData.setDomain(strategicReportData.get(i).getDomain());
 			excelData.setJob(strategicReportData.get(i).getJobName());
 			String employees = "";
 			for (int j = 0; j < strategicReportData.get(i).getEmployees().size(); j++) {

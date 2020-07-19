@@ -8,6 +8,15 @@ public class AuditSchedulingReportDTO implements Serializable {
 	private String resources;
 	private String domain;
 	private String division;
+	private String department;
+	
+	
+	public String getDepartment() {
+		return department;
+	}
+	public void setDepartment(String department) {
+		this.department = department;
+	}
 	private String riskAssesment;
 	private String timeAllocated;
 	public String getJob() {

@@ -7140,7 +7140,8 @@ public class MySQLRdbHelper {
 			row.createCell((short) 1).setCellValue("Auditable Unit");
 			row.createCell((short) 2).setCellValue("Domain");
 			row.createCell((short) 3).setCellValue("Division");
-			row.createCell((short) 4).setCellValue("Risk Assesment");
+			row.createCell((short) 4).setCellValue("Department");
+			row.createCell((short) 5).setCellValue("Risk Assesment");
 
 			for (int i = 0; i < excelDataList.size(); i++) {
 				HSSFRow row1 = worksheet.createRow((short) i + 1);
@@ -7148,7 +7149,8 @@ public class MySQLRdbHelper {
 				row1.createCell((short) 1).setCellValue(excelDataList.get(i).getAuditableUnit());
 				row1.createCell((short) 2).setCellValue(excelDataList.get(i).getDomain());
 				row1.createCell((short) 3).setCellValue(excelDataList.get(i).getDivision());
-				row1.createCell((short) 4).setCellValue(excelDataList.get(i).getRiskAssesment());
+				row1.createCell((short) 4).setCellValue(excelDataList.get(i).getDepartment());
+				row1.createCell((short) 5).setCellValue(excelDataList.get(i).getRiskAssesment());
 
 			}
 			workbook.write(fileOut);
@@ -7175,7 +7177,7 @@ public class MySQLRdbHelper {
 			Rectangle pagesize = new Rectangle(612, 861);
 			Document document = new Document(PageSize.A4);
 
-			PdfPTable table = new PdfPTable(new float[] { 1, 2, 2, 2, 2, 2 });
+			PdfPTable table = new PdfPTable(new float[] { 1, 2, 2, 2, 2,3, 1 });
 
 			table.setWidthPercentage(100);
 			table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -7184,6 +7186,7 @@ public class MySQLRdbHelper {
 			table.addCell(new Phrase("Auditable Unit", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
 			table.addCell(new Phrase("Domain", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
 			table.addCell(new Phrase("Division", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Department", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
 			table.addCell(new Phrase("Risk Assesment", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
 
 			table.setHeaderRows(1);
@@ -7206,6 +7209,9 @@ public class MySQLRdbHelper {
 						new Phrase(excelDataList.get(i).getDomain(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
 				table.addCell(
 						new Phrase(excelDataList.get(i).getDivision(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(new Phrase(excelDataList.get(i).getDepartment(),
+						FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				
 				table.addCell(new Phrase(excelDataList.get(i).getRiskAssesment(),
 						FontFactory.getFont(FontFactory.HELVETICA, 8)));
 
@@ -8563,18 +8569,20 @@ public class MySQLRdbHelper {
 			row.createCell((short) 0).setCellValue("Job");
 			row.createCell((short) 1).setCellValue("Domain");
 			row.createCell((short) 2).setCellValue("Division");
-			row.createCell((short) 3).setCellValue("Risk");
-			row.createCell((short) 4).setCellValue("Resources");
-			row.createCell((short) 5).setCellValue("Time Allocated");
+			row.createCell((short) 3).setCellValue("Department");
+			row.createCell((short) 4).setCellValue("Risk");
+			row.createCell((short) 5).setCellValue("Resources");
+			row.createCell((short) 6).setCellValue("Time Allocated");
 
 			for (int i = 0; i < excelDataList.size(); i++) {
 				HSSFRow row1 = worksheet.createRow((short) i + 1);
 				row1.createCell((short) 0).setCellValue(excelDataList.get(i).getJob());
 				row1.createCell((short) 1).setCellValue(excelDataList.get(i).getDomain());
 				row1.createCell((short) 2).setCellValue(excelDataList.get(i).getDivision());
-				row1.createCell((short) 3).setCellValue(excelDataList.get(i).getRiskAssesment());
-				row1.createCell((short) 4).setCellValue(excelDataList.get(i).getResources());
-				row1.createCell((short) 5).setCellValue(excelDataList.get(i).getTimeAllocated() + "weeks");
+				row1.createCell((short) 3).setCellValue(excelDataList.get(i).getDepartment());
+				row1.createCell((short) 4).setCellValue(excelDataList.get(i).getRiskAssesment());
+				row1.createCell((short) 5).setCellValue(excelDataList.get(i).getResources());
+				row1.createCell((short) 6).setCellValue(excelDataList.get(i).getTimeAllocated() + "weeks");
 
 			}
 			workbook.write(fileOut);
@@ -8601,7 +8609,7 @@ public class MySQLRdbHelper {
 			Rectangle pagesize = new Rectangle(612, 861);
 			Document document = new Document(PageSize.A4);
 
-			PdfPTable table = new PdfPTable(new float[] { 1, 2, 2, 2, 2, 2, 2 });
+			PdfPTable table = new PdfPTable(new float[] { 1, 2, 2, 2,3, 1, 2, 1 });
 
 			table.setWidthPercentage(100);
 			table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -8609,9 +8617,10 @@ public class MySQLRdbHelper {
 			table.addCell(new Phrase("Job", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
 			table.addCell(new Phrase("Domain", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
 			table.addCell(new Phrase("Division", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Department", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
 			table.addCell(new Phrase("Risk", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
 			table.addCell(new Phrase("Resources", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
-			table.addCell(new Phrase("Rime Allocated", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Time Allocated", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
 
 			table.setHeaderRows(1);
 			PdfPCell[] cells = table.getRow(0).getCells();
@@ -8630,6 +8639,10 @@ public class MySQLRdbHelper {
 						new Phrase(excelDataList.get(i).getDomain(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
 				table.addCell(
 						new Phrase(excelDataList.get(i).getDivision(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				
+				table.addCell(
+						new Phrase(excelDataList.get(i).getDepartment(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				
 				table.addCell(new Phrase(excelDataList.get(i).getRiskAssesment(),
 						FontFactory.getFont(FontFactory.HELVETICA, 8)));
 				table.addCell(

@@ -9,7 +9,14 @@ public class ExcelDataDTO implements Serializable {
 	private String domain;
 	private String division;
 	private String riskAssesment;
+	private String department;
 	
+	public String getDepartment() {
+		return department;
+	}
+	public void setDepartment(String department) {
+		this.department = department;
+	}
 	public String getObjective() {
 		return objective;
 	}
