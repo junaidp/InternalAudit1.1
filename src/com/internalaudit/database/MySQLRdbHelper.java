@@ -1295,6 +1295,7 @@ public class MySQLRdbHelper {
 				strategic.setStrategicDepartments(fetchStrategicdepartments(strategic, session));
 				strategic.setDivision(fetchStrategicDivision(strategic, session));
 				strategic.setLoggedInUser(employeeId);
+				strategic.setListSubProcess(fetchStrategicSubProcess(strategic.getId(), session));
 				//////////// Dont sent those which are SAVED and are not belong
 				//////////// to loggedInUser
 
@@ -1362,7 +1363,7 @@ public class MySQLRdbHelper {
 						// Id(strategic.getId()) and then set that list to the
 						// list in StrategicEntity.
 						// strategic.getListSubProcess()
-						strategic.setListSubProcess(fetchStrategicSubProcess(strategic.getId(), session));
+//						strategic.setListSubProcess(fetchStrategicSubProcess(strategic.getId(), session));
 						strategics.add(strategic);
 					}
 				}
@@ -10965,19 +10966,35 @@ public class MySQLRdbHelper {
 				HibernateDetachUtility.nullOutUninitializedFields(jobCreation,
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
+				
+				
 				if(clientStartDate != null && clientEndDate != null) {
 					Date startDate = getDate(jobCreation.getStartDate());
 					Date endDate = getDate(jobCreation.getEndDate());
 					if(clientStartDate.compareTo(startDate)< 0 && clientEndDate.compareTo(endDate) > 0) {
 						jobsList.add(jobCreation);
 					}
+				}	
+				else if((clientStartDate == null) && !(clientEndDate == null)){
+					Date endDate = getDate(jobCreation.getEndDate());
+					if( clientEndDate.compareTo(endDate) > 0) {
+						jobsList.add(jobCreation);
+					}
+					}
+					
+				else if((clientEndDate == null) && !(clientStartDate == null)){
+					Date startDate = getDate(jobCreation.getStartDate());
+					if(clientStartDate.compareTo(startDate)< 0 ) {
+						jobsList.add(jobCreation);
+					}
 				}
+			
 				else {
 					jobsList.add(jobCreation);
 				}
 						
-					
-			}
+			}		
+		
 
 			logger.info(String.format("(Inside fetchJobs) fetching jobs for year : " + year + "for company" + companyId
 					+ " " + new Date()));

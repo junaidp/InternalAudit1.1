@@ -535,7 +535,9 @@ public class ReportsPresenter implements Presenter
 				}
 			}
 			excelData.setResources(employees);
-			excelData.setRiskAssesment(strategicReportData.get(i).getRiskFactor().getRiskName());
+			//2020 hamza 
+			excelData.setRiskAssesment(strategicReportData.get(i).getRating());
+		//	excelData.setRiskAssesment(strategicReportData.get(i).getRiskFactor().getRiskName());
 			excelData.setTimeAllocated(strategicReportData.get(i).getEstimatedWeeks());
 			excelDataList.add(excelData);
 		}
