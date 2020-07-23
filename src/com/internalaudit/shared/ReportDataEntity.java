@@ -6,10 +6,14 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 
@@ -42,6 +46,17 @@ public class ReportDataEntity implements Serializable {
 
 	@Column(name = "operationalEffectiveness")
 	private String operationalEffectiveness;
+	
+	@Column(name = "suggestedControlsId")
+	private int suggestedControl;
+
+	public int getSuggestedControl() {
+		return suggestedControl;
+	}
+
+	public void setSuggestedControl(int suggestedControl) {
+		this.suggestedControl = suggestedControl;
+	}
 
 	public int getReportDataId() {
 		return reportDataId;

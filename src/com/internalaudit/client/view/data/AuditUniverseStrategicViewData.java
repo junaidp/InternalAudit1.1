@@ -315,7 +315,7 @@ public class AuditUniverseStrategicViewData {
 				else
 					fetchDepartmentsDivision(Integer.parseInt(auditUniverseStrategicView.getListBoxDivision()
 									.getValue(auditUniverseStrategicView.getListBoxDivision().getSelectedIndex())),
-							auditUniverseStrategicView.getListRelevantDepartment());
+							auditUniverseStrategicView.getListRelevantDepartment(), null);
 			}
 		});
 		
@@ -326,7 +326,7 @@ public class AuditUniverseStrategicViewData {
 				fetchDepartmentsDivision(
 						Integer.parseInt(auditUniverseStrategicView.getListBoxDivision()
 								.getValue(auditUniverseStrategicView.getListBoxDivision().getSelectedIndex())),
-						auditUniverseStrategicView.getListRelevantDepartment());
+						auditUniverseStrategicView.getListRelevantDepartment(), null);
 			}
 		});
 	}
@@ -487,7 +487,7 @@ public class AuditUniverseStrategicViewData {
 		});
 	}
 
-	public void fetchDepartmentsDivision(final int divisionID, final ListBox listBoxDepartments) {
+	public void fetchDepartmentsDivision(final int divisionID, final ListBox listBoxDepartments, final ArrayList<StrategicDepartments> listSelectedDepartments) {
 
 		rpcService.fetchDivisionDepartments(divisionID, new AsyncCallback<ArrayList<Department>>() {
 
@@ -505,11 +505,27 @@ public class AuditUniverseStrategicViewData {
 				for(Department dept : departments) {
 					listBoxDepartments.addItem(dept.getDepartmentName(), dept.getDepartmentId() + "");
 				}
-				//Window.alert(divisionID+"|"+departments.size()+"|"+listBoxDepartments.getItemCount());
+				if(!(listSelectedDepartments == null))
+					selectedSubProcess(listSelectedDepartments, listBoxDepartments);
 			}
 		}
 		});
 	}
+	
+	private void selectedSubProcess(ArrayList<StrategicDepartments> listSelectedDepartments, final ListBox listBox) {
+		if (listBox != null) {
+			for (int i = 0; i < listBox.getItemCount(); i++) {
+				for(int j = 0; j < listSelectedDepartments.size(); j++)  {
+					//GWT.log("Value : " + listBox.getValue(i)+ " | "+listSelectedDepartments.get(j).getDepartment().getDepartmentId());
+					if (listBox.getValue(i).equals(listSelectedDepartments.get(j).getDepartment().getDepartmentId()+"")) {
+						listBox.setItemSelected(i, true);
+						break;
+					}
+			}
+		}
+	}
+		listBox.setHeight("100%");
+}
 	
 	public void disablePanel(AuditUniverseStrategicView auditUniverseStrategicView, Strategic strategic) {
 
@@ -580,30 +596,31 @@ public class AuditUniverseStrategicViewData {
 		auditUniverseStrategicView.getLblStrategicId().setText(result.get(i).getId() + ".");
 		auditUniverseStrategicView.getStrategicObjective().setTitle(result.get(i).getStrategicObjective());
 
-		if (result.get(i).getStatus().equals("submitted") || result.get(i).getPhase() > 1) {
-			auditUniverseStrategicView.getListRelevantDepartment().setEnabled(false);
-			//list box changed to disable instead of addStyleName("invisibleListBox");
-			for (int k = 0; k < result.get(i).getStrategicDepartments().size(); k++) {
-				//Window.alert(auditUniverseStrategicView.getStrategicObjective().getText());
-				auditUniverseStrategicView.getListRelevantDepartment().addItem(
-						result.get(i).getStrategicDepartments().get(k).getDepartment().getDepartmentName(),
-						result.get(i).getStrategicDepartments().get(k).getDepartment().getDepartmentId() + "");
-			}
-			//added by Moqeet
-			auditUniverseStrategicView.getListBoxDivision().setEnabled(false);
-			auditUniverseStrategicView.getListBoxDivision().addItem(result.get(i).getDivision().getDivisionName(), result.get(i).getDivision().getDivisionID()+"");
-		} else {
+//		if (result.get(i).getStatus().equals("submitted") || result.get(i).getPhase() > 1) {
+//			auditUniverseStrategicView.getListRelevantDepartment().setEnabled(false);
+//			//list box changed to disable instead of addStyleName("invisibleListBox");
+//			for (int k = 0; k < result.get(i).getStrategicDepartments().size(); k++) {
+//				//Window.alert(auditUniverseStrategicView.getStrategicObjective().getText());
+//				auditUniverseStrategicView.getListRelevantDepartment().addItem(
+//						result.get(i).getStrategicDepartments().get(k).getDepartment().getDepartmentName(),
+//						result.get(i).getStrategicDepartments().get(k).getDepartment().getDepartmentId() + "");
+//			}
+//			//added by Moqeet
+//			auditUniverseStrategicView.getListBoxDivision().setEnabled(false);
+//			auditUniverseStrategicView.getListBoxDivision().addItem(result.get(i).getDivision().getDivisionName(), result.get(i).getDivision().getDivisionID()+"");
+//		} else {
 			//added by Moqeet
 			for(Division div:divisions) {
 				auditUniverseStrategicView.getListBoxDivision().addItem(div.getDivisionName(), div.getDivisionID()+"");
-				fetchDepartmentsDivision(div.getDivisionID(), auditUniverseStrategicView.getListRelevantDepartment());
+//				if(!result.get(i).getStatus().equalsIgnoreCase("saved"))
+//				fetchDepartmentsDivision(div.getDivisionID(), auditUniverseStrategicView.getListRelevantDepartment());
 			}
 			
-			for (int j = 0; j < listDepartments.size(); j++) {
-				auditUniverseStrategicView.getListRelevantDepartment().addItem(listDepartments.get(j).getDepartmentName(),
-						listDepartments.get(j).getDepartmentId() + "");
-			}
-		}
+//			for (int j = 0; j < listDepartments.size(); j++) {
+//				auditUniverseStrategicView.getListRelevantDepartment().addItem(listDepartments.get(j).getDepartmentName(),
+//						listDepartments.get(j).getDepartmentId() + "");
+//			}
+//		}
 			
 		for (int j = 0; j < objectiveOwners.size(); j++) {
 			auditUniverseStrategicView.getLstObjectiveOwner().addItem(objectiveOwners.get(j).getEmployeeName(),
@@ -623,42 +640,32 @@ public class AuditUniverseStrategicViewData {
 					break;
 			}
 			
-			fetchDepartmentsDivision(data.getDivisionID(), auditUniverseStrategicView.getListRelevantDepartment());	
+			fetchDepartmentsDivision(data.getDivisionID(), auditUniverseStrategicView.getListRelevantDepartment(), result.get(i).getStrategicDepartments());	
 		}
 		// LISTBOX OF DEPARTMENTS
 		//int loopSize = (result.get(i).getStatus().equals("saved"))? listDepartments.size(): auditUniverseStrategicView.getListRelevantDepartment().getItemCount();
-		if(result.get(i).getStatus().equals("saved")) {
-			auditUniverseStrategicView.getListRelevantDepartment().clear();
-		for (int j = 0; j < listDepartments.size(); j++) {
-			for (int k = 0; k < result.get(i).getStrategicDepartments().size(); k++) {
-//				Window.alert(auditUniverseStrategicView.getListRelevantDepartment().getValue(j));
-				if (listDepartments.get(j).getDepartmentId() ==
-						result.get(i).getStrategicDepartments().get(k).getDepartment().getDepartmentId()) {
-					auditUniverseStrategicView.getListRelevantDepartment().addItem(result.get(i).getStrategicDepartments().get(k).getDepartment().getDepartmentName(), 
-							result.get(i).getStrategicDepartments().get(k).getDepartment().getDepartmentId() + "");
-					break;
-				}
-			}
-		}
-		}
-		else
-		{
-			for (int j = 0; j < auditUniverseStrategicView.getListRelevantDepartment().getItemCount(); j++) {
-				for (int k = 0; k < result.get(i).getStrategicDepartments().size(); k++) {
-//					Window.alert(auditUniverseStrategicView.getListRelevantDepartment().getValue(j));
-					if (auditUniverseStrategicView.getListRelevantDepartment().getValue(j).equals(
-							result.get(i).getStrategicDepartments().get(k).getDepartment().getDepartmentId() + "")) {
-						auditUniverseStrategicView.getListRelevantDepartment().setItemSelected(j, true);
-						break;
-					}
-				}
-			}
-		}
-		if (auditUniverseStrategicView.getListRelevantDepartment().getSelectedIndex() == -1) {
-			auditUniverseStrategicView.getListRelevantDepartment().setSelectedIndex(0);
-		}
-		
-		
+//		if(result.get(i).getStatus().equals("saved")) {
+//			auditUniverseStrategicView.getListRelevantDepartment().clear();
+//			//fetchDepartmentsDivision(Integer.valueOf(auditUniverseStrategicView.getListBoxDivision().getSelectedValue()), auditUniverseStrategicView.getListRelevantDepartment());	
+//			for (StrategicDepartments departments : result.get(i).getStrategicDepartments()) { 
+//					auditUniverseStrategicView.getListRelevantDepartment().addItem(departments.getDepartment().getDepartmentName(), departments.getDepartment().getDepartmentId() + "");
+//				}
+//			auditUniverseStrategicView.getListRelevantDepartment().addStyleName("invisibleListBox");
+//		}
+//		else
+//		{
+//			for (int j = 0; j < auditUniverseStrategicView.getListRelevantDepartment().getItemCount(); j++) {
+//				for (int k = 0; k < result.get(i).getStrategicDepartments().size(); k++) {
+//					if (auditUniverseStrategicView.getListRelevantDepartment().getValue(j).equals(
+//							result.get(i).getStrategicDepartments().get(k).getDepartment().getDepartmentId() + "")) {
+//						auditUniverseStrategicView.getListRelevantDepartment().setItemSelected(j, true);
+//						break;
+//					}
+//				}
+//			}
+//		}
+//		if (auditUniverseStrategicView.getListRelevantDepartment().getSelectedIndex() == -1) 
+//			auditUniverseStrategicView.getListRelevantDepartment().setSelectedIndex(0);
 	}
 
 	private void setHandlers(final VerticalPanel vpnlStrategic, final HorizontalPanel hpnlButtonInitiator,
@@ -747,7 +754,7 @@ public class AuditUniverseStrategicViewData {
 				fetchDepartmentsDivision(
 						Integer.parseInt(auditUniverseStrategicView.getListBoxDivision()
 								.getValue(auditUniverseStrategicView.getListBoxDivision().getSelectedIndex())),
-						auditUniverseStrategicView.getListRelevantDepartment());
+						auditUniverseStrategicView.getListRelevantDepartment(), null);
 			}
 		});
 	}

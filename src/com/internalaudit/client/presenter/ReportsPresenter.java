@@ -966,10 +966,12 @@ public class ReportsPresenter implements Presenter
 
 							// fill the rows with resulting data
 							ArrayList<Integer> ids = new ArrayList<Integer>();
+							ArrayList<Division> divisions = new ArrayList<Division>();
 
 							for (int i = 0; i < strategicList.size(); i++) {
 								int j = 0;
 
+								divisions.add(strategicList.get(i).getDivision());
 								ids.add(strategicList.get(i).getId());
 
 								resultsTable.getCellFormatter().addStyleName(i + 1, j, "form-row");
@@ -1026,8 +1028,9 @@ public class ReportsPresenter implements Presenter
 							chartHpnl.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 
 							// chartHpnl.add( createDivisionChart(ids));
-
-							createDivisionChart(ids, false, view);
+							//cjhanged from strategic ids to division object 2020/07
+							
+							createDivisionChart(divisions, false, view);
 
 							display.getReport1().getVpnlPerviewData().add(chartHpnl);
 
@@ -1035,7 +1038,7 @@ public class ReportsPresenter implements Presenter
 
 							display.getReport1().getDetailedChartsView().add(createDomainChart(strategicList, true));
 
-							createDivisionChart(ids, true, display.getReport1());
+							createDivisionChart(divisions, true, display.getReport1());
 
 							// display.getReportsContainer().add(view);
 
@@ -1688,7 +1691,73 @@ public class ReportsPresenter implements Presenter
 		return chart;
 	}
 
-	public void createDivisionChart(ArrayList<Integer> ids, final boolean isDetailed, final ReportAuditPlanning view) {
+	public void createDivisionChart(ArrayList<Division> divisions, final boolean isDetailed, final ReportAuditPlanning view) {
+		final DataCount cout = new DataCount();
+
+
+				cout.getDivisionCount(divisions);
+
+				final Chart chart = new Chart().setWidth(350).setHeight(350).setType(Series.Type.PIE)
+						.setChartTitleText("Divisions").setPlotBackgroundColor((String) null).setPlotBorderWidth(null)
+						.setPlotShadow(false);
+				chart.setCredits(new Credits().setText("")
+
+				).setPiePlotOptions(new PiePlotOptions().setAllowPointSelect(true)
+						// .setCursor(PlotOptions.Cursor.POINTER)
+						.setPieDataLabels(new PieDataLabels().setEnabled(isDetailed)
+
+								.setConnectorColor("#000000").setEnabled(true).setColor("#000000")
+								.setFormatter(new DataLabelsFormatter() {
+									public String format(DataLabelsData dataLabelsData) {
+										return dataLabelsData.getPointName() + " " + dataLabelsData.getYAsDouble()
+												+ " %";
+									}
+								}))
+
+				).setLegend(new Legend().setEnabled(true)
+
+				).setToolTip(new ToolTip().setFormatter(new ToolTipFormatter() {
+					public String format(ToolTipData toolTipData) {
+						return "<b>" + toolTipData.getPointName() + "</b>: " + toolTipData.getYAsDouble() + " %";
+					}
+				}));
+
+				int total = cout.div.HeadOffice + cout.div.AGHKhoba + cout.div.AGHDammam + cout.div.AGHHofuf + cout.div.AGHJubail
+						+ cout.div.AMCRakkah + cout.div.AMCJubail + cout.div.AGHAzzizia + cout.div.AMCDammam + cout.div.EMATradingDivision + cout.div.MACHSCollege;
+
+				chart.addSeries(chart.createSeries().setName("Risk Assessment")
+						.setPoints(new Point[] { new Point("Head Office", 100 * cout.div.HeadOffice / total),
+								new Point("AGH Khoba", 100 * cout.div.AGHKhoba / total),
+								new Point("AGH Dammam", 100 * cout.div.AGHDammam / total),
+								 new Point("AGH Hofuf", 100*cout.div.AGHHofuf / total),
+								 new Point("AGH Jubail", 100* cout.div.AGHJubail / total),
+								 new Point("AMC Rakkah", 100* cout.div.AMCRakkah /total),
+								 new Point("AMC Juba", 100* cout.div.AMCJubail / total),
+								 new Point("AGH Azzizia", 100* cout.div.AGHAzzizia / total),
+								 new Point("AMC Dammam", 100* cout.div.AMCDammam / total),
+								 new Point("EMA-Trading Division", 100* cout.div.EMATradingDivision / total),
+								 new Point("MACHS College", 100* cout.div.MACHSCollege / total),
+				})
+
+				);
+
+				if (!isDetailed) {
+					// chart.setSize(480, 300);
+					if (!isDetailed)
+						chart.setSize(report1DivsionChartWidth, report1DivisionChartHeight);
+					else
+						chart.setSize(820, 500);
+					chartHpnl.add(chart);
+				}
+
+				else {
+					chart.setSize(820, 500);
+					view.getDetailedChartsView().add(chart);
+				}
+		}
+
+	
+	/*public void createDivisionChart(ArrayList<Integer> ids, final boolean isDetailed, final ReportAuditPlanning view) {
 		final DataCount cout = new DataCount();
 
 		rpcService.fetchStrategicDepartmentsMultiple(ids, new AsyncCallback<ArrayList<StrategicDepartments>>() {
@@ -1763,7 +1832,7 @@ public class ReportsPresenter implements Presenter
 			}
 		});
 
-	}
+	}*/
 
 	private ArrayList<String> getSelectedItems(ListBox listbox) {
 		ArrayList<String> selected = new ArrayList<String>();

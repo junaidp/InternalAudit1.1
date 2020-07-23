@@ -1382,6 +1382,28 @@ public class MySQLRdbHelper {
 		Collections.reverse(strategics);
 		return strategics;
 	}
+	
+//	public ArrayList<Strategic> fetchAllStrategicDivisions() {
+//		Session session = null;
+//		ArrayList<Strategic> strategics = new ArrayList<Strategic>();
+//		try {
+//			session = sessionFactory.openSession();
+//			Criteria crit = session.createCriteria(Strategic.class);
+//			List rsList = crit.list();
+//			for (Iterator it = rsList.iterator(); it.hasNext();) {
+//				Strategic strategic = (Strategic) it.next();
+//				strategic.setDivision(fetchStrategicDivision(strategic, session));
+//				strategics.add(strategic);
+//			}
+//			logger.info(String.format("(Inside fetchAllStrategicDivisions)" + new Date()));
+//		} catch (Exception ex) {
+//			System.out.println("Exception occured in fetchAllStrategicDivisions" + ex.getMessage());
+//			logger.warn(String.format("Exception occured in fetchAllStrategicDivisions", ex.getMessage()), ex);
+//		} finally {
+//			session.close();
+//		}
+//		return strategics;
+//	}
 
 	private ArrayList<SubProcess> fetchStrategicSubProcess(int strategicId, Session session) {
 		ArrayList<SubProcess> subProcess = new ArrayList<SubProcess>();

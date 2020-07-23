@@ -66,8 +66,10 @@ public class ReportViewMain extends VerticalPanel {
 		HorizontalPanel panelDate = new HorizontalPanel();
 		lblMain.getElement().getStyle().setPaddingLeft(520, Unit.PX);
 
-		Label lblDate = new Label("Date:");
+		Label lblJob = new Label("Select Job: ");
+		Label lblDate = new Label("Date: ");
 		// lblDate.getElement().getStyle().setMarginLeft(600, Unit.PX);
+		lblJob.addStyleName("labelDesign");
 		lblDate.addStyleName("labelDesign");
 
 		LabelHeading lblExecutiveSummary = new LabelHeading();
@@ -77,7 +79,7 @@ public class ReportViewMain extends VerticalPanel {
 		LabelHeading lblSummaryOfAssesment = new LabelHeading();
 		LabelHeading lblKeyFinding = new LabelHeading();
 		LabelHeading lblKeyFinding1 = new LabelHeading();
-		TextArea txtBoxKeFinding1 = new TextArea();
+//		TextArea txtBoxKeFinding1 = new TextArea();
 		LabelHeading lblAllFinding = new LabelHeading();
 		LabelHeading lblOverallControl = new LabelHeading();
 
@@ -100,10 +102,12 @@ public class ReportViewMain extends VerticalPanel {
 		panelButton.add(btnSave);
 		panelButton.add(btnPrint);
 		panelButton.addStyleName("w3-right");
+		panelDate.add(lblJob);
 		panelDate.add(listBoxJobs);
 		panelDate.add(lblDate);
 		panelDate.add(dateBox);
 
+		dateBox.getElement().getStyle().setMarginLeft(7, Unit.PX);
 		listBoxJobs.getElement().getStyle().setMarginLeft(7, Unit.PX);
 		listBoxJobs.setWidth("800px");
 		lblDate.getElement().getStyle().setMarginLeft(50, Unit.PX);
@@ -117,8 +121,9 @@ public class ReportViewMain extends VerticalPanel {
 		add(txtBoxAuditPurpose);
 		add(lblSummaryOfAssesment);
 		add(panelSummaryOfAssesment);
-		add(lblKeyFinding);
-		// add(lblKeyFinding1);
+		if(panelExceptionHigh.getWidgetCount()>0)
+			add(lblKeyFinding);
+	   // add(lblKeyFinding1);
 		add(panelExceptionHigh);
 		add(lblAllFinding);
 		add(panelAllFindings);
@@ -132,33 +137,6 @@ public class ReportViewMain extends VerticalPanel {
 
 		add(panelFileUpload);
 		add(panelButton);
-
-	}
-
-	private void saveHandler() {
-		btnSave.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				// Window.alert("clicked");
-
-				// reportData.setJobId(parseInt);
-				if (reportData1 == null || reportData1.getJobId() != Integer.parseInt(listBoxJobs.getSelectedValue())) {
-					reportData1 = new ReportDataEntity();
-					reportData1.setJobId(selectedJobId);
-					// reportData1.setJobId(Integer.parseInt(listBoxJobs.getSelectedValue()));
-				}
-				reportData1.setAnnexure(txtBoxAnnexure.getText());
-				reportData1.setAuditPurpose(txtBoxAuditPurpose.getText());
-				reportData1.setOperationalEffectiveness(txtoperational.getText());
-				reportData1.setExecutiveSummary(txtBoxExecutiveSummary.getText());
-				reportData1.setDate(dateBox.getDatePicker().getValue());
-				// reportData1.se
-
-				saveReportData(reportData1);
-
-			}
-		});
 
 	}
 
@@ -199,9 +177,9 @@ public class ReportViewMain extends VerticalPanel {
 		lblKeyFinding.setText("Key findings");
 		lblKeyFinding1.setText("Finding1");
 		lblKeyFinding.getElement().getStyle().setMarginTop(40, Unit.PX);
-		txtBoxKeFinding1.setText("finding of 1");
+//		txtBoxKeFinding1.setText("finding of 1");
 		lblKeyFinding1.setWidth("800px");
-		txtBoxKeFinding1.setWidth("800px");
+		//txtBoxKeFinding1.setWidth("1200px");
 		lblAllFinding.setText("All Findings");
 		panelAllFindings.setHeight("250px");
 		panelAllFindings.addStyleName("w3-border");
@@ -234,10 +212,14 @@ public class ReportViewMain extends VerticalPanel {
 
 			@Override
 			public void onSuccess(ArrayList<JobCreation> result) {
-
-				listBoxJobs.addItem("Select Job");
+				listBoxJobs.addItem("--Select Job--");
 				for (int i = 0; i < result.size(); i++) {
+					if(result.get(i).getReportStatus() == 5)
 					listBoxJobs.addItem(result.get(i).getJobName(), result.get(i).getJobCreationId() + "");
+				}
+				if(listBoxJobs.getItemCount() == 1) {
+					listBoxJobs.clear();
+					listBoxJobs.addItem("Job(s) not completed!");
 				}
 			}
 		});
@@ -257,16 +239,15 @@ public class ReportViewMain extends VerticalPanel {
 
 					@Override
 					public void onSuccess(ArrayList<Exceptions> result) {
-
 						for (int i = 0; i < result.size(); i++) {
 							lblKeyFinding1 = new LabelHeading();
-							lblKeyFinding1.setText("Finding" + (i + 1));
+							lblKeyFinding1.setText("Finding " + (i + 1));
 							txtBoxKeFinding1 = new TextArea();
-							txtBoxKeFinding1.setWidth("800px");
+							txtBoxKeFinding1.setWidth("1200px");
 							txtBoxKeFinding1.setText(result.get(i).getDetail());
+							txtBoxKeFinding1.setEnabled(false);
 							panelExceptionHigh.add(lblKeyFinding1);
 							panelExceptionHigh.add(txtBoxKeFinding1);
-
 						}
 
 					}
@@ -288,6 +269,7 @@ public class ReportViewMain extends VerticalPanel {
 
 			@Override
 			public void onSuccess(AuditEngagement result) {
+				if(result.getEngagementDTO().getSelectedControls().size() > 0) {
 				FlexTable flexOverallControl = new FlexTable();
 				flexOverallControl.setWidth("1200px");
 				LabelHeading lblControl = new LabelHeading();
@@ -327,6 +309,7 @@ public class ReportViewMain extends VerticalPanel {
 
 				panelControls.add(flexOverallControl);
 
+			}
 			}
 		});
 
@@ -389,7 +372,7 @@ public class ReportViewMain extends VerticalPanel {
 			@Override
 			public void onChange(Widget sender) {
 
-				CalearData();
+				clearData();
 
 				selectedJobId = Integer.parseInt(listBoxJobs.getSelectedValue());
 				final int jobId = Integer.parseInt(listBoxJobs.getSelectedValue());
@@ -404,7 +387,6 @@ public class ReportViewMain extends VerticalPanel {
 				AuditWorkProgramUpload annexureUpload = new AuditWorkProgramUpload(jobId + "", mainFolder);
 				panelFileUpload.add(annexureUpload);
 				fetchReportData(jobId);
-
 			}
 
 		});
@@ -457,6 +439,34 @@ public class ReportViewMain extends VerticalPanel {
 
 	}
 
+	private void saveHandler() {
+		btnSave.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// Window.alert("clicked");
+
+				// reportData.setJobId(parseInt);
+				if (reportData1 == null || reportData1.getJobId() != Integer.parseInt(listBoxJobs.getSelectedValue())) {
+					reportData1 = new ReportDataEntity();
+					reportData1.setJobId(selectedJobId);
+					// reportData1.setJobId(Integer.parseInt(listBoxJobs.getSelectedValue()));
+				}
+				reportData1.setAnnexure(txtBoxAnnexure.getText());
+				reportData1.setAuditPurpose(txtBoxAuditPurpose.getText());
+				reportData1.setOperationalEffectiveness(txtoperational.getText());
+				reportData1.setExecutiveSummary(txtBoxExecutiveSummary.getText());
+				reportData1.setDate(dateBox.getDatePicker().getValue());
+//				reportData1.getExceptionDetail().setDetail(txtBoxKeFinding1.getText());
+				// reportData1.se
+
+				saveReportData(reportData1);
+
+			}
+		});
+
+	}
+
 	private void saveReportData(ReportDataEntity reportData) {
 
 		rpcService.saveReportDataPopup(reportData, new AsyncCallback<String>() {
@@ -476,7 +486,7 @@ public class ReportViewMain extends VerticalPanel {
 		});
 	}
 
-	private void CalearData() {
+	private void clearData() {
 		txtBoxAnnexure.setText("");
 		txtBoxAuditPurpose.setText("");
 		txtBoxExecutiveSummary.setText("");

@@ -2,6 +2,8 @@ package com.internalaudit.shared;
 
 import java.util.ArrayList;
 
+import com.google.gwt.user.client.Window;
+
 public class DataCount {
 
 	public class Domain {
@@ -12,16 +14,19 @@ public class DataCount {
 		public int reporting = 0;
 	}
 	
-	public class Division {
+	public class Divisions {
 		
-		public int it = 0;
-		public int finance = 0;
-		public int business = 0;
-		public int strategy = 0;
-		public int reg = 0;
-		public int comm = 0;
-		public int hr = 0;
-		public int pl = 0;
+		public int HeadOffice = 0;
+		public int AGHKhoba = 0;
+		public int AGHDammam = 0;
+		public int AGHHofuf = 0;
+		public int AGHJubail = 0;
+		public int AMCRakkah = 0;
+		public int AMCJubail = 0;
+		public int AGHAzzizia = 0;
+		public int AMCDammam = 0;
+		public int EMATradingDivision = 0;
+		public int MACHSCollege = 0;
 		
 		// todo : add others
 		
@@ -36,7 +41,7 @@ public class DataCount {
 	}
 	
 	public Domain domain = new Domain();
-	public Division div = new Division();
+	public Divisions div = new Divisions();
 	public RiskAssesment risk = new RiskAssesment();
 	
 	public void getDataCount( ArrayList<Strategic> list)
@@ -69,30 +74,33 @@ public class DataCount {
 		
 	}
 
-	public void getDivisionCount(ArrayList<StrategicDepartments> list) {
-		
-		for( int k = 0; k < list.size(); k++)
+	public void getDivisionCount(ArrayList<Division> divisionsList) {
+		for( int k = 0; k < divisionsList.size(); k++)
 		{
-			String r =  list.get(k).getDepartment().getDepartmentName(); //need it here. for charts??
+			String r =  divisionsList.get(k).getDivisionName(); //need it here. for charts??
 			
-			if ( r.equals("IT") ) div.it++;
+			if ( r.equals("Head Office") ) div.HeadOffice++;
 			
-			if ( r.equals("Finance") ) div.finance++;
+			if ( r.equals("AGH Khobar") ) div.AGHKhoba++;
 			
-			if ( r.equals("Business") ) div.business++;
+			if ( r.equals("AGH Dammam") ) div.AGHDammam++;
 			
-			if ( r.equals("Strategy") ) div.strategy++;
+			if ( r.equals("AGH Hofuf") ) div.AGHHofuf++;
 			
-			if ( r.equals("Commercial") ) div.comm++;
+			if ( r.equals("AGH Jubail") ) div.AGHJubail++;
 			
-			if ( r.equals("Human Resource") ) div.hr++;
+			if ( r.equals("AMC Rakkah") ) div.AMCRakkah++;
 
-			if ( r.equals("Regularoty") ) div.reg++;
+			if ( r.equals("AMC Jubail") ) div.AMCJubail++;
 			
-			if ( r.equals("Procurement and Logistics") ) div.pl++;
+			if ( r.equals("AGH Azzizia") ) div.AGHAzzizia++;
+			
+			if ( r.equals("AMC Dammam") ) div.AMCDammam++;
+			
+			if ( r.equals("EMA-Trading Division") ) div.EMATradingDivision++;
+			
+			if ( r.equals("MACHS College") ) div.MACHSCollege++;
 		}
-		
-		
 	}
 	
 	

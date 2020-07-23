@@ -32,6 +32,7 @@ import com.internalaudit.shared.JobType;
 import com.internalaudit.shared.Process;
 import com.internalaudit.shared.ProcessDTO;
 import com.internalaudit.shared.Strategic;
+import com.internalaudit.shared.StrategicSubProcess;
 import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.TimeOutException;
 import com.sencha.gxt.widget.core.client.ContentPanel;
@@ -182,13 +183,34 @@ public class ConsolidationViewData {
 			@Override
 			public void onSuccess(ArrayList<ProcessDTO> result) {
 				processDTO = result;
-				fetchSubProcess(result.get(0).getProcessList().get(0).getProcessId(), null);
+				//fetchSubProcess(result.get(0).getProcessList().get(0).getProcessId(), null);
 			}
 		});
 
 	}
+	
+	private void selectedSubProcess(ArrayList<SubProcess> selectedSubProcesses, final ListBox listBox) {
+				if (listBox != null) {
+				//	Window.alert(""+listBox.getItemCount());
+					for (int i = 0; i < listBox.getItemCount(); i++) {
+						for(int j = 0; j < selectedSubProcesses.size(); j++)  {
+							if (listBox.getValue(i).equals(selectedSubProcesses.get(j).getSubProcessId()+"")) {
+								listBox.setItemSelected(i, true);
+								break;
+							}
+					}
+				}
+			}
+			listBox.setHeight("100%");
+		}
+	
+//	private void selectedSubProcess(ArrayList<SubProcess> selectedSubProcesses, final ListBox listBox) {
+//		for(SubProcess selectedSubProcess: selectedSubProcesses)  {
+//			listBox.addItem(selectedSubProcess.getSubProcessName(), selectedSubProcess.getSubProcessId()+"");
+//	}
+//}
 
-	public void fetchSubProcess(int processId, final ListBox listBox) {
+	private void fetchSubProcess(int processId, final ListBox listBox, final ArrayList<SubProcess> subProces) {
 
 		rpcService.fetchSubProcess(processId, new AsyncCallback<ArrayList<SubProcess>>() {
 
@@ -208,14 +230,17 @@ public class ConsolidationViewData {
 					for (int i = 0; i < result.size(); i++) {
 						listBox.addItem(result.get(i).getSubProcessName(), result.get(i).getSubProcessId() + "");
 					}
-					if (index != 0) {
-						for (int i = 0; i < listBox.getItemCount(); i++) {
-							if (listBox.getValue(i).equals(index + "")) {
-								listBox.setSelectedIndex(i);
-								break;
-							}
-						}
-					}
+					if(!(subProces == null))
+					selectedSubProcess(subProces, listBox);
+					
+//					if (index != 0) {
+//						for (int i = 0; i < listBox.getItemCount(); i++) {
+//							if (listBox.getValue(i).equals(index + "")) {
+//								listBox.setSelectedIndex(i);
+//								break;
+//							}
+//						}
+//					}
 				}
 			}
 		});
@@ -250,7 +275,7 @@ public class ConsolidationViewData {
 				vpnlData.clear();
 				loadingPopup.remove();
 				previousStrategicsEntity = strategics;
-
+				
 				for (index = 0; index < strategics.size(); index++) {
 					final ConsolidationView consolidationView = new ConsolidationView();
 					if(strategics.get(index).getComments() != null && strategics.get(index).getComments().length()>1
@@ -272,6 +297,7 @@ public class ConsolidationViewData {
 					} else {
 						consolidationView.getComments().setVisible(false);
 					}
+//					fetchSubProcess(strategics.get(index).getProcess().getProcessId(), consolidationView.getListBoxSubProcess());
 					consolidationView.getComments().setTitle(strategics.get(index).getComments());
 
 					vpnlData.add(consolidationView);
@@ -322,11 +348,11 @@ public class ConsolidationViewData {
 								processDTO.get(0).getJobTypeList().get(i).getJobTypeName(),
 								processDTO.get(0).getJobTypeList().get(i).getJobTypeId() + "");
 					}
-
-					for (int i = 0; i < subProcess.size(); i++) {
-						consolidationView.getListBoxSubProcess().addItem(subProcess.get(i).getSubProcessName(),
-								subProcess.get(i).getSubProcessId() + "");
-					}
+					
+//					for (int i = 0; i < subProcess.size(); i++) {
+//						consolidationView.getListBoxSubProcess().addItem(subProcess.get(i).getSubProcessName(),
+//								subProcess.get(i).getSubProcessId() + "");
+//						}
 
 					// for (int i = 0; i <
 					// strategics.get(index).getListSubProcess().size(); i++) {
@@ -342,14 +368,11 @@ public class ConsolidationViewData {
 					// them from above
 
 					if (strategics.get(consolidationView.getIndex()).getProcess() != null) {
-
 						for (int i = 0; i < consolidationView.getListBoxProcess().getItemCount(); i++) {
 							if (Integer.parseInt(consolidationView.getListBoxProcess().getValue(i)) == strategics
 									.get(consolidationView.getIndex()).getProcess().getProcessId()) {
 								consolidationView.getListBoxProcess().setSelectedIndex(i);
-								fetchSubProcess(Integer.parseInt(consolidationView.getListBoxProcess().getValue(i)),
-										consolidationView.getListBoxSubProcess());
-
+								// selectedSubProcess, to show selected sub processes
 								// if
 								// (!strategics.get(index).getListSubProcess().isEmpty())
 								// for (int j = 0; j <
@@ -364,8 +387,19 @@ public class ConsolidationViewData {
 								break;
 							}
 						}
-
+						fetchSubProcess(strategics.get(index).getProcess().getProcessId(), consolidationView.getListBoxSubProcess(), strategics.get(index).getListSubProcess());
 					}
+//					if(strategics.get(index).getStrategicObjective().equalsIgnoreCase("Jumma hai"))
+//					Window.alert("List items : "+consolidationView.getListBoxSubProcess().getItemCount()+"selected : "+ strategics.get(index).getListSubProcess().size());
+//					for(int i=1; i<= consolidationView.getListBoxSubProcess().getItemCount(); i++) {
+//						for(SubProcess selectedSubProcess: strategics.get(index).getListSubProcess()) {
+//							if(consolidationView.getListBoxSubProcess().getValue(i).equals(selectedSubProcess.getSubProcessId()+"")) {
+//								consolidationView.getListBoxSubProcess().setItemSelected(i, true);
+//								break;
+//							}
+//						}
+//					}
+					
 					for (int i = 0; i < consolidationView.getListBoxJobType().getItemCount(); i++) {
 
 						if (consolidationView.getListBoxJobType().getValue(i).equals(
@@ -381,18 +415,8 @@ public class ConsolidationViewData {
 
 						@Override
 						public void onChange(ChangeEvent event) {
-							// Window.alert("changing:" +
-							// consolidationView.getListBoxProcess().getValue(consolidationView.getListBoxProcess().getSelectedIndex()));
-							/*
-							 * if (consolidationView.getListBoxProcess().
-							 * getSelectedValue().equals("0")) {
-							 * consolidationView.getListBoxSubProcess().
-							 * setSelectedIndex(index); return; }
-							 */
-							fetchSubProcess(
-									Integer.parseInt(consolidationView.getListBoxProcess()
-											.getValue(consolidationView.getListBoxProcess().getSelectedIndex())),
-									consolidationView.getListBoxSubProcess());
+							fetchSubProcess(Integer.parseInt(consolidationView.getListBoxProcess().getValue(consolidationView.getListBoxProcess().getSelectedIndex())),
+									consolidationView.getListBoxSubProcess(), null);
 						}
 					});
 

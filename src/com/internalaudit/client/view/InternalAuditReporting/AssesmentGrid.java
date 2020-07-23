@@ -121,7 +121,7 @@ public class AssesmentGrid extends VerticalLayoutContainer {
 	public Widget createGridReporting() {
 
 		ColumnConfig<AssesmentGridEntity, String> nameCol = new ColumnConfig<AssesmentGridEntity, String>(
-				reportingProperties.name(), 200, "OverAll Assesment");
+				reportingProperties.name(), 200, "Overall Assesment");
 
 		ColumnConfig<AssesmentGridEntity, Boolean> complete = new ColumnConfig<AssesmentGridEntity, Boolean>(
 				reportingProperties.urlCompleteboolean(), 100, "Completely Satisfied");
@@ -129,7 +129,7 @@ public class AssesmentGrid extends VerticalLayoutContainer {
 		ColumnConfig<AssesmentGridEntity, Boolean> satisfy = new ColumnConfig<AssesmentGridEntity, Boolean>(
 				reportingProperties.urlSatisfyboolean(), 100, "Partially Satisfied");
 		ColumnConfig<AssesmentGridEntity, Boolean> unsatisfied = new ColumnConfig<AssesmentGridEntity, Boolean>(
-				reportingProperties.urlNonSatisfyboolean(), 100, "UnSatisfied");
+				reportingProperties.urlNonSatisfyboolean(), 100, "Unsatisfied");
 
 		CheckBoxCell cellComplete = new CheckBoxCell();
 		complete.setCell(cellComplete);
@@ -277,7 +277,8 @@ public class AssesmentGrid extends VerticalLayoutContainer {
 			public void onSelect(SelectEvent event) {
 				id++;
 				AssesmentGridEntity reporting = new AssesmentGridEntity();
-				reporting.setName("reporting");
+				reporting.setName(" ");
+				//reporting.setName("reporting");
 				reporting.setId(id + 5);
 
 				editing.cancelEditing();

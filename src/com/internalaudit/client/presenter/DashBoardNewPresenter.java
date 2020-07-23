@@ -102,7 +102,8 @@ public class DashBoardNewPresenter implements Presenter
 						.setData(dashboard.getJobsWithExcepptionImplementationoverdue());
 				;
 				display.getJobsDueForCompletionWithinWeek().setData(dashboard.getJobKDueForCompletionWithinAWeek());
-				display.getAuditJobsByFunction().setData(dashboard.getDivs());
+				//2020 hamza display.getAuditJobsByFunction().setData(dashboard.getDivs());
+				display.getAuditJobsByFunction().setData(dashboard.getReports());
 				display.getAuditJobsByObjective().setData(dashboard.getReports());
 				display.getAuditJobsByRisk().setData(dashboard.getReports());
 				display.getJobsByPhases().setData(dashboard);
