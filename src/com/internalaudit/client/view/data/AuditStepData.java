@@ -147,6 +147,9 @@ public class AuditStepData {
 					if (auditStep.getFeedback() != null && !auditStep.getFeedback().isEmpty()) {
 						auditStepView.getFeedbackPanel().setVisible(true);
 						auditStepView.getFeedback().setText(auditStep.getFeedback());
+						auditStepView.getInitiationButtonsPanel().setVisible(true);
+						auditStepView.getSave().setVisible(true);
+						auditStepView.getSubmit().setVisible(true);
 					}
 					//// end feedbacl
 
@@ -203,6 +206,9 @@ public class AuditStepData {
 						auditStepView.enableFields();
 					} else if (!(auditStep.getApprovedBy().getRollId() == 1) && loggedInEmployee.getRollId() == 1) {
 						auditStepView.supervisorView();
+					}
+					if (auditStep.getStatus() == InternalAuditConstants.SUBMIT && loggedInEmployee.getRollId() != 1) {
+						auditStepView.disableFields(exceptions, auditSamplingView);
 					}
 					if (auditStep.getStatus() == InternalAuditConstants.APPROVED
 							&& auditStep.getApprovedBy().getRollId() == 1) {

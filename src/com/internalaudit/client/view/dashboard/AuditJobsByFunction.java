@@ -70,10 +70,6 @@ public class AuditJobsByFunction extends VerticalPanel{
 				.setAllowPointSelect(true)  
 				// .setCursor(PlotOptions.Cursor.POINTER)  
 				.setPieDataLabels(new PieDataLabels()  
-
-
-
-
 				.setConnectorColor("#000000")  
 				.setEnabled(true)  
 				.setColor("#000000")  

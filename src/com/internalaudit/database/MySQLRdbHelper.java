@@ -1456,7 +1456,6 @@ public class MySQLRdbHelper {
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				StrategicDepartments strategicDept = (StrategicDepartments) it.next();
 				strategicDepartments.add(strategicDept);
-
 			}
 			logger.info(String.format("(Inside fetchStrategicdepartments) fetching Strategic Department strategic : "
 					+ strategic.getStrategicObjective() + " " + new Date()));
@@ -4071,13 +4070,9 @@ public class MySQLRdbHelper {
 		for (RiskControlMatrixEntity r : records) {
 			r.setYear(year);
 			r.setCompanyId(companyId);
-
 			saveRisk(r);
-
 		}
-
 		return true;
-
 	}
 
 	public boolean sendEmail(String body, String sendTo, String cc, String subject) {
@@ -10440,31 +10435,24 @@ public class MySQLRdbHelper {
 	}
 	// 2019 april
 
-	public String saveReportDataPopup(ReportDataEntity reportData, int loggedInUser) {
+	public String saveReportDataPopup(ArrayList<ReportDataEntity> listReportData, int loggedInUser) {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
-			session.saveOrUpdate(reportData);
-			// session.save(reportData);
-			session.flush();
-
-			// logger.info(String.format("(Inside saveAuditNotification) saving
-			// AuditNotification for message to: " + to
-			// + "for message" + message + "for year" + year + "for company" +
-			// companyId + "" + new Date()));
-
+			for(ReportDataEntity reportData: listReportData) {
+				session.saveOrUpdate(reportData);
+				session.flush();
+			}
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in saveReportData", ex.getMessage()), ex);
 
 		} finally {
 			session.close();
 		}
-
 		return "reportDataSaved";
 	}
 
-	public ReportDataEntity fetchReportDataPopup(int jobId) {
-
+	public ArrayList<ReportDataEntity> fetchReportDataPopup(int jobId) {
 		ArrayList<ReportDataEntity> reportDataList = new ArrayList<ReportDataEntity>();
 		Session session = null;
 		ReportDataEntity reportData = null;
@@ -10476,7 +10464,7 @@ public class MySQLRdbHelper {
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				reportData = (ReportDataEntity) it.next();
-				// reportDataList.add(reportData);
+			    reportDataList.add(reportData);
 			}
 			logger.info(String
 					.format("(Inside fetchREportDataPopup) fetching ReportDatat for jobid : " + " " + new Date()));
@@ -10486,7 +10474,7 @@ public class MySQLRdbHelper {
 		} finally {
 			session.close();
 		}
-		return reportData;
+		return reportDataList;
 	}
 
 	public String saveAssesmentGrid(ArrayList<AssesmentGridEntity> listAssesment, int jobid) {

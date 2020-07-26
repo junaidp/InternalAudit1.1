@@ -434,6 +434,10 @@ public class KickoffView extends Composite {
 			// changedvpn1
 			auditWorkNewContainer.clear();
 		}
+		if(record.getEngagementDTO().getStatusControlRisk() != InternalAuditConstants.INITIATED && record.getEngagementDTO().getStatusControlRisk() != InternalAuditConstants.APPROVED) {
+			scroll.setVisible(false);
+			vpnl.setVisible(false);
+		}
 		//scroll.setWidget(vpnl);
 		scroll.add(vpnl);
 		scroll.setHeight("400px");
@@ -603,11 +607,6 @@ public class KickoffView extends Composite {
 		riskIds.add(riskObjective.getRiskId());
 		riskControlMatrixView.setData(suggestedControlsLibrary, riskAdded);
 		riskControlMatrixView.setRiskObjective(riskObjective);
-
-		//final DataStorage dataStorage = new DataStorage(); 
-		//data storage commented by moqeet, no use of it.
-// We will use the same data storage class and set the same count and value field for every other tabs too.
-		//dataStorage.setCount(i);
 
 		riskControlMatrixView.getBtnSelect().addClickHandler(new ClickHandler() {
 

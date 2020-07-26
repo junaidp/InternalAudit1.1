@@ -1709,14 +1709,14 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	}
 
 	@Override
-	public String saveReportDataPopup(ReportDataEntity reportData) {
+	public String saveReportDataPopup(ArrayList<ReportDataEntity> reportData) {
 		// int loggedInUser = (Integer) session.getAttribute("user");
 		int loggedInUser = 124;
 		return rdbHelper.saveReportDataPopup(reportData, loggedInUser);
 	}
 
 	@Override
-	public ReportDataEntity fetchReportDataPopup(int jobId) throws Exception {
+	public ArrayList<ReportDataEntity> fetchReportDataPopup(int jobId) throws Exception {
 		return rdbHelper.fetchReportDataPopup(jobId);
 	}
 

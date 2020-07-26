@@ -332,9 +332,9 @@ public interface InternalAuditServiceAsync {
 
 	void fetchSelectedJob(int jobId, AsyncCallback<JobCreation> callback);
 
-	void saveReportDataPopup(ReportDataEntity reportData, AsyncCallback<String> callback);
+	void saveReportDataPopup(ArrayList<ReportDataEntity> listReportData12, AsyncCallback<String> callback);
 
-	void fetchReportDataPopup(int jobId, AsyncCallback<ReportDataEntity> callback);
+	void fetchReportDataPopup(int jobId, AsyncCallback<ArrayList<ReportDataEntity>> callback);
 
 	void saveAssesmentGrid(ArrayList<AssesmentGridEntity> listAssesment, int jobid, AsyncCallback<String> callback);
 

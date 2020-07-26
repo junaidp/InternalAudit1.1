@@ -318,10 +318,9 @@ public interface InternalAuditService extends RemoteService {
 
 	JobCreation fetchSelectedJob(int jobId) throws Exception;
 
-	// 2019 april
-	String saveReportDataPopup(ReportDataEntity reportData);
+	String saveReportDataPopup(ArrayList<ReportDataEntity> listReportData12);
 
-	ReportDataEntity fetchReportDataPopup(int jobId) throws Exception;
+	ArrayList<ReportDataEntity> fetchReportDataPopup(int jobId) throws Exception;
 
 	String saveAssesmentGrid(ArrayList<AssesmentGridEntity> listAssesment, int jobid);
 

@@ -322,7 +322,6 @@ public class RisksView extends Composite {
 			AuditEngagement auditEng = new AuditEngagement();
 			auditEng.setAuditEngId(auditEngId);
 			riskControlMatrix.setAuditEngageId(auditEng);
-
 			saveSuggestedControls(current, riskControlMatrix, status);
 
 			riskControlMatrix.setRiskId(Integer.parseInt(current.getRiskId().getText()));

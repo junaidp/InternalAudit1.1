@@ -289,6 +289,14 @@ public class AuditStepView extends Composite {
 		return population;
 	}
 
+	public HorizontalPanel getInitiationButtonsPanel() {
+		return initiationButtonsPanel;
+	}
+
+	public void setInitiationButtonsPanel(HorizontalPanel initiationButtonsPanel) {
+		this.initiationButtonsPanel = initiationButtonsPanel;
+	}
+
 	public void setPopulation(TextBox population) {
 		this.population = population;
 	}
@@ -410,7 +418,6 @@ public class AuditStepView extends Composite {
 		approvalButtonsPanel.setVisible(true);
 		initiationButtonsPanel.setVisible(false);
 		addException.setVisible(false);
-
 	}
 
 	public Label getSubmittedBy() {
@@ -459,6 +466,14 @@ public class AuditStepView extends Composite {
 
 	public void setUploadFileContainer(VerticalPanel uploadFileContainer) {
 		this.uploadFileContainer = uploadFileContainer;
+	}
+
+	public Button getSubmit() {
+		return submit;
+	}
+
+	public void setSubmit(Button submit) {
+		this.submit = submit;
 	}
 
 }

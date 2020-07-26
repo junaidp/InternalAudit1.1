@@ -51,14 +51,16 @@ public class ReportViewMain extends VerticalPanel {
 	private TextArea txtBoxAnnexure = new TextArea();
 	private VerticalPanel panelFileUpload = new VerticalPanel();
 	private Button btnSave = new Button("Save");
-	private ReportDataEntity reportData1 = null;
+	private ArrayList<ReportDataEntity> listReportData1 = null;
 	int selectedJobId = 0;
 	private DateBox dateBox = new DateBox();
-	private TextArea txtoperational = new TextArea();
+	private ArrayList<TextArea> listTxtoperational = null;
+	private ArrayList<Integer> suggestedControlIds ;
 
 	public ReportViewMain(HandlerManager eventBus) {
 
 		fetchJobs();
+		listTxtoperational = new ArrayList<TextArea>();
 		getElement().getStyle().setMarginLeft(20, Unit.PX);
 		setWidth("1200px");
 		// setHeight("700px");
@@ -290,11 +292,13 @@ public class ReportViewMain extends VerticalPanel {
 				flexOverallControl.setWidget(0, 1, lblControl);
 				flexOverallControl.setWidget(0, 2, lblOperationalEffectiveness);
 				// flexOverallControl.setWidget(0, 3, lblObservationRef);
+				suggestedControlIds = new ArrayList<Integer>();
 				for (int i = 0; i < result.getEngagementDTO().getSelectedControls().size(); i++) {
 					Label lblControlData = new Label();
 
 					lblControlData
 							.setText(result.getEngagementDTO().getSelectedControls().get(i).getSuggestedControlsName());
+					TextArea txtoperational = new TextArea();
 					txtoperational.setWidth("600px");
 					txtoperational.getElement().setPropertyString("placeholder", "Enter text here");
 					Label lblReferenceData = new Label();
@@ -305,6 +309,8 @@ public class ReportViewMain extends VerticalPanel {
 					flexOverallControl.setWidget(i + 1, 1, lblControlData);
 					flexOverallControl.setWidget(i + 1, 2, txtoperational);
 					// flexOverallControl.setWidget(i + 1, 3, lblReferenceData);
+					listTxtoperational.add(txtoperational);
+					suggestedControlIds.add(result.getEngagementDTO().getSelectedControls().get(i).getSuggestedControlsId());
 				}
 
 				panelControls.add(flexOverallControl);
@@ -387,6 +393,7 @@ public class ReportViewMain extends VerticalPanel {
 				AuditWorkProgramUpload annexureUpload = new AuditWorkProgramUpload(jobId + "", mainFolder);
 				panelFileUpload.add(annexureUpload);
 				fetchReportData(jobId);
+
 			}
 
 		});
@@ -411,7 +418,7 @@ public class ReportViewMain extends VerticalPanel {
 	}
 
 	private void fetchReportData(int jobId) {
-		rpcService.fetchReportDataPopup(jobId, new AsyncCallback<ReportDataEntity>() {
+		rpcService.fetchReportDataPopup(jobId, new AsyncCallback<ArrayList<ReportDataEntity>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -420,20 +427,15 @@ public class ReportViewMain extends VerticalPanel {
 			}
 
 			@Override
-			public void onSuccess(ReportDataEntity result) {
-				txtBoxAnnexure.setText(result.getAnnexure());
-				txtBoxAuditPurpose.setText(result.getAuditPurpose());
-				txtBoxExecutiveSummary.setText(result.getExecutiveSummary());
-				txtoperational.setText(result.getOperationalEffectiveness());
-				// dateBox.getDatePicker().setValue(result.getDate());
-				dateBox.setValue(result.getDate());
-				reportData1 = result;
-				// result.setReportDataId(result.getReportDataId());
-				// result.setAnnexure(txtBoxAnnexure.getText());
-				// result.setAuditPurpose(txtBoxAuditPurpose.getText());
-				// result.setExecutiveSummary(txtBoxExecutiveSummary.getText());
-				// saveReportData(result);
-
+			public void onSuccess(ArrayList<ReportDataEntity> result) {
+				listReportData1 = result;
+				for(int i = 0; i < listReportData1.size(); i++) {
+					txtBoxAnnexure.setText(result.get(0).getAnnexure());
+					txtBoxAuditPurpose.setText(result.get(0).getAuditPurpose());
+					txtBoxExecutiveSummary.setText(result.get(0).getExecutiveSummary());
+					listTxtoperational.get(i).setText(result.get(i).getOperationalEffectiveness());
+					dateBox.setValue(result.get(0).getDate());
+				}
 			}
 		});
 
@@ -444,45 +446,39 @@ public class ReportViewMain extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// Window.alert("clicked");
-
-				// reportData.setJobId(parseInt);
-				if (reportData1 == null || reportData1.getJobId() != Integer.parseInt(listBoxJobs.getSelectedValue())) {
-					reportData1 = new ReportDataEntity();
-					reportData1.setJobId(selectedJobId);
-					// reportData1.setJobId(Integer.parseInt(listBoxJobs.getSelectedValue()));
+				listReportData1 = new ArrayList<ReportDataEntity>();
+				for(int i = 0; i < listTxtoperational.size(); i++) {
+					ReportDataEntity reportDataEntity = new ReportDataEntity();
+					reportDataEntity.setJobId(selectedJobId);
+					reportDataEntity.setJobId(selectedJobId);
+					reportDataEntity.setAnnexure(txtBoxAnnexure.getText());
+					reportDataEntity.setAuditPurpose(txtBoxAuditPurpose.getText());
+					reportDataEntity.setOperationalEffectiveness(listTxtoperational.get(i).getText());
+					reportDataEntity.setExecutiveSummary(txtBoxExecutiveSummary.getText());
+					reportDataEntity.setDate(dateBox.getDatePicker().getValue());
+					reportDataEntity.setSuggestedControl(suggestedControlIds.get(i)); 
+					listReportData1.add(reportDataEntity);
 				}
-				reportData1.setAnnexure(txtBoxAnnexure.getText());
-				reportData1.setAuditPurpose(txtBoxAuditPurpose.getText());
-				reportData1.setOperationalEffectiveness(txtoperational.getText());
-				reportData1.setExecutiveSummary(txtBoxExecutiveSummary.getText());
-				reportData1.setDate(dateBox.getDatePicker().getValue());
-//				reportData1.getExceptionDetail().setDetail(txtBoxKeFinding1.getText());
-				// reportData1.se
-
-				saveReportData(reportData1);
+				saveReportData(listReportData1);
 
 			}
 		});
 
 	}
 
-	private void saveReportData(ReportDataEntity reportData) {
+	private void saveReportData(ArrayList<ReportDataEntity> listReportData12) {
 
-		rpcService.saveReportDataPopup(reportData, new AsyncCallback<String>() {
+		rpcService.saveReportDataPopup(listReportData12, new AsyncCallback<String>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 				Window.alert("saving failed");
-
 			}
 
 			@Override
 			public void onSuccess(String result) {
 				new DisplayAlert("Report Data Saved");
-
 			}
-
 		});
 	}
 
@@ -496,7 +492,7 @@ public class ReportViewMain extends VerticalPanel {
 		panelControls.clear();
 		panelAllFindings.clear();
 		dateBox.setValue(null);
-		txtoperational.setText("");
+		listTxtoperational.clear();
 		// dateBox.getDatePicker().get
 
 	}

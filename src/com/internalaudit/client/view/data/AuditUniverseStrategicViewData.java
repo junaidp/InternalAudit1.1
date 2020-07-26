@@ -639,9 +639,8 @@ public class AuditUniverseStrategicViewData {
 				auditUniverseStrategicView.getListBoxDivision().setItemSelected(k, true);	
 					break;
 			}
-			
-			fetchDepartmentsDivision(data.getDivisionID(), auditUniverseStrategicView.getListRelevantDepartment(), result.get(i).getStrategicDepartments());	
 		}
+		fetchDepartmentsDivision(data.getDivisionID(), auditUniverseStrategicView.getListRelevantDepartment(), result.get(i).getStrategicDepartments());	
 		// LISTBOX OF DEPARTMENTS
 		//int loopSize = (result.get(i).getStatus().equals("saved"))? listDepartments.size(): auditUniverseStrategicView.getListRelevantDepartment().getItemCount();
 //		if(result.get(i).getStatus().equals("saved")) {

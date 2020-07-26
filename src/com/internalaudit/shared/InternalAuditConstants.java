@@ -17,6 +17,7 @@ public class InternalAuditConstants {
 	public static final int INITIATED = 0;
 	public static final int APPROVED = 1;
 	public static final int REJECTED = 2;
+	public static final int NULL = -1;
 	public static final String LOGGEDOUT = "Please Log In.";
 	public static final int TIMEOUT = 2000;
 	public static final String AUDITHEAD = "Head of Internal Audit";
