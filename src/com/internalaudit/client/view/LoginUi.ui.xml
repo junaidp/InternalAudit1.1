@@ -89,6 +89,9 @@
 							</g:HorizontalPanel>
 							<g:HorizontalPanel>
 							<g:Anchor ui:field="requestUserName" styleName="register">Request username</g:Anchor>
+							</g:HorizontalPanel> 
+							<g:HorizontalPanel>
+							<g:Anchor ui:field="forgetPassword" styleName="register">Forget Password</g:Anchor>
 							</g:HorizontalPanel>
 						</div>
 

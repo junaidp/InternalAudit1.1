@@ -1854,4 +1854,22 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public String fetchCompanyPackage(int companyId) {
+		// TODO Auto-generated method stub
+		return rdbHelper.fetchCompanyPackage(companyId);
+	}
+
+	@Override
+	public String fetchCompanyLogoPath(int companyID) {
+		// TODO Auto-generated method stub
+		return rdbHelper.fetchCompanyLogoPath(companyID);
+	}
+
+	@Override
+	public String updatePassword(Employee loggedInUser) {
+		// TODO Auto-generated method stub
+		return rdbHelper.updatePassword(loggedInUser);
+	}
 }

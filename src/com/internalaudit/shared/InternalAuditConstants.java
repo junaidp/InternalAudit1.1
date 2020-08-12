@@ -66,6 +66,9 @@ public class InternalAuditConstants {
 	public static final String BLOCKSELECTION = "Block Selection";
 	public static final String SamplingExcelFileTemplate = "samplingExcelTemplate.xlsx";
 	public static final String SAMPLINGAUDITSTEPFOLDEER = "SamplingAuditStep";
+	public static final String USERLIMITEXCEED = "Maximum User  limit exceeds";
+
+	
 	
 
 }

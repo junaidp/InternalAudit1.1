@@ -101,7 +101,7 @@ public class PopupsView {
 		btnClose.setVisible(false);
 	}
 	
-	private void closePopUp() {
+	public void closePopUp() {
 		popup.removeFromParent();
 		vpnlMain.removeFromParent();
 		hpnlSPace.removeFromParent();

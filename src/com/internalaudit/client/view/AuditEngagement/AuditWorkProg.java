@@ -97,9 +97,10 @@ public class AuditWorkProg extends Composite {
 	private Button reject = new Button("FeedBack");
 	private Button btnLibrary = new Button("Library");
 	final VerticalLayoutContainer scrollPopup = new VerticalLayoutContainer();
+    private String userPackage;
 
 	public AuditWorkProg(final InternalAuditServiceAsync rpcService, final int selectedJobId, Employee employee,
-			ArrayList<SuggestedControls> controls, VerticalPanel auditWorkNewContainer,
+			String userPackage , ArrayList<SuggestedControls> controls, VerticalPanel auditWorkNewContainer,
 			final AsyncCallback<KickoffView> asyncCallback, VerticalPanel vpnlPopup, int sizeAuditProgramList) {
 		initWidget(uiBinder.createAndBindUi(this));
 
@@ -109,6 +110,7 @@ public class AuditWorkProg extends Composite {
 		getEmployeesForJob(rpcService, selectedJobId, auditWorkNewContainer);
 		setHandlers(rpcService, selectedJobId, sizeAuditProgramList, vpnlPopup, asyncCallback);
 		this.loggedInEmployee = employee;
+		this.userPackage = userPackage; 
 		addMore.setVisible(false);
 		btnLibrary.setVisible(false);
 		visibleSaveSubmitBtn(false);
@@ -128,7 +130,6 @@ public class AuditWorkProg extends Composite {
 		initiationButtonsPanel.getElement().getStyle().setMarginLeft(1020, Unit.PX);
 		panelAddIcon.add(btnLibrary);
 		panelAddIcon.add(addMore);
-		addMore.getElement().getStyle().setPaddingLeft(1080, Unit.PX);
 		initiationButtonsPanel.add(save);
 		initiationButtonsPanel.add(submit);
 		approvalButtonsPanel.add(approve);
@@ -679,6 +680,7 @@ public class AuditWorkProg extends Composite {
 				addMore.setVisible(true);
 				btnLibrary.setVisible(true);
 				row.enableFields();
+				packageFeature();
 			}
 //
 			private void showApprovalView(AuditWorkRow row) {
@@ -767,6 +769,7 @@ public class AuditWorkProg extends Composite {
 		initiationButtonsPanel.setVisible(true);
 		addMore.setVisible(true);
 		btnLibrary.setVisible(true);
+		packageFeature();
 	}
 
 	public void disableInitiationpanel() {
@@ -778,7 +781,8 @@ public class AuditWorkProg extends Composite {
 	public void enableApprovalnpanel() {
 		approvalButtonsPanel.setVisible(true);
 		addMore.setVisible(true);
-		btnLibrary.setVisible(true);
+		btnLibrary.setVisible(true); 
+		packageFeature();
 	}
 
 	public void disableApprovalpanel() {
@@ -796,11 +800,21 @@ public class AuditWorkProg extends Composite {
 	public void enableFields() {
 		addMore.setVisible(true);
 		btnLibrary.setVisible(true);
+		packageFeature();
 	}
 	
 	private void visibleSaveSubmitBtn(boolean flag) {
 		save.setVisible(flag);
 		submit.setVisible(flag);
 		initiationButtonsPanel.setVisible(flag);
+	}
+	
+	public void packageFeature( ) {
+		if(userPackage.equalsIgnoreCase("Basic") || userPackage.equalsIgnoreCase("Gold")) {
+			btnLibrary.setVisible(false);
+			addMore.getElement().getStyle().setPaddingLeft(1150, Unit.PX);
+		}
+		else
+			addMore.getElement().getStyle().setPaddingLeft(1080, Unit.PX);
 	}
 }

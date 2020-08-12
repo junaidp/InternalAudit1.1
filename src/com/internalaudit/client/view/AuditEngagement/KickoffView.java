@@ -76,11 +76,13 @@ public class KickoffView extends Composite {
 
 	@UiField
 	Label lblSubProcess;
+	
 	@UiField
 	Label lblJobType;
+	
 	@UiField
 	VerticalPanel vpnlSubProcess;
-
+	private String userPackage;
 	private Employee loggedInUser;
 	private ContentPanel panel;
 	private InternalAuditServiceAsync rpcService;
@@ -110,7 +112,7 @@ public class KickoffView extends Composite {
 
 		getExceptions();
 		// added button click just to check test the view
-
+		fetchCompanyPackage(loggedInUser.getCompanyId());
 	}
 
 	private void updateKickoffStatus(int auditEngId) {
@@ -261,7 +263,7 @@ public class KickoffView extends Composite {
 		});
 	}
 
-	private void showOptionsAccordian(final AuditEngagement record) {
+	private void showOptionsAccordian(final AuditEngagement record) { 
 		panel = new ContentPanel();
 		panel.setHeaderVisible(false);
 
@@ -366,7 +368,7 @@ public class KickoffView extends Composite {
 //		});
 
 		final VerticalPanel auditWorkNewContainer = new VerticalPanel();
-		final AuditWorkProg auditWorkProg = new AuditWorkProg(rpcService, selectedJobId, loggedInUser, record.getEngagementDTO().getSelectedControls(), auditWorkNewContainer, refreshMethod(con), vpnlPopup, record.getEngagementDTO().getAuditProgrammeList().size());
+		final AuditWorkProg auditWorkProg = new AuditWorkProg(rpcService, selectedJobId, loggedInUser, userPackage, record.getEngagementDTO().getSelectedControls(), auditWorkNewContainer, refreshMethod(con), vpnlPopup, record.getEngagementDTO().getAuditProgrammeList().size());
 		vpnl.add(auditWorkProg);
 
 		// AddIcon btnAddAuditWork = new AddIcon();
@@ -391,8 +393,7 @@ public class KickoffView extends Composite {
 			}
 			if(isAddInLibrary)
 				viewAuditParogramsLibrary(vpnl, vpnlPopup, auditWorkNewContainer, auditWorkProg, auditParogramsLibrary);
-		}
-
+		} 
 		// addclickhandler of button risk
 		// btnAddAuditWork.addClickHandler(new ClickHandler() {
 		//
@@ -502,10 +503,10 @@ public class KickoffView extends Composite {
 		//vpExistingControl.add(btnLibrary);
 		
 		// user's
-				final RisksView riskView = new RisksView(auditEngId, rpcService, loggedInUser,
+				final RisksView riskView = new RisksView(auditEngId, rpcService, loggedInUser, userPackage,
 						record.getEngagementDTO().getSelectedObjectiveRisks(), vpExistingControlContainer, refreshMethod(con), record.getEngagementDTO().getSuggestedControlsList().size());
 				userRiskControlContainer.add(riskView);
-			riskView.showhideSaveSubmitButtons(false);
+			riskView.showhideSaveSubmitButtons(false); 
 
 		ArrayList<Integer> riskIds = new ArrayList<Integer>();
 		//check is added below by moqeet, selected objectivs not added again in library
@@ -574,8 +575,7 @@ public class KickoffView extends Composite {
 		// cp.add(panelAdd);
 		cp.add(vpExistingControl);
 
-		con.add(cp);
-
+		con.add(cp); 
 		/*
 		 * btnSaveControl.addClickHandler(new ClickHandler(){
 		 * 
@@ -653,6 +653,7 @@ public class KickoffView extends Composite {
 
 		HorizontalPanel hpnlTopAdd = new HorizontalPanel();
 		verticalPanelKeyRisks.add(hpnlTopAdd);
+		hpnlTopAdd.getElement().getStyle().setMarginTop(5, Unit.PX);
 		
 		// User's LIBRARY Selected
 		for (int j = 0; j < record.getEngagementDTO().getSelectedObjectiveRisks().size(); j++) {
@@ -709,7 +710,14 @@ public class KickoffView extends Composite {
 				viewLibraryKeyRisks(verticalPanelKeyRisksContainer, usersRisksContainer, hpnlButton, riskObjectivesLibrary);
 			}
 		}
-
+  
+		if(userPackage.equalsIgnoreCase("Basic") || userPackage.equalsIgnoreCase("Gold")) {
+			btnLibraryKeyRisk.setVisible(false); 
+			btnAdd.getElement().getStyle().setMarginLeft(1150, Unit.PX);
+		  }
+		  else
+			  btnAdd.getElement().getStyle().setMarginLeft(1050, Unit.PX);
+		
 		btnAdd.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -734,8 +742,7 @@ public class KickoffView extends Composite {
 
 			}
 		});
-		hpnlTopAdd.add(btnAdd);
-		btnAdd.getElement().getStyle().setMarginLeft(1050, Unit.PX);
+		hpnlTopAdd.add(btnAdd); 
 		verticalPanelKeyRisks.add(usersRisksContainer);
 		btnLibraryKeyRisk.addClickHandler(new ClickHandler() {
 
@@ -893,7 +900,6 @@ public class KickoffView extends Composite {
 		vpnlActicityObjective.setHeight("370px");
 
 		AddImage btnAddAcitivityObjective = new AddImage();
-		btnAddAcitivityObjective.getElement().getStyle().setMarginLeft(1050, Unit.PX);
 
 		final HorizontalPanel hpnlButtons = new HorizontalPanel();
 		hpnlButtons.add(btnSaveActicityObjective);
@@ -940,7 +946,7 @@ public class KickoffView extends Composite {
 		btnLibrary.setWidth("100px");
 		// lblLibHeading.addStyleName("libraryText");
 		if(record.getEngagementDTO().getStatusControlRisk() == InternalAuditConstants.REJECTED)
-			hpnlButtons.setVisible(true);
+			hpnlButtons.setVisible(true); 
 		else
 			btnLibrary.setVisible(false);
 		if (record.getEngagementDTO().getSelectedActivityObjectives().size() <= 0 || record.getEngagementDTO()
@@ -959,9 +965,16 @@ public class KickoffView extends Composite {
 				 if(isAddInLibrary)
 					viewObjectivesLibraryList(activityObjectiveLibrary, vpnlActicityObjectiveContainer, usersActivityContainer, hpnlButtons);				
 		}
-	}
-
-		btnAddAcitivityObjective.addClickHandler(new ClickHandler() {
+	} 
+		
+		  if(userPackage.equalsIgnoreCase("Basic") || userPackage.equalsIgnoreCase("Gold")) {
+			btnLibrary.setVisible(false); 
+			btnAddAcitivityObjective.getElement().getStyle().setMarginLeft(1150, Unit.PX);
+		  }
+		  else
+			  btnAddAcitivityObjective.getElement().getStyle().setMarginLeft(1050, Unit.PX);
+		
+	    btnAddAcitivityObjective.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -1221,6 +1234,22 @@ public class KickoffView extends Composite {
 				con.clear();
 				showOptionsAccordian(result);
 
+			}
+		});
+	}
+	
+	private void fetchCompanyPackage(int companyId) {
+		rpcService.fetchCompanyPackage(companyId, new AsyncCallback<String>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Failed fetchCompanyPackage:" + caught.getLocalizedMessage());
+			}
+
+			@Override
+			public void onSuccess(String companyPackage) {
+				// TODO Auto-generated method stub
+				userPackage = companyPackage;   
 			}
 		});
 	}

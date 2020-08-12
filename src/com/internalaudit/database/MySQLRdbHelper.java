@@ -4182,7 +4182,7 @@ public class MySQLRdbHelper {
 				messageBodyPart.setFileName(filename);
 			}
 
-			multipart.addBodyPart(messageBodyPart);
+			//multipart.addBodyPart(messageBodyPart);
 
 			// Send the complete message parts
 			msg.setContent(multipart);
@@ -7549,9 +7549,13 @@ public class MySQLRdbHelper {
 
 	public String saveEmployee(Employee employee, int year, int companyId) {
 		Session session = null;
-		if (userAvailable(employee.getEmail())) {
+		boolean userAvailable = userAvailable(employee.getEmail());
+		boolean existingUserLimit = getExistingUserInDb(employee,companyId) ;
+//		if (userAvailable(employee.getEmail()) && getExistingUserInDb(employee,companyId) ) {
+		if (userAvailable && existingUserLimit ) {
 			try {
 				session = sessionFactory.openSession();
+				employee.setStatus(1);
 				session.save(employee);
 
 				if (employee.getReportingTo().getEmployeeId() == 0) {
@@ -7574,7 +7578,12 @@ public class MySQLRdbHelper {
 				session.close();
 			}
 		} else {
-			return InternalAuditConstants.USERNOTAVAILABLE;
+			if (!userAvailable) {
+				return InternalAuditConstants.USERNOTAVAILABLE;
+			}
+			else {
+				return InternalAuditConstants.USERLIMITEXCEED;
+			}
 		}
 	}
 
@@ -7604,6 +7613,50 @@ public class MySQLRdbHelper {
 	//
 	// }
 
+	private boolean getExistingUserInDb(Employee employee, int companyId) {
+		Session session = null;
+		boolean allowUserAdd = false;
+		int employeCount = 0;
+		Company company = fetchCompaniesAgainstCompanyId(employee.getCompanyId());
+		
+		ArrayList<Employee> employees = new ArrayList<Employee>();
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(Employee.class);
+		//	crit.add(Restrictions.ne("employeeId", 0));
+			crit.add(Restrictions.eq("status", 1));
+			crit.add(Restrictions.eq("companyId", employee.getCompanyId()));
+			if(employee.getRollId() == 5) {
+				crit.add(Restrictions.eq("rollId", employee.getRollId()));
+			}
+			else {
+				crit.add(Restrictions.ne("rollId", 5));
+			}
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				Employee employee1 = (Employee) it.next();
+				employees.add(employee1);
+			}
+			employeCount = employees.size();
+			
+			if(employee.getRollId() == 5 &&  employeCount <= company.getNoOfMngmntUsersAllowed()) {
+				allowUserAdd = true;
+			}
+			
+			else if(employee.getRollId() != 5 &&  employeCount <= company.getNoOfUsersAllowed()) {
+				allowUserAdd =  true;
+			}
+			
+			else {
+				allowUserAdd = false;
+			}
+
+		} catch (Exception ex) {
+			System.out.println("fail in getExistingUserInDb");
+		}
+		return allowUserAdd;
+	}
+	
 	private boolean userAvailable(String email) {
 		Session session = null;
 
@@ -7666,7 +7719,51 @@ public class MySQLRdbHelper {
 		}
 
 	}
+	
+	public String fetchCompanyPackage(int companyId) {
+		Session session = null;
+		String companyPackage = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(Company.class);
+			crit.add(Restrictions.eq("companyId", companyId));
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				Company company = (Company) it.next();
+				companyPackage = company.getUserPackage();
+			}
+			logger.info(String
+					.format("(Inside fetchCompanyPackage)fetching  companyPackage for companyId:" + companyId + "" + new Date()));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchCompanyPackage", ex.getMessage()), ex);
+		} finally {
+			session.close();
+		}
+		return companyPackage;
+	}
 
+	public String fetchCompanyLogoPath(int companyId) {
+		Session session = null;
+		String companyLogoPath = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(Company.class);
+			crit.add(Restrictions.eq("companyId", companyId));
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				Company company = (Company) it.next();
+				companyLogoPath = company.getCompanyLogo();
+			}
+			logger.info(String
+					.format("(Inside fetchCompanyLogoPath)fetching CompanyLogoPath for companyId:" + companyId + "" + new Date()));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchCompanyLogoPath", ex.getMessage()), ex);
+		} finally {
+			session.close();
+		}
+		return companyLogoPath;
+	}
+	
 	public String saveCompany(Company company) {
 		Session session = null;
 		try {
@@ -11018,4 +11115,46 @@ public class MySQLRdbHelper {
 		return jobsList;
 	}
 
+	public Company fetchCompaniesAgainstCompanyId(int CompanyId) {
+		Session session = null;
+		Company company = null;
+		ArrayList<Company> companies = new ArrayList<Company>();
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(Company.class);
+			crit.add(Restrictions.eq("companyId", CompanyId));
+			crit.add(Restrictions.ne("companyId", 0));
+			List rsList = crit.list();
+			
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				company = (Company) it.next();
+			}
+			logger.info(String
+					.format("(Inside fetchCompaniesAgainstCompanyId)fetching  Company for companies:" + companies + "" + new Date()));
+			return company;// Return BEFORE catch Statement..
+
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchCompaniesAgainstCompanyId", ex.getMessage()), ex);
+			return null;
+		} finally {
+			session.close();
+		}
+	}
+
+	public String updatePassword(Employee loggedInUser) {
+			Session session = null;
+			try {
+				session = sessionFactory.openSession(); 
+				session.saveOrUpdate(loggedInUser);
+				session.flush(); 
+				logger.info(String.format("(Inside updatePassword)update Password of User"));
+				return "Password Updated Successfully";
+			} catch (Exception ex) {
+				logger.warn(String.format("Exception occured in updatePassword", ex.getMessage()), ex);
+				return null;
+			} finally {
+				session.close();
+			}
+	}
+	
 }

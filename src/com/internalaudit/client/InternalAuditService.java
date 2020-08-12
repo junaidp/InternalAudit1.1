@@ -355,5 +355,11 @@ public interface InternalAuditService extends RemoteService {
 
 	StrategicSubProcess fetchStrategicSubProcess(int id);
 
+	String fetchCompanyPackage(int companyId);
+
+	String fetchCompanyLogoPath(int companyID);
+
+	String updatePassword(Employee loggedInUser);
+
 	// ArrayList<ToDo> fetchUpdatedRaisedToDo(int employeeID) throws Exception;
 }

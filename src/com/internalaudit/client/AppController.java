@@ -317,7 +317,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 			if (eventToken.equals("main")) {
 				presenter = new MainPresenter(rpcService, eventBus, selectedYear, loggedInUser,
-						new MainView(loggedInUser, eventBus));
+						new MainView(loggedInUser, eventBus, rpcService));
 				if (presenter != null) {
 					this.container = mainContainer;
 					presenter.go(container);

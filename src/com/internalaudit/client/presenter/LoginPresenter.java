@@ -45,7 +45,8 @@ public class LoginPresenter implements Presenter
 		Button getBtnSubmit();
 //		ListBox getListYears();
 		Label getLblError();
-		Anchor getRequestUsername();
+		Anchor getRequestUsername(); 
+		Anchor getForgetPassword();
 	}  
 
 	public LoginPresenter(InternalAuditServiceAsync rpcService, HandlerManager eventBus, Display view) 

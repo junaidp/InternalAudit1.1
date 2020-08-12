@@ -23,7 +23,8 @@ public class LoginUi extends Composite implements Display  {
 	@UiField PasswordTextBox textPassword;
 	@UiField Label lblError;
 	@UiField Button btnSubmit;
-	@UiField Anchor requestUserName;
+	@UiField Anchor requestUserName; 
+	@UiField Anchor forgetPassword;
 
 	public LoginUi() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -85,8 +86,16 @@ public class LoginUi extends Composite implements Display  {
 
 	public void setRequestUserName(Anchor requestUserName) {
 		this.requestUserName = requestUserName;
+	} 
+	
+	
+	public Anchor getForgetPassword() {
+		return forgetPassword;
 	}
 
 
-		
+	public void setForgetPassword(Anchor forgetPassword) {
+		this.forgetPassword = forgetPassword;
+	}
+	
 }

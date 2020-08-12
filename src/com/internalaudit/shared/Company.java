@@ -27,9 +27,37 @@ public class Company   implements Serializable {
 	
 	@Column(name="contactPersonEmail")
 	private String contactPersonEmail;
+	
+	@Column(name="package")
+	private String userPackage;
+	
+	@Column(name="noOfUsersAllowed")
+	private int noOfUsersAllowed;
+	
+	@Column(name="noOfMngmntUsersAllowed")
+	private int noOfMngmntUsersAllowed;
+	
+	@Column(name="companyLogo")
+	private String companyLogo;
 
 	public int getCompanyId() {
 		return companyId;
+	}
+
+	public int getNoOfUsersAllowed() {
+		return noOfUsersAllowed;
+	}
+
+	public void setNoOfUsersAllowed(int noOfUsersAllowed) {
+		this.noOfUsersAllowed = noOfUsersAllowed;
+	}
+
+	public String getCompanyLogo() {
+		return companyLogo;
+	}
+
+	public void setCompanyLogo(String companyLogo) {
+		this.companyLogo = companyLogo;
 	}
 
 	public void setCompanyId(int companyId) {
@@ -60,5 +88,20 @@ public class Company   implements Serializable {
 		this.contactPersonEmail = contactPersonEmail;
 	}
 
-	
+	public String getUserPackage() {
+		return userPackage;
+	}
+
+	public void setUserPackage(String userPackage) {
+		this.userPackage = userPackage;
+	}
+
+	public int getNoOfMngmntUsersAllowed() {
+		return noOfMngmntUsersAllowed;
+	}
+
+	public void setNoOfMngmntUsersAllowed(int noOfMngmntUsersAllowed) {
+		this.noOfMngmntUsersAllowed = noOfMngmntUsersAllowed;
+	}
+
 }

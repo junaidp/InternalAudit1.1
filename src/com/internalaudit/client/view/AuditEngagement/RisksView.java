@@ -97,24 +97,25 @@ public class RisksView extends Composite {
 	private Button approve = new Button("Approve");
 	private Button reject = new Button("FeedBack");
 	private AddImage addMore = new AddImage();
-	private Button btnLibrary = new Button("Library");
+	private Button btnLibrary = new Button("Library"); 
 	private VerticalLayoutContainer scrollExistingControlContainer = new VerticalLayoutContainer();
+    private String userPackage;
 
 	interface RisksViewUiBinder extends UiBinder<Widget, RisksView> {
 	}
 
 	public RisksView(final int auditEngId, final InternalAuditServiceAsync rpcService, Employee employee,
-			ArrayList<RiskObjective> listSavedRisks, VerticalPanel vpExistingControlContainer,
+			  String userPackage, ArrayList<RiskObjective> listSavedRisks, VerticalPanel vpExistingControlContainer,
 			final AsyncCallback<KickoffView> asyncCallback, int suggestedControlsList) {
 		initWidget(uiBinder.createAndBindUi(this));
 
 		this.rpcService = rpcService;
 		this.auditEngId = auditEngId;
 		this.loggedInEmployee = employee;
-		this.listRisks = listSavedRisks;
+		this.listRisks = listSavedRisks; 
+		this.userPackage = userPackage;
 		getRiskInfo(auditEngId, vpExistingControlContainer);
-
-		setHandlers(auditEngId, vpExistingControlContainer, suggestedControlsList, rpcService, asyncCallback);
+        setHandlers(auditEngId, vpExistingControlContainer, suggestedControlsList, rpcService, asyncCallback);
 		approvalButtonsPanel.getElement().getStyle().setMarginTop(40, Unit.PX);
 		initiationButtonsPanel.getElement().getStyle().setMarginTop(10, Unit.PX);
 		approvalButtonsPanel.getElement().getStyle().setMarginLeft(1010, Unit.PX);
@@ -123,8 +124,7 @@ public class RisksView extends Composite {
 		scrollExistingControlContainer.setHeight("400px");
 		scrollExistingControlContainer.add(vpExistingControlContainer);
 		scrollExistingControlContainer.setScrollMode(ScrollMode.AUTOY);
-		// approvalButtonsPanel.getElement().getStyle().setPaddingLeft(400,
-		// Unit.PX);
+		// approvalButtonsPanel.getElement().getStyle().setPaddingLeft(400, Unit.PX); 
 	}
 
 	private void setHandlers(final int auditEngId, final VerticalPanel vpExistingControlContainer, final int suggestedControlsList, final InternalAuditServiceAsync rpcService,
@@ -132,12 +132,10 @@ public class RisksView extends Composite {
 		initiationButtonsPanel.add(saveRisks);
 		initiationButtonsPanel.add(submit);
 		approvalButtonsPanel.add(approve);
-		approvalButtonsPanel.add(reject);
-		
+		approvalButtonsPanel.add(reject); 
 		addPanel.add(btnLibrary);
-		btnLibrary.setWidth("100px");
-		addMore.getElement().getStyle().setPaddingLeft(1050, Unit.PX);
-		addPanel.add(addMore);
+		btnLibrary.setWidth("100px"); 
+		addPanel.add(addMore); 
 		
 		addMore.addClickHandler(new ClickHandler() {
 
@@ -549,8 +547,7 @@ public class RisksView extends Composite {
 
 			}
 
-		});
-
+		});  
 	}
 
 	private void enableRiskRows() {
@@ -583,6 +580,7 @@ public class RisksView extends Composite {
 		initiationButtonsPanel.setVisible(true);
 		addMore.setVisible(true);
 		btnLibrary.setVisible(true);
+		packageFeatures();
 	}
 
 	public void disableInitiationpanel() {
@@ -595,6 +593,7 @@ public class RisksView extends Composite {
 		approvalButtonsPanel.setVisible(true);
 		addMore.setVisible(true);
 		btnLibrary.setVisible(true);
+		packageFeatures();
 	}
 
 	public void disableApprovalpanel() {
@@ -612,11 +611,20 @@ public class RisksView extends Composite {
 	public void enableFields() {
 		addMore.setVisible(true);
 		btnLibrary.setVisible(true);
-		//saveRisks.setVisible(true);
+		packageFeatures();
 	}
 
 	public void showhideSaveSubmitButtons(boolean flag) {
 		saveRisks.setVisible(flag);
 		submit.setVisible(flag);
+	} 
+	
+	private void packageFeatures( ) {
+		if(userPackage.equalsIgnoreCase("Basic") || userPackage.equalsIgnoreCase("Gold")) { 
+			btnLibrary.setVisible(false); 
+			addMore.getElement().getStyle().setMarginLeft(1150, Unit.PX);
+		  }
+		  else
+			  addMore.getElement().getStyle().setMarginLeft(1050, Unit.PX);
 	}
 }

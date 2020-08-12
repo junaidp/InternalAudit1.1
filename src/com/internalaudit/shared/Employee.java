@@ -30,6 +30,7 @@ public class Employee implements Serializable {
 	@Column(name = "employeeName")
 	private String employeeName;
 
+
 	@JoinColumn(name = "reportingTo", nullable = true)
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Employee reportingTo;
@@ -54,6 +55,9 @@ public class Employee implements Serializable {
 
 	@Column(name = "rollId")
 	private int rollId;
+	
+	@Column(name = "status")
+	private int status;
 
 	@Column(name = "fromInternalAuditDept")
 	private String fromInternalAuditDept;
@@ -75,7 +79,7 @@ public class Employee implements Serializable {
 
 	@Column(name = "otherskill")
 	private String otherskill;
-
+	
 	@Transient
 	private ArrayList<ToDo> todos;
 
@@ -257,6 +261,14 @@ public class Employee implements Serializable {
 
 	public void setOtherskill(String otherskill) {
 		this.otherskill = otherskill;
+	}
+	
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 }

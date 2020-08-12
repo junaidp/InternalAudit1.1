@@ -30,6 +30,7 @@ import com.internalaudit.client.event.MainEvent;
 import com.internalaudit.client.event.ReportingEvent;
 import com.internalaudit.client.event.ReportsEvent;
 import com.internalaudit.client.view.AuditPlanningView;
+import com.internalaudit.client.view.ChangePassword;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.client.view.PopupsView;
@@ -84,6 +85,8 @@ public class MainPresenter implements Presenter
 		Anchor getCreateUser();
 
 		Anchor getFeedBack();
+		
+		Anchor getChangePassword();
 
 		VerticalLayoutContainer getVpnlDashBoardNew();
 
@@ -242,6 +245,17 @@ public class MainPresenter implements Presenter
 
 			}
 
+		});
+		
+		display.getChangePassword().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) { 
+				ChangePassword changePassword = new ChangePassword(loggedInUser);
+				final PopupsView popup = new PopupsView(changePassword, "Change Password");
+				changePassword.setPopUp(popup);
+				popup.hideCloseBtn();  
+			}
 		});
 
 		display.getWelcome().setText(display.getLoggedInUser().getEmployeeName() + " ");

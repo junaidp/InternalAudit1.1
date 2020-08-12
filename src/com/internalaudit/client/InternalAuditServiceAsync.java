@@ -365,4 +365,10 @@ public interface InternalAuditServiceAsync {
 
 	void fetchStrategicSubProcess(int id, AsyncCallback<StrategicSubProcess> asyncCallback);
 
+	void fetchCompanyPackage(int companyId, AsyncCallback<String> asyncCallback);
+
+	void fetchCompanyLogoPath(int companyID, AsyncCallback<String> asyncCallback);
+
+	void updatePassword(Employee loggedInUser, AsyncCallback<String> asyncCallback);
+
 }
