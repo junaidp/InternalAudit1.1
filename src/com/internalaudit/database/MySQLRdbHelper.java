@@ -11156,5 +11156,73 @@ public class MySQLRdbHelper {
 				session.close();
 			}
 	}
+
+	public Integer validateRegisteredUserEmail(String emailID) {
+		Session session = null;
+		int employeeID = 0;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(Employee.class); 
+			crit.add(Restrictions.eq("email", emailID)); 
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();)
+			{
+				Employee employee = (Employee) it.next();
+				employeeID = employee.getEmployeeId();
+			}
+		logger.info(
+				String.format("(Inside validateRegisteredUserEmail)" + new Date()));
+
+	} catch (Exception ex) {
+		logger.warn(String.format("Exception occured in  validateRegisteredUserEmail", ex.getMessage()), ex);
+
+	} finally {
+		session.close();
+	}
+	return employeeID;
+	}
+
+	public String resetPassword(Integer employeeID, String newPassword) {
+		Session session = null;
+		Employee employee = employeeExistence(employeeID);
+		employee.setPassword(newPassword);
+		try {
+			session = sessionFactory.openSession(); 
+			session.saveOrUpdate(employee);
+			session.flush(); 
+			logger.info(String.format("(Inside resetPassword)" + new Date()));
+			return "Password Updated Successfully";
+	} catch (Exception ex) {
+		logger.warn(String.format("Exception occured in  resetPassword", ex.getMessage()), ex);
+		return null;
+	} finally {
+		session.close();
+	}
+	}
+	
+	private Employee employeeExistence(int employeeID) {
+		Session session = null;
+		Employee employee = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(Employee.class); 
+			crit.add(Restrictions.eq("employeeId", employeeID)); 
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();)
+			{
+				Employee employee1 = (Employee) it.next();
+				employee = employee1;
+			}
+		logger.info(
+				String.format("(Inside employeeExistence)" + new Date()));
+
+	} catch (Exception ex) {
+		logger.warn(String.format("Exception occured in  employeeExistence", ex.getMessage()), ex);
+
+	} finally {
+		session.close();
+	}
+	return employee;
+	}
 	
 }

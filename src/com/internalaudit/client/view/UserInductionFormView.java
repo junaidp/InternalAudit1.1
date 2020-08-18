@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.internalaudit.client.presenter.UserInductionFormPresenter.Display;
+import com.internalaudit.client.view.AuditEngagement.LabelBold;
 import com.internalaudit.shared.Employee;
 
 public class UserInductionFormView extends FlexTable implements Display {
@@ -30,12 +31,12 @@ public class UserInductionFormView extends FlexTable implements Display {
 	private ButtonRound btnSubmit = new ButtonRound("Save");
 	// private TextBox txtEmail = new TextBox();
 	private ListBox listReportingTo = new ListBox();
-	private Label lblReportingTo = new Label("Reporting to");
-	private Label lblfiscalYear = new Label("Fiscal Year");
+	private LabelBold lblReportingTo = new LabelBold("Reporting to");
+	private LabelBold lblfiscalYear = new LabelBold("Fiscal Year");
 	private DateBox datefiscalYearfrom = new DateBox();
 	private DateBox datefiscalYearto = new DateBox();
 
-	private Label lblCompany = new Label("Company");
+	private LabelBold lblCompany = new LabelBold("Company");
 	private ListBox listCompany = new ListBox();
 	private TextBox txtUserName = new TextBox();
 	private PasswordTextBox txtPassword = new PasswordTextBox();
@@ -43,7 +44,7 @@ public class UserInductionFormView extends FlexTable implements Display {
 	private Label lblUserNameError = new Label("Please enter valid Email Address");
 	private Label lblPasswordError = new Label("Password cannot be empty");
 	private Label lblEmailError = new Label("Email cannot be empty");
-	private Label skillSet = new Label("Skill Set");
+	private LabelBold skillSet = new LabelBold("Skill Set");
 	private TextBox textareaOthers = new TextBox();
 	private VerticalPanel p = new VerticalPanel();
 
@@ -81,24 +82,24 @@ public class UserInductionFormView extends FlexTable implements Display {
 		lblPasswordError.setVisible(false);
 		textareaOthers.setVisible(false);
 		setWidget(0, 1, lblHeading);
-		setWidget(1, 0, new Label("Name"));
+		setWidget(1, 0, new LabelBold("Name"));
 		// setWidget(2, 0, new Label("Email"));
 
-		setWidget(3, 0, new Label("Username (Email)"));
+		setWidget(3, 0, new LabelBold("Username (Email)"));
 		setWidget(3, 2, lblUserNameError);
 		setWidget(4, 2, lblPasswordError);
 		setWidget(2, 2, lblEmailError);
-		setWidget(4, 0, new Label("Password"));
+		setWidget(4, 0, new LabelBold("Password"));
 		setWidget(1, 3, lblfiscalYear);
 		setWidget(1, 4, datefiscalYearfrom);
 		setWidget(1, 5, datefiscalYearto);
 
 		// setWidget(3, 0, new Label("Division"));
-		setWidget(5, 0, new Label("Designation"));
-		setWidget(6, 0, new Label("User Profile"));
+		setWidget(5, 0, new LabelBold("Designation"));
+		setWidget(6, 0, new LabelBold("User Profile"));
 		setWidget(7, 0, lblReportingTo);
-		setWidget(8, 0, new Label("Date of Joining"));
-		setWidget(9, 0, new Label("Availability during the year"));
+		setWidget(8, 0, new LabelBold("Date of Joining"));
+		setWidget(9, 0, new LabelBold("Availability during the year"));
 		setWidget(10, 0, skillSet);
 		setWidget(1, 1, txtName);
 		// setWidget(2, 1, txtEmail);
@@ -111,8 +112,8 @@ public class UserInductionFormView extends FlexTable implements Display {
 		setWidget(9, 1, dateAvailabalityFrom);
 		setWidget(9, 2, dateAvailabalityTo);
 		setWidget(10, 1, c);
-		setWidget(11, 1, lblCompany);
-		setWidget(11, 2, listCompany);
+		setWidget(11, 0, lblCompany);
+		setWidget(11, 1, listCompany);
 		setWidget(12, 1, btnCancel);
 		setWidget(12, 2, btnSubmit);
 		setWidget(12, 3, btnEdit);
@@ -205,7 +206,7 @@ public class UserInductionFormView extends FlexTable implements Display {
 		return lblReportingTo;
 	}
 
-	public void setLblReportingTo(Label lblReportingTo) {
+	public void setLblReportingTo(LabelBold lblReportingTo) {
 		this.lblReportingTo = lblReportingTo;
 	}
 
@@ -249,7 +250,7 @@ public class UserInductionFormView extends FlexTable implements Display {
 		return skillSet;
 	}
 
-	public void setSkillSet(Label skillSet) {
+	public void setSkillSet(LabelBold skillSet) {
 		this.skillSet = skillSet;
 	}
 
@@ -257,7 +258,7 @@ public class UserInductionFormView extends FlexTable implements Display {
 		return lblfiscalYear;
 	}
 
-	public void setLblfiscalYear(Label lblfiscalYear) {
+	public void setLblfiscalYear(LabelBold lblfiscalYear) {
 		this.lblfiscalYear = lblfiscalYear;
 	}
 

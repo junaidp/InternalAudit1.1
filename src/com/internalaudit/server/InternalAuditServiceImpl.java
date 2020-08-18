@@ -1872,4 +1872,22 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		// TODO Auto-generated method stub
 		return rdbHelper.updatePassword(loggedInUser);
 	}
+
+	@Override
+	public Integer validateRegisteredUserEmail(String emailID) {
+		// TODO Auto-generated method stub
+		return rdbHelper.validateRegisteredUserEmail(emailID);
+	}
+
+	@Override
+	public boolean sendPasswordResetEmail(String emailBody, String emailID) {
+		// TODO Auto-generated method stub
+		return rdbHelper.sendEmail(emailBody, emailID, "" , "Password Reset");
+	}
+
+	@Override
+	public String resetPassword(Integer employeeID, String newPassword) {
+		// TODO Auto-generated method stub
+		return rdbHelper.resetPassword(employeeID, newPassword);
+	}
 }

@@ -5,32 +5,30 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Label; 
+import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
-import com.internalaudit.shared.Employee;
-import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
-import com.sencha.gxt.widget.core.client.box.MessageBox; 
+import com.internalaudit.shared.Employee; 
 
 public class ChangePassword extends FlexTable {
 
-	private TextBox txtOldPassword = new TextBox();
-	private TextBox txtNewPassword = new TextBox();
-	private TextBox txtConfirmPassword = new TextBox();
+	private PasswordTextBox txtOldPassword = new PasswordTextBox();
+	private PasswordTextBox txtNewPassword = new PasswordTextBox();
+	private PasswordTextBox txtConfirmPassword = new PasswordTextBox();
 	private InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
 	private Button submit = new Button("Submit");
 	private Employee loggedInUser;
 	private PopupsView popup;
-	private Label lblError;
+	private HTML lblError;
 	
 	public ChangePassword(Employee loggedInUser) {
 		this.loggedInUser = loggedInUser;
@@ -68,7 +66,7 @@ public class ChangePassword extends FlexTable {
 		submit.addStyleName("w3-right");
 		setWidget(3, 2, submit);
 		
-		 lblError = new Label();
+		 lblError = new HTML();
 		 lblError.addStyleName("error");
 		 lblError.setWidth("290px");
 		 lblError.setWordWrap(true);
@@ -90,12 +88,28 @@ public class ChangePassword extends FlexTable {
 				validatePassword(newPasword.getValue());
 			}
 		});
+		txtOldPassword.addValueChangeHandler(new ValueChangeHandler<String>() {
+			
+			@Override
+			public void onValueChange(ValueChangeEvent<String> oldPasword) {
+				validateOldPassword(oldPasword.getValue());
+			}
+		});
 	}
 	
+	private void validateOldPassword(String value) {
+		if(!loggedInUser.getPassword().equals(value)) {
+			 lblError.setText(" Enter correct old password");
+			 lblError.setVisible(true);
+			}
+		else
+			lblError.setVisible(false);
+	}
+
 	private void validatePassword(String newPasword) {
 		String passwordRegex = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$";
 		if(!newPasword.matches(passwordRegex)){
-			lblError.setText("Password must contain minimum 8 alphabets + Numbers + Special Characters");
+			lblError.setHTML("<b>Password must contain: </b><br/>" + "- Atleast 8 characters <br/>" + "- An Upper-Case alphabet <br/>" + "- Number <br/>" + "- Special character");
 			lblError.setVisible(true);
 			}
 		else
@@ -104,19 +118,19 @@ public class ChangePassword extends FlexTable {
 	
 	private void updatePasswordData() {
 		Employee employee = loggedInUser ; 
-		if(matchNewConfirmPassword()) {
+		if(matchNewConfirmPassword( )) {
 		    employee.setPassword(txtNewPassword.getText());
 			updatePasswordRPC(employee);
-		}
+		} 
 		else {
-		 lblError.setText("Old Password Matched with New Password or New and Confirm Password Mismatched");
+		 lblError.setText(" New and Confirm Password Mismatched");
 		 lblError.setVisible(true);
 		}
 	}
 
 	private boolean matchNewConfirmPassword() { 
 		boolean flag;
-		if(txtNewPassword.getValue().equals(txtConfirmPassword.getValue()))  
+		if( txtNewPassword.getValue().equals(txtConfirmPassword.getValue()))  
 		    flag = true; 
 		else
 			flag = false;

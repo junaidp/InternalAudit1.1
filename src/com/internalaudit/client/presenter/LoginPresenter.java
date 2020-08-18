@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.tools.ant.taskdefs.FixCRLF.AddAsisRemove;
+
 import com.internalaudit.shared.TimeOutException;
 import com.google.gwt.user.client.History;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -21,7 +23,9 @@ import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.event.CreateUserEvent;
 import com.internalaudit.client.event.MainEvent;
+import com.internalaudit.client.view.ForgetPasswordUserVerification;
 import com.internalaudit.client.view.LoadingPopup;
+import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.Exceptions;
 
@@ -71,6 +75,17 @@ public class LoginPresenter implements Presenter
 			public void onClick(ClickEvent event) {
 				History.newItem("requestUserName");
 			}});
+		
+		display.getForgetPassword().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent arg0) {
+				ForgetPasswordUserVerification emailVerification = new ForgetPasswordUserVerification();
+			    PopupsView popUp = new PopupsView(emailVerification, "Reset Password");
+			    popUp.hideCloseBtn();
+			    emailVerification.setPopUp(popUp);
+			}
+		});
 		
 //		RootPanel.get("loadingMessage").setVisible(false);
 		

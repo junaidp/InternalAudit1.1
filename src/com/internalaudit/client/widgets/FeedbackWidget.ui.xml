@@ -6,10 +6,14 @@
 	</ui:style>
 	<g:HTMLPanel>
 	<g:VerticalPanel spacing="5">
-	<g:Label styleName="heading" text="Help / FeedBack"></g:Label>
-	<g:TextBox ui:field="txtHeading"></g:TextBox>
-	<g:TextArea ui:field="txtDescription" width="800px" height="300px"></g:TextArea>
-	<g:Button ui:field="btnSubmit" text="Submit"></g:Button>
+	<!-- <g:Label styleName="heading" text="Help / FeedBack"></g:Label>-->
+	<g:HorizontalPanel width="500px">
+	<g:Label styleName="labelDesign">Enter Title: </g:Label>
+	<g:TextBox ui:field="txtHeading" width="100%" ></g:TextBox>
+	</g:HorizontalPanel>
+	<g:Label styleName="labelDesign">Description: </g:Label>
+	<g:TextArea ui:field="txtDescription" width="500px" height="250px"></g:TextArea>
+	<g:Button ui:field="btnSubmit" text="Submit" styleName="w3-right"></g:Button>
 	</g:VerticalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

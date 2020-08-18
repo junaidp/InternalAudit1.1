@@ -51,11 +51,13 @@ import com.internalaudit.client.presenter.Presenter;
 import com.internalaudit.client.presenter.ReportingPresenter;
 import com.internalaudit.client.presenter.ReportsPresenter;
 import com.internalaudit.client.presenter.RequestUserNameFormPresenter;
+import com.internalaudit.client.presenter.ResetPasswordPresenter;
 import com.internalaudit.client.presenter.UserInductionFormPresenter;
 import com.internalaudit.client.view.AuditListingView;
 import com.internalaudit.client.view.AuditReportView;
 import com.internalaudit.client.view.CompanyInductionFormView;
 import com.internalaudit.client.view.EditUserFormView;
+import com.internalaudit.client.view.ForgetPassword;
 import com.internalaudit.client.view.JobListingView;
 import com.internalaudit.client.view.LoginUi;
 import com.internalaudit.client.view.MainView;
@@ -290,6 +292,15 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 			if (eventToken.equals("login")) {
 				presenter = new LoginPresenter(rpcService, eventBus, new LoginUi());
+				if (presenter != null) {
+					this.container = mainContainer;
+					presenter.go(container);
+				}
+
+			}
+			
+			if (eventToken.contains("resetPassword")) {
+				presenter = new ResetPasswordPresenter(rpcService, eventBus, new ForgetPassword());
 				if (presenter != null) {
 					this.container = mainContainer;
 					presenter.go(container);

@@ -361,5 +361,11 @@ public interface InternalAuditService extends RemoteService {
 
 	String updatePassword(Employee loggedInUser);
 
+	Integer validateRegisteredUserEmail(String emailID);
+
+	boolean sendPasswordResetEmail(String emailBody, String value);
+
+	String resetPassword(Integer employeeID, String newPassword);
+
 	// ArrayList<ToDo> fetchUpdatedRaisedToDo(int employeeID) throws Exception;
 }

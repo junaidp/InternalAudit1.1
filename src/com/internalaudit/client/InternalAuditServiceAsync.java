@@ -371,4 +371,10 @@ public interface InternalAuditServiceAsync {
 
 	void updatePassword(Employee loggedInUser, AsyncCallback<String> asyncCallback);
 
+	void validateRegisteredUserEmail(String emailID, AsyncCallback<Integer> asyncCallback);
+
+	void sendPasswordResetEmail(String emailBody, String value, AsyncCallback<Boolean> asyncCallback);
+
+	void resetPassword(Integer employeeID, String newPassword, AsyncCallback<String> asyncCallback);
+
 }
