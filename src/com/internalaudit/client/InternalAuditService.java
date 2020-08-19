@@ -367,5 +367,7 @@ public interface InternalAuditService extends RemoteService {
 
 	String resetPassword(Integer employeeID, String newPassword);
 
+	String upgradeSoftware();
+
 	// ArrayList<ToDo> fetchUpdatedRaisedToDo(int employeeID) throws Exception;
 }

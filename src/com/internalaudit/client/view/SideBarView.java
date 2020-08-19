@@ -34,7 +34,7 @@ public class SideBarView extends VerticalLayoutContainer {
 	Image ImgControls = new Image("Reportsw.png");
 	/// Spaces
 	Image ImgAnalysis = new Image("analysis.png");
-
+	Image imgUpgrade = new Image("images/upgrade.png");
 	Image ImgCalendar = new Image("calendar.png");
 	Image ImgSpeedoMeter = new Image("speedometer.png");
 	Image ImgTab = new Image("tab.png");
@@ -61,6 +61,7 @@ public class SideBarView extends VerticalLayoutContainer {
 		imgToDoRaiserGrid.addStyleName("w3-bar-item w3-button w3-hover-blue");
 		ImgAnalysis.addStyleName("w3-bar-item w3-button w3-hover-blue");
 		ImgControls.addStyleName("w3-bar-item w3-button w3-hover-blue");
+		imgUpgrade.addStyleName("w3-bar-item w3-button w3-hover-blue");
 		ImgCalendar.addStyleName("w3-bar-item w3-button w3-hover-blue");
 
 		imgIRRaiserGrid.setWidth("60px");
@@ -87,6 +88,7 @@ public class SideBarView extends VerticalLayoutContainer {
 		// ImgTab.setHeight("50px");
 		// ImgSpeedoMeter.setWidth("60px");
 		// ImgSpeedoMeter.setHeight("50px");
+		imgUpgrade.setSize("60px", "35px");
 
 		imgToDoReceiverGrid.setSize("40", "40");
 		imgIRReceiverGrid.setSize("30", "30");
@@ -98,7 +100,9 @@ public class SideBarView extends VerticalLayoutContainer {
 		panelbar.add(imgToDoReceiverGrid);
 		panelbar.add(imgIRReceiverGrid);
 		panelbar.add(ImgControls);
+		panelbar.add(imgUpgrade);
 
+		imgUpgrade.setTitle("Upgrade Software");
 		// panelbar.add(ImgCalendar);
 		// panelbar.add(ImgCloseCircular);
 		HorizontalPanel v = new HorizontalPanel();
@@ -341,6 +345,14 @@ public class SideBarView extends VerticalLayoutContainer {
 
 	public void setImgControls(Image imgControls) {
 		ImgControls = imgControls;
+	}
+
+	public Image getImgUpgrade() {
+		return imgUpgrade;
+	}
+
+	public void setImgUpgrade(Image imgUpgrade) {
+		this.imgUpgrade = imgUpgrade;
 	}
 
 }

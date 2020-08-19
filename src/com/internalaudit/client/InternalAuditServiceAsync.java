@@ -377,4 +377,6 @@ public interface InternalAuditServiceAsync {
 
 	void resetPassword(Integer employeeID, String newPassword, AsyncCallback<String> asyncCallback);
 
+	void upgradeSoftware(AsyncCallback<String> asyncCallback);
+
 }

@@ -12,6 +12,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
@@ -32,8 +33,14 @@ import com.internalaudit.client.widgets.TableauAbilite;
 import com.internalaudit.client.widgets.TableauExcel;
 import com.internalaudit.client.widgets.TableauReports;
 import com.internalaudit.shared.Employee;
+import com.sencha.gxt.core.client.util.DelayedTask;
+import com.sencha.gxt.widget.core.client.Dialog;
+import com.sencha.gxt.widget.core.client.Dialog.DialogMessages;
+import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
 import com.sencha.gxt.widget.core.client.PlainTabPanel;
 import com.sencha.gxt.widget.core.client.TabItemConfig;
+import com.sencha.gxt.widget.core.client.box.MessageBox;
+import com.sencha.gxt.widget.core.client.box.ProgressMessageBox;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 
 public class MainView extends Composite implements Display {
@@ -101,6 +108,13 @@ public class MainView extends Composite implements Display {
 		// 2018
 		SideBarView sideBarView = new SideBarView(loggedInUser, eventBus);
 		panelSideBar.add(sideBarView);
+		sideBarView.getImgUpgrade().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent arg0) {
+				confirmUpgradeSoftware();
+			}
+		});
 
 		FocusPanel vpTeamMgm = putImageInCard("TEAM MANAGEMENT", "team management.jpg");
 		FocusPanel vpClientMgm = putImageInCard("CLIENT MANAGEMENT", "client mang.png");
@@ -283,6 +297,42 @@ public class MainView extends Composite implements Display {
 		initWidget(vp);
 	}
 
+	private void confirmUpgradeSoftware() {
+		boolean confirm = Window.confirm("This will install the upgraded version of abilite, you want to continue ?");
+		if(confirm)
+			upgradeSoftware();
+	}
+	
+	private void upgradeSoftware() {
+		progressUpgradeSoftware();
+		final ProgressMessageBox p = new ProgressMessageBox("Updating project", "Please Wait ..");
+		p.getButton(PredefinedButton.OK).setVisible(false);
+		p.show();
+		rpcService.upgradeSoftware(new AsyncCallback<String>() {
+
+			@Override
+			public void onFailure(Throwable arg0) {
+				Window.alert("Unable to upgrade software");
+			}
+
+			@Override
+			public void onSuccess(String arg0) {
+				final DelayedTask d = new DelayedTask() {
+				    @Override
+				    public void onExecute() {
+				        p.hide();
+				    	History.newItem("login");
+				    }
+				};
+				d.delay(20000);
+			}
+		}); 
+	}
+	
+	private void progressUpgradeSoftware() { 
+		
+	}
+	
 	private FocusPanel putImageInCard(String lblName, String imgSource) {
 		Label lbl = new Label(lblName);
 		lbl.setWidth("125px");

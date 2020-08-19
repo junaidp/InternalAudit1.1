@@ -2,6 +2,7 @@ package com.internalaudit.server;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -1889,5 +1890,18 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	public String resetPassword(Integer employeeID, String newPassword) {
 		// TODO Auto-generated method stub
 		return rdbHelper.resetPassword(employeeID, newPassword);
+	}
+
+	@Override
+	public String upgradeSoftware() {
+		try {
+			   URL url = new URL("https://echo.imfast.io/abilite.war");
+			   FileUtils.copyURLToFile(url, new File("D:\\apache-tomcat-8.5.56\\webapps\\abilite.war"));
+			   return "Upgraded Successfully";
+			}catch(Exception ex)
+			{
+			   System.out.println(ex);
+			   return "Upgrade Unsuccessfull";
+			}
 	}
 }
