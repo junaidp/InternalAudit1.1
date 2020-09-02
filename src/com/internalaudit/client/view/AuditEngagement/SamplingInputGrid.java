@@ -26,6 +26,7 @@ import com.internalaudit.shared.AuditWork;
 import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.SamplingExcelSheetEntity;
 import com.sencha.gxt.core.client.ValueProvider;
+import com.sencha.gxt.core.client.dom.ScrollSupport.ScrollMode;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.data.shared.ModelKeyProvider;
 import com.sencha.gxt.data.shared.PropertyAccess;
@@ -112,19 +113,27 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 			ListBox listBoxSamplingMethod) {
 
 		ColumnConfig<SamplingExcelSheetEntity, Integer> samplingSheetId = new ColumnConfig<SamplingExcelSheetEntity, Integer>(
-				properties.id(), 70, "Id");
+				properties.id(), 90, "Id");
 		ColumnConfig<SamplingExcelSheetEntity, String> date = new ColumnConfig<SamplingExcelSheetEntity, String>(
 				properties.date(), 100, "Date");
 		ColumnConfig<SamplingExcelSheetEntity, Double> reference = new ColumnConfig<SamplingExcelSheetEntity, Double>(
-				properties.referenceNo(), 180, "Reference");
+				properties.referenceNo(), 150, "Reference");
 		ColumnConfig<SamplingExcelSheetEntity, Double> amount = new ColumnConfig<SamplingExcelSheetEntity, Double>(
-				properties.amount(), 180, "Amount");
+				properties.amount(), 140, "Amount");
 		ColumnConfig<SamplingExcelSheetEntity, String> description = new ColumnConfig<SamplingExcelSheetEntity, String>(
-				properties.description(), 200, "Description");
+				properties.description(), 240, "Description");
 		ColumnConfig<SamplingExcelSheetEntity, String> location = new ColumnConfig<SamplingExcelSheetEntity, String>(
-				properties.location(), 180, "Location");
+				properties.location(), 140, "Location");
 		ColumnConfig<SamplingExcelSheetEntity, String> jobId = new ColumnConfig<SamplingExcelSheetEntity, String>(
-				properties.jobId(), 150, "Job ID");
+				properties.jobId(), 140, "Job ID");
+		ColumnConfig<SamplingExcelSheetEntity, String> col7 = new ColumnConfig<SamplingExcelSheetEntity, String>(
+				properties.jobId(), 140, "Col 7");
+		ColumnConfig<SamplingExcelSheetEntity, String> col8 = new ColumnConfig<SamplingExcelSheetEntity, String>(
+				properties.jobId(), 140, "Col 8");
+		ColumnConfig<SamplingExcelSheetEntity, String> col9 = new ColumnConfig<SamplingExcelSheetEntity, String>(
+				properties.jobId(), 140, "Col 9");
+		ColumnConfig<SamplingExcelSheetEntity, String> col10 = new ColumnConfig<SamplingExcelSheetEntity, String>(
+				properties.jobId(), 140, "Col 10");
 
 		// Cell cellDueDate = new
 		// DateCell(DateTimeFormat.getFormat("MM/dd/yy"));
@@ -143,6 +152,10 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 		columns.add(description);
 		columns.add(location);
 		columns.add(jobId);
+		columns.add(col7);
+		columns.add(col8);
+		columns.add(col9);
+		columns.add(col10);
 
 		ColumnModel<SamplingExcelSheetEntity> cm = new ColumnModel<SamplingExcelSheetEntity>(columns);
 
@@ -154,8 +167,9 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 		grid.getView().setForceFit(true);
 		grid.getView().setStripeRows(true);
 		grid.getView().setColumnLines(true);
-		ScrollPanel p = new ScrollPanel();
+		VerticalLayoutContainer p = new VerticalLayoutContainer();
 		p.setHeight("200px");
+		p.setScrollMode(ScrollMode.AUTO);
 
 		p.add(grid);
 
@@ -163,13 +177,14 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 		con.add(p, new VerticalLayoutData(1, 1));
 		// con.add(, new VerticalLayoutData(1, 1));
 
-		VerticalLayoutContainer con1 = new VerticalLayoutContainer();
+//		VerticalLayoutContainer con1 = new VerticalLayoutContainer();
 
 		panel = new ContentPanel();
 		// panel.setHeight(220);
 		// panel.setWidth(700);
 		panel.setSize("1190px", "350px");
-		panel.setHeadingText("Sampling Input");
+//		panel.setHeadingText("Sampling Input");
+		panel.setHeaderVisible(false);
 		HorizontalPanel panelExportButton = new HorizontalPanel();
 		panelExportButton.add(btnExportExcel);
 		panelExportButton.add(btnExportPDF);

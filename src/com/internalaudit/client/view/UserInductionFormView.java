@@ -1,9 +1,11 @@
 package com.internalaudit.client.view;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -11,8 +13,10 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.internalaudit.client.presenter.UserInductionFormPresenter.Display;
+import com.internalaudit.client.view.AuditEngagement.LabelBold;
 import com.internalaudit.client.view.AuditEngagement.LabelBold;
 import com.internalaudit.shared.Employee;
 
@@ -22,13 +26,13 @@ public class UserInductionFormView extends FlexTable implements Display {
 	private ListBox listDivision = new ListBox();
 	private TextBox txtDesignation = new TextBox();
 	private ListBox listUserProfile = new ListBox();
-	private DateBox dateOfJoingin = new DateBox();
+	private DateBox dateOfJoining = new DateBox();
 	private DateBox dateAvailabalityFrom = new DateBox();
 	private DateBox dateAvailabalityTo = new DateBox();
 	private ListBox listSkillSet = new ListBox();
-	private ButtonRound btnCancel = new ButtonRound("Back");
-	private ButtonRound btnEdit = new ButtonRound("Edit");
-	private ButtonRound btnSubmit = new ButtonRound("Save");
+	private Button btnCancel = new Button("Back");
+	private Button btnEdit = new Button("Edit");
+	private Button btnSubmit = new Button("Save");
 	// private TextBox txtEmail = new TextBox();
 	private ListBox listReportingTo = new ListBox();
 	private LabelBold lblReportingTo = new LabelBold("Reporting to");
@@ -44,22 +48,31 @@ public class UserInductionFormView extends FlexTable implements Display {
 	private Label lblUserNameError = new Label("Please enter valid Email Address");
 	private Label lblPasswordError = new Label("Password cannot be empty");
 	private Label lblEmailError = new Label("Email cannot be empty");
-	private LabelBold skillSet = new LabelBold("Skill Set");
+	private LabelBold lblSkillSet = new LabelBold("Skill Set");
 	private TextBox textareaOthers = new TextBox();
-	private VerticalPanel p = new VerticalPanel();
+//	private VerticalPanel p = new VerticalPanel();
 
 	public UserInductionFormView(Employee loggedInUser) {
 		this.loggedInUser = loggedInUser;
 		layout();
+		this.addStyleName("w3-display-topmiddle w3-border");
+		this.getElement().getStyle().setMarginTop(20, Unit.PX);
 	}
 
 	HorizontalPanel c = new HorizontalPanel();
 	{
-
 		c.add(listSkillSet);
 		c.setSpacing(8);
 		c.add(textareaOthers);
-
+	}
+	
+	private Widget layoutButtons() {
+		HorizontalPanel hpnlButtons = new HorizontalPanel();
+		hpnlButtons.add(btnCancel);
+		hpnlButtons.add(btnSubmit);
+		hpnlButtons.add(btnEdit);
+		hpnlButtons.addStyleName("w3-right");
+		return hpnlButtons;
 	}
 
 	private void layout() {
@@ -69,9 +82,18 @@ public class UserInductionFormView extends FlexTable implements Display {
 		// DateBox.DefaultFormat(DateTimeFormat.getFormat("dd MMMM , yyyy")));
 		datefiscalYearfrom.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getShortDateFormat()));
 		datefiscalYearto.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getShortDateFormat()));
+		dateAvailabalityFrom.getElement().setPropertyString("placeholder", "yyyy/mm/dd");
+		dateAvailabalityTo.getElement().setPropertyString("placeholder", "yyyy/mm/dd");
+		datefiscalYearto.getElement().setPropertyString("placeholder", "yyyy/mm/dd");
+		datefiscalYearfrom.getElement().setPropertyString("placeholder", "yyyy/mm/dd");
+		dateOfJoining.getElement().setPropertyString("placeholder", "yyyy/mm/dd");
+		dateAvailabalityFrom.setWidth("80px");
+		datefiscalYearto.setWidth("80px");
+		datefiscalYearfrom.setWidth("80px");
+		dateAvailabalityTo.setWidth("80px");
 
 		Label lblHeading = new Label("User Induction Form");
-		lblHeading.addStyleName("blue");
+		lblHeading.addStyleName("labelHeading");
 
 		lblUserNameError.addStyleName("error");
 		lblEmailError.addStyleName("error");
@@ -82,42 +104,103 @@ public class UserInductionFormView extends FlexTable implements Display {
 		lblPasswordError.setVisible(false);
 		textareaOthers.setVisible(false);
 		setWidget(0, 1, lblHeading);
-		setWidget(1, 0, new LabelBold("Name"));
+		LabelBold lblName = new LabelBold("Name");
+		lblName.setWidth("190px");
+		setWidget(1, 0, lblName);
 		// setWidget(2, 0, new Label("Email"));
 
-		setWidget(3, 0, new LabelBold("Username (Email)"));
+		LabelBold lblEmail = new LabelBold("Username (Email)");
+		LabelBold lblPassword = new LabelBold("Password");
+		
+		lblEmail.setWidth("190px");
+		lblPassword.setWidth("190px");
+
+		setWidget(3, 0, lblEmail);
 		setWidget(3, 2, lblUserNameError);
 		setWidget(4, 2, lblPasswordError);
 		setWidget(2, 2, lblEmailError);
-		setWidget(4, 0, new LabelBold("Password"));
-		setWidget(1, 3, lblfiscalYear);
-		setWidget(1, 4, datefiscalYearfrom);
-		setWidget(1, 5, datefiscalYearto);
+		setWidget(4, 0, lblPassword);
 
 		// setWidget(3, 0, new Label("Division"));
-		setWidget(5, 0, new LabelBold("Designation"));
-		setWidget(6, 0, new LabelBold("User Profile"));
+		LabelBold lblDesignation = new LabelBold("Designation");
+		LabelBold lblJoinDate = new LabelBold("Date of Joining");
+		LabelBold lblAvailibility = new LabelBold("Availability during the year");
+		LabelBold lblUsrProfile = new LabelBold("User Profile");
+		
+		lblDesignation.setWidth("190px");
+		lblUsrProfile.setWidth("190px");
+		lblJoinDate.setWidth("190px");
+		lblAvailibility.setWidth("190px");
+		
+		setWidget(5, 0, lblDesignation);
+		setWidget(6, 0, lblUsrProfile);
 		setWidget(7, 0, lblReportingTo);
-		setWidget(8, 0, new LabelBold("Date of Joining"));
-		setWidget(9, 0, new LabelBold("Availability during the year"));
-		setWidget(10, 0, skillSet);
+		setWidget(8, 0, lblJoinDate);
+		setWidget(9, 0, lblAvailibility);
+		setWidget(10, 0, lblSkillSet);
 		setWidget(1, 1, txtName);
+		txtName.setWidth("300px");
+		txtPassword.setWidth("300px");
+		txtUserName.setWidth("300px");
+		txtDesignation.setWidth("300px");
+		listCompany.setWidth("300px");
+		listDivision.setWidth("300px");
+		listReportingTo.setWidth("300px");
+		listSkillSet.setWidth("300px");
+		listUserProfile.setWidth("300px");
+		dateOfJoining.setWidth("300px");
+		
 		// setWidget(2, 1, txtEmail);
 		setWidget(3, 1, txtUserName);
 		setWidget(4, 1, txtPassword);
 		setWidget(5, 1, txtDesignation);
 		setWidget(6, 1, listUserProfile);
 		setWidget(7, 1, listReportingTo);
-		setWidget(8, 1, dateOfJoingin);
-		setWidget(9, 1, dateAvailabalityFrom);
-		setWidget(9, 2, dateAvailabalityTo);
+		setWidget(8, 1, dateOfJoining);
+		Label lblTo = new Label(" to ");
+		lblTo.getElement().getStyle().setPaddingLeft(10, Unit.PX);
+		lblTo.setWidth("40px");
+		HorizontalPanel hpnlAvailibilty = new HorizontalPanel();
+		Label lblFrom = new Label(" from ");
+		lblFrom.getElement().getStyle().setPaddingLeft(10, Unit.PX);
+		lblFrom.setWidth("60px");
+		//hpnlAvailibilty.add(lblFrom);
+		hpnlAvailibilty.add(dateAvailabalityFrom);
+		hpnlAvailibilty.add(lblTo);
+		hpnlAvailibilty.add(dateAvailabalityTo);
+		setWidget(9, 1, hpnlAvailibilty);
 		setWidget(10, 1, c);
 		setWidget(11, 0, lblCompany);
 		setWidget(11, 1, listCompany);
-		setWidget(12, 1, btnCancel);
-		setWidget(12, 2, btnSubmit);
-		setWidget(12, 3, btnEdit);
-		setWidget(13, 1, p);
+		setWidget(12, 0, lblfiscalYear);
+		HorizontalPanel hpnlFiscalYear = new HorizontalPanel();
+		Label lblTo1 = new Label(" to ");
+		lblTo1.getElement().getStyle().setPaddingLeft(10, Unit.PX);
+		lblTo1.setWidth("40px");
+		Label lblFrom1 = new Label(" from ");
+		lblFrom1.getElement().getStyle().setPaddingLeft(10, Unit.PX);
+		lblFrom1.setWidth("60px");
+		//hpnlFiscalYear.add(lblFrom1);
+		hpnlFiscalYear.add(datefiscalYearfrom);
+		hpnlFiscalYear.add(lblTo1);
+		hpnlFiscalYear.add(datefiscalYearto);
+		setWidget(12, 1, hpnlFiscalYear);
+		setWidget(13, 1, layoutButtons());
+//		setWidget(13, 1, btnCancel);
+//		setWidget(13, 1, btnSubmit);
+//		setWidget(13, 1, btnEdit);
+//		setWidget(14, 2, p);
+		
+		lblAvailibility.getElement().getStyle().setPaddingTop(5, Unit.PX);
+		lblfiscalYear.getElement().getStyle().setPaddingTop(5, Unit.PX);
+		lblJoinDate.getElement().getStyle().setPaddingTop(5, Unit.PX);
+		lblUsrProfile.getElement().getStyle().setPaddingTop(5, Unit.PX);
+		lblDesignation.getElement().getStyle().setPaddingTop(5, Unit.PX);
+		lblPassword.getElement().getStyle().setPaddingTop(5, Unit.PX);
+		lblEmail.getElement().getStyle().setPaddingTop(5, Unit.PX);
+		lblName.getElement().getStyle().setPaddingTop(5, Unit.PX);
+		lblCompany.getElement().getStyle().setPaddingTop(5, Unit.PX);
+		lblSkillSet.getElement().getStyle().setPaddingTop(5, Unit.PX);
 
 		lblReportingTo.setVisible(false);
 		listReportingTo.setVisible(false);
@@ -163,7 +246,7 @@ public class UserInductionFormView extends FlexTable implements Display {
 	}
 
 	public DateBox getDateOfJoining() {
-		return dateOfJoingin;
+		return dateOfJoining;
 	}
 
 	public DateBox getDateAvailabilityForm() {
@@ -178,11 +261,11 @@ public class UserInductionFormView extends FlexTable implements Display {
 		return listSkillSet;
 	}
 
-	public ButtonRound getBtnCancel() {
+	public Button getBtnCancel() {
 		return btnCancel;
 	}
 
-	public ButtonRound getBtnSubmit() {
+	public Button getBtnSubmit() {
 		return btnSubmit;
 	}
 
@@ -247,11 +330,11 @@ public class UserInductionFormView extends FlexTable implements Display {
 	}
 
 	public Label getSkillSet() {
-		return skillSet;
+		return lblSkillSet;
 	}
 
 	public void setSkillSet(LabelBold skillSet) {
-		this.skillSet = skillSet;
+		this.lblSkillSet = skillSet;
 	}
 
 	public Label getLblfiscalYear() {

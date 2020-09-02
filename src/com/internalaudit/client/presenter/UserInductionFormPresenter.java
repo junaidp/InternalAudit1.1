@@ -15,6 +15,7 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -72,9 +73,9 @@ public class UserInductionFormPresenter implements Presenter
 
 		ListBox getListSkills();
 
-		ButtonRound getBtnCancel();
+		Button getBtnCancel();
 
-		ButtonRound getBtnSubmit();
+		Button getBtnSubmit();
 
 		// TextBox getTxtEmail();
 		ListBox getListReportingTo();
@@ -164,7 +165,6 @@ public class UserInductionFormPresenter implements Presenter
 				display.getDateAvailabalityTo().setValue(result.get(1));
 				display.getDateOfJoining().setValue(result.get(2));
 				display.getDatefiscalYearfrom().setValue(result.get(2));
-
 			}
 		});
 	}

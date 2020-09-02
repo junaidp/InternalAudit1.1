@@ -7,6 +7,8 @@ import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
@@ -35,6 +37,7 @@ import com.internalaudit.shared.JobCreation;
 import com.internalaudit.shared.JobStatusDTO;
 import com.internalaudit.shared.ReportDataEntity;
 import com.internalaudit.shared.ToDo;
+import com.sencha.gxt.widget.core.client.form.CheckBox;
 
 public class ReportViewMain extends VerticalPanel {
 	private ListBox listBoxJobs = new ListBox();
@@ -56,6 +59,8 @@ public class ReportViewMain extends VerticalPanel {
 	private DateBox dateBox = new DateBox();
 	private ArrayList<TextArea> listTxtoperational = null;
 	private ArrayList<Integer> suggestedControlIds ;
+	private ArrayList<JobCreation> arrayListJobs;
+	private CheckBox checkBoxSelectJobs;
 
 	public ReportViewMain(HandlerManager eventBus) {
 
@@ -71,6 +76,10 @@ public class ReportViewMain extends VerticalPanel {
 		Label lblJob = new Label("Select Job: ");
 		Label lblDate = new Label("Date: ");
 		// lblDate.getElement().getStyle().setMarginLeft(600, Unit.PX);
+		checkBoxSelectJobs = new CheckBox();
+		Label lblAllJobs = new Label("All Jobs");
+		checkBoxSelectJobs.getElement().getStyle().setPaddingLeft(30, Unit.PX); 
+		checkBoxSelectJobs.setBoxLabel(lblAllJobs.getText());
 		lblJob.addStyleName("labelDesign");
 		lblDate.addStyleName("labelDesign");
 
@@ -106,13 +115,14 @@ public class ReportViewMain extends VerticalPanel {
 		panelButton.addStyleName("w3-right");
 		panelDate.add(lblJob);
 		panelDate.add(listBoxJobs);
+		panelDate.add(checkBoxSelectJobs);
 		panelDate.add(lblDate);
 		panelDate.add(dateBox);
 
 		dateBox.getElement().getStyle().setMarginLeft(7, Unit.PX);
 		listBoxJobs.getElement().getStyle().setMarginLeft(7, Unit.PX);
 		listBoxJobs.setWidth("800px");
-		lblDate.getElement().getStyle().setMarginLeft(50, Unit.PX);
+		lblDate.getElement().getStyle().setMarginLeft(30, Unit.PX);
 
 		add(lblMain);
 		// add(listBoxJobs);
@@ -214,15 +224,8 @@ public class ReportViewMain extends VerticalPanel {
 
 			@Override
 			public void onSuccess(ArrayList<JobCreation> result) {
-				listBoxJobs.addItem("--Select Job--");
-				for (int i = 0; i < result.size(); i++) {
-					if(result.get(i).getReportStatus() == 5)
-					listBoxJobs.addItem(result.get(i).getJobName(), result.get(i).getJobCreationId() + "");
-				}
-				if(listBoxJobs.getItemCount() == 1) {
-					listBoxJobs.clear();
-					listBoxJobs.addItem("Job(s) not completed!");
-				}
+				arrayListJobs = result;
+				setValuesListBoxJobs();
 			}
 		});
 
@@ -397,6 +400,13 @@ public class ReportViewMain extends VerticalPanel {
 			}
 
 		});
+		checkBoxSelectJobs.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> arg0) {
+				setValuesListBoxJobs();
+			}
+		});
 	}
 
 	private void fetchAssesmentGrid(final int jobId) {
@@ -495,6 +505,24 @@ public class ReportViewMain extends VerticalPanel {
 		listTxtoperational.clear();
 		// dateBox.getDatePicker().get
 
+	}
+
+	private void setValuesListBoxJobs() {
+		listBoxJobs.clear();
+		listBoxJobs.addItem("--Select Job--");
+		if(!checkBoxSelectJobs.getValue())
+			for (int i = 0; i < arrayListJobs.size(); i++) {
+				if(arrayListJobs.get(i).getReportStatus() == 5)
+						listBoxJobs.addItem(arrayListJobs.get(i).getJobName(), arrayListJobs.get(i).getJobCreationId() + "");
+			}
+		else
+			for (int i = 0; i < arrayListJobs.size(); i++) {
+				listBoxJobs.addItem(arrayListJobs.get(i).getJobName(), arrayListJobs.get(i).getJobCreationId() + "");
+		}
+		if(listBoxJobs.getItemCount() == 1) {
+			listBoxJobs.clear();
+			listBoxJobs.addItem("Job(s) not completed!");
+		}
 	}
 
 }

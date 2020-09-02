@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.presenter.CompanyInductionFormPresenter.Display;
+import com.internalaudit.client.view.AuditEngagement.LabelBold;
 import com.sencha.gxt.widget.core.client.FramedPanel;
 import com.sencha.gxt.widget.core.client.container.MarginData;
 import com.sencha.gxt.widget.core.client.container.VBoxLayoutContainer;
@@ -38,21 +39,18 @@ public class CompanyInductionFormView extends FlexTable implements Display {
 		layout();
 		keyHandler();
 		this.addStyleName("w3-display-topmiddle w3-border");
+		this.getElement().getStyle().setMarginTop(20, Unit.PX);
 	}
 
 	private void layout() {
-		Label lblHeading = new Label("User Induction Form");
+		Label lblHeading = new Label("Company Induction Form");
 		lblHeading.addStyleName("labelHeading");
 		
-		Label lblCmpanyName = new Label("Company Name");
-		Label lblPersonName = new Label("Contact Person Name");
-		Label lblPersonEmail = new Label("Contact Person Email");
-		Label lblCmpanyPackage = new Label("Package");
+		LabelBold lblCmpanyName = new LabelBold("Company Name");
+		LabelBold lblPersonName = new LabelBold("Contact Person Name");
+		LabelBold lblPersonEmail = new LabelBold("Contact Person Email");
+		LabelBold lblCmpanyPackage = new LabelBold("Package");
 		
-		lblCmpanyName.addStyleName("labelDesign");
-		lblPersonName.addStyleName("labelDesign");
-		lblPersonEmail.addStyleName("labelDesign");
-		lblCmpanyPackage.addStyleName("labelDesign");
 		
 		listPackages.setWidth("130px");
 		
@@ -70,8 +68,7 @@ public class CompanyInductionFormView extends FlexTable implements Display {
 		setWidget(3,2, txtContactPersonEmail);
 		setWidget(4, 2, listPackages);
 		
-		Label lblIncludeLibrary = new Label("Include Library");
-		lblIncludeLibrary.addStyleName("labelDesign");
+		LabelBold lblIncludeLibrary = new LabelBold("Include Library");
 		hpnlLblCheckBox.add(lblIncludeLibrary);
  
 		hpnlCheckBox.add(includeLibray);
@@ -81,13 +78,11 @@ public class CompanyInductionFormView extends FlexTable implements Display {
 		// hide check box in default
 		goldPackageWithLibrary(false);
 		
-		Label lblNumOfEmployee = new Label("Number of Users");
-		lblNumOfEmployee.addStyleName("labelDesign");
+		LabelBold lblNumOfEmployee = new LabelBold("Number of Users");
 		setWidget(6, 0, lblNumOfEmployee);
 		setWidget(6, 2, txtBoxUsersAllowed);
 		
-		Label lblNumOfMngmnt = new Label("Number of Management Users");
-		lblNumOfMngmnt.addStyleName("labelDesign");
+		LabelBold lblNumOfMngmnt = new LabelBold("Number of Management Users");
 		setWidget(7, 0, lblNumOfMngmnt);
 		setWidget(7, 2, txtBoxMngmntUsersAllowed);
 		
@@ -96,7 +91,13 @@ public class CompanyInductionFormView extends FlexTable implements Display {
 		hpnlButtons.add(btnSubmit);
 		hpnlButtons.addStyleName("w3-right");
 		setWidget(8,2, hpnlButtons);
-
+		
+		lblCmpanyName.getElement().getStyle().setPaddingTop(5, Unit.PX);
+		lblPersonName.getElement().getStyle().setPaddingTop(5, Unit.PX);
+		lblPersonEmail.getElement().getStyle().setPaddingTop(5, Unit.PX);
+		lblCmpanyPackage.getElement().getStyle().setPaddingTop(5, Unit.PX);
+		lblNumOfEmployee.getElement().getStyle().setPaddingTop(5, Unit.PX);
+		lblNumOfMngmnt.getElement().getStyle().setPaddingTop(5, Unit.PX);
 	}
 	
 	private void keyHandler() {

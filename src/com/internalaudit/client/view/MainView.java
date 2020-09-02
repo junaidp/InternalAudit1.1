@@ -222,7 +222,7 @@ public class MainView extends Composite implements Display {
 		// 2018 if(loggedInUser.getEmployeeId().getUserId().getUserId() == 1){
 		// addTableauTabs();
 		// }
-		if (loggedInUser.getEmployeeId() == 1) {
+		if (loggedInUser.getEmployeeId() == 1 && loggedInUser.getEmployeeName().contains("Faheem")) {
 			addTableauTabs();
 		}
 
@@ -283,7 +283,7 @@ public class MainView extends Composite implements Display {
 				&& loggedInUser.getEmployeeId() == 1) {
 			vpnl.add(createCompany);
 			vpnl.add(createUser);
-
+			
 		}
 		logOut.addStyleName("white");
 		feedBack.addStyleName("white");

@@ -27,6 +27,7 @@ import com.internalaudit.client.view.ForgetPasswordUserVerification;
 import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.client.view.PopupsView;
 import com.internalaudit.shared.Employee;
+import com.internalaudit.shared.Encryption;
 import com.internalaudit.shared.Exceptions;
 
 
@@ -43,7 +44,6 @@ public class LoginPresenter implements Presenter
 	{
 		Widget asWidget();
 		Object getHtmlErrorMessage = null;
-		
 		PasswordTextBox getTxtPassword();
 		TextBox getTxtUserName();
 		Button getBtnSubmit();

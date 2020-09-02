@@ -82,6 +82,7 @@ import com.internalaudit.shared.Department;
 import com.internalaudit.shared.Division;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.EmployeeJobDTO;
+import com.internalaudit.shared.Encryption;
 import com.internalaudit.shared.EngagementDTO;
 import com.internalaudit.shared.ExcelDataDTO;
 import com.internalaudit.shared.Exceptions;
@@ -168,12 +169,13 @@ public class MySQLRdbHelper {
 		logger.setLevel(Level.INFO);
 		Employee employee = null;
 		Session session = null;
+	//	Encryption encrypt = new Encryption();
 		System.out.print(logger.getLevel() + "");
 		try {
 			session = sessionFactory.openSession();
-
 			Criteria crit = session.createCriteria(Employee.class);
 			crit.add(Restrictions.eq("email", userid));
+	//		crit.add(Restrictions.eq("password", encrypt.getSHA1Encryption(password)));
 			crit.add(Restrictions.eq("password", password));
 			crit.createAlias("countryId", "empcoun");
 			crit.createAlias("cityId", "empcit");
@@ -184,7 +186,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("empRep.reportingTo", "empRepRep");
 			crit.createAlias("empRep.skillId", "skillRep");
 			crit.createAlias("empRepRep.skillId", "empRepRepSkill");
-
+			
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				employee = (Employee) it.next();
@@ -7556,6 +7558,8 @@ public class MySQLRdbHelper {
 			try {
 				session = sessionFactory.openSession();
 				employee.setStatus(1);
+				Encryption encrypt = new Encryption();
+				employee.setPassword(encrypt.getSHA1Encryption(employee.getPassword()));
 				session.save(employee);
 
 				if (employee.getReportingTo().getEmployeeId() == 0) {
@@ -11145,7 +11149,9 @@ public class MySQLRdbHelper {
 			Session session = null;
 			try {
 				session = sessionFactory.openSession(); 
-				session.saveOrUpdate(loggedInUser);
+				Encryption encrypt = new Encryption();
+				loggedInUser.setPassword(encrypt.getSHA1Encryption(loggedInUser.getPassword()));
+				session.update(loggedInUser);
 				session.flush(); 
 				logger.info(String.format("(Inside updatePassword)update Password of User"));
 				return "Password Updated Successfully";
@@ -11185,7 +11191,8 @@ public class MySQLRdbHelper {
 	public String resetPassword(Integer employeeID, String newPassword) {
 		Session session = null;
 		Employee employee = employeeExistence(employeeID);
-		employee.setPassword(newPassword);
+		Encryption encrypt = new Encryption();
+		employee.setPassword(encrypt.getSHA1Encryption(newPassword));
 		try {
 			session = sessionFactory.openSession(); 
 			session.saveOrUpdate(employee);
