@@ -820,9 +820,7 @@ public class MySQLRdbHelper {
 		return skills;
 	}
 
-	public String saveStrategic(Strategic strategic, Employee loggedInUser, HashMap<String, String> hm, int year,
-			int companyId) {
-
+	public String saveStrategic(Strategic strategic, Employee loggedInUser, HashMap<String, String> hm, int year, int companyId) {
 		try {
 			session = sessionFactory.openSession();
 			String todo = hm.get("todo");
@@ -10857,21 +10855,30 @@ public class MySQLRdbHelper {
 			HSSFWorkbook workbook = new HSSFWorkbook();
 			HSSFSheet worksheet = workbook.createSheet("SamplingAudit Worksheet");
 			HSSFRow row = worksheet.createRow((short) 0);
-			row.createCell((short) 0).setCellValue("Date");
-			row.createCell((short) 1).setCellValue("Reference No");
-			row.createCell((short) 2).setCellValue("Description");
-			row.createCell((short) 3).setCellValue("Amount");
-			row.createCell((short) 4).setCellValue("Job ID");
-			row.createCell((short) 5).setCellValue("Location");
+			row.createCell((short) 0).setCellValue("Category");
+			row.createCell((short) 1).setCellValue("Doc#");
+			row.createCell((short) 2).setCellValue("Date");
+			row.createCell((short) 3).setCellValue("Item Code");
+			row.createCell((short) 4).setCellValue("Item Description");
+			row.createCell((short) 5).setCellValue("Quantity");
+			row.createCell((short) 6).setCellValue("U.Cost");
+			row.createCell((short) 7).setCellValue("Trans.Cost");
+			row.createCell((short) 8).setCellValue("Code");
+			row.createCell((short) 9).setCellValue("Name");
 
 			for (int i = 0; i < samplingList.size(); i++) {
 				HSSFRow row1 = worksheet.createRow((short) i + 1);
-				row1.createCell((short) 0).setCellValue(samplingList.get(i).getDate());
-				row1.createCell((short) 1).setCellValue(samplingList.get(i).getReferenceNo());
-				row1.createCell((short) 2).setCellValue(samplingList.get(i).getDescription());
-				row1.createCell((short) 3).setCellValue(samplingList.get(i).getAmount());
-				row1.createCell((short) 4).setCellValue(samplingList.get(i).getJobId());
-				row1.createCell((short) 5).setCellValue(samplingList.get(i).getLocation());
+				row1.createCell((short) 0).setCellValue(samplingList.get(i).getCategory());
+				row1.createCell((short) 1).setCellValue(samplingList.get(i).getDocNo());
+				row1.createCell((short) 2).setCellValue(samplingList.get(i).getDate());
+				row1.createCell((short) 3).setCellValue(samplingList.get(i).getItemCode());
+				row1.createCell((short) 4).setCellValue(samplingList.get(i).getDescription());
+				row1.createCell((short) 5).setCellValue(samplingList.get(i).getQuantity());
+				row1.createCell((short) 6).setCellValue(samplingList.get(i).getUcost());
+				row1.createCell((short) 7).setCellValue(samplingList.get(i).getTransCost());
+				row1.createCell((short) 8).setCellValue(samplingList.get(i).getCode());
+				row1.createCell((short) 9).setCellValue(samplingList.get(i).getName());
+				
 
 
 			}
@@ -10895,22 +10902,25 @@ public class MySQLRdbHelper {
 	private String reportSamplingAuditPDF(ArrayList<SamplingExcelSheetEntity> samplingList,
 			String rootDir, Integer auditStepId) throws DocumentException {
 		try {
-
-			Rectangle pagesize = new Rectangle(612, 861);
+			//612-861
+			Rectangle pagesize = new Rectangle(712, 861);
 			Document document = new Document(PageSize.A4);
 
-			PdfPTable table = new PdfPTable(new float[] { 1,2, 2, 3, 2, 2 ,2  });
+			PdfPTable table = new PdfPTable(new float[] { 1,2, 2, 2, 2, 3 ,2, 2, 2, 2, 2  });
 
 			table.setWidthPercentage(100);
 			table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
 			table.addCell(new Phrase("Sr#", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Category", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Doc #", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
 			table.addCell(new Phrase("Date", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
-			table.addCell(new Phrase("Reference No", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
-			table.addCell(new Phrase("Description", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
-			table.addCell(new Phrase("Amount", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
-			table.addCell(new Phrase("Job ID", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
-			table.addCell(new Phrase("Location", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
-
+			table.addCell(new Phrase("Item Code", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Item description", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Quantity", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("U.Cost", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Trans.Cost", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Code", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
+			table.addCell(new Phrase("Name", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
 			
 			table.setHeaderRows(1);
 			PdfPCell[] cells = table.getRow(0).getCells();
@@ -10924,18 +10934,26 @@ public class MySQLRdbHelper {
 
 				count++;
 				table.addCell(new Phrase(count + "", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(new Phrase(samplingList.get(i).getCategory(),
+						FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(
+						new Phrase(samplingList.get(i).getDocNo()+"", FontFactory.getFont(FontFactory.HELVETICA, 8)));
 				table.addCell(new Phrase(samplingList.get(i).getDate(),
 						FontFactory.getFont(FontFactory.HELVETICA, 8)));
 				table.addCell(
-						new Phrase(samplingList.get(i).getReferenceNo()+"", FontFactory.getFont(FontFactory.HELVETICA, 8)));
-				table.addCell(new Phrase(samplingList.get(i).getDescription(),
-						FontFactory.getFont(FontFactory.HELVETICA, 8)));
+						new Phrase(samplingList.get(i).getItemCode()+"", FontFactory.getFont(FontFactory.HELVETICA, 8)));
 				table.addCell(
-						new Phrase(samplingList.get(i).getAmount()+"", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+						new Phrase(samplingList.get(i).getDescription(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
 				table.addCell(
-						new Phrase(samplingList.get(i).getJobId(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+						new Phrase(samplingList.get(i).getQuantity()+"", FontFactory.getFont(FontFactory.HELVETICA, 8)));
 				table.addCell(
-						new Phrase(samplingList.get(i).getLocation(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+						new Phrase(samplingList.get(i).getUcost()+"", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(
+						new Phrase(samplingList.get(i).getTransCost()+"", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(
+						new Phrase(samplingList.get(i).getCode()+"", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+				table.addCell(
+						new Phrase(samplingList.get(i).getName(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
 
 				
 				
@@ -11023,26 +11041,47 @@ public class MySQLRdbHelper {
 											// samplingData.setId(rd.nextInt());
 				samplingData.setId(row.getRowNum());
 
-				XSSFCell date = row.getCell((short) 0);
-				samplingData.setDate(date.getStringCellValue());
-
-				XSSFCell desc = row.getCell((short) 2);
+				XSSFCell category = row.getCell((short) 0);
+				samplingData.setCategory(category.getStringCellValue());
+				
+				XSSFCell desc = row.getCell((short) 4);
 				samplingData.setDescription(desc.getStringCellValue());
+				
+				XSSFCell name = row.getCell((short) 9);
+				samplingData.setName(name.getStringCellValue());
+
+				
 
 				// samplingData.setId(row.getRowNum());
 				
 
-				XSSFCell jobId = row.getCell((short) 4);
-				samplingData.setJobId(jobId.getStringCellValue());
+				XSSFCell date = row.getCell((short) 2);
+				samplingData.setDate(date.getStringCellValue());
 
-				XSSFCell location = row.getCell((short) 5);
+			//	XSSFCell location = row.getCell((short) 5);
 
 				if (row.getRowNum() > 0) {
-					XSSFCell refNo = row.getCell((short) 1);
-					samplingData.setReferenceNo(refNo.getNumericCellValue());
+					
+					XSSFCell docNo = row.getCell((short) 1);
+					samplingData.setDocNo(docNo.getNumericCellValue());
+					
 
-					XSSFCell amount = row.getCell((short) 3);
-					samplingData.setAmount(amount.getNumericCellValue());
+					XSSFCell itemCode = row.getCell((short) 3);
+					samplingData.setItemCode(itemCode.getNumericCellValue());
+					
+					XSSFCell quantity = row.getCell((short) 5);
+					samplingData.setQuantity(quantity.getNumericCellValue());
+					
+					XSSFCell uCost = row.getCell((short) 6);
+					samplingData.setUcost(uCost.getNumericCellValue());
+					
+					XSSFCell transCost = row.getCell((short) 7);
+					samplingData.setTransCost(transCost.getNumericCellValue());
+					
+					XSSFCell code = row.getCell((short) 8);
+					samplingData.setCode(code.getNumericCellValue());
+					
+					
 					listSampling.add(samplingData);
 				}
 				

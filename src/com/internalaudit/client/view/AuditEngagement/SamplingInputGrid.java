@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gargoylesoftware.htmlunit.javascript.host.Console;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.editor.client.Editor.Path;
@@ -69,20 +70,29 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 
 		@Path("id")
 		ModelKeyProvider<SamplingExcelSheetEntity> key();
+		
+		ValueProvider<SamplingExcelSheetEntity, Integer> id();
+
+		ValueProvider<SamplingExcelSheetEntity, String> category();
+		
+		ValueProvider<SamplingExcelSheetEntity, Double> docNo();
 
 		ValueProvider<SamplingExcelSheetEntity, String> date();
 
-		ValueProvider<SamplingExcelSheetEntity, Double> referenceNo();
+		ValueProvider<SamplingExcelSheetEntity, Double> itemCode();
 
 		ValueProvider<SamplingExcelSheetEntity, String> description();
 
-		ValueProvider<SamplingExcelSheetEntity, Double> amount();
+		ValueProvider<SamplingExcelSheetEntity, Double> quantity();
 
-		ValueProvider<SamplingExcelSheetEntity, Integer> id();
+		ValueProvider<SamplingExcelSheetEntity, Double> ucost();
 
-		ValueProvider<SamplingExcelSheetEntity, String> location();
+		ValueProvider<SamplingExcelSheetEntity, Double> transCost();
 
-		ValueProvider<SamplingExcelSheetEntity, String> jobId();
+		ValueProvider<SamplingExcelSheetEntity, Double> code();
+		
+		ValueProvider<SamplingExcelSheetEntity, String> name();
+
 
 	}
 
@@ -94,12 +104,23 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 				i++;
 				SamplingExcelSheetEntity sampling = new SamplingExcelSheetEntity();
 				sampling.setId(i);
-				sampling.setAmount(samplingExcel.getAmount());
+				sampling.setCategory(samplingExcel.getCategory());
+				sampling.setDocNo(samplingExcel.getDocNo());
+				sampling.setDate(samplingExcel.getDate());
+				sampling.setItemCode(samplingExcel.getItemCode());
+				sampling.setDescription(samplingExcel.getDescription());
+				sampling.setQuantity(samplingExcel.getQuantity());
+				sampling.setUcost(samplingExcel.getUcost());
+				sampling.setTransCost(samplingExcel.getTransCost());
+				sampling.setCode(samplingExcel.getCode());
+				sampling.setName(samplingExcel.getName());
+				
+				/*sampling.setAmount(samplingExcel.getAmount());
 				sampling.setDate(samplingExcel.getDate());
 				sampling.setReferenceNo(samplingExcel.getReferenceNo());
 				sampling.setDescription(samplingExcel.getDescription());
 				sampling.setJobId(samplingExcel.getJobId());
-				sampling.setLocation(samplingExcel.getLocation());
+				sampling.setLocation(samplingExcel.getLocation())*/;
 				listSamplingSheet.add(sampling);
 			}
 			store.clear();
@@ -114,26 +135,29 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 
 		ColumnConfig<SamplingExcelSheetEntity, Integer> samplingSheetId = new ColumnConfig<SamplingExcelSheetEntity, Integer>(
 				properties.id(), 90, "Id");
+		ColumnConfig<SamplingExcelSheetEntity, String> category = new ColumnConfig<SamplingExcelSheetEntity, String>(
+				properties.category(), 100, "Category");
+		ColumnConfig<SamplingExcelSheetEntity, Double> docNo = new ColumnConfig<SamplingExcelSheetEntity, Double>(
+				properties.docNo(), 150, "Doc#");
 		ColumnConfig<SamplingExcelSheetEntity, String> date = new ColumnConfig<SamplingExcelSheetEntity, String>(
-				properties.date(), 100, "Date");
-		ColumnConfig<SamplingExcelSheetEntity, Double> reference = new ColumnConfig<SamplingExcelSheetEntity, Double>(
-				properties.referenceNo(), 150, "Reference");
-		ColumnConfig<SamplingExcelSheetEntity, Double> amount = new ColumnConfig<SamplingExcelSheetEntity, Double>(
-				properties.amount(), 140, "Amount");
+				properties.date(), 140, "Date");
+		ColumnConfig<SamplingExcelSheetEntity, Double> itemCode = new ColumnConfig<SamplingExcelSheetEntity, Double>(
+				properties.itemCode(), 150, "item Code");
+		
 		ColumnConfig<SamplingExcelSheetEntity, String> description = new ColumnConfig<SamplingExcelSheetEntity, String>(
-				properties.description(), 240, "Description");
-		ColumnConfig<SamplingExcelSheetEntity, String> location = new ColumnConfig<SamplingExcelSheetEntity, String>(
-				properties.location(), 140, "Location");
-		ColumnConfig<SamplingExcelSheetEntity, String> jobId = new ColumnConfig<SamplingExcelSheetEntity, String>(
-				properties.jobId(), 140, "Job ID");
-		ColumnConfig<SamplingExcelSheetEntity, String> col7 = new ColumnConfig<SamplingExcelSheetEntity, String>(
-				properties.jobId(), 140, "Col 7");
-		ColumnConfig<SamplingExcelSheetEntity, String> col8 = new ColumnConfig<SamplingExcelSheetEntity, String>(
-				properties.jobId(), 140, "Col 8");
-		ColumnConfig<SamplingExcelSheetEntity, String> col9 = new ColumnConfig<SamplingExcelSheetEntity, String>(
-				properties.jobId(), 140, "Col 9");
-		ColumnConfig<SamplingExcelSheetEntity, String> col10 = new ColumnConfig<SamplingExcelSheetEntity, String>(
-				properties.jobId(), 140, "Col 10");
+				properties.description(), 240, "Item Description");
+		ColumnConfig<SamplingExcelSheetEntity, Double> quantity = new ColumnConfig<SamplingExcelSheetEntity, Double>(
+				properties.quantity(), 150, "Quantity");
+		ColumnConfig<SamplingExcelSheetEntity, Double> uCost = new ColumnConfig<SamplingExcelSheetEntity, Double>(
+				properties.ucost(), 150, "U.Cost");
+		ColumnConfig<SamplingExcelSheetEntity, Double> transCost = new ColumnConfig<SamplingExcelSheetEntity, Double>(
+				properties.transCost(), 150, "Trans.Cost");
+
+		ColumnConfig<SamplingExcelSheetEntity, Double> code = new ColumnConfig<SamplingExcelSheetEntity, Double>(
+				properties.code(), 140, "Code");
+		ColumnConfig<SamplingExcelSheetEntity, String> name = new ColumnConfig<SamplingExcelSheetEntity, String>(
+				properties.name(), 140, "Name");
+		
 
 		// Cell cellDueDate = new
 		// DateCell(DateTimeFormat.getFormat("MM/dd/yy"));
@@ -146,16 +170,16 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 
 		List<ColumnConfig<SamplingExcelSheetEntity, ?>> columns = new ArrayList<ColumnConfig<SamplingExcelSheetEntity, ?>>();
 		columns.add(samplingSheetId);
+		columns.add(category);
+		columns.add(docNo);
 		columns.add(date);
-		columns.add(reference);
-		columns.add(amount);
+		columns.add(itemCode);
 		columns.add(description);
-		columns.add(location);
-		columns.add(jobId);
-		columns.add(col7);
-		columns.add(col8);
-		columns.add(col9);
-		columns.add(col10);
+		columns.add(quantity);
+		columns.add(uCost);
+		columns.add(transCost);
+		columns.add(code);
+		columns.add(name);
 
 		ColumnModel<SamplingExcelSheetEntity> cm = new ColumnModel<SamplingExcelSheetEntity>(columns);
 
