@@ -4,7 +4,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.poi.ss.formula.functions.T;
+
 import com.gargoylesoftware.htmlunit.javascript.host.Console;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.editor.client.Editor.Path;
@@ -28,18 +31,39 @@ import com.internalaudit.shared.InternalAuditConstants;
 import com.internalaudit.shared.SamplingExcelSheetEntity;
 import com.sencha.gxt.core.client.ValueProvider;
 import com.sencha.gxt.core.client.dom.ScrollSupport.ScrollMode;
+import com.sencha.gxt.data.client.loader.RpcProxy;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.data.shared.ModelKeyProvider;
 import com.sencha.gxt.data.shared.PropertyAccess;
+import com.sencha.gxt.data.shared.loader.FilterConfig;
+import com.sencha.gxt.data.shared.loader.FilterPagingLoadConfig;
+import com.sencha.gxt.data.shared.loader.FilterPagingLoadConfigBean;
+import com.sencha.gxt.data.shared.loader.LoadResultListStoreBinding;
+import com.sencha.gxt.data.shared.loader.PagingLoadResult;
+import com.sencha.gxt.data.shared.loader.PagingLoader;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
+import com.sencha.gxt.widget.core.client.grid.ColumnHeader;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
+import com.sencha.gxt.widget.core.client.grid.LiveGridView;
+import com.sencha.gxt.widget.core.client.grid.LiveToolItem;
+import com.sencha.gxt.widget.core.client.grid.filters.BooleanFilter;
+import com.sencha.gxt.widget.core.client.grid.filters.GridFilters;
+import com.sencha.gxt.widget.core.client.tips.QuickTip;
+import com.sencha.gxt.widget.core.client.toolbar.PagingToolBar;
+import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
 
 public class SamplingInputGrid extends VerticalLayoutContainer {
 
 	InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
+	
+	/*protected GridFilters<T> gridFilters;
+    protected BooleanFilter<T> filterText = null;
+    protected List<FilterConfig> filters = null;
+    protected ArrayList<T> list;*/
+	
 	protected static final int MIN_HEIGHT = 1;
 	protected static final int MIN_WIDTH = 1280;
 	protected static final int PREFERRED_HEIGHT = 1;
@@ -55,8 +79,10 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 			.create(SamplingInputGrid.InputSheetProperties.class);
 
 	ListStore<SamplingExcelSheetEntity> store;
+	private LiveGridView<SamplingExcelSheetEntity> gridView;
+	private PagingLoader<FilterPagingLoadConfig, PagingLoadResult<SamplingExcelSheetEntity>> pagingLoader;
 	private ArrayList<SamplingExcelSheetEntity> listSamplingSheet;
-
+	private Grid<SamplingExcelSheetEntity> grid ;
 	public SamplingInputGrid(ArrayList<SamplingExcelSheetEntity> result, TextBox lblPopulationData,
 			TextBox lblSamplingSizeData, ListBox listBoxSamplingMethod, Integer auditStepId, Anchor lblSavedAuditReport, Anchor anchorExcelTemplate) {
 
@@ -115,16 +141,10 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 				sampling.setCode(samplingExcel.getCode());
 				sampling.setName(samplingExcel.getName());
 				
-				/*sampling.setAmount(samplingExcel.getAmount());
-				sampling.setDate(samplingExcel.getDate());
-				sampling.setReferenceNo(samplingExcel.getReferenceNo());
-				sampling.setDescription(samplingExcel.getDescription());
-				sampling.setJobId(samplingExcel.getJobId());
-				sampling.setLocation(samplingExcel.getLocation())*/;
 				listSamplingSheet.add(sampling);
 			}
 			store.clear();
-			store.addAll(listSamplingSheet);
+		//	store.addAll(listSamplingSheet);
 
 		}
 
@@ -185,40 +205,199 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 
 		store = new ListStore<SamplingExcelSheetEntity>(properties.key());
 
-		final Grid<SamplingExcelSheetEntity> grid = new Grid<SamplingExcelSheetEntity>(store, cm);
-		// grid.setWidth(580);
-		grid.getView().setAutoExpandColumn(samplingSheetId);
+		pagingLoader = getLoader(store);
+		gridView = initialiseLiveGrid();
+		
+//		final Grid<SamplingExcelSheetEntity> grid = new Grid<SamplingExcelSheetEntity>(store, cm);
+		
+		// grid.setWidth(580);offi
+		grid = new Grid<SamplingExcelSheetEntity>(store, cm) {
+			@Override
+			protected void onAfterFirstAttach() {
+				super.onAfterFirstAttach();
+				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+					@Override
+					public void execute() {
+						pagingLoader.load(0, gridView.getCacheSize());
+					}
+				});
+			}
+		};
+
+		/*grid.getView().setAutoExpandColumn(samplingSheetId);
 		grid.getView().setForceFit(true);
 		grid.getView().setStripeRows(true);
-		grid.getView().setColumnLines(true);
-		VerticalLayoutContainer p = new VerticalLayoutContainer();
+		grid.getView().setColumnLines(true); */
+		/*VerticalLayoutContainer p = new VerticalLayoutContainer();
 		p.setHeight("200px");
 		p.setScrollMode(ScrollMode.AUTO);
 
-		p.add(grid);
+		p.add(grid);*/
 
-		VerticalLayoutContainer con = new VerticalLayoutContainer();
-		con.add(p, new VerticalLayoutData(1, 1));
+		
+/*		VerticalLayoutContainer con = new VerticalLayoutContainer();
+		con.add(p, new VerticalLayoutData(1, 1));*/
 		// con.add(, new VerticalLayoutData(1, 1));
+		
+		grid.setLoader(pagingLoader);
+		grid.setLoadMask(true);
+		grid.setView(gridView);
 
-//		VerticalLayoutContainer con1 = new VerticalLayoutContainer();
-
-		panel = new ContentPanel();
-		// panel.setHeight(220);
-		// panel.setWidth(700);
-		panel.setSize("1190px", "350px");
-//		panel.setHeadingText("Sampling Input");
-		panel.setHeaderVisible(false);
+		ToolBar toolBar = new ToolBar();
+		toolBar.setBorders(false);
+		toolBar.add( new LiveToolItem(grid));
+		
+		VerticalLayoutContainer verticalLayoutContainer = new VerticalLayoutContainer();
+		
 		HorizontalPanel panelExportButton = new HorizontalPanel();
 		panelExportButton.add(btnExportExcel);
 		panelExportButton.add(btnExportPDF);
-		con.add(btnSubmit);
-		con.add(panelExportButton);
-		panel.add(con);
-		// panel.add(con1);
-		return panel;
+		
+		panel = new ContentPanel();
+		panel.setHeight(220);
+		panel.setWidth(700);
+		panel.add(grid);
+		
+		final PagingToolBar toolBar1 = new PagingToolBar(50);
+	      toolBar.setBorders(false);
+	      verticalLayoutContainer.add(toolBar, new VerticalLayoutData(1, 25));
+	      verticalLayoutContainer.add(panel, new VerticalLayoutData(1, 500));
+	      verticalLayoutContainer.add(panelExportButton, new VerticalLayoutData(1, 50));
+	      verticalLayoutContainer.setSize("1190px", "350px");
+		return verticalLayoutContainer;
+		
+
+//		VerticalLayoutContainer con1 = new VerticalLayoutContainer();
+
+//		final PagingToolBar toolBar = new PagingToolBar(50);
+//	      toolBar.setBorders(false);
+//	      con.add(toolBar);
+//	    //  toolBar.bind(loader);
+		
+//		panel.setSize("1190px", "350px");
+////		panel.setHeadingText("Sampling Input");
+//		panel.setHeaderVisible(false);
+		
+//	sssssssss
 	}
 
+	private LiveGridView<SamplingExcelSheetEntity> initialiseLiveGrid()
+	{
+		return new LiveGridView<SamplingExcelSheetEntity>()
+		{
+			@Override
+			protected void initHeader()
+			{
+				super.initHeader();
+
+				// remove tooltip
+				ColumnHeader<SamplingExcelSheetEntity> header = getHeader();
+				header.removeToolTip();
+				header.disableEvents(); // Disable default tooltip on header
+			}
+
+			private native QuickTip getQuickTip(ColumnHeader<SamplingExcelSheetEntity> header)
+				/*-{
+					return header.@com.sencha.gxt.widget.core.client.grid.ColumnHeader::quickTip;
+				}-*/;
+		};
+	}
+	
+	protected PagingLoader<FilterPagingLoadConfig, PagingLoadResult<SamplingExcelSheetEntity>> getLoader(ListStore<SamplingExcelSheetEntity> store)
+	{
+		RpcProxy<FilterPagingLoadConfig, PagingLoadResult<SamplingExcelSheetEntity>> proxy = new RpcProxy<FilterPagingLoadConfig, PagingLoadResult<SamplingExcelSheetEntity>>()
+		{
+			@Override
+			public void load(FilterPagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<SamplingExcelSheetEntity>> callback)
+			{
+
+				getDatas(loadConfig, callback);
+			}
+		};
+		PagingLoader<FilterPagingLoadConfig, PagingLoadResult<SamplingExcelSheetEntity>> loader = new PagingLoader<FilterPagingLoadConfig, PagingLoadResult<SamplingExcelSheetEntity>>(proxy);
+
+		loader.useLoadConfig(new FilterPagingLoadConfigBean());
+		loader.addLoadHandler(new LoadResultListStoreBinding<FilterPagingLoadConfig, SamplingExcelSheetEntity, PagingLoadResult<SamplingExcelSheetEntity>>(store));
+
+		loader.setRemoteSort(true);
+
+		return loader;
+	}
+	
+	
+	private void getDatas(FilterPagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<SamplingExcelSheetEntity>> callback)
+	{
+		try
+		{
+			if (listSamplingSheet == null)
+			{
+				callback.onFailure(new Exception("empty Sample"));
+				return;
+			}
+			Window.alert(loadConfig.getOffset()+"odffset");
+			final int offset = loadConfig.getOffset();
+			Window.alert(offset + "q");
+			int limit = loadConfig.getLimit();
+			final List<SamplingExcelSheetEntity> datas = new ArrayList<SamplingExcelSheetEntity>();
+			Window.alert(limit + "q" +  listSamplingSheet.size());
+			int end = offset + limit;
+			Window.alert(end +"end");
+			if(end > listSamplingSheet.size()) end = listSamplingSheet.size();
+			datas.clear();
+
+			for (int i = offset; i < end; i++)
+			{
+				datas.add((SamplingExcelSheetEntity) listSamplingSheet.get( i ));
+			}
+
+
+			PagingLoadResult<SamplingExcelSheetEntity> result = new PagingLoadResult<SamplingExcelSheetEntity>()
+			{
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public List<SamplingExcelSheetEntity> getData()
+				{
+
+					return datas;
+				}
+
+				@Override
+				public void setTotalLength(int totalLength)
+				{
+
+				}
+
+				@Override
+				public void setOffset(int offset)
+				{
+				}
+
+				@Override
+				public int getTotalLength()
+				{
+					return listSamplingSheet.size();
+				}
+
+				@Override
+				public int getOffset()
+				{
+					return offset;
+				}
+			};
+			callback.onSuccess(result);
+		}
+		catch (
+
+				Exception ex)
+		{
+			System.out.println("err");
+		}
+	}
+
+	
+	
 	private void clickHandlers(final TextBox lblPopulationData, final TextBox lblSamplingSizeData,
 			final ListBox listBoxSamplingMethod,final Integer auditStepId, final Anchor lblSavedAuditReport, final Anchor anchorExcelTemplate) {
 

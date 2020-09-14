@@ -263,7 +263,7 @@ public class UserInductionFormPresenter implements Presenter
 
 			@Override
 			public void onClick(ClickEvent event) {
-				History.newItem("login");
+				History.newItem("main");
 			}
 		});
 

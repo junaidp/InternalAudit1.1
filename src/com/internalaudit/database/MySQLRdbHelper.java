@@ -7556,8 +7556,9 @@ public class MySQLRdbHelper {
 			try {
 				session = sessionFactory.openSession();
 				employee.setStatus(1);
-				Encryption encrypt = new Encryption();
-				employee.setPassword(encrypt.getSHA1Encryption(employee.getPassword()));
+//				Encryption encrypt = new Encryption();
+//				employee.setPassword(encrypt.getSHA1Encryption(employee.getPassword()));
+				employee.setPassword(employee.getPassword());
 				session.save(employee);
 
 				if (employee.getReportingTo().getEmployeeId() == 0) {

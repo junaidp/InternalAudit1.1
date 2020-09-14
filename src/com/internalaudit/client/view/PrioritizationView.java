@@ -36,9 +36,14 @@ public class PrioritizationView extends Composite {
 	private int strategicId;
 	private int index;
 	private String comment;
+	private Integer currentYear = 0;
 
 	public PrioritizationView() {
+		layout();
+		fetchCurrentYear(null);
+	}
 
+	private void layout() {
 		submitted.addStyleName("pointer");
 		submitted.setTitle("submitted");
 		submitted.setVisible(false);
@@ -124,7 +129,6 @@ public class PrioritizationView extends Composite {
 		verticalPanel.add(anchorFeedback); 
 		verticalPanel.addStyleName("form-row");
 
-		////
 		// listYears.addItem("2014");
 		// listYears.addItem("2015");
 		// listYears.addItem("2016");
@@ -135,8 +139,6 @@ public class PrioritizationView extends Composite {
 		tab = new Label();
 		horizontalPanel.add(tab);
 		tab.setWidth("70px");
-		fetchCurrentYear(horizontalPanel);
-
 	}
 
 	public Anchor getAnchorFeedback() {
@@ -147,7 +149,14 @@ public class PrioritizationView extends Composite {
 		this.anchorFeedback = anchorFeedback;
 	}
 
-	private void fetchCurrentYear(final HorizontalPanel horizontalPanel) {
+	public void fetchCurrentYear(final AsyncCallback<String> asyncCallback) {
+		if(currentYear != 0)
+		{
+			setValuesListBoxYear(currentYear);
+			if(asyncCallback != null) asyncCallback.onSuccess("");
+			return;
+		}
+		
 		InternalAuditServiceAsync rpcService = GWT.create(InternalAuditService.class);
 
 		rpcService.fetchCurrentYear(new AsyncCallback<Integer>() {
@@ -158,18 +167,21 @@ public class PrioritizationView extends Composite {
 			}
 
 			@Override
-			public void onSuccess(Integer currentYear) {
-				listYears.addItem(currentYear + "");
-				listYears.addItem(currentYear + 1 + "");
-				listYears.addItem(currentYear + 2 + "");
-				listYears.addItem(currentYear + 3 + "");
-				listYears.addItem(currentYear + 4 + "");
-
-			}
+			public void onSuccess(Integer year) {
+				currentYear = year;
+				setValuesListBoxYear(currentYear);
+				if(asyncCallback != null) asyncCallback.onSuccess("");
+			}	
 		});
 
 	}
 
+	private void setValuesListBoxYear(Integer currentYear) {
+		listYears.clear();
+		for (int year=currentYear; year<=currentYear+4; year++)
+		listYears.addItem(Integer.toString(year));
+	}
+	
 	public Label getArea() {
 		return area;
 	}

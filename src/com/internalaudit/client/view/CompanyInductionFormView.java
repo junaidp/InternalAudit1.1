@@ -44,7 +44,7 @@ public class CompanyInductionFormView extends FlexTable implements Display {
 
 	private void layout() {
 		Label lblHeading = new Label("Company Induction Form");
-		lblHeading.addStyleName("labelHeading");
+		lblHeading.addStyleName("blue");
 		
 		LabelBold lblCmpanyName = new LabelBold("Company Name");
 		LabelBold lblPersonName = new LabelBold("Contact Person Name");
@@ -63,10 +63,17 @@ public class CompanyInductionFormView extends FlexTable implements Display {
 		setWidget(3,0, lblPersonEmail);
 		setWidget(4,0, lblCmpanyPackage);
 
-		setWidget(1,2, txtName);
-		setWidget(2,2, txtContactPeron);
-		setWidget(3,2, txtContactPersonEmail);
-		setWidget(4, 2, listPackages);
+		txtName.setWidth("250px");
+		txtContactPeron.setWidth("250px");
+		txtContactPersonEmail.setWidth("250px");
+		listPackages.setWidth("250px");
+		txtBoxUsersAllowed.setWidth("250px");
+		txtBoxMngmntUsersAllowed.setWidth("250px");
+		
+		setWidget(1,1, txtName);
+		setWidget(2,1, txtContactPeron);
+		setWidget(3,1, txtContactPersonEmail);
+		setWidget(4, 1, listPackages);
 		
 		LabelBold lblIncludeLibrary = new LabelBold("Include Library");
 		hpnlLblCheckBox.add(lblIncludeLibrary);
@@ -74,23 +81,24 @@ public class CompanyInductionFormView extends FlexTable implements Display {
 		hpnlCheckBox.add(includeLibray);
 		
 		setWidget(5, 0, hpnlLblCheckBox);
-		setWidget(5, 2, hpnlCheckBox);
+		setWidget(5, 1, hpnlCheckBox);
 		// hide check box in default
 		goldPackageWithLibrary(false);
 		
 		LabelBold lblNumOfEmployee = new LabelBold("Number of Users");
 		setWidget(6, 0, lblNumOfEmployee);
-		setWidget(6, 2, txtBoxUsersAllowed);
+		setWidget(6, 1, txtBoxUsersAllowed);
 		
 		LabelBold lblNumOfMngmnt = new LabelBold("Number of Management Users");
+		lblNumOfMngmnt.setWidth("210px");
 		setWidget(7, 0, lblNumOfMngmnt);
-		setWidget(7, 2, txtBoxMngmntUsersAllowed);
+		setWidget(7, 1, txtBoxMngmntUsersAllowed);
 		
 		HorizontalPanel hpnlButtons =  new HorizontalPanel();
 		hpnlButtons.add(btnCancel);
 		hpnlButtons.add(btnSubmit);
 		hpnlButtons.addStyleName("w3-right");
-		setWidget(8,2, hpnlButtons);
+		setWidget(8,1, hpnlButtons);
 		
 		lblCmpanyName.getElement().getStyle().setPaddingTop(5, Unit.PX);
 		lblPersonName.getElement().getStyle().setPaddingTop(5, Unit.PX);

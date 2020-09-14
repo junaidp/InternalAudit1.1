@@ -93,7 +93,7 @@ public class UserInductionFormView extends FlexTable implements Display {
 		dateAvailabalityTo.setWidth("80px");
 
 		Label lblHeading = new Label("User Induction Form");
-		lblHeading.addStyleName("labelHeading");
+		lblHeading.addStyleName("blue");
 
 		lblUserNameError.addStyleName("error");
 		lblEmailError.addStyleName("error");

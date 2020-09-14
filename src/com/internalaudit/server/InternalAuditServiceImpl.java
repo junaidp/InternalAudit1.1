@@ -147,16 +147,15 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 			session = getThreadLocalRequest().getSession(true);
 			Employee loggedInUser = (Employee) session.getAttribute("user");
 
-			////
-
-			int year = (Integer) session.getAttribute("year");
+			//commented by moqeet
+			//int year = (Integer) session.getAttribute("year");
 			int companyId = (Integer) session.getAttribute("companyId");
 
-			if (strategic.getYear() > year && hm.get("todo").equalsIgnoreCase("submit")) {
-				year = strategic.getYear();
-			}
+//			if (strategic.getYear() > year && hm.get("todo").equalsIgnoreCase("submit")) {
+//				year = strategic.getYear();
+//			}
 
-			return rdbHelper.saveStrategic(strategic, loggedInUser, hm, year, companyId);
+			return rdbHelper.saveStrategic(strategic, loggedInUser, hm, strategic.getYear(), companyId);
 		} else {
 
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);

@@ -13,6 +13,7 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -62,9 +63,9 @@ public class EditUserFormPresenter implements Presenter
 
 		ListBox getListSkills();
 
-		ButtonRound getBtnCancel();
+		Button getBtnCancel();
 
-		ButtonRound getBtnSubmit();
+		Button getBtnSubmit();
 
 		// TextBox getTxtEmail();
 		ListBox getListReportingTo();
@@ -235,7 +236,7 @@ public class EditUserFormPresenter implements Presenter
 
 			@Override
 			public void onClick(ClickEvent event) {
-				History.newItem("login");
+				History.newItem("createUser");
 			}
 		});
 

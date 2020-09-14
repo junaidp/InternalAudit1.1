@@ -18,6 +18,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -34,6 +35,7 @@ import com.internalaudit.client.widgets.TableauExcel;
 import com.internalaudit.client.widgets.TableauReports;
 import com.internalaudit.shared.Employee;
 import com.sencha.gxt.core.client.util.DelayedTask;
+import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.Dialog;
 import com.sencha.gxt.widget.core.client.Dialog.DialogMessages;
 import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
@@ -42,6 +44,7 @@ import com.sencha.gxt.widget.core.client.TabItemConfig;
 import com.sencha.gxt.widget.core.client.box.MessageBox;
 import com.sencha.gxt.widget.core.client.box.ProgressMessageBox;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer.AccordionLayoutAppearance;
 
 public class MainView extends Composite implements Display {
 
@@ -171,7 +174,7 @@ public class MainView extends Composite implements Display {
 		hpnlMain.add(hpnlHeader);
 		// hpnlHeader.addStyleName("blueBackground");
 		// hpnlHeader.setWidth(Window.getClientWidth()-imgHeader.getWidth()-170+"px");
-		hpnlHeader.setWidth("1000px");
+		hpnlHeader.setWidth("1050px");
 		hpnlHeader.setHeight("91px");
 		hpnlHeader.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		vpnl.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
@@ -296,7 +299,7 @@ public class MainView extends Composite implements Display {
 
 		initWidget(vp);
 	}
-
+		
 	private void confirmUpgradeSoftware() {
 		boolean confirm = Window.confirm("This will install the upgraded version of abilite, you want to continue ?");
 		if(confirm)
@@ -550,7 +553,7 @@ public class MainView extends Composite implements Display {
 			Image imgLogo = new Image(logoPath);
 			imgLogo.setSize("240px", "60px");	
 			vpnlLogo.add(imgLogo);
-		}
+    	}
 	}
 
 	public Anchor getChangePassword() {

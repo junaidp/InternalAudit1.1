@@ -65,7 +65,7 @@ public class CompanyInductionFormPresenter implements Presenter
 
 			@Override
 			public void onClick(ClickEvent event) {
-				History.newItem("login");
+				History.newItem("main");
 			}});
 		
 		display.getBtnSubmit().addClickHandler(new ClickHandler(){
@@ -73,8 +73,7 @@ public class CompanyInductionFormPresenter implements Presenter
 			@Override
 			public void onClick(ClickEvent event) {
 				addCompany();
-			}
-
+				}
 			});
 	}
 	
@@ -100,7 +99,7 @@ public class CompanyInductionFormPresenter implements Presenter
 			@Override
 			public void onSuccess(String result) {
 				new DisplayAlert("Company added");
-				History.newItem("login");
+				History.newItem("main");
 			}});
 		
 	}

@@ -56,10 +56,10 @@ public class PrioritizationViewData {
 		strategic.setAudit(prioritizationView.getAudit().getValue());
 
 		/////////////
-		strategic.setYear(Integer.parseInt(
-				prioritizationView.getListYears().getValue(prioritizationView.getListYears().getSelectedIndex())));
+//		strategic.setYear(Integer.parseInt(
+//				prioritizationView.getListYears().getValue(prioritizationView.getListYears().getSelectedIndex())));
+		strategic.setYear(Integer.parseInt(prioritizationView.getListYears().getSelectedValue()));
 		////////////
-
 		strategic.setNextPhase(5);
 		strategic.setPhase(4);
 		//
@@ -173,17 +173,28 @@ public class PrioritizationViewData {
 				loadingPopup.remove();
 				for (index = 0; index < strategics.size(); index++) {
 					final PrioritizationView prioritizationView = new PrioritizationView();
+					prioritizationView.fetchCurrentYear(new AsyncCallback<String>() {
 
+						@Override
+						public void onFailure(Throwable arg0) {
+							GWT.log("FAIL , fetchCurrent Year");
+						}
+//strategic.(index) change to 0 in listYear
+						@Override
+						public void onSuccess(String arg0) {
+							for (int i = 0; i < prioritizationView.getListYears().getItemCount(); i++) {
+								if (Integer.parseInt(prioritizationView.getListYears().getItemText(i)) == strategics.get(0).getYear()) {
+									prioritizationView.getListYears().setSelectedIndex(i);
+								}
+							}
+						}
+					} );
 					/// CHange here
 					// updateYear(prioritizationView, strategics.get(index),
 					// vpnlData);
 					prioritizationView.getAudit().setTitle(strategics.get(index).getComments());
-					for (int i = 0; i < prioritizationView.getListYears().getItemCount(); i++) {
-						if (Integer.parseInt(prioritizationView.getListYears().getItemText(i)) == strategics.get(index)
-								.getYear()) {
-							prioritizationView.getListYears().setSelectedIndex(i);
-						}
-					}
+					
+					
 					// prioritizationView.getListYears().setSelectedIndex(index);
 					//
 					if(strategics.get(index).getComments() != null && strategics.get(index).getComments().length()>1) 
@@ -332,6 +343,7 @@ public class PrioritizationViewData {
 					// updatedStrategics.add(prioritizationView);
 				}
 			}
+
 
 			private void updateYear(final PrioritizationView prioritizationView, final Strategic strategic,
 					final VerticalPanel vpnlData) {
