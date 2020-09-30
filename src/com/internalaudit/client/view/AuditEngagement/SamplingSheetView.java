@@ -13,13 +13,16 @@ import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 public class SamplingSheetView extends VerticalPanel {
 
 	VerticalLayoutContainer mainContainer = new VerticalLayoutContainer();
-	SamplingInputGrid sampligGrid;
+	SamplingInputGrid2 sampligGrid;
+	//SamplingInputGrid sampligGrid;
 	Button btnSubmit = new Button("Submit");
 
 	public SamplingSheetView(ArrayList<SamplingExcelSheetEntity> result, TextBox lblPopulationData,
 			TextBox lblSamplingSizeData, ListBox listBoxSamplingMethod, Integer auditStepId, Anchor lblSavedAuditReport, Anchor anchorExcelTemplate) {
 
-		sampligGrid = new SamplingInputGrid(result, lblPopulationData, lblSamplingSizeData, listBoxSamplingMethod, auditStepId , lblSavedAuditReport,anchorExcelTemplate);
+		//sampligGrid = new SamplingInputGrid(result, lblPopulationData, lblSamplingSizeData, listBoxSamplingMethod, auditStepId , lblSavedAuditReport,anchorExcelTemplate);
+		sampligGrid = new SamplingInputGrid2(result, lblPopulationData, lblSamplingSizeData, listBoxSamplingMethod, auditStepId , lblSavedAuditReport,anchorExcelTemplate);
+
 		add(sampligGrid);
 		// add(btnSubmit);
 	}

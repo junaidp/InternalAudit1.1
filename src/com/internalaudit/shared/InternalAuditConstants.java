@@ -6,6 +6,7 @@ public class InternalAuditConstants {
 	public static final String STRATEGICOBJECTIVEOWNER = "Objective Owner";
 	public static final String STRATEGICDEPT = "Department(s)";
 	public static final String STRATEGICLOCATION = "Division/Location";
+	public static final String STRATEGICLOBJECTIVES = "Objectives";
 	public static final String STRATEGICDATE = "Objective Acheivement Date";
 	public static final String RISKFACTORS = "Risk Factors";
 	public static final String RATING = "Rating";

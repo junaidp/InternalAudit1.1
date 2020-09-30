@@ -55,6 +55,7 @@ public class MainView extends Composite implements Display {
 	private Anchor changePassword = new Anchor("Change Password");	
 	private Anchor createCompany = new Anchor("Add Company");
 	private Anchor createUser = new Anchor("Add User");
+	private Anchor anchorSettings = new Anchor("Settings");
 	private ListBox listYears = new ListBox();
 	private Anchor welcome = new Anchor("");
 	private VerticalPanel vpnlAuditScheduing = new VerticalPanel();
@@ -260,7 +261,8 @@ public class MainView extends Composite implements Display {
 		// hpnl.add(panelBar);
 		// panelBar.add(welcome);
 		panelBar.add(feedBack);
-		panelBar.add(changePassword);
+		panelBar.add(anchorSettings); 
+//		panelBar.add(changePassword);
 		panelBar.add(logOut);
 		// hpnl.add(welcome); // Welcome <name>
 		// welcome.addStyleName("white");
@@ -293,6 +295,7 @@ public class MainView extends Composite implements Display {
 		feedBack.addStyleName("  w3-bar-item w3-hover-blue w3-right");
 		logOut.addStyleName(" w3-bar-item w3-hover-blue w3-right");
 		changePassword.addStyleName("white w3-bar-item w3-hover-blue w3-right");
+		anchorSettings.addStyleName("white w3-bar-item w3-hover-blue w3-right");
 		vpnl.setSpacing(2);
 		vpnl.setWidth("0%");
 		vpnl.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
@@ -562,5 +565,13 @@ public class MainView extends Composite implements Display {
 
 	public void setChangePassword(Anchor changePassword) {
 		this.changePassword = changePassword;
+	}
+
+	public Anchor getAnchorSettings() {
+		return anchorSettings;
+	}
+
+	public void setAnchorSettings(Anchor anchorSettings) {
+		this.anchorSettings = anchorSettings;
 	}
 }

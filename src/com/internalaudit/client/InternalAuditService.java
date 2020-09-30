@@ -369,5 +369,9 @@ public interface InternalAuditService extends RemoteService {
 
 	String upgradeSoftware();
 
+	String addDivision(String divisionName);
+
+	String addDepartment(int divisionID, String departmentName);
+
 	// ArrayList<ToDo> fetchUpdatedRaisedToDo(int employeeID) throws Exception;
 }

@@ -1903,4 +1903,16 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 			   return "Upgrade Unsuccessfull";
 			}
 	}
+
+	@Override 
+	public String addDivision(String divisionName) {
+		// TODO Auto-generated method stub
+		return rdbHelper.addDivision(divisionName);
+	}
+
+	@Override
+	public String addDepartment(int divisionID, String departmentName) {
+		// TODO Auto-generated method stub
+		return rdbHelper.addepartment(divisionID, departmentName);
+	}
 }

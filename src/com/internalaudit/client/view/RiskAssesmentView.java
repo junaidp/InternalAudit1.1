@@ -15,10 +15,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.view.data.RiskAssesmentStrategicViewData;
 import com.internalaudit.shared.InternalAuditConstants;
+import com.sencha.gxt.core.client.dom.ScrollSupport.ScrollMode;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.PlainTabPanel;
 import com.sencha.gxt.widget.core.client.TabItemConfig;
 import com.sencha.gxt.widget.core.client.TabPanel;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.event.BeforeExpandEvent;
 import com.sencha.gxt.widget.core.client.event.BeforeExpandEvent.BeforeExpandHandler;
 import com.sencha.gxt.widget.core.client.info.Info;
@@ -49,7 +51,7 @@ public class RiskAssesmentView extends Composite {
 
 	public void auditUniverseIdentificationTabs() {
 
-		VerticalPanel vp = new VerticalPanel();
+//		VerticalPanel vp = new VerticalPanel();
 
 		SelectionHandler<Widget> handler = new SelectionHandler<Widget>() {
 			@Override
@@ -61,52 +63,52 @@ public class RiskAssesmentView extends Composite {
 			}
 		};
 
-		final PlainTabPanel panel = new PlainTabPanel();
+//		final PlainTabPanel panel = new PlainTabPanel();
 		ScrollPanel sp = new ScrollPanel();
 
-		panel.setWidth(Window.getClientWidth());
-		final VerticalPanel vpnlStrategic = new VerticalPanel();
-		final VerticalPanel vpnlOperation = new VerticalPanel();
-		final VerticalPanel vpnlReporting = new VerticalPanel();
-		final VerticalPanel vpnlCompliance = new VerticalPanel();
+//		panel.setWidth(Window.getClientWidth());
+//		final VerticalPanel vpnlStrategic = new VerticalPanel();
+//		final VerticalPanel vpnlOperation = new VerticalPanel();
+//		final VerticalPanel vpnlReporting = new VerticalPanel();
+//		final VerticalPanel vpnlCompliance = new VerticalPanel();
 
-		panel.add(vpnlStrategic, "Strategic");
-		panel.add(vpnlOperation, "Operations");
-		panel.add(vpnlReporting, "Reporting");
-		panel.add(vpnlCompliance, "Compliance");
-		vpnlStrategic.add(flexPanelLayoutStrategic(0));
-		panel.setResizeTabs(true);
+//		panel.add(vpnlStrategic, "Strategic");
+//		panel.add(vpnlOperation, "Operations");
+//		panel.add(vpnlReporting, "Reporting");
+//		panel.add(vpnlCompliance, "Compliance");
+//		vpnlStrategic.add(flexPanelLayoutStrategic());
+//		panel.setResizeTabs(true);
 
-		panel.addSelectionHandler(new SelectionHandler<Widget>() {
+//		panel.addSelectionHandler(new SelectionHandler<Widget>() {
+//
+//			@Override
+//			public void onSelection(SelectionEvent<Widget> event) {
+//				TabPanel panel = (TabPanel) event.getSource();
+//				Widget w = event.getSelectedItem();
+//				TabItemConfig config = panel.getConfig(w);
+//				if (config.getText().equalsIgnoreCase("strategic")) {
+//					vpnlStrategic.clear();
+//					vpnlStrategic.add(flexPanelLayoutStrategic(0));
+//				} else if (config.getText().equalsIgnoreCase("operations")) {
+//					vpnlOperation.clear();
+//					vpnlOperation.add(flexPanelLayoutStrategic(1));
+//				} else if (config.getText().equalsIgnoreCase("Reporting")) {
+//					vpnlReporting.clear();
+//					vpnlReporting.add(flexPanelLayoutStrategic(2));
+//				} else if (config.getText().equalsIgnoreCase("Compliance")) {
+//					vpnlCompliance.clear();
+//					vpnlCompliance.add(flexPanelLayoutStrategic(3));
+//				}
+//
+//			}
+//		});
 
-			@Override
-			public void onSelection(SelectionEvent<Widget> event) {
-				TabPanel panel = (TabPanel) event.getSource();
-				Widget w = event.getSelectedItem();
-				TabItemConfig config = panel.getConfig(w);
-				if (config.getText().equalsIgnoreCase("strategic")) {
-					vpnlStrategic.clear();
-					vpnlStrategic.add(flexPanelLayoutStrategic(0));
-				} else if (config.getText().equalsIgnoreCase("operations")) {
-					vpnlOperation.clear();
-					vpnlOperation.add(flexPanelLayoutStrategic(1));
-				} else if (config.getText().equalsIgnoreCase("Reporting")) {
-					vpnlReporting.clear();
-					vpnlReporting.add(flexPanelLayoutStrategic(2));
-				} else if (config.getText().equalsIgnoreCase("Compliance")) {
-					vpnlCompliance.clear();
-					vpnlCompliance.add(flexPanelLayoutStrategic(3));
-				}
-
-			}
-		});
-
-		vp.add(panel);
+//		vp.add(panel);
 		mainPanel.clear();
-		mainPanel.add(vp);
+		mainPanel.add(flexPanelLayoutStrategic());
 	}
 
-	private Widget flexPanelLayoutStrategic(int tab) {
+	private Widget flexPanelLayoutStrategic() {
 
 		VerticalPanel strategicPanel = new VerticalPanel();
 		strategicPanel.add(saveRiskAssesment);
@@ -132,11 +134,12 @@ public class RiskAssesmentView extends Composite {
 		// strategicPanel.add(hpnlStrategic);
 		RiskAssesmentStrategicViewData riskAssesmentStrategicViewData = new RiskAssesmentStrategicViewData();
 
-		ScrollPanel scrollPanel = new ScrollPanel();
+		VerticalLayoutContainer scrollPanel = new VerticalLayoutContainer();
 		scrollPanel.setHeight("400px");
 		scrollPanel.setWidth("1200px");
-		scrollPanel.setWidget(strategicPanel);
-		riskAssesmentStrategicViewData.setData(strategicPanel, this, tab);
+		scrollPanel.setScrollMode(ScrollMode.AUTOY);
+		scrollPanel.add(strategicPanel);
+		riskAssesmentStrategicViewData.setData(strategicPanel, this);
 
 		return scrollPanel;
 	}

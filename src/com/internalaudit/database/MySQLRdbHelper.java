@@ -43,6 +43,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -127,6 +128,7 @@ import com.internalaudit.shared.StrategicDTO;
 import com.internalaudit.shared.StrategicDepartments;
 import com.internalaudit.shared.StrategicRisk;
 import com.internalaudit.shared.StrategicSubProcess;
+import com.internalaudit.shared.StrategicTabs;
 import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.SuggestedControls;
 import com.internalaudit.shared.TimeLineDates;
@@ -824,7 +826,8 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			String todo = hm.get("todo");
-			String tab = hm.get("tab");
+//			String tab = hm.get("tab");
+			String tab = "0";
 			saveOneStrategic(strategic, loggedInUser, todo, tab, year, companyId);
 			logger.info(
 					String.format("(Inside saveStrategic) saving strategic for year : " + year + " of User Logged In "
@@ -929,7 +932,7 @@ public class MySQLRdbHelper {
 			strategic.setTab(selectedTab);
 			strategic.setYear(year); // year Added
 			strategic.setCompanyId(companyId); // companyId Added
-
+			strategic.setArrayStrategicTabs(clientSideStrategic.getArrayStrategicTabs());
 			// session.saveOrUpdate(strategic.getApprovedBy());
 			// session.saveOrUpdate(strategic.getInitiatedBy());
 			// session.saveOrUpdate(strategic.getAssignedTo());
@@ -963,6 +966,7 @@ public class MySQLRdbHelper {
 			// saveStrategicAudit(strategic);
 			if (strategic.getPhase() == 1) {
 				saveDepartments(strategic);
+				saveStrategicTabs(strategic, session);
 			}
 			logger.info(String
 					.format("(Inside saveOneStrategic) saving one strategic for year : " + year + " of User Logged In "
@@ -1133,7 +1137,7 @@ public class MySQLRdbHelper {
 			// HERE Objective owner
 			stragicAudit.setPhase(strategic.getPhase() + "");
 			stragicAudit.setRating(strategic.getRating());
-			stragicAudit.setRelevantDepartment(strategic.getRelevantDepartment());
+//			stragicAudit.setRelevantDepartment(strategic.getRelevantDepartment());
 			RiskFactor riskFactor = (RiskFactor) session.get(RiskFactor.class, strategic.getRiskFactor().getRiskId());
 			stragicAudit.setRiskFactor(riskFactor);
 			stragicAudit.setStatus(strategic.getStatus());
@@ -1171,7 +1175,7 @@ public class MySQLRdbHelper {
 		// HERE Objective owner
 		strategic.setStrategicObjective(clientSideStrategic.getStrategicObjective());
 		strategic.setAcheivementDate(clientSideStrategic.getAcheivementDate());
-		strategic.setRelevantDepartment(clientSideStrategic.getRelevantDepartment());
+		//strategic.setRelevantDepartment(clientSideStrategic.getRelevantDepartment());
 		strategic.setAudit(clientSideStrategic.isAudit());
 
 		// Save List of subProcess against strategic.
@@ -1209,7 +1213,7 @@ public class MySQLRdbHelper {
 		strategic.setAcheivementDate(clientSideStrategic.getAcheivementDate());
 		// strategic.setObjectiveOwner(clientSideStrategic.getObjectiveOwner());//
 		// HERE Objective owner
-		strategic.setRelevantDepartment(clientSideStrategic.getRelevantDepartment());
+		//strategic.setRelevantDepartment(clientSideStrategic.getRelevantDepartment());
 		strategic.setAudit(clientSideStrategic.isAudit());
 		// Save List of subProcess against strategic.
 		// saveStrategicSubProcess(clientSideStrategic, session);
@@ -1259,7 +1263,7 @@ public class MySQLRdbHelper {
 		Session session = null;
 		System.out.println("inside fetchStrategic");
 		String phase = hm.get("phase");
-		int tab = Integer.parseInt(hm.get("tab"));
+//		int tab = Integer.parseInt(hm.get("tab"));
 		int year = Integer.parseInt(hm.get("year"));
 		int companyId = Integer.parseInt(hm.get("companyId"));
 		int phaseValue = Integer.parseInt(phase);
@@ -1277,16 +1281,16 @@ public class MySQLRdbHelper {
 			strategicAlias(crit);
 
 			/////////////////////
+			//crit.add(Restrictions.eq("strategicObjective", "testing with moqeet"));
 			crit.add(Restrictions.ge("phase", phaseValue));
 			crit.add(Restrictions.ne("status", "deleted"));
 			crit.add(Restrictions.eq("year", year));// Year check added
 			crit.add(Restrictions.eq("companyId", companyId));// companyId check
 			// added
 			crit.add(Restrictions.ne("status", "deleted"));
-
-			if (phaseValue == 1 || phaseValue == 2) {
-				crit.add(Restrictions.eq("tab", tab));
-			}
+//			if (phaseValue == 1 || phaseValue == 2) {
+//				crit.add(Restrictions.eq("tab", tab));
+//			}
 
 			List rsList = crit.list();
 
@@ -1296,6 +1300,7 @@ public class MySQLRdbHelper {
 				strategic.setDivision(fetchStrategicDivision(strategic, session));
 				strategic.setLoggedInUser(employeeId);
 				strategic.setListSubProcess(fetchStrategicSubProcess(strategic.getId(), session));
+				strategic.setArrayStrategicTabs(fetchStrategicTabs(strategic.getId(), session));
 				//////////// Dont sent those which are SAVED and are not belong
 				//////////// to loggedInUser
 
@@ -1425,6 +1430,28 @@ public class MySQLRdbHelper {
 
 		} 
 		return subProcess;
+	}
+	
+	private ArrayList<StrategicTabs> fetchStrategicTabs(int strategicId, Session session) {
+		ArrayList<StrategicTabs> arrayListStrategicTabs = new ArrayList<StrategicTabs>();
+		try {
+			Criteria crit = session.createCriteria(StrategicTabs.class);
+			crit.add(Restrictions.eq("strategicId", strategicId));
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				StrategicTabs strategicTab = (StrategicTabs) it.next();
+				arrayListStrategicTabs.add(strategicTab);
+
+			}
+			logger.info(String
+					.format("(Inside fetchStrategicTabs) fetching Strategic fetchStrategicTabs for strategicId : "
+							+ strategicId + new Date()));
+
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchStrategicTabs", ex.getMessage()), ex);
+
+		} 
+		return arrayListStrategicTabs;
 	}
 
 	private Division fetchStrategicDivision(Strategic strategic, Session session) {
@@ -1577,7 +1604,7 @@ public class MySQLRdbHelper {
 	public ArrayList<RiskAssesmentDTO> fetchRiskAssesment(HashMap<String, String> hm, int employeeId, int year,
 			int companyId) {
 
-		int tab = Integer.parseInt(hm.get("tab"));
+//		int tab = Integer.parseInt(hm.get("tab"));
 		String phase = hm.get("phase");
 		int phaseValue = Integer.parseInt(phase);
 		Session session = null;
@@ -1616,7 +1643,7 @@ public class MySQLRdbHelper {
 			// crit.add(Restrictions.eq("phase", "RiskAssesment"));
 			crit.add(Restrictions.ge("phase", 2));
 			crit.add(Restrictions.ne("status", "deleted"));
-			crit.add(Restrictions.eq("tab", tab));
+//			crit.add(Restrictions.eq("tab", tab));
 			crit.add(Restrictions.eq("year", year));// year added
 			crit.add(Restrictions.eq("companyId", companyId));// companyId added
 
@@ -1855,7 +1882,8 @@ public class MySQLRdbHelper {
 	public String saveRiskAssesment(ArrayList<StrategicRisk> strategicRisks, Employee loggedInUser,
 			HashMap<String, String> hm) {
 		String todo = hm.get("todo");
-		String tab = hm.get("tab");
+		String tab = "0";
+//		String tab = hm.get("tab");
 		int year = Integer.parseInt(hm.get("year"));
 		int companyId = Integer.parseInt(hm.get("companyId"));
 		saveOneStrategic(strategicRisks.get(0).getStrategicId(), loggedInUser, todo, tab, year, companyId);
@@ -2984,8 +3012,8 @@ public class MySQLRdbHelper {
 			jobCreation.setStrategic(strategic);
 			HibernateDetachUtility.nullOutUninitializedFields(jobCreation,
 					HibernateDetachUtility.SerializationType.SERIALIZATION);
-			HibernateDetachUtility.nullOutUninitializedFields(jobCreation.getStrategicId().getRelevantDepartment(),
-					HibernateDetachUtility.SerializationType.SERIALIZATION);
+//			HibernateDetachUtility.nullOutUninitializedFields(jobCreation.getStrategicId().getRelevantDepartment(),
+//					HibernateDetachUtility.SerializationType.SERIALIZATION);
 
 			logger.info(String.format("(Inside fetchCreatedJobs) fetching created jobs  for creatuinid : "
 					+ jobcreationId + "" + new Date()));
@@ -11042,45 +11070,105 @@ public class MySQLRdbHelper {
 											// samplingData.setId(rd.nextInt());
 				samplingData.setId(row.getRowNum());
 
+				
 				XSSFCell category = row.getCell((short) 0);
-				samplingData.setCategory(category.getStringCellValue());
+				
+				
+				  if(category.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+					  samplingData.setCategory(category.getNumericCellValue()+"");
+				  }
+				  else if(category.getCellType() == Cell.CELL_TYPE_STRING) {
+				    	 samplingData.setCategory(category.getStringCellValue());
+				    }
 				
 				XSSFCell desc = row.getCell((short) 4);
-				samplingData.setDescription(desc.getStringCellValue());
+					if(desc.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+						samplingData.setDescription(desc.getNumericCellValue()+"");
+					  }
+					  else if(desc.getCellType() == Cell.CELL_TYPE_STRING) {
+							samplingData.setDescription(desc.getStringCellValue());
+					    }
 				
 				XSSFCell name = row.getCell((short) 9);
-				samplingData.setName(name.getStringCellValue());
+				if(name.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+					samplingData.setName(name.getNumericCellValue() + "");
+				  }
+				  else if(name.getCellType() == Cell.CELL_TYPE_STRING) {
+						samplingData.setName(name.getStringCellValue());
+				    }
+			
 
+				XSSFCell docNo = row.getCell((short) 1);
 				
+					 if(docNo.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+						 samplingData.setDocNo(docNo.getNumericCellValue() + "");
+					  }
+					  else if(docNo.getCellType() == Cell.CELL_TYPE_STRING) {
+						  samplingData.setDocNo(docNo.getStringCellValue());
+					    }
 
+				 XSSFCell itemCode = row.getCell((short) 3);
+					
+					 if(itemCode.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+						 samplingData.setItemCode(itemCode.getNumericCellValue() + "");
+					  }
+					  else if(itemCode.getCellType() == Cell.CELL_TYPE_STRING) {
+						  samplingData.setItemCode(itemCode.getStringCellValue());
+					    }
+					 
+					 XSSFCell code = row.getCell((short) 8);
+						
+						if(code.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+							samplingData.setCode(code.getNumericCellValue()+ "");
+						  }
+						  else if(code.getCellType() == Cell.CELL_TYPE_STRING) {
+							  samplingData.setCode(code.getStringCellValue());
+						    }
+						 
 				// samplingData.setId(row.getRowNum());
 				
 
 				XSSFCell date = row.getCell((short) 2);
-				samplingData.setDate(date.getStringCellValue());
+				if(date.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+					samplingData.setDate(date.getNumericCellValue()+"");
+				  }
+				  else if(date.getCellType() == Cell.CELL_TYPE_STRING) {
+					  samplingData.setDate(date.getStringCellValue());
+				    }
+				
 
 			//	XSSFCell location = row.getCell((short) 5);
 
 				if (row.getRowNum() > 0) {
 					
-					XSSFCell docNo = row.getCell((short) 1);
-					samplingData.setDocNo(docNo.getNumericCellValue());
 					
-
-					XSSFCell itemCode = row.getCell((short) 3);
-					samplingData.setItemCode(itemCode.getNumericCellValue());
-					
+					System.out.println(row.getRowNum()+ "");
 					XSSFCell quantity = row.getCell((short) 5);
-					samplingData.setQuantity(quantity.getNumericCellValue());
+					if(quantity.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+						samplingData.setQuantity(quantity.getNumericCellValue() + "");
+					  }
+					  else if(quantity.getCellType() == Cell.CELL_TYPE_STRING) {
+						  samplingData.setQuantity(quantity.getStringCellValue());
+					    }
+					
 					
 					XSSFCell uCost = row.getCell((short) 6);
-					samplingData.setUcost(uCost.getNumericCellValue());
+					if(uCost.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+						samplingData.setUcost(uCost.getNumericCellValue()+ "");
+					  }
+					  else if(uCost.getCellType() == Cell.CELL_TYPE_STRING) {
+						  samplingData.setUcost(uCost.getStringCellValue());
+					    }
+					
 					
 					XSSFCell transCost = row.getCell((short) 7);
-					samplingData.setTransCost(transCost.getNumericCellValue());
+					if(transCost.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+						samplingData.setTransCost(transCost.getNumericCellValue()+ "");
+					  }
+					  else if(transCost.getCellType() == Cell.CELL_TYPE_STRING) {
+						  samplingData.setTransCost(transCost.getStringCellValue());
+					    }
 					
-					XSSFCell code = row.getCell((short) 8);
-					samplingData.setCode(code.getNumericCellValue());
 					
 					
 					listSampling.add(samplingData);
@@ -11272,4 +11360,92 @@ public class MySQLRdbHelper {
 	return employee;
 	}
 	
+	public String addDivision(String divisionName) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			Division div = new Division();
+			div.setDivisionName(divisionName);
+			session.saveOrUpdate(div);
+			session.flush();
+			logger.info(String.format("(Inside addDivision) adding Division : "	+ " " + new Date()));
+		}
+		   catch (Exception ex) {
+			logger.warn(String.format("Exception occured in addDivision", ex.getMessage()), ex);
+			return ex.getMessage();
+		} finally {
+			session.close();
+		}
+		return "Added Successfully";
+	}
+
+	public String addepartment(int divisionID, String departmentName) {
+		// TODO Auto-generated method stub
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			Department dept = new Department();
+			dept.setDivisionID(divisionID);
+			dept.setDepartmentName(departmentName);
+			session.saveOrUpdate(dept);
+			session.flush();
+			logger.info(String.format("(Inside addepartment) adding Department : "	+ " " + new Date()));
+		}
+		   catch (Exception ex) {
+			logger.warn(String.format("Exception occured in addepartment", ex.getMessage()), ex);
+			return ex.getMessage();
+		} finally {
+			session.close();
+		}
+		return "Added Successfully";
+	}
+	
+	private void saveStrategicTabs(Strategic strategic, Session session) {
+		deleteAlreadySavedStrategicTabs(strategic.getId());
+		try {
+
+			for (int i = 0; i < strategic.getArrayStrategicTabs().size(); i++) {
+				StrategicTabs strategicTab = new StrategicTabs();
+				strategicTab.setStrategicId(strategic.getId());
+				strategicTab.setStrategicTabId(strategic.getArrayStrategicTabs().get(i).getStrategicTabId());
+				session.saveOrUpdate(strategicTab);
+				session.flush();
+			}
+			logger.info(String.format("(Inside saveStrategicTabs) saving saveStrategicTabs for strategic : "
+					+ strategic.getStrategicObjective() + " " + new Date()));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in saveStrategicTabs", ex.getMessage()), ex);
+		}
+	}
+	
+	private boolean deleteAlreadySavedStrategicTabs(int strategicId) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(StrategicTabs.class);
+			// crit.createAlias("department", "dept");
+			crit.add(Restrictions.eq("strategicId", strategicId));
+			// crit.add(Restrictions.eq("dept.departmentId", departmentId));
+			List rsList = crit.list();
+
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				StrategicTabs strategicTab = (StrategicTabs) it.next();
+				session.delete(strategicTab);
+				session.flush();
+			}
+
+			logger.info(String
+					.format("(Inside deleteAlreadySavedStrategicTabs) deleteAlreadySavedStrategicTabs for strategicID : "
+							+ strategicId + " of Strategic Tab : " + new Date()));
+		} catch (Exception ex) {
+
+			logger.warn(String.format("Exception occured in deleteAlreadySavedStrategicTabs", ex.getMessage()),
+					ex);
+
+		} finally {
+			session.close();
+		}
+		return true;
+	}
+
 }

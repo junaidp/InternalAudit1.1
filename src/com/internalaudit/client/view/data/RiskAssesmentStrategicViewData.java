@@ -48,11 +48,11 @@ public class RiskAssesmentStrategicViewData {
 	private int selectedTab = 0;
 	private Logger logger = Logger.getLogger("RiskAssesmentStrategicViewData");
 
-	public void setData(VerticalPanel strategicPanel, RiskAssesmentView riskAssesmentView, int tab) {
+	public void setData(VerticalPanel strategicPanel, RiskAssesmentView riskAssesmentView) {
 
 		this.strategicPanel = strategicPanel;
 
-		fetchRiskFactors(riskAssesmentView, tab);
+		fetchRiskFactors(riskAssesmentView);
 		setHandlers();
 		updateFields();
 
@@ -121,7 +121,7 @@ public class RiskAssesmentStrategicViewData {
 		// }});
 	}
 
-	public void fetchRiskFactors(final RiskAssesmentView riskAssesmentView, final int tab) {
+	public void fetchRiskFactors(final RiskAssesmentView riskAssesmentView) {
 
 		rpcService.fetchRiskFactors(new AsyncCallback<ArrayList<RiskFactor>>() {
 
@@ -145,7 +145,7 @@ public class RiskAssesmentStrategicViewData {
 				for (int i = 0; i < risks.size(); i++) {
 					riskFactors.add(risks.get(i));
 				}
-				fetchStrategic(riskAssesmentView, tab);
+				fetchStrategic(riskAssesmentView, selectedTab);
 			}
 		});
 	}
@@ -154,7 +154,7 @@ public class RiskAssesmentStrategicViewData {
 		HashMap<String, String> hm = new HashMap<String, String>();
 		final LoadingPopup loadingPopup = new LoadingPopup();
 		loadingPopup.display();
-		hm.put("tab", tab + "");
+		hm.put("tab", "All");
 		hm.put("phase", "2");
 		rpcService.fetchRiskAssesment(hm, new AsyncCallback<ArrayList<RiskAssesmentDTO>>() {
 

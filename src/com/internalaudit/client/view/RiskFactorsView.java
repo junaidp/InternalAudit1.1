@@ -37,7 +37,7 @@ public class RiskFactorsView extends Composite {
 
 		rating = new ListBox();
 		rating.setEnabled(false);
-		rating.addItem("N/A");
+//		rating.addItem("N/A","0");
 
 		rating.setVisibleItemCount(1);
 
@@ -50,10 +50,10 @@ public class RiskFactorsView extends Composite {
 		probabality.setVisibleItemCount(1);
 		lbl = new Label("hello");
 
-		rating.addItem("N/A");
-		rating.addItem("Low");
-		rating.addItem("Medium");
-		rating.addItem("High");
+		rating.addItem("N/A", "0");
+		rating.addItem("Low", "1");
+		rating.addItem("Medium", "2");
+		rating.addItem("High", "3");
 
 		probabality.addItem("N/A", "0");
 		probabality.addItem("Low", "1");

@@ -124,33 +124,10 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 
 	private void setData(ArrayList<SamplingExcelSheetEntity> result) {
 		listSamplingSheet = new ArrayList<SamplingExcelSheetEntity>();
-		if (result != null && !result.isEmpty()) {
-			int i =0;
-			for (SamplingExcelSheetEntity samplingExcel : result) {
-				i++;
-				SamplingExcelSheetEntity sampling = new SamplingExcelSheetEntity();
-				sampling.setId(i);
-				sampling.setCategory(samplingExcel.getCategory());
-				sampling.setDocNo(samplingExcel.getDocNo());
-				sampling.setDate(samplingExcel.getDate());
-				sampling.setItemCode(samplingExcel.getItemCode());
-				sampling.setDescription(samplingExcel.getDescription());
-				sampling.setQuantity(samplingExcel.getQuantity());
-				sampling.setUcost(samplingExcel.getUcost());
-				sampling.setTransCost(samplingExcel.getTransCost());
-				sampling.setCode(samplingExcel.getCode());
-				sampling.setName(samplingExcel.getName());
-				
-				listSamplingSheet.add(sampling);
-			}
-			store.clear();
-		//	store.addAll(listSamplingSheet);
-
-		}
-
+		listSamplingSheet =result;
 	}
 
-	public Widget createGridFieldWork(TextBox lblPopulationData, TextBox lblSamplingSizeData,
+	public VerticalLayoutContainer createGridFieldWork(TextBox lblPopulationData, TextBox lblSamplingSizeData,
 			ListBox listBoxSamplingMethod) {
 
 		ColumnConfig<SamplingExcelSheetEntity, Integer> samplingSheetId = new ColumnConfig<SamplingExcelSheetEntity, Integer>(
@@ -208,10 +185,11 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 		pagingLoader = getLoader(store);
 		gridView = initialiseLiveGrid();
 		
-//		final Grid<SamplingExcelSheetEntity> grid = new Grid<SamplingExcelSheetEntity>(store, cm);
 		
 		// grid.setWidth(580);offi
-		grid = new Grid<SamplingExcelSheetEntity>(store, cm) {
+	//	grid = new Grid<SamplingExcelSheetEntity>(store, cm) {
+		final Grid<SamplingExcelSheetEntity> grid = new Grid<SamplingExcelSheetEntity>(store, cm) {
+
 			@Override
 			protected void onAfterFirstAttach() {
 				super.onAfterFirstAttach();
@@ -224,21 +202,6 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 			}
 		};
 
-		/*grid.getView().setAutoExpandColumn(samplingSheetId);
-		grid.getView().setForceFit(true);
-		grid.getView().setStripeRows(true);
-		grid.getView().setColumnLines(true); */
-		/*VerticalLayoutContainer p = new VerticalLayoutContainer();
-		p.setHeight("200px");
-		p.setScrollMode(ScrollMode.AUTO);
-
-		p.add(grid);*/
-
-		
-/*		VerticalLayoutContainer con = new VerticalLayoutContainer();
-		con.add(p, new VerticalLayoutData(1, 1));*/
-		// con.add(, new VerticalLayoutData(1, 1));
-		
 		grid.setLoader(pagingLoader);
 		grid.setLoadMask(true);
 		grid.setView(gridView);
@@ -254,35 +217,23 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 		panelExportButton.add(btnExportPDF);
 		
 		panel = new ContentPanel();
-		panel.setHeight(220);
-		panel.setWidth(700);
+		panel.setHeight(320);
+		panel.setWidth(1000);
 		panel.add(grid);
 		
-		final PagingToolBar toolBar1 = new PagingToolBar(50);
-	      toolBar.setBorders(false);
-	      verticalLayoutContainer.add(toolBar, new VerticalLayoutData(1, 25));
-	      verticalLayoutContainer.add(panel, new VerticalLayoutData(1, 500));
-	      verticalLayoutContainer.add(panelExportButton, new VerticalLayoutData(1, 50));
-	      verticalLayoutContainer.setSize("1190px", "350px");
-		return verticalLayoutContainer;
+	  verticalLayoutContainer.add(toolBar, new VerticalLayoutData(1, 25));
+	  verticalLayoutContainer.add(grid, new VerticalLayoutData(1, 500));
+	  verticalLayoutContainer.add(btnSubmit, new VerticalLayoutData(1,50));
+	  verticalLayoutContainer.add(panelExportButton, new VerticalLayoutData(1,50));
+	  verticalLayoutContainer.setSize("1190px", "550px");
+	      
+	  return verticalLayoutContainer;
 		
-
-//		VerticalLayoutContainer con1 = new VerticalLayoutContainer();
-
-//		final PagingToolBar toolBar = new PagingToolBar(50);
-//	      toolBar.setBorders(false);
-//	      con.add(toolBar);
-//	    //  toolBar.bind(loader);
-		
-//		panel.setSize("1190px", "350px");
-////		panel.setHeadingText("Sampling Input");
-//		panel.setHeaderVisible(false);
-		
-//	sssssssss
 	}
 
 	private LiveGridView<SamplingExcelSheetEntity> initialiseLiveGrid()
 	{
+		//Window.alert("286livegrid");
 		return new LiveGridView<SamplingExcelSheetEntity>()
 		{
 			@Override
@@ -310,12 +261,12 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 			@Override
 			public void load(FilterPagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<SamplingExcelSheetEntity>> callback)
 			{
-
+			//	Window.alert( "CAllsda");
 				getDatas(loadConfig, callback);
 			}
 		};
 		PagingLoader<FilterPagingLoadConfig, PagingLoadResult<SamplingExcelSheetEntity>> loader = new PagingLoader<FilterPagingLoadConfig, PagingLoadResult<SamplingExcelSheetEntity>>(proxy);
-
+		//Window.alert("319");
 		loader.useLoadConfig(new FilterPagingLoadConfigBean());
 		loader.addLoadHandler(new LoadResultListStoreBinding<FilterPagingLoadConfig, SamplingExcelSheetEntity, PagingLoadResult<SamplingExcelSheetEntity>>(store));
 
@@ -327,6 +278,7 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 	
 	private void getDatas(FilterPagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<SamplingExcelSheetEntity>> callback)
 	{
+		//Window.alert("getDAta 331");
 		try
 		{
 			if (listSamplingSheet == null)
@@ -334,14 +286,14 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 				callback.onFailure(new Exception("empty Sample"));
 				return;
 			}
-			Window.alert(loadConfig.getOffset()+"odffset");
+			//Window.alert(loadConfig.getOffset()+"odffset");
 			final int offset = loadConfig.getOffset();
-			Window.alert(offset + "q");
+			//Window.alert(offset + "q");
 			int limit = loadConfig.getLimit();
 			final List<SamplingExcelSheetEntity> datas = new ArrayList<SamplingExcelSheetEntity>();
-			Window.alert(limit + "q" +  listSamplingSheet.size());
+			//Window.alert(limit + "q" +  listSamplingSheet.size());
 			int end = offset + limit;
-			Window.alert(end +"end");
+			//Window.alert(end +"end");
 			if(end > listSamplingSheet.size()) end = listSamplingSheet.size();
 			datas.clear();
 
@@ -470,6 +422,7 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 						Window.alert("Success");
 						exportList = samplingList;
 						setData(samplingList);
+					//	createGridFieldWork(lblPopulationData, lblSamplingSizeData, listBoxSamplingMethod);
 						panel.setHeadingText("Sampling Output");
 						btnSubmit.setVisible(false);
 						btnExportExcel.setVisible(true);
@@ -506,3 +459,26 @@ public class SamplingInputGrid extends VerticalLayoutContainer {
 	}
 
 }
+/*	if (result != null && !result.isEmpty()) {
+int i =0;
+for (SamplingExcelSheetEntity samplingExcel : result) {
+	i++;
+	SamplingExcelSheetEntity sampling = new SamplingExcelSheetEntity();
+	sampling.setId(i);
+	sampling.setCategory(samplingExcel.getCategory());
+	sampling.setDocNo(samplingExcel.getDocNo());
+	sampling.setDate(samplingExcel.getDate());
+	sampling.setItemCode(samplingExcel.getItemCode());
+	sampling.setDescription(samplingExcel.getDescription());
+	sampling.setQuantity(samplingExcel.getQuantity());
+	sampling.setUcost(samplingExcel.getUcost());
+	sampling.setTransCost(samplingExcel.getTransCost());
+	sampling.setCode(samplingExcel.getCode());
+	sampling.setName(samplingExcel.getName());
+	
+	listSamplingSheet.add(sampling);
+
+store.clear();
+//	store.addAll(listSamplingSheet);
+
+}}*/

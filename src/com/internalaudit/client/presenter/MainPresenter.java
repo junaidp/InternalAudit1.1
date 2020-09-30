@@ -34,6 +34,7 @@ import com.internalaudit.client.view.ChangePassword;
 import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.client.view.PopupsView;
+import com.internalaudit.client.view.SettingMenuView;
 import com.internalaudit.client.widgets.FeedbackWidget;
 import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.Feedback;
@@ -87,6 +88,8 @@ public class MainPresenter implements Presenter
 		Anchor getFeedBack();
 		
 		Anchor getChangePassword();
+		
+		Anchor getAnchorSettings();
 
 		VerticalLayoutContainer getVpnlDashBoardNew();
 
@@ -247,14 +250,24 @@ public class MainPresenter implements Presenter
 
 		});
 		
-		display.getChangePassword().addClickHandler(new ClickHandler() {
-
+//		display.getChangePassword().addClickHandler(new ClickHandler() {
+//
+//			@Override
+//			public void onClick(ClickEvent event) { 
+//				ChangePassword changePassword = new ChangePassword(loggedInUser);
+//				final PopupsView popup = new PopupsView(changePassword, "Change Password");
+//				changePassword.setPopUp(popup);
+//				popup.hideCloseBtn();  
+//			}
+//		});
+		
+		display.getAnchorSettings().addClickHandler(new ClickHandler() {
+			
 			@Override
-			public void onClick(ClickEvent event) { 
-				ChangePassword changePassword = new ChangePassword(loggedInUser);
-				final PopupsView popup = new PopupsView(changePassword, "Change Password");
-				changePassword.setPopUp(popup);
-				popup.hideCloseBtn();  
+			public void onClick(ClickEvent arg0) {
+//				SettingMenuView settingMenu = new SettingMenuView(loggedInUser);
+//				PopupsView popUp = new PopupsView(settingMenu, "Settings");
+				History.newItem("settings");
 			}
 		});
 

@@ -4,6 +4,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -37,12 +38,12 @@ public class AuditUniverseStrategicView extends Composite {
 	private Image submitted = new Image(" images/tick.png ");
 
 	private int strategicId;
-	private ButtonRound btnSave = new ButtonRound("Save");
-	private ButtonRound btnSubmit = new ButtonRound("Submit");
-	private ButtonRound btnApprove = new ButtonRound("Approve");
-	private ButtonRound btnDecline = new ButtonRound("Delete");
-	private ButtonRound btnDeclineInitiator = new ButtonRound("Delete");
-	private ButtonRound btnFeedback = new ButtonRound("Feedback");
+	private Button btnSave = new Button("Save");
+	private Button btnSubmit = new Button("Submit");
+	private Button btnApprove = new Button("Approve");
+	private Button btnDecline = new Button("Delete");
+	private Button btnDeclineInitiator = new Button("Delete");
+	private Button btnFeedback = new Button("Feedback");
 	private HorizontalPanel hpnlButtonInitiator = new HorizontalPanel();
 	private HorizontalPanel hpnlButtonsApprovar = new HorizontalPanel();
 	private String comment;
@@ -50,6 +51,7 @@ public class AuditUniverseStrategicView extends Composite {
 	private ScrollPanel relevantDepartmentPanel = new ScrollPanel();
 	private VerticalPanel vpnlRelevantDepartmentPanel = new VerticalPanel();
 	private ListBox listBoxDivision = new ListBox();
+	private ListBox listStrategicTabs = new ListBox();
 
 	public AuditUniverseStrategicView() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -66,9 +68,9 @@ public class AuditUniverseStrategicView extends Composite {
 
 	private void mainPanelLayout() {
 	strategicObjective.setEmptyText("Enter Objective");
-	listBoxDivision.setWidth("190px");
+	listBoxDivision.setWidth("180px");
 	listRelevantDepartment.setWidth("180px");
-	strategicObjective.setWidth("610px");
+	strategicObjective.setWidth("600px");
 	VerticalPanel vpnlStrategicId = new VerticalPanel();
 	VerticalPanel vpnlStrategicObjective = new VerticalPanel();
 	//vpnlStrategicObjective.setWidth("805px");
@@ -94,10 +96,11 @@ public class AuditUniverseStrategicView extends Composite {
 	vpnlStrategicId.add(lblStrategicId);
 	listRelevantDepartment.setMultipleSelect(true);
 	vpnlRelevantDivision.add(listBoxDivision );
+	vpnlRelevantDivision.add(feedback);
 	ScrollPanel scrollDivisionPanel =  new ScrollPanel();
 	vpnlRelevantDivision.add(scrollDivisionPanel);
 	//scrollDivisionPanel.add(vpnlRelevantDivisionPanel);
-	scrollDivisionPanel.setHeight("30px");
+	vpnlRelevantDivision.setHeight("30px");
 	vpnlRelevantDivision.setSpacing(1);
 	vpnlRelevantDepartments.setSpacing(1);
 	vpnlRelevantDepartments.add(listRelevantDepartment);
@@ -116,13 +119,18 @@ public class AuditUniverseStrategicView extends Composite {
 	hpnlStrategic.add(vpnlStrategicObjective);
 	HorizontalPanel hpnlComments = new HorizontalPanel();
 
-	hpnlComments.setWidth("125px");
-	hpnlComments.add(feedback);
-	feedback.getElement().getStyle().setMarginLeft(25, Unit.PX);
+	hpnlComments.setWidth("35px");
+	//hpnlComments.add(feedback);
+	feedback.getElement().getStyle().setPaddingTop(25, Unit.PX);
+	feedback.getElement().getStyle().setPaddingRight(15, Unit.PX);
+	feedback.addStyleName("w3-right");
 	hpnlComments.add(submitted);
 	hpnlStrategic.add(hpnlComments);
+	listStrategicTabs.setMultipleSelect(true);
+	listStrategicTabs.setWidth("100px");
 	hpnlStrategic.add(vpnlRelevantDivision);
 	hpnlStrategic.add(vpnlRelevantDepartments);
+	hpnlStrategic.add(listStrategicTabs);
 
 	hpnlButtonInitiator.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 	mainPanel.add(hpnlStrategic);
@@ -227,19 +235,19 @@ public class AuditUniverseStrategicView extends Composite {
 		this.feedback = feedback ;
 	}
 
-	public ButtonRound getBtnSave() {
+	public Button getBtnSave() {
 		return btnSave;
 	}
 
-	public void setBtnSave(ButtonRound btnSave) {
+	public void setBtnSave(Button btnSave) {
 		this.btnSave = btnSave;
 	}
 
-	public ButtonRound getBtnSubmit() {
+	public Button getBtnSubmit() {
 		return btnSubmit;
 	}
 
-	public void setBtnSubmit(ButtonRound btnSubmit) {
+	public void setBtnSubmit(Button btnSubmit) {
 		this.btnSubmit = btnSubmit;
 	}
 
@@ -251,27 +259,27 @@ public class AuditUniverseStrategicView extends Composite {
 		this.hpnlButtonInitiator = hpnlButtonInitiator;
 	}
 
-	public ButtonRound getBtnApprove() {
+	public Button getBtnApprove() {
 		return btnApprove;
 	}
 
-	public void setBtnApprove(ButtonRound btnApprove) {
+	public void setBtnApprove(Button btnApprove) {
 		this.btnApprove = btnApprove;
 	}
 
-	public ButtonRound getBtnDecline() {
+	public Button getBtnDecline() {
 		return btnDecline;
 	}
 
-	public void setBtnDecline(ButtonRound btnDecline) {
+	public void setBtnDecline(Button btnDecline) {
 		this.btnDecline = btnDecline;
 	}
 
-	public ButtonRound getBtnAmend() {
+	public Button getBtnAmend() {
 		return btnFeedback;
 	}
 
-	public void setBtnAmend(ButtonRound btnAmend) {
+	public void setBtnAmend(Button btnAmend) {
 		this.btnFeedback = btnAmend;
 	}
 
@@ -283,11 +291,11 @@ public class AuditUniverseStrategicView extends Composite {
 		this.hpnlButtonsApprovar = hpnlButtonsApprovar;
 	}
 
-	public ButtonRound getBtnDeclineInitiator() {
+	public Button getBtnDeclineInitiator() {
 		return btnDeclineInitiator;
 	}
 
-	public void setBtnDeclineInitiator(ButtonRound btnDeclineInitiator) {
+	public void setBtnDeclineInitiator(Button btnDeclineInitiator) {
 		this.btnDeclineInitiator = btnDeclineInitiator;
 	}
 
@@ -329,6 +337,14 @@ public class AuditUniverseStrategicView extends Composite {
 
 	public void setSubmitted(Image submitted) {
 		this.submitted = submitted;
+	}
+
+	public ListBox getListStrategicTabs() {
+		return listStrategicTabs;
+	}
+
+	public void setListStrategicTabs(ListBox listStrategicTabs) {
+		this.listStrategicTabs = listStrategicTabs;
 	}
 
 }

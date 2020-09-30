@@ -36,8 +36,10 @@ import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.RiskFactor;
 import com.internalaudit.shared.Strategic;
 import com.internalaudit.shared.StrategicDepartments;
+import com.internalaudit.shared.StrategicTabs;
 import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.TimeOutException;
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 import com.sencha.gxt.core.client.util.DelayedTask;
 
 public class AuditUniverseStrategicViewData {
@@ -49,8 +51,10 @@ public class AuditUniverseStrategicViewData {
 	private ArrayList<Division> divisions = new ArrayList<Division>();
 	private String actionperformed;
 	private Logger logger = Logger.getLogger("AuditUniverStrategicViewData");
-
-	public void setData(final AuditUniverseStrategicView auditUniverseStrategicView) {
+	private int currentYear = 2020; 
+	private ArrayList<StrategicTabs> arrayStrategicTabs = new ArrayList<StrategicTabs>();
+	
+	public void setData() {
 		// this.auditUniverseStrategicView = auditUniverseStrategicView;
 		fetchObjectiveOwners();
 		fetchDivisions();
@@ -59,9 +63,9 @@ public class AuditUniverseStrategicViewData {
 
 	public void declineStrategic(int strategicId, final VerticalPanel vpnlStrategic,
 			final HorizontalPanel hpnlButtonInitiator, final HorizontalPanel hpnlButtonsApprovar, final Image btnAdd,
-			final int tab, final ButtonRound buttonRound) {
+			final int tab, final Button button) {
 
-		buttonRound.setEnabled(false);
+		button.setEnabled(false);
 		rpcService.declineStrategic(strategicId, new AsyncCallback<String>() {
 
 			@Override
@@ -77,16 +81,16 @@ public class AuditUniverseStrategicViewData {
 															// NOT Method Name..
 				}
 
-				buttonRound.setEnabled(true);
+				button.setEnabled(true);
 				Window.alert("decline strategic failed");
 			}
 
 			@Override
 			public void onSuccess(String result) {
-				buttonRound.setEnabled(true);
+				button.setEnabled(true);
 				vpnlStrategic.clear();
 
-				fetchStrategic(vpnlStrategic, hpnlButtonInitiator, hpnlButtonsApprovar, btnAdd, tab);
+				fetchStrategic(vpnlStrategic, hpnlButtonInitiator, hpnlButtonsApprovar, btnAdd);
 
 			}
 		});
@@ -94,7 +98,7 @@ public class AuditUniverseStrategicViewData {
 
 	public void saveStrategic(final AuditUniverseStrategicView strategicView, final VerticalPanel vpnlStrategicData,
 			final HorizontalPanel hpnlButtonInitiator, final HorizontalPanel hpnlButtonsApprovar, final Image btnAdd,
-			String todo, int tab, ButtonRound buttonRound) {
+			String todo, Button button) {
 		final ArrayList<Strategic> strategics = new ArrayList<Strategic>();
 
 		if (strategicView.getStrategicObjective().getText().equals("")
@@ -106,7 +110,7 @@ public class AuditUniverseStrategicViewData {
 			// hpnlButtonsApprovar, btnAdd, todo,
 			// strategics, tab, buttonClicked);
 			saveStrategicToServer(strategicView, vpnlStrategicData, hpnlButtonInitiator, hpnlButtonsApprovar, btnAdd,
-					todo, strategics, tab, buttonRound);
+					todo, strategics, button);
 
 		}
 	}
@@ -134,7 +138,7 @@ public class AuditUniverseStrategicViewData {
 			public void onSuccess(Boolean dateValidt) {
 				if (dateValidt) {
 					saveStrategicToServer(strategicView, vpnlStrategicData, hpnlButtonInitiator, hpnlButtonsApprovar,
-							btnAdd, todo, strategics, tab, buttonClicked);
+							btnAdd, todo, strategics, buttonClicked);
 				} else {
 					Window.alert("Date not valid");
 				}
@@ -146,9 +150,9 @@ public class AuditUniverseStrategicViewData {
 	private void saveStrategicToServer(final AuditUniverseStrategicView strategicView,
 			final VerticalPanel vpnlStrategicData, final HorizontalPanel hpnlButtonInitiator,
 			final HorizontalPanel hpnlButtonsApprovar, final Image btnAdd, String todo,
-			final ArrayList<Strategic> strategics, final int tab, final ButtonRound buttonRound) {
+			final ArrayList<Strategic> strategics, final Button button) {
 
-		buttonRound.setEnabled(false);
+		button.setEnabled(false);
 		Strategic strategic = new Strategic();
 		strategic.setAcheivementDate(strategicView.getObjectiveAchievementDate().getCurrentValue());
 		Employee employee = new Employee();
@@ -167,7 +171,7 @@ public class AuditUniverseStrategicViewData {
 		// department.setDepartmentId(Integer.parseInt(strategicView.getRelevantDepartment().getValue(strategicView.getRelevantDepartment().getSelectedIndex())));
 		//////
 		setDepartments(strategicView.getListRelevantDepartment(), strategic);
-		strategic.setRelevantDepartment(department);
+		//strategic.setRelevantDepartment(department);
 		strategic.setStrategicObjective(strategicView.getStrategicObjective().getText());
 		//added by Moqeet
 		for(int i = 0; i <strategicView.getListBoxDivision().getItemCount(); i++) {
@@ -180,6 +184,7 @@ public class AuditUniverseStrategicViewData {
 		strategic.setNextPhase(2);
 		// strategic.setNextPhase("RiskAssesment");
 		strategic.setComments(strategicView.getComment());
+		strategic.setYear(fetchCurrentYear());
 		// strategic.setRatingComments();
 		// strategics.add(strategic);
 
@@ -189,7 +194,8 @@ public class AuditUniverseStrategicViewData {
 			todo = "submit";
 		}
 		hm.put("todo", todo);
-		hm.put("tab", tab + "");
+//		hm.put("tab", strategicView.getListStrategicTabs().getSelectedValue());
+		strategic.setArrayStrategicTabs(setStrategicTabs(strategic.getId(), strategicView.getListStrategicTabs()));
 		rpcService.saveStrategic(strategic, hm, new AsyncCallback<String>() {
 
 			@Override
@@ -206,13 +212,13 @@ public class AuditUniverseStrategicViewData {
 														// Name..
 				}
 
-				buttonRound.setEnabled(true);
+				button.setEnabled(true);
 				Window.alert("save strategic failed");
 			}
 
 			@Override
 			public void onSuccess(String arg0) {
-				buttonRound.setEnabled(true);
+				button.setEnabled(true);
 				vpnlStrategicData.clear();
 				final DecoratedPopupPanel popup = new DecoratedPopupPanel();
 				if (actionperformed.equalsIgnoreCase("save")) {
@@ -238,7 +244,7 @@ public class AuditUniverseStrategicViewData {
 				time.schedule(1500);
 
 				// for(int i=0; i< strategicList.size(); i++){
-				fetchStrategic(vpnlStrategicData, hpnlButtonInitiator, hpnlButtonsApprovar, btnAdd, tab);
+				fetchStrategic(vpnlStrategicData, hpnlButtonInitiator, hpnlButtonsApprovar, btnAdd);
 				// }
 
 			}
@@ -423,12 +429,12 @@ public class AuditUniverseStrategicViewData {
 	}
 
 	public void fetchStrategic(final VerticalPanel vpnlStrategic, final HorizontalPanel hpnlButtonInitiator,
-			final HorizontalPanel hpnlButtonsApprovar, final Image btnAdd, int tab) {
+			final HorizontalPanel hpnlButtonsApprovar, final Image btnAdd) {
 		final LoadingPopup loadingPopup = new LoadingPopup();
 		loadingPopup.display();
 		HashMap<String, String> hm = new HashMap<String, String>();
 		hm.put("phase", "1");
-		hm.put("tab", tab + "");
+//		hm.put("tab", tab + "");
 		btnAdd.setVisible(false);
 		rpcService.fetchStrategic(hm, new AsyncCallback<ArrayList<Strategic>>() {
 
@@ -488,7 +494,11 @@ public class AuditUniverseStrategicViewData {
 	}
 
 	public void fetchDepartmentsDivision(final int divisionID, final ListBox listBoxDepartments, final ArrayList<StrategicDepartments> listSelectedDepartments) {
-
+		if(divisionID == 0) {
+			listBoxDepartments.clear();
+			listBoxDepartments.addItem("--Select Department--");
+		}
+		else {
 		rpcService.fetchDivisionDepartments(divisionID, new AsyncCallback<ArrayList<Department>>() {
 
 			@Override
@@ -507,9 +517,10 @@ public class AuditUniverseStrategicViewData {
 				}
 				if(!(listSelectedDepartments == null))
 					selectedSubProcess(listSelectedDepartments, listBoxDepartments);
+				}
 			}
-		}
 		});
+		}
 	}
 	
 	private void selectedSubProcess(ArrayList<StrategicDepartments> listSelectedDepartments, final ListBox listBox) {
@@ -534,6 +545,7 @@ public class AuditUniverseStrategicViewData {
 		auditUniverseStrategicView.getLstObjectiveOwner().setEnabled(false);
 		auditUniverseStrategicView.getListRelevantDepartment().setEnabled(false);
 		auditUniverseStrategicView.getListBoxDivision().setEnabled(false);
+		auditUniverseStrategicView.getListStrategicTabs().setEnabled(false);
 		auditUniverseStrategicView.getObjectiveAchievementDate().setEnabled(false);
 		auditUniverseStrategicView.getStrategicObjective().setEnabled(false);
 		auditUniverseStrategicView.getSubmitted().setVisible(true);
@@ -546,6 +558,7 @@ public class AuditUniverseStrategicViewData {
 		auditUniverseStrategicView.getLstObjectiveOwner().setEnabled(true);
 		auditUniverseStrategicView.getListRelevantDepartment().setEnabled(true);
 		auditUniverseStrategicView.getListBoxDivision().setEnabled(true);
+		auditUniverseStrategicView.getListStrategicTabs().setEnabled(true);
 		auditUniverseStrategicView.getObjectiveAchievementDate().setEnabled(true);
 		auditUniverseStrategicView.getStrategicObjective().setEnabled(true);
 		auditUniverseStrategicView.getSubmitted().setVisible(false);
@@ -626,6 +639,19 @@ public class AuditUniverseStrategicViewData {
 			auditUniverseStrategicView.getLstObjectiveOwner().addItem(objectiveOwners.get(j).getEmployeeName(),
 					objectiveOwners.get(j).getEmployeeId() + "");
 		}
+		
+		setListBoxStrategicData(auditUniverseStrategicView);
+		for(int m = 0; m < auditUniverseStrategicView.getListStrategicTabs().getItemCount(); m++) {
+			if(data.getArrayStrategicTabs() == null || data.getArrayStrategicTabs().isEmpty() ) {
+				if(data.getTab() == Integer.parseInt(auditUniverseStrategicView.getListStrategicTabs().getValue(m)))
+					auditUniverseStrategicView.getListStrategicTabs().setItemSelected(m, true);
+			}
+			else {
+			for(StrategicTabs strategicTab : data.getArrayStrategicTabs())
+				if(strategicTab.getStrategicTabId() == Integer.parseInt(auditUniverseStrategicView.getListStrategicTabs().getValue(m)))
+					auditUniverseStrategicView.getListStrategicTabs().setItemSelected(m, true);
+			}
+		}
 
 		for (int j = 0; j < auditUniverseStrategicView.getLstObjectiveOwner().getItemCount(); j++) {
 			// if(auditUniverseStrategicView.getLstObjectiveOwner().getValue(j).equals(result.get(i).getObjectiveOwner().getEmployeeId()+"")){
@@ -640,6 +666,8 @@ public class AuditUniverseStrategicViewData {
 					break;
 			}
 		}
+		
+		
 		fetchDepartmentsDivision(data.getDivisionID(), auditUniverseStrategicView.getListRelevantDepartment(), result.get(i).getStrategicDepartments());	
 		// LISTBOX OF DEPARTMENTS
 		//int loopSize = (result.get(i).getStatus().equals("saved"))? listDepartments.size(): auditUniverseStrategicView.getListRelevantDepartment().getItemCount();
@@ -675,7 +703,7 @@ public class AuditUniverseStrategicViewData {
 			@Override
 			public void onClick(ClickEvent event) {
 				saveStrategic(auditUniverseStrategicView, vpnlStrategic, hpnlButtonInitiator, hpnlButtonsApprovar,
-						btnAdd, "save", tab, auditUniverseStrategicView.getBtnSave());
+						btnAdd, "save", auditUniverseStrategicView.getBtnSave());
 			}
 		});
 
@@ -684,7 +712,7 @@ public class AuditUniverseStrategicViewData {
 			@Override
 			public void onClick(ClickEvent event) {
 				saveStrategic(auditUniverseStrategicView, vpnlStrategic, hpnlButtonInitiator, hpnlButtonsApprovar,
-						btnAdd, "submit", tab, auditUniverseStrategicView.getBtnSubmit());
+						btnAdd, "submit", auditUniverseStrategicView.getBtnSubmit());
 			}
 		});
 
@@ -693,7 +721,7 @@ public class AuditUniverseStrategicViewData {
 			@Override
 			public void onClick(ClickEvent event) {
 				saveStrategic(auditUniverseStrategicView, vpnlStrategic, hpnlButtonInitiator, hpnlButtonsApprovar,
-						btnAdd, "approve", tab, auditUniverseStrategicView.getBtnApprove());
+						btnAdd, "approve", auditUniverseStrategicView.getBtnApprove());
 			}
 		});
 
@@ -709,7 +737,7 @@ public class AuditUniverseStrategicViewData {
 					public void onClick(ClickEvent event) {
 						auditUniverseStrategicView.setComment(amendmentPopup.getComments().getText());
 						saveStrategic(auditUniverseStrategicView, vpnlStrategic, hpnlButtonInitiator,
-								hpnlButtonsApprovar, btnAdd, "amend", tab, amendmentPopup.getBtnSubmit());
+								hpnlButtonsApprovar, btnAdd, "amend", amendmentPopup.getBtnSubmit());
 						amendmentPopup.getPopupComments().removeFromParent();
 					}
 				});
@@ -750,11 +778,10 @@ public class AuditUniverseStrategicViewData {
 
 			@Override
 			public void onChange(ChangeEvent event) {
-				fetchDepartmentsDivision(
-						Integer.parseInt(auditUniverseStrategicView.getListBoxDivision()
+			fetchDepartmentsDivision(Integer.parseInt(auditUniverseStrategicView.getListBoxDivision()
 								.getValue(auditUniverseStrategicView.getListBoxDivision().getSelectedIndex())),
 						auditUniverseStrategicView.getListRelevantDepartment(), null);
-			}
+				}
 		});
 	}
 //
@@ -826,4 +853,41 @@ public class AuditUniverseStrategicViewData {
 
 	}
 
+	public void setListBoxStrategicData(AuditUniverseStrategicView auditUniverseStrategicView) {
+		auditUniverseStrategicView.getListStrategicTabs().addItem("Strategic", "0");
+		auditUniverseStrategicView.getListStrategicTabs().addItem("Operations", "1");
+		auditUniverseStrategicView.getListStrategicTabs().addItem("Reporting", "2");
+		auditUniverseStrategicView.getListStrategicTabs().addItem("Compliance", "3");
+	}
+	
+	private ArrayList<StrategicTabs> setStrategicTabs(int strategicID, ListBox listBoxTabs) {
+		arrayStrategicTabs.clear();
+		for (int i = 0; i < listBoxTabs.getItemCount(); i++) {
+			if (listBoxTabs.isItemSelected(i)) {
+				StrategicTabs strategicTab = new StrategicTabs();
+				strategicTab.setStrategicId(strategicID);
+				strategicTab.setStrategicTabId(Integer.parseInt(listBoxTabs.getValue(i)));
+				arrayStrategicTabs.add(strategicTab);
+			}
+		}
+		return arrayStrategicTabs;
+	}
+	
+	private int fetchCurrentYear() {
+		rpcService.fetchCurrentYear(new AsyncCallback<Integer>() {
+
+			@Override
+			public void onFailure(Throwable arg0) {
+				// TODO Auto-generated method stub
+				Window.alert("Unable to fetch current year for Strategic in Audit Universe Tab");
+			}
+
+			@Override
+			public void onSuccess(Integer arg0) {
+				// TODO Auto-generated method stub
+				currentYear = arg0;
+			}
+		});
+		return currentYear;
+	}
 }

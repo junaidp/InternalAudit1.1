@@ -379,4 +379,8 @@ public interface InternalAuditServiceAsync {
 
 	void upgradeSoftware(AsyncCallback<String> asyncCallback);
 
+	void addDivision(String divisionName, AsyncCallback<String> asyncCallback);
+
+	void addDepartment(int divisionID, String departmentName, AsyncCallback<String> asyncCallback);
+
 }

@@ -14,7 +14,7 @@ public class StrategicDTO implements Serializable{
 	 private int strategicId; // jobId
 	 private String jobName;
 	 private ArrayList<StrategicDepartments> departments = new ArrayList<StrategicDepartments>();
-	 
+	 private ArrayList<StrategicTabs> strategicTabs = new ArrayList<StrategicTabs>();
 	
 	private int tab;
 	 
@@ -92,6 +92,12 @@ public class StrategicDTO implements Serializable{
 	}
 	public void setDepartments(ArrayList<StrategicDepartments> departments) {
 		this.departments = departments;
+	}
+	public ArrayList<StrategicTabs> getStrategicTabs() {
+		return strategicTabs;
+	}
+	public void setStrategicTabs(ArrayList<StrategicTabs> strategicTabs) {
+		this.strategicTabs = strategicTabs;
 	}
 	
 }

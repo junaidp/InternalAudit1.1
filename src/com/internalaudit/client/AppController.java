@@ -52,6 +52,7 @@ import com.internalaudit.client.presenter.ReportingPresenter;
 import com.internalaudit.client.presenter.ReportsPresenter;
 import com.internalaudit.client.presenter.RequestUserNameFormPresenter;
 import com.internalaudit.client.presenter.ResetPasswordPresenter;
+import com.internalaudit.client.presenter.SettingMenuPresenter;
 import com.internalaudit.client.presenter.UserInductionFormPresenter;
 import com.internalaudit.client.view.AuditListingView;
 import com.internalaudit.client.view.AuditReportView;
@@ -62,6 +63,7 @@ import com.internalaudit.client.view.JobListingView;
 import com.internalaudit.client.view.LoginUi;
 import com.internalaudit.client.view.MainView;
 import com.internalaudit.client.view.RequestUserNameFormView;
+import com.internalaudit.client.view.SettingMenuView;
 import com.internalaudit.client.view.UserInductionFormView;
 import com.internalaudit.client.view.AuditEngagement.AuditEngagementView;
 import com.internalaudit.client.view.Reporting.ReportingView;
@@ -498,6 +500,13 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				}
 			}
 
+			if (eventToken.equals("settings")) {
+				presenter = new SettingMenuPresenter(rpcService, eventBus, new SettingMenuView(loggedInUser));
+				if (presenter != null) {
+					this.container = mainContainer;
+					presenter.go(container);
+				}
+			}
 			// else if (token.equals("main")) {
 			// presenter = new MainPresenter(rpcService, eventBus, new
 			// MainView(loggedInUser, selectedYear));

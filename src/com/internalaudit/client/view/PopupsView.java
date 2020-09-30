@@ -4,6 +4,7 @@ import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -22,6 +23,7 @@ public class PopupsView {
 	public HorizontalPanel getHpnlSPace() {
 		return hpnlSPace;
 	}
+
 
 	public void setHpnlSPace(HorizontalPanel hpnlSPace) {
 		this.hpnlSPace = hpnlSPace;
@@ -137,6 +139,13 @@ public class PopupsView {
 
 	public void setLabelheading(Label labelheading) {
 		this.labelheading = labelheading;
+	}
+	public Button getBtnClose() {
+		return btnClose;
+	}
+
+	public void setBtnClose(Button btnClose) {
+		this.btnClose = btnClose;
 	}
 
 }

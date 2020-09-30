@@ -174,6 +174,8 @@ public class Strategic implements Serializable {
 	@Transient
 	ArrayList<StrategicDepartments> strategicDepartments;
 	
+	@Transient ArrayList<StrategicTabs> arrayStrategicTabs;
+	
 	@Transient
 	Division division;
 
@@ -419,6 +421,14 @@ public class Strategic implements Serializable {
 
 	public void setProcess(Process process) {
 		this.process = process;
+	}
+
+	public ArrayList<StrategicTabs> getArrayStrategicTabs() {
+		return arrayStrategicTabs;
+	}
+
+	public void setArrayStrategicTabs(ArrayList<StrategicTabs> arrayStrategicTabs) {
+		this.arrayStrategicTabs = arrayStrategicTabs;
 	}
 
 	public void setSubProcess(SubProcess subProcess) {

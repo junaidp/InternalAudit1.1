@@ -128,6 +128,7 @@ public class SamplingFileUploader extends VerticalPanel {
 						listBoxSamplingMethod,auditStepId , lblSavedAuditReport, anchorExcelTemplate);
 				PopupsView pp = new PopupsView(samplingSheet, "Sampling", "1000px" ,"700px");
 				pp.getPopup().setPosition(15, 300);
+				pp.getBtnClose().setVisible(false);
 
 			}
 		});

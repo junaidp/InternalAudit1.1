@@ -22,6 +22,7 @@ public class AuditUniverseStrategicViewHeading extends Composite {
 		// Unit.PX);
 		//Label lblObjectiveOwner = new Label(InternalAuditConstants.STRATEGICOBJECTIVEOWNER);
 		// lblObjectiveOwner.getElement().getStyle().setFontSize(16, Unit.PX);
+		LabelHeading lblTabs = new LabelHeading(InternalAuditConstants.STRATEGICLOBJECTIVES);
 		LabelHeading relevantDivision = new LabelHeading();
 		relevantDivision.setText(InternalAuditConstants.STRATEGICLOCATION);
 		LabelHeading relevantDepartment = new LabelHeading();
@@ -45,11 +46,13 @@ public class AuditUniverseStrategicViewHeading extends Composite {
 		// hpnlStrategic.add(lblObjectiveOwner);
 		hpnlStrategic.add(relevantDivision);
 		hpnlStrategic.add(relevantDepartment);
+		hpnlStrategic.add(lblTabs);
 
 		hpnlStrategic.setWidth("100%");
 		// lblStrategicObjective.setWidth("553px");
 		// lblStrategicObjective.addStyleName("labelspace");
 		//lblObjectiveOwner.setWidth("180px");
+		lblTabs.setWidth("100px");
 		relevantDivision.setWidth("180px");
 		relevantDepartment.setWidth("180px");
 		objectiveId.setWordWrap(false);
@@ -60,7 +63,7 @@ public class AuditUniverseStrategicViewHeading extends Composite {
 		objectiveAchievementDate.addStyleName("labelTitle");
 		// objectiveId.addStyleName("labelTitle");
 		lblStrategicObjective.addStyleName("labelspace");
-		lblStrategicObjective.setWidth("610px");
+		lblStrategicObjective.setWidth("500px");
 		// objectiveId.addStyleName("white");
 	}
 

@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -14,7 +16,8 @@ import javax.persistence.Table;
 
 		private static final long serialVersionUID = 1L;
 
-		@Id 
+		@Id
+		@GeneratedValue(strategy = GenerationType.AUTO)
 		@Column(name="departmentId")
 		private int departmentId;
 		
@@ -23,6 +26,14 @@ import javax.persistence.Table;
 		
 		@Column(name="divisionID")
 		private int divisionID;
+
+		public int getDivisionID() {
+			return divisionID;
+		}
+
+		public void setDivisionID(int divisionID) {
+			this.divisionID = divisionID;
+		}
 
 		public int getDepartmentId() {
 			return departmentId;
