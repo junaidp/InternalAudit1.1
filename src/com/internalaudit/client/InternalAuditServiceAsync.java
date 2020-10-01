@@ -383,4 +383,12 @@ public interface InternalAuditServiceAsync {
 
 	void addDepartment(int divisionID, String departmentName, AsyncCallback<String> asyncCallback);
 
+	void editDivisionName(Division division, AsyncCallback<String> asyncCallback);
+
+	void editDepartmentName(Department department, AsyncCallback<String> asyncCallback);
+
+	void deleteDivision(int divisionID, AsyncCallback<String> asyncCallback);
+
+	void deleteDepartment(int departmentID, AsyncCallback<String> asyncCallback);
+
 }

@@ -1913,6 +1913,30 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	@Override
 	public String addDepartment(int divisionID, String departmentName) {
 		// TODO Auto-generated method stub
-		return rdbHelper.addepartment(divisionID, departmentName);
+		return rdbHelper.addDepartment(divisionID, departmentName);
+	}
+
+	@Override
+	public String editDivisionName(Division division) {
+		// TODO Auto-generated method stub
+		return rdbHelper.editDivisionName(division);
+	}
+
+	@Override
+	public String editDepartmentName(Department department) {
+		// TODO Auto-generated method stub
+		return rdbHelper.ediDepartmentName(department);
+	}
+
+	@Override
+	public String deleteDivision(int divisionID) {
+		// TODO Auto-generated method stub
+		return rdbHelper.deleteDivision(divisionID);
+	}
+
+	@Override
+	public String deleteDepartment(int departmentID) {
+		// TODO Auto-generated method stub
+		return rdbHelper.deleteDepartment(departmentID);
 	}
 }

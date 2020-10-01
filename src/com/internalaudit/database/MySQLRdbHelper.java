@@ -11379,7 +11379,7 @@ public class MySQLRdbHelper {
 		return "Added Successfully";
 	}
 
-	public String addepartment(int divisionID, String departmentName) {
+	public String addDepartment(int divisionID, String departmentName) {
 		// TODO Auto-generated method stub
 		Session session = null;
 		try {
@@ -11446,6 +11446,127 @@ public class MySQLRdbHelper {
 			session.close();
 		}
 		return true;
+	}
+
+	public String editDivisionName(Division division) {
+		Session session = null;
+		String msg = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(Division.class);
+			// crit.createAlias("department", "dept");
+			crit.add(Restrictions.eq("divisionID", division.getDivisionID()));
+			// crit.add(Restrictions.eq("dept.departmentId", departmentId));
+			List rsList = crit.list();
+
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				Division div = (Division) it.next();
+				div.setDivisionName(division.getDivisionName());
+				session.update(div);
+				session.flush();
+				msg = "Division name updated successfully";
+			}
+
+			logger.info(String
+					.format("(Inside editDivisionName) editDivisionName"));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in editDivisionName", ex.getMessage()),
+					ex);
+			msg = ex.getMessage(); 
+		} finally {
+			session.close();
+		}
+		return msg;
+	}
+
+	public String ediDepartmentName(Department department) {
+		Session session = null;
+		String msg = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(Department.class);
+			crit.add(Restrictions.eq("departmentId", department.getDepartmentId()));
+			// crit.add(Restrictions.eq("dept.departmentId", departmentId));
+			List rsList = crit.list();
+
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				Department dept = (Department) it.next();
+				dept.setDepartmentName(department.getDepartmentName());
+				session.update(dept);
+				session.flush();
+				msg = "Department name updated successfully";
+			}
+
+			logger.info(String
+					.format("(Inside ediDepartmentName) ediDepartmentName"));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in ediDepartmentName", ex.getMessage()),
+					ex);
+			msg = ex.getMessage(); 
+		} finally {
+			session.close();
+		}
+		return msg;
+	}
+
+	public String deleteDivision(int divisionID) {
+		Session session = null;
+		String msg = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(Division.class);
+			// crit.createAlias("department", "dept");
+			crit.add(Restrictions.eq("divisionID", divisionID));
+			// crit.add(Restrictions.eq("dept.departmentId", departmentId));
+			List rsList = crit.list();
+
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				Division div = (Division) it.next();
+				session.delete(div);
+				session.flush();
+				msg = "Division name deleted successfully";
+			}
+
+			logger.info(String
+					.format("(Inside deleteDivision) deleteDivision"));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in deleteDivision", ex.getMessage()),
+					ex);
+			msg = ex.getMessage(); 
+		} finally {
+			session.close();
+		}
+		return msg;
+	}
+
+	public String deleteDepartment(int departmentID) {
+		Session session = null;
+		String msg = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(Department.class);
+			// crit.createAlias("department", "dept");
+			crit.add(Restrictions.eq("departmentId", departmentID));
+			// crit.add(Restrictions.eq("dept.departmentId", departmentId));
+			List rsList = crit.list();
+
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				Department dept = (Department) it.next();
+				session.delete(dept);
+				session.flush();
+				msg = "Department name deleted successfully";
+			}
+
+			logger.info(String
+					.format("(Inside deleteDepartment) deleteDepartment"));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in deleteDepartment", ex.getMessage()),
+					ex);
+			msg = ex.getMessage(); 
+		} finally {
+			session.close();
+		}
+		return msg;
 	}
 
 }

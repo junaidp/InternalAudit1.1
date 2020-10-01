@@ -373,5 +373,13 @@ public interface InternalAuditService extends RemoteService {
 
 	String addDepartment(int divisionID, String departmentName);
 
+	String editDivisionName(Division division);
+
+	String editDepartmentName(Department department);
+
+	String deleteDivision(int divisionID);
+
+	String deleteDepartment(int departmentID);
+
 	// ArrayList<ToDo> fetchUpdatedRaisedToDo(int employeeID) throws Exception;
 }
