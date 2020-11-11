@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.google.gwt.user.client.ui.FileUpload;
 import com.internalaudit.client.view.InternalAuditReporting.AssesmentGridEntity;
 import com.internalaudit.shared.ActivityObjective;
 import com.internalaudit.shared.AssesmentGridDbEntity;
@@ -19,6 +20,7 @@ import com.internalaudit.shared.Company;
 import com.internalaudit.shared.DashBoardDTO;
 import com.internalaudit.shared.DashBoardNewDTO;
 import com.internalaudit.shared.DashboardListBoxDTO;
+import com.internalaudit.shared.DegreeImportance;
 import com.internalaudit.shared.Department;
 import com.internalaudit.shared.Division;
 import com.internalaudit.shared.Employee;
@@ -71,7 +73,7 @@ public interface InternalAuditService extends RemoteService {
 
 	String saveStrategic(Strategic strategic, HashMap<String, String> hm) throws Exception;
 
-	ArrayList<RiskFactor> fetchRiskFactors() throws Exception;
+	ArrayList<RiskFactor> fetchRiskFactors(int companyID) throws Exception;
 
 	ArrayList<Strategic> fetchStrategic(HashMap<String, String> hm) throws Exception;
 
@@ -380,6 +382,18 @@ public interface InternalAuditService extends RemoteService {
 	String deleteDivision(int divisionID);
 
 	String deleteDepartment(int departmentID);
+
+	String uploadCompanyLogo(String fileName, int companyID);
+
+	ArrayList<DegreeImportance> fetchDegreeImportance(int companyID);
+
+	ArrayList<DegreeImportance> saveDegreeImportance(ArrayList<DegreeImportance> arrayListDegreeImportance);
+
+	ArrayList<DegreeImportance> deleteDegreeImportance(int degreeID);
+
+	ArrayList<RiskFactor> saveRiskFactor(ArrayList<RiskFactor> arrayListRiskFacrors);
+
+	ArrayList<RiskFactor> deleteRiskFactor(int riskID);
 
 	// ArrayList<ToDo> fetchUpdatedRaisedToDo(int employeeID) throws Exception;
 }

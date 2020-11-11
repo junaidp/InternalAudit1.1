@@ -40,7 +40,6 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 	private Image delete;
 
 	public AuditWorkProgramUpload(final String subFolder, final String mainFolder) {
-		// FileUploadField f = new FileUploadField();
 
 		delete = new Image("images/deleteIcon.png");
 		form = new FormPanel();
@@ -54,13 +53,7 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 		uploadPanel = new VerticalPanel();
 		upload = new FileUpload();
 		upload.setName(subFolder + ":" + mainFolder);
-		upload.setTitle("AuditProcedureUploads");
-		// uploadPanel.add(f);
-		// FileUploader fa = new FileUploader();
 		uploadPanel.add(upload);
-		// uploadPanel.add(fa);
-
-		// Add a 'submit' button.
 		btnUpload = new Button("Upload");
 		btnUpload.getElement().getStyle().setMarginTop(3, Unit.PX);
 
@@ -69,8 +62,6 @@ public class AuditWorkProgramUpload extends VerticalPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				form.submit();
-				// btnSubmit.setVisible(false);
-
 			}
 		});
 

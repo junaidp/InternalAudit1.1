@@ -62,7 +62,7 @@ public class AuditPlanningView extends Composite {
 			// cp.add(new RiskAssesmentView(cp));
 			VerticalPanel vpnlRiskAssesment = new VerticalPanel();
 			vpnlRiskAssesment.setHeight("370px");
-			vpnlRiskAssesment.add(new RiskAssesmentView(cp));
+			vpnlRiskAssesment.add(new RiskAssesmentView(cp, loggedInUser.getCompanyId()));
 			cp.add(vpnlRiskAssesment);
 			con.add(cp);
 

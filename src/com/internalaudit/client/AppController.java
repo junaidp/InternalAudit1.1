@@ -501,7 +501,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			}
 
 			if (eventToken.equals("settings")) {
-				presenter = new SettingMenuPresenter(rpcService, eventBus, new SettingMenuView(loggedInUser));
+				presenter = new SettingMenuPresenter(rpcService, eventBus, loggedInUser.getCompanyId(), new SettingMenuView(loggedInUser));
 				if (presenter != null) {
 					this.container = mainContainer;
 					presenter.go(container);

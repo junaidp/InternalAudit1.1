@@ -19,6 +19,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.internalaudit.client.InternalAuditService;
@@ -35,6 +36,7 @@ import com.internalaudit.shared.Company;
 import com.internalaudit.shared.DashBoardDTO;
 import com.internalaudit.shared.DashBoardNewDTO;
 import com.internalaudit.shared.DashboardListBoxDTO;
+import com.internalaudit.shared.DegreeImportance;
 import com.internalaudit.shared.Department;
 import com.internalaudit.shared.Division;
 import com.internalaudit.shared.Employee;
@@ -164,11 +166,11 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	}
 
 	@Override
-	public ArrayList<RiskFactor> fetchRiskFactors() throws Exception {
+	public ArrayList<RiskFactor> fetchRiskFactors(int companyID) throws Exception {
 
 		if (isLoggedIn()) {
 
-			return rdbHelper.fetchRiskFactors();
+			return rdbHelper.fetchRiskFactors(companyID);
 
 		} else {
 
@@ -1925,7 +1927,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	@Override
 	public String editDepartmentName(Department department) {
 		// TODO Auto-generated method stub
-		return rdbHelper.ediDepartmentName(department);
+		return rdbHelper.editDepartmentName(department);
 	}
 
 	@Override
@@ -1939,4 +1941,41 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 		// TODO Auto-generated method stub
 		return rdbHelper.deleteDepartment(departmentID);
 	}
+
+	@Override
+	public String uploadCompanyLogo(String fileName, int companyID) {
+		// TODO Auto-generated method stub
+		return rdbHelper.uploadCompanyLogo(companyID, fileName);
+	}
+
+	@Override
+	public ArrayList<DegreeImportance> fetchDegreeImportance(int companyID) {
+		// TODO Auto-generated method stub
+		return rdbHelper.fetchDegreeImportance(companyID);
+	}
+
+	@Override
+	public ArrayList<DegreeImportance> saveDegreeImportance(ArrayList<DegreeImportance> arrayListDegreeImportance) {
+		// TODO Auto-generated method stub
+		return rdbHelper.saveDegreeImportance(arrayListDegreeImportance);
+	}
+
+	@Override
+	public ArrayList<DegreeImportance> deleteDegreeImportance(int degreeImportanceID) {
+		// TODO Auto-generated method stub
+		return rdbHelper.deleteDegreeImportance(degreeImportanceID);
+	}
+
+	@Override
+	public ArrayList<RiskFactor> saveRiskFactor(ArrayList<RiskFactor> arrayListRiskFacrors) {
+		// TODO Auto-generated method stub
+		return rdbHelper.saveRiskFactor(arrayListRiskFacrors);
+	}
+
+	@Override
+	public ArrayList<RiskFactor> deleteRiskFactor(int riskID) {
+		// TODO Auto-generated method stub
+		return rdbHelper.deleteRiskFactor(riskID);
+	}
+	
 }

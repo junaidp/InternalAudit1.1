@@ -121,7 +121,7 @@ public class ReportViewMain extends VerticalPanel {
 
 		dateBox.getElement().getStyle().setMarginLeft(7, Unit.PX);
 		listBoxJobs.getElement().getStyle().setMarginLeft(7, Unit.PX);
-		listBoxJobs.setWidth("800px");
+		listBoxJobs.setWidth("780px");
 		lblDate.getElement().getStyle().setMarginLeft(30, Unit.PX);
 
 		add(lblMain);

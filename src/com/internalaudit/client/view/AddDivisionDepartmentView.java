@@ -95,48 +95,48 @@ public class AddDivisionDepartmentView extends VerticalLayoutContainer {
 		vpnlMain.add(flexPanelData);
 		
 		//Division View
-		listBoxDivision.setWidth("200px");
+		listBoxDivision.setWidth("260px");
 		flexPanelData.setWidget(0, 0, listBoxDivision);
 				
 		hpnlButtonDivision.add(imgDeleteDivision);
 		hpnlButtonDivision.add(btnEditDivision);
-		hpnlButtonDivision.setWidth("210px");
+		hpnlButtonDivision.setWidth("150px");
 		flexPanelData.setWidget(0, 1, hpnlButtonDivision);
 		btnEditDivision.setVisible(false);
 		imgDeleteDivision.setVisible(false);
 		
-		txtEditDivision.setWidth("200px");
+		txtEditDivision.setWidth("260px");
 		txtEditDivision.setVisible(false);
 		btnSaveEditDivision.setVisible(false);
 		flexPanelData.setWidget(1, 0, txtEditDivision);
 		flexPanelData.setWidget(1, 1, btnSaveEditDivision);
 		
 		flexPanelData.setWidget(2, 0, addDivision);
-		txtAddDivision.setWidth("200px");
+		txtAddDivision.setWidth("260px");
 		txtAddDivision.setVisible(false);
 		btnSaveDivision.setVisible(false);
 		flexPanelData.setWidget(3, 0, txtAddDivision);
 		flexPanelData.setWidget(3, 1, btnSaveDivision);
 		
 		//Department View
-		listBoxDepartment.setWidth("200px");
+		listBoxDepartment.setWidth("260px");
 		listBoxDepartment.addItem("--Select Department--", "0");
 		flexPanelData.setWidget(0, 2, listBoxDepartment);
 				
 		hpnlButtonDepartment.add(imgDeleteDepartment);
 		hpnlButtonDepartment.add(btnEditDepartment);
 		flexPanelData.setWidget(0, 3, hpnlButtonDepartment);
-		hpnlButtonDepartment.setWidth("210px");
+		hpnlButtonDepartment.setWidth("150px");
 		hpnlButtonDepartment.setVisible(false);
 		
-		txtEditDepartment.setWidth("200px");
+		txtEditDepartment.setWidth("260px");
 		txtEditDepartment.setVisible(false);
 		btnSaveEditDepartment.setVisible(false);
 		flexPanelData.setWidget(1, 2, txtEditDepartment);
 		flexPanelData.setWidget(1, 3, btnSaveEditDepartment);
 		
 		flexPanelData.setWidget(2, 2, addDepartment);
-		txtAddDepartment.setWidth("200px");
+		txtAddDepartment.setWidth("260px");
 		txtAddDepartment.setVisible(false);
 		btnSaveDepartment.setVisible(false);
 		flexPanelData.setWidget(3, 2, txtAddDepartment);

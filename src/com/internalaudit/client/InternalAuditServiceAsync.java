@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.FileUpload;
 import com.internalaudit.client.view.InternalAuditReporting.AssesmentGridEntity;
 import com.internalaudit.shared.ActivityObjective;
 import com.internalaudit.shared.AssesmentGridDbEntity;
@@ -18,6 +19,7 @@ import com.internalaudit.shared.Company;
 import com.internalaudit.shared.DashBoardDTO;
 import com.internalaudit.shared.DashBoardNewDTO;
 import com.internalaudit.shared.DashboardListBoxDTO;
+import com.internalaudit.shared.DegreeImportance;
 import com.internalaudit.shared.Department;
 import com.internalaudit.shared.Division;
 import com.internalaudit.shared.Employee;
@@ -67,7 +69,7 @@ public interface InternalAuditServiceAsync {
 
 	void fetchDepartments(AsyncCallback<ArrayList<Department>> callback);
 
-	void fetchRiskFactors(AsyncCallback<ArrayList<RiskFactor>> callback);
+	void fetchRiskFactors(int companyID, AsyncCallback<ArrayList<RiskFactor>> callback);
 
 	void saveStrategic(Strategic strategic, HashMap<String, String> hm, AsyncCallback<String> callback);
 
@@ -390,5 +392,17 @@ public interface InternalAuditServiceAsync {
 	void deleteDivision(int divisionID, AsyncCallback<String> asyncCallback);
 
 	void deleteDepartment(int departmentID, AsyncCallback<String> asyncCallback);
+
+	void uploadCompanyLogo(String fileName, int companyID, AsyncCallback<String> callback);
+
+	void fetchDegreeImportance(int companyID, AsyncCallback<ArrayList<DegreeImportance>> asyncCallback);
+
+	void saveDegreeImportance(ArrayList<DegreeImportance> arrayListDegreeImportance, AsyncCallback<ArrayList<DegreeImportance>> asyncCallback);
+
+	void deleteDegreeImportance(int degreeID, AsyncCallback<ArrayList<DegreeImportance>> asyncCallback);
+
+	void saveRiskFactor(ArrayList<RiskFactor> arrayListRiskFacrors, AsyncCallback<ArrayList<RiskFactor>> asyncCallback);
+
+	void deleteRiskFactor(int riskID, AsyncCallback<ArrayList<RiskFactor>> asyncCallback);
 
 }

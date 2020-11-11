@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,11 +15,24 @@ import javax.persistence.Table;
 public class RiskFactor implements Serializable {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "riskid")
 	private int riskId;
 
 	@Column(name = "riskName")
 	private String riskName;
+	
+	@Column(name = "companyID")
+	private int companyID;
+	
+	@Column(name = "riskDescription")
+	private String riskDescription;
+	
+	@Column(name = "checked")
+	private int checked;
+	
+	@Column(name = "probability")
+	private int probability;
 
 	public int getRiskId() {
 		return riskId;
@@ -33,6 +48,38 @@ public class RiskFactor implements Serializable {
 
 	public void setRiskName(String riskName) {
 		this.riskName = riskName;
+	}
+
+	public int getCompanyID() {
+		return companyID;
+	}
+
+	public void setCompanyID(int companyID) {
+		this.companyID = companyID;
+	}
+
+	public String getRiskDescription() {
+		return riskDescription;
+	}
+
+	public void setRiskDescription(String riskDescription) {
+		this.riskDescription = riskDescription;
+	}
+
+	public int getChecked() {
+		return checked;
+	}
+
+	public void setChecked(int checked) {
+		this.checked = checked;
+	}
+
+	public int getProbability() {
+		return probability;
+	}
+
+	public void setProbability(int probability) {
+		this.probability = probability;
 	}
 
 }

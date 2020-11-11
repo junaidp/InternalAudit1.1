@@ -19,7 +19,7 @@ public class RiskFactorsView extends Composite {
 	private ListBox impact;
 	private ListBox probabality;
 	private int riskFactorId;
-	private TextArea comments;
+	private TextArea description;
 	private Label lbl;
 	private Image riskRating;
 	private ListBox listBoxOverAllRating;
@@ -65,8 +65,8 @@ public class RiskFactorsView extends Composite {
 		impact.addItem("Medium", "2");
 		impact.addItem("High", "3");
 
-		comments = new TextArea();
-		comments.setSize("600px", "40px");
+		description = new TextArea();
+		description.setSize("600px", "40px");
 		// placeholder not working
 		// comments.getElement().setPropertyString("placeholder", "Enter your
 		// Comment here");
@@ -83,7 +83,7 @@ public class RiskFactorsView extends Composite {
 
 		// hpnlSpaceRating.setWidth("200px");
 		hpnlMain.add(riskFactor);
-		hpnlMain.add(comments);
+		hpnlMain.add(description);
 		hpnlMain.add(impact);
 		hpnlMain.add(probabality);
 		hpnlMain.add(rating);
@@ -232,12 +232,12 @@ public class RiskFactorsView extends Composite {
 		this.riskFactorId = riskFactorId;
 	}
 
-	public TextArea getComments() {
-		return comments;
+	public TextArea getDescription() {
+		return description;
 	}
 
-	public void setComments(TextArea comments) {
-		this.comments = comments;
+	public void setDescription(TextArea description) {
+		this.description = description;
 	}
 
 	public ListBox getImpact() {

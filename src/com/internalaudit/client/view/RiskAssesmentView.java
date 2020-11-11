@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.view.data.RiskAssesmentStrategicViewData;
 import com.internalaudit.shared.InternalAuditConstants;
+import com.internalaudit.shared.RiskFactor;
 import com.sencha.gxt.core.client.dom.ScrollSupport.ScrollMode;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.PlainTabPanel;
@@ -35,8 +36,10 @@ public class RiskAssesmentView extends Composite {
 	@UiField
 	VerticalPanel mainPanel;
 	private Button saveRiskAssesment = new Button("Submit");
+	private int companyID = 0;
 
-	public RiskAssesmentView(ContentPanel cp) {
+	public RiskAssesmentView(ContentPanel cp, int companyID) {
+		this.companyID = companyID;
 		initWidget(uiBinder.createAndBindUi(this));
 		saveRiskAssesment.setVisible(false);
 
@@ -139,7 +142,7 @@ public class RiskAssesmentView extends Composite {
 		scrollPanel.setWidth("1200px");
 		scrollPanel.setScrollMode(ScrollMode.AUTOY);
 		scrollPanel.add(strategicPanel);
-		riskAssesmentStrategicViewData.setData(strategicPanel, this);
+		riskAssesmentStrategicViewData.setData(strategicPanel, this, companyID);
 
 		return scrollPanel;
 	}

@@ -79,6 +79,7 @@ import com.internalaudit.shared.CompanySkillRelation;
 import com.internalaudit.shared.DashBoardDTO;
 import com.internalaudit.shared.DashBoardNewDTO;
 import com.internalaudit.shared.DashboardListBoxDTO;
+import com.internalaudit.shared.DegreeImportance;
 import com.internalaudit.shared.Department;
 import com.internalaudit.shared.Division;
 import com.internalaudit.shared.Employee;
@@ -1238,25 +1239,52 @@ public class MySQLRdbHelper {
 				+ " for Looged In User : " + loggedInUser + " " + new Date()));
 	}
 
-	public ArrayList<RiskFactor> fetchRiskFactors() {
+	public ArrayList<RiskFactor> fetchRiskFactors(int companyID) {
 		Session session = null;
 		ArrayList<RiskFactor> riskFactors = new ArrayList<RiskFactor>();
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(RiskFactor.class);
+			crit.add(Restrictions.eq("companyID", companyID));
 			List rsList = crit.list();
-			for (Iterator it = rsList.iterator(); it.hasNext();) {
-				RiskFactor riskFactor = (RiskFactor) it.next();
-				riskFactors.add(riskFactor);
-			}
-			logger.info(String.format("(Inside fetchRiskFactors) fetching RiskFactors at : " + new Date()));
-		} catch (Exception ex) {
+			if(rsList.isEmpty())
+				riskFactors.addAll(fetchDefaultRiskFactors(0));
+			else {
+				for (Iterator it = rsList.iterator(); it.hasNext();) {
+					RiskFactor riskFactor = (RiskFactor) it.next();
+					riskFactors.add(riskFactor);
+					}
+					logger.info(String.format("(Inside fetchRiskFactors) fetching RiskFactors at : " + new Date()));
+				}
+			} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in fetchRiskFactors", ex.getMessage()), ex);
 
 		} finally {
 			session.close();
 		}
 		return riskFactors;
+	}
+	
+	public ArrayList<RiskFactor> fetchDefaultRiskFactors(int companyID) {
+		Session session = null;
+		ArrayList<RiskFactor> arrayRiskFactors = new ArrayList<RiskFactor>();
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(RiskFactor.class);
+			crit.add(Restrictions.eq("companyID", companyID));
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				RiskFactor riskFactor = (RiskFactor) it.next();
+				arrayRiskFactors.add(riskFactor);
+			}
+			logger.info(String.format("(Inside fetchDefaultRiskFactors) fetching DefaultRiskFactors at : " + new Date()));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchDefaultRiskFactors", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+		return arrayRiskFactors;
 	}
 
 	public ArrayList<Strategic> fetchStrategic(HashMap<String, String> hm, int employeeId) {
@@ -11479,7 +11507,7 @@ public class MySQLRdbHelper {
 		return msg;
 	}
 
-	public String ediDepartmentName(Department department) {
+	public String editDepartmentName(Department department) {
 		Session session = null;
 		String msg = null;
 		try {
@@ -11567,6 +11595,163 @@ public class MySQLRdbHelper {
 			session.close();
 		}
 		return msg;
+	}
+
+	public String uploadCompanyLogo(int companyID, String pathLogo) {
+		Session session = null;
+		String msg = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(Company.class);
+			crit.add(Restrictions.eq("companyId", companyID));
+			// crit.add(Restrictions.eq("dept.departmentId", departmentId));
+			List rsList = crit.list();
+
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				Company company = (Company) it.next();
+				company.setCompanyLogo(pathLogo);
+				session.update(company);
+				session.flush();
+				msg = "Company Logo added / updated successfully";
+			}
+
+			logger.info(String
+					.format("(Inside uploadCompanyLogo) uploadCompanyLogo"));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in uploadCompanyLogo", ex.getMessage()),
+					ex);
+			msg = ex.getMessage(); 
+		} finally {
+			session.close();
+		}
+		return msg;
+	}
+	
+	public ArrayList<DegreeImportance> fetchDegreeImportance(int companyID) {
+		Session session = null;
+		ArrayList<DegreeImportance> arrayDegreeImportance = new ArrayList<DegreeImportance>();
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(DegreeImportance.class);
+			crit.add(Restrictions.eq("companyID", companyID));
+			List rsList = crit.list();
+			
+			if(rsList.isEmpty()) {
+				Criteria crit1 = session.createCriteria(DegreeImportance.class);
+				crit1.add(Restrictions.eq("companyID", 0));
+				List rsList1 = crit1.list();	
+				for (Iterator it = rsList1.iterator(); it.hasNext();) {
+					DegreeImportance degreeImportance = (DegreeImportance) it.next();
+					arrayDegreeImportance.add(degreeImportance);
+				}
+			}
+			
+			else {
+				for (Iterator it = rsList.iterator(); it.hasNext();) {
+					DegreeImportance degreeImportance = (DegreeImportance) it.next();
+					arrayDegreeImportance.add(degreeImportance);
+				}
+			}
+			
+			logger.info(String.format("(Inside DegreeImportance) fetching DegreeImportance at : " + new Date()));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in DegreeImportance", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+		return arrayDegreeImportance;
+	}
+
+	public ArrayList<DegreeImportance> saveDegreeImportance(ArrayList<DegreeImportance> arrayListDegreeImportance) {
+		Session session = null;
+		ArrayList<DegreeImportance> listDegreeImportance = null;
+		try {
+			session = sessionFactory.openSession();
+			for (DegreeImportance degreeImportance : arrayListDegreeImportance) {
+				session.saveOrUpdate(degreeImportance);
+				session.flush();
+			}
+			logger.info(String.format("(Inside saveDegreeImportance) Save Degree Importance"));
+			listDegreeImportance = fetchDegreeImportance(arrayListDegreeImportance.get(0).getCompanyID());
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in saveDegreeImportance", ex.getMessage()), ex);
+		} finally {
+			session.close();
+		}
+		return listDegreeImportance;
+	}
+
+	public ArrayList<DegreeImportance> deleteDegreeImportance(int degreeImportanceID) {
+		Session session = null;
+		int companyID = 0;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(DegreeImportance.class);
+			crit.add(Restrictions.eq("degreeImportanceID", degreeImportanceID));
+			List rsList = crit.list();
+
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				DegreeImportance dltDegreeImportance = (DegreeImportance) it.next();
+				companyID = dltDegreeImportance.getCompanyID();
+				session.delete(dltDegreeImportance);
+				session.flush();
+			}
+
+			logger.info(String
+					.format("(Inside deleteDegreeImportance) deleteDegreeImportance"));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in deleteDegreeImportance", ex.getMessage()), ex);
+		} finally {
+			session.close();
+		}
+		return fetchDegreeImportance(companyID);
+
+	}
+
+	public ArrayList<RiskFactor> saveRiskFactor(ArrayList<RiskFactor> arrayListRiskFacrors) {
+		Session session = null;
+		ArrayList<RiskFactor> resultRiskFactor = null;
+		try {
+			session = sessionFactory.openSession();
+			for (RiskFactor riskFactor : arrayListRiskFacrors) {
+				session.saveOrUpdate(riskFactor);
+				session.flush();
+			}
+			logger.info(String.format("(Inside saveDegreeImportance) Save Degree Importance"));
+			resultRiskFactor = fetchRiskFactors(arrayListRiskFacrors.get(0).getCompanyID());
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in saveDegreeImportance", ex.getMessage()), ex);
+		} finally {
+			session.close();
+		}
+		return resultRiskFactor;
+	}
+	
+	public ArrayList<RiskFactor> deleteRiskFactor(int riskID) {
+		Session session = null;
+		int companyID = 0;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(RiskFactor.class);
+			crit.add(Restrictions.eq("riskId", riskID));
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				RiskFactor dltRiskFactor = (RiskFactor) it.next();
+				companyID = dltRiskFactor.getCompanyID();
+				session.delete(dltRiskFactor);
+				session.flush();
+			}
+
+			logger.info(String
+					.format("(Inside deleteRiskFactor) Delete RiskFactor"));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in deleteRiskFactor", ex.getMessage()), ex);
+		} finally {
+			session.close();
+		}
+		return fetchRiskFactors(companyID);
+
 	}
 
 }

@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.internalaudit.client.view.AuditEngagement.LabelBold;
 import com.internalaudit.client.view.data.RiskAssesmentStrategicViewData;
 import com.sencha.gxt.widget.core.client.form.TextArea;
 
@@ -28,11 +29,12 @@ public class RiskAssesmentStrategicView extends Composite {
 
 	private String strategicObjective;
 	@UiField
-	ListBox overallRating;
-	@UiField
-	HorizontalPanel userOption;
-	@UiField
-	ListBox listBoxUserOption;
+	Label lblOverallRatings;
+//	ListBox overallRating;
+//	@UiField
+//	HorizontalPanel userOption;
+//	@UiField
+//	ListBox listBoxUserOption;
 	@UiField
 	VerticalPanel riskFactors;
 	// @UiField
@@ -59,16 +61,15 @@ public class RiskAssesmentStrategicView extends Composite {
 	private int index;
 	private int strategicId;
 	private String comment;
-	private Label lblComment;
+	private LabelBold lblComment;
 	private TextArea ratingComment;
 
 	private RiskAssesmentStrategicViewData riskAssesmentStrategicViewData = new RiskAssesmentStrategicViewData();
 
 	public RiskAssesmentStrategicView() {
 		initWidget(uiBinder.createAndBindUi(this));
-		lblComment = new Label("Comment");
+		lblComment = new LabelBold("Comment");
 		lblComment.setWidth("250px");
-		lblComment.addStyleName("boldText");
 		lblComment.getElement().getStyle().setPaddingTop(10, Unit.PX);
 		panelRatingComment.add(lblComment);
 		ratingComment = new TextArea();
@@ -125,16 +126,16 @@ public class RiskAssesmentStrategicView extends Composite {
 
 		// vpnlComments.add(comments);
 		// hpnlStrategic.setWidth("900px");
-		listBoxUserOption.addChangeHandler(new ChangeHandler() {
-			@Override
-			public void onChange(ChangeEvent event) {
-				if (!overallRating.getSelectedValue().equalsIgnoreCase(listBoxUserOption.getSelectedValue())) {
-					panelRatingComment.setVisible(true);
-				} else {
-					panelRatingComment.setVisible(false);
-				}
-			}
-		});
+//		listBoxUserOption.addChangeHandler(new ChangeHandler() {
+//			@Override
+//			public void onChange(ChangeEvent event) {
+//				if (!overallRating.getSelectedValue().equalsIgnoreCase(listBoxUserOption.getSelectedValue())) {
+//					panelRatingComment.setVisible(true);
+//				} else {
+//					panelRatingComment.setVisible(false);
+//				}
+//			}
+//		});
 	}
 
 	public RiskAssesmentStrategicViewData getRiskAssesmentStrategicViewData() {
@@ -273,13 +274,13 @@ public class RiskAssesmentStrategicView extends Composite {
 		this.submitted = submitted;
 	}
 
-	public ListBox getListBoxUserOption() {
-		return listBoxUserOption;
-	}
-
-	public void setListBoxUserOption(ListBox listBoxUserOption) {
-		this.listBoxUserOption = listBoxUserOption;
-	}
+//	public ListBox getListBoxUserOption() {
+//		return listBoxUserOption;
+//	}
+//
+//	public void setListBoxUserOption(ListBox listBoxUserOption) {
+//		this.listBoxUserOption = listBoxUserOption;
+//	}
 
 	public Label getLblImg() {
 		return lblImg;
@@ -297,14 +298,6 @@ public class RiskAssesmentStrategicView extends Composite {
 		this.panelRatingComment = panelRatingComment;
 	}
 
-	public Label getLblComment() {
-		return lblComment;
-	}
-
-	public void setLblComment(Label lblComment) {
-		this.lblComment = lblComment;
-	}
-
 	public TextArea getRatingComment() {
 		return ratingComment;
 	}
@@ -313,12 +306,20 @@ public class RiskAssesmentStrategicView extends Composite {
 		this.ratingComment = ratingComment;
 	}
 
-	public ListBox getOverallRating() {
-		return overallRating;
+//	public ListBox getOverallRating() {
+//		return overallRating;
+//	}
+//
+//	public void setOverallRating(ListBox overallRating) {
+//		this.overallRating = overallRating;
+//	}
+
+	public Label getLblOverallRatings() {
+		return lblOverallRatings;
 	}
 
-	public void setOverallRating(ListBox overallRating) {
-		this.overallRating = overallRating;
+	public void setLblOverallRatings(Label lblOverallRatings) {
+		this.lblOverallRatings = lblOverallRatings;
 	}
 
 	// public TextField getComments() {
