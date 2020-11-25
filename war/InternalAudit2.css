@@ -755,3 +755,7 @@ select::-ms-expand {
  width:200px;
  white-space:pre-wrap;
 }
+.roundedBorder {
+  border-top: 8px solid #bbb;
+  border-radius: 5px;
+}

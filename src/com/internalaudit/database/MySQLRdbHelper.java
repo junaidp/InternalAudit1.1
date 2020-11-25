@@ -1669,6 +1669,7 @@ public class MySQLRdbHelper {
 			//
 			// crit.add(disc);
 			// crit.add(Restrictions.eq("phase", "RiskAssesment"));
+//			crit.add(Restrictions.eq("strategicId", 9));
 			crit.add(Restrictions.ge("phase", 2));
 			crit.add(Restrictions.ne("status", "deleted"));
 //			crit.add(Restrictions.eq("tab", tab));
@@ -1759,7 +1760,9 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(StrategicRisk.class);
 			crit.createAlias("strategicId", "strategic");
-
+			crit.createAlias("riskFactorId", "riskFactor");
+			crit.createAlias("degreeImportanceID", "degreeImportance");
+			
 			// crit.createAlias("strategic.objectiveOwner", "owner");
 			// crit.createAlias("owner.cityId", "city");
 			// crit.createAlias("owner.countryId", "country");
@@ -1881,22 +1884,33 @@ public class MySQLRdbHelper {
 			Criteria crit = session.createCriteria(StrategicRisk.class);
 			crit.createAlias("strategicId", "strategic");
 			crit.createAlias("riskFactorId", "riskFactor");
+			crit.createAlias("degreeImportanceID", "degreeImportance");
 			crit.add(Restrictions.eq("strategic.id", strategicRisk.getStrategicId().getId()));
 			crit.add(Restrictions.eq("riskFactor.riskId", strategicRisk.getRiskFactorId().getRiskId()));
-			if (crit.list().size() > 0) {
-				Transaction tr1 = session.beginTransaction();
-				StrategicRisk savedStrategicRisk = (StrategicRisk) crit.list().get(0);
-				savedStrategicRisk.setRating(strategicRisk.getRating());
-				savedStrategicRisk.setImpact(strategicRisk.getImpact());
-				savedStrategicRisk.setProbabality(strategicRisk.getProbabality());
-				savedStrategicRisk.setComments(strategicRisk.getComments());
-				session.update(savedStrategicRisk);
-				tr1.commit();
-			} else {
-				Transaction tr = session.beginTransaction();
-				session.save(strategicRisk);
-				tr.commit();
-			}
+			crit.add(Restrictions.eq("degreeImportance.degreeImportanceID", strategicRisk.getDegreeImportanceID().getDegreeImportanceID()));
+//			if (crit.list().size() > 0) {
+//				Transaction tr1 = session.beginTransaction();
+//				StrategicRisk savedStrategicRisk = (StrategicRisk) crit.list().get(0);
+////				savedStrategicRisk.setRating(strategicRisk.getRating());
+////				savedStrategicRisk.setImpact(strategicRisk.getImpact());
+////				savedStrategicRisk.setProbabality(strategicRisk.getProbabality());
+////				savedStrategicRisk.setComments(strategicRisk.getComments());
+//				session.update(savedStrategicRisk);
+//				tr1.commit();
+//			} else {
+//				Transaction tr = session.beginTransaction();
+//				session.save(strategicRisk);
+//				tr.commit();
+//			}
+			//added by moqeet
+			ArrayList<DegreeImportance> arrayListSaveDegreeImportance = new ArrayList<DegreeImportance>();					
+			arrayListSaveDegreeImportance.add(strategicRisk.getDegreeImportanceID());
+			saveDegreeImportance(arrayListSaveDegreeImportance);
+			ArrayList<RiskFactor> arrayListSaveRiskFactor = new ArrayList<RiskFactor>();
+			arrayListSaveRiskFactor.add(strategicRisk.getRiskFactorId());
+			saveRiskFactor(arrayListSaveRiskFactor);
+			session.saveOrUpdate(strategicRisk);
+			session.flush();
 			logger.info(String.format("(Inside saveStrategicRisk) saving StrategicRisk for strategicObjective : "
 					+ strategicRisk.getStrategicId().getStrategicObjective() + " " + new Date()));
 		} catch (Exception ex) {

@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,20 +20,9 @@ public class StrategicRisk implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private int id;
-
-	@Column(name = "rating")
-	private String rating;
-
-	@Column(name = "probabality")
-	private String probabality;
-
-	@Column(name = "impact")
-	private String impact;
-
-	@Column(name = "comments")
-	private String comments;
 
 	@JoinColumn(name = "strategicId", nullable = true)
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -40,6 +31,10 @@ public class StrategicRisk implements Serializable {
 	@JoinColumn(name = "riskFactorId", nullable = true)
 	@ManyToOne(fetch = FetchType.EAGER)
 	private RiskFactor riskFactorId;
+	
+	@JoinColumn(name = "degreeImportanceID", nullable = true)
+	@ManyToOne(fetch = FetchType.EAGER)
+	private DegreeImportance degreeImportanceID;
 
 	public int getId() {
 		return id;
@@ -65,36 +60,12 @@ public class StrategicRisk implements Serializable {
 		this.riskFactorId = riskFactorId;
 	}
 
-	public String getRating() {
-		return rating;
+	public DegreeImportance getDegreeImportanceID() {
+		return degreeImportanceID;
 	}
 
-	public void setRating(String rating) {
-		this.rating = rating;
-	}
-
-	public String getComments() {
-		return comments;
-	}
-
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
-
-	public String getProbabality() {
-		return probabality;
-	}
-
-	public void setProbabality(String probabality) {
-		this.probabality = probabality;
-	}
-
-	public String getImpact() {
-		return impact;
-	}
-
-	public void setImpact(String impact) {
-		this.impact = impact;
+	public void setDegreeImportanceID(DegreeImportance degreeImportanceID) {
+		this.degreeImportanceID = degreeImportanceID;
 	}
 
 }
