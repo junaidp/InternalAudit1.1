@@ -45,11 +45,11 @@
 	<g:Label> Feedback: </g:Label>
 	<g:Label ui:field="feedback" styleName="blue"></g:Label>
 	</g:HorizontalPanel>
-	<g:HorizontalPanel ui:field="panelAddIcon" styleName="w3-right"></g:HorizontalPanel>
+	<g:HorizontalPanel ui:field="panelAddIcon" ></g:HorizontalPanel>
 	<!-- 
 	<g:Button ui:field="addMore" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Add Audit Work</g:Button>
 	 -->
-	<g:HorizontalPanel ui:field="heading" styleName="risksRow" verticalAlignment="middle">
+	<g:HorizontalPanel ui:field="heading" styleName="risksRow" verticalAlignment="middle" visible="false">
 	
 <!-- 		<A:LabelHeading wordWrap="false"   addStyleNames="{style.risksRow}" >Serial No.</A:LabelHeading>
 		<A:LabelHeading addStyleNames="{style.txtExtendedWidths}">Audit Program</A:LabelHeading>

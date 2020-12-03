@@ -1,13 +1,13 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:A="urn:import:com.internalaudit.client.view.AuditEngagement" xmlns:v="urn:import:com.internalaudit.client.view">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:A="urn:import:com.internalaudit.client.view.AuditEngagement" xmlns:v="urn:import:com.internalaudit.client.view" xmlns:c="urn:import:com.sencha.gxt.widget.core.client.container">
 	<ui:style>
 	}
 	.heading{
 	font-size: 18px;
 }
 	</ui:style>
-	<g:ScrollPanel height="440px" width="100%">
+	<g:ScrollPanel height="440px" width="1200px">
 	<g:HTMLPanel>
 	
 	<div>
@@ -25,7 +25,7 @@
 	<g:Label> Feedback: </g:Label>
 	<g:Label ui:field="feedback" styleName="blue"></g:Label>
 	</g:HorizontalPanel>
-	<g:HorizontalPanel ui:field="addIconPanel" styleName="w3-right"></g:HorizontalPanel> 
+	<g:HorizontalPanel ui:field="addPanel"></g:HorizontalPanel> 
 	<!--  
 	<g:Button ui:field="addMore" styleName="w3-button w3-round-xxlarge w3-hover-blue" >Add More</g:Button>
 	-->

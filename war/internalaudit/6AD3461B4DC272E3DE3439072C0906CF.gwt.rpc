@@ -1,0 +1,193 @@
+@FinalFields, false
+com.google.gwt.core.client.impl.JavaScriptExceptionBase, true, true, false, false, com.google.gwt.core.client.impl.JavaScriptExceptionBase/1290640551, 1290640551
+com.google.gwt.core.shared.SerializableThrowable, true, true, false, false, com.google.gwt.core.shared.SerializableThrowable/2791287161, 2791287161
+com.google.gwt.event.shared.UmbrellaException, true, true, false, false, com.google.gwt.event.shared.UmbrellaException/3104463596, 3104463596
+com.google.gwt.http.client.RequestException, true, true, false, false, com.google.gwt.http.client.RequestException/190587325, 190587325
+com.google.gwt.i18n.shared.impl.DateRecord, true, true, true, true, com.google.gwt.i18n.shared.impl.DateRecord/3173882066, 3173882066
+com.google.gwt.json.client.JSONException, true, true, false, false, com.google.gwt.json.client.JSONException/2941795468, 2941795468
+com.google.gwt.jsonp.client.TimeoutException, true, true, false, false, com.google.gwt.jsonp.client.TimeoutException/1112787596, 1112787596
+com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException, true, true, true, true, com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException/3936916533, 3936916533
+com.google.gwt.user.client.rpc.InvocationException, true, false, false, false, com.google.gwt.user.client.rpc.InvocationException/1510557512, 1510557512
+com.google.gwt.user.client.rpc.RpcTokenException, true, true, false, false, com.google.gwt.user.client.rpc.RpcTokenException/2345075298, 2345075298
+com.google.gwt.user.client.rpc.SerializableException, true, true, false, false, com.google.gwt.user.client.rpc.SerializableException/3047383460, 3047383460
+com.google.gwt.user.client.rpc.SerializationException, true, true, false, false, com.google.gwt.user.client.rpc.SerializationException/2836333220, 2836333220
+com.google.gwt.user.client.rpc.SerializedTypeViolationException, true, true, false, false, com.google.gwt.user.client.rpc.SerializedTypeViolationException/914601580, 914601580
+com.google.gwt.user.client.rpc.ServiceDefTarget$NoServiceEntryPointSpecifiedException, true, true, false, false, com.google.gwt.user.client.rpc.ServiceDefTarget$NoServiceEntryPointSpecifiedException/3408313447, 3408313447
+com.google.gwt.user.client.rpc.XsrfToken, false, false, true, true, com.google.gwt.user.client.rpc.XsrfToken/4254043109, 4254043109
+com.google.gwt.useragent.client.UserAgentAsserter$UserAgentAssertionError, true, true, false, false, com.google.gwt.useragent.client.UserAgentAsserter$UserAgentAssertionError/1267019011, 1267019011
+com.google.gwt.xml.client.DOMException, true, false, false, false, com.google.gwt.xml.client.DOMException/4182906963, 4182906963
+com.google.gwt.xml.client.impl.DOMParseException, true, true, false, false, com.google.gwt.xml.client.impl.DOMParseException/3799120635, 3799120635
+com.google.web.bindery.event.shared.UmbrellaException, true, true, false, false, com.google.web.bindery.event.shared.UmbrellaException/1025846929, 1025846929
+com.googlecode.gwt.crypto.bouncycastle.CryptoException, true, true, false, false, com.googlecode.gwt.crypto.bouncycastle.CryptoException/31668253, 31668253
+com.googlecode.gwt.crypto.bouncycastle.DataLengthException, true, true, false, false, com.googlecode.gwt.crypto.bouncycastle.DataLengthException/4138143, 4138143
+com.googlecode.gwt.crypto.bouncycastle.InvalidCipherTextException, true, true, false, false, com.googlecode.gwt.crypto.bouncycastle.InvalidCipherTextException/3798580649, 3798580649
+com.googlecode.gwt.crypto.bouncycastle.RuntimeCryptoException, true, true, false, false, com.googlecode.gwt.crypto.bouncycastle.RuntimeCryptoException/2661206998, 2661206998
+com.googlecode.gwt.crypto.gwtx.io.IOException, true, true, false, false, com.googlecode.gwt.crypto.gwtx.io.IOException/1494731414, 1494731414
+com.googlecode.gwt.crypto.gwtx.io.UnsupportedEncodingException, true, true, false, false, com.googlecode.gwt.crypto.gwtx.io.UnsupportedEncodingException/659960454, 659960454
+com.internalaudit.client.InternalAuditService, false, false, false, false, _, 3832876740
+com.internalaudit.client.view.InternalAuditReporting.AssesmentGridEntity, false, false, true, true, com.internalaudit.client.view.InternalAuditReporting.AssesmentGridEntity/3947203022, 3947203022
+com.internalaudit.shared.ActivityObjective, true, true, true, true, com.internalaudit.shared.ActivityObjective/1837330982, 1837330982
+@ClientFields,com.internalaudit.shared.ActivityObjective,objectiveId,objectiveName,subProcessId,checked,referenceNo,activityJobRelation,status
+com.internalaudit.shared.AssesmentGridDbEntity, true, true, false, false, com.internalaudit.shared.AssesmentGridDbEntity/2305196044, 2305196044
+@ClientFields,com.internalaudit.shared.AssesmentGridDbEntity,assesmentId,assesmentName,jobId,completelySatisfied,partiallySatisfied,unSatisfied
+com.internalaudit.shared.AuditEngagement, true, true, true, true, com.internalaudit.shared.AuditEngagement/3445441645, 3445441645
+@ClientFields,com.internalaudit.shared.AuditEngagement,auditEngId,jobStatus,jobCreationId,assignmentObj,activityObj,process,auditNotification,to,cc,referenceNo,from,subject,year,companyId,status,emailStatus,notificationSentDate,initiatedBy,approvedBy,selectedId,strategic,engagementDTO,jobStatusDTO
+com.internalaudit.shared.AuditProgramme, true, true, true, true, com.internalaudit.shared.AuditProgramme/3762189489, 3762189489
+@ClientFields,com.internalaudit.shared.AuditProgramme,auditProgrammeId,auditProgrammeName,suggestedControlsId,reviewer
+com.internalaudit.shared.AuditSchedulingReportDTO, false, false, true, true, com.internalaudit.shared.AuditSchedulingReportDTO/2781641724, 2781641724
+com.internalaudit.shared.AuditStep, true, true, true, true, com.internalaudit.shared.AuditStep/2004911266, 2004911266
+@ClientFields,com.internalaudit.shared.AuditStep,auditStepId,population,sampleSelected,selectionBasis,proceducePerformance,conclusion,jobId,auditWork,exceptions,year,companyId,status,initiatedBy,approvedBy,feedback,uploadedFile,date,controlList,frequency,samplingMethod
+com.internalaudit.shared.AuditWork, true, true, true, true, com.internalaudit.shared.AuditWork/364378568, 364378568
+@ClientFields,com.internalaudit.shared.AuditWork,auditWorkId,jobCreationId,stepNo,description,responsibleControl,status,year,companyId,initiatedBy,approvedBy,feedback,date,suggestedControlsId
+com.internalaudit.shared.AuditWorkStatusDTO, true, true, false, false, com.internalaudit.shared.AuditWorkStatusDTO/90183515, 90183515
+com.internalaudit.shared.City, true, true, true, true, com.internalaudit.shared.City/3706485183, 3706485183
+@ClientFields,com.internalaudit.shared.City,cityId,city,countryId
+com.internalaudit.shared.Company, true, true, true, true, com.internalaudit.shared.Company/1202731090, 1202731090
+@ClientFields,com.internalaudit.shared.Company,companyId,name,contactPerson,contactPersonEmail,userPackage,noOfUsersAllowed,noOfMngmntUsersAllowed,companyLogo
+com.internalaudit.shared.CompanySkillRelation, true, true, true, true, com.internalaudit.shared.CompanySkillRelation/1539801374, 1539801374
+@ClientFields,com.internalaudit.shared.CompanySkillRelation,companySkillId,companyId,skillId,year,availableHours
+com.internalaudit.shared.Country, true, true, true, true, com.internalaudit.shared.Country/2231474151, 2231474151
+@ClientFields,com.internalaudit.shared.Country,countryId,country
+com.internalaudit.shared.DashBoardDTO, true, true, false, false, com.internalaudit.shared.DashBoardDTO/3261986858, 3261986858
+com.internalaudit.shared.DashBoardNewDTO, true, true, false, false, com.internalaudit.shared.DashBoardNewDTO/816566736, 816566736
+com.internalaudit.shared.DashboardListBoxDTO, true, true, false, false, com.internalaudit.shared.DashboardListBoxDTO/2502073813, 2502073813
+com.internalaudit.shared.DegreeImportance, true, true, true, true, com.internalaudit.shared.DegreeImportance/2875641731, 2875641731
+@ClientFields,com.internalaudit.shared.DegreeImportance,degreeImportanceID,degreeImportanceName,companyID,checked
+com.internalaudit.shared.Department, true, true, true, true, com.internalaudit.shared.Department/3906773519, 3906773519
+@ClientFields,com.internalaudit.shared.Department,departmentId,departmentName,divisionID
+com.internalaudit.shared.Division, true, true, true, true, com.internalaudit.shared.Division/265282305, 265282305
+@ClientFields,com.internalaudit.shared.Division,divisionID,divisionName
+com.internalaudit.shared.Employee, true, true, true, true, com.internalaudit.shared.Employee/768382469, 768382469
+@ClientFields,com.internalaudit.shared.Employee,employeeId,employeeName,reportingTo,email,countryId,cityId,skillId,companyId,rollId,status,fromInternalAuditDept,auditHead,dateOfJoining,designation,password,fiscalYear,otherskill,todos,userRaisedToDos,userRaisedInformationRequests,informationRequests,TotalNumberOfHoursAvailable
+com.internalaudit.shared.EmployeeJobDTO, true, true, true, true, com.internalaudit.shared.EmployeeJobDTO/3289066234, 3289066234
+com.internalaudit.shared.EngagementDTO, true, true, true, true, com.internalaudit.shared.EngagementDTO/3844130697, 3844130697
+com.internalaudit.shared.ExcelDataDTO, false, false, true, true, com.internalaudit.shared.ExcelDataDTO/103301380, 103301380
+com.internalaudit.shared.Exceptions, true, true, true, true, com.internalaudit.shared.Exceptions/1329103332, 1329103332
+@ClientFields,com.internalaudit.shared.Exceptions,exceptionId,detail,jobCreationId,responsiblePerson,divisionHead,auditStep,dueDate,jobName,implementaionDate,managementComments,auditHead,status,finalStatus,initialStatus,implementaionComments,isImplemented,isAgreed,emailSent,year,companyId,comments,recommendations,implication,implicationRating,displayStatus,recommendation
+com.internalaudit.shared.ExceptionsReportDTO, false, false, true, true, com.internalaudit.shared.ExceptionsReportDTO/327412047, 327412047
+com.internalaudit.shared.Feedback, false, false, true, true, com.internalaudit.shared.Feedback/270254487, 270254487
+@ClientFields,com.internalaudit.shared.Feedback,id,heading,description,employee
+com.internalaudit.shared.FieldWorkStatusDTO, true, true, true, true, com.internalaudit.shared.FieldWorkStatusDTO/1992890432, 1992890432
+com.internalaudit.shared.InformationRequestEntity, true, true, true, true, com.internalaudit.shared.InformationRequestEntity/3202775632, 3202775632
+@ClientFields,com.internalaudit.shared.InformationRequestEntity,informationRequestId,companyId,requestItem,contactResponsible,contactEmail,assignedFrom,job,dueDate,status,sendNotication,read,sendReminder,respond,informationRequestLogList
+com.internalaudit.shared.InformationRequestLogEntity, true, true, true, true, com.internalaudit.shared.InformationRequestLogEntity/4146604082, 4146604082
+@ClientFields,com.internalaudit.shared.InformationRequestLogEntity,informationrequestlogsId,description,respond,assignedTo,assignedFrom,informationRequestId,Date
+com.internalaudit.shared.JobAndAreaOfExpertise, true, true, true, true, com.internalaudit.shared.JobAndAreaOfExpertise/221386432, 221386432
+@ClientFields,com.internalaudit.shared.JobAndAreaOfExpertise,jobAndAreaId,isChecked,jobId,areaOfExpertiseId
+com.internalaudit.shared.JobCreation, true, true, true, true, com.internalaudit.shared.JobCreation/1800305972, 1800305972
+@ClientFields,com.internalaudit.shared.JobCreation,jobCreationId,strategicId,jobName,estimatedWeeks,domainText,relevantDept,riskRating,technical,startDate,endDate,reportStatus,auditHead,year,approved,companyId,timeLineDates,employees,employeeJobDTO,strategic
+com.internalaudit.shared.JobCreationDTO, true, true, true, true, com.internalaudit.shared.JobCreationDTO/537046877, 537046877
+com.internalaudit.shared.JobEmployeeRelation, true, true, true, true, com.internalaudit.shared.JobEmployeeRelation/2125140107, 2125140107
+@ClientFields,com.internalaudit.shared.JobEmployeeRelation,id,employeeId,jobCreationId
+com.internalaudit.shared.JobNamesWithExceptionsImplementationStatus, true, true, false, false, com.internalaudit.shared.JobNamesWithExceptionsImplementationStatus/4065172704, 4065172704
+com.internalaudit.shared.JobSkillRelation, true, true, true, true, com.internalaudit.shared.JobSkillRelation/3308858571, 3308858571
+@ClientFields,com.internalaudit.shared.JobSkillRelation,id,softskills,jobId
+com.internalaudit.shared.JobStatusDTO, true, true, true, true, com.internalaudit.shared.JobStatusDTO/955070677, 955070677
+com.internalaudit.shared.JobTimeAllocationReportDTO, false, false, true, true, com.internalaudit.shared.JobTimeAllocationReportDTO/92737255, 92737255
+com.internalaudit.shared.JobTimeEstimation, true, true, true, true, com.internalaudit.shared.JobTimeEstimation/2125327775, 2125327775
+@ClientFields,com.internalaudit.shared.JobTimeEstimation,jobTimeEstimationId,jobId,scopeOfWork,estimatedWeeks,fieldWorkManHours,managementHours,totalWorkingManHours,placeOfWork,travelDays,hoursInclTravel,year,companyId,approved
+com.internalaudit.shared.JobTimeEstimationDTO, true, true, true, true, com.internalaudit.shared.JobTimeEstimationDTO/768052863, 768052863
+com.internalaudit.shared.JobType, true, true, true, true, com.internalaudit.shared.JobType/1647922923, 1647922923
+@ClientFields,com.internalaudit.shared.JobType,jobTypeId,jobTypeName
+com.internalaudit.shared.JobsOfEmployee, true, true, false, false, com.internalaudit.shared.JobsOfEmployee/3941359323, 3941359323
+com.internalaudit.shared.PlanningStatusDTO, true, true, true, true, com.internalaudit.shared.PlanningStatusDTO/265374582, 265374582
+com.internalaudit.shared.Process, true, true, true, true, com.internalaudit.shared.Process/3905696947, 3905696947
+@ClientFields,com.internalaudit.shared.Process,processId,processName
+com.internalaudit.shared.ProcessDTO, true, true, false, false, com.internalaudit.shared.ProcessDTO/1867502372, 1867502372
+com.internalaudit.shared.Recommendation, true, true, true, true, com.internalaudit.shared.Recommendation/128713434, 128713434
+@ClientFields,com.internalaudit.shared.Recommendation,recommendationId,jobCreationId,exceptionId,recommendation,dueDate
+com.internalaudit.shared.ReportDataEntity, true, true, true, true, com.internalaudit.shared.ReportDataEntity/3238049085, 3238049085
+@ClientFields,com.internalaudit.shared.ReportDataEntity,reportDataId,jobId,userId,executiveSummary,auditPurpose,annexure,date,operationalEffectiveness,suggestedControl
+com.internalaudit.shared.ResourceUse, true, true, true, true, com.internalaudit.shared.ResourceUse/3870562082, 3870562082
+@ClientFields,com.internalaudit.shared.ResourceUse,resourceUseId,noOfResources,skillId,jobId,year,companyId
+com.internalaudit.shared.RiskAssesmentDTO, true, true, false, false, com.internalaudit.shared.RiskAssesmentDTO/496284681, 496284681
+com.internalaudit.shared.RiskControlMatrixEntity, true, true, true, true, com.internalaudit.shared.RiskControlMatrixEntity/2187264522, 2187264522
+@ClientFields,com.internalaudit.shared.RiskControlMatrixEntity,riskId,suggestedControlsId,auditEngageId,year,companyId,status,initiatedBy,approvedBy,feedback,date
+com.internalaudit.shared.RiskFactor, true, true, true, true, com.internalaudit.shared.RiskFactor/1359227208, 1359227208
+@ClientFields,com.internalaudit.shared.RiskFactor,riskId,riskName,companyID,riskDescription,checked
+com.internalaudit.shared.RiskObjective, true, true, true, true, com.internalaudit.shared.RiskObjective/720992188, 720992188
+@ClientFields,com.internalaudit.shared.RiskObjective,riskId,riskname,objectiveId,checked,riskReferenceNo,riskRating,status,riskJobRelation
+com.internalaudit.shared.SamplingExcelSheetEntity, true, true, true, true, com.internalaudit.shared.SamplingExcelSheetEntity/3253196765, 3253196765
+@ClientFields,com.internalaudit.shared.SamplingExcelSheetEntity,category,docNo,date,itemCode,description,quantity,ucost,transCost,code,name,id
+com.internalaudit.shared.SkillUpdateData, false, false, true, true, com.internalaudit.shared.SkillUpdateData/2451992836, 2451992836
+com.internalaudit.shared.Skills, true, true, true, true, com.internalaudit.shared.Skills/309351468, 309351468
+@ClientFields,com.internalaudit.shared.Skills,skillId,skillName,availableHours,companySkillRelation
+com.internalaudit.shared.Softskills, true, true, true, true, com.internalaudit.shared.Softskills/1849643821, 1849643821
+@ClientFields,com.internalaudit.shared.Softskills,softSkillId,softSkillName
+com.internalaudit.shared.Strategic, true, true, true, true, com.internalaudit.shared.Strategic/1580091196, 1580091196
+@ClientFields,com.internalaudit.shared.Strategic,strategicId,strategicObjective,relevantDepartment,acheivementDate,rating,userDefinedRating,process,subProcess,jobType,audit,divisionID,riskFactor,auditableUnit,phase,status,comments,date,tab,ratingComments,initiatedBy,assignedTo,approvedBy,approvedByAuditHead,jobCreationId,listSubProcess,nextPhase,loggedInUser,divisionName,jobName,estimatedWeeks,employees,jobStatus,year,companyId,strategicDepartments,arrayStrategicTabs,division
+com.internalaudit.shared.StrategicAudit, true, true, false, false, com.internalaudit.shared.StrategicAudit/3638390217, 3638390217
+@ClientFields,com.internalaudit.shared.StrategicAudit,auditId,strategicObjective,objectiveOwner,relevantDepartment,acheivementDate,rating,riskFactor,auditableUnit,phase,status,comments,date,initiatedBy,assignedTo,approvedBy,nextPhase
+com.internalaudit.shared.StrategicDTO, true, true, false, false, com.internalaudit.shared.StrategicDTO/2568094173, 2568094173
+com.internalaudit.shared.StrategicDepartments, true, true, true, true, com.internalaudit.shared.StrategicDepartments/3526832168, 3526832168
+@ClientFields,com.internalaudit.shared.StrategicDepartments,strategicDepartmentId,strategic,department,resourcesIds
+com.internalaudit.shared.StrategicRisk, true, true, true, true, com.internalaudit.shared.StrategicRisk/3557686415, 3557686415
+@ClientFields,com.internalaudit.shared.StrategicRisk,id,rating,probabality,impact,comments,strategicId,riskFactorId
+com.internalaudit.shared.StrategicSubProcess, true, true, false, false, com.internalaudit.shared.StrategicSubProcess/4090161121, 4090161121
+@ClientFields,com.internalaudit.shared.StrategicSubProcess,strategicSubProcess,strategicID,subProcessId
+com.internalaudit.shared.StrategicTabs, true, true, true, true, com.internalaudit.shared.StrategicTabs/3313307191, 3313307191
+@ClientFields,com.internalaudit.shared.StrategicTabs,tabId,strategicId,strategicTabId,resourcesIds
+com.internalaudit.shared.SubProcess, true, true, true, true, com.internalaudit.shared.SubProcess/699972, 699972
+@ClientFields,com.internalaudit.shared.SubProcess,subProcessId,subProcessName,processId
+com.internalaudit.shared.SuggestedControls, true, true, true, true, com.internalaudit.shared.SuggestedControls/3401890077, 3401890077
+@ClientFields,com.internalaudit.shared.SuggestedControls,suggestedControlsId,suggestedControlsName,riskId,checked,suggestedReferenceNo,controlRisk
+com.internalaudit.shared.TimeLineDates, true, true, true, true, com.internalaudit.shared.TimeLineDates/2848901379, 2848901379
+com.internalaudit.shared.TimeOutException, true, true, false, false, com.internalaudit.shared.TimeOutException/2257903408, 2257903408
+com.internalaudit.shared.ToDo, true, true, true, true, com.internalaudit.shared.ToDo/1581787918, 1581787918
+@ClientFields,com.internalaudit.shared.ToDo,toDoId,companyId,task,description,assignedTo,assignedFrom,job,dueDate,respond,read,todosLogList
+com.internalaudit.shared.ToDoLogsEntity, true, true, true, true, com.internalaudit.shared.ToDoLogsEntity/1554654905, 1554654905
+@ClientFields,com.internalaudit.shared.ToDoLogsEntity,toDoLogsId,description,respond,assignedTo,assignedFrom,Date,toDoId
+[I, true, true, false, false, [I/2970817851, 2970817851
+java.io.IOException, true, true, false, false, java.io.IOException/1159940531, 1159940531
+java.io.UnsupportedEncodingException, true, true, false, false, java.io.UnsupportedEncodingException/1526756933, 1526756933
+java.lang.ArithmeticException, true, true, false, false, java.lang.ArithmeticException/1539622151, 1539622151
+java.lang.ArrayIndexOutOfBoundsException, true, true, false, false, java.lang.ArrayIndexOutOfBoundsException/600550433, 600550433
+java.lang.ArrayStoreException, true, true, false, false, java.lang.ArrayStoreException/3540507190, 3540507190
+java.lang.AssertionError, true, true, false, false, java.lang.AssertionError/3490171458, 3490171458
+java.lang.Boolean, true, true, true, true, java.lang.Boolean/476441737, 476441737
+java.lang.ClassCastException, true, true, false, false, java.lang.ClassCastException/702295179, 702295179
+java.lang.Error, true, true, false, false, java.lang.Error/1331973429, 1331973429
+java.lang.Exception, true, true, true, false, java.lang.Exception/1920171873, 1920171873
+java.lang.IllegalArgumentException, true, true, false, false, java.lang.IllegalArgumentException/1755012560, 1755012560
+java.lang.IllegalStateException, true, true, false, false, java.lang.IllegalStateException/1972187323, 1972187323
+java.lang.IndexOutOfBoundsException, true, true, false, false, java.lang.IndexOutOfBoundsException/2489527753, 2489527753
+java.lang.Integer, true, true, true, true, java.lang.Integer/3438268394, 3438268394
+java.lang.NegativeArraySizeException, true, true, false, false, java.lang.NegativeArraySizeException/3846860241, 3846860241
+java.lang.NoSuchMethodException, true, true, false, false, java.lang.NoSuchMethodException/260969707, 260969707
+java.lang.NullPointerException, true, true, false, false, java.lang.NullPointerException/1463492344, 1463492344
+java.lang.Number, true, false, true, false, java.lang.Number/300033342, 300033342
+java.lang.NumberFormatException, true, true, false, false, java.lang.NumberFormatException/3305228476, 3305228476
+java.lang.RuntimeException, true, true, true, false, java.lang.RuntimeException/515124647, 515124647
+java.lang.StackTraceElement, true, true, false, false, java.lang.StackTraceElement/455763907, 455763907
+[Ljava.lang.StackTraceElement;, true, true, false, false, [Ljava.lang.StackTraceElement;/3867167983, 3867167983
+java.lang.String, true, true, true, true, java.lang.String/2004016611, 2004016611
+java.lang.StringIndexOutOfBoundsException, true, true, false, false, java.lang.StringIndexOutOfBoundsException/500777603, 500777603
+java.lang.Throwable, true, true, true, false, java.lang.Throwable/2953622131, 2953622131
+java.lang.UnsupportedOperationException, true, true, false, false, java.lang.UnsupportedOperationException/3744010015, 3744010015
+java.lang.annotation.AnnotationFormatError, true, true, false, false, java.lang.annotation.AnnotationFormatError/2257184627, 2257184627
+java.lang.annotation.AnnotationTypeMismatchException, true, true, false, false, java.lang.annotation.AnnotationTypeMismatchException/976205828, 976205828
+java.security.DigestException, true, true, false, false, java.security.DigestException/629316798, 629316798
+java.security.GeneralSecurityException, true, true, false, false, java.security.GeneralSecurityException/2669239907, 2669239907
+java.security.NoSuchAlgorithmException, true, true, false, false, java.security.NoSuchAlgorithmException/2892037213, 2892037213
+java.sql.Date, true, true, true, true, java.sql.Date/730999118, 730999118
+java.sql.Time, true, true, true, true, java.sql.Time/1816797103, 1816797103
+java.sql.Timestamp, true, true, true, true, java.sql.Timestamp/3040052672, 3040052672
+java.util.ArrayList, true, true, true, true, java.util.ArrayList/4159755760, 4159755760
+java.util.Collections$EmptySet, true, true, false, false, java.util.Collections$EmptySet/3523698179, 3523698179
+java.util.ConcurrentModificationException, true, true, false, false, java.util.ConcurrentModificationException/2717383897, 2717383897
+java.util.Date, true, true, true, true, java.util.Date/3385151746, 3385151746
+java.util.EmptyStackException, true, true, false, false, java.util.EmptyStackException/89438517, 89438517
+java.util.HashMap, true, true, true, true, java.util.HashMap/1797211028, 1797211028
+java.util.HashSet, true, true, false, false, java.util.HashSet/3273092938, 3273092938
+java.util.LinkedHashMap, true, true, true, true, java.util.LinkedHashMap/3008245022, 3008245022
+java.util.LinkedHashSet, true, true, false, false, java.util.LinkedHashSet/95640124, 95640124
+java.util.NoSuchElementException, true, true, false, false, java.util.NoSuchElementException/1559248883, 1559248883
+java.util.TooManyListenersException, true, true, false, false, java.util.TooManyListenersException/2023078032, 2023078032
+java.util.TreeMap, true, true, false, false, java.util.TreeMap/1493889780, 1493889780
+java.util.TreeSet, true, true, false, false, java.util.TreeSet/4043497002, 4043497002
+javax.validation.ConstraintDeclarationException, true, true, false, false, javax.validation.ConstraintDeclarationException/3610544007, 3610544007
+javax.validation.ConstraintDefinitionException, true, true, false, false, javax.validation.ConstraintDefinitionException/3732439488, 3732439488
+javax.validation.ConstraintViolationException, true, true, false, false, javax.validation.ConstraintViolationException/1185386591, 1185386591
+javax.validation.GroupDefinitionException, true, true, false, false, javax.validation.GroupDefinitionException/4024780846, 4024780846
+javax.validation.UnexpectedTypeException, true, true, false, false, javax.validation.UnexpectedTypeException/593026390, 593026390
+javax.validation.ValidationException, true, true, false, false, javax.validation.ValidationException/1570221831, 1570221831

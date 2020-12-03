@@ -1,6 +1,6 @@
 <project name="abilite1Builder" default="make_war" basedir=".">
     <description>
-        Build the abilite1  War file
+        Build the abilite War file
     </description>
 
 
@@ -9,7 +9,9 @@
     <property name="BUILD.dir" location="..\build"/> 
     <property name="DIST.dir" location="..\dist"/> 
     <property name="JAR.dir" location="D:\development\JARS"/> 
-    <property name="MASTER.DIST.dir" location="D:\apache-tomcat-8.5.56\webapps"/> 
+   <!-- <property name="MASTER.DIST.dir" location="D:\apache-tomcat-8.5.56\webapps"/> -->
+	<property name="MASTER.DIST.dir" location="D:\apache-tomcat-8.5.56"/> 
+
 
     <!-- =============================================================================================================  -->
     <target name="make_war" >

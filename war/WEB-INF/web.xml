@@ -84,7 +84,10 @@
     <welcome-file>InternalAudit.html</welcome-file>
   </welcome-file-list>
   
-  
+  <!-- <filter>
+ <filter-name>gwtCacheControlFilter</filter-name>
+ <filter-class>com.internalaudit.client.ClearCache</filter-class>
+</filter> -->
   
 
 </web-app>

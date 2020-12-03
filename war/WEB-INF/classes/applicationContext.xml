@@ -55,10 +55,13 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 				<value>com.internalaudit.shared.City</value>
 				<value>com.internalaudit.shared.Country</value>
 				<value>com.internalaudit.shared.Department</value>
+				<value>com.internalaudit.shared.Division</value>
 				<value>com.internalaudit.shared.Employee</value>
 				<value>com.internalaudit.shared.Strategic</value>
 				<value>com.internalaudit.shared.StrategicAudit</value>
 				<value>com.internalaudit.shared.RiskFactor</value>
+				<value>com.internalaudit.shared.DegreeImportance</value>
+				<value>com.internalaudit.shared.StrategicRiskFactor</value>
 				<value>com.internalaudit.shared.StrategicRisk</value>
 				<value>com.internalaudit.shared.Skills</value>
 				<value>com.internalaudit.shared.JobTimeEstimation</value>
@@ -74,6 +77,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 				<value>com.internalaudit.shared.AuditStep</value>
 				<value>com.internalaudit.shared.AuditWork</value>
 				<value>com.internalaudit.shared.StrategicDepartments</value>
+				<value>com.internalaudit.shared.StrategicTabs</value>
 				<value>com.internalaudit.shared.Company</value>
 				<value>com.internalaudit.shared.CompanySkillRelation</value>
 				<value>com.internalaudit.shared.Feedback</value>

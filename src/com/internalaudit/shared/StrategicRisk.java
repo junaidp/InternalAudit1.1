@@ -35,6 +35,9 @@ public class StrategicRisk implements Serializable {
 	@JoinColumn(name = "degreeImportanceID", nullable = true)
 	@ManyToOne(fetch = FetchType.EAGER)
 	private DegreeImportance degreeImportanceID;
+	
+	@Column(name = "check")
+	private int check;
 
 	public int getId() {
 		return id;
@@ -66,6 +69,14 @@ public class StrategicRisk implements Serializable {
 
 	public void setDegreeImportanceID(DegreeImportance degreeImportanceID) {
 		this.degreeImportanceID = degreeImportanceID;
+	}
+
+	public int getCheck() {
+		return check;
+	}
+
+	public void setCheck(int check) {
+		this.check = check;
 	}
 
 }
