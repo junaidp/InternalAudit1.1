@@ -325,10 +325,10 @@ public class RiskAssesmentStrategicViewData {
 							AddDegreeOfImportanceView addDegreeOfImportanceView = new AddDegreeOfImportanceView();
 							addDegreeOfImportanceView.getAddDegreeOfImportanceSettingsView().invisibleIcons();
 							addDegreeOfImportanceView.getAddDegreeOfImportanceSettingsView().getTxtName().setText(degreeImportance.getDegreeImportanceName());
-							addDegreeOfImportanceView.getTxtAreaComment().setText(degreeImportance.getComments());
-							addDegreeOfImportanceView.getTxtWeightage().setText(String.valueOf(degreeImportance.getWeightage()));
+//							addDegreeOfImportanceView.getTxtAreaComment().setText(degreeImportance.getComments());
+//							addDegreeOfImportanceView.getTxtWeightage().setText(String.valueOf(degreeImportance.getWeightage()));
 							for(int i=0; i<addDegreeOfImportanceView.getListBoxRatings().getItemCount(); i++) {
-								if(degreeImportance.getRating() == Integer.parseInt(addDegreeOfImportanceView.getListBoxRatings().getValue(i)))
+//								if(degreeImportance.getRating() == Integer.parseInt(addDegreeOfImportanceView.getListBoxRatings().getValue(i)))
 									addDegreeOfImportanceView.getListBoxRatings().setSelectedIndex(i);
 								}
 							vpnlDegreeImporatnce.add(addDegreeOfImportanceView);	
@@ -338,15 +338,16 @@ public class RiskAssesmentStrategicViewData {
 							listBoxesImpact.add(addDegreeOfImportanceView.getListBoxRatings());
 						}
 							
-							RiskFactor riskFactor = riskAssesmentDTOs.get(index).getStrategicRisks().get(k).getRiskFactorId(); 
+						RiskFactor riskFactor = new RiskFactor(); 
+//							RiskFactor riskFactor = riskAssesmentDTOs.get(index).getStrategicRisks().get(k).getRiskFactorId(); 
 							if(riskAssesmentDTOs.get(index).getStrategicRisks().get(k).getCheck() == 0) {
 								RiskFactorsDataView riskFactorsView = new RiskFactorsDataView();
 								riskFactorsView.getRiskFactorsSettingsView().getTxtRiskFactors().setText(riskFactor.getRiskName());
 								riskFactorsView.getRiskFactorsSettingsView().getTxtRiskDescription().setText(riskFactor.getRiskDescription());
-								for(int j=0; j<riskFactorsView.getListBoxProbability().getItemCount(); j++) {
-									if(riskFactor.getProbability() == Integer.parseInt(riskFactorsView.getListBoxProbability().getValue(j)))
-										riskFactorsView.getListBoxProbability().setSelectedIndex(j);
-								}
+//								for(int j=0; j<riskFactorsView.getListBoxProbability().getItemCount(); j++) {
+//									if(riskFactor.getProbability() == Integer.parseInt(riskFactorsView.getListBoxProbability().getValue(j)))
+//										riskFactorsView.getListBoxProbability().setSelectedIndex(j);
+//								}
 								riskFactorsView.updateProbilityImage();
 								vpnlRiskFactor.add(riskFactorsView);
 								riskFactorsView.getRiskFactorsSettingsView().invisibleIcons();
@@ -358,7 +359,7 @@ public class RiskAssesmentStrategicViewData {
 								strategicRisk.setId(riskAssesmentDTOs.get(index).getStrategicRisks().get(k).getId());
 								strategicRisk.setStrategicId(riskAssesmentDTOs.get(index).getStrategic());
 								strategicRisk.setDegreeImportanceID(degreeImportance);
-								strategicRisk.setRiskFactorId(riskFactor);
+//								strategicRisk.setRiskFactorId(riskFactor);
 								arrayListStrategicRisks.add(strategicRisk);
 						}	
 					}
@@ -446,7 +447,7 @@ public class RiskAssesmentStrategicViewData {
 							listImgProbability.add(riskFactorsView.getImgRiskRating());
 							arrayListSaveRiskFactors.add(riskFactor);
 							StrategicRisk strategicRisk = new StrategicRisk();
-							strategicRisk.setRiskFactorId(riskFactor);
+//							strategicRisk.setRiskFactorId(riskFactor);
 							arrayListAddMoreStrategic.add(strategicRisk);
 						}
 
@@ -565,16 +566,16 @@ public class RiskAssesmentStrategicViewData {
 		ArrayList<StrategicRisk> listSaveStrategicRisks = new ArrayList<StrategicRisk>(); 
 		for(int i=0; i<arrayListStrategicRisks.size(); i++) {
 			for(int j=0; j<arrayListStrategicRisks.size(); j++) {
-				if(i !=j) {
-					if(arrayListStrategicRisks.get(i).getRiskFactorId() == null) {
-						arrayListStrategicRisks.get(i).setRiskFactorId(arrayListStrategicRisks.get(j).getRiskFactorId());
-						arrayListStrategicRisks.remove(j);
-					}
-					else if(arrayListStrategicRisks.get(i).getDegreeImportanceID() == null) {
-						arrayListStrategicRisks.get(i).setDegreeImportanceID(arrayListStrategicRisks.get(j).getDegreeImportanceID());
-						arrayListStrategicRisks.remove(j);
-					}
-				}
+//				if(i !=j) {
+////					if(arrayListStrategicRisks.get(i).getRiskFactorId() == null) {
+////						arrayListStrategicRisks.get(i).setRiskFactorId(arrayListStrategicRisks.get(j).getRiskFactorId());
+////						arrayListStrategicRisks.remove(j);
+////					}
+////					else if(arrayListStrategicRisks.get(i).getDegreeImportanceID() == null) {
+////						arrayListStrategicRisks.get(i).setDegreeImportanceID(arrayListStrategicRisks.get(j).getDegreeImportanceID());
+////						arrayListStrategicRisks.remove(j);
+////					}
+//				}
 			}
 		}
 		listSaveStrategicRisks = arrayListStrategicRisks;

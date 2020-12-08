@@ -165,7 +165,7 @@ public class AuditUniverseStrategicViewData {
 		RiskFactor risk = new RiskFactor();
 		risk.setRiskId(1);
 		strategic.setId(strategicView.getStrategicId());
-		strategic.setRiskFactor(risk);
+//		strategic.setRiskFactor(risk);
 		strategic.setRating("N/A");// changed low to N/A by Moqeet
 		Department department = new Department();
 		// department.setDepartmentId(Integer.parseInt(strategicView.getRelevantDepartment().getValue(strategicView.getRelevantDepartment().getSelectedIndex())));

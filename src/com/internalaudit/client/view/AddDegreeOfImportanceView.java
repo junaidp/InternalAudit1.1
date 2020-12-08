@@ -73,14 +73,14 @@ public class AddDegreeOfImportanceView extends HorizontalPanel {
 			
 			@Override
 			public void onValueChange(ValueChangeEvent<String> text) {
-				degreeImportanceNew.setComments(text.getValue());
+//				degreeImportanceNew.setComments(text.getValue());
 			}
 		});
 		listBoxDegreeImportance.addChangeHandler(new ChangeHandler() {
 			
 			@Override
 			public void onChange(ChangeEvent value) {
-				degreeImportanceNew.setRating(Integer.parseInt((listBoxRatings.getSelectedValue())));
+//				degreeImportanceNew.setRating(Integer.parseInt((listBoxRatings.getSelectedValue())));
 				setDegreeID(degreeImportanceNew);
 			}
 		}) ;
@@ -88,7 +88,7 @@ public class AddDegreeOfImportanceView extends HorizontalPanel {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<String> value) {
-				degreeImportanceNew.setWeightage(Integer.parseInt(value.getValue()));
+//				degreeImportanceNew.setWeightage(Integer.parseInt(value.getValue()));
 			}
 		});
 	}
@@ -104,18 +104,18 @@ public class AddDegreeOfImportanceView extends HorizontalPanel {
 	}
 	
 	private void setComments(final ArrayList<DegreeImportance> arrayListDegreeImportance) {
-		for(DegreeImportance degreeImportance: arrayListDegreeImportance) 
-			if(listBoxDegreeImportance.getSelectedValue().equalsIgnoreCase(degreeImportance.getDegreeImportanceName()))
-				txtAreaComment.setText(degreeImportance.getComments());
-		listBoxDegreeImportance.addChangeHandler(new ChangeHandler() {
-			
-			@Override
-			public void onChange(ChangeEvent arg0) {
-				for(DegreeImportance degreeImportance: arrayListDegreeImportance) 
-					if(listBoxDegreeImportance.getSelectedValue().equalsIgnoreCase(degreeImportance.getDegreeImportanceName()))
-						txtAreaComment.setText(degreeImportance.getComments());
-			}
-		});
+//		for(DegreeImportance degreeImportance: arrayListDegreeImportance) 
+//			if(listBoxDegreeImportance.getSelectedValue().equalsIgnoreCase(degreeImportance.getDegreeImportanceName()))
+//				txtAreaComment.setText(degreeImportance.getComments());
+//		listBoxDegreeImportance.addChangeHandler(new ChangeHandler() {
+//			
+//			@Override
+//			public void onChange(ChangeEvent arg0) {
+//				for(DegreeImportance degreeImportance: arrayListDegreeImportance) 
+////					if(listBoxDegreeImportance.getSelectedValue().equalsIgnoreCase(degreeImportance.getDegreeImportanceName()))
+////						txtAreaComment.setText(degreeImportance.getComments());
+//			}
+//		});
 	}
 	
 	public void setDegreeImportance(DegreeImportance degreeImportanceNew, int companyID) {
@@ -123,7 +123,7 @@ public class AddDegreeOfImportanceView extends HorizontalPanel {
 		if(degreeImportanceNew.getDegreeImportanceName() == null)
 			degreeImportanceNew.setDegreeImportanceName(listBoxDegreeImportance.getSelectedValue());
 		changeHandlers(degreeImportanceNew);
-		degreeImportanceNew.setComments(txtAreaComment.getText());
+//		degreeImportanceNew.setComments(txtAreaComment.getText());
 		setDegreeID(degreeImportanceNew);
 	}
 	

@@ -34,9 +34,9 @@ public class Strategic implements Serializable {
 	// @ManyToOne(fetch = FetchType.EAGER)
 	// private Employee objectiveOwner;
 
-	@JoinColumn(name = "relevantDepartment", nullable = true)
-	@ManyToOne(fetch = FetchType.EAGER)
-	private Department relevantDepartment;
+//	@JoinColumn(name = "relevantDepartment", nullable = true)
+//	@ManyToOne(fetch = FetchType.EAGER)
+//	private Department relevantDepartment;
 
 	@Column(name = "acheivementDate")
 	private Date acheivementDate;
@@ -73,9 +73,9 @@ public class Strategic implements Serializable {
 		this.divisionID = divisionID;
 	}
 
-	@JoinColumn(name = "riskFactor", nullable = true)
-	@ManyToOne(fetch = FetchType.EAGER)
-	private RiskFactor riskFactor;
+//	@JoinColumn(name = "riskFactor", nullable = true)
+//	@ManyToOne(fetch = FetchType.EAGER)
+//	private RiskFactor riskFactor;
 
 	@Column(name = "auditableUnit")
 	private String auditableUnit;
@@ -219,13 +219,13 @@ public class Strategic implements Serializable {
 	// this.objectiveOwner = objectiveOwner;
 	// }
 
-	public Department getRelevantDepartment() {
-		return relevantDepartment;
-	}
-
-	public void setRelevantDepartment(Department relevantDepartment) {
-		this.relevantDepartment = relevantDepartment;
-	}
+//	public Department getRelevantDepartment() {
+//		return relevantDepartment;
+//	}
+//
+//	public void setRelevantDepartment(Department relevantDepartment) {
+//		this.relevantDepartment = relevantDepartment;
+//	}
 
 	public Date getAcheivementDate() {
 		return acheivementDate;
@@ -243,13 +243,13 @@ public class Strategic implements Serializable {
 		this.rating = rating;
 	}
 
-	public RiskFactor getRiskFactor() {
-		return riskFactor;
-	}
-
-	public void setRiskFactor(RiskFactor riskFactor) {
-		this.riskFactor = riskFactor;
-	}
+//	public RiskFactor getRiskFactor() {
+//		return riskFactor;
+//	}
+//
+//	public void setRiskFactor(RiskFactor riskFactor) {
+//		this.riskFactor = riskFactor;
+//	}
 
 	public String getAuditableUnit() {
 		return auditableUnit;

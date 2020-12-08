@@ -27,16 +27,12 @@ public class StrategicRisk implements Serializable {
 	@JoinColumn(name = "strategicId", nullable = true)
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Strategic strategicId;
-
-	@JoinColumn(name = "riskFactorId", nullable = true)
-	@ManyToOne(fetch = FetchType.EAGER)
-	private RiskFactor riskFactorId;
 	
 	@JoinColumn(name = "degreeImportanceID", nullable = true)
 	@ManyToOne(fetch = FetchType.EAGER)
 	private DegreeImportance degreeImportanceID;
 	
-	@Column(name = "check")
+	@Column(name = "ischeck")
 	private int check;
 
 	public int getId() {
@@ -53,14 +49,6 @@ public class StrategicRisk implements Serializable {
 
 	public void setStrategicId(Strategic strategicId) {
 		this.strategicId = strategicId;
-	}
-
-	public RiskFactor getRiskFactorId() {
-		return riskFactorId;
-	}
-
-	public void setRiskFactorId(RiskFactor riskFactorId) {
-		this.riskFactorId = riskFactorId;
 	}
 
 	public DegreeImportance getDegreeImportanceID() {

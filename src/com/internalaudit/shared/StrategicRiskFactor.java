@@ -32,7 +32,7 @@ public class StrategicRiskFactor implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private RiskFactor riskfactorID;
 	
-	@Column(name = "check")
+	@Column(name = "isCheck")
 	private int check;
 
 	public int getId() {
