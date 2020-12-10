@@ -17,13 +17,14 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.shared.DegreeImportance;
 import com.internalaudit.shared.RiskFactor;
+import com.internalaudit.shared.StrategicRiskFactor;
 
 public class RiskFactorsDataView extends VerticalPanel{
 	
 	private ListBox listBoxRiskFactors;
 	private ListBox listBoxProbability;
 	private Image imgRiskRating;
-	private ArrayList<RiskFactor> arrayRiskFactor ;
+	private ArrayList<StrategicRiskFactor> arrayStrategicRiskFactor ;
 	private AddRiskFactorsSettingsView riskFactorsSettingsView ;
 
 	public RiskFactorsDataView() {
@@ -32,7 +33,7 @@ public class RiskFactorsDataView extends VerticalPanel{
 	}
 
 	private Widget layoutMain() {
-		arrayRiskFactor = new ArrayList<RiskFactor>();
+		arrayStrategicRiskFactor = new ArrayList<StrategicRiskFactor>();
 		riskFactorsSettingsView = new AddRiskFactorsSettingsView();
 		FlexTable flexTable = riskFactorsSettingsView.getFlexPanel();
 		
@@ -64,7 +65,7 @@ public class RiskFactorsDataView extends VerticalPanel{
 			imgRiskRating.setUrl("greencircle.png");
 	}
 	
-	private void changeHandlers(final RiskFactor riskFactorToSave) {
+	private void changeHandlers(final StrategicRiskFactor riskFactorToSave) {
 //		riskFactorsSettingsView.getTxtRiskFactors().addValueChangeHandler(new ValueChangeHandler<String>() {
 //			
 //			@Override
@@ -76,7 +77,7 @@ public class RiskFactorsDataView extends VerticalPanel{
 
 			@Override
 			public void onValueChange(ValueChangeEvent<String> comments) {
-				riskFactorToSave.setRiskDescription(comments.getValue());
+				riskFactorToSave.getRiskFactorID().setRiskDescription(comments.getValue());
 			}
 		});
 		
@@ -90,43 +91,47 @@ public class RiskFactorsDataView extends VerticalPanel{
 	}
 	
 	private void setDescription(String listBoxValue) {
-		for(RiskFactor riskFactor: arrayRiskFactor) 
-			if(listBoxValue.equalsIgnoreCase(riskFactor.getRiskName()))
-				riskFactorsSettingsView.getTxtRiskDescription().setText(riskFactor.getRiskDescription());
+		for(StrategicRiskFactor riskFactor: arrayStrategicRiskFactor) 
+			if(listBoxValue.equalsIgnoreCase(riskFactor.getRiskFactorID().getRiskName())) {
+				riskFactorsSettingsView.getTxtRiskDescription().setText(riskFactor.getRiskFactorID().getRiskDescription());
+				riskFactorsSettingsView.getTxtRiskDescription().setEnabled(false);
+			}
 		listBoxRiskFactors.addChangeHandler(new ChangeHandler() {
 			
 			@Override
 			public void onChange(ChangeEvent arg0) {
-				for(RiskFactor riskFactor: arrayRiskFactor) 
-					if(listBoxRiskFactors.getSelectedValue().equalsIgnoreCase(riskFactor.getRiskName()))
-						riskFactorsSettingsView.getTxtRiskDescription().setText(riskFactor.getRiskDescription());
+				for(StrategicRiskFactor riskFactor: arrayStrategicRiskFactor) 
+					if(listBoxRiskFactors.getSelectedValue().equalsIgnoreCase(riskFactor.getRiskFactorID().getRiskName())) {
+						riskFactorsSettingsView.getTxtRiskDescription().setText(riskFactor.getRiskFactorID().getRiskDescription());
+						riskFactorsSettingsView.getTxtRiskDescription().setEnabled(false);
+					}
 			}
 		});
 	}
 	
-	private void setRiskID(RiskFactor riskFactorToSave) {
-		for(int i = 0; i < arrayRiskFactor.size(); i++) {			
-			if(listBoxRiskFactors.getSelectedItemText().equals(arrayRiskFactor.get(i).getRiskName()))
-				riskFactorToSave.setRiskId(arrayRiskFactor.get(i).getRiskId());
+	private void setRiskID(StrategicRiskFactor riskFactorToSave) {
+		for(int i = 0; i < arrayStrategicRiskFactor.size(); i++) {			
+			if(listBoxRiskFactors.getSelectedItemText().equals(arrayStrategicRiskFactor.get(i).getRiskFactorID().getRiskName()))
+				riskFactorToSave.getRiskFactorID().setRiskId(arrayStrategicRiskFactor.get(i).getRiskFactorID().getRiskId());
 		}
 	}
 	
-	public void setLisBoxRiskFactors(ArrayList<RiskFactor> arrayListRiskFactors) {
+	public void setLisBoxRiskFactors(ArrayList<StrategicRiskFactor> arrayListStrategicRiskFactors) {
 		listBoxRiskFactors.setVisible(true);
 		riskFactorsSettingsView.getTxtRiskFactors().setVisible(false);
-		arrayRiskFactor = arrayListRiskFactors;
-		for(RiskFactor riskFactor : arrayListRiskFactors)
-			if(riskFactor.getChecked() != 0)
-				listBoxRiskFactors.addItem(riskFactor.getRiskName());
+		arrayStrategicRiskFactor = arrayListStrategicRiskFactors;
+		for(StrategicRiskFactor StrategicRiskFactor : arrayListStrategicRiskFactors)
+			if(StrategicRiskFactor.getCheck() == 0)
+				listBoxRiskFactors.addItem(StrategicRiskFactor.getRiskFactorID().getRiskName());
 		setDescription(listBoxRiskFactors.getSelectedValue());
 	}
 
-	public void setRiskFactors(RiskFactor riskFactorToSave, int companyID) {
-		riskFactorToSave.setCompanyID(companyID);
-		if(riskFactorToSave.getRiskDescription() == null)
-			riskFactorToSave.setRiskDescription(riskFactorsSettingsView.getTxtRiskDescription().getText());
-		if(riskFactorToSave.getRiskName() == null)
-			riskFactorToSave.setRiskName(listBoxRiskFactors.getSelectedValue());
+	public void setRiskFactors(StrategicRiskFactor riskFactorToSave, int companyID) {
+//		riskFactorToSave.setCompanyID(companyID);
+		if(riskFactorToSave.getRiskFactorID().getRiskDescription() == null)
+			riskFactorToSave.getRiskFactorID().setRiskDescription(riskFactorsSettingsView.getTxtRiskDescription().getText());
+		if(riskFactorToSave.getRiskFactorID().getRiskName() == null)
+			riskFactorToSave.getRiskFactorID().setRiskName(listBoxRiskFactors.getSelectedValue());
 		changeHandlers(riskFactorToSave);	
 		setRiskID(riskFactorToSave);
 	}

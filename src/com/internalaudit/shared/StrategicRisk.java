@@ -32,6 +32,15 @@ public class StrategicRisk implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private DegreeImportance degreeImportanceID;
 	
+	@Column(name = "comments")
+	private String comments;
+	
+	@Column(name = "weightage")
+	private int weightage;
+	
+	@Column(name = "ratings")
+	private int ratings;
+	
 	@Column(name = "ischeck")
 	private int check;
 
@@ -57,6 +66,30 @@ public class StrategicRisk implements Serializable {
 
 	public void setDegreeImportanceID(DegreeImportance degreeImportanceID) {
 		this.degreeImportanceID = degreeImportanceID;
+	}
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+
+	public int getWeightage() {
+		return weightage;
+	}
+
+	public void setWeightage(int weightage) {
+		this.weightage = weightage;
+	}
+
+	public int getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(int ratings) {
+		this.ratings = ratings;
 	}
 
 	public int getCheck() {

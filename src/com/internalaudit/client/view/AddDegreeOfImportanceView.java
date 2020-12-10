@@ -17,8 +17,10 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.googlecode.gwt.crypto.util.Str;
 import com.internalaudit.shared.DegreeImportance;
 import com.internalaudit.shared.RiskFactor;
+import com.internalaudit.shared.StrategicRisk;
 
 public class AddDegreeOfImportanceView extends HorizontalPanel {
 	
@@ -26,7 +28,7 @@ public class AddDegreeOfImportanceView extends HorizontalPanel {
 	private TextArea txtAreaComment;;
 	private TextBox txtWeightage;
 	private ListBox listBoxRatings;
-	private ArrayList<DegreeImportance> arrayDegreeImportance;
+	private ArrayList<StrategicRisk> arrayDegreeImportance;
 	private AddDegreeOfImportanceSettingsView addDegreeOfImportanceSettingsView;
 	private float resultRatings = 0;
 	
@@ -36,7 +38,7 @@ public class AddDegreeOfImportanceView extends HorizontalPanel {
 	}
 
 	private Widget layout() {	
-		arrayDegreeImportance = new ArrayList<DegreeImportance>();
+		arrayDegreeImportance = new ArrayList<StrategicRisk>();
 		addDegreeOfImportanceSettingsView = new AddDegreeOfImportanceSettingsView();
 //		obj.set
 		FlexTable flexPanel = addDegreeOfImportanceSettingsView.getFlexPanel();
@@ -68,7 +70,7 @@ public class AddDegreeOfImportanceView extends HorizontalPanel {
 		return flexPanel;
 	}
 
-	private void changeHandlers(final DegreeImportance degreeImportanceNew) {
+	private void changeHandlers(final StrategicRisk degreeImportanceNew) {
 		txtAreaComment.addValueChangeHandler(new ValueChangeHandler<String>() {
 			
 			@Override
@@ -93,44 +95,44 @@ public class AddDegreeOfImportanceView extends HorizontalPanel {
 		});
 	}
 	
-	public void setListBoxDegreeImportance(ArrayList<DegreeImportance> arrayListDegreeImportance) {
+	public void setListBoxDegreeImportance(ArrayList<StrategicRisk> arrayStrategicDegreeImportance) {
 		addDegreeOfImportanceSettingsView.getTxtName().setVisible(false);
 		listBoxDegreeImportance.setVisible(true);
-		arrayDegreeImportance = arrayListDegreeImportance;
-		for(DegreeImportance degreeImportance : arrayListDegreeImportance)
-			if(degreeImportance.getChecked() == 1)
-				listBoxDegreeImportance.addItem(degreeImportance.getDegreeImportanceName(), String.valueOf(degreeImportance.getDegreeImportanceID()));
-		setComments( arrayListDegreeImportance);
+		arrayDegreeImportance = arrayStrategicDegreeImportance;
+		for(StrategicRisk strategicDegreeImportance : arrayStrategicDegreeImportance)
+			if(strategicDegreeImportance.getCheck() == 0)
+				listBoxDegreeImportance.addItem(strategicDegreeImportance.getDegreeImportanceID().getDegreeImportanceName(), String.valueOf(strategicDegreeImportance.getDegreeImportanceID()));
+		setComments( arrayStrategicDegreeImportance);
 	}
 	
-	private void setComments(final ArrayList<DegreeImportance> arrayListDegreeImportance) {
-//		for(DegreeImportance degreeImportance: arrayListDegreeImportance) 
-//			if(listBoxDegreeImportance.getSelectedValue().equalsIgnoreCase(degreeImportance.getDegreeImportanceName()))
-//				txtAreaComment.setText(degreeImportance.getComments());
-//		listBoxDegreeImportance.addChangeHandler(new ChangeHandler() {
-//			
-//			@Override
-//			public void onChange(ChangeEvent arg0) {
-//				for(DegreeImportance degreeImportance: arrayListDegreeImportance) 
-////					if(listBoxDegreeImportance.getSelectedValue().equalsIgnoreCase(degreeImportance.getDegreeImportanceName()))
-////						txtAreaComment.setText(degreeImportance.getComments());
-//			}
-//		});
+	private void setComments(final ArrayList<StrategicRisk> arrayListDegreeImportance) {
+		for(StrategicRisk strategicDegreeImportance : arrayListDegreeImportance) 
+			if(listBoxDegreeImportance.getSelectedValue().equalsIgnoreCase(strategicDegreeImportance.getDegreeImportanceID().getDegreeImportanceName()))
+				txtAreaComment.setText(strategicDegreeImportance.getComments());
+		listBoxDegreeImportance.addChangeHandler(new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent arg0) {
+				for(StrategicRisk strategicDegreeImportance: arrayListDegreeImportance) 
+					if(listBoxDegreeImportance.getSelectedValue().equalsIgnoreCase(strategicDegreeImportance.getDegreeImportanceID().getDegreeImportanceName()))
+						txtAreaComment.setText(strategicDegreeImportance.getComments());
+			}
+		});
 	}
 	
-	public void setDegreeImportance(DegreeImportance degreeImportanceNew, int companyID) {
-		degreeImportanceNew.setCompanyID(companyID);
-		if(degreeImportanceNew.getDegreeImportanceName() == null)
-			degreeImportanceNew.setDegreeImportanceName(listBoxDegreeImportance.getSelectedValue());
-		changeHandlers(degreeImportanceNew);
+	public void setDegreeImportance(StrategicRisk strategicDegreeImportance, int companyID) {
+//		strategicDegreeImportance.setCompanyID(companyID);
+		if(strategicDegreeImportance.getDegreeImportanceID().getDegreeImportanceName() == null)
+			strategicDegreeImportance.getDegreeImportanceID().setDegreeImportanceName(listBoxDegreeImportance.getSelectedValue());
+		changeHandlers(strategicDegreeImportance);
 //		degreeImportanceNew.setComments(txtAreaComment.getText());
-		setDegreeID(degreeImportanceNew);
+		setDegreeID(strategicDegreeImportance);
 	}
 	
-	private void setDegreeID(DegreeImportance degreeImportanceNew) {
+	private void setDegreeID(StrategicRisk strategicDgreeImportanceNew) {
 		for(int i=0; i<arrayDegreeImportance.size(); i++) {
-			if(Integer.parseInt(listBoxDegreeImportance.getSelectedValue()) == arrayDegreeImportance.get(i).getDegreeImportanceID())
-				degreeImportanceNew.setDegreeImportanceID(arrayDegreeImportance.get(i).getDegreeImportanceID());
+			if(Integer.parseInt(listBoxDegreeImportance.getSelectedValue()) == arrayDegreeImportance.get(i).getId())
+				strategicDgreeImportanceNew.setId(arrayDegreeImportance.get(i).getId());
 		}
 	}
 	

@@ -7,6 +7,7 @@ public class RiskAssesmentDTO implements Serializable{
 	
 	Strategic strategic = new Strategic();
 	ArrayList<StrategicRisk> strategicRisks = new ArrayList<StrategicRisk>();
+	ArrayList<StrategicRiskFactor> arrayStrategicRiskFactor = new ArrayList<StrategicRiskFactor>(); 
 	
 	public Strategic getStrategic() {
 		return strategic;
@@ -19,6 +20,12 @@ public class RiskAssesmentDTO implements Serializable{
 	}
 	public void setStrategicRisks(ArrayList<StrategicRisk> strategicRisks) {
 		this.strategicRisks = strategicRisks;
+	}
+	public ArrayList<StrategicRiskFactor> getArrayStrategicRiskFactor() {
+		return arrayStrategicRiskFactor;
+	}
+	public void setArrayStrategicRiskFactor(ArrayList<StrategicRiskFactor> arrayStrategicRiskFactor) {
+		this.arrayStrategicRiskFactor = arrayStrategicRiskFactor;
 	}
 	
 

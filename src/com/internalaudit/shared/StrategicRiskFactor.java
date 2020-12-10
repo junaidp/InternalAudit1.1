@@ -28,9 +28,12 @@ public class StrategicRiskFactor implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Strategic strategicID;
 
-	@JoinColumn(name = "riskfactorID", nullable = true)
+	@JoinColumn(name = "riskFactorID", nullable = true)
 	@ManyToOne(fetch = FetchType.EAGER)
-	private RiskFactor riskfactorID;
+	private RiskFactor riskFactorID;
+	
+	@Column(name = "probability")
+	private int probability;
 	
 	@Column(name = "isCheck")
 	private int check;
@@ -51,12 +54,20 @@ public class StrategicRiskFactor implements Serializable {
 		this.strategicID = strategicID;
 	}
 
-	public RiskFactor getRiskfactorID() {
-		return riskfactorID;
+	public RiskFactor getRiskFactorID() {
+		return riskFactorID;
 	}
 
-	public void setRiskfactorID(RiskFactor riskfactorID) {
-		this.riskfactorID = riskfactorID;
+	public void setRiskFactorID(RiskFactor riskFactorID) {
+		this.riskFactorID = riskFactorID;
+	}
+
+	public int getProbability() {
+		return probability;
+	}
+
+	public void setProbability(int probability) {
+		this.probability = probability;
 	}
 
 	public int getCheck() {

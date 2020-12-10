@@ -1692,7 +1692,7 @@ public class MySQLRdbHelper {
 				strategics.add(strategic);
 				riskAssesmentDTO.setStrategic(strategic);
 				riskAssesmentDTO.setStrategicRisks(fetchRiskStrategic(strategic.getId()));
-
+				riskAssesmentDTO.setArrayStrategicRiskFactor(fetchStrategicRiskFactor(strategic.getId()));
 				HibernateDetachUtility.nullOutUninitializedFields(strategic,
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(strategic,
@@ -1767,7 +1767,7 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(StrategicRisk.class);
 			crit.createAlias("strategicId", "strategic");
-			crit.createAlias("riskFactorId", "riskFactor");
+//			crit.createAlias("riskFactorId", "riskFactor");
 			crit.createAlias("degreeImportanceID", "degreeImportance");
 
 			// crit.createAlias("strategic.objectiveOwner", "owner");
@@ -1830,6 +1830,38 @@ public class MySQLRdbHelper {
 		return strategicRisks;
 
 	}
+	
+	public ArrayList<StrategicRiskFactor> fetchStrategicRiskFactor(int strategicId) {
+
+		Session session = null;
+		ArrayList<StrategicRiskFactor> strategicRisks = new ArrayList<StrategicRiskFactor>();
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(StrategicRiskFactor.class);
+			crit.createAlias("strategicID", "strategic");
+			crit.createAlias("riskFactorID", "riskfactor");
+			crit.add(Restrictions.eq("strategic.id", strategicId));
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				StrategicRiskFactor strategicRisk = (StrategicRiskFactor) it.next();
+				HibernateDetachUtility.nullOutUninitializedFields(strategicRisk, HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(strategicRisk.getStrategicID(), HibernateDetachUtility.SerializationType.SERIALIZATION);
+				strategicRisks.add(strategicRisk);
+			}
+			logger.info(String.format("(Inside fetchStrategicRiskFactor) fetching StrategicRiskFactor for strategicID : "
+					+ strategicId + " " + new Date()));
+
+		} catch (Exception ex) {
+			logger.info(String.format("Exception occured in fetchStrategicRiskFactor", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+
+		return strategicRisks;
+
+	}
+
 
 	// public ArrayList<StrategicRisk> fetchRiskStrategicBk(int employeeId){
 	//
@@ -11715,7 +11747,7 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			for (RiskFactor riskFactor : arrayListRiskFacrors) {
 				StrategicRiskFactor strategicRiskFactor = new StrategicRiskFactor();
-				strategicRiskFactor.setRiskfactorID((RiskFactor) session.get(RiskFactor.class, riskFactor.getRiskId()));
+				strategicRiskFactor.setRiskFactorID((RiskFactor) session.get(RiskFactor.class, riskFactor.getRiskId()));
 				strategicRiskFactor.setStrategicID((Strategic) session.get(Strategic.class, strategic.getId()));
 				strategicRiskFactor.setCheck(riskFactor.getChecked());
 				session.saveOrUpdate(strategicRiskFactor);

@@ -191,7 +191,7 @@ public class AddRiskAssesmentFactors extends VerticalPanel {
 		vpnlRiskFactors.add(riskFactorView);
 		riskFactorView.getTxtRiskFactors().setText(riskFactor.getRiskName());
 		riskFactorView.getTxtRiskDescription().setText(riskFactor.getRiskDescription());
-		if(riskFactor.getChecked() == 0)
+		if(riskFactor.getChecked() == 1)
 			riskFactorView.getCheckBox().setValue(true);			
 		else
 			riskFactorView.getCheckBox().setValue(false);	
@@ -221,15 +221,15 @@ public class AddRiskAssesmentFactors extends VerticalPanel {
 			}
 		});
 		
-		riskFactorsObj.setChecked(0);
+		riskFactorsObj.setChecked(1);
 		riskFactorView.getCheckBox().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> arg0) {
 				if(riskFactorView.getCheckBox().isChecked())
-					riskFactorsObj.setChecked(0);
-				else
 					riskFactorsObj.setChecked(1);
+				else
+					riskFactorsObj.setChecked(0);
 			}
 		});
 		
@@ -259,7 +259,7 @@ public class AddRiskAssesmentFactors extends VerticalPanel {
 			AddDegreeOfImportanceSettingsView degreeImportanceViewData = new AddDegreeOfImportanceSettingsView();
 			vpnlDegreeOfImportance.add(degreeImportanceViewData);
 			degreeImportanceViewData.getTxtName().setText(degreeImportance.getDegreeImportanceName());
-			if(degreeImportance.getChecked() == 0)
+			if(degreeImportance.getChecked() == 1)
 				degreeImportanceViewData.getCheckBox().setValue(true);			
 			else
 				degreeImportanceViewData.getCheckBox().setValue(false);	
@@ -280,15 +280,15 @@ public class AddRiskAssesmentFactors extends VerticalPanel {
 			
 		});
 
-		degreeImportanceObj.setChecked(0);
+		degreeImportanceObj.setChecked(1);
 		degreeImportanceData.getCheckBox().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> arg0) {
 				if(degreeImportanceData.getCheckBox().isChecked())
-					degreeImportanceObj.setChecked(0);
-				else
 					degreeImportanceObj.setChecked(1);
+				else
+					degreeImportanceObj.setChecked(0);
 			}
 		});
 		
