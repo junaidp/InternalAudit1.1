@@ -87,7 +87,7 @@ public class RiskAssesmentStrategicViewData {
 
 		this.strategicPanel = strategicPanel;
 		this.companyID = companyID;
-//		fetchDegreeImportanceRiskFactors(riskAssesmentView);
+		fetchDegreeImportanceRiskFactors(riskAssesmentView);
 		setHandlers();
 	}
 
@@ -150,31 +150,31 @@ public class RiskAssesmentStrategicViewData {
 		// }});
 	}
 
-//	public void fetchDegreeImportanceRiskFactors(final RiskAssesmentView riskAssesmentView) {
-//
-//		rpcService.fetchRiskFactors(companyID, new AsyncCallback<ArrayList<RiskFactor>>() {
-//
-//			@Override
-//			public void onFailure(Throwable caught) {
-//				//
-//				logger.log(Level.INFO, "FAIL: fetchRiskFactors .Inside Audit AuditAreaspresenter");
-//				if (caught instanceof TimeOutException) {
-//					History.newItem("login");
-//				} else {
-//					System.out.println("FAIL: fetchRiskFactors .Inside AuditAreaspresenter");
-//					Window.alert("FAIL: fetchRiskFactors");// After FAIL ...
-//					// write RPC Name NOT
-//					// Method Name..
-//				}
-//			}
-//
-//			@Override
-//			public void onSuccess(ArrayList<RiskFactor> risks) {
+	public void fetchDegreeImportanceRiskFactors(final RiskAssesmentView riskAssesmentView) {
+
+		rpcService.fetchRiskFactors(companyID, new AsyncCallback<ArrayList<RiskFactor>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				//
+				logger.log(Level.INFO, "FAIL: fetchRiskFactors .Inside Audit AuditAreaspresenter");
+				if (caught instanceof TimeOutException) {
+					History.newItem("login");
+				} else {
+					System.out.println("FAIL: fetchRiskFactors .Inside AuditAreaspresenter");
+					Window.alert("FAIL: fetchRiskFactors");// After FAIL ...
+					// write RPC Name NOT
+					// Method Name..
+				}
+			}
+
+			@Override
+			public void onSuccess(ArrayList<RiskFactor> risks) {
 //				arrayListRiskFactors.clear();
 //				arrayListRiskFactors = risks;
-//				fetchStrategic(riskAssesmentView, selectedTab);
-//			}
-//		});
+				fetchStrategic(riskAssesmentView, selectedTab);
+			}
+		});
 //		
 //		rpcService.fetchDegreeImportance(companyID, new AsyncCallback<ArrayList<DegreeImportance>>() {
 //
@@ -190,7 +190,7 @@ public class RiskAssesmentStrategicViewData {
 //			}
 //		});
 //		
-//	}
+	}
 
 	public void fetchStrategic(final RiskAssesmentView riskAssesmentView, final int tab) {
 		HashMap<String, String> hm = new HashMap<String, String>();
@@ -301,7 +301,7 @@ public class RiskAssesmentStrategicViewData {
 					treeMain.addStyleName("statusRowStrategic");
 					/////
 					treeItem.addItem(riskAssesmentStrategicView);
-					final ArrayList<StrategicRisk> arrayListStrategicRisks = new ArrayList<StrategicRisk>();
+//					final ArrayList<StrategicRisk> arrayListStrategicRisks = new ArrayList<StrategicRisk>();
 //					arrayListAddMoreStrategic = new ArrayList<StrategicRisk>();
 					//list that have impact ratings
 					final ArrayList<TextBox> arrayWeightage = new ArrayList<TextBox>();
@@ -424,13 +424,13 @@ public class RiskAssesmentStrategicViewData {
 							riskFactorsView.getRiskFactorsSettingsView().invisibleIcons();
 							riskFactorsView.setRiskFactors(riskFactor, companyID);
 							arrayOverAllRatings.add(riskFactorsView.getListBoxProbability());
-							listImgProbability.add(riskFactorsView.getImgRiskRating());
+							listImgProbability.add(riskFactorsView.getImgRiskRating());							
+//							StrategicRisk strategicRisk = new StrategicRisk();
+//							strategicRisk.setId(riskAssesmentDTOs.get(index).getStrategicRisks().get(i).getId());
+//							strategicRisk.setStrategicId(riskAssesmentDTOs.get(index).getStrategic());
+//							strategicRisk.setId(riskFactor.getId());
 							arrayListSaveRiskFactors.add(riskFactor);
-							StrategicRisk strategicRisk = new StrategicRisk();
-							strategicRisk.setId(riskAssesmentDTOs.get(index).getStrategicRisks().get(i).getId());
-							strategicRisk.setStrategicId(riskAssesmentDTOs.get(index).getStrategic());
-							strategicRisk.setId(riskFactor.getId());
-							arrayListStrategicRisks.add(strategicRisk);
+//							arrayListStrategicRisks.add(strategicRisk);
 						}
 					}
 					
@@ -559,7 +559,7 @@ public class RiskAssesmentStrategicViewData {
 //					}
 					selectedTab = tab;
 //					arrayListStrategicRisks.addAll(setArrayListStrategicRisksToSave(arrayListAddMoreStrategic));
-//					setHandlers(arrayListStrategicRisks ,riskAssesmentView, riskAssesmentDTOs, riskAssesmentStrategicView, riskFactorsUpdated, arrayListSaveDegreeImportance, arrayListSaveRiskFactors);
+					setButtonsHandlers(riskAssesmentView, riskAssesmentDTOs, riskAssesmentStrategicView, riskFactorsUpdated, arrayListSaveDegreeImportance, arrayListSaveRiskFactors);
 					arrayListUpdatedStrategics.add(riskAssesmentStrategicView);
 				}
 				loadingPopup.remove();
@@ -587,14 +587,14 @@ public class RiskAssesmentStrategicViewData {
 //		return listSaveStrategicRisks;
 //	} 
 	
-	private void setHandlers(final ArrayList<StrategicRisk> arrayListStrategicRisks, final RiskAssesmentView riskAssesmentView,	final ArrayList<RiskAssesmentDTO> riskAssesmentDTOs, final RiskAssesmentStrategicView riskAssesmentStrategicView,
-			final ArrayList<RiskFactorsView> riskFactorsUpdated, final ArrayList<DegreeImportance> arrayListSaveDegreeImportance, final ArrayList<RiskFactor>arrayListSaveRiskFactors) {
+	private void setButtonsHandlers(final RiskAssesmentView riskAssesmentView,	final ArrayList<RiskAssesmentDTO> riskAssesmentDTOs, final RiskAssesmentStrategicView riskAssesmentStrategicView,
+			final ArrayList<RiskFactorsView> riskFactorsUpdated, final ArrayList<StrategicRisk> arrayListSaveDegreeImportance, final ArrayList<StrategicRiskFactor> arrayListSaveRiskFactors) {
 
 		riskAssesmentStrategicView.getBtnApprove().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				saveAssesment(arrayListStrategicRisks, riskAssesmentView, riskAssesmentDTOs, riskAssesmentStrategicView, riskFactorsUpdated,
+				saveAssesment(riskAssesmentView, riskAssesmentDTOs, riskAssesmentStrategicView, riskFactorsUpdated,
 						"approve", riskAssesmentStrategicView.getBtnApprove(), arrayListSaveDegreeImportance, arrayListSaveRiskFactors);
 			}
 		});
@@ -610,7 +610,7 @@ public class RiskAssesmentStrategicViewData {
 					@Override
 					public void onClick(ClickEvent event) {
 						riskAssesmentStrategicView.setComment(amendmentPopup.getComments().getText());
-						saveAssesment(arrayListStrategicRisks, riskAssesmentView, riskAssesmentDTOs, riskAssesmentStrategicView,
+						saveAssesment( riskAssesmentView, riskAssesmentDTOs, riskAssesmentStrategicView,
 								riskFactorsUpdated, "amend", amendmentPopup.getBtnSubmit(), arrayListSaveDegreeImportance, arrayListSaveRiskFactors);
 						amendmentPopup.getPopupComments().removeFromParent();
 					}
@@ -654,7 +654,7 @@ public class RiskAssesmentStrategicViewData {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				saveAssesment(arrayListStrategicRisks, riskAssesmentView, riskAssesmentDTOs, riskAssesmentStrategicView, riskFactorsUpdated,
+				saveAssesment(riskAssesmentView, riskAssesmentDTOs, riskAssesmentStrategicView, riskFactorsUpdated,
 						"save", riskAssesmentStrategicView.getBtnSave(), arrayListSaveDegreeImportance, arrayListSaveRiskFactors);
 			}
 
@@ -664,7 +664,7 @@ public class RiskAssesmentStrategicViewData {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				saveAssesment(arrayListStrategicRisks, riskAssesmentView, riskAssesmentDTOs, riskAssesmentStrategicView, riskFactorsUpdated,
+				saveAssesment(riskAssesmentView, riskAssesmentDTOs, riskAssesmentStrategicView, riskFactorsUpdated,
 						"submit", riskAssesmentStrategicView.getBtnSubmit(), arrayListSaveDegreeImportance, arrayListSaveRiskFactors);
 			}
 		});
@@ -713,12 +713,12 @@ public class RiskAssesmentStrategicViewData {
 		});
 	}
 
-	private void saveAssesment(ArrayList<StrategicRisk> arrayListStrategicRisks, final RiskAssesmentView riskAssesmentView,
+	private void saveAssesment(final RiskAssesmentView riskAssesmentView,
 			final ArrayList<RiskAssesmentDTO> riskAssesmentDTOs,
 			final RiskAssesmentStrategicView riskAssesmentStrategicView,
-			final ArrayList<RiskFactorsView> riskFactorsUpdated, String todo, Button button, ArrayList<DegreeImportance> arrayListSaveDegreeImportance, ArrayList<RiskFactor> arrayListSaveRiskFactors) {
+			final ArrayList<RiskFactorsView> riskFactorsUpdated, String todo, Button button, ArrayList<StrategicRisk> arrayListSaveDegreeImportance, ArrayList<StrategicRiskFactor> arrayListSaveRiskFactors) {
 //		ArrayList<StrategicRisk> strategicRisks = new ArrayList<StrategicRisk>();
-		ArrayList<StrategicRisk> strategicRisks = arrayListStrategicRisks;
+//		ArrayList<StrategicRisk> strategicRisks = arrayListStrategicRisks;
 		// riskAssesmentDTOs.get(riskAssesmentStrategicView.getIndex()).getStrategic().setPhase("RiskAssesment1");
 		riskAssesmentDTOs.get(riskAssesmentStrategicView.getIndex()).getStrategic().setPhase(2);
 		riskAssesmentDTOs.get(riskAssesmentStrategicView.getIndex()).getStrategic().setNextPhase(3);
@@ -764,7 +764,7 @@ public class RiskAssesmentStrategicViewData {
 //			strategicRisks.add(strategicRisk);
 //		}
 
-		saveRiskAssesment(arrayListStrategicRisks, riskAssesmentView, todo, button);
+		saveRiskAssesment(arrayListSaveDegreeImportance, arrayListSaveRiskFactors, riskAssesmentView, todo, button);
 	}
 
 	public void disablePanel(RiskAssesmentStrategicView riskAssesmentStrategicView, RiskFactorsView riskFactorsView,
@@ -844,7 +844,7 @@ public class RiskAssesmentStrategicViewData {
 		}
 	}
 
-	public void saveRiskAssesment(ArrayList<StrategicRisk> strategicRisks, final RiskAssesmentView riskAssesmentView,
+	public void saveRiskAssesment(ArrayList<StrategicRisk> strategicDegreeImportance, ArrayList<StrategicRiskFactor> arrayListSaveRiskFactors, final RiskAssesmentView riskAssesmentView,
 			String todo, final Button button) {
 //		setArrayListStrategicRisksToSave(arrayListAddMoreStrategic);
 //		for(StrategicRisk strategicRisk : arrayListAddMoreStrategic)
@@ -887,7 +887,7 @@ public class RiskAssesmentStrategicViewData {
 //			}
 //		});
 		
-		rpcService.saveRiskAssesment(hm, strategicRisks, new AsyncCallback<String>() {
+		rpcService.saveRiskAssesment(hm, strategicDegreeImportance, arrayListSaveRiskFactors, new AsyncCallback<String>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -929,7 +929,6 @@ public class RiskAssesmentStrategicViewData {
 				};// timer for showing the popup of "update"
 				time.schedule(2000);
 				riskAssesmentView.auditUniverseIdentificationTabs();
-
 			}
 		});
 

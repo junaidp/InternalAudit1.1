@@ -70,27 +70,34 @@ public class AddDegreeOfImportanceView extends HorizontalPanel {
 		return flexPanel;
 	}
 
-	private void changeHandlers(final StrategicRisk degreeImportanceNew) {
+	private void changeHandlers(final StrategicRisk strategicDegreeImportanceNew) {
 		txtAreaComment.addValueChangeHandler(new ValueChangeHandler<String>() {
 			
 			@Override
 			public void onValueChange(ValueChangeEvent<String> text) {
-//				degreeImportanceNew.setComments(text.getValue());
+				strategicDegreeImportanceNew.setComments(text.getValue());
 			}
 		});
 		listBoxDegreeImportance.addChangeHandler(new ChangeHandler() {
 			
 			@Override
 			public void onChange(ChangeEvent value) {
-//				degreeImportanceNew.setRating(Integer.parseInt((listBoxRatings.getSelectedValue())));
-				setDegreeID(degreeImportanceNew);
+				strategicDegreeImportanceNew.setRatings(Integer.parseInt((listBoxRatings.getSelectedValue())));
+				setDegreeID(strategicDegreeImportanceNew);
 			}
 		}) ;
 		txtWeightage.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<String> value) {
-//				degreeImportanceNew.setWeightage(Integer.parseInt(value.getValue()));
+				strategicDegreeImportanceNew.setWeightage(Integer.parseInt(value.getValue()));
+			}
+		});
+		listBoxRatings.addChangeHandler(new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent arg0) {
+				strategicDegreeImportanceNew.setRatings(Integer.parseInt(listBoxRatings.getSelectedValue()));
 			}
 		});
 	}

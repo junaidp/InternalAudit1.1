@@ -73,19 +73,26 @@ public class RiskFactorsDataView extends VerticalPanel{
 //				riskFactorToSave.setRiskName(riskName.getValue());
 //			}
 //		});
-		riskFactorsSettingsView.getTxtRiskDescription().addValueChangeHandler(new ValueChangeHandler<String>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<String> comments) {
-				riskFactorToSave.getRiskFactorID().setRiskDescription(comments.getValue());
-			}
-		});
+//		riskFactorsSettingsView.getTxtRiskDescription().addValueChangeHandler(new ValueChangeHandler<String>() {
+//
+//			@Override
+//			public void onValueChange(ValueChangeEvent<String> comments) {
+//				riskFactorToSave.getRiskFactorID().setRiskDescription(comments.getValue());
+//			}
+//		});
 		
 		listBoxRiskFactors.addChangeHandler(new ChangeHandler() {
 			
 			@Override
 			public void onChange(ChangeEvent arg0) {
 				setRiskID(riskFactorToSave);
+			}
+		});
+		listBoxProbability.addChangeHandler(new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent arg0) {
+				riskFactorToSave.setProbability(Integer.parseInt(listBoxProbability.getSelectedValue()));
 			}
 		});
 	}
@@ -128,10 +135,10 @@ public class RiskFactorsDataView extends VerticalPanel{
 
 	public void setRiskFactors(StrategicRiskFactor riskFactorToSave, int companyID) {
 //		riskFactorToSave.setCompanyID(companyID);
-		if(riskFactorToSave.getRiskFactorID().getRiskDescription() == null)
-			riskFactorToSave.getRiskFactorID().setRiskDescription(riskFactorsSettingsView.getTxtRiskDescription().getText());
-		if(riskFactorToSave.getRiskFactorID().getRiskName() == null)
-			riskFactorToSave.getRiskFactorID().setRiskName(listBoxRiskFactors.getSelectedValue());
+//		if(riskFactorToSave.getRiskFactorID().getRiskDescription() == null)
+//			riskFactorToSave.getRiskFactorID().setRiskDescription(riskFactorsSettingsView.getTxtRiskDescription().getText());
+//		if(riskFactorToSave.getRiskFactorID().getRiskName() == null)
+//			riskFactorToSave.getRiskFactorID().setRiskName(listBoxRiskFactors.getSelectedValue());
 		changeHandlers(riskFactorToSave);	
 		setRiskID(riskFactorToSave);
 	}

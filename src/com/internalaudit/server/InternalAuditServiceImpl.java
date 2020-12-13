@@ -70,6 +70,7 @@ import com.internalaudit.shared.StrategicAudit;
 import com.internalaudit.shared.StrategicDTO;
 import com.internalaudit.shared.StrategicDepartments;
 import com.internalaudit.shared.StrategicRisk;
+import com.internalaudit.shared.StrategicRiskFactor;
 import com.internalaudit.shared.StrategicSubProcess;
 import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.SuggestedControls;
@@ -199,7 +200,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	}
 
 	@Override
-	public String saveRiskAssesment(HashMap<String, String> hm, ArrayList<StrategicRisk> strategicRisks)
+	public String saveRiskAssesment(HashMap<String, String> hm, ArrayList<StrategicRisk> strategicRisks, ArrayList<StrategicRiskFactor>arraySaveStrategicRiskFactors)
 			throws Exception {
 		if (isLoggedIn()) {
 
@@ -210,7 +211,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 			int companyId = (Integer) session.getAttribute("companyId");
 			hm.put("year", year + "");
 			hm.put("companyId", companyId + "");
-			return rdbHelper.saveRiskAssesment(strategicRisks, loggedInUser, hm);
+			return rdbHelper.saveRiskAssesment(strategicRisks, arraySaveStrategicRiskFactors, loggedInUser, hm);
 		} else {
 
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);

@@ -53,6 +53,7 @@ import com.internalaudit.shared.StrategicAudit;
 import com.internalaudit.shared.StrategicDTO;
 import com.internalaudit.shared.StrategicDepartments;
 import com.internalaudit.shared.StrategicRisk;
+import com.internalaudit.shared.StrategicRiskFactor;
 import com.internalaudit.shared.StrategicSubProcess;
 import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.SuggestedControls;
@@ -79,7 +80,8 @@ public interface InternalAuditService extends RemoteService {
 
 	ArrayList<RiskAssesmentDTO> fetchRiskAssesment(HashMap<String, String> hm) throws Exception;
 
-	String saveRiskAssesment(HashMap<String, String> hm, ArrayList<StrategicRisk> strategicRisks) throws Exception;
+	String saveRiskAssesment(HashMap<String, String> hm, ArrayList<StrategicRisk> strategicRisks,
+			ArrayList<StrategicRiskFactor> arrayListSaveRiskFactors) throws Exception;
 
 	String sendBackStrategic(Strategic strategics) throws Exception;
 

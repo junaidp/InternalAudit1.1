@@ -1914,6 +1914,31 @@ public class MySQLRdbHelper {
 	// return strategicRisks;
 	//
 	// }
+	
+	public void saveStrategicRiskFactors(StrategicRiskFactor strategicRiskFactor) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+
+			Criteria crit = session.createCriteria(StrategicRiskFactor.class);
+			crit.createAlias("strategicID", "strategic");
+			crit.createAlias("riskFactorID", "riskfactor");
+			crit.add(Restrictions.eq("strategic.id", strategicRiskFactor.getStrategicID().getId()));
+			crit.add(Restrictions.eq("riskFactor.riskFactorID", strategicRiskFactor.getRiskFactorID().getRiskId()));
+			// added by moqeet
+//			saveRiskFactor(strategicRiskFactor);
+			session.saveOrUpdate(strategicRiskFactor);
+			session.flush();
+			logger.info(String.format("(Inside saveStrategicRisk) saving StrategicRisk for strategicObjective : "
+					+ strategicRiskFactor.getStrategicID().getStrategicObjective() + " " + new Date()));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchStrategicsRisk", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+	}
+
 
 	public void saveStrategicRisk(StrategicRisk strategicRisk) {
 		Session session = null;
@@ -1922,7 +1947,7 @@ public class MySQLRdbHelper {
 
 			Criteria crit = session.createCriteria(StrategicRisk.class);
 			crit.createAlias("strategicId", "strategic");
-			crit.createAlias("riskFactorId", "riskFactor");
+//			crit.createAlias("riskFactorId", "riskFactor");
 			crit.createAlias("degreeImportanceID", "degreeImportance");
 			crit.add(Restrictions.eq("strategic.id", strategicRisk.getStrategicId().getId()));
 //			crit.add(Restrictions.eq("riskFactor.riskId", strategicRisk.getRiskFactorId().getRiskId()));
@@ -1943,12 +1968,12 @@ public class MySQLRdbHelper {
 			// tr.commit();
 			// }
 			// added by moqeet
-			ArrayList<DegreeImportance> arrayListSaveDegreeImportance = new ArrayList<DegreeImportance>();
-			arrayListSaveDegreeImportance.add(strategicRisk.getDegreeImportanceID());
-			saveDegreeImportance(arrayListSaveDegreeImportance);
-			ArrayList<RiskFactor> arrayListSaveRiskFactor = new ArrayList<RiskFactor>();
+//			ArrayList<DegreeImportance> arrayListSaveDegreeImportance = new ArrayList<DegreeImportance>();
+//			arrayListSaveDegreeImportance.add(strategicRisk.getDegreeImportanceID());
+//			saveDegreeImportance(arrayListSaveDegreeImportance);
+//			ArrayList<RiskFactor> arrayListSaveRiskFactor = new ArrayList<RiskFactor>();
 //			arrayListSaveRiskFactor.add(strategicRisk.getRiskFactorId());
-			saveRiskFactor(arrayListSaveRiskFactor);
+//			saveRiskFactor(arrayListSaveRiskFactor);
 			session.saveOrUpdate(strategicRisk);
 			session.flush();
 			logger.info(String.format("(Inside saveStrategicRisk) saving StrategicRisk for strategicObjective : "
@@ -1961,7 +1986,7 @@ public class MySQLRdbHelper {
 		}
 	}
 
-	public String saveRiskAssesment(ArrayList<StrategicRisk> strategicRisks, Employee loggedInUser,
+	public String saveRiskAssesment(ArrayList<StrategicRisk> strategicRisks, ArrayList<StrategicRiskFactor> arraySaveStrategicRiskFactors, Employee loggedInUser,
 			HashMap<String, String> hm) {
 		String todo = hm.get("todo");
 		String tab = "0";
@@ -1971,7 +1996,9 @@ public class MySQLRdbHelper {
 		saveOneStrategic(strategicRisks.get(0).getStrategicId(), loggedInUser, todo, tab, year, companyId);
 		for (int i = 0; i < strategicRisks.size(); i++) {
 			saveStrategicRisk(strategicRisks.get(i));
-
+		}
+		for(StrategicRiskFactor strategicRiskFactor : arraySaveStrategicRiskFactors) {
+			saveStrategicRiskFactors(strategicRiskFactor);
 		}
 		logger.info(String.format("(Inside saveRiskAssesment) saving Risk Assesment for year : " + year
 				+ "for Company ID : " + companyId + " of User Logged In " + loggedInUser + " under tab " + tab
@@ -7002,7 +7029,8 @@ public class MySQLRdbHelper {
 			crit.add(Restrictions.eq("companyId", companyId));
 			// crit.add(Restrictions.eq("tab", domain));
 			// crit.add(Restrictions.eq("rating", risk));
-			crit.add(Restrictions.isNotNull("auditableUnit"));
+//			crit.add(Restrictions.isNotNull("auditableUnit"));
+//			Commented 7005: AuditableUnit is NULL until AuditableUnitTab is processed
 			// crit.add(Restrictions.ne("auditableUnit", ""));
 
 			Disjunction domainOR = Restrictions.disjunction();
@@ -11708,6 +11736,22 @@ public class MySQLRdbHelper {
 			session.close();
 		}
 		return resultRiskFactor;
+	}
+	
+	public void saveStrategicRiskFactor(ArrayList<StrategicRiskFactor> arrayStrategicRiskFactor) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			for (StrategicRiskFactor strategicRiskFactor : arrayStrategicRiskFactor) {
+				session.saveOrUpdate(strategicRiskFactor);
+				session.flush();
+			}
+			logger.info(String.format("(Inside saveStrategicRiskFactor) Save trategic Risk Factor"));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in saveStrategicRiskFactor", ex.getMessage()), ex);
+		} finally {
+			session.close();
+		}
 	}
 
 	public ArrayList<RiskFactor> deleteRiskFactor(int riskID) {
