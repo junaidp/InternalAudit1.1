@@ -832,7 +832,13 @@ public class MySQLRdbHelper {
 			String todo = hm.get("todo");
 			// String tab = hm.get("tab");
 			String tab = "0";
+			if (todo.equalsIgnoreCase("approve")) {				
+				saveDefaultDegreeImportanceRiskFactors(strategic, companyId);
+				todo = "submit";
+			}
 			saveOneStrategic(strategic, loggedInUser, todo, tab, year, companyId);
+//			if (strategic.getStatus().equals("save")) 
+//				saveDefaultDegreeImportanceRiskFactors(strategic, companyId);
 			logger.info(
 					String.format("(Inside saveStrategic) saving strategic for year : " + year + " of User Logged In "
 							+ loggedInUser + " under tab " + tab + " todo: " + todo + " " + new Date()));
@@ -882,21 +888,27 @@ public class MySQLRdbHelper {
 			if (strategic.getId() == 0) {
 				if (todo.equals("save")) {
 					initiateStrategic(strategic, loggedInUser, clientSideStrategic, session);
-				} else {
+				} 
+				else {
 					submitStrategic(strategic, loggedInUser, clientSideStrategic, session);
-				}
-			} else {
+					}
+			}
+			else {
 				strategic = (Strategic) session.get(Strategic.class, strategic.getId());
 				if (todo.equals("amend")) {
 					ammendStrategic(strategic, loggedInUser, clientSideStrategic, session);
 				} else if (todo.equals("save")) {
 					initiateStrategic(strategic, loggedInUser, clientSideStrategic, session);
-				} else {
+				}
+				else {
 					Employee initiatedBy = strategic.getInitiatedBy();
 					// if(strategic.getStatus().equals("submitted")){//CHANGE
 					if (strategic.getStatus().equals("submitted") || strategic.getPhase() == 3) {
+						if(strategic.getPhase() == 2) {
+							clientSideStrategic.setNextPhase(3);
+							}//added by moqeet
 						approveStrategic(strategic, loggedInUser, clientSideStrategic, initiatedBy, session);
-
+//						saveDefaultDegreeImportanceRiskFactors(strategic, companyId);
 					} else {
 						strategic.setAuditableUnit(clientSideStrategic.getAuditableUnit());
 						strategic.setProcess(clientSideStrategic.getProcess());// comment this line and,
@@ -968,8 +980,8 @@ public class MySQLRdbHelper {
 				saveDepartments(strategic);
 				saveStrategicTabs(strategic, session);
 			}
-			if(todo.equalsIgnoreCase("submit") && strategic.getApprovedBy().getEmployeeId() != 0) //employee id check added, this function only called on approve
-				saveDefaultDegreeImportanceRiskFactors(strategic, companyId);
+//			if(todo.equalsIgnoreCase("submit") && strategic.getApprovedBy().getEmployeeId() != 0) //employee id check added, this function only called on approve
+//				saveDefaultDegreeImportanceRiskFactors(strategic, companyId);
 			logger.info(String
 					.format("(Inside saveOneStrategic) saving one strategic for year : " + year + " of User Logged In "
 							+ loggedInUser + " under tab " + tab + " todo: " + todo + " " + new Date()));
@@ -1317,7 +1329,7 @@ public class MySQLRdbHelper {
 			crit.add(Restrictions.eq("year", year));// Year check added
 			crit.add(Restrictions.eq("companyId", companyId));// companyId check
 			// added
-			crit.add(Restrictions.ne("status", "deleted"));
+//			crit.add(Restrictions.ne("status", "deleted")); //duplicate
 			// if (phaseValue == 1 || phaseValue == 2) {
 			// crit.add(Restrictions.eq("tab", tab));
 			// }
@@ -1951,8 +1963,7 @@ public class MySQLRdbHelper {
 			crit.createAlias("degreeImportanceID", "degreeImportance");
 			crit.add(Restrictions.eq("strategic.id", strategicRisk.getStrategicId().getId()));
 //			crit.add(Restrictions.eq("riskFactor.riskId", strategicRisk.getRiskFactorId().getRiskId()));
-			crit.add(Restrictions.eq("degreeImportance.degreeImportanceID",
-					strategicRisk.getDegreeImportanceID().getDegreeImportanceID()));
+			crit.add(Restrictions.eq("degreeImportance.degreeImportanceID",	strategicRisk.getDegreeImportanceID().getDegreeImportanceID()));
 			// if (crit.list().size() > 0) {
 			// Transaction tr1 = session.beginTransaction();
 			// StrategicRisk savedStrategicRisk = (StrategicRisk) crit.list().get(0);

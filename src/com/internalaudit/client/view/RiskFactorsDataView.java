@@ -118,8 +118,11 @@ public class RiskFactorsDataView extends VerticalPanel{
 	
 	private void setRiskID(StrategicRiskFactor riskFactorToSave) {
 		for(int i = 0; i < arrayStrategicRiskFactor.size(); i++) {			
-			if(listBoxRiskFactors.getSelectedItemText().equals(arrayStrategicRiskFactor.get(i).getRiskFactorID().getRiskName()))
-				riskFactorToSave.getRiskFactorID().setRiskId(arrayStrategicRiskFactor.get(i).getRiskFactorID().getRiskId());
+			if(listBoxRiskFactors.getSelectedItemText().equals(arrayStrategicRiskFactor.get(i).getRiskFactorID().getRiskName())) {
+				riskFactorToSave.setId(arrayStrategicRiskFactor.get(i).getId());
+				riskFactorToSave.setRiskFactorID(arrayStrategicRiskFactor.get(i).getRiskFactorID());
+				riskFactorToSave.setStrategicID(arrayStrategicRiskFactor.get(i).getStrategicID());
+			}
 		}
 	}
 	
@@ -133,7 +136,7 @@ public class RiskFactorsDataView extends VerticalPanel{
 		setDescription(listBoxRiskFactors.getSelectedValue());
 	}
 
-	public void setRiskFactors(StrategicRiskFactor riskFactorToSave, int companyID) {
+	public void setRiskFactors(StrategicRiskFactor riskFactorToSave) {
 //		riskFactorToSave.setCompanyID(companyID);
 //		if(riskFactorToSave.getRiskFactorID().getRiskDescription() == null)
 //			riskFactorToSave.getRiskFactorID().setRiskDescription(riskFactorsSettingsView.getTxtRiskDescription().getText());
@@ -141,6 +144,14 @@ public class RiskFactorsDataView extends VerticalPanel{
 //			riskFactorToSave.getRiskFactorID().setRiskName(listBoxRiskFactors.getSelectedValue());
 		changeHandlers(riskFactorToSave);	
 		setRiskID(riskFactorToSave);
+		riskFactorToSave.setCheck(1); 
+	}
+	
+	public void enableDisableFields(boolean flag) {
+		if(!flag)
+			riskFactorsSettingsView.invisibleIcons();
+		listBoxProbability.setEnabled(flag);
+		listBoxRiskFactors.setEnabled(flag);
 	}
 
 	public AddRiskFactorsSettingsView getRiskFactorsSettingsView() {

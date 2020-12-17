@@ -50,6 +50,7 @@ public class AddRiskFactorsSettingsView extends VerticalPanel {
 		imgDelete.setVisible(false);
 		checkBox.setVisible(false);
 		txtRiskFactors.setEnabled(false);
+		txtRiskDescription.setEnabled(false); 
 	}
 
 	public TextBox getTxtRiskFactors() {

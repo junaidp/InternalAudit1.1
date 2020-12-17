@@ -80,7 +80,7 @@ public class RiskAssesmentStrategicViewData {
 	private float resultImpact;
 	private float resultRating;
 	private String actionPerformed;
-	private int indexer = 1;
+	private int indexer = 0;
 //	private ArrayList<StrategicRisk> arrayListAddMoreStrategic;
 
 	public void setData(VerticalPanel strategicPanel, RiskAssesmentView riskAssesmentView, int companyID) {
@@ -222,9 +222,10 @@ public class RiskAssesmentStrategicViewData {
 				// loadingPopup.remove();
 				arrayListPreviousStrategicsEntity = riskAssesmentDTOs;
 
-				for (int index = 0; index < riskAssesmentDTOs.size(); index++) {
-					indexer = index;
+				for ( int index = 0; index < riskAssesmentDTOs.size(); index++) {
+					
 					final DataSetter dataSetter = new DataSetter();
+					dataSetter.setId(index);
 					dataSetter.setComment(riskAssesmentDTOs.get(index).getStrategic().getComments());
 					final ArrayList<StrategicRisk> arrayListSaveDegreeImportance = new ArrayList<StrategicRisk>();
 					final ArrayList<StrategicRiskFactor> arrayListSaveRiskFactors = new ArrayList<StrategicRiskFactor>();
@@ -306,6 +307,8 @@ public class RiskAssesmentStrategicViewData {
 					//list that have impact ratings
 					final ArrayList<TextBox> arrayWeightage = new ArrayList<TextBox>();
 					final ArrayList<ListBox> listBoxesImpact = new ArrayList<ListBox>();
+					final ArrayList<AddDegreeOfImportanceView> listDegreeImportanceView = new ArrayList<AddDegreeOfImportanceView>();
+					final ArrayList<RiskFactorsDataView> listRiskFactor = new ArrayList<RiskFactorsDataView>();
 					//Degree Importance view
 					
 					DegreeOfImportanceHeading viewDegreeOfImportanceHeading = new DegreeOfImportanceHeading();
@@ -335,10 +338,11 @@ public class RiskAssesmentStrategicViewData {
 									addDegreeOfImportanceView.getListBoxRatings().setSelectedIndex(i);
 								}
 							vpnlDegreeImporatnce.add(addDegreeOfImportanceView);	
-							addDegreeOfImportanceView.setDegreeImportance(strategicDegreeImportance, companyID);
+							addDegreeOfImportanceView.setDegreeImportance(strategicDegreeImportance);
 							arrayListSaveDegreeImportance.add(strategicDegreeImportance);
 							arrayWeightage.add(addDegreeOfImportanceView.getTxtWeightage());
 							listBoxesImpact.add(addDegreeOfImportanceView.getListBoxRatings());
+							listDegreeImportanceView.add(addDegreeOfImportanceView);
 						}
 							
 //						RiskFactor riskFactor = new RiskFactor(); 
@@ -369,6 +373,10 @@ public class RiskAssesmentStrategicViewData {
 					final VerticalPanel vpnlAddDegreeImportanceView = new VerticalPanel();
 					vpnlDegreeImporatnce.add(vpnlAddDegreeImportanceView);
 					//addIconClickHandler
+					if (riskAssesmentDTOs.get(index).getStrategic().getPhase() == 2) 
+						viewDegreeOfImportanceHeading.getImgAddDegree().setVisible(true);
+					else
+						viewDegreeOfImportanceHeading.getImgAddDegree().setVisible(false);
 					viewDegreeOfImportanceHeading.getImgAddDegree().addClickHandler(new ClickHandler() {
 						
 						@Override
@@ -377,15 +385,17 @@ public class RiskAssesmentStrategicViewData {
 								addDegreeOfImportanceView.getAddDegreeOfImportanceSettingsView().invisibleIcons();
 								enableDeleteButton(addDegreeOfImportanceView);
 								vpnlAddDegreeImportanceView.add(addDegreeOfImportanceView);	
-								addDegreeOfImportanceView.setListBoxDegreeImportance(riskAssesmentDTOs.get(indexer).getStrategicRisks());
+								addDegreeOfImportanceView.setListBoxDegreeImportance(riskAssesmentDTOs.get(dataSetter.getId()).getStrategicRisks());
 								StrategicRisk strategicDegreeImportanceNew = new StrategicRisk();								
-								addDegreeOfImportanceView.setDegreeImportance(strategicDegreeImportanceNew, companyID);
+								addDegreeOfImportanceView.setDegreeImportance(strategicDegreeImportanceNew);
 								arrayWeightage.add(addDegreeOfImportanceView.getTxtWeightage());
 								listBoxesImpact.add(addDegreeOfImportanceView.getListBoxRatings());
+								strategicDegreeImportanceNew.setCheck(1);
 								arrayListSaveDegreeImportance.add(strategicDegreeImportanceNew);
 //								StrategicRisk strategicRisk = new StrategicRisk();
 //								strategicRisk.setDegreeImportanceID(strategicDegreeImportanceNew);
 //								arrayListAddMoreStrategic.add(strategicDegreeImportanceNew);
+								listDegreeImportanceView.add(addDegreeOfImportanceView);
 						}
 
 						private void enableDeleteButton(final AddDegreeOfImportanceView addDegreeOfImportanceView) {
@@ -422,7 +432,7 @@ public class RiskAssesmentStrategicViewData {
 							riskFactorsView.updateProbilityImage();
 							riskAssesmentStrategicView.getRiskFactors().add(riskFactorsView);
 							riskFactorsView.getRiskFactorsSettingsView().invisibleIcons();
-							riskFactorsView.setRiskFactors(riskFactor, companyID);
+							riskFactorsView.setRiskFactors(riskFactor);
 							arrayOverAllRatings.add(riskFactorsView.getListBoxProbability());
 							listImgProbability.add(riskFactorsView.getImgRiskRating());							
 //							StrategicRisk strategicRisk = new StrategicRisk();
@@ -431,11 +441,16 @@ public class RiskAssesmentStrategicViewData {
 //							strategicRisk.setId(riskFactor.getId());
 							arrayListSaveRiskFactors.add(riskFactor);
 //							arrayListStrategicRisks.add(strategicRisk);
+							listRiskFactor.add(riskFactorsView);
 						}
 					}
 					
 					final VerticalPanel vpnlAddRiskFactorView = new VerticalPanel();
 					vpnlRiskFactor.add(vpnlAddRiskFactorView);
+					if (riskAssesmentDTOs.get(index).getStrategic().getPhase() == 2) 
+						riskfactorsHeading.getRiskFactorSettingsHeading().getImgAddRiskFactor().setVisible(true);
+					else
+						riskfactorsHeading.getRiskFactorSettingsHeading().getImgAddRiskFactor().setVisible(false);
 					riskfactorsHeading.getRiskFactorSettingsHeading().getImgAddRiskFactor().addClickHandler(new ClickHandler() {
 						
 						@Override
@@ -443,17 +458,19 @@ public class RiskAssesmentStrategicViewData {
 							RiskFactorsDataView riskFactorsView = new RiskFactorsDataView();
 //							riskFactorsView.getRiskFactorsSettingsView().getTxtRiskDescription().setText(riskFactor.getRiskDescription());
 							riskFactorsView.getRiskFactorsSettingsView().invisibleIcons();
-							StrategicRiskFactor riskFactor = new StrategicRiskFactor();
-							riskFactorsView.setLisBoxRiskFactors(riskAssesmentDTOs.get(indexer).getArrayStrategicRiskFactor() );
-							riskFactorsView.setRiskFactors(riskFactor, companyID);
+							riskFactorsView.setLisBoxRiskFactors(riskAssesmentDTOs.get(dataSetter.getId()).getArrayStrategicRiskFactor() );
+							StrategicRiskFactor strategicRiskFactor = new StrategicRiskFactor();
+							riskFactorsView.setRiskFactors(strategicRiskFactor);
+							strategicRiskFactor.setProbability(Integer.parseInt(riskFactorsView.getListBoxProbability().getSelectedValue()));
 							vpnlAddRiskFactorView.add(riskFactorsView);
 							enableDeleteButton(riskFactorsView);
 							arrayOverAllRatings.add(riskFactorsView.getListBoxProbability());
 							listImgProbability.add(riskFactorsView.getImgRiskRating());
-							arrayListSaveRiskFactors.add(riskFactor);
+							arrayListSaveRiskFactors.add(strategicRiskFactor);
 //							StrategicRisk strategicRisk = new StrategicRisk();
 //							strategicRisk.setRiskFactorId(riskFactor);
 //							arrayListAddMoreStrategic.add(riskFactor);
+							listRiskFactor.add(riskFactorsView);
 						}
 
 						private void enableDeleteButton(final RiskFactorsDataView riskFactorsView) {
@@ -470,13 +487,14 @@ public class RiskAssesmentStrategicViewData {
 					calculateOverAllRisksRatings(arrayOverAllRatings, listImgProbability, riskAssesmentStrategicView.getLblOverallRatings());					
 //					for (int j = 0; j < arrayistRiskFactors.size(); j++) {
 //						RiskFactorsView riskFactorsView = new RiskFactorsView();
-//						if (riskAssesmentDTOs.get(index).getStrategic().getPhase() != 2
-//								|| riskAssesmentDTOs.get(index).getStrategic().getLoggedInUser() != riskAssesmentDTOs
-//										.get(index).getStrategic().getAssignedTo().getEmployeeId()) {
-//							disablePanel(riskAssesmentStrategicView, riskFactorsView,
-//									riskAssesmentDTOs.get(index).getStrategic());
-//						} else {
-//							enablePanel(riskAssesmentStrategicView, riskFactorsView);
+						if (riskAssesmentDTOs.get(index).getStrategic().getPhase() != 2
+								|| riskAssesmentDTOs.get(index).getStrategic().getLoggedInUser() != riskAssesmentDTOs
+										.get(index).getStrategic().getAssignedTo().getEmployeeId()) {
+							disablePanel(riskAssesmentStrategicView, listDegreeImportanceView, listRiskFactor,
+									riskAssesmentDTOs.get(index).getStrategic());
+						} 
+//						else {
+//							enablePanel(riskAssesmentStrategicView, listDegreeImportanceView, listRiskFactor);
 //						}
 //
 //						riskFactorsView.setRiskFactorId(arrayistRiskFactors.get(j).getRiskId());
@@ -763,30 +781,24 @@ public class RiskAssesmentStrategicViewData {
 //			strategicRisk.setDegreeImportanceID(arrayListSaveDegreeImportance.get(i));
 //			strategicRisks.add(strategicRisk);
 //		}
-
-		saveRiskAssesment(arrayListSaveDegreeImportance, arrayListSaveRiskFactors, riskAssesmentView, todo, button);
+		if(showErrorMessage(arrayListSaveDegreeImportance) == 100)
+			saveRiskAssesment(arrayListSaveDegreeImportance, arrayListSaveRiskFactors, riskAssesmentView, todo, button);
+		else
+			new DisplayAlert("Sum of all weightage must equal to 100%");
 	}
 
-	public void disablePanel(RiskAssesmentStrategicView riskAssesmentStrategicView, RiskFactorsView riskFactorsView,
-			Strategic strategic) {
+	public void disablePanel(RiskAssesmentStrategicView riskAssesmentStrategicView, ArrayList<AddDegreeOfImportanceView> listDegreeImportanceView, ArrayList<RiskFactorsDataView> listRiskFactor, Strategic strategic) {
+		for(AddDegreeOfImportanceView degreeImportanceView : listDegreeImportanceView) {
+			degreeImportanceView.enableDisableFields(false);
+		}
+		for(RiskFactorsDataView riskFactorView : listRiskFactor) {
+			riskFactorView.enableDisableFields(false);
+		}
 		riskAssesmentStrategicView.getHpnlButtonsApprovar().setVisible(false);
 		riskAssesmentStrategicView.getHpnlButtonInitiator().setVisible(false);
-//		riskAssesmentStrategicView.getOverallRating().setEnabled(false);
-		// riskAssesmentStrategicView.getOverallRating().addStyleName("listboxDisabled");
-		// new work
-//		riskAssesmentStrategicView.getListBoxUserOption().setEnabled(false);
 		riskAssesmentStrategicView.getRatingComment().setEnabled(false);
-
-		riskFactorsView.getImpact().setEnabled(false);
-		riskFactorsView.getImpact().addStyleName("listboxDisabledRating");
-
-		riskFactorsView.getProbabality().setEnabled(false);
-		riskFactorsView.getProbabality().addStyleName("listboxDisabledRating");
-		riskFactorsView.getRating().addStyleName("listboxDisabledRating");
-		riskFactorsView.getDescription().setEnabled(false);
 		riskAssesmentStrategicView.getSubmitted().setVisible(true);
 		riskAssesmentStrategicView.getLblImg().setVisible(false);
-
 		riskAssesmentStrategicView.getSubmitted()
 				.setTitle(strategic.getStatus() + ": In " + PhaseNames.getPhaseNames(strategic.getPhase()));
 
@@ -950,7 +962,6 @@ public class RiskAssesmentStrategicViewData {
 					// NOT Method Name..
 				}
 			}
-
 			@Override
 			public void onSuccess(String result) {
 				riskAssesmentView.auditUniverseIdentificationTabs();
@@ -958,7 +969,7 @@ public class RiskAssesmentStrategicViewData {
 		});
 	}
 
-	private Widget overallRatingLayout(ArrayList<TextBox> arrayImpactRating, ArrayList<ListBox> listBoxesImpact, ArrayList<ListBox> arrayOverAllRatings, ArrayList<Image> listImgProbability, Label lblOverallRating) {
+	private Widget overallRatingLayout(ArrayList<TextBox> arrayWeightage, ArrayList<ListBox> listBoxesImpact, ArrayList<ListBox> arrayOverAllRatings, ArrayList<Image> listImgProbability, Label lblOverallRating) {
 		final HorizontalPanel hpnlOverallRating = new HorizontalPanel();
 		LabelBold lblBoldOverallRating = new LabelBold("Overall impact rating");
 		lblBoldOverallRating.setWidth("974px");
@@ -966,31 +977,31 @@ public class RiskAssesmentStrategicViewData {
 		Label lblRatings = new Label();
 		lblRatings.getElement().getStyle().setFontWeight(FontWeight.BOLDER);
 		hpnlOverallRating.add(lblRatings);	
-		calculateOverAllImpactRatings(arrayImpactRating, listBoxesImpact, lblRatings, arrayOverAllRatings, listImgProbability, lblOverallRating);
+		calculateOverAllImpactRatings(arrayWeightage, listBoxesImpact, lblRatings, arrayOverAllRatings, listImgProbability, lblOverallRating);
 		return hpnlOverallRating;
 	}
 	
-	private void calculateOverAllImpactRatings(final ArrayList<TextBox> arrayImpactRating, final ArrayList<ListBox> listBoxesImpact, Label lblRatings, ArrayList<ListBox> arrayOverAllRatings, ArrayList<Image> listImgProbability, Label lblOverallRating) {
+	private void calculateOverAllImpactRatings(final ArrayList<TextBox> arrayWeightage, final ArrayList<ListBox> listBoxesImpact, Label lblRatings, ArrayList<ListBox> arrayOverAllRatings, ArrayList<Image> listImgProbability, Label lblOverallRating) {
 		resultImpact  = 0;
-		showErrorMessage(arrayImpactRating);
-		for(int i=0; i<arrayImpactRating.size(); i++) {
-			resultImpact +=  ((Float.parseFloat(arrayImpactRating.get(i).getValue())/100) * Float.parseFloat(listBoxesImpact.get(i).getSelectedValue()));
+//		showErrorMessage(arrayWeightage);
+		for(int i=0; i<arrayWeightage.size(); i++) {
+			resultImpact +=  ((Float.parseFloat(arrayWeightage.get(i).getValue())/100) * Float.parseFloat(listBoxesImpact.get(i).getSelectedValue()));
 		}
 //		if(resultImpact != 0)
 //			resultImpact = resultImpact / arrayImpactRating.size();
-		textBoxAndListBoxWeightageValueChangeHandler(arrayImpactRating, listBoxesImpact, lblRatings, arrayOverAllRatings, listImgProbability, lblOverallRating);
+		textBoxAndListBoxWeightageValueChangeHandler(arrayWeightage, listBoxesImpact, lblRatings, arrayOverAllRatings, listImgProbability, lblOverallRating);
 		lblRatings.setText(NumberFormat.getFormat(".00").format(resultImpact));
 		calculateOverAllRisksRatings(arrayOverAllRatings, listImgProbability, lblOverallRating);		
 	}
 	
-	private void textBoxAndListBoxWeightageValueChangeHandler(final ArrayList<TextBox> arrayImpactRating, final ArrayList<ListBox> listBoxesImpact, final Label lblRatings, final ArrayList<ListBox> arrayOverAllRatings, final ArrayList<Image> listImgProbability, final Label lblOverallRating) {
-		for(final TextBox txtWeightage : arrayImpactRating)
+	private void textBoxAndListBoxWeightageValueChangeHandler(final ArrayList<TextBox> arrayWeightage, final ArrayList<ListBox> listBoxesImpact, final Label lblRatings, final ArrayList<ListBox> arrayOverAllRatings, final ArrayList<Image> listImgProbability, final Label lblOverallRating) {
+		for(final TextBox txtWeightage : arrayWeightage)
 			txtWeightage.addValueChangeHandler(new ValueChangeHandler<String>() {
 				
 				@Override
 				public void onValueChange(ValueChangeEvent<String> arg0) {
 					txtWeightage.setText(arg0.getValue());
-				calculateOverAllImpactRatings(arrayImpactRating, listBoxesImpact, lblRatings, arrayOverAllRatings, listImgProbability, lblOverallRating);
+				calculateOverAllImpactRatings(arrayWeightage, listBoxesImpact, lblRatings, arrayOverAllRatings, listImgProbability, lblOverallRating);
 				}
 			});
 		for(final ListBox listBoxImpact : listBoxesImpact)
@@ -998,18 +1009,20 @@ public class RiskAssesmentStrategicViewData {
 				
 				@Override
 				public void onChange(ChangeEvent arg0) {
-					calculateOverAllImpactRatings(arrayImpactRating, listBoxesImpact, lblRatings, arrayOverAllRatings, listImgProbability, lblOverallRating);
+					calculateOverAllImpactRatings(arrayWeightage, listBoxesImpact, lblRatings, arrayOverAllRatings, listImgProbability, lblOverallRating);
 				}
 			});
 		} 
 	
-	private void showErrorMessage(ArrayList<TextBox> arrayImpactRating) {
+	private int showErrorMessage(ArrayList<StrategicRisk> arrayListSaveDegreeImportance) {
 		int sum = 0;
-		for(TextBox txtBox : arrayImpactRating) {
-			sum += Integer.parseInt(txtBox.getText());
+		int i=0;
+		for(StrategicRisk strategicRisk : arrayListSaveDegreeImportance) {
+			sum += strategicRisk.getWeightage();
 		}
-		if(sum >100)
-			new DisplayAlert("Sum of all weightage must equal to 100%");
+//		if(sum != 100)
+//			new DisplayAlert("Sum of all weightage must equal to 100%");
+		return sum;
 	}
 		
 	private void calculateOverAllRisksRatings(ArrayList<ListBox> arrayOverAllRatings, ArrayList<Image> listImgProbability, Label lblOverallRatings) {

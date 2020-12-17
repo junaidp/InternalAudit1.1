@@ -109,7 +109,7 @@ public class AddDegreeOfImportanceView extends HorizontalPanel {
 		for(StrategicRisk strategicDegreeImportance : arrayStrategicDegreeImportance)
 			if(strategicDegreeImportance.getCheck() == 0)
 				listBoxDegreeImportance.addItem(strategicDegreeImportance.getDegreeImportanceID().getDegreeImportanceName(), String.valueOf(strategicDegreeImportance.getDegreeImportanceID()));
-		setComments( arrayStrategicDegreeImportance);
+		setComments(arrayStrategicDegreeImportance);
 	}
 	
 	private void setComments(final ArrayList<StrategicRisk> arrayListDegreeImportance) {
@@ -127,10 +127,10 @@ public class AddDegreeOfImportanceView extends HorizontalPanel {
 		});
 	}
 	
-	public void setDegreeImportance(StrategicRisk strategicDegreeImportance, int companyID) {
+	public void setDegreeImportance(StrategicRisk strategicDegreeImportance) {
 //		strategicDegreeImportance.setCompanyID(companyID);
-		if(strategicDegreeImportance.getDegreeImportanceID().getDegreeImportanceName() == null)
-			strategicDegreeImportance.getDegreeImportanceID().setDegreeImportanceName(listBoxDegreeImportance.getSelectedValue());
+//		if(strategicDegreeImportance.getDegreeImportanceID().getDegreeImportanceName() == null)
+//			strategicDegreeImportance.getDegreeImportanceID().setDegreeImportanceName(listBoxDegreeImportance.getSelectedValue());
 		changeHandlers(strategicDegreeImportance);
 //		degreeImportanceNew.setComments(txtAreaComment.getText());
 		setDegreeID(strategicDegreeImportance);
@@ -138,8 +138,11 @@ public class AddDegreeOfImportanceView extends HorizontalPanel {
 	
 	private void setDegreeID(StrategicRisk strategicDgreeImportanceNew) {
 		for(int i=0; i<arrayDegreeImportance.size(); i++) {
-			if(Integer.parseInt(listBoxDegreeImportance.getSelectedValue()) == arrayDegreeImportance.get(i).getId())
+			if(listBoxDegreeImportance.getSelectedItemText().equalsIgnoreCase(arrayDegreeImportance.get(i).getDegreeImportanceID().getDegreeImportanceName())) {
 				strategicDgreeImportanceNew.setId(arrayDegreeImportance.get(i).getId());
+				strategicDgreeImportanceNew.setDegreeImportanceID(arrayDegreeImportance.get(i).getDegreeImportanceID());
+				strategicDgreeImportanceNew.setStrategicId(arrayDegreeImportance.get(i).getStrategicId()); 
+			}
 		}
 	}
 	
@@ -164,6 +167,15 @@ public class AddDegreeOfImportanceView extends HorizontalPanel {
 		});
 		
 		return resultRatings;
+	}
+	
+	public void enableDisableFields(boolean flag) {
+		if(!flag)
+			addDegreeOfImportanceSettingsView.invisibleIcons();
+		txtAreaComment.setEnabled(flag);
+		txtWeightage.setEnabled(flag);
+		listBoxDegreeImportance.setEnabled(flag);
+		listBoxRatings.setEnabled(flag);
 	}
 
 	public AddDegreeOfImportanceSettingsView getAddDegreeOfImportanceSettingsView() {

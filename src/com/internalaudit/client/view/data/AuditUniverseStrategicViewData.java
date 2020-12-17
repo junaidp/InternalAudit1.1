@@ -190,9 +190,9 @@ public class AuditUniverseStrategicViewData {
 
 		actionperformed = todo;
 		HashMap<String, String> hm = new HashMap<String, String>();
-		if (todo.equalsIgnoreCase("approve")) {
-			todo = "submit";
-		}
+//		if (todo.equalsIgnoreCase("approve")) {
+//			todo = "submit";
+//		}
 		hm.put("todo", todo);
 //		hm.put("tab", strategicView.getListStrategicTabs().getSelectedValue());
 		strategic.setArrayStrategicTabs(setStrategicTabs(strategic.getId(), strategicView.getListStrategicTabs()));
