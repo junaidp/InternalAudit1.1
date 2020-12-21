@@ -14,6 +14,15 @@ import com.sencha.gxt.widget.core.client.form.TextArea;
 public class ConsolidationView extends Composite {
 	private Label area;
 	private Image riskRating;
+	public Label getLblRiskRating() {
+		return lblRiskRating;
+	}
+
+	public void setLblRiskRating(Label lblRiskRating) {
+		this.lblRiskRating = lblRiskRating;
+	}
+
+	private Label lblRiskRating;
 	private TextArea auditableUnit;
 	private Label tab;
 	private Label comments = new Label(" Feedback ");
@@ -71,12 +80,14 @@ public class ConsolidationView extends Composite {
 		// area.setWordWrap(false);
 
 		riskRating = new Image();
+		lblRiskRating = new Label();
 		// horizontalPanel.add(riskRating);
 		HorizontalPanel hpnlSpaceRating = new HorizontalPanel();
 		horizontalPanel.add(hpnlSpaceRating);
+		hpnlSpaceRating.add(lblRiskRating);
 		hpnlSpaceRating.add(riskRating);
 		hpnlSpaceRating.setWidth("80px");
-		riskRating.getElement().getStyle().setPaddingLeft(15, Unit.PX);
+//		riskRating.getElement().getStyle().setPaddingLeft(15, Unit.PX);
 
 		auditableUnit = new TextArea();
 		horizontalPanel.add(auditableUnit);

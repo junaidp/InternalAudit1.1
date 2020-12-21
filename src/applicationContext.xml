@@ -62,7 +62,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 				<value>com.internalaudit.shared.RiskFactor</value>
 				<value>com.internalaudit.shared.DegreeImportance</value>
 				<value>com.internalaudit.shared.StrategicRiskFactor</value>
-				<value>com.internalaudit.shared.StrategicRisk</value>
+				<value>com.internalaudit.shared.StrategicDegreeImportance</value>
 				<value>com.internalaudit.shared.Skills</value>
 				<value>com.internalaudit.shared.JobTimeEstimation</value>
 				<value>com.internalaudit.shared.ResourceUse</value>

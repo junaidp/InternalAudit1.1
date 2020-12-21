@@ -14,8 +14,8 @@ import javax.persistence.Table;
 
 @Entity
 
-@Table(name = "strategicrisk")
-public class StrategicRisk implements Serializable {
+@Table(name = "strategicdegreeimportance")
+public class StrategicDegreeImportance implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

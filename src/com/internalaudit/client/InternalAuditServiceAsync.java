@@ -51,7 +51,7 @@ import com.internalaudit.shared.Strategic;
 import com.internalaudit.shared.StrategicAudit;
 import com.internalaudit.shared.StrategicDTO;
 import com.internalaudit.shared.StrategicDepartments;
-import com.internalaudit.shared.StrategicRisk;
+import com.internalaudit.shared.StrategicDegreeImportance;
 import com.internalaudit.shared.StrategicRiskFactor;
 import com.internalaudit.shared.StrategicSubProcess;
 import com.internalaudit.shared.SubProcess;
@@ -78,7 +78,7 @@ public interface InternalAuditServiceAsync {
 
 	void fetchRiskAssesment(HashMap<String, String> hm, AsyncCallback<ArrayList<RiskAssesmentDTO>> callback);
 
-	void saveRiskAssesment(HashMap<String, String> hm, ArrayList<StrategicRisk> strategicRisks,
+	void saveRiskAssesment(HashMap<String, String> hm, ArrayList<StrategicDegreeImportance> strategicRisks,
 			ArrayList<StrategicRiskFactor> arrayListSaveRiskFactors, AsyncCallback<String> callback);
 
 	void sendBackStrategic(Strategic strategics, AsyncCallback<String> callback);

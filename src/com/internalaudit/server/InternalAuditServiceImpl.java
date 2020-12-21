@@ -69,7 +69,7 @@ import com.internalaudit.shared.Strategic;
 import com.internalaudit.shared.StrategicAudit;
 import com.internalaudit.shared.StrategicDTO;
 import com.internalaudit.shared.StrategicDepartments;
-import com.internalaudit.shared.StrategicRisk;
+import com.internalaudit.shared.StrategicDegreeImportance;
 import com.internalaudit.shared.StrategicRiskFactor;
 import com.internalaudit.shared.StrategicSubProcess;
 import com.internalaudit.shared.SubProcess;
@@ -200,7 +200,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	}
 
 	@Override
-	public String saveRiskAssesment(HashMap<String, String> hm, ArrayList<StrategicRisk> strategicRisks, ArrayList<StrategicRiskFactor>arraySaveStrategicRiskFactors)
+	public String saveRiskAssesment(HashMap<String, String> hm, ArrayList<StrategicDegreeImportance> strategicRisks, ArrayList<StrategicRiskFactor>arraySaveStrategicRiskFactors)
 			throws Exception {
 		if (isLoggedIn()) {
 

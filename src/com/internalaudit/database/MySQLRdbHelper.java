@@ -127,7 +127,7 @@ import com.internalaudit.shared.Strategic;
 import com.internalaudit.shared.StrategicAudit;
 import com.internalaudit.shared.StrategicDTO;
 import com.internalaudit.shared.StrategicDepartments;
-import com.internalaudit.shared.StrategicRisk;
+import com.internalaudit.shared.StrategicDegreeImportance;
 import com.internalaudit.shared.StrategicRiskFactor;
 import com.internalaudit.shared.StrategicSubProcess;
 import com.internalaudit.shared.StrategicTabs;
@@ -1771,13 +1771,13 @@ public class MySQLRdbHelper {
 		return riskAssesmentDTOs;
 	}
 
-	public ArrayList<StrategicRisk> fetchRiskStrategic(int strategicId) {
+	public ArrayList<StrategicDegreeImportance> fetchRiskStrategic(int strategicId) {
 
 		Session session = null;
-		ArrayList<StrategicRisk> strategicRisks = new ArrayList<StrategicRisk>();
+		ArrayList<StrategicDegreeImportance> strategicRisks = new ArrayList<StrategicDegreeImportance>();
 		try {
 			session = sessionFactory.openSession();
-			Criteria crit = session.createCriteria(StrategicRisk.class);
+			Criteria crit = session.createCriteria(StrategicDegreeImportance.class);
 			crit.createAlias("strategicId", "strategic");
 //			crit.createAlias("riskFactorId", "riskFactor");
 			crit.createAlias("degreeImportanceID", "degreeImportance");
@@ -1806,7 +1806,7 @@ public class MySQLRdbHelper {
 			List rsList = crit.list();
 
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
-				StrategicRisk strategicRisk = (StrategicRisk) it.next();
+				StrategicDegreeImportance strategicRisk = (StrategicDegreeImportance) it.next();
 				HibernateDetachUtility.nullOutUninitializedFields(strategicRisk,
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 
@@ -1952,12 +1952,12 @@ public class MySQLRdbHelper {
 	}
 
 
-	public void saveStrategicRisk(StrategicRisk strategicRisk) {
+	public void saveStrategicRisk(StrategicDegreeImportance strategicRisk) {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
 
-			Criteria crit = session.createCriteria(StrategicRisk.class);
+			Criteria crit = session.createCriteria(StrategicDegreeImportance.class);
 			crit.createAlias("strategicId", "strategic");
 //			crit.createAlias("riskFactorId", "riskFactor");
 			crit.createAlias("degreeImportanceID", "degreeImportance");
@@ -1997,7 +1997,7 @@ public class MySQLRdbHelper {
 		}
 	}
 
-	public String saveRiskAssesment(ArrayList<StrategicRisk> strategicRisks, ArrayList<StrategicRiskFactor> arraySaveStrategicRiskFactors, Employee loggedInUser,
+	public String saveRiskAssesment(ArrayList<StrategicDegreeImportance> strategicRisks, ArrayList<StrategicRiskFactor> arraySaveStrategicRiskFactors, Employee loggedInUser,
 			HashMap<String, String> hm) {
 		String todo = hm.get("todo");
 		String tab = "0";
@@ -11821,7 +11821,7 @@ public class MySQLRdbHelper {
 		try {
 			session = sessionFactory.openSession();
 			for (DegreeImportance degreeImportance : arrayListDegreeImportance) {
-				StrategicRisk strategicRisk = new StrategicRisk();
+				StrategicDegreeImportance strategicRisk = new StrategicDegreeImportance();
 				strategicRisk.setDegreeImportanceID((DegreeImportance) session.get(DegreeImportance.class, degreeImportance.getDegreeImportanceID()));
 				strategicRisk.setStrategicId((Strategic) session.get(Strategic.class, strategic.getId()));
 				strategicRisk.setCheck(degreeImportance.getChecked());

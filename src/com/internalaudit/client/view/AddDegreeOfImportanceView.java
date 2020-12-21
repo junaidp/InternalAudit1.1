@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.gwt.crypto.util.Str;
 import com.internalaudit.shared.DegreeImportance;
 import com.internalaudit.shared.RiskFactor;
-import com.internalaudit.shared.StrategicRisk;
+import com.internalaudit.shared.StrategicDegreeImportance;
 
 public class AddDegreeOfImportanceView extends HorizontalPanel {
 	
@@ -28,7 +28,7 @@ public class AddDegreeOfImportanceView extends HorizontalPanel {
 	private TextArea txtAreaComment;;
 	private TextBox txtWeightage;
 	private ListBox listBoxRatings;
-	private ArrayList<StrategicRisk> arrayDegreeImportance;
+	private ArrayList<StrategicDegreeImportance> arrayDegreeImportance;
 	private AddDegreeOfImportanceSettingsView addDegreeOfImportanceSettingsView;
 	private float resultRatings = 0;
 	
@@ -38,7 +38,7 @@ public class AddDegreeOfImportanceView extends HorizontalPanel {
 	}
 
 	private Widget layout() {	
-		arrayDegreeImportance = new ArrayList<StrategicRisk>();
+		arrayDegreeImportance = new ArrayList<StrategicDegreeImportance>();
 		addDegreeOfImportanceSettingsView = new AddDegreeOfImportanceSettingsView();
 //		obj.set
 		FlexTable flexPanel = addDegreeOfImportanceSettingsView.getFlexPanel();
@@ -70,7 +70,7 @@ public class AddDegreeOfImportanceView extends HorizontalPanel {
 		return flexPanel;
 	}
 
-	private void changeHandlers(final StrategicRisk strategicDegreeImportanceNew) {
+	private void changeHandlers(final StrategicDegreeImportance strategicDegreeImportanceNew) {
 		txtAreaComment.addValueChangeHandler(new ValueChangeHandler<String>() {
 			
 			@Override
@@ -102,32 +102,32 @@ public class AddDegreeOfImportanceView extends HorizontalPanel {
 		});
 	}
 	
-	public void setListBoxDegreeImportance(ArrayList<StrategicRisk> arrayStrategicDegreeImportance) {
+	public void setListBoxDegreeImportance(ArrayList<StrategicDegreeImportance> arrayStrategicDegreeImportance) {
 		addDegreeOfImportanceSettingsView.getTxtName().setVisible(false);
 		listBoxDegreeImportance.setVisible(true);
 		arrayDegreeImportance = arrayStrategicDegreeImportance;
-		for(StrategicRisk strategicDegreeImportance : arrayStrategicDegreeImportance)
+		for(StrategicDegreeImportance strategicDegreeImportance : arrayStrategicDegreeImportance)
 			if(strategicDegreeImportance.getCheck() == 0)
 				listBoxDegreeImportance.addItem(strategicDegreeImportance.getDegreeImportanceID().getDegreeImportanceName(), String.valueOf(strategicDegreeImportance.getDegreeImportanceID()));
 		setComments(arrayStrategicDegreeImportance);
 	}
 	
-	private void setComments(final ArrayList<StrategicRisk> arrayListDegreeImportance) {
-		for(StrategicRisk strategicDegreeImportance : arrayListDegreeImportance) 
+	private void setComments(final ArrayList<StrategicDegreeImportance> arrayListDegreeImportance) {
+		for(StrategicDegreeImportance strategicDegreeImportance : arrayListDegreeImportance) 
 			if(listBoxDegreeImportance.getSelectedValue().equalsIgnoreCase(strategicDegreeImportance.getDegreeImportanceID().getDegreeImportanceName()))
 				txtAreaComment.setText(strategicDegreeImportance.getComments());
 		listBoxDegreeImportance.addChangeHandler(new ChangeHandler() {
 			
 			@Override
 			public void onChange(ChangeEvent arg0) {
-				for(StrategicRisk strategicDegreeImportance: arrayListDegreeImportance) 
+				for(StrategicDegreeImportance strategicDegreeImportance: arrayListDegreeImportance) 
 					if(listBoxDegreeImportance.getSelectedValue().equalsIgnoreCase(strategicDegreeImportance.getDegreeImportanceID().getDegreeImportanceName()))
 						txtAreaComment.setText(strategicDegreeImportance.getComments());
 			}
 		});
 	}
 	
-	public void setDegreeImportance(StrategicRisk strategicDegreeImportance) {
+	public void setDegreeImportance(StrategicDegreeImportance strategicDegreeImportance) {
 //		strategicDegreeImportance.setCompanyID(companyID);
 //		if(strategicDegreeImportance.getDegreeImportanceID().getDegreeImportanceName() == null)
 //			strategicDegreeImportance.getDegreeImportanceID().setDegreeImportanceName(listBoxDegreeImportance.getSelectedValue());
@@ -136,7 +136,7 @@ public class AddDegreeOfImportanceView extends HorizontalPanel {
 		setDegreeID(strategicDegreeImportance);
 	}
 	
-	private void setDegreeID(StrategicRisk strategicDgreeImportanceNew) {
+	private void setDegreeID(StrategicDegreeImportance strategicDgreeImportanceNew) {
 		for(int i=0; i<arrayDegreeImportance.size(); i++) {
 			if(listBoxDegreeImportance.getSelectedItemText().equalsIgnoreCase(arrayDegreeImportance.get(i).getDegreeImportanceID().getDegreeImportanceName())) {
 				strategicDgreeImportanceNew.setId(arrayDegreeImportance.get(i).getId());

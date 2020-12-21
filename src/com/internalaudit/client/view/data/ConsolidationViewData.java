@@ -301,10 +301,8 @@ public class ConsolidationViewData {
 					consolidationView.getComments().setTitle(strategics.get(index).getComments());
 
 					vpnlData.add(consolidationView);
-					consolidationView.getArea()
-							.setText(strategics.get(consolidationView.getIndex()).getStrategicObjective());
-					consolidationView.getArea()
-							.setTitle(strategics.get(consolidationView.getIndex()).getStrategicObjective());
+					consolidationView.getArea().setText(strategics.get(consolidationView.getIndex()).getStrategicObjective());
+					consolidationView.getArea().setTitle(strategics.get(consolidationView.getIndex()).getStrategicObjective());
 					// consolidationView.getArea().getElement().setAttribute("style",
 					// "display:none");
 					consolidationView.getAuditableUnit()
@@ -324,6 +322,7 @@ public class ConsolidationViewData {
 						consolidationView.getRiskRating().setUrl("greencircle.png");
 						consolidationView.getRiskRating().setTitle("Low");
 					}
+					consolidationView.getLblRiskRating().setText(strategics.get(index).getRating());
 
 					if (strategics.get(consolidationView.getIndex()).getTab() == 0) {
 						// consolidationView.getTab().setText("(Strategic)");

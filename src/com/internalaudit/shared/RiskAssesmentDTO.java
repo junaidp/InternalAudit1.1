@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class RiskAssesmentDTO implements Serializable{
 	
 	Strategic strategic = new Strategic();
-	ArrayList<StrategicRisk> strategicRisks = new ArrayList<StrategicRisk>();
+	ArrayList<StrategicDegreeImportance> strategicRisks = new ArrayList<StrategicDegreeImportance>();
 	ArrayList<StrategicRiskFactor> arrayStrategicRiskFactor = new ArrayList<StrategicRiskFactor>(); 
 	
 	public Strategic getStrategic() {
@@ -15,10 +15,10 @@ public class RiskAssesmentDTO implements Serializable{
 	public void setStrategic(Strategic strategic) {
 		this.strategic = strategic;
 	}
-	public ArrayList<StrategicRisk> getStrategicRisks() {
+	public ArrayList<StrategicDegreeImportance> getStrategicRisks() {
 		return strategicRisks;
 	}
-	public void setStrategicRisks(ArrayList<StrategicRisk> strategicRisks) {
+	public void setStrategicRisks(ArrayList<StrategicDegreeImportance> strategicRisks) {
 		this.strategicRisks = strategicRisks;
 	}
 	public ArrayList<StrategicRiskFactor> getArrayStrategicRiskFactor() {

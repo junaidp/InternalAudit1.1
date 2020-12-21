@@ -234,8 +234,8 @@ public class AddRiskAssesmentFactors extends VerticalPanel {
 		});
 		
 		riskFactorsObj.setCompanyID(companyID);
-		if(riskId > 6) //1st 5 Default valuse in Table Risk Factor
-			riskFactorsObj.setRiskId(riskId);
+//		if(riskId > 6) //1st 5 Default valuse in Table Risk Factor
+		riskFactorsObj.setRiskId(riskId);
 		arrayListRiskFacrors.add(riskFactorsObj);
 	}
 
@@ -293,8 +293,8 @@ public class AddRiskAssesmentFactors extends VerticalPanel {
 		});
 		
 		degreeImportanceObj.setCompanyID(companyID);
-		if(degreeImportanceID > 3) //1st 3 Default valuse in Table DegreeImportance
-			degreeImportanceObj.setDegreeImportanceID(degreeImportanceID);
+//		if(degreeImportanceID > 3) //1st 3 Default valuse in Table DegreeImportance
+		degreeImportanceObj.setDegreeImportanceID(degreeImportanceID);
 		arrayListDegreeImportance.add(degreeImportanceObj);
 	}
 	
