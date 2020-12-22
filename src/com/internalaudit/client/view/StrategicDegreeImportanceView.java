@@ -22,7 +22,7 @@ import com.internalaudit.shared.DegreeImportance;
 import com.internalaudit.shared.RiskFactor;
 import com.internalaudit.shared.StrategicDegreeImportance;
 
-public class AddDegreeOfImportanceView extends HorizontalPanel {
+public class StrategicDegreeImportanceView extends HorizontalPanel {
 	
 	private ListBox listBoxDegreeImportance;
 	private TextArea txtAreaComment;;
@@ -32,7 +32,7 @@ public class AddDegreeOfImportanceView extends HorizontalPanel {
 	private AddDegreeOfImportanceSettingsView addDegreeOfImportanceSettingsView;
 	private float resultRatings = 0;
 	
-	public AddDegreeOfImportanceView(){
+	public StrategicDegreeImportanceView(){
 		add(layout());
 //		changeHandlers(null);
 	}
@@ -42,7 +42,7 @@ public class AddDegreeOfImportanceView extends HorizontalPanel {
 		addDegreeOfImportanceSettingsView = new AddDegreeOfImportanceSettingsView();
 //		obj.set
 		FlexTable flexPanel = addDegreeOfImportanceSettingsView.getFlexPanel();
-		addDegreeOfImportanceSettingsView.invisibleIcons();
+		addDegreeOfImportanceSettingsView.invisibleFiels();
 		
 		listBoxDegreeImportance = new ListBox();
 		listBoxDegreeImportance.setVisible(false);
@@ -169,15 +169,21 @@ public class AddDegreeOfImportanceView extends HorizontalPanel {
 		return resultRatings;
 	}
 	
-	public void enableDisableFields(boolean flag) {
+	public void enableFields(boolean flag, String status) {
 		if(!flag)
-			addDegreeOfImportanceSettingsView.invisibleIcons();
+			addDegreeOfImportanceSettingsView.invisibleFiels();
+		if(!flag && status.equalsIgnoreCase("initiated"))
+			addDegreeOfImportanceSettingsView.invisibleAllFiels();
+		disableFields(flag);
+	}
+
+	public void disableFields(boolean flag) {
 		txtAreaComment.setEnabled(flag);
 		txtWeightage.setEnabled(flag);
 		listBoxDegreeImportance.setEnabled(flag);
 		listBoxRatings.setEnabled(flag);
 	}
-
+	
 	public AddDegreeOfImportanceSettingsView getAddDegreeOfImportanceSettingsView() {
 		return addDegreeOfImportanceSettingsView;
 	}

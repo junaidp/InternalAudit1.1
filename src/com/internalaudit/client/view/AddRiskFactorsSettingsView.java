@@ -47,6 +47,12 @@ public class AddRiskFactorsSettingsView extends VerticalPanel {
 	}
 	
 	public void invisibleIcons() {
+		checkBox.setVisible(false);
+		txtRiskFactors.setEnabled(false);
+		txtRiskDescription.setEnabled(false); 
+	}
+	
+	public void invisibleAllFields() {
 		imgDelete.setVisible(false);
 		checkBox.setVisible(false);
 		txtRiskFactors.setEnabled(false);

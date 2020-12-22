@@ -397,5 +397,9 @@ public interface InternalAuditService extends RemoteService {
 
 	ArrayList<RiskFactor> deleteRiskFactor(int riskID);
 
+	String deleteStrategicDegreeImportance(int id);
+
+	String deleteStrategicRiskFactor(int id);
+
 	// ArrayList<ToDo> fetchUpdatedRaisedToDo(int employeeID) throws Exception;
 }

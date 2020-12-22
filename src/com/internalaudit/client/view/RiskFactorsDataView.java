@@ -147,9 +147,11 @@ public class RiskFactorsDataView extends VerticalPanel{
 		riskFactorToSave.setCheck(1); 
 	}
 	
-	public void enableDisableFields(boolean flag) {
+	public void enableFields(boolean flag, String status) {
 		if(!flag)
 			riskFactorsSettingsView.invisibleIcons();
+		if(!flag && status.equalsIgnoreCase("initiated") )
+			riskFactorsSettingsView.invisibleAllFields();
 		listBoxProbability.setEnabled(flag);
 		listBoxRiskFactors.setEnabled(flag);
 	}

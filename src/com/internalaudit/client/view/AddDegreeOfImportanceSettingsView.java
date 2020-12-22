@@ -43,8 +43,13 @@ public class AddDegreeOfImportanceSettingsView extends HorizontalPanel {
 		return flexPanel;
 	}
 	
-	public void invisibleIcons() {
+	public void invisibleAllFiels() {
 		imgDelete.setVisible(false);
+		checkBox.setVisible(false);
+		txtName.setEnabled(false); 
+	}
+	
+	public void invisibleFiels() {
 		checkBox.setVisible(false);
 		txtName.setEnabled(false); 
 	}

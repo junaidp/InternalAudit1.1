@@ -11835,4 +11835,48 @@ public class MySQLRdbHelper {
 			session.close();
 		}
 	}
+
+	public String deleteStrategicDegreeImportance(int id) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(StrategicDegreeImportance.class);
+			crit.add(Restrictions.eq("id", id));
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				StrategicDegreeImportance dltStrategicDegreeImportance = (StrategicDegreeImportance) it.next();
+				session.delete(dltStrategicDegreeImportance);
+				session.flush();
+			}
+			logger.info(String.format("(Inside deleteStrategicDegreeImportance) Delete StrategicDegreeImportance"));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in deleteStrategicDegreeImportance", ex.getMessage()), ex);
+		} finally {
+			session.close();
+		}
+		return "StrategicDegreeImportance deleted successfully";
+	}
+	
+	public String deleteStrategicRiskFactor(int id) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(StrategicRiskFactor.class);
+			crit.add(Restrictions.eq("id", id));
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				StrategicRiskFactor dltStrategicRiskFactor = (StrategicRiskFactor) it.next();
+				session.delete(dltStrategicRiskFactor);
+				session.flush();
+			}
+			logger.info(String.format("(Inside deleteStrategicRiskFactor) Delete StrategicRiskFactor"));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in deleteStrategicRiskFactor", ex.getMessage()), ex);
+		} finally {
+			session.close();
+		}
+		return "StrategicRiskFactor deleted successfully";
+	}
 }
+
+
