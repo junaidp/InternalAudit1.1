@@ -23,11 +23,8 @@ public class RiskFactor implements Serializable {
 	private String riskName;
 	
 	@Column(name = "companyID")
-	private int companyID;
-	
-	@Column(name = "riskDescription")
-	private String riskDescription;
-	
+	private int companyID;	
+
 	@Column(name = "checked")
 	private int checked;
 	
@@ -56,14 +53,6 @@ public class RiskFactor implements Serializable {
 
 	public void setCompanyID(int companyID) {
 		this.companyID = companyID;
-	}
-
-	public String getRiskDescription() {
-		return riskDescription;
-	}
-
-	public void setRiskDescription(String riskDescription) {
-		this.riskDescription = riskDescription;
 	}
 
 	public int getChecked() {

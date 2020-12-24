@@ -32,6 +32,9 @@ public class StrategicRiskFactor implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private RiskFactor riskFactorID;
 	
+	@Column(name = "riskDescription")
+	private String riskDescription;
+	
 	@Column(name = "probability")
 	private int probability;
 	
@@ -70,6 +73,14 @@ public class StrategicRiskFactor implements Serializable {
 		this.probability = probability;
 	}
 
+	public String getRiskDescription() {
+	return riskDescription;
+	}
+
+	public void setRiskDescription(String riskDescription) {
+		this.riskDescription = riskDescription;
+	}
+	
 	public int getCheck() {
 		return check;
 	}

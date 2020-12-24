@@ -20,6 +20,10 @@ public class RiskFactorHeadingRiskAssement extends HorizontalPanel{
 		HorizontalPanel hpnlMain = riskFactorSettingsHeading.getHpnlHeader();
 //		hpnlMain.setWidth("970px");
 		
+		LabelHeading lblDegreeDescription = new LabelHeading("Risk Description");
+		riskFactorSettingsHeading.getHpnlHeaderChild().add(lblDegreeDescription);
+		lblDegreeDescription.setWidth("400px");
+		
 		LabelHeading lblProbability = new LabelHeading("Probability");
 		lblProbability.setWidth("100%");
 		riskFactorSettingsHeading.getHpnlHeaderChild().add(lblProbability);

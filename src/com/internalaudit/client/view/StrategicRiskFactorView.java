@@ -19,15 +19,16 @@ import com.internalaudit.shared.DegreeImportance;
 import com.internalaudit.shared.RiskFactor;
 import com.internalaudit.shared.StrategicRiskFactor;
 
-public class RiskFactorsDataView extends VerticalPanel{
+public class StrategicRiskFactorView extends VerticalPanel{
 	
 	private ListBox listBoxRiskFactors;
-	private ListBox listBoxProbability;
+	private ListBox listBoxProbability;	
 	private Image imgRiskRating;
 	private ArrayList<StrategicRiskFactor> arrayStrategicRiskFactor ;
 	private AddRiskFactorsSettingsView riskFactorsSettingsView ;
+	private TextArea txtRiskDescription;
 
-	public RiskFactorsDataView() {
+	public StrategicRiskFactorView() {
 		add(layoutMain());
 //		updateProbilityImage();
 	}
@@ -42,11 +43,17 @@ public class RiskFactorsDataView extends VerticalPanel{
 		listBoxRiskFactors.setVisible(false);
 		flexTable.setWidget(0, 0, listBoxRiskFactors);
 		
+		txtRiskDescription = new TextArea();
+		txtRiskDescription.setWidth("430px");
+		txtRiskDescription.getElement().setPropertyString("placeholder", "Enter description here");
+		txtRiskDescription.getElement().getStyle().setPaddingLeft(30, Unit.PX);
+		flexTable.setWidget(0, 2, txtRiskDescription);
+		
 		listBoxProbability = new ListBox();
 		listBoxProbability.setWidth("50px");
 		listBoxProbability.getElement().getStyle().setPaddingLeft(15, Unit.PX);
-		for(int i=10; i>0; i--)
-			listBoxProbability.addItem(""+i, ""+i);
+		for(float i=10; i>0; i--)
+			listBoxProbability.addItem(String.valueOf(i/10), ""+i);
 		flexTable.setWidget(0, 5, listBoxProbability);
 		
 		imgRiskRating = new Image("redcircle.png");
@@ -73,13 +80,14 @@ public class RiskFactorsDataView extends VerticalPanel{
 //				riskFactorToSave.setRiskName(riskName.getValue());
 //			}
 //		});
-//		riskFactorsSettingsView.getTxtRiskDescription().addValueChangeHandler(new ValueChangeHandler<String>() {
-//
-//			@Override
-//			public void onValueChange(ValueChangeEvent<String> comments) {
-//				riskFactorToSave.getRiskFactorID().setRiskDescription(comments.getValue());
-//			}
-//		});
+		
+		txtRiskDescription.addValueChangeHandler(new ValueChangeHandler<String>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<String> comments) {
+				riskFactorToSave.setRiskDescription(comments.getValue());
+			}
+		});
 		
 		listBoxRiskFactors.addChangeHandler(new ChangeHandler() {
 			
@@ -100,8 +108,8 @@ public class RiskFactorsDataView extends VerticalPanel{
 	private void setDescription(String listBoxValue) {
 		for(StrategicRiskFactor riskFactor: arrayStrategicRiskFactor) 
 			if(listBoxValue.equalsIgnoreCase(riskFactor.getRiskFactorID().getRiskName())) {
-				riskFactorsSettingsView.getTxtRiskDescription().setText(riskFactor.getRiskFactorID().getRiskDescription());
-				riskFactorsSettingsView.getTxtRiskDescription().setEnabled(false);
+				txtRiskDescription.setText(riskFactor.getRiskDescription());
+//				txtRiskDescription.setEnabled(false);
 			}
 		listBoxRiskFactors.addChangeHandler(new ChangeHandler() {
 			
@@ -109,8 +117,8 @@ public class RiskFactorsDataView extends VerticalPanel{
 			public void onChange(ChangeEvent arg0) {
 				for(StrategicRiskFactor riskFactor: arrayStrategicRiskFactor) 
 					if(listBoxRiskFactors.getSelectedValue().equalsIgnoreCase(riskFactor.getRiskFactorID().getRiskName())) {
-						riskFactorsSettingsView.getTxtRiskDescription().setText(riskFactor.getRiskFactorID().getRiskDescription());
-						riskFactorsSettingsView.getTxtRiskDescription().setEnabled(false);
+						txtRiskDescription.setText(riskFactor.getRiskDescription());
+//						txtRiskDescription.setEnabled(false);
 					}
 			}
 		});
@@ -174,5 +182,13 @@ public class RiskFactorsDataView extends VerticalPanel{
 
 	public Image getImgRiskRating() {
 		return imgRiskRating;
+	}
+
+	public TextArea getTxtRiskDescription() {
+		return txtRiskDescription;
+	}
+
+	public void setTxtRiskDescription(TextArea txtRiskDescription) {
+		this.txtRiskDescription = txtRiskDescription;
 	}
 }

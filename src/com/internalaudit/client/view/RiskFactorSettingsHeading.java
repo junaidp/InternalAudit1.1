@@ -21,11 +21,7 @@ public class RiskFactorSettingsHeading extends HorizontalPanel{
 		
 		LabelHeading lblDegreeImportance = new LabelHeading("Risk Factors");
 		hpnlHeader.add(lblDegreeImportance);
-		lblDegreeImportance.setWidth("380px");
-		
-		LabelHeading lblDegreeDescription = new LabelHeading("Risk Description");
-		hpnlHeader.add(lblDegreeDescription);
-		lblDegreeDescription.setWidth("400px");
+		lblDegreeImportance.setWidth("380px");	
 		
 		hpnlHeaderChild = new HorizontalPanel();
 		hpnlHeader.add(hpnlHeaderChild);

@@ -100,9 +100,9 @@ public class AddRiskAssesmentFactors extends VerticalPanel {
 		hpnlHeader.add(lblDegreeImportance);
 		lblDegreeImportance.setWidth("380px");
 		
-		LabelHeading lblDegreeDescription = new LabelHeading("Risk Description");
-		hpnlHeader.add(lblDegreeDescription);
-		lblDegreeDescription.setWidth("400px");
+//		LabelHeading lblDegreeDescription = new LabelHeading("Risk Description");
+//		hpnlHeader.add(lblDegreeDescription);
+//		lblDegreeDescription.setWidth("400px");
 		
 		imgAddRiskFactor = new Image("images/add.png"); 
 		imgAddRiskFactor.addStyleName("w3-right");
@@ -190,7 +190,7 @@ public class AddRiskAssesmentFactors extends VerticalPanel {
 		AddRiskFactorsSettingsView riskFactorView = new AddRiskFactorsSettingsView();
 		vpnlRiskFactors.add(riskFactorView);
 		riskFactorView.getTxtRiskFactors().setText(riskFactor.getRiskName());
-		riskFactorView.getTxtRiskDescription().setText(riskFactor.getRiskDescription());
+//		riskFactorView.getTxtRiskDescription().setText(riskFactor.getRiskDescription());
 		if(riskFactor.getChecked() == 1)
 			riskFactorView.getCheckBox().setValue(true);			
 		else
@@ -212,14 +212,14 @@ public class AddRiskAssesmentFactors extends VerticalPanel {
 			
 		});
 		
-		riskFactorsObj.setRiskDescription(riskFactorView.getTxtRiskDescription().getValue());
-		riskFactorView.getTxtRiskDescription().addValueChangeHandler(new ValueChangeHandler<String>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<String> arg0) {
-				riskFactorsObj.setRiskDescription(arg0.getValue());
-			}
-		});
+//		riskFactorsObj.setRiskDescription(riskFactorView.getTxtRiskDescription().getValue());
+//		riskFactorView.getTxtRiskDescription().addValueChangeHandler(new ValueChangeHandler<String>() {
+//
+//			@Override
+//			public void onValueChange(ValueChangeEvent<String> arg0) {
+//				riskFactorsObj.setRiskDescription(arg0.getValue());
+//			}
+//		});
 		
 		riskFactorsObj.setChecked(1);
 		riskFactorView.getCheckBox().addValueChangeHandler(new ValueChangeHandler<Boolean>() {

@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class AddRiskFactorsSettingsView extends VerticalPanel {
 
 	private TextBox txtRiskFactors;
-	private TextArea txtRiskDescription;
+//	private TextArea txtRiskDescription;
 	private Image imgDelete;
 	private CheckBox checkBox;
 	private FlexTable flexPanel ;
@@ -29,11 +29,11 @@ public class AddRiskFactorsSettingsView extends VerticalPanel {
 		txtRiskFactors.setWidth("430px");
 		flexPanel.setWidget(0, 1, txtRiskFactors);
 		
-		txtRiskDescription = new TextArea();
-		txtRiskDescription.setWidth("430px");
-		txtRiskDescription.getElement().setPropertyString("placeholder", "Enter description here");
-		txtRiskDescription.getElement().getStyle().setPaddingLeft(30, Unit.PX);
-		flexPanel.setWidget(0, 2, txtRiskDescription);
+//		txtRiskDescription = new TextArea();
+//		txtRiskDescription.setWidth("430px");
+//		txtRiskDescription.getElement().setPropertyString("placeholder", "Enter description here");
+//		txtRiskDescription.getElement().getStyle().setPaddingLeft(30, Unit.PX);
+//		flexPanel.setWidget(0, 2, txtRiskDescription);
 		
 		checkBox = new CheckBox();
 		checkBox.getElement().getStyle().setPaddingLeft(20, Unit.PX);
@@ -49,14 +49,14 @@ public class AddRiskFactorsSettingsView extends VerticalPanel {
 	public void invisibleIcons() {
 		checkBox.setVisible(false);
 		txtRiskFactors.setEnabled(false);
-		txtRiskDescription.setEnabled(false); 
+//		txtRiskDescription.setEnabled(false); 
 	}
 	
 	public void invisibleAllFields() {
 		imgDelete.setVisible(false);
 		checkBox.setVisible(false);
 		txtRiskFactors.setEnabled(false);
-		txtRiskDescription.setEnabled(false); 
+//		txtRiskDescription.setEnabled(false); 
 	}
 
 	public TextBox getTxtRiskFactors() {
@@ -67,13 +67,13 @@ public class AddRiskFactorsSettingsView extends VerticalPanel {
 		this.txtRiskFactors = txtRiskFactors;
 	}
 
-	public TextArea getTxtRiskDescription() {
-		return txtRiskDescription;
-	}
-
-	public void setTxtRiskDescription(TextArea txtRiskDescription) {
-		this.txtRiskDescription = txtRiskDescription;
-	}
+//	public TextArea getTxtRiskDescription() {
+//		return txtRiskDescription;
+//	}
+//
+//	public void setTxtRiskDescription(TextArea txtRiskDescription) {
+//		this.txtRiskDescription = txtRiskDescription;
+//	}
 
 	public CheckBox getCheckBox() {
 		return checkBox;
