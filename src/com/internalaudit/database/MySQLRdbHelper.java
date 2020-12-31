@@ -1259,6 +1259,7 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(RiskFactor.class);
 			crit.add(Restrictions.eq("companyID", companyID));
+			crit.add(Restrictions.eq("isActive", 1));
 			List rsList = crit.list();
 			if (rsList.isEmpty())
 				riskFactors.addAll(fetchDefaultRiskFactors(0));
@@ -1772,7 +1773,6 @@ public class MySQLRdbHelper {
 	}
 
 	public ArrayList<StrategicDegreeImportance> fetchStrategicDegreeImportance(int strategicId) {
-
 		Session session = null;
 		ArrayList<StrategicDegreeImportance> strategicRisks = new ArrayList<StrategicDegreeImportance>();
 		try {
@@ -2005,12 +2005,10 @@ public class MySQLRdbHelper {
 		int year = Integer.parseInt(hm.get("year"));
 		int companyId = Integer.parseInt(hm.get("companyId"));
 		saveOneStrategic(strategicRisks.get(0).getStrategicId(), loggedInUser, todo, tab, year, companyId);
-		for (int i = 0; i < strategicRisks.size(); i++) {
+		for (int i = 0; i < strategicRisks.size(); i++) 
 			saveStrategicDegreeImportance(strategicRisks.get(i));
-		}
-		for(StrategicRiskFactor strategicRiskFactor : arraySaveStrategicRiskFactors) {
+		for(StrategicRiskFactor strategicRiskFactor : arraySaveStrategicRiskFactors) 
 			saveStrategicRiskFactors(strategicRiskFactor);
-		}
 		logger.info(String.format("(Inside saveRiskAssesment) saving Risk Assesment for year : " + year
 				+ "for Company ID : " + companyId + " of User Logged In " + loggedInUser + " under tab " + tab
 				+ " todo: " + todo + " " + new Date()));
@@ -3198,7 +3196,6 @@ public class MySQLRdbHelper {
 		crit.createAlias("process", "processId");
 		crit.createAlias("subProcess", "subProcessId");
 		crit.createAlias("jobType", "jobTypeId");
-
 		crit.createAlias("initiated.skillId", "initatedSkill");
 	}
 
@@ -11655,6 +11652,7 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(DegreeImportance.class);
 			crit.add(Restrictions.eq("companyID", companyID));
+			crit.add(Restrictions.eq("isActive", 1));
 			List rsList = crit.list();
 
 //			if (rsList.isEmpty()) {
@@ -11695,6 +11693,14 @@ public class MySQLRdbHelper {
 			}
 			logger.info(String.format("(Inside saveDegreeImportance) Save Degree Importance"));
 			listDegreeImportance = fetchDegreeImportance(arrayListDegreeImportance.get(0).getCompanyID());
+			ArrayList<Strategic> arrayStrategic = fetchSelectedStrategic(arrayListDegreeImportance.get(0).getCompanyID());
+			ArrayList<DegreeImportance> listSaveDegreeImportance = new ArrayList<DegreeImportance>();			
+			for(Strategic strategic : arrayStrategic) {
+				ArrayList<StrategicDegreeImportance> listStrategicDegreeImportance = fetchStrategicDegreeImportance(strategic.getId());
+				saveArrayStrategicDegreeImportance(strategic, listDegreeImportance);
+				for(StrategicDegreeImportance stgDegreeImp : listStrategicDegreeImportance)
+					deleteStrategicDegreeImportance(stgDegreeImp.getId());
+			}
 //			saveUpdatedDegreeImportance(listDegreeImportance);
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in saveDegreeImportance", ex.getMessage()), ex);
@@ -11760,6 +11766,7 @@ public class MySQLRdbHelper {
 //	}
 	
 	public ArrayList<DegreeImportance> deleteDegreeImportance(int degreeImportanceID) {
+		//inactive in DB
 		Session session = null;
 		int companyID = 0;
 		try {
@@ -11770,8 +11777,9 @@ public class MySQLRdbHelper {
 
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				DegreeImportance dltDegreeImportance = (DegreeImportance) it.next();
+				dltDegreeImportance.setIsActive(0);
 				companyID = dltDegreeImportance.getCompanyID();
-				session.delete(dltDegreeImportance);
+				session.update(dltDegreeImportance);
 				session.flush();
 			}
 
@@ -11794,10 +11802,17 @@ public class MySQLRdbHelper {
 				session.saveOrUpdate(riskFactor);
 				session.flush();
 			}
-			logger.info(String.format("(Inside saveDegreeImportance) Save Degree Importance"));
+			logger.info(String.format("(Inside RiskFactor) Save RiskFactor"));
 			resultRiskFactor = fetchRiskFactors(arrayListRiskFacrors.get(0).getCompanyID());
+			ArrayList<Strategic> arrayStrategic = fetchSelectedStrategic(arrayListRiskFacrors.get(0).getCompanyID());
+			for(Strategic strategic : arrayStrategic) {
+				ArrayList<StrategicRiskFactor> strategicRisks = fetchStrategicRiskFactor(strategic.getId());
+				saveStrategicRiskFactor(strategic, resultRiskFactor);				
+				for(StrategicRiskFactor stgRiskFactor : strategicRisks)
+					deleteStrategicRiskFactor(stgRiskFactor.getId());
+				}
 		} catch (Exception ex) {
-			logger.warn(String.format("Exception occured in saveDegreeImportance", ex.getMessage()), ex);
+			logger.warn(String.format("Exception occured in saveRiskFactor", ex.getMessage()), ex);
 		} finally {
 			session.close();
 		}
@@ -11821,6 +11836,7 @@ public class MySQLRdbHelper {
 	}
 
 	public ArrayList<RiskFactor> deleteRiskFactor(int riskID) {
+		//inactive in DB
 		Session session = null;
 		int companyID = 0;
 		try {
@@ -11830,8 +11846,9 @@ public class MySQLRdbHelper {
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				RiskFactor dltRiskFactor = (RiskFactor) it.next();
+				dltRiskFactor.setIsActive(0);
 				companyID = dltRiskFactor.getCompanyID();
-				session.delete(dltRiskFactor);
+				session.update(dltRiskFactor);
 				session.flush();
 			}
 
@@ -11859,7 +11876,7 @@ public class MySQLRdbHelper {
 				StrategicRiskFactor strategicRiskFactor = new StrategicRiskFactor();
 				strategicRiskFactor.setRiskFactorID((RiskFactor) session.get(RiskFactor.class, riskFactor.getRiskId()));
 				strategicRiskFactor.setStrategicID((Strategic) session.get(Strategic.class, strategic.getId()));
-				strategicRiskFactor.setCheck(riskFactor.getChecked());
+				strategicRiskFactor.setCheck(riskFactor.getChecked());				
 				session.saveOrUpdate(strategicRiskFactor);
 				session.flush();
 			}
@@ -11881,7 +11898,7 @@ public class MySQLRdbHelper {
 				strategicRisk.setStrategicId((Strategic) session.get(Strategic.class, strategic.getId()));
 				strategicRisk.setCheck(degreeImportance.getChecked());
 				session.saveOrUpdate(strategicRisk);
-				session.flush();
+				session.flush();				
 			}
 			logger.info(String.format("(Inside saveStrategicDegreeImportance) Save Strategic Degree Importance"));
 		} catch (Exception ex) {
@@ -11891,7 +11908,7 @@ public class MySQLRdbHelper {
 		}
 	}
 
-	public String deleteStrategicDegreeImportance(int id) {
+	public String unCheckStrategicDegreeImportance(int id) {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
@@ -11904,16 +11921,16 @@ public class MySQLRdbHelper {
 				session.update(dltStrategicDegreeImportance);
 				session.flush();
 			}
-			logger.info(String.format("(Inside deleteStrategicDegreeImportance) Delete StrategicDegreeImportance"));
+			logger.info(String.format("(Inside unCheckStrategicDegreeImportance) unCheck StrategicDegreeImportance"));
 		} catch (Exception ex) {
-			logger.warn(String.format("Exception occured in deleteStrategicDegreeImportance", ex.getMessage()), ex);
+			logger.warn(String.format("Exception occured in unCheckStrategicDegreeImportance", ex.getMessage()), ex);
 		} finally {
 			session.close();
 		}
 		return "StrategicDegreeImportance deleted successfully";
 	}
 	
-	public String deleteStrategicRiskFactor(int id) {
+	public String unCheckStrategicRiskFactor(int id) {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
@@ -11926,14 +11943,84 @@ public class MySQLRdbHelper {
 				session.update(dltStrategicRiskFactor);
 				session.flush();
 			}
+			logger.info(String.format("(Inside unCheckStrategicRiskFactor) UnCheck StrategicRiskFactor"));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in unCheckStrategicRiskFactor", ex.getMessage()), ex);
+		} finally {
+			session.close();
+		}
+		return "StrategicRiskFactor deleted successfully";
+	}
+	
+	private ArrayList<Strategic> fetchSelectedStrategic(int companyID) {
+		Session session = null;
+		int phaseValue = 2;
+		ArrayList<Strategic> strategics = new ArrayList<Strategic>();
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(Strategic.class);
+			strategicAlias(crit);
+			crit.add(Restrictions.eq("phase", phaseValue));
+			crit.add(Restrictions.ne("status", "initiated"));
+			crit.add(Restrictions.ne("status", "deleted"));
+			crit.add(Restrictions.eq("companyId", companyID));
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				Strategic strategic = (Strategic) it.next();
+				strategics.add(strategic);
+				}
+			logger.info(String.format(
+					"(Inside fetchSelectedStrategic) fetch Selected Strategic : " + new Date()));
+		} catch (Exception ex) {
+			System.out.println("Exception occured in fetchSelectedStrategic" + ex.getMessage());
+			logger.warn(String.format("Exception occured in fetchSelectedStrategic", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+		return strategics;
+	}
+	
+	private void deleteStrategicDegreeImportance(int id) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(StrategicDegreeImportance.class);
+			crit.add(Restrictions.eq("id", id));
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				StrategicDegreeImportance dltStrategicDegreeImportance = (StrategicDegreeImportance) it.next();
+				session.delete(dltStrategicDegreeImportance);
+				session.flush();
+			}
+			logger.info(String.format("(Inside deleteStrategicDegreeImportance) Delete StrategicDegreeImportance"));
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in deleteStrategicDegreeImportance", ex.getMessage()), ex);
+		} finally {
+			session.close();
+		}
+	}
+	
+	private void deleteStrategicRiskFactor(int id) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(StrategicRiskFactor.class);
+			crit.add(Restrictions.eq("id", id));
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				StrategicRiskFactor dltStrategicRiskFactor = (StrategicRiskFactor) it.next();
+				session.delete(dltStrategicRiskFactor);
+				session.flush();
+			}
 			logger.info(String.format("(Inside deleteStrategicRiskFactor) Delete StrategicRiskFactor"));
 		} catch (Exception ex) {
 			logger.warn(String.format("Exception occured in deleteStrategicRiskFactor", ex.getMessage()), ex);
 		} finally {
 			session.close();
 		}
-		return "StrategicRiskFactor deleted successfully";
 	}
+
 }
 
 

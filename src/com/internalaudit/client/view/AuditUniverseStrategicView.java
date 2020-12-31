@@ -5,6 +5,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -14,6 +15,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.internalaudit.client.view.AuditEngagement.LabelBold;
 import com.internalaudit.client.view.data.AuditUniverseStrategicViewData;
 import com.sencha.gxt.widget.core.client.button.IconButton;
 import com.sencha.gxt.widget.core.client.form.DateField;
@@ -36,7 +38,6 @@ public class AuditUniverseStrategicView extends Composite {
 	private TextField strategicObjective = new TextField();
 	private Label feedback = new Label(" Feedback ");
 	private Image submitted = new Image(" images/tick.png ");
-
 	private int strategicId;
 	private Button btnSave = new Button("Save");
 	private Button btnSubmit = new Button("Submit");
@@ -46,7 +47,9 @@ public class AuditUniverseStrategicView extends Composite {
 	private Button btnFeedback = new Button("Feedback");
 	private HorizontalPanel hpnlButtonInitiator = new HorizontalPanel();
 	private HorizontalPanel hpnlButtonsApprovar = new HorizontalPanel();
+	private HorizontalPanel hpnlMultipleJob = new HorizontalPanel();
 	private String comment;
+	private CheckBox checkBoxMultiple;
 	private Label lblStrategicId = new Label();
 	private ScrollPanel relevantDepartmentPanel = new ScrollPanel();
 	private VerticalPanel vpnlRelevantDepartmentPanel = new VerticalPanel();
@@ -117,6 +120,14 @@ public class AuditUniverseStrategicView extends Composite {
 	lblStrategicId.setWidth("45px");
 	hpnlStrategic.add(vpnlStrategicId);
 	hpnlStrategic.add(vpnlStrategicObjective);
+	checkBoxMultiple = new CheckBox();
+	Label lblMultipleJob = new Label("Create Multiple Jobs");
+	lblMultipleJob.setWidth("125px");
+	hpnlMultipleJob.add(lblMultipleJob);
+	vpnlStrategicObjective.add(hpnlMultipleJob);
+	hpnlMultipleJob.add(checkBoxMultiple);
+	hpnlMultipleJob.addStyleName("w3-right");
+	visibleMultipleJobOption(false);
 	HorizontalPanel hpnlComments = new HorizontalPanel();
 
 	hpnlComments.setWidth("35px");
@@ -130,6 +141,7 @@ public class AuditUniverseStrategicView extends Composite {
 	listStrategicTabs.setWidth("100px");
 	hpnlStrategic.add(vpnlRelevantDivision);
 	hpnlStrategic.add(vpnlRelevantDepartments);
+//	hpnlStrategic.add(checkBoxMultiple);
 	hpnlStrategic.add(listStrategicTabs);
 
 	hpnlButtonInitiator.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
@@ -161,6 +173,9 @@ public class AuditUniverseStrategicView extends Composite {
 	hpnlButtonInitiator.setSpacing(2);
 	hpnlStrategic.setWidth("900px");
 	mainPanel.addStyleName("form-row");
+	}
+	public void visibleMultipleJobOption(boolean flag) {
+		hpnlMultipleJob.setVisible(flag);
 	}
 
 	public IconButton getBtnAdd() {

@@ -549,6 +549,7 @@ public class AuditUniverseStrategicViewData {
 		auditUniverseStrategicView.getObjectiveAchievementDate().setEnabled(false);
 		auditUniverseStrategicView.getStrategicObjective().setEnabled(false);
 		auditUniverseStrategicView.getSubmitted().setVisible(true);
+		auditUniverseStrategicView.visibleMultipleJobOption(false);
 		auditUniverseStrategicView.getSubmitted()
 				.setTitle(strategic.getStatus() + ": In " + PhaseNames.getPhaseNames(strategic.getPhase()));
 
@@ -782,6 +783,16 @@ public class AuditUniverseStrategicViewData {
 								.getValue(auditUniverseStrategicView.getListBoxDivision().getSelectedIndex())),
 						auditUniverseStrategicView.getListRelevantDepartment(), null);
 				}
+		});
+		auditUniverseStrategicView.getListRelevantDepartment().addChangeHandler(new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent arg0) {
+				if(auditUniverseStrategicView.getListRelevantDepartment().isMultipleSelect())
+					auditUniverseStrategicView.visibleMultipleJobOption(true);
+				else 
+					auditUniverseStrategicView.visibleMultipleJobOption(false);
+			}
 		});
 	}
 //

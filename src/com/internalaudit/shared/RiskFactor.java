@@ -28,8 +28,8 @@ public class RiskFactor implements Serializable {
 	@Column(name = "checked")
 	private int checked;
 	
-//	@Column(name = "probability")
-//	private int probability;
+	@Column(name = "isactive")
+	private int isActive;
 
 	public int getRiskId() {
 		return riskId;
@@ -63,12 +63,12 @@ public class RiskFactor implements Serializable {
 		this.checked = checked;
 	}
 
-//	public int getProbability() {
-//		return probability;
-//	}
-//
-//	public void setProbability(int probability) {
-//		this.probability = probability;
-//	}
+	public int getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(int isActive) {
+		this.isActive = isActive;
+	}
 
 }

@@ -52,6 +52,7 @@ public class StrategicDegreeImportanceView extends HorizontalPanel {
 		txtAreaComment = new TextArea();
 		txtAreaComment.setWidth("450px");
 		txtAreaComment.getElement().setPropertyString("placeholder", "Enter comment here");
+		txtAreaComment.getElement().getStyle().setPaddingLeft(10, Unit.PX);
 		flexPanel.setWidget(0, 2, txtAreaComment);
 		
 		txtWeightage = new TextBox();
@@ -65,9 +66,14 @@ public class StrategicDegreeImportanceView extends HorizontalPanel {
 		listBoxRatings.getElement().getStyle().setPaddingLeft(15, Unit.PX);
 		for(int i=10; i>0; i--)
 			listBoxRatings.addItem(""+i, ""+i);
-		flexPanel.setWidget(0, 6, listBoxRatings);
-		
+		flexPanel.setWidget(0, 6, listBoxRatings);	
+		flexPanel.getWidget(0, 4).removeFromParent();
+		flexPanel.setWidget(0, 7, addDegreeOfImportanceSettingsView.getImgDelete());
 		return flexPanel;
+	}
+	
+	public void setPlaceholderWeightage() {
+		txtWeightage.getElement().setPropertyString("placeholder", "Input 100%");
 	}
 
 	private void changeHandlers(final StrategicDegreeImportance strategicDegreeImportanceNew) {

@@ -28,6 +28,9 @@ public class DegreeImportance implements Serializable {
 	
 	@Column(name = "checked")
 	private int checked;
+	
+	@Column(name = "isactive")
+	private int isActive;
 
 	public int getDegreeImportanceID() {
 		return degreeImportanceID;
@@ -59,6 +62,14 @@ public class DegreeImportance implements Serializable {
 
 	public void setChecked(int checked) {
 		this.checked = checked;
+	}
+
+	public int getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(int isActive) {
+		this.isActive = isActive;
 	}
 	
 }

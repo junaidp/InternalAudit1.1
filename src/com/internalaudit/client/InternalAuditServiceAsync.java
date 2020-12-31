@@ -406,8 +406,8 @@ public interface InternalAuditServiceAsync {
 
 	void deleteRiskFactor(int riskID, AsyncCallback<ArrayList<RiskFactor>> asyncCallback);
 
-	void deleteStrategicDegreeImportance(int id, AsyncCallback<String> asyncCallback);
+	void removeStrategicDegreeImportance(int id, AsyncCallback<String> asyncCallback);
 
-	void deleteStrategicRiskFactor(int id, AsyncCallback<String> callback);
+	void removeStrategicRiskFactor(int id, AsyncCallback<String> callback);
 
 }

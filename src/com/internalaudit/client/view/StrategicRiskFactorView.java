@@ -44,9 +44,9 @@ public class StrategicRiskFactorView extends VerticalPanel{
 		flexTable.setWidget(0, 0, listBoxRiskFactors);
 		
 		txtRiskDescription = new TextArea();
-		txtRiskDescription.setWidth("430px");
+		txtRiskDescription.setWidth("405px");
 		txtRiskDescription.getElement().setPropertyString("placeholder", "Enter description here");
-		txtRiskDescription.getElement().getStyle().setPaddingLeft(30, Unit.PX);
+		txtRiskDescription.getElement().getStyle().setPaddingLeft(5, Unit.PX);
 		flexTable.setWidget(0, 2, txtRiskDescription);
 		
 		listBoxProbability = new ListBox();
@@ -59,6 +59,8 @@ public class StrategicRiskFactorView extends VerticalPanel{
 		imgRiskRating = new Image("redcircle.png");
 //		imgRiskRating.setVisible(false);
 		flexTable.setWidget(0, 6, imgRiskRating);
+		flexTable.getWidget(0, 4).removeFromParent();
+		flexTable.setWidget(0, 7, riskFactorsSettingsView.getImgDelete());
 		
 		return flexTable;
 	}

@@ -1980,15 +1980,15 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	}
 
 	@Override
-	public String deleteStrategicDegreeImportance(int id) {
+	public String removeStrategicDegreeImportance(int id) {
 		// TODO Auto-generated method stub
-		return rdbHelper.deleteStrategicDegreeImportance(id);
+		return rdbHelper.unCheckStrategicDegreeImportance(id);
 	}
 	
 	@Override
-	public String deleteStrategicRiskFactor(int id) {
+	public String removeStrategicRiskFactor(int id) {
 		// TODO Auto-generated method stub
-		return rdbHelper.deleteStrategicRiskFactor(id);
+		return rdbHelper.unCheckStrategicRiskFactor(id);
 	}
 	
 }

@@ -332,7 +332,8 @@ public class RiskAssesmentStrategicViewData {
 							strategicDegreeImportanceView.getAddDegreeOfImportanceSettingsView().invisibleFiels();
 							strategicDegreeImportanceView.getAddDegreeOfImportanceSettingsView().getTxtName().setText(strategicDegreeImportance.getDegreeImportanceID().getDegreeImportanceName());
 							strategicDegreeImportanceView.getTxtAreaComment().setText(strategicDegreeImportance.getComments());
-							strategicDegreeImportanceView.getTxtWeightage().setText(String.valueOf(strategicDegreeImportance.getWeightage()));
+							if(strategicDegreeImportance.getWeightage() != 0) 
+								strategicDegreeImportanceView.getTxtWeightage().setText(String.valueOf(strategicDegreeImportance.getWeightage()));
 							for(int i=0; i<strategicDegreeImportanceView.getListBoxRatings().getItemCount(); i++) {
 								if(strategicDegreeImportance.getRatings() == Integer.parseInt(strategicDegreeImportanceView.getListBoxRatings().getValue(i)))
 									strategicDegreeImportanceView.getListBoxRatings().setSelectedIndex(i);
@@ -343,7 +344,7 @@ public class RiskAssesmentStrategicViewData {
 							arrayWeightage.add(strategicDegreeImportanceView.getTxtWeightage());
 							listBoxesImpact.add(strategicDegreeImportanceView.getListBoxRatings());
 							listDegreeImportanceView.add(strategicDegreeImportanceView);
-							deleteStrategicDegreeImportance(strategicDegreeImportanceView, vpnlDegreeImporatnce, strategicDegreeImportance, riskAssesmentView);
+							removeStrategicDegreeImportance(strategicDegreeImportanceView, vpnlDegreeImporatnce, strategicDegreeImportance, riskAssesmentView);
 						}
 							
 //						RiskFactor riskFactor = new RiskFactor(); 
@@ -384,7 +385,7 @@ public class RiskAssesmentStrategicViewData {
 						public void onClick(ClickEvent arg0) {
 								StrategicDegreeImportanceView strategicDegreeImportanceView = new StrategicDegreeImportanceView();
 								strategicDegreeImportanceView.getAddDegreeOfImportanceSettingsView().invisibleFiels();
-								deleteStrategicDegreeImportance(strategicDegreeImportanceView, vpnlAddDegreeImportanceView, null, riskAssesmentView);
+								removeStrategicDegreeImportance(strategicDegreeImportanceView, vpnlAddDegreeImportanceView, null, riskAssesmentView);
 								vpnlAddDegreeImportanceView.add(strategicDegreeImportanceView);	
 								strategicDegreeImportanceView.setListBoxDegreeImportance(riskAssesmentDTOs.get(dataSetter.getId()).getStrategicRisks());
 								StrategicDegreeImportance strategicDegreeImportanceNew = new StrategicDegreeImportance();								
@@ -397,6 +398,8 @@ public class RiskAssesmentStrategicViewData {
 //								strategicRisk.setDegreeImportanceID(strategicDegreeImportanceNew);
 //								arrayListAddMoreStrategic.add(strategicDegreeImportanceNew);
 								listDegreeImportanceView.add(strategicDegreeImportanceView);
+								if(strategicDegreeImportanceNew.getWeightage() == 0) 
+									strategicDegreeImportanceView.setPlaceholderWeightage();
 						}				
 					});	
 					
@@ -433,7 +436,7 @@ public class RiskAssesmentStrategicViewData {
 //							arrayListStrategicRisks.add(strategicRisk);
 							vpnlRiskFactor.add(riskFactorsView);
 							listRiskFactor.add(riskFactorsView);
-							deleteStrategicRiskFactor(riskFactorsView, vpnlRiskFactor, strategicRiskFactor, riskAssesmentView);
+							removeStrategicRiskFactor(riskFactorsView, vpnlRiskFactor, strategicRiskFactor, riskAssesmentView);
 						}
 					}
 					
@@ -463,7 +466,7 @@ public class RiskAssesmentStrategicViewData {
 //							strategicRisk.setRiskFactorId(riskFactor);
 //							arrayListAddMoreStrategic.add(riskFactor);
 							listRiskFactor.add(riskFactorsView);
-							deleteStrategicRiskFactor(riskFactorsView, vpnlAddRiskFactorView, null, riskAssesmentView);
+							removeStrategicRiskFactor(riskFactorsView, vpnlAddRiskFactorView, null, riskAssesmentView);
 						}					
 					});
 					calculateOverAllRisksRatings(arrayOverAllRatings, listImgProbability, riskAssesmentStrategicView.getLblOverallRatings());					
@@ -766,7 +769,7 @@ public class RiskAssesmentStrategicViewData {
 
 	}
 	
-	private void deleteStrategicDegreeImportance(final StrategicDegreeImportanceView addDegreeOfImportanceView, final VerticalPanel vpnlAddDegreeImportanceView, final StrategicDegreeImportance strategicDegreeImportance, final RiskAssesmentView riskAssesmentView) {
+	private void removeStrategicDegreeImportance(final StrategicDegreeImportanceView addDegreeOfImportanceView, final VerticalPanel vpnlAddDegreeImportanceView, final StrategicDegreeImportance strategicDegreeImportance, final RiskAssesmentView riskAssesmentView) {
 		addDegreeOfImportanceView.getAddDegreeOfImportanceSettingsView().getImgDelete().setVisible(true);
 		addDegreeOfImportanceView.getAddDegreeOfImportanceSettingsView().getImgDelete().addClickHandler(new ClickHandler() {
 			
@@ -781,7 +784,7 @@ public class RiskAssesmentStrategicViewData {
 		});
 	}
 	
-	private void deleteStrategicRiskFactor(final StrategicRiskFactorView riskFactorsView, final VerticalPanel vpnlAddRiskFactorView, final StrategicRiskFactor strategicRiskFactor, final RiskAssesmentView riskAssesmentView) {
+	private void removeStrategicRiskFactor(final StrategicRiskFactorView riskFactorsView, final VerticalPanel vpnlAddRiskFactorView, final StrategicRiskFactor strategicRiskFactor, final RiskAssesmentView riskAssesmentView) {
 		riskFactorsView.getRiskFactorsSettingsView().getImgDelete().setVisible(true);
 		riskFactorsView.getRiskFactorsSettingsView().getImgDelete().addClickHandler(new ClickHandler() {
 			
@@ -790,14 +793,15 @@ public class RiskAssesmentStrategicViewData {
 				boolean confirmed = Window.confirm("Are you sure you want to delete" );
 				if(confirmed && strategicRiskFactor != null) 
 					deleteStrategicRiskFactorRPC(riskFactorsView, vpnlAddRiskFactorView, strategicRiskFactor, riskAssesmentView);
-				if(confirmed && strategicRiskFactor == null) 
+				if(confirmed && strategicRiskFactor == null) {
 					vpnlAddRiskFactorView.remove(riskFactorsView);
+				}
 			}
 		});
 	}
 
 	private void deleteStrategicDegreeImportanceRPC(StrategicDegreeImportance strategicDegreeImportance, final VerticalPanel vpnlAddDegreeImportanceView, final StrategicDegreeImportanceView addDegreeOfImportanceView, final RiskAssesmentView riskAssesmentView) {
-		rpcService.deleteStrategicDegreeImportance(strategicDegreeImportance.getId(), new AsyncCallback<String>() {
+		rpcService.removeStrategicDegreeImportance(strategicDegreeImportance.getId(), new AsyncCallback<String>() {
 
 			@Override
 			public void onFailure(Throwable arg0) {
@@ -814,7 +818,7 @@ public class RiskAssesmentStrategicViewData {
 	}
 	
 	private void deleteStrategicRiskFactorRPC(final StrategicRiskFactorView riskFactorsView, final VerticalPanel vpnlAddRiskFactorView, StrategicRiskFactor strategicRiskFactor, final RiskAssesmentView riskAssesmentView) {
-		rpcService.deleteStrategicRiskFactor(strategicRiskFactor.getId(), new AsyncCallback<String>() {
+		rpcService.removeStrategicRiskFactor(strategicRiskFactor.getId(), new AsyncCallback<String>() {
 
 			@Override
 			public void onFailure(Throwable arg0) {

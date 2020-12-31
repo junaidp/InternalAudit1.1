@@ -220,8 +220,8 @@ public class AddRiskAssesmentFactors extends VerticalPanel {
 //				riskFactorsObj.setRiskDescription(arg0.getValue());
 //			}
 //		});
-		
-		riskFactorsObj.setChecked(1);
+		if(riskFactorView.getCheckBox().getValue())
+			riskFactorsObj.setChecked(1);
 		riskFactorView.getCheckBox().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -279,8 +279,8 @@ public class AddRiskAssesmentFactors extends VerticalPanel {
 			}
 			
 		});
-
-		degreeImportanceObj.setChecked(1);
+		if(degreeImportanceData.getCheckBox().getValue())
+			degreeImportanceObj.setChecked(1);
 		degreeImportanceData.getCheckBox().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
