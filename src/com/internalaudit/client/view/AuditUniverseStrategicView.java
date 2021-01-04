@@ -362,4 +362,12 @@ public class AuditUniverseStrategicView extends Composite {
 		this.listStrategicTabs = listStrategicTabs;
 	}
 
+	public CheckBox getCheckBoxMultiple() {
+		return checkBoxMultiple;
+	}
+
+	public void setCheckBoxMultiple(CheckBox checkBoxMultiple) {
+		this.checkBoxMultiple = checkBoxMultiple;
+	}
+
 }

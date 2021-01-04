@@ -112,6 +112,9 @@ public class Strategic implements Serializable {
 
 	@Column(name = "approvedByAuditHead")
 	private boolean approvedByAuditHead;
+	
+	@Column(name = "createMultipleJobs")
+	private boolean createMultipleJobs;
 
 	// 2018 new entity added
 	@Transient
@@ -473,6 +476,14 @@ public class Strategic implements Serializable {
 
 	public void setListSubProcess(ArrayList<SubProcess> listSubProcess) {
 		this.listSubProcess = listSubProcess;
+	}
+
+	public boolean isCreateMultipleJobs() {
+		return createMultipleJobs;
+	}
+
+	public void setCreateMultipleJobs(boolean createMultipleJobs) {
+		this.createMultipleJobs = createMultipleJobs;
 	}
 
 }

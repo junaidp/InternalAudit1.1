@@ -179,6 +179,7 @@ public class AuditUniverseStrategicViewData {
 				strategic.setDivisionID(Integer.parseInt(strategicView.getListBoxDivision().getValue(i)));
 			}
 		}
+		strategic.setCreateMultipleJobs(strategicView.getCheckBoxMultiple().getValue());
 		// strategic.setPhase("Identification");
 		strategic.setPhase(1);
 		strategic.setNextPhase(2);
@@ -588,6 +589,10 @@ public class AuditUniverseStrategicViewData {
 
 		final Strategic data = result.get(i);
 		auditUniverseStrategicView.setStrategicId(result.get(i).getId());
+		//checkbox added by moqeet
+		auditUniverseStrategicView.getCheckBoxMultiple().setValue(data.isCreateMultipleJobs());
+		if(data.isCreateMultipleJobs())
+			auditUniverseStrategicView.visibleMultipleJobOption(true);
 		if (result.get(i).getStatus().equals("amend")) {
 			auditUniverseStrategicView.getFeedback().addStyleName("point");
 			auditUniverseStrategicView.getFeedback().setVisible(true);

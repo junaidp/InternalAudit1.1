@@ -831,6 +831,7 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			String todo = hm.get("todo");
 			// String tab = hm.get("tab");
+			year = getCurrentYear();//year added by moqeet 
 			String tab = "0";
 			if (todo.equalsIgnoreCase("approve")) {				
 				saveDefaultDegreeImportanceRiskFactors(strategic, companyId);
@@ -1322,9 +1323,6 @@ public class MySQLRdbHelper {
 			// crit.add(disc);
 
 			strategicAlias(crit);
-
-			/////////////////////
-			// crit.add(Restrictions.eq("strategicObjective", "testing with moqeet"));
 			crit.add(Restrictions.ge("phase", phaseValue));
 			crit.add(Restrictions.ne("status", "deleted"));
 			crit.add(Restrictions.eq("year", year));// Year check added
@@ -1672,6 +1670,7 @@ public class MySQLRdbHelper {
 			// crit.createAlias("ownRep.userId", "ownRepuserId");
 			// crit.createAlias("relevantDepartment", "department");
 			// crit.createAlias("riskFactor", "risk");
+			
 			crit.createAlias("initiatedBy", "initiated");
 			crit.createAlias("assignedTo", "assigned");
 			crit.createAlias("initiated.skillId", "initatedSkill");
@@ -7233,7 +7232,8 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(StrategicDepartments.class);
 			crit.createAlias("department", "dept");
-			crit.add(Restrictions.in("strategic", ids));
+			if(!ids.isEmpty())
+				crit.add(Restrictions.in("strategic", ids));
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				StrategicDepartments strategicDept = (StrategicDepartments) it.next();

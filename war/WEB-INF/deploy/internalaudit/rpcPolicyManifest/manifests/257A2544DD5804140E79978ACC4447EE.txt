@@ -1,0 +1,2 @@
+serviceClass: com.internalaudit.client.InternalAuditService
+path: 376E7B5609BED75A4BEC035CB98EC947.gwt.rpc
