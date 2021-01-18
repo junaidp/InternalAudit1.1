@@ -10,6 +10,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -322,7 +323,7 @@ public class ConsolidationViewData {
 						consolidationView.getRiskRating().setUrl("greencircle.png");
 						consolidationView.getRiskRating().setTitle("Low");
 					}
-					consolidationView.getLblRiskRating().setText(strategics.get(index).getRating());
+					consolidationView.getLblRiskRating().setText(NumberFormat.getFormat(".00").format(strategics.get(index).getOverallRating()));
 
 					if (strategics.get(consolidationView.getIndex()).getTab() == 0) {
 						// consolidationView.getTab().setText("(Strategic)");

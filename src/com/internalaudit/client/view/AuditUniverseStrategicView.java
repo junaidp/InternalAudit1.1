@@ -2,6 +2,8 @@ package com.internalaudit.client.view;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
@@ -127,7 +129,7 @@ public class AuditUniverseStrategicView extends Composite {
 	vpnlStrategicObjective.add(hpnlMultipleJob);
 	hpnlMultipleJob.add(checkBoxMultiple);
 	hpnlMultipleJob.addStyleName("w3-right");
-	visibleMultipleJobOption(false);
+//	visibleMultipleJobOption(false);
 	HorizontalPanel hpnlComments = new HorizontalPanel();
 
 	hpnlComments.setWidth("35px");
@@ -174,6 +176,7 @@ public class AuditUniverseStrategicView extends Composite {
 	hpnlStrategic.setWidth("900px");
 	mainPanel.addStyleName("form-row");
 	}
+	
 	public void visibleMultipleJobOption(boolean flag) {
 		hpnlMultipleJob.setVisible(flag);
 	}

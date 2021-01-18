@@ -79,7 +79,7 @@ public interface InternalAuditServiceAsync {
 	void fetchRiskAssesment(HashMap<String, String> hm, AsyncCallback<ArrayList<RiskAssesmentDTO>> callback);
 
 	void saveRiskAssesment(HashMap<String, String> hm, ArrayList<StrategicDegreeImportance> strategicRisks,
-			ArrayList<StrategicRiskFactor> arrayListSaveRiskFactors, AsyncCallback<String> callback);
+			ArrayList<StrategicRiskFactor> arrayListSaveRiskFactors, float resultRating, AsyncCallback<String> callback);
 
 	void sendBackStrategic(Strategic strategics, AsyncCallback<String> callback);
 
@@ -409,5 +409,7 @@ public interface InternalAuditServiceAsync {
 	void removeStrategicDegreeImportance(int id, AsyncCallback<String> asyncCallback);
 
 	void removeStrategicRiskFactor(int id, AsyncCallback<String> callback);
+
+	void fetchStrategicDuplicate(Strategic strategic, AsyncCallback<ArrayList<Strategic>> asyncCallback);
 
 }

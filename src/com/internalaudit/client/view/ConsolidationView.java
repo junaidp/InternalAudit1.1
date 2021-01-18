@@ -14,14 +14,6 @@ import com.sencha.gxt.widget.core.client.form.TextArea;
 public class ConsolidationView extends Composite {
 	private Label area;
 	private Image riskRating;
-	public Label getLblRiskRating() {
-		return lblRiskRating;
-	}
-
-	public void setLblRiskRating(Label lblRiskRating) {
-		this.lblRiskRating = lblRiskRating;
-	}
-
 	private Label lblRiskRating;
 	private TextArea auditableUnit;
 	private Label tab;
@@ -330,5 +322,13 @@ public class ConsolidationView extends Composite {
 
 	public void setAnchorFeedback(Anchor anchorFeedback) {
 		this.anchorFeedback = anchorFeedback;
+	}
+	
+	public Label getLblRiskRating() {
+		return lblRiskRating;
+	}
+
+	public void setLblRiskRating(Label lblRiskRating) {
+		this.lblRiskRating = lblRiskRating;
 	}
 }

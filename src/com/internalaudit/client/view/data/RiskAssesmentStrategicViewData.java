@@ -747,7 +747,7 @@ public class RiskAssesmentStrategicViewData {
 //			strategicRisks.add(strategicRisk);
 //		}
 		if(showErrorMessage(arrayListSaveDegreeImportance) == 100)
-			saveRiskAssesment(arrayListSaveDegreeImportance, arrayListSaveRiskFactors, riskAssesmentView, todo, button);
+			saveRiskAssesment(arrayListSaveDegreeImportance, arrayListSaveRiskFactors, riskAssesmentView, todo, button, riskAssesmentStrategicView.getLblOverallRatings());
 		else
 			new DisplayAlert("Sum of all weightage must equal to 100%");
 	}
@@ -877,7 +877,7 @@ public class RiskAssesmentStrategicViewData {
 	}
 
 	public void saveRiskAssesment(ArrayList<StrategicDegreeImportance> strategicDegreeImportance, ArrayList<StrategicRiskFactor> arrayListSaveRiskFactors, final RiskAssesmentView riskAssesmentView,
-			String todo, final Button button) {
+			String todo, final Button button, Label lblOverallRatings) {
 //		setArrayListStrategicRisksToSave(arrayListAddMoreStrategic);
 //		for(StrategicRisk strategicRisk : arrayListAddMoreStrategic)
 //		{
@@ -892,7 +892,7 @@ public class RiskAssesmentStrategicViewData {
 		}
 		hm.put("todo", todo);
 		hm.put("tab", selectedTab + "");
-				
+	
 //		rpcService.saveDegreeImportance(arrayListSaveDegreeImportance, new AsyncCallback<ArrayList<DegreeImportance>>() {
 //
 //			@Override
@@ -919,7 +919,7 @@ public class RiskAssesmentStrategicViewData {
 //			}
 //		});
 		
-		rpcService.saveRiskAssesment(hm, strategicDegreeImportance, arrayListSaveRiskFactors, new AsyncCallback<String>() {
+		rpcService.saveRiskAssesment(hm, strategicDegreeImportance, arrayListSaveRiskFactors, Float.parseFloat(lblOverallRatings.getText()), new AsyncCallback<String>() {
 
 			@Override
 			public void onFailure(Throwable caught) {

@@ -1,6 +1,8 @@
 package com.internalaudit.shared;
 
 import java.io.Serializable;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -14,6 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+//import com.google.gwt.i18n.client.NumberFormat;
 
 @Entity
 
@@ -94,6 +98,9 @@ public class Strategic implements Serializable {
 
 	@Column(name = "tab")
 	private int tab;
+	
+	@Column(name = "overallRating")
+	private float overallRating;
 
 	@Column(name = "ratingComments")
 	private String ratingComments;
@@ -484,6 +491,16 @@ public class Strategic implements Serializable {
 
 	public void setCreateMultipleJobs(boolean createMultipleJobs) {
 		this.createMultipleJobs = createMultipleJobs;
+	}
+
+	public float getOverallRating() {
+		// double v = (double)Math.round(overallRating * 100d) / 100d;
+		// return v;
+		 return overallRating;
+	}
+
+	public void setOverallRating(float overallRating) {
+		this.overallRating = overallRating;
 	}
 
 }

@@ -10,6 +10,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -24,9 +26,11 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.util.DuplicateArrayList;
 import com.internalaudit.client.view.AmendmentPopup;
 import com.internalaudit.client.view.AuditUniverseStrategicView;
 import com.internalaudit.client.view.ButtonRound;
+import com.internalaudit.client.view.DisplayAlert;
 import com.internalaudit.client.view.LoadingPopup;
 import com.internalaudit.client.view.PhaseNames;
 import com.internalaudit.client.view.PopupViewGXT;
@@ -52,6 +56,7 @@ public class AuditUniverseStrategicViewData {
 	private String actionperformed;
 	private Logger logger = Logger.getLogger("AuditUniverStrategicViewData");
 	private int currentYear = 2020; 
+//	private boolean flagFetchStrategicDulicate = false;
 	private ArrayList<StrategicTabs> arrayStrategicTabs = new ArrayList<StrategicTabs>();
 	
 	public void setData() {
@@ -153,7 +158,7 @@ public class AuditUniverseStrategicViewData {
 			final ArrayList<Strategic> strategics, final Button button) {
 
 		button.setEnabled(false);
-		Strategic strategic = new Strategic();
+		final Strategic strategic = new Strategic();
 		strategic.setAcheivementDate(strategicView.getObjectiveAchievementDate().getCurrentValue());
 		Employee employee = new Employee();
 
@@ -180,6 +185,13 @@ public class AuditUniverseStrategicViewData {
 			}
 		}
 		strategic.setCreateMultipleJobs(strategicView.getCheckBoxMultiple().getValue());
+		strategicView.getCheckBoxMultiple().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> arg0) {
+				strategic.setCreateMultipleJobs(arg0.getValue());
+			}
+		});
 		// strategic.setPhase("Identification");
 		strategic.setPhase(1);
 		strategic.setNextPhase(2);
@@ -195,8 +207,48 @@ public class AuditUniverseStrategicViewData {
 //			todo = "submit";
 //		}
 		hm.put("todo", todo);
-//		hm.put("tab", strategicView.getListStrategicTabs().getSelectedValue());
+		hm.put("tab", strategicView.getListStrategicTabs().getSelectedValue());
 		strategic.setArrayStrategicTabs(setStrategicTabs(strategic.getId(), strategicView.getListStrategicTabs()));
+		fetchStrategicDuplicate(vpnlStrategicData, hpnlButtonInitiator, hpnlButtonsApprovar, btnAdd, button, strategic, hm);
+//		if(fetchStrategicDuplicate(vpnlStrategicData, hpnlButtonInitiator, hpnlButtonsApprovar, btnAdd, button, strategic, hm) == false)
+//			saveStrategicRPC(vpnlStrategicData, hpnlButtonInitiator, hpnlButtonsApprovar, btnAdd, button, strategic, hm);
+	}
+	
+	private void fetchStrategicDuplicate(final VerticalPanel vpnlStrategicData, final HorizontalPanel hpnlButtonInitiator, final HorizontalPanel hpnlButtonsApprovar, final Image btnAdd, final Button button, final Strategic strategic, final HashMap<String, String> hm) {
+		if(strategic.getId() == 0)
+			saveStrategicRPC(vpnlStrategicData, hpnlButtonInitiator, hpnlButtonsApprovar, btnAdd, button, strategic, hm);
+		else {	
+			rpcService.fetchStrategicDuplicate(strategic, new AsyncCallback<ArrayList<Strategic>>() {
+	
+				@Override
+				public void onFailure(Throwable arg0) {
+					// TODO Auto-generated method stub
+	//				flagFetchStrategicDulicate = false;
+					new DisplayAlert("Unable to fetch Duplicate Strategic");
+				}
+	
+				@Override
+				public void onSuccess(ArrayList<Strategic> arrayStrategic) {
+					if(arrayStrategic != null) {
+						if(arrayStrategic.size()>1) {
+		//					flagFetchStrategicDulicate = true;
+							for(Strategic strategicDB : arrayStrategic) {
+								Strategic strategicToSave = strategic;
+								strategicToSave.setId(strategicDB.getId());
+								saveStrategicRPC(vpnlStrategicData, hpnlButtonInitiator, hpnlButtonsApprovar, btnAdd, button, strategicToSave, hm);
+							}
+						}
+						else
+							saveStrategicRPC(vpnlStrategicData, hpnlButtonInitiator, hpnlButtonsApprovar, btnAdd, button, strategic, hm);
+						}
+				}
+			});
+		}
+	}
+
+	private void saveStrategicRPC(final VerticalPanel vpnlStrategicData, final HorizontalPanel hpnlButtonInitiator,
+			final HorizontalPanel hpnlButtonsApprovar, final Image btnAdd, final Button button,
+			final Strategic strategic, HashMap<String, String> hm) {
 		rpcService.saveStrategic(strategic, hm, new AsyncCallback<String>() {
 
 			@Override
@@ -460,8 +512,9 @@ public class AuditUniverseStrategicViewData {
 			}
 
 			@Override
-			public void onSuccess(final ArrayList<Strategic> result) {
-
+			public void onSuccess(ArrayList<Strategic> result) {
+				DuplicateArrayList mergeArrayList = new DuplicateArrayList();
+				result = mergeArrayList.mergeRuplicateList(result); 
 				btnAdd.setVisible(true);
 				// btnAdd.setEnabled(true);
 				// vpnlStrategic.add(new AuditUniverseStrategicViewHeading());
@@ -591,6 +644,13 @@ public class AuditUniverseStrategicViewData {
 		auditUniverseStrategicView.setStrategicId(result.get(i).getId());
 		//checkbox added by moqeet
 		auditUniverseStrategicView.getCheckBoxMultiple().setValue(data.isCreateMultipleJobs());
+//		auditUniverseStrategicView.getCheckBoxMultiple().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+//
+//			@Override
+//			public void onValueChange(ValueChangeEvent<Boolean> arg0) {
+//				auditUniverseStrategicView.getCheckBoxMultiple().setValue(arg0.getValue());
+//			}
+//		});
 		if(data.isCreateMultipleJobs())
 			auditUniverseStrategicView.visibleMultipleJobOption(true);
 		if (result.get(i).getStatus().equals("amend")) {

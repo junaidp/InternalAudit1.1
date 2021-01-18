@@ -157,7 +157,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 //			if (strategic.getYear() > year && hm.get("todo").equalsIgnoreCase("submit")) {
 //				year = strategic.getYear();
 //			}
-
+			
 			return rdbHelper.saveStrategic(strategic, loggedInUser, hm, strategic.getYear(), companyId);
 		} else {
 
@@ -200,7 +200,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	}
 
 	@Override
-	public String saveRiskAssesment(HashMap<String, String> hm, ArrayList<StrategicDegreeImportance> strategicRisks, ArrayList<StrategicRiskFactor>arraySaveStrategicRiskFactors)
+	public String saveRiskAssesment(HashMap<String, String> hm, ArrayList<StrategicDegreeImportance> strategicRisks, ArrayList<StrategicRiskFactor>arraySaveStrategicRiskFactors, float overallRating)
 			throws Exception {
 		if (isLoggedIn()) {
 
@@ -211,7 +211,7 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 			int companyId = (Integer) session.getAttribute("companyId");
 			hm.put("year", year + "");
 			hm.put("companyId", companyId + "");
-			return rdbHelper.saveRiskAssesment(strategicRisks, arraySaveStrategicRiskFactors, loggedInUser, hm);
+			return rdbHelper.saveRiskAssesment(strategicRisks, arraySaveStrategicRiskFactors, loggedInUser, hm, overallRating);
 		} else {
 
 			throw new TimeOutException(InternalAuditConstants.LOGGEDOUT);
@@ -1989,6 +1989,12 @@ public class InternalAuditServiceImpl extends RemoteServiceServlet implements In
 	public String removeStrategicRiskFactor(int id) {
 		// TODO Auto-generated method stub
 		return rdbHelper.unCheckStrategicRiskFactor(id);
+	}
+
+	@Override
+	public ArrayList<Strategic> fetchStrategicDuplicate(Strategic strategic) {
+		// TODO Auto-generated method stub
+		return rdbHelper.fetchStrategicDuplicate(strategic);
 	}
 	
 }

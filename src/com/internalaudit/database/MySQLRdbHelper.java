@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
+import java.util.UUID;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -61,8 +62,6 @@ import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.datepicker.client.CalendarUtil;
 import com.internalaudit.client.presenter.HeaderAndFooterPdfPageEventHelper;
 import com.internalaudit.client.view.InternalAuditReporting.AssesmentGridEntity;
 import com.internalaudit.shared.ActivityObjective;
@@ -825,21 +824,34 @@ public class MySQLRdbHelper {
 		return skills;
 	}
 
+	
+	
 	public String saveStrategic(Strategic strategic, Employee loggedInUser, HashMap<String, String> hm, int year,
 			int companyId) {
 		try {
 			session = sessionFactory.openSession();
 			String todo = hm.get("todo");
-			// String tab = hm.get("tab");
+			String tab = hm.get("tab");
 			year = getCurrentYear();//year added by moqeet 
-			String tab = "0";
+			tab = "0"; //addded by moqeet
 			if (todo.equalsIgnoreCase("approve")) {				
 				saveDefaultDegreeImportanceRiskFactors(strategic, companyId);
 				todo = "submit";
+//				if(strategic.isCreateMultipleJobs()) {
+//					for(Strategic strategicCopy : fetchStrategicDuplicate(strategic)) {
+//						hm.put("todo", "submitted");
+//						saveStrategic(strategicCopy, loggedInUser, hm, year, companyId);
+//					}
+//				}
 			}
-			saveOneStrategic(strategic, loggedInUser, todo, tab, year, companyId);
+			Session session = sessionFactory.openSession();
+			saveOneStrategic(strategic, loggedInUser, todo, tab, year, companyId, session);
 //			if (strategic.getStatus().equals("save")) 
 //				saveDefaultDegreeImportanceRiskFactors(strategic, companyId);
+			//multiple jobs inserted in DB
+			if(strategic.isCreateMultipleJobs() && strategic.getPhase() == 1 && todo.equalsIgnoreCase("submitted")) 
+				createMultipleJobs(strategic, loggedInUser, year, companyId, todo, tab, session);
+			if(session!=null && session.isOpen())session.close();
 			logger.info(
 					String.format("(Inside saveStrategic) saving strategic for year : " + year + " of User Logged In "
 							+ loggedInUser + " under tab " + tab + " todo: " + todo + " " + new Date()));
@@ -850,6 +862,21 @@ public class MySQLRdbHelper {
 			session.close();
 		}
 		return "added";
+	}
+
+	private void createMultipleJobs(Strategic strategic, Employee loggedInUser, int year, int companyId, String todo,
+			String tab, Session session) {
+			for(int i=1; i<strategic.getStrategicDepartments().size(); i++) {
+				Strategic strategicCopy = new Strategic();
+//					strategicCopy = strategic;							
+//					strategicCopy.setId(0);
+//					strategicCopy.setListSubProcess(null);
+				strategicCopy.setStrategicObjective(strategic.getStrategicObjective());
+				strategicCopy.setDivisionID(strategic.getDivisionID());
+				strategicCopy.setCreateMultipleJobs(strategic.isCreateMultipleJobs());
+				strategicCopy.setPhase(strategic.getPhase());
+				saveOneStrategic(strategicCopy, loggedInUser, todo, tab, year, companyId, session);
+		}
 	}
 
 	public Employee fetchSupervisor(int userId) {
@@ -877,15 +904,13 @@ public class MySQLRdbHelper {
 	}
 
 	public void saveOneStrategic(Strategic strategic, Employee loggedInUser, String todo, String tab, int year,
-			int companyId) {
-		Session session = null;
+			int companyId, Session session) {
 		Transaction tr = null;
 		try {
 			int selectedTab = Integer.parseInt(tab);
-			session = sessionFactory.openSession();
+			
 			tr = (Transaction) session.beginTransaction();
 			Strategic clientSideStrategic = strategic;
-
 			if (strategic.getId() == 0) {
 				if (todo.equals("save")) {
 					initiateStrategic(strategic, loggedInUser, clientSideStrategic, session);
@@ -912,15 +937,8 @@ public class MySQLRdbHelper {
 //						saveDefaultDegreeImportanceRiskFactors(strategic, companyId);
 					} else {
 						strategic.setAuditableUnit(clientSideStrategic.getAuditableUnit());
-						strategic.setProcess(clientSideStrategic.getProcess());// comment this line and,
-																				// from
-																				// here
-																				// call
-																				// a
-																				// new
-																				// method
-																				// "saveStrategicSubProcess()"
-
+						strategic.setProcess(clientSideStrategic.getProcess());
+						// comment this line and from here call a new method "saveStrategicSubProcess()"
 						strategic.setJobType(clientSideStrategic.getJobType());
 						submitStrategic(strategic, loggedInUser, clientSideStrategic, session);
 					}
@@ -936,7 +954,7 @@ public class MySQLRdbHelper {
 			strategic.setProcess(clientSideStrategic.getProcess());
 			strategic.setDivisionID(clientSideStrategic.getDivisionID());
 			// strategic.setSubProcess(clientSideStrategic.getSubProcess());
-			if (clientSideStrategic.getListSubProcess() != null) {
+			if (clientSideStrategic.getListSubProcess() != null && clientSideStrategic.getPhase() == 2) {
 				saveStrategicSubProcess(clientSideStrategic, session);
 			}
 			strategic.setJobType(clientSideStrategic.getJobType());
@@ -972,9 +990,12 @@ public class MySQLRdbHelper {
 				strategic.setListSubProcess(subProcessList);
 			}
 			// end
-
+			if(clientSideStrategic.isCreateMultipleJobs())
+				strategic.setCreateMultipleJobs(true);//check added by moqeet
+			if(clientSideStrategic.getOverallRating() > 0)
+				strategic.setOverallRating(clientSideStrategic.getOverallRating());
+			
 			session.saveOrUpdate(strategic);
-
 			tr.commit();
 			// saveStrategicAudit(strategic);
 			if (strategic.getPhase() == 1) {
@@ -992,7 +1013,7 @@ public class MySQLRdbHelper {
 			logger.warn(String.format("Exception occured in saveOneStrategic", ex.getMessage()), ex);
 
 		} finally {
-			session.close();
+			//session.close();
 		}
 	}
 
@@ -1301,6 +1322,69 @@ public class MySQLRdbHelper {
 			session.close();
 		}
 		return arrayRiskFactors;
+	}
+	
+	public ArrayList<Strategic> fetchStrategicDuplicate(Strategic strategic) {
+		Session session = null;
+		System.out.println("inside fetchStrategicDuplicate");
+		ArrayList<Strategic> strategics = new ArrayList<Strategic>();
+		try {
+			session = sessionFactory.openSession();
+			Criteria crit = session.createCriteria(Strategic.class);
+			strategicAlias(crit);
+			crit.add(Restrictions.eq("strategicObjective", strategic.getStrategicObjective()));
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				Strategic strategic1 = (Strategic) it.next();
+				strategic1.setStrategicDepartments(fetchStrategicdepartments(strategic1, session));
+				strategic1.setDivision(fetchStrategicDivision(strategic1, session));
+				strategic1.setLoggedInUser(strategic.getLoggedInUser());
+				strategic1.setListSubProcess(fetchStrategicSubProcess(strategic1.getId(), session));
+				strategic1.setArrayStrategicTabs(fetchStrategicTabs(strategic1.getId(), session));
+				HibernateDetachUtility.nullOutUninitializedFields(strategic1,
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(strategic1.getInitiatedBy(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(strategic1.getInitiatedBy().getCountryId(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(strategic1.getInitiatedBy().getReportingTo(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(strategic1.getInitiatedBy().getReportingTo().getReportingTo(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(strategic1.getInitiatedBy().getCityId(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(strategic1.getAssignedTo(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(strategic1.getAssignedTo().getCountryId(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(strategic1.getAssignedTo().getReportingTo(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(strategic1.getAssignedTo().getCityId(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(strategic1.getProcess(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(strategic1.getJobType(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);
+				HibernateDetachUtility.nullOutUninitializedFields(strategic1.getListSubProcess(),
+						HibernateDetachUtility.SerializationType.SERIALIZATION);	
+				}
+			logger.info(String.format("(Inside fetchStrategicReplicate) fetching StrategicReplicate forEmployee Id : " + strategic.getLoggedInUser() + " " + new Date()));
+		} catch (Exception ex) {
+			System.out.println("Exception occured in fetchStrategicReplicate" + ex.getMessage());
+			logger.warn(String.format("Exception occured in fetchStrategicReplicate", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+		Collections.reverse(strategics);
+		return strategics;
+	}
+	
+	
+	private int getUnique() {
+	Random r = new Random();
+	return r.nextInt(1000);
+	
 	}
 
 	public ArrayList<Strategic> fetchStrategic(HashMap<String, String> hm, int employeeId) {
@@ -1997,13 +2081,19 @@ public class MySQLRdbHelper {
 	}
 
 	public String saveRiskAssesment(ArrayList<StrategicDegreeImportance> strategicRisks, ArrayList<StrategicRiskFactor> arraySaveStrategicRiskFactors, Employee loggedInUser,
-			HashMap<String, String> hm) {
+			HashMap<String, String> hm, float overallRating) {
 		String todo = hm.get("todo");
-		String tab = "0";
-		// String tab = hm.get("tab");
+		String tab = hm.get("tab");
+		tab = "0";
 		int year = Integer.parseInt(hm.get("year"));
 		int companyId = Integer.parseInt(hm.get("companyId"));
-		saveOneStrategic(strategicRisks.get(0).getStrategicId(), loggedInUser, todo, tab, year, companyId);
+		Strategic strategic = strategicRisks.get(0).getStrategicId();
+		strategic.setOverallRating(overallRating);
+		//
+		Session session = sessionFactory.openSession();
+		//
+		saveOneStrategic(strategic, loggedInUser, todo, tab, year, companyId, session);
+		if(session!=null && session.isOpen())session.close();
 		for (int i = 0; i < strategicRisks.size(); i++) 
 			saveStrategicDegreeImportance(strategicRisks.get(i));
 		for(StrategicRiskFactor strategicRiskFactor : arraySaveStrategicRiskFactors) 

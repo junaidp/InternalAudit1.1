@@ -81,7 +81,7 @@ public interface InternalAuditService extends RemoteService {
 	ArrayList<RiskAssesmentDTO> fetchRiskAssesment(HashMap<String, String> hm) throws Exception;
 
 	String saveRiskAssesment(HashMap<String, String> hm, ArrayList<StrategicDegreeImportance> strategicRisks,
-			ArrayList<StrategicRiskFactor> arrayListSaveRiskFactors) throws Exception;
+			ArrayList<StrategicRiskFactor> arrayListSaveRiskFactors, float resultRating) throws Exception;
 
 	String sendBackStrategic(Strategic strategics) throws Exception;
 
@@ -400,6 +400,8 @@ public interface InternalAuditService extends RemoteService {
 	String removeStrategicDegreeImportance(int id);
 
 	String removeStrategicRiskFactor(int id);
+
+	ArrayList<Strategic> fetchStrategicDuplicate(Strategic strategic);
 
 	// ArrayList<ToDo> fetchUpdatedRaisedToDo(int employeeID) throws Exception;
 }
