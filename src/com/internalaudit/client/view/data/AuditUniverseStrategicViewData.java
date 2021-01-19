@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
-import com.internalaudit.client.util.DuplicateArrayList;
+import com.internalaudit.client.util.DuplicateArrayListStrategic;
 import com.internalaudit.client.view.AmendmentPopup;
 import com.internalaudit.client.view.AuditUniverseStrategicView;
 import com.internalaudit.client.view.ButtonRound;
@@ -221,27 +221,23 @@ public class AuditUniverseStrategicViewData {
 			rpcService.fetchStrategicDuplicate(strategic, new AsyncCallback<ArrayList<Strategic>>() {
 	
 				@Override
-				public void onFailure(Throwable arg0) {
-					// TODO Auto-generated method stub
-	//				flagFetchStrategicDulicate = false;
+				public void onFailure(Throwable arrayStrategic) {
 					new DisplayAlert("Unable to fetch Duplicate Strategic");
 				}
 	
 				@Override
 				public void onSuccess(ArrayList<Strategic> arrayStrategic) {
-					if(arrayStrategic != null) {
 						if(arrayStrategic.size()>1) {
 		//					flagFetchStrategicDulicate = true;
 							for(Strategic strategicDB : arrayStrategic) {
 								Strategic strategicToSave = strategic;
 								strategicToSave.setId(strategicDB.getId());
 								saveStrategicRPC(vpnlStrategicData, hpnlButtonInitiator, hpnlButtonsApprovar, btnAdd, button, strategicToSave, hm);
-							}
 						}
+					}
 						else
 							saveStrategicRPC(vpnlStrategicData, hpnlButtonInitiator, hpnlButtonsApprovar, btnAdd, button, strategic, hm);
 						}
-				}
 			});
 		}
 	}
@@ -513,7 +509,7 @@ public class AuditUniverseStrategicViewData {
 
 			@Override
 			public void onSuccess(ArrayList<Strategic> result) {
-				DuplicateArrayList mergeArrayList = new DuplicateArrayList();
+				DuplicateArrayListStrategic mergeArrayList = new DuplicateArrayListStrategic();
 				result = mergeArrayList.mergeRuplicateList(result); 
 				btnAdd.setVisible(true);
 				// btnAdd.setEnabled(true);

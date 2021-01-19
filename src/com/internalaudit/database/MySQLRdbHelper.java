@@ -849,7 +849,7 @@ public class MySQLRdbHelper {
 //			if (strategic.getStatus().equals("save")) 
 //				saveDefaultDegreeImportanceRiskFactors(strategic, companyId);
 			//multiple jobs inserted in DB
-			if(strategic.isCreateMultipleJobs() && strategic.getPhase() == 1 && todo.equalsIgnoreCase("submitted")) 
+			if(strategic.isCreateMultipleJobs() && strategic.getPhase() == 1 && todo.equalsIgnoreCase("submit")) 
 				createMultipleJobs(strategic, loggedInUser, year, companyId, todo, tab, session);
 			if(session!=null && session.isOpen())session.close();
 			logger.info(
@@ -1367,6 +1367,7 @@ public class MySQLRdbHelper {
 						HibernateDetachUtility.SerializationType.SERIALIZATION);
 				HibernateDetachUtility.nullOutUninitializedFields(strategic1.getListSubProcess(),
 						HibernateDetachUtility.SerializationType.SERIALIZATION);	
+				strategics.add(strategic1);
 				}
 			logger.info(String.format("(Inside fetchStrategicReplicate) fetching StrategicReplicate forEmployee Id : " + strategic.getLoggedInUser() + " " + new Date()));
 		} catch (Exception ex) {
@@ -2091,7 +2092,6 @@ public class MySQLRdbHelper {
 		strategic.setOverallRating(overallRating);
 		//
 		Session session = sessionFactory.openSession();
-		//
 		saveOneStrategic(strategic, loggedInUser, todo, tab, year, companyId, session);
 		if(session!=null && session.isOpen())session.close();
 		for (int i = 0; i < strategicRisks.size(); i++) 

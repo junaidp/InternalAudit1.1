@@ -38,6 +38,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
+import com.internalaudit.client.util.DuplicateArrayListRiskAssesmentDTO;
 import com.internalaudit.client.view.AddDegreeOfImportanceSettingsView;
 import com.internalaudit.client.view.StrategicDegreeImportanceView;
 import com.internalaudit.client.view.AmendmentPopup;
@@ -218,31 +219,34 @@ public class RiskAssesmentStrategicViewData {
 			}
 
 			@Override
-			public void onSuccess(final ArrayList<RiskAssesmentDTO> riskAssesmentDTOs) {
+			public void onSuccess(ArrayList<RiskAssesmentDTO> riskAssesmentDTOs) {
 				// loadingPopup.remove();
+				//merger added by moqeet
+				DuplicateArrayListRiskAssesmentDTO mergeArrayList = new DuplicateArrayListRiskAssesmentDTO(); 
 				arrayListPreviousStrategicsEntity = riskAssesmentDTOs;
-
-				for ( int index = 0; index < riskAssesmentDTOs.size(); index++) {
+				final ArrayList<RiskAssesmentDTO> riskAssesmentDTO = mergeArrayList.mergeRuplicateList(riskAssesmentDTOs);
+				
+				for ( int index = 0; index < riskAssesmentDTO.size(); index++) {
 					
 					final DataSetter dataSetter = new DataSetter();
 					dataSetter.setId(index);
-					dataSetter.setComment(riskAssesmentDTOs.get(index).getStrategic().getComments());
+					dataSetter.setComment(riskAssesmentDTO.get(index).getStrategic().getComments());
 					final ArrayList<StrategicDegreeImportance> arrayListSaveDegreeImportance = new ArrayList<StrategicDegreeImportance>();
 					final ArrayList<StrategicRiskFactor> arrayListSaveRiskFactors = new ArrayList<StrategicRiskFactor>();
 					final RiskAssesmentStrategicView riskAssesmentStrategicView = new RiskAssesmentStrategicView();
-					setButtonsVisibility(riskAssesmentDTOs, index, riskAssesmentStrategicView);
+					setButtonsVisibility(riskAssesmentDTO, index, riskAssesmentStrategicView);
 					// if(riskAssesmentDTOs.get(index).getStrategic().getPhase()!=
 					// 2 ||
 					// riskAssesmentDTOs.get(index).getStrategic().getLoggedInUser()!=
 					// riskAssesmentDTOs.get(index).getStrategic().getAssignedTo().getEmployeeId()){
 					// disablePanel(riskAssesmentStrategicView);
 					// }
-					riskAssesmentStrategicView.setStrategicId(riskAssesmentDTOs.get(index).getStrategic().getId());
+					riskAssesmentStrategicView.setStrategicId(riskAssesmentDTO.get(index).getStrategic().getId());
 					riskAssesmentStrategicView.setIndex(index);
 					riskAssesmentStrategicView
-							.setStrategicObjective(riskAssesmentDTOs.get(index).getStrategic().getStrategicObjective());
+							.setStrategicObjective(riskAssesmentDTO.get(index).getStrategic().getStrategicObjective());
 
-					if (riskAssesmentDTOs.get(index).getStrategic().getStatus().equals("amend")) {
+					if (riskAssesmentDTO.get(index).getStrategic().getStatus().equals("amend")) {
 						riskAssesmentStrategicView.getComments().addStyleName("point");
 						// riskAssesmentStrategicView.getComments().removeStyleName("white");
 						riskAssesmentStrategicView.getComments().setVisible(true);
@@ -260,7 +264,7 @@ public class RiskAssesmentStrategicViewData {
 					});
 
 					riskAssesmentStrategicView.getRatingComment()
-							.setText(riskAssesmentDTOs.get(index).getStrategic().getRatingComments());
+							.setText(riskAssesmentDTO.get(index).getStrategic().getRatingComments());
 					if (!riskAssesmentStrategicView.getRatingComment().getText().isEmpty()) {
 						riskAssesmentStrategicView.getPanelRatingComment().setVisible(true);
 					}
@@ -324,10 +328,10 @@ public class RiskAssesmentStrategicViewData {
 					final VerticalPanel vpnlRiskFactor = new VerticalPanel();
 					riskAssesmentStrategicView.getRiskFactors().add(vpnlRiskFactor);
 									
-					for(int k=0; k<riskAssesmentDTOs.get(index).getStrategicRisks().size(); k++) {
-						StrategicDegreeImportance strategicDegreeImportance = riskAssesmentDTOs.get(index).getStrategicRisks().get(k);
+					for(int k=0; k<riskAssesmentDTO.get(index).getStrategicRisks().size(); k++) {
+						StrategicDegreeImportance strategicDegreeImportance = riskAssesmentDTO.get(index).getStrategicRisks().get(k);
 //						if(degreeImportance.getChecked() == 0 && degreeImportance.getDegreeImportanceID() != 0) {
-						if(riskAssesmentDTOs.get(index).getStrategicRisks().get(k).getCheck() == 1) {
+						if(riskAssesmentDTO.get(index).getStrategicRisks().get(k).getCheck() == 1) {
 							StrategicDegreeImportanceView strategicDegreeImportanceView = new StrategicDegreeImportanceView();
 							strategicDegreeImportanceView.getAddDegreeOfImportanceSettingsView().invisibleFiels();
 							strategicDegreeImportanceView.getAddDegreeOfImportanceSettingsView().getTxtName().setText(strategicDegreeImportance.getDegreeImportanceID().getDegreeImportanceName());
@@ -375,7 +379,7 @@ public class RiskAssesmentStrategicViewData {
 					final VerticalPanel vpnlAddDegreeImportanceView = new VerticalPanel();
 					vpnlDegreeImporatnce.add(vpnlAddDegreeImportanceView);
 					//addIconClickHandler
-					if (riskAssesmentDTOs.get(index).getStrategic().getPhase() == 2) 
+					if (riskAssesmentDTO.get(index).getStrategic().getPhase() == 2) 
 						viewDegreeOfImportanceHeading.getImgAddDegree().setVisible(true);
 					else
 						viewDegreeOfImportanceHeading.getImgAddDegree().setVisible(false);
@@ -387,7 +391,7 @@ public class RiskAssesmentStrategicViewData {
 								strategicDegreeImportanceView.getAddDegreeOfImportanceSettingsView().invisibleFiels();
 								removeStrategicDegreeImportance(strategicDegreeImportanceView, vpnlAddDegreeImportanceView, null, riskAssesmentView);
 								vpnlAddDegreeImportanceView.add(strategicDegreeImportanceView);	
-								strategicDegreeImportanceView.setListBoxDegreeImportance(riskAssesmentDTOs.get(dataSetter.getId()).getStrategicRisks());
+								strategicDegreeImportanceView.setListBoxDegreeImportance(riskAssesmentDTO.get(dataSetter.getId()).getStrategicRisks());
 								StrategicDegreeImportance strategicDegreeImportanceNew = new StrategicDegreeImportance();								
 								strategicDegreeImportanceView.setDegreeImportance(strategicDegreeImportanceNew);
 								arrayWeightage.add(strategicDegreeImportanceView.getTxtWeightage());
@@ -412,8 +416,8 @@ public class RiskAssesmentStrategicViewData {
 					final ArrayList<RiskFactorsView> riskFactorsUpdated = new ArrayList<RiskFactorsView>();
 					RiskFactorHeadingRiskAssement riskfactorsHeading = new RiskFactorHeadingRiskAssement();
 					vpnlHeaderRiskFactor.add(riskfactorsHeading);
-					for(int i=0; i<riskAssesmentDTOs.get(index).getArrayStrategicRiskFactor().size(); i++) {
-						StrategicRiskFactor strategicRiskFactor = riskAssesmentDTOs.get(index).getArrayStrategicRiskFactor().get(i); 
+					for(int i=0; i<riskAssesmentDTO.get(index).getArrayStrategicRiskFactor().size(); i++) {
+						StrategicRiskFactor strategicRiskFactor = riskAssesmentDTO.get(index).getArrayStrategicRiskFactor().get(i); 
 						if(strategicRiskFactor.getCheck() == 1) {
 							StrategicRiskFactorView riskFactorsView = new StrategicRiskFactorView();
 							riskFactorsView.getRiskFactorsSettingsView().getTxtRiskFactors().setText(strategicRiskFactor.getRiskFactorID().getRiskName());
@@ -442,7 +446,7 @@ public class RiskAssesmentStrategicViewData {
 					
 					final VerticalPanel vpnlAddRiskFactorView = new VerticalPanel();
 					vpnlRiskFactor.add(vpnlAddRiskFactorView);
-					if (riskAssesmentDTOs.get(index).getStrategic().getPhase() == 2) 
+					if (riskAssesmentDTO.get(index).getStrategic().getPhase() == 2) 
 						riskfactorsHeading.getRiskFactorSettingsHeading().getImgAddRiskFactor().setVisible(true);
 					else
 						riskfactorsHeading.getRiskFactorSettingsHeading().getImgAddRiskFactor().setVisible(false);
@@ -454,7 +458,7 @@ public class RiskAssesmentStrategicViewData {
 //							riskFactorsView.getRiskFactorsSettingsView().getTxtRiskDescription().setText(riskFactor.getRiskDescription());
 	
 							riskFactorsView.getRiskFactorsSettingsView().invisibleIcons();
-							riskFactorsView.setLisBoxRiskFactors(riskAssesmentDTOs.get(dataSetter.getId()).getArrayStrategicRiskFactor() );
+							riskFactorsView.setLisBoxRiskFactors(riskAssesmentDTO.get(dataSetter.getId()).getArrayStrategicRiskFactor() );
 							StrategicRiskFactor strategicRiskFactor = new StrategicRiskFactor();
 							riskFactorsView.setRiskFactors(strategicRiskFactor);
 							strategicRiskFactor.setProbability(Integer.parseInt(riskFactorsView.getListBoxProbability().getSelectedValue()));
@@ -472,14 +476,14 @@ public class RiskAssesmentStrategicViewData {
 					calculateOverAllRisksRatings(arrayOverAllRatings, listImgProbability, riskAssesmentStrategicView.getLblOverallRatings());					
 //					for (int j = 0; j < arrayistRiskFactors.size(); j++) {
 //						RiskFactorsView riskFactorsView = new RiskFactorsView();
-						if (riskAssesmentDTOs.get(index).getStrategic().getPhase() != 2
-								|| riskAssesmentDTOs.get(index).getStrategic().getLoggedInUser() != riskAssesmentDTOs
+						if (riskAssesmentDTO.get(index).getStrategic().getPhase() != 2
+								|| riskAssesmentDTO.get(index).getStrategic().getLoggedInUser() != riskAssesmentDTO
 										.get(index).getStrategic().getAssignedTo().getEmployeeId()) {
 							disablePanel(riskAssesmentStrategicView, listDegreeImportanceView, listRiskFactor,
-									riskAssesmentDTOs.get(index).getStrategic());
+									riskAssesmentDTO.get(index).getStrategic());
 						} 
 						else {
-							enablePanel(riskAssesmentStrategicView, listDegreeImportanceView, listRiskFactor, riskAssesmentDTOs.get(index).getStrategic().getStatus());
+							enablePanel(riskAssesmentStrategicView, listDegreeImportanceView, listRiskFactor, riskAssesmentDTO.get(index).getStrategic().getStatus());
 						}
 //
 //						riskFactorsView.setRiskFactorId(arrayistRiskFactors.get(j).getRiskId());
@@ -562,7 +566,7 @@ public class RiskAssesmentStrategicViewData {
 //					}
 					selectedTab = tab;
 //					arrayListStrategicRisks.addAll(setArrayListStrategicRisksToSave(arrayListAddMoreStrategic));
-					setButtonsHandlers(riskAssesmentView, riskAssesmentDTOs, riskAssesmentStrategicView, riskFactorsUpdated, arrayListSaveDegreeImportance, arrayListSaveRiskFactors);
+					setButtonsHandlers(riskAssesmentView, riskAssesmentDTO, riskAssesmentStrategicView, riskFactorsUpdated, arrayListSaveDegreeImportance, arrayListSaveRiskFactors);
 					arrayListUpdatedStrategics.add(riskAssesmentStrategicView);
 				}
 				loadingPopup.remove();
@@ -876,7 +880,7 @@ public class RiskAssesmentStrategicViewData {
 		}
 	}
 
-	public void saveRiskAssesment(ArrayList<StrategicDegreeImportance> strategicDegreeImportance, ArrayList<StrategicRiskFactor> arrayListSaveRiskFactors, final RiskAssesmentView riskAssesmentView,
+	public void saveRiskAssesment(ArrayList<StrategicDegreeImportance> listStrategicDegreeImportance, ArrayList<StrategicRiskFactor> arrayListSaveRiskFactors, final RiskAssesmentView riskAssesmentView,
 			String todo, final Button button, Label lblOverallRatings) {
 //		setArrayListStrategicRisksToSave(arrayListAddMoreStrategic);
 //		for(StrategicRisk strategicRisk : arrayListAddMoreStrategic)
@@ -919,7 +923,7 @@ public class RiskAssesmentStrategicViewData {
 //			}
 //		});
 		
-		rpcService.saveRiskAssesment(hm, strategicDegreeImportance, arrayListSaveRiskFactors, Float.parseFloat(lblOverallRatings.getText()), new AsyncCallback<String>() {
+		rpcService.saveRiskAssesment(hm, listStrategicDegreeImportance, arrayListSaveRiskFactors, Float.parseFloat(lblOverallRatings.getText()), new AsyncCallback<String>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -965,6 +969,32 @@ public class RiskAssesmentStrategicViewData {
 		});
 
 	}
+	
+//	private void fetchStrategicDuplicate(final Strategic strategic, final HashMap<String, String> hm) {
+//
+//			rpcService.fetchStrategicDuplicate(strategic, new AsyncCallback<ArrayList<Strategic>>() {
+//	
+//				@Override
+//				public void onFailure(Throwable arrayStrategic) {
+//					new DisplayAlert("Unable to fetch Duplicate Strategic");
+//				}
+//	
+//				@Override
+//				public void onSuccess(ArrayList<Strategic> arrayStrategic) {
+//						if(arrayStrategic.size()>1) {
+//		//					flagFetchStrategicDulicate = true;
+//							for(Strategic strategicDB : arrayStrategic) {
+//								Strategic strategicToSave = strategic;
+//								strategicToSave.setId(strategicDB.getId());
+//								saveStrategicRPC(strategicToSave, hm);
+//						}
+//					}
+//						else
+//							saveStrategicRPC(strategic, hm);
+//						}
+//			});
+//		}
+
 
 	public void sendBackStrategic(Strategic strategicToSendBack, final RiskAssesmentView riskAssesmentView) {
 
