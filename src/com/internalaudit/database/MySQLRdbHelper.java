@@ -832,6 +832,7 @@ public class MySQLRdbHelper {
 			session = sessionFactory.openSession();
 			String todo = hm.get("todo");
 			String tab = hm.get("tab");
+			String todoMultiple = todo;//added to add condition on CreateMultiplejobs
 			year = getCurrentYear();//year added by moqeet 
 			tab = "0"; //addded by moqeet
 			if (todo.equalsIgnoreCase("approve")) {				
@@ -849,9 +850,9 @@ public class MySQLRdbHelper {
 //			if (strategic.getStatus().equals("save")) 
 //				saveDefaultDegreeImportanceRiskFactors(strategic, companyId);
 			//multiple jobs inserted in DB
-			if(strategic.isCreateMultipleJobs() && strategic.getPhase() == 1 && todo.equalsIgnoreCase("submit")) 
+			if(strategic.isCreateMultipleJobs() && strategic.getPhase() == 1 && todoMultiple.equalsIgnoreCase("submit")) 
 				createMultipleJobs(strategic, loggedInUser, year, companyId, todo, tab, session);
-			if(session!=null && session.isOpen())session.close();
+//			if(session!=null && session.isOpen())session.close();
 			logger.info(
 					String.format("(Inside saveStrategic) saving strategic for year : " + year + " of User Logged In "
 							+ loggedInUser + " under tab " + tab + " todo: " + todo + " " + new Date()));
@@ -859,7 +860,8 @@ public class MySQLRdbHelper {
 			logger.warn(String.format("Exception occured in saveStrategic", ex.getMessage()), ex);
 
 		} finally {
-			session.close();
+			if(session!=null && session.isOpen())session.close();
+//			session.close();
 		}
 		return "added";
 	}
@@ -875,6 +877,8 @@ public class MySQLRdbHelper {
 				strategicCopy.setDivisionID(strategic.getDivisionID());
 				strategicCopy.setCreateMultipleJobs(strategic.isCreateMultipleJobs());
 				strategicCopy.setPhase(strategic.getPhase());
+				strategicCopy.setStrategicDepartments(strategic.getStrategicDepartments());
+				strategicCopy.setArrayStrategicTabs(strategic.getArrayStrategicTabs());
 				saveOneStrategic(strategicCopy, loggedInUser, todo, tab, year, companyId, session);
 		}
 	}
@@ -2089,15 +2093,17 @@ public class MySQLRdbHelper {
 		int year = Integer.parseInt(hm.get("year"));
 		int companyId = Integer.parseInt(hm.get("companyId"));
 		Strategic strategic = strategicRisks.get(0).getStrategicId();
-		strategic.setOverallRating(overallRating);
-		//
+		strategic.setOverallRating(overallRating);		//
 		Session session = sessionFactory.openSession();
-		saveOneStrategic(strategic, loggedInUser, todo, tab, year, companyId, session);
+		ArrayList<Strategic> arrayStrategic = fetchStrategicDuplicate(strategic);
+		for(Strategic strategicToSave : arrayStrategic) {
+			saveOneStrategic(strategicToSave, loggedInUser, todo, tab, year, companyId, session);
+			for (int i = 0; i < strategicRisks.size(); i++) 
+				saveStrategicDegreeImportance(strategicRisks.get(i));
+			for(StrategicRiskFactor strategicRiskFactor : arraySaveStrategicRiskFactors) 
+				saveStrategicRiskFactors(strategicRiskFactor);
+		}
 		if(session!=null && session.isOpen())session.close();
-		for (int i = 0; i < strategicRisks.size(); i++) 
-			saveStrategicDegreeImportance(strategicRisks.get(i));
-		for(StrategicRiskFactor strategicRiskFactor : arraySaveStrategicRiskFactors) 
-			saveStrategicRiskFactors(strategicRiskFactor);
 		logger.info(String.format("(Inside saveRiskAssesment) saving Risk Assesment for year : " + year
 				+ "for Company ID : " + companyId + " of User Logged In " + loggedInUser + " under tab " + tab
 				+ " todo: " + todo + " " + new Date()));
