@@ -184,6 +184,9 @@ public class Strategic implements Serializable {
 	@Transient
 	ArrayList<StrategicDepartments> strategicDepartments;
 	
+	@Transient
+	ArrayList<StrategicDivisions> arrayStrategicDivisions;
+	
 	@Transient ArrayList<StrategicTabs> arrayStrategicTabs;
 	
 	@Transient
@@ -365,12 +368,12 @@ public class Strategic implements Serializable {
 		this.year = year;
 	}
 
-	public ArrayList<StrategicDepartments> getStrategicDepartments() {
-		return strategicDepartments;
+	public ArrayList<StrategicDivisions> getArrayStrategicDivisions() {
+		return arrayStrategicDivisions;
 	}
 
-	public void setStrategicDepartments(ArrayList<StrategicDepartments> strategicDepartments) {
-		this.strategicDepartments = strategicDepartments;
+	public void setArrayStrategicDivisions(ArrayList<StrategicDivisions> arrayStrategicDivisions) {
+		this.arrayStrategicDivisions = arrayStrategicDivisions;
 	}
 
 	public String getDomain() {
@@ -483,6 +486,14 @@ public class Strategic implements Serializable {
 
 	public void setListSubProcess(ArrayList<SubProcess> listSubProcess) {
 		this.listSubProcess = listSubProcess;
+	}
+
+	public ArrayList<StrategicDepartments> getStrategicDepartments() {
+		return strategicDepartments;
+	}
+
+	public void setStrategicDepartments(ArrayList<StrategicDepartments> strategicDepartments) {
+		this.strategicDepartments = strategicDepartments;
 	}
 
 	public boolean isCreateMultipleJobs() {

@@ -2,6 +2,7 @@ package com.internalaudit.client.view.data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,6 +13,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.thirdparty.common.css.compiler.gssfunctions.GssFunctions.Div;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -27,6 +29,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.internalaudit.client.InternalAuditService;
 import com.internalaudit.client.InternalAuditServiceAsync;
 import com.internalaudit.client.util.DuplicateArrayListStrategic;
+import com.internalaudit.client.util.StringAbbrevations;
 import com.internalaudit.client.view.AmendmentPopup;
 import com.internalaudit.client.view.AuditUniverseStrategicView;
 import com.internalaudit.client.view.ButtonRound;
@@ -40,6 +43,7 @@ import com.internalaudit.shared.Employee;
 import com.internalaudit.shared.RiskFactor;
 import com.internalaudit.shared.Strategic;
 import com.internalaudit.shared.StrategicDepartments;
+import com.internalaudit.shared.StrategicDivisions;
 import com.internalaudit.shared.StrategicTabs;
 import com.internalaudit.shared.SubProcess;
 import com.internalaudit.shared.TimeOutException;
@@ -172,10 +176,11 @@ public class AuditUniverseStrategicViewData {
 		strategic.setId(strategicView.getStrategicId());
 //		strategic.setRiskFactor(risk);
 		strategic.setRating("N/A");// changed low to N/A by Moqeet
-		Department department = new Department();
+//		Department department = new Department();
 		// department.setDepartmentId(Integer.parseInt(strategicView.getRelevantDepartment().getValue(strategicView.getRelevantDepartment().getSelectedIndex())));
 		//////
-		setDepartments(strategicView.getListRelevantDepartment(), strategic);
+		setDivisionSDepartments(strategic, strategicView.getListBoxDivision(), strategicView.getListRelevantDepartment());
+//		setDepartments(strategicView.getListRelevantDepartment(), strategic);
 		//strategic.setRelevantDepartment(department);
 		strategic.setStrategicObjective(strategicView.getStrategicObjective().getText());
 		//added by Moqeet
@@ -300,7 +305,23 @@ public class AuditUniverseStrategicViewData {
 		});
 	}
 
-	private void setDepartments(ListBox relevantDepartment, Strategic strategic) {
+	private void setDivisionSDepartments(Strategic strategic, ListBox listBoxDivision, ListBox listBoxDepartment) {
+		ArrayList<StrategicDivisions> arrayStrategicDivisions = new ArrayList<StrategicDivisions>();
+		for (int i = 0; i < listBoxDivision.getItemCount(); i++) {
+			if (listBoxDivision.isItemSelected(i)) {
+				StrategicDivisions strategicDivision = new StrategicDivisions();
+				Division division = new Division();
+				division.setDivisionID(Integer.parseInt(listBoxDivision.getValue(i)));
+				strategicDivision.setDivision(division);
+//				strategicDivision.setStrategic(strategic.getId());
+				setDepartments(listBoxDepartment, strategicDivision);
+				arrayStrategicDivisions.add(strategicDivision);
+			}
+		}
+		strategic.setArrayStrategicDivisions(arrayStrategicDivisions);
+	}
+	
+	private void setDepartments(ListBox relevantDepartment, StrategicDivisions strategicDivision) {
 		ArrayList<StrategicDepartments> strategicDepartments = new ArrayList<StrategicDepartments>();
 		for (int i = 0; i < relevantDepartment.getItemCount(); i++) {
 			if (relevantDepartment.isItemSelected(i)) {
@@ -308,10 +329,11 @@ public class AuditUniverseStrategicViewData {
 				Department department = new Department();
 				department.setDepartmentId(Integer.parseInt(relevantDepartment.getValue(i)));
 				strategicDepartment.setDepartment(department);
+				strategicDepartment.setStrategic(strategicDivision.getStrategic());
 				strategicDepartments.add(strategicDepartment);
 			}
 		}
-		strategic.setStrategicDepartments(strategicDepartments);
+		strategicDivision.setArrayStrategicDepartments(strategicDepartments);
 	}
 
 	public void fetchObjectiveOwners() {
@@ -352,7 +374,7 @@ public class AuditUniverseStrategicViewData {
 			@Override
 			public void onFailure(Throwable arg0) {
 				// TODO Auto-generated method stub
-				
+				Window.alert("Unable to fetch Divisions");
 			}
 
 			@Override
@@ -361,7 +383,9 @@ public class AuditUniverseStrategicViewData {
 				auditUniverseStrategicView.getListBoxDivision().addItem("--Select Division--", "0");
 				if (auditUniverseStrategicView != null) {
 					for(Division div:division) {
-						auditUniverseStrategicView.getListBoxDivision().addItem(div.getDivisionName(),div.getDivisionID()+"");
+						StringAbbrevations stringObj = new StringAbbrevations();
+						String name = div.getDivisionName() + stringObj.findAbbrevation(div.getDivisionName());
+						auditUniverseStrategicView.getListBoxDivision().addItem(name ,div.getDivisionID()+"");
 					}
 				}
 				//if/else added to fetch departments on divisionID basis when !=0
@@ -369,8 +393,7 @@ public class AuditUniverseStrategicViewData {
 					auditUniverseStrategicView.getListRelevantDepartment().addItem("--Select Department--");
 				else
 					fetchDepartmentsDivision(Integer.parseInt(auditUniverseStrategicView.getListBoxDivision()
-									.getValue(auditUniverseStrategicView.getListBoxDivision().getSelectedIndex())),
-							auditUniverseStrategicView.getListRelevantDepartment(), null);
+									.getValue(auditUniverseStrategicView.getListBoxDivision().getSelectedIndex())),auditUniverseStrategicView.getListRelevantDepartment(), null);
 			}
 		});
 		
@@ -378,10 +401,11 @@ public class AuditUniverseStrategicViewData {
 
 			@Override
 			public void onChange(ChangeEvent event) {
-				fetchDepartmentsDivision(
-						Integer.parseInt(auditUniverseStrategicView.getListBoxDivision()
-								.getValue(auditUniverseStrategicView.getListBoxDivision().getSelectedIndex())),
-						auditUniverseStrategicView.getListRelevantDepartment(), null);
+				LinkedList<Integer> selectedItems = getSelectedItems(auditUniverseStrategicView.getListBoxDivision());
+				auditUniverseStrategicView.getListRelevantDepartment().clear();
+				for(int i=0; i<selectedItems.size(); i++) {
+					fetchDepartmentsDivision(selectedItems.get(i), auditUniverseStrategicView.getListRelevantDepartment(), null);
+				}
 			}
 		});
 	}
@@ -560,10 +584,11 @@ public class AuditUniverseStrategicViewData {
 			@Override
 			public void onSuccess(ArrayList<Department> departments) {
 				listDepartments = departments;
+				String divAbrevator = findDivisionAbrrevation(divisionID);
 				if (listBoxDepartments != null) {
-					listBoxDepartments.clear();
+//					listBoxDepartments.clear();
 				for(Department dept : departments) {
-					listBoxDepartments.addItem(dept.getDepartmentName(), dept.getDepartmentId() + "");
+					listBoxDepartments.addItem(dept.getDepartmentName() + divAbrevator, dept.getDepartmentId() + "");
 				}
 				if(!(listSelectedDepartments == null))
 					selectedSubProcess(listSelectedDepartments, listBoxDepartments);
@@ -571,6 +596,17 @@ public class AuditUniverseStrategicViewData {
 			}
 		});
 		}
+	}
+	
+	private String findDivisionAbrrevation(int divisionID) {
+		StringAbbrevations abrevator = new StringAbbrevations();
+		String divAbrevator = null;
+		for(Division div: divisions) {
+			if(div.getDivisionID() == divisionID)
+				divAbrevator = div.getDivisionName();
+		}
+		divAbrevator = abrevator.findAbbrevation(divAbrevator);
+		return divAbrevator;
 	}
 	
 	private void selectedSubProcess(ArrayList<StrategicDepartments> listSelectedDepartments, final ListBox listBox) {
@@ -836,14 +872,19 @@ public class AuditUniverseStrategicViewData {
 			}
 		});
 		
+//		auditUniverseStrategicView.getListBoxDivision().setMultipleSelect(true);
+
 		auditUniverseStrategicView.getListBoxDivision().addChangeHandler(new ChangeHandler() {
 
 			@Override
-			public void onChange(ChangeEvent event) {
-			fetchDepartmentsDivision(Integer.parseInt(auditUniverseStrategicView.getListBoxDivision()
-								.getValue(auditUniverseStrategicView.getListBoxDivision().getSelectedIndex())),
-						auditUniverseStrategicView.getListRelevantDepartment(), null);
+			public void onChange(ChangeEvent event) {	
+				 LinkedList<Integer> selectedItems = getSelectedItems(auditUniverseStrategicView.getListBoxDivision());
+//				divisionSelectedItems(auditUniverseStrategicView.getListBoxDivision());
+				 auditUniverseStrategicView.getListRelevantDepartment().clear();
+				 for(int i=0; i<selectedItems.size(); i++) {
+					 fetchDepartmentsDivision(selectedItems.get(i), auditUniverseStrategicView.getListRelevantDepartment(), null);
 				}
+			}
 		});
 		auditUniverseStrategicView.getListRelevantDepartment().addChangeHandler(new ChangeHandler() {
 			
@@ -856,7 +897,25 @@ public class AuditUniverseStrategicViewData {
 			}
 		});
 	}
-//
+	
+	public LinkedList<Integer> getSelectedItems(ListBox listBox) {
+	    LinkedList<Integer> selectedItems = new LinkedList<Integer>();
+	    for (int i = 0; i < listBox.getItemCount(); i++) {
+	        if (listBox.isItemSelected(i)) {
+	        	selectedItems.add(Integer.parseInt(listBox.getValue(i)));
+	        }
+	    }
+	    return selectedItems;
+	}
+
+//	private void divisionSelectedItems(ListBox listBoxDivision) {
+//		ArrayList<Integer> listDivisionValues = new ArrayList<Integer>();
+//		for(int i=1; i<=listBoxDivision.getItemCount(); i++) {
+//			if(i == listBoxDivision.getSelectedIndex())
+//				listDivisionValues.add(i);
+//		}
+//	}
+
 //	public void setNewRecordData(AuditUniverseStrategicView auditUniverseStrategicView) {
 //
 //		for (int i = 0; i < listDepartments.size(); i++) {

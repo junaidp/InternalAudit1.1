@@ -18,7 +18,7 @@ import javax.persistence.Transient;
 	@Entity
 
 	@Table(name="strategicdepartments")
-	public class StrategicDepartments   implements Serializable {
+	public class StrategicDepartments implements Serializable {
 
 		@Id 
 		@GeneratedValue(strategy=GenerationType.AUTO)

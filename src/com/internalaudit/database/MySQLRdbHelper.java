@@ -126,6 +126,7 @@ import com.internalaudit.shared.Strategic;
 import com.internalaudit.shared.StrategicAudit;
 import com.internalaudit.shared.StrategicDTO;
 import com.internalaudit.shared.StrategicDepartments;
+import com.internalaudit.shared.StrategicDivisions;
 import com.internalaudit.shared.StrategicDegreeImportance;
 import com.internalaudit.shared.StrategicRiskFactor;
 import com.internalaudit.shared.StrategicSubProcess;
@@ -877,7 +878,8 @@ public class MySQLRdbHelper {
 				strategicCopy.setDivisionID(strategic.getDivisionID());
 				strategicCopy.setCreateMultipleJobs(strategic.isCreateMultipleJobs());
 				strategicCopy.setPhase(strategic.getPhase());
-				strategicCopy.setStrategicDepartments(strategic.getStrategicDepartments());
+				strategic.setArrayStrategicDivisions(fetchStrategicDivisions(strategic, session));
+//				strategicCopy.setStrategicDepartments(strategic.getStrategicDepartments());
 				strategicCopy.setArrayStrategicTabs(strategic.getArrayStrategicTabs());
 				saveOneStrategic(strategicCopy, loggedInUser, todo, tab, year, companyId, session);
 		}
@@ -962,7 +964,8 @@ public class MySQLRdbHelper {
 				saveStrategicSubProcess(clientSideStrategic, session);
 			}
 			strategic.setJobType(clientSideStrategic.getJobType());
-			strategic.setStrategicDepartments(clientSideStrategic.getStrategicDepartments());
+//			strategic.setStrategicDepartments(clientSideStrategic.getStrategicDepartments());
+			strategic.setArrayStrategicDivisions(clientSideStrategic.getArrayStrategicDivisions());
 			strategic.setDate(new Date());
 			strategic.setTab(selectedTab);
 			strategic.setYear(year); // year Added
@@ -1340,7 +1343,8 @@ public class MySQLRdbHelper {
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				Strategic strategic1 = (Strategic) it.next();
-				strategic1.setStrategicDepartments(fetchStrategicdepartments(strategic1, session));
+				strategic.setArrayStrategicDivisions(fetchStrategicDivisions(strategic, session));
+//				strategic1.setStrategicDepartments(fetchStrategicdepartments(strategic1, session));
 				strategic1.setDivision(fetchStrategicDivision(strategic1, session));
 				strategic1.setLoggedInUser(strategic.getLoggedInUser());
 				strategic1.setListSubProcess(fetchStrategicSubProcess(strategic1.getId(), session));
@@ -1426,7 +1430,8 @@ public class MySQLRdbHelper {
 
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				Strategic strategic = (Strategic) it.next();
-				strategic.setStrategicDepartments(fetchStrategicdepartments(strategic, session));
+				strategic.setArrayStrategicDivisions(fetchStrategicDivisions(strategic, session));
+//				strategic.setStrategicDepartments(fetchStrategicdepartments(strategic, session));
 				strategic.setDivision(fetchStrategicDivision(strategic, session));
 				strategic.setLoggedInUser(employeeId);
 				strategic.setListSubProcess(fetchStrategicSubProcess(strategic.getId(), session));
@@ -1606,6 +1611,30 @@ public class MySQLRdbHelper {
 
 		}
 		return division;
+	}
+	
+	private ArrayList<StrategicDivisions> fetchStrategicDivisions(Strategic strategic, Session session) {
+		ArrayList<StrategicDivisions> arrayStrategicDivisions = new ArrayList<StrategicDivisions>();
+		try {
+			Criteria crit = session.createCriteria(StrategicDivisions.class);
+			crit.createAlias("division", "division");
+			crit.add(Restrictions.eq("strategic", strategic.getId()));
+			List rsList = crit.list();
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				StrategicDivisions strategicDivision = (StrategicDivisions) it.next();
+				strategicDivision.setArrayStrategicDepartments(fetchStrategicdepartments(strategic, session));
+				arrayStrategicDivisions.add(strategicDivision);
+			}
+			logger.info(String.format("(Inside fetchStrategicDivisions) fetching Strategic Divisions  : "
+					+ strategic.getStrategicObjective() + " " + new Date()));
+
+		} catch (Exception ex) {
+			logger.warn(String.format("Exception occured in fetchStrategicDivisions", ex.getMessage()), ex);
+
+		} finally {
+
+		}
+		return arrayStrategicDivisions;
 	}
 
 	private ArrayList<StrategicDepartments> fetchStrategicdepartments(Strategic strategic, Session session) {
