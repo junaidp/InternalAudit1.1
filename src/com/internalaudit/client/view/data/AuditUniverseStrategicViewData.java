@@ -57,6 +57,7 @@ public class AuditUniverseStrategicViewData {
 	private ArrayList<Employee> objectiveOwners = new ArrayList<Employee>();
 	private ArrayList<Department> listDepartments = new ArrayList<Department>();
 	private ArrayList<Division> divisions = new ArrayList<Division>();
+	private ArrayList<Division> arrayAllDivisions = new ArrayList<Division>();
 	private String actionperformed;
 	private Logger logger = Logger.getLogger("AuditUniverStrategicViewData");
 	private int currentYear = 2020; 
@@ -323,8 +324,19 @@ public class AuditUniverseStrategicViewData {
 	
 	private void setDepartments(ListBox relevantDepartment, StrategicDivisions strategicDivision) {
 		ArrayList<StrategicDepartments> strategicDepartments = new ArrayList<StrategicDepartments>();
+		StringAbbrevations objAbbrevation = new StringAbbrevations();
+		String abrevationDivisionName = null;
+		for(Division div : divisions) {
+			if(div.getDivisionID() == strategicDivision.getDivisionId())
+				abrevationDivisionName = objAbbrevation.findAbbrevation(div.getDivisionName());
+		}
 		for (int i = 0; i < relevantDepartment.getItemCount(); i++) {
-			if (relevantDepartment.isItemSelected(i)) {
+			String[] abrevationDepartmentName = relevantDepartment.getName().split("\\[");
+			String nameDept = "";
+			for(int j=0; j<abrevationDepartmentName.length; j++) {
+			 nameDept += abrevationDepartmentName;
+			}
+			if (relevantDepartment.isItemSelected(i) && nameDept == abrevationDivisionName) {
 				StrategicDepartments strategicDepartment = new StrategicDepartments();
 				Department department = new Department();
 				department.setDepartmentId(Integer.parseInt(relevantDepartment.getValue(i)));
@@ -380,6 +392,7 @@ public class AuditUniverseStrategicViewData {
 			@Override
 			public void onSuccess(ArrayList<Division> division) {
 				divisions = division;
+				arrayAllDivisions = division;
 				auditUniverseStrategicView.getListBoxDivision().addItem("--Select Division--", "0");
 				if (auditUniverseStrategicView != null) {
 					for(Division div:division) {
