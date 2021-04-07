@@ -59,99 +59,108 @@ public class ConsolidationViewData {
 
 	public void saveConsolidation(Strategic strategic, final VerticalPanel vpnlData,
 			ConsolidationView consolidationView, String todo, int tab, final Button button) {
-		button.setEnabled(false);
-		strategic.setAuditableUnit(consolidationView.getAuditableUnit().getText());
-		// strategic.setProcess(consolidationView.getListBoxProcess().getSelectedItemText());
-		// strategic.setSubProcess(consolidationView.getListBoxSubProcess().getSelectedItemText());
-		// strategic.setJobType(consolidationView.getListBoxJobType().getSelectedItemText());
-		// strategic.setPhase("Consolidation");
-		Process process = new Process();
-		// String a = consolidationView.getListBoxProcess()
-		// .getValue(consolidationView.getListBoxProcess().getSelectedIndex());
-		process.setProcessId(Integer.parseInt(consolidationView.getListBoxProcess()
-				.getValue(consolidationView.getListBoxProcess().getSelectedIndex())));
-		strategic.setProcess(process);
-
-		ArrayList<SubProcess> listSubprocess = new ArrayList<SubProcess>();
-		for (int i = 0; i < consolidationView.getListBoxSubProcess().getItemCount(); i++) {
-			if (consolidationView.getListBoxSubProcess().isItemSelected(i)) {
-
-				// listSubprocess.get(i).setSubProcessId(Integer.parseInt(consolidationView.getListBoxSubProcess()
-				// .getValue(consolidationView.getListBoxSubProcess().getSelectedIndex())));
-
-				SubProcess subProcess = new SubProcess();
-				subProcess.setSubProcessId(Integer.parseInt(consolidationView.getListBoxSubProcess().getValue(i)));
-				subProcess.setProcessId(process);
-				listSubprocess.add(subProcess);
-			}
+		if(consolidationView.getListBoxSubProcess().getSelectedValue() == null && consolidationView.getListBoxSubProcess().getSelectedItemText() != "N/A") {
+			Window.alert("Please select atleast 1 SubProcess");
 		}
 
-		strategic.setListSubProcess(listSubprocess);
-
-		JobType jobtype = new JobType();
-		jobtype.setJobTypeId(Integer.parseInt(consolidationView.getListBoxJobType()
-				.getValue(consolidationView.getListBoxJobType().getSelectedIndex())));
-
-		strategic.setJobType(jobtype);
-
-		strategic.setPhase(3);
-		strategic.setNextPhase(4);
-
-		// strategic.setNextPhase("Prioritization");
-		strategic.setComments(consolidationView.getComment());
-		actionPerformed = todo;
-		HashMap<String, String> hm = new HashMap<String, String>();
-		if (todo.equalsIgnoreCase("approve")) {
-			todo = "submit";
+		else if(consolidationView.getAuditableUnit().getText().length()<1){
+			Window.alert("Please some text inside 'Auditable Unit'");
 		}
-		hm.put("todo", todo);
-		hm.put("tab", tab + "");
-		rpcService.saveStrategic(strategic, hm, new AsyncCallback<String>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-
-				logger.log(Level.INFO, "FAIL: saveStrategic .Inside Audit AuditAreaspresenter");
-				if (caught instanceof TimeOutException) {
-					History.newItem("login");
-				} else {
-					System.out.println("FAIL: saveStrategic .Inside AuditAreaspresenter");
-					Window.alert("FAIL: saveStrategic");// After FAIL ... write
-														// RPC Name NOT Method
-														// Name..
+		else {
+			button.setEnabled(false);
+			strategic.setAuditableUnit(consolidationView.getAuditableUnit().getText());
+			// strategic.setProcess(consolidationView.getListBoxProcess().getSelectedItemText());
+			// strategic.setSubProcess(consolidationView.getListBoxSubProcess().getSelectedItemText());
+			// strategic.setJobType(consolidationView.getListBoxJobType().getSelectedItemText());
+			// strategic.setPhase("Consolidation");
+			Process process = new Process();
+			// String a = consolidationView.getListBoxProcess()
+			// .getValue(consolidationView.getListBoxProcess().getSelectedIndex());
+			process.setProcessId(Integer.parseInt(consolidationView.getListBoxProcess()
+					.getValue(consolidationView.getListBoxProcess().getSelectedIndex())));
+			strategic.setProcess(process);
+	
+			ArrayList<SubProcess> listSubprocess = new ArrayList<SubProcess>();
+			for (int i = 0; i < consolidationView.getListBoxSubProcess().getItemCount(); i++) {
+				if (consolidationView.getListBoxSubProcess().isItemSelected(i)) {
+	
+					// listSubprocess.get(i).setSubProcessId(Integer.parseInt(consolidationView.getListBoxSubProcess()
+					// .getValue(consolidationView.getListBoxSubProcess().getSelectedIndex())));
+	
+					SubProcess subProcess = new SubProcess();
+					subProcess.setSubProcessId(Integer.parseInt(consolidationView.getListBoxSubProcess().getValue(i)));
+					subProcess.setProcessId(process);
+					listSubprocess.add(subProcess);
 				}
-
-				button.setEnabled(true);
-				Window.alert("save Consolidation  failed");
 			}
-
-			@Override
-			public void onSuccess(String arg0) {
-				button.setEnabled(true);
-				vpnlData.clear();
-				final DecoratedPopupPanel popup = new DecoratedPopupPanel();
-				if (actionPerformed.equalsIgnoreCase("save")) {
-					popup.setWidget(new Label("Consolidation Saved "));
-				} else if (actionPerformed.equalsIgnoreCase("approve")) {
-					popup.setWidget(new Label("Consolidation Approved "));
-				} else if (actionPerformed.equalsIgnoreCase("amend")) {
-					popup.setWidget(new Label("Feedback Submitted "));
-				} else {
-					popup.setWidget(new Label("Consolidation Submitted  "));
-
-				}
-				popup.setPopupPosition(350, 350);
-				popup.show();
-				Timer time = new Timer() {
-					public void run() {
-						popup.removeFromParent();
+	
+			strategic.setListSubProcess(listSubprocess);
+	
+			JobType jobtype = new JobType();
+			jobtype.setJobTypeId(Integer.parseInt(consolidationView.getListBoxJobType()
+					.getValue(consolidationView.getListBoxJobType().getSelectedIndex())));
+	
+			strategic.setJobType(jobtype);
+	
+			strategic.setPhase(3);
+			strategic.setNextPhase(4);
+	
+			// strategic.setNextPhase("Prioritization");
+			strategic.setComments(consolidationView.getComment());
+			actionPerformed = todo;
+			HashMap<String, String> hm = new HashMap<String, String>();
+			if (todo.equalsIgnoreCase("approve")) {
+				todo = "submit";
+			}
+			hm.put("todo", todo);
+			hm.put("tab", tab + "");
+			rpcService.saveStrategic(strategic, hm, new AsyncCallback<String>() {
+	
+				@Override
+				public void onFailure(Throwable caught) {
+	
+					logger.log(Level.INFO, "FAIL: saveStrategic .Inside Audit AuditAreaspresenter");
+					if (caught instanceof TimeOutException) {
+						History.newItem("login");
+					} else {
+						System.out.println("FAIL: saveStrategic .Inside AuditAreaspresenter");
+						Window.alert("FAIL: saveStrategic");// After FAIL ... write
+															// RPC Name NOT Method
+															// Name..
 					}
-
-				};// timer for showing the popup of "update"
-				time.schedule(1500);
-				fetchStrategic(vpnlData);
-			}
-		});
+	
+					button.setEnabled(true);
+					Window.alert("save Consolidation  failed");
+				}
+	
+				@Override
+				public void onSuccess(String arg0) {
+					button.setEnabled(true);
+					vpnlData.clear();
+					final DecoratedPopupPanel popup = new DecoratedPopupPanel();
+					if (actionPerformed.equalsIgnoreCase("save")) {
+						popup.setWidget(new Label("Consolidation Saved "));
+					} else if (actionPerformed.equalsIgnoreCase("approve")) {
+						popup.setWidget(new Label("Consolidation Approved "));
+					} else if (actionPerformed.equalsIgnoreCase("amend")) {
+						popup.setWidget(new Label("Feedback Submitted "));
+					} else {
+						popup.setWidget(new Label("Consolidation Submitted  "));
+	
+					}
+					popup.setPopupPosition(350, 350);
+					popup.show();
+					Timer time = new Timer() {
+						public void run() {
+							popup.removeFromParent();
+						}
+	
+					};// timer for showing the popup of "update"
+					time.schedule(1500);
+					fetchStrategic(vpnlData);
+				}
+			});
+		}
 	}
 
 	private void setHandlers(ContentPanel cp, final VerticalPanel vpnlData, Button submit) {

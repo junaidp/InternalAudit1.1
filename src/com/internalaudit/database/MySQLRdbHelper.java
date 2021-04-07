@@ -1006,7 +1006,8 @@ public class MySQLRdbHelper {
 			tr.commit();
 			// saveStrategicAudit(strategic);
 			if (strategic.getPhase() == 1) {
-				saveDepartments(strategic);
+				saveDivisions(strategic);
+//				saveDepartments(strategic);
 				saveStrategicTabs(strategic, session);
 			}
 //			if(todo.equalsIgnoreCase("submit") && strategic.getApprovedBy().getEmployeeId() != 0) //employee id check added, this function only called on approve
@@ -1074,8 +1075,60 @@ public class MySQLRdbHelper {
 		}
 		return true;
 	}
+	
+	private void saveDivisions(Strategic strategic) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			// 2019 jul
+			// created this deletealreadysaved dep and commented
+			// !strategicdepartment method this
+			// method deletes first already saved departments and then save the
+			// new oness
+			deleteAlreadySavedDivision(strategic, session);
+			deleteAlreadySavedDepartment(strategic);
+			for (int i = 0; i < strategic.getArrayStrategicDivisions().size(); i++) {
+				strategic.getArrayStrategicDivisions().get(i).setStrategic(strategic.getId());
+				session.saveOrUpdate(strategic.getArrayStrategicDivisions().get(i));
+				saveDepartments(strategic.getArrayStrategicDivisions().get(i));
+				session.flush();
+			}
+			// }
+			logger.info(String.format("(Inside saveDivisions) saving Divisions for strategic objective : "
+					+ strategic.getStrategicObjective() + " " + new Date()));
+		} catch (Exception ex) {
 
-	private void saveDepartments(Strategic strategic) {
+			logger.warn(String.format("Exception occured in saveDivisionsStrategic", ex.getMessage()), ex);
+
+		} finally {
+			session.close();
+		}
+	}
+
+	private boolean deleteAlreadySavedDivision(Strategic strategic, Session session) {
+		try {
+			Criteria crit = session.createCriteria(StrategicDivisions.class);
+			crit.createAlias("division", "div");
+			crit.add(Restrictions.eq("strategic", strategic.getId()));
+			crit.add(Restrictions.eq("division", strategic.getDivision()));
+			List rsList = crit.list();
+
+			for (Iterator it = rsList.iterator(); it.hasNext();) {
+				StrategicDivisions strategicDiv = (StrategicDivisions) it.next();
+				session.delete(strategicDiv);
+				session.flush();
+			}
+			logger.info(String.format(
+					"(Inside deleteAlreadySavedDivision) Strategic Divisions Already Saved for strategicID : "
+							+ strategic + " of Division : " + new Date()));
+		} catch (Exception ex) {
+
+			logger.warn(String.format("Exception occured in deleteAlreadySavedDivision", ex.getMessage()), ex);
+		}
+		return true;
+	}
+
+	private void saveDepartments(StrategicDivisions strategicDivisions) {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
@@ -1085,19 +1138,18 @@ public class MySQLRdbHelper {
 			// !strategicdepartment method this
 			// method deletes first already saved departments and then save the
 			// new oness
-			deleteAlreadySavedDepartment(strategic.getId());
-			for (int i = 0; i < strategic.getStrategicDepartments().size(); i++) {
-				strategic.getStrategicDepartments().get(i).setStrategic(strategic.getId());
+//			deleteAlreadySavedDepartment(strategic);
+			for (int i = 0; i < strategicDivisions.getArrayStrategicDepartments().size(); i++) {
+				strategicDivisions.getArrayStrategicDepartments().get(i).setStrategic(strategicDivisions.getStrategic());
 
 				// if (!strategicDepartmentAlreadySaved(strategic.getId(),
 				// strategic.getStrategicDepartments().get(i).getDepartment().getDepartmentId()))
 				// {
-				session.saveOrUpdate(strategic.getStrategicDepartments().get(i));
+				session.saveOrUpdate(strategicDivisions.getArrayStrategicDepartments().get(i));
 				session.flush();
 			}
 			// }
-			logger.info(String.format("(Inside saveDepartments) saving Departments for strategic objective : "
-					+ strategic.getStrategicObjective() + " " + new Date()));
+			logger.info(String.format("(Inside saveDepartments) saving Departments) " + new Date()));
 		} catch (Exception ex) {
 
 			logger.warn(String.format("Exception occured in saveDepartmentsStrategic", ex.getMessage()), ex);
@@ -1108,14 +1160,13 @@ public class MySQLRdbHelper {
 
 	}
 
-	private boolean deleteAlreadySavedDepartment(int strategicId) {
+	private void deleteAlreadySavedDepartment(Strategic strategic) {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
 			Criteria crit = session.createCriteria(StrategicDepartments.class);
 			crit.createAlias("department", "dept");
-			crit.add(Restrictions.eq("strategic", strategicId));
-			// crit.add(Restrictions.eq("dept.departmentId", departmentId));
+			crit.add(Restrictions.eq("strategic", strategic.getId()));
 			List rsList = crit.list();
 
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
@@ -1126,7 +1177,7 @@ public class MySQLRdbHelper {
 
 			logger.info(String.format(
 					"(Inside strategicDepartmentAlreadySaved) StrategicDepartmentsAlreadySaved for strategicID : "
-							+ strategicId + " of department : " + new Date()));
+							+ strategic + " of department : " + new Date()));
 		} catch (Exception ex) {
 
 			logger.warn(String.format("Exception occured in strategicDepartmentAlreadySaved", ex.getMessage()), ex);
@@ -1134,7 +1185,7 @@ public class MySQLRdbHelper {
 		} finally {
 			session.close();
 		}
-		return true;
+//		return true;
 	}
 
 	private boolean strategicDepartmentAlreadySaved(int strategicId, int departmentId) {
@@ -1622,7 +1673,7 @@ public class MySQLRdbHelper {
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				StrategicDivisions strategicDivision = (StrategicDivisions) it.next();
-				strategicDivision.setArrayStrategicDepartments(fetchStrategicdepartments(strategic, session));
+				strategicDivision.setArrayStrategicDepartments(fetchStrategicdepartments(strategic, strategicDivision.getDivision(), session));
 				arrayStrategicDivisions.add(strategicDivision);
 			}
 			logger.info(String.format("(Inside fetchStrategicDivisions) fetching Strategic Divisions  : "
@@ -1637,12 +1688,13 @@ public class MySQLRdbHelper {
 		return arrayStrategicDivisions;
 	}
 
-	private ArrayList<StrategicDepartments> fetchStrategicdepartments(Strategic strategic, Session session) {
+	private ArrayList<StrategicDepartments> fetchStrategicdepartments(Strategic strategic, Division division, Session session) {
 		ArrayList<StrategicDepartments> strategicDepartments = new ArrayList<StrategicDepartments>();
 		try {
 			Criteria crit = session.createCriteria(StrategicDepartments.class);
 			crit.createAlias("department", "dept");
 			crit.add(Restrictions.eq("strategic", strategic.getId()));
+			crit.add(Restrictions.eq("division", division));
 			List rsList = crit.list();
 			for (Iterator it = rsList.iterator(); it.hasNext();) {
 				StrategicDepartments strategicDept = (StrategicDepartments) it.next();
@@ -2394,7 +2446,7 @@ public class MySQLRdbHelper {
 				// Added 2018
 				strategic.setJobCreationId(fetchJobCreationIdAgainstStrategin(strategic.getId()));
 				// Division and Departments set by moqeet
-				strategic.setStrategicDepartments(fetchStrategicdepartments(strategic, session));
+//				strategic.setStrategicDepartments(fetchStrategicdepartments(strategic,  session));
 				strategic.setDivision(fetchStrategicDivision(strategic, session));
 				// end
 				strategics.add(strategic);

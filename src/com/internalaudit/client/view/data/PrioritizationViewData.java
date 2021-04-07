@@ -52,76 +52,81 @@ public class PrioritizationViewData {
 
 	public void savePrioritization(final VerticalPanel vpnlData, PrioritizationView prioritizationView,
 			Strategic strategic, String todo, int tab, final Button buttonRound) {
-		buttonRound.setEnabled(false);
-		strategic.setAudit(prioritizationView.getAudit().getValue());
-
-		/////////////
-//		strategic.setYear(Integer.parseInt(
-//				prioritizationView.getListYears().getValue(prioritizationView.getListYears().getSelectedIndex())));
-		strategic.setYear(Integer.parseInt(prioritizationView.getListYears().getSelectedValue()));
-		////////////
-		strategic.setNextPhase(5);
-		strategic.setPhase(4);
-		//
-		strategic.setApprovedByAuditHead(false);
-		//
-
-		strategic.setComments(prioritizationView.getComment());
-		actionPerformed = todo;
-		HashMap<String, String> hm = new HashMap<String, String>();
-		if (todo.equalsIgnoreCase("approve")) {
-			todo = "submit";
+		if(!prioritizationView.getAudit().isChecked()) {
+			Window.alert("Please check 'Selected for Audit'");
 		}
-		hm.put("todo", todo);
-		hm.put("tab", tab + "");
-		rpcService.saveStrategic(strategic, hm, new AsyncCallback<String>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-
-				//
-				logger.log(Level.INFO, "FAIL: saveStrategic .Inside Audit AuditAreaspresenter");
-				if (caught instanceof TimeOutException) {
-					History.newItem("login");
-				} else {
-					System.out.println("FAIL: saveStrategic .Inside AuditAreaspresenter");
-					Window.alert("FAIL: saveStrategic");// After FAIL ... write
-														// RPC Name NOT Method
-														// Name..
-				}
-
-				buttonRound.setEnabled(true);
-				Window.alert("save Prioritization strategic failed");
+		else{
+			buttonRound.setEnabled(false);
+			strategic.setAudit(prioritizationView.getAudit().getValue());
+	
+			/////////////
+	//		strategic.setYear(Integer.parseInt(
+	//				prioritizationView.getListYears().getValue(prioritizationView.getListYears().getSelectedIndex())));
+			strategic.setYear(Integer.parseInt(prioritizationView.getListYears().getSelectedValue()));
+			////////////
+			strategic.setNextPhase(5);
+			strategic.setPhase(4);
+			//
+			strategic.setApprovedByAuditHead(false);
+			//
+	
+			strategic.setComments(prioritizationView.getComment());
+			actionPerformed = todo;
+			HashMap<String, String> hm = new HashMap<String, String>();
+			if (todo.equalsIgnoreCase("approve")) {
+				todo = "submit";
 			}
-
-			@Override
-			public void onSuccess(String arg0) {
-				buttonRound.setEnabled(true);
-				final DecoratedPopupPanel popup = new DecoratedPopupPanel();
-				if (actionPerformed.equalsIgnoreCase("save")) {
-					popup.setWidget(new Label("Prioritization Saved "));
-				} else if (actionPerformed.equalsIgnoreCase("approve")) {
-					popup.setWidget(new Label("Prioritization Approved "));
-				} else if (actionPerformed.equalsIgnoreCase("amend")) {
-					popup.setWidget(new Label("Feedback Submitted "));
-				}
-
-				else {
-					popup.setWidget(new Label("Prioritization Submitted "));
-
-				}
-				popup.setPopupPosition(350, 350);
-				popup.show();
-				Timer time = new Timer() {
-					public void run() {
-						popup.removeFromParent();
+			hm.put("todo", todo);
+			hm.put("tab", tab + "");
+			rpcService.saveStrategic(strategic, hm, new AsyncCallback<String>() {
+	
+				@Override
+				public void onFailure(Throwable caught) {
+	
+					//
+					logger.log(Level.INFO, "FAIL: saveStrategic .Inside Audit AuditAreaspresenter");
+					if (caught instanceof TimeOutException) {
+						History.newItem("login");
+					} else {
+						System.out.println("FAIL: saveStrategic .Inside AuditAreaspresenter");
+						Window.alert("FAIL: saveStrategic");// After FAIL ... write
+															// RPC Name NOT Method
+															// Name..
 					}
-
-				};// timer for showing the popup of "update"
-				time.schedule(1500);
-				fetchStrategic(vpnlData);
-			}
-		});
+	
+					buttonRound.setEnabled(true);
+					Window.alert("save Prioritization strategic failed");
+				}
+	
+				@Override
+				public void onSuccess(String arg0) {
+					buttonRound.setEnabled(true);
+					final DecoratedPopupPanel popup = new DecoratedPopupPanel();
+					if (actionPerformed.equalsIgnoreCase("save")) {
+						popup.setWidget(new Label("Prioritization Saved "));
+					} else if (actionPerformed.equalsIgnoreCase("approve")) {
+						popup.setWidget(new Label("Prioritization Approved "));
+					} else if (actionPerformed.equalsIgnoreCase("amend")) {
+						popup.setWidget(new Label("Feedback Submitted "));
+					}
+	
+					else {
+						popup.setWidget(new Label("Prioritization Submitted "));
+	
+					}
+					popup.setPopupPosition(350, 350);
+					popup.show();
+					Timer time = new Timer() {
+						public void run() {
+							popup.removeFromParent();
+						}
+	
+					};// timer for showing the popup of "update"
+					time.schedule(1500);
+					fetchStrategic(vpnlData);
+				}
+			});
+		}
 	}
 
 	private void setHandlers(ContentPanel cp, final VerticalPanel vpnlData, ButtonRound submit) {

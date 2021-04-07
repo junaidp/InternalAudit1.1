@@ -13,7 +13,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 	  <!--	<property name="url" value="jdbc:mysql://localhost/abiliteclean" /> --> 
-		<property name="url" value="jdbc:mysql://localhost/abilite2020" />  
+		<property name="url" value="jdbc:mysql://localhost/abilite2021" />  
 		<property name="username" value="root" />
 		<property name="password" value="0502" />
 
@@ -76,6 +76,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 				<value>com.internalaudit.shared.Exceptions</value>
 				<value>com.internalaudit.shared.AuditStep</value>
 				<value>com.internalaudit.shared.AuditWork</value>
+				<value>com.internalaudit.shared.StrategicDivisions</value>
 				<value>com.internalaudit.shared.StrategicDepartments</value>
 				<value>com.internalaudit.shared.StrategicTabs</value>
 				<value>com.internalaudit.shared.Company</value>

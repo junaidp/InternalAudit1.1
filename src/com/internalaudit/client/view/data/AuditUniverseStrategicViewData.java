@@ -327,24 +327,39 @@ public class AuditUniverseStrategicViewData {
 		StringAbbrevations objAbbrevation = new StringAbbrevations();
 		String abrevationDivisionName = null;
 		for(Division div : divisions) {
-			if(div.getDivisionID() == strategicDivision.getDivisionId())
+			if(div.getDivisionID() == strategicDivision.getDivision().getDivisionID()) {
 				abrevationDivisionName = objAbbrevation.findAbbrevation(div.getDivisionName());
-		}
-		for (int i = 0; i < relevantDepartment.getItemCount(); i++) {
-			String[] abrevationDepartmentName = relevantDepartment.getName().split("\\[");
-			String nameDept = "";
-			for(int j=0; j<abrevationDepartmentName.length; j++) {
-			 nameDept += abrevationDepartmentName;
+				abrevationDivisionName = abrevationDivisionName.substring(2, abrevationDivisionName.length()-1);
+				break;
 			}
-			if (relevantDepartment.isItemSelected(i) && nameDept == abrevationDivisionName) {
+		}
+		
+		for (int i = 0; i < relevantDepartment.getItemCount(); i++) {
+			if (relevantDepartment.isItemSelected(i)){
+				String[] abrevationDepartmentName = relevantDepartment.getItemText(i).split("\\[");
+				String nameDept = "";
+				int size = abrevationDepartmentName.length;
+			//	int size = abrevationDivisionName.length();
+//				System.out.println(abrevationDepartmentName[(abrevationDivisionName.length()-1)] + " : " +abrevationDepartmentName[(abrevationDivisionName.length()-1)].length());
+//				Window.alert(abrevationDepartmentName[size-1]);
+				if(abrevationDepartmentName[size-1].length() < 3) {
+					nameDept = abrevationDepartmentName[1];
+				}
+				else {
+					nameDept = abrevationDepartmentName[abrevationDivisionName.length()-1];
+				}
+				nameDept = nameDept.substring(0, nameDept.length()-1);
+			if (abrevationDivisionName.equalsIgnoreCase(nameDept)) {
 				StrategicDepartments strategicDepartment = new StrategicDepartments();
 				Department department = new Department();
+				strategicDepartment.setDivision(strategicDivision.getDivision());
 				department.setDepartmentId(Integer.parseInt(relevantDepartment.getValue(i)));
 				strategicDepartment.setDepartment(department);
 				strategicDepartment.setStrategic(strategicDivision.getStrategic());
 				strategicDepartments.add(strategicDepartment);
 			}
 		}
+	}
 		strategicDivision.setArrayStrategicDepartments(strategicDepartments);
 	}
 

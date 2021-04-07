@@ -28,6 +28,10 @@ import javax.persistence.Transient;
 		@Column(name ="strategic")
 		private int strategic;
 		
+		@JoinColumn(name = "division")
+		@ManyToOne(fetch = FetchType.EAGER)
+		private Division division;
+		
 		@JoinColumn(name = "department")
 		@ManyToOne(fetch = FetchType.EAGER)
 		private Department department;/// You will be fetching strategicDepartment , then strategicDepatment.getdepartment.getdeptName();  should give u finance etc
@@ -52,6 +56,14 @@ import javax.persistence.Transient;
 		}
 
 		
+		public Division getDivision() {
+			return division;
+		}
+
+		public void setDivision(Division division) {
+			this.division = division;
+		}
+
 		public Department getDepartment() {
 			return department;
 		}
